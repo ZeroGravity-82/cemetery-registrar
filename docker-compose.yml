@@ -1,0 +1,30 @@
+version: '3'
+services:
+  registrar-php-cli:
+    build:
+      context: ./docker
+      dockerfile: ./php-cli.docker
+    volumes:
+      - .:/app
+      - composer:/root/.composer/cache
+    environment:
+      PHP_IDE_CONFIG: 'serverName=Docker'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - '9003:9003'
+  registrar-mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_USER: ${DATABASE_USER}
+      MYSQL_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - '${DATABASE_HOST_PORT}:3306'
+    volumes:
+      - mysql:/var/lib/mysql
+    restart: always
+volumes:
+  composer:
+  mysql:
