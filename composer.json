@@ -31,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Cemetery\\": "src/Cemetery/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "Cemetery\\Tests\\": "tests/Cemetery/"
         }
     },
     "replace": {
