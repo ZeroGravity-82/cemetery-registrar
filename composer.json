@@ -1,5 +1,7 @@
 {
+    "name": "sublimeraiser/cemetery-registrar",
     "type": "project",
+    "description": "Burial Registrar - core subdomain of the Cemetery project",
     "license": "proprietary",
     "minimum-stability": "stable",
     "prefer-stable": true,
