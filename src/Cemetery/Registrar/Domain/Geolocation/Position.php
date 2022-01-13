@@ -10,8 +10,8 @@ namespace Cemetery\Registrar\Domain\Geolocation;
 final class Position
 {
     /**
-     * @param Coordinates $coordinates
-     * @param ?Accuracy   $accuracy
+     * @param Coordinates   $coordinates
+     * @param Accuracy|null $accuracy
      */
     public function __construct(
         private Coordinates $coordinates,
