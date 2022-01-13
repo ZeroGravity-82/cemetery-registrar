@@ -9,26 +9,20 @@ namespace Cemetery\Registrar\Domain\Geolocation;
  */
 final class Coordinates
 {
-    private const COORDINATE_VALUE_PATTERN = '~^[+/\-]?\d+\.?\d+$~';    // examples: 54.950357, -165.1282, etc.
-    private const ACCURACY_VALUE_PATTERN   = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
+    private const VALUE_PATTERN = '~^[+/\-]?\d+\.?\d+$~';    // examples: 54.950357, -165.1282, etc.
 
     /**
-     * @param string      $latitude
-     * @param string      $longitude
-     * @param string|null $accuracy
+     * @param string $latitude
+     * @param string $longitude
      */
     public function __construct(
-        private string  $latitude,
-        private string  $longitude,
-        private ?string $accuracy = null,
+        private string $latitude,
+        private string $longitude,
     ) {
-        $this->assertValidLatitude($this->latitude);
-        $this->assertValidLongitude($this->longitude);
-        if ($this->accuracy) {
-            $this->assertValidAccuracy($this->accuracy);
-        }
-        $this->latitude  = \ltrim($this->latitude, '+');
-        $this->longitude = \ltrim($this->longitude, '+');
+        $this->assertValidLatitudeValue($latitude);
+        $this->assertValidLongitudeValue($longitude);
+        $this->latitude  = \ltrim($latitude, '+');
+        $this->longitude = \ltrim($longitude, '+');
     }
 
     /**
@@ -36,7 +30,7 @@ final class Coordinates
      */
     public function __toString(): string
     {
-        return \sprintf('%s, %s', $this->latitude, $this->longitude);
+        return \sprintf('%s, %s', $this->getLatitude(), $this->getLongitude());
     }
 
     /**
@@ -56,14 +50,6 @@ final class Coordinates
     }
 
     /**
-     * @return string|null
-     */
-    public function getAccuracy(): ?string
-    {
-        return $this->accuracy;
-    }
-
-    /**
      * @param self $coordinates
      *
      * @return bool
@@ -72,51 +58,80 @@ final class Coordinates
     {
         $isSameLatitude  = $coordinates->getLatitude()  === $this->getLatitude();
         $isSameLongitude = $coordinates->getLongitude() === $this->getLongitude();
-        $isSameAccuracy  = $coordinates->getAccuracy()  === $this->getAccuracy();
 
-        return $isSameLatitude && $isSameLongitude && $isSameAccuracy;
+        return $isSameLatitude && $isSameLongitude;
     }
 
     /**
      * @param string $latitude
-     *
-     * @throws \InvalidArgumentException when the latitude value is invalid
      */
-    private function assertValidLatitude(string $latitude): void
+    private function assertValidLatitudeValue(string $latitude): void
     {
-        $isValidFormat        = \preg_match(self::COORDINATE_VALUE_PATTERN, $latitude);
-        $isInsideOfValidRange = (float) $latitude >= -90.0 && (float) $latitude <= 90.0;
-        if (!$isValidFormat || !$isInsideOfValidRange) {
-            throw new \InvalidArgumentException(\sprintf('Invalid latitude value "%s".', $latitude));
-        }
+        $name = 'latitude';
+        $this->assertNotEmpty($latitude, $name);
+        $this->assertValidFormat($latitude, $name);
+        $this->assertIsInTheValidRange($latitude, -90.0, 90.0, $name);
     }
 
     /**
      * @param string $longitude
-     *
-     * @throws \InvalidArgumentException when the longitude value is invalid
      */
-    private function assertValidLongitude(string $longitude): void
+    private function assertValidLongitudeValue(string $longitude): void
     {
-        $isValidFormat        = \preg_match(self::COORDINATE_VALUE_PATTERN, $longitude);
-        $isInsideOfValidRange = (float) $longitude >= -180.0 && (float) $longitude <= 180.0;
-        if (!$isValidFormat || !$isInsideOfValidRange) {
-            throw new \InvalidArgumentException(\sprintf('Invalid longitude value "%s".', $longitude));
+        $name = 'longitude';
+        $this->assertNotEmpty($longitude, $name);
+        $this->assertValidFormat($longitude, $name);
+        $this->assertIsInTheValidRange($longitude, -180.0, 180.0, $name);
+    }
+
+    /**
+     * @param string $value
+     * @param string $name
+     *
+     * @throws \InvalidArgumentException when the value is empty
+     */
+    private function assertNotEmpty(string $value, string $name): void
+    {
+        if ($value === '') {
+            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', ucfirst($name)));
         }
     }
 
     /**
-     * @param string $accuracy
+     * @param string $value
+     * @param string $name
      *
-     * @throws \InvalidArgumentException when the accuracy value is invalid
+     * @throws \InvalidArgumentException when the value has an invalid format
      */
-    private function assertValidAccuracy(string $accuracy): void
+    private function assertValidFormat(string $value, string $name): void
     {
-        $isValidFormat        = \preg_match(self::ACCURACY_VALUE_PATTERN, $accuracy);
-        $isInsideOfValidRange = (float) $accuracy >= 0.0;
-        if (!$isValidFormat || !$isInsideOfValidRange) {
-            throw new \InvalidArgumentException(\sprintf('Invalid accuracy value "%s".', $accuracy));
+        if (!\preg_match(self::VALUE_PATTERN, $value)) {
+            throw new \InvalidArgumentException(\sprintf(
+                '%s value "%s" has an invalid format.',
+                ucfirst($name),
+                $value,
+            ));
+        }
+    }
+
+    /**
+     * @param string $value
+     * @param float  $min
+     * @param float  $max
+     * @param string $name
+     *
+     * @throws \InvalidArgumentException when the value is out of valid range
+     */
+    private function assertIsInTheValidRange(string $value, float $min, float $max, string $name): void
+    {
+        if ((float) $value < $min || (float) $value > $max) {
+            throw new \InvalidArgumentException(\sprintf(
+                '%s value "%s" is out of valid range [%.0f, %.0f].',
+                ucfirst($name),
+                $value,
+                $min,
+                $max,
+            ));
         }
     }
 }
-
