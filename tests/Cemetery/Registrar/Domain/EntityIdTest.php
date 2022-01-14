@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain;
 
+use Cemetery\Registrar\Domain\EntityId;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityIdTest extends TestCase
+class EntityIdTest extends TestCase
 {
-    protected string $className;
-
     public function testItSuccessfullyCreated(): void
     {
-        $entityId = new $this->className('777');
+        $entityId = new EntityId('777');
 
         $this->assertSame('777', $entityId->getValue());
     }
@@ -24,21 +23,21 @@ abstract class AbstractEntityIdTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Domain entity ID cannot be empty string.');
-        new $this->className('');
+        new EntityId('');
     }
 
     public function testItStringifyable(): void
     {
-        $entityId = new $this->className('777');
+        $entityId = new EntityId('777');
 
         $this->assertSame('777', (string) $entityId);
     }
 
     public function testItComparable(): void
     {
-        $entityIdA = new $this->className('777');
-        $entityIdB = new $this->className('888');
-        $entityIdC = new $this->className('777');
+        $entityIdA = new EntityId('777');
+        $entityIdB = new EntityId('888');
+        $entityIdC = new EntityId('777');
 
         $this->assertFalse($entityIdA->isEqual($entityIdB));
         $this->assertTrue($entityIdA->isEqual($entityIdC));

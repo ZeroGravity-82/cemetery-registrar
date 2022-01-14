@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityId
+final class EntityId
 {
     /**
      * @param string $value
