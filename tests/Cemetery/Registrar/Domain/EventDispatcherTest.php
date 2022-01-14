@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\EventDispatcher;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author Nikolay Ryabkov <nikolay.ryabkov@sibers.com>
+ * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class EventDispatcherTest extends TestCase
 {
