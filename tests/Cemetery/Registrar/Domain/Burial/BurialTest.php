@@ -18,8 +18,22 @@ class BurialTest extends TestCase
     {
         $burialId      = new EntityId('777');
         $deceasedId    = new EntityId('888');
-        $customerType  = 'natural_person';
-        $customerId    = new EntityId('999');
+
+
+
+
+
+
+
+        $customerId    = new CustomerId('natural_person', '999');
+
+
+
+
+
+
+
+
         $siteOwnerType = 'natural_person';
         $siteOwnerId   = new EntityId('AAA');
 
