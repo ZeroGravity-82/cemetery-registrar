@@ -4,20 +4,25 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
+use Cemetery\Registrar\Domain\AbstractEntityId;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CustomerId
+final class CustomerId extends AbstractEntityId
 {
+    private const DELIMITER = '.';
+
     /**
-     * @param string $type
      * @param string $value
+     * @param string $type
      */
     public function __construct(
-        private string $type,
-        private string $value,
+        protected string $value,
+        private   string $type,
     ) {
-        $this->assertValidValue($value);
+        parent::__construct($value);
+        $this->assertValidType($type);
     }
 
     /**
@@ -25,7 +30,7 @@ final class CustomerId
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->getType() . self::DELIMITER . $this->getValue();
     }
 
     /**
@@ -37,32 +42,26 @@ final class CustomerId
     }
 
     /**
-     * @return string
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    /**
      * @param self $id
      *
      * @return bool
      */
-    public function isEqual(self $id): bool
+    public function isEqual(AbstractEntityId $id): bool
     {
-        $isSameType  = $id->getType()  === $this->getType();
-        $isSameValue = $id->getValue() === $this->getValue();
+        $isValidClass = $id instanceof self;
+        $isSameType   = $id->getType()  === $this->getType();
+        $isSameValue  = $id->getValue() === $this->getValue();
 
-        return $isSameType && $isSameValue;
+        return $isValidClass && $isSameType && $isSameValue;
     }
 
     /**
-     * @param string $value
+     * @param string $type
      */
-    protected function assertValidValue(string $value): void
+    protected function assertValidType(string $type): void
     {
-        $this->assertNotEmpty($value);
+        $this->assertNotEmpty($type);
+
     }
 
     /**
