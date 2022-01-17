@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Burial;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CustomerType
+final class CustomerType
 {
     public const NATURAL_PERSON  = 'natural_person';
     public const SOLE_PROPRIETOR = 'sole_proprietor';
