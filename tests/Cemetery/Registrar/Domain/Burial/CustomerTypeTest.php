@@ -15,11 +15,16 @@ class CustomerTypeTest extends TestCase
     public function testItSuccessfullyCreatedForNaturalPerson(): void
     {
         $customerType = new CustomerType(CustomerType::NATURAL_PERSON);
-
         $this->assertSame(CustomerType::NATURAL_PERSON, $customerType->getValue());
         $this->assertTrue($customerType->isNaturalPerson());
         $this->assertFalse($customerType->isSoleProprietor());
         $this->assertFalse($customerType->isJuristicPerson());
+
+        $customerType = CustomerType::juristicPerson();
+        $this->assertSame(CustomerType::JURISTIC_PERSON, $customerType->getValue());
+        $this->assertFalse($customerType->isNaturalPerson());
+        $this->assertFalse($customerType->isSoleProprietor());
+        $this->assertTrue($customerType->isJuristicPerson());
     }
 
     public function testItFailsWithUnsupportedValue(): void
@@ -33,17 +38,17 @@ class CustomerTypeTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $customerType = new CustomerType(CustomerType::NATURAL_PERSON);
+        $customerType = CustomerType::naturalPerson();
 
         $this->assertSame(CustomerType::NATURAL_PERSON, (string) $customerType);
     }
 
     public function testItComparable(): void
     {
-        $customerTypeNaturalPersonA = new CustomerType(CustomerType::NATURAL_PERSON);
-        $customerTypeSoleProprietor = new CustomerType(CustomerType::SOLE_PROPRIETOR);
-        $customerTypeJuristicPerson = new CustomerType(CustomerType::JURISTIC_PERSON);
-        $customerTypeNaturalPersonB = new CustomerType(CustomerType::NATURAL_PERSON);
+        $customerTypeNaturalPersonA = CustomerType::naturalPerson();
+        $customerTypeSoleProprietor = CustomerType::soleProprietor();
+        $customerTypeJuristicPerson = CustomerType::juristicPerson();
+        $customerTypeNaturalPersonB = CustomerType::naturalPerson();
 
         $this->assertFalse($customerTypeNaturalPersonA->isEqual($customerTypeSoleProprietor));
         $this->assertFalse($customerTypeNaturalPersonA->isEqual($customerTypeJuristicPerson));

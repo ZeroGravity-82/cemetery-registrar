@@ -23,6 +23,30 @@ class CustomerType
     }
 
     /**
+     * @return self
+     */
+    public static function naturalPerson(): self
+    {
+        return new self(self::NATURAL_PERSON);
+    }
+
+    /**
+     * @return self
+     */
+    public static function soleProprietor(): self
+    {
+        return new self(self::SOLE_PROPRIETOR);
+    }
+
+    /**
+     * @return self
+     */
+    public static function juristicPerson(): self
+    {
+        return new self(self::JURISTIC_PERSON);
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
