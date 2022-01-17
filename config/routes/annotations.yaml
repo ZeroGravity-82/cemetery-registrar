@@ -1,0 +1,7 @@
+controllers:
+    resource: ../../src/Cemetery/Registrar/Infrastructure/Delivery/Http/
+    type: annotation
+
+kernel:
+    resource: ../../src/Cemetery/Kernel.php
+    type: annotation

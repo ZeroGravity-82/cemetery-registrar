@@ -1,0 +1,16 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+#        driver: pdo_mysql
+#        server_version: 8.0
+#        charset: utf8mb4
+    orm:
+#        auto_generate_proxy_classes: true
+#        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+#        auto_mapping: true
+        mappings:
+            Cemetery\Registrar:
+                is_bundle: false
+                type: xml
+                dir: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Persistence/Doctrine/ORM/Mapping/MySQL'
+                prefix: Cemetery\Registrar\Domain
