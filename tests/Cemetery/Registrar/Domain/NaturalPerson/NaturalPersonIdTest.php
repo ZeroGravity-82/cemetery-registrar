@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Tests\Registrar\Domain\AbstractEntityIdTest;
 
 /**
- * @author Nikolay Ryabkov <nikolay.ryabkov@sibers.com>
+ * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class NaturalPersonIdTest extends AbstractEntityIdTest
 {
