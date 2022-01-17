@@ -30,9 +30,12 @@ class CustomerTypeTest extends TestCase
     public function testItFailsWithUnsupportedValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Unsupported customer type "wrong_type", expected to be one of "natural_person", "sole_proprietor", "juristic_person".'
-        );
+        $this->expectExceptionMessage(\sprintf(
+            'Unsupported customer type "wrong_type", expected to be one of "%s", "%s", "%s".',
+            CustomerType::NATURAL_PERSON,
+            CustomerType::SOLE_PROPRIETOR,
+            CustomerType::JURISTIC_PERSON,
+        ));
         new CustomerType('wrong_type');
     }
 
