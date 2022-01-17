@@ -68,7 +68,13 @@ final class Burial extends AbstractAggregateRoot
         return $this->siteOwnerId;
     }
 
-
+    /**
+     * @param NaturalPersonId|null $siteOwnerId
+     */
+    public function setSiteOwnerId(?NaturalPersonId $siteOwnerId): void
+    {
+        $this->siteOwnerId = $siteOwnerId;
+    }
 
 
 
