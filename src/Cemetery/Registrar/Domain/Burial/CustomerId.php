@@ -14,15 +14,14 @@ final class CustomerId extends AbstractEntityId
     private const DELIMITER = '.';
 
     /**
-     * @param string $value
-     * @param string $type
+     * @param string       $value
+     * @param CustomerType $type
      */
     public function __construct(
-        protected string $value,
-        private   string $type,
+        protected string       $value,
+        private   CustomerType $type,
     ) {
         parent::__construct($value);
-        $this->assertValidType($type);
     }
 
     /**
@@ -34,9 +33,9 @@ final class CustomerId extends AbstractEntityId
     }
 
     /**
-     * @return string
+     * @return CustomerType
      */
-    public function getType(): string
+    public function getType(): CustomerType
     {
         return $this->type;
     }
@@ -48,31 +47,10 @@ final class CustomerId extends AbstractEntityId
      */
     public function isEqual(AbstractEntityId $id): bool
     {
-        $isValidClass = $id instanceof self;
-        $isSameType   = $id->getType()  === $this->getType();
-        $isSameValue  = $id->getValue() === $this->getValue();
+        $isSameClass        = $id instanceof self;
+        $isSameCustomerType = $id->getType()->isEqual($this->getType());
+        $isSameIdValue      = $id->getValue() === $this->getValue();
 
-        return $isValidClass && $isSameType && $isSameValue;
-    }
-
-    /**
-     * @param string $type
-     */
-    protected function assertValidType(string $type): void
-    {
-        $this->assertNotEmpty($type);
-
-    }
-
-    /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the ID is an empty string
-     */
-    private function assertNotEmpty(string $value): void
-    {
-        if ($value === '') {
-            throw new \InvalidArgumentException('Domain entity ID cannot be empty string.');
-        }
+        return $isSameClass && $isSameCustomerType && $isSameIdValue;
     }
 }
