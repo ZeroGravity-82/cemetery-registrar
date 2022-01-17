@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Burial;
 
-use Cemetery\Registrar\Domain\EntityId;
+use Cemetery\Registrar\Domain\Burial\Burial;
+use Cemetery\Registrar\Domain\Burial\BurialId;
+use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Site\SiteId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,35 +17,21 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialTest extends TestCase
 {
-
-
     public function testItSuccessfullyCreated(): void
     {
-        $burialId      = new EntityId('777');
-        $deceasedId    = new EntityId('888');
-
-
-
-
-
-
-
-        $customerId    = new CustomerId('natural_person', '999');
-
-
-
-
-
-
-
-
-        $siteOwnerType = 'natural_person';
-        $siteOwnerId   = new EntityId('AAA');
-
-        $siteId        = new EntityId('BBB');
-        $burial        = new Burial($burialId);
+        $burialId    = new BurialId('777');
+        $deceasedId  = new NaturalPersonId('888');
+        $customerId  = new CustomerId('999', CustomerType::naturalPerson());
+        $siteId      = new SiteId('BBB');
+        $siteOwnerId = new NaturalPersonId('AAA');
+        $burial      = new Burial($burialId, $deceasedId, $customerId, $siteId, $siteOwnerId);
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
         $this->assertSame('777', (string) $burial->getId());
+        $this->assertInstanceOf(NaturalPersonId::class, $burial->getDeceasedId());
+        $this->assertSame('888', (string) $burial->getDeceasedId());
+        $this->assertInstanceOf(CustomerId::class, $burial->getCustomerId());
+        $this->assertSame('999', $burial->getCustomerId()->getValue());
+        $this->assertSame(CustomerType::NATURAL_PERSON, (string) $burial->getCustomerId()->getType());
     }
 }
