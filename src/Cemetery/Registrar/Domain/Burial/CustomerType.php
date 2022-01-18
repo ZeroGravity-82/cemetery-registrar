@@ -99,7 +99,7 @@ final class CustomerType
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the provider customer type
+     * @throws \InvalidArgumentException when the customer type is not supported
      */
     private function assertValidValue(string $value): void
     {
