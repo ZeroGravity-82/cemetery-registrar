@@ -15,16 +15,18 @@ final class Burial extends AbstractAggregateRoot
 {
     /**
      * @param BurialId             $id
+     * @param BurialCode           $code
      * @param NaturalPersonId      $deceasedId
-     * @param CustomerId           $customerId
      * @param SiteId               $siteId
+     * @param CustomerId|null      $customerId
      * @param NaturalPersonId|null $siteOwnerId
      */
     public function __construct(
         private BurialId         $id,
+        private BurialCode       $code,
         private NaturalPersonId  $deceasedId,
-        private CustomerId       $customerId,
         private SiteId           $siteId,
+        private ?CustomerId      $customerId,
         private ?NaturalPersonId $siteOwnerId,
     ) {}
 
@@ -37,6 +39,14 @@ final class Burial extends AbstractAggregateRoot
     }
 
     /**
+     * @return BurialCode
+     */
+    public function getCode(): BurialCode
+    {
+        return $this->code;
+    }
+
+    /**
      * @return NaturalPersonId
      */
     public function getDeceasedId(): NaturalPersonId
@@ -45,19 +55,27 @@ final class Burial extends AbstractAggregateRoot
     }
 
     /**
-     * @return CustomerId
-     */
-    public function getCustomerId(): CustomerId
-    {
-        return $this->customerId;
-    }
-
-    /**
      * @return SiteId
      */
     public function getSiteId(): SiteId
     {
         return $this->siteId;
+    }
+
+    /**
+     * @return CustomerId|null
+     */
+    public function getCustomerId(): ?CustomerId
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * @param CustomerId|null $customerId
+     */
+    public function setCustomerId(?CustomerId $customerId): void
+    {
+        $this->customerId = $customerId;
     }
 
     /**

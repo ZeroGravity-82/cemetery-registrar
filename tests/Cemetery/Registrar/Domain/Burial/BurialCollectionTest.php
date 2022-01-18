@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
+use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
@@ -20,23 +21,27 @@ class BurialCollectionTest extends AbstractEntityCollectionTest
 {
     public function setUp(): void
     {
-        $naturalPersonIdA = new NaturalPersonId('NP002');
-        $naturalPersonIdB = new NaturalPersonId('NP003');
-        $naturalPersonIdC = new NaturalPersonId('NP004');
-        $naturalPersonIdD = new NaturalPersonId('NP005');
+        $this->idA        = new BurialId('B001');
+        $this->idB        = new BurialId('B002');
+        $this->idC        = new BurialId('B003');
+        $this->idD        = new BurialId('B004');
+        $burialCodeA      = new BurialCode('BC001');
+        $burialCodeB      = new BurialCode('BC002');
+        $burialCodeC      = new BurialCode('BC003');
+        $burialCodeD      = new BurialCode('BC004');
+        $naturalPersonIdA = new NaturalPersonId('NP001');
+        $naturalPersonIdB = new NaturalPersonId('NP002');
+        $naturalPersonIdC = new NaturalPersonId('NP003');
+        $naturalPersonIdD = new NaturalPersonId('NP004');
         $customerId       = new CustomerId('C001', CustomerType::naturalPerson());
         $siteIdA          = new SiteId('S001');
         $siteIdB          = new SiteId('S002');
         $siteIdC          = new SiteId('S003');
         $siteIdD          = new SiteId('S004');
-        $this->idA        = new BurialId('B001');
-        $this->idB        = new BurialId('B002');
-        $this->idC        = new BurialId('B003');
-        $this->idD        = new BurialId('B004');
-        $this->entityA    = new Burial($this->idA, $naturalPersonIdA, $customerId, $siteIdA, null);
-        $this->entityB    = new Burial($this->idB, $naturalPersonIdB, $customerId, $siteIdB, $naturalPersonIdB);
-        $this->entityC    = new Burial($this->idC, $naturalPersonIdC, $customerId, $siteIdC, $naturalPersonIdC);
-        $this->entityD    = new Burial($this->idD, $naturalPersonIdD, $customerId, $siteIdD, null);
+        $this->entityA    = new Burial($this->idA, $burialCodeA, $naturalPersonIdA, $siteIdA, $customerId, null);
+        $this->entityB    = new Burial($this->idB, $burialCodeB, $naturalPersonIdB, $siteIdB, $customerId, $naturalPersonIdB);
+        $this->entityC    = new Burial($this->idC, $burialCodeC, $naturalPersonIdC, $siteIdC, $customerId, $naturalPersonIdC);
+        $this->entityD    = new Burial($this->idD, $burialCodeD, $naturalPersonIdD, $siteIdD, $customerId, null);
         $this->collection = new BurialCollection([$this->entityA]);
     }
 

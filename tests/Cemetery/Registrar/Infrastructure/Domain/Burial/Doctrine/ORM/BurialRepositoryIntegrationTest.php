@@ -4,32 +4,18 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 
-use Crk\Scraping\Domain\EventDispatcherInterface;
-use Crk\Scraping\Domain\Modules\Finisher\ScraperRunFinished;
-use Crk\Scraping\Domain\Modules\Product\AbstractProduct;
-use Crk\Scraping\Domain\Modules\Product\ProductCollection;
-use Crk\Scraping\Domain\Modules\Product\ProductDuplicatesFound;
-use Crk\Scraping\Domain\Modules\Product\ProductId;
-use Crk\Scraping\Domain\Modules\Product\ProductNum;
-use Crk\Scraping\Domain\Modules\Product\ProductScheduledForRemoving;
-use Crk\Scraping\Domain\Modules\Product\ProductScheduledForSaving;
-use Crk\Scraping\Domain\Modules\SettingManager\SettingManagerInterface;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\ClassMetadataCache;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\ColumnValuesBuilder;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\ProductRepository as DoctrineOrmProductRepository;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\DuplicateCounter;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\ProductDeleter;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\ProductInserter;
-use Crk\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\Query\QueryFactory;
+use Cemetery\Registrar\Domain\Burial\Burial;
+use Cemetery\Registrar\Domain\Burial\BurialCode;
+use Cemetery\Registrar\Domain\Burial\BurialCollection;
+use Cemetery\Registrar\Domain\Burial\BurialId;
+use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Site\SiteId;
+use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\DoctrineORMBurialRepository;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\Persistence\ManagerRegistry;
-use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Yaml\Exception\ParseException;
-use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * @group database
@@ -38,369 +24,132 @@ use Symfony\Component\Yaml\Parser as YamlParser;
  */
 class BurialRepositoryIntegrationTest extends KernelTestCase
 {
-    private const TEST_SCRAPER_NAME = 'TestScraper';
+    private Burial $burialA;
 
-    private array $entityManagerNameToListOfEntityClasses = [];
+    private Burial $burialB;
 
-    private MockObject|YamlParser $mockYamlParser;
+    private Burial $burialC;
 
-    private ManagerRegistry $managerRegistry;
+    private EntityManagerInterface $entityManager;
 
-    private MockObject|SettingManagerInterface $mockSettingManager;
-
-    private ClassMetadataCache $classMetadataCache;
-
-    private ProductInserter $productInserter;
-
-    private ProductDeleter $productDeleter;
-
-    private MockObject|EventDispatcherInterface $mockEventDispatcher;
-
-    private MockObject|LoggerInterface $mockLogger;
-
-    private DoctrineOrmProductRepository $repo;
+    private DoctrineORMBurialRepository $repo;
 
     public function setUp(): void
     {
         self::bootKernel();
-        $container = self::$container;
+        $container = self::getContainer();
 
-        $this->mockYamlParser      = $this->buildMockYamlParser();
-        $this->managerRegistry     = $container->get(ManagerRegistry::class);
-        $this->mockSettingManager  = $this->createMock(SettingManagerInterface::class);
-        $this->classMetadataCache  = $container->get(ClassMetadataCache::class);
-        $queryFactory              = $container->get(QueryFactory::class);
-        $this->mockEventDispatcher = $this->createMock(EventDispatcherInterface::class);
-        $this->productInserter     = new ProductInserter(
-            $queryFactory,
-            $container->get(ColumnValuesBuilder::class),
-            $this->mockEventDispatcher,
-            $this->createMock(DuplicateCounter::class),
-        );
-        $this->productDeleter = new ProductDeleter($queryFactory);
-        $this->mockLogger     = $this->createMock(LoggerInterface::class);
-        $this->repo           = new DoctrineOrmProductRepository(
-            'this/filename/is/not/used/for/testing.yaml',
-            $this->mockYamlParser,
-            $this->managerRegistry,
-            $this->mockSettingManager,
-            $this->classMetadataCache,
-            $this->productInserter,
-            $this->productDeleter,
-            $this->mockEventDispatcher,
-            $this->mockLogger,
+        $this->buildBurials();
+        $this->entityManager = $container->get(EntityManagerInterface::class);
+        $this->repo          = new DoctrineORMBurialRepository(
+            $this->entityManager,
         );
         $this->truncateEntities();
     }
 
-    public function testItSavesANewProductButDoesNotFlushEm(): void
+    public function testItSavesANewBurial(): void
     {
-        $this->initializeRepoSettings(PHP_INT_MAX, true, false);
+        $this->repo->save($this->burialA);
 
-        $product = TestProductFactory::createRandomTestFooProduct();
-        $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->callback(function (object $arg) use ($product) {
-                return $arg instanceof ProductScheduledForSaving && $arg->getProduct() === $product;
-            })
-        );
-        $this->repo->save($product);
-
-        $persistedProduct = $this->repo->findById(TestFooProduct::class, $product->getId());
-        $this->assertInstanceOf(TestFooProduct::class, $persistedProduct);
-        $this->assertSame((string) $product->getId(), (string) $persistedProduct->getId());
-        $this->assertInstanceOf(ProductNum::class, $persistedProduct->getProductNum());
-        $this->assertSame((string) $product->getProductNum(), (string) $persistedProduct->getProductNum());
-        $this->assertSame(0, $this->getRowCount(TestFooProduct::class));
+        $persistedBurial = $this->repo->findById($this->burialA->getId());
+        $this->assertInstanceOf(Burial::class, $persistedBurial);
+        $this->assertSame((string) $this->burialA->getId(), (string) $persistedBurial->getId());
+        $this->assertSame((string) $this->burialA->getDeceasedId(), (string) $persistedBurial->getDeceasedId());
+        $this->assertSame((string) $this->burialA->getCustomerId(), (string) $persistedBurial->getCustomerId());
+        $this->assertSame((string) $this->burialA->getSiteId(), (string) $persistedBurial->getSiteId());
+        $this->assertSame((string) $this->burialA->getSiteOwnerId(), (string) $persistedBurial->getSiteOwnerId());
+        $this->assertSame(1, $this->getRowCount());
     }
 
-    public function testItSavesNewProductsAndFlushEmWhenFlushCountValueReached(): void
+    public function testItSavesACollectionOfNewBurials(): void
     {
-        $this->initializeRepoSettings(3, true, false);
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB, $this->burialC]));
 
-        $productA = TestProductFactory::createRandomTestBazProduct();
-        $productB = TestProductFactory::createRandomTestBazProduct();
-        $this->repo->save($productA);
-        $this->repo->save($productB);
-        $this->assertSame(0, $this->getRowCount(TestBazProduct::class));
-
-        $productC = TestProductFactory::createRandomTestBazProduct();
-        $this->repo->save($productC);
-        $this->assertSame(3, $this->getRowCount(TestBazProduct::class));
+        $this->assertNotNull($this->repo->findById($this->burialA->getId()));
+        $this->assertNotNull($this->repo->findById($this->burialB->getId()));
+        $this->assertNotNull($this->repo->findById($this->burialC->getId()));
+        $this->assertSame(3, $this->getRowCount());
     }
 
-    public function testItSavesACollectionOfNewProductsAndFlushEmWhenFlushCountValueReached(): void
+    public function testItRemovesABurial(): void
     {
-        $this->initializeRepoSettings(3, true, false);
-
-        $productA = TestProductFactory::createRandomTestFooProduct();
-        $productB = TestProductFactory::createRandomTestFooProduct();
-        $productC = TestProductFactory::createRandomTestFooProduct();
-        $productD = TestProductFactory::createRandomTestBazProduct();
-        $productE = TestProductFactory::createRandomTestBazProduct();
-        $productF = TestProductFactory::createRandomTestBazProduct();
-        $this->repo->saveAll(
-            new ProductCollection(
-                [$productA, $productB, $productC, $productD, $productE, $productF]
-            )
-        );
-
-        $this->assertSame(3, $this->getRowCount(TestFooProduct::class));
-        $this->assertSame(3, $this->getRowCount(TestBazProduct::class));
-        $this->assertNotNull($this->repo->findById(TestFooProduct::class, $productA->getId()));
-        $this->assertNotNull($this->repo->findById(TestFooProduct::class, $productB->getId()));
-        $this->assertNotNull($this->repo->findById(TestFooProduct::class, $productC->getId()));
-        $this->assertNotNull($this->repo->findById(TestBazProduct::class, $productD->getId()));
-        $this->assertNotNull($this->repo->findById(TestBazProduct::class, $productE->getId()));
-        $this->assertNotNull($this->repo->findById(TestBazProduct::class, $productF->getId()));
-    }
-
-    public function testItRemovesProductsAndFlushEmWhenFlushCountValueReached(): void
-    {
-        $this->initializeRepoSettings(1, true, false);
-
         // Prepare the repo for testing
-        $product = TestProductFactory::createRandomTestBazProduct();
-        $this->repo->save($product);
-        $this->assertSame(1, $this->getRowCount(TestBazProduct::class));
+        $this->repo->save($this->burialA);
+        $this->assertSame(1, $this->getRowCount());
+        $this->entityManager->clear();
 
         // Testing itself
-        $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->callback(function (object $arg) use ($product) {
-                $isEventInstanceOfProductScheduledForRemoving = $arg instanceof ProductScheduledForRemoving;
-                /** @var ProductScheduledForRemoving $arg */
-                $removedProduct   = $arg->getProduct();
-                $isTheSameProduct = $removedProduct->getId()->isEqual($product->getId());
-
-                return $isEventInstanceOfProductScheduledForRemoving && $isTheSameProduct;
-            })
-        );
-        $persistedProduct = $this->repo->findById(TestBazProduct::class, $product->getId());
-        $this->repo->remove($persistedProduct);
-        $this->assertSame(0, $this->getRowCount(TestBazProduct::class));
+        $persistedBurial = $this->repo->findById($this->burialA->getId());
+        $this->repo->remove($persistedBurial);
+        $this->assertSame(0, $this->getRowCount());
     }
 
-    public function testItRemovesACollectionOfProductsAndFlushEmWhenFlushCountValueReached(): void
+    public function testItRemovesACollectionOfBurials(): void
     {
-        $this->initializeRepoSettings(3, true, false);
-
         // Prepare the repo for testing
-        $productA = TestProductFactory::createRandomTestFooProduct();
-        $productB = TestProductFactory::createRandomTestFooProduct();
-        $productC = TestProductFactory::createRandomTestFooProduct();
-        $productD = TestProductFactory::createRandomTestFooProduct();
-        $productE = TestProductFactory::createRandomTestFooProduct();
-        $productF = TestProductFactory::createRandomTestFooProduct();
-        $this->repo->saveAll(
-            new ProductCollection(
-                [$productA, $productB, $productC, $productD, $productE, $productF]
-            )
-        );
-        $this->assertSame(6, $this->getRowCount(TestFooProduct::class));
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB, $this->burialC]));
+        $this->assertSame(3, $this->getRowCount());
+        $this->entityManager->clear();
 
         // Testing itself
-        $persistedProductB = $this->repo->findById(TestFooProduct::class, $productB->getId());
-        $persistedProductC = $this->repo->findById(TestFooProduct::class, $productC->getId());
-        $persistedProductD = $this->repo->findById(TestFooProduct::class, $productD->getId());
-        $this->repo->removeAll(
-            new ProductCollection(
-                [$persistedProductB, $persistedProductC, $persistedProductD]
-            )
-        );
-        $this->assertSame(3, $this->getRowCount(TestFooProduct::class));
-        $this->assertNotNull($this->repo->findById(TestFooProduct::class, $productA->getId()));
-        $this->assertNotNull($this->repo->findById(TestFooProduct::class, $productE->getId()));
-        $this->assertNotNull($this->repo->findById(TestFooProduct::class, $productF->getId()));
+        $persistedBurialB = $this->repo->findById($this->burialB->getId());
+        $persistedBurialC = $this->repo->findById($this->burialC->getId());
+        $this->repo->removeAll(new BurialCollection([$persistedBurialB, $persistedBurialC]));
+        $this->assertSame(1, $this->getRowCount());
+        $this->assertNotNull($this->repo->findById($this->burialA->getId()));
     }
 
-    public function testItFindsAProductById(): void
+    public function testItFindsABurialById(): void
     {
-        $this->initializeRepoSettings(3, true, false);
-
         // Prepare the repo for testing
-        $productA = TestProductFactory::createRandomTestFooProduct();
-        $productB = TestProductFactory::createRandomTestFooProduct();
-        $productC = TestProductFactory::createRandomTestFooProduct();
-        $this->repo->saveAll(new ProductCollection([$productA, $productB, $productC]));
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB, $this->burialC]));
+        $this->entityManager->clear();
 
         // Testing itself
-        $persistedProduct = $this->repo->findById(TestFooProduct::class, $productB->getId());
-        $this->assertInstanceOf(TestFooProduct::class, $persistedProduct);
-        $this->assertSame((string) $productB->getId(), (string) $persistedProduct->getId());
+        $persistedBurial = $this->repo->findById($this->burialB->getId());
+        $this->assertInstanceOf(Burial::class, $persistedBurial);
+        $this->assertSame((string) $this->burialB->getId(), (string) $persistedBurial->getId());
     }
 
-    public function testItReturnsNullIfAProductIsNotFoundById(): void
+    public function testItReturnsNullIfABurialIsNotFoundById(): void
     {
-        $product = $this->repo->findById(TestFooProduct::class, new ProductId('unknown_id'));
+        $burial = $this->repo->findById(new BurialId('unknown_id'));
 
-        $this->assertNull($product);
+        $this->assertNull($burial);
     }
 
-    public function testItAddsListeners(): void
+    private function buildBurials(): void
     {
-        $this->mockEventDispatcher->expects($this->exactly(1))->method('addListener')->withConsecutive(
-            [
-                $this->equalTo(ScraperRunFinished::class),
-                $this->callback(function (callable $arg) {
-                    return is_array($arg) && isset($arg[0], $arg[1]) &&
-                        $arg[0] instanceof DoctrineOrmProductRepository && $arg[1] === 'onScraperRunFinished';
-                })
-            ],
-        );
-        new DoctrineOrmProductRepository(
-            'this/filename/is/not/used/for/testing.yaml',
-            $this->mockYamlParser,
-            $this->managerRegistry,
-            $this->mockSettingManager,
-            $this->classMetadataCache,
-            $this->productInserter,
-            $this->productDeleter,
-            $this->mockEventDispatcher,
-            $this->mockLogger,
-        );
-    }
-
-    public function testItFailsWhenTryToFindAProductOfInvalidClass(): void
-    {
-        $fakeProductClass = 'someFakeProductClass';
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            \sprintf('Product class "%s" is not a subclass of "%s"', $fakeProductClass, AbstractProduct::class)
-        );
-        $this->repo->findById($fakeProductClass, new ProductId('777'));
-    }
-
-    public function testItFailsWhenEmMapFileParsingFailed(): void
-    {
-        $someFilename   = 'some/file.yaml';
-        $mockYamlParser = $this->createMock(YamlParser::class);
-        $mockYamlParser
-            ->method('parseFile')
-            ->willThrowException(new ParseException('some exception messages'));
-
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(
-            \sprintf('Entity manager map file "%s" could not be read or YAML is invalid.', $someFilename)
-        );
-        new DoctrineOrmProductRepository(
-            $someFilename,
-            $mockYamlParser,
-            $this->managerRegistry,
-            $this->mockSettingManager,
-            $this->classMetadataCache,
-            $this->productInserter,
-            $this->productDeleter,
-            $this->mockEventDispatcher,
-            $this->mockLogger,
-        );
-    }
-
-    public function testItFailsWhenEmMapFileContainsNotAnArray(): void
-    {
-        $someFilename   = 'some/file.yaml';
-        $mockYamlParser = $this->createMock(YamlParser::class);
-        $mockYamlParser
-            ->method('parseFile')
-            ->willReturn('some string that is not an array at all');
-
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(
-            \sprintf('Entity manager map file "%s" contains no data.', $someFilename)
-        );
-
-        new DoctrineOrmProductRepository(
-            $someFilename,
-            $mockYamlParser,
-            $this->managerRegistry,
-            $this->mockSettingManager,
-            $this->classMetadataCache,
-            $this->productInserter,
-            $this->productDeleter,
-            $this->mockEventDispatcher,
-            $this->mockLogger,
-        );
-    }
-
-    public function testItFailsWhenNoEntityManagerConfiguredForAProductClass(): void
-    {
-        $productClass = TestBarProduct::class;
-        $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage(
-            \sprintf('No entity manager configured for the product class "%s".', $productClass)
-        );
-
-        $this->repo->findById($productClass, new ProductId('777'));
-    }
-
-    public function testItFailsToSaveDuplicateProductWhenDuplicatesShouldNotBeHandled(): void
-    {
-        $this->initializeRepoSettings(1, false, false);
-
-        $productFoo = TestProductFactory::createRandomTestFooProduct();
-        $this->repo->save($productFoo);
-
-        $this->expectException(UniqueConstraintViolationException::class);
-        $this->repo->save($productFoo);
-    }
-
-    private function buildMockYamlParser(): MockObject|YamlParser
-    {
-        $this->entityManagerNameToListOfEntityClasses = [
-            'sqlite_main1' => [
-                'Crk\Tests\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\TestFooProduct',
-            ],
-            'sqlite_main2' => [
-                'Crk\Tests\Scraping\Infrastructure\Domain\Modules\Product\Doctrine\ORM\TestBazProduct',
-            ],
-        ];
-        $mockYamlParser = $this->createMock(YamlParser::class);
-        $mockYamlParser->method('parseFile')->willReturn($this->entityManagerNameToListOfEntityClasses);
-
-        return $mockYamlParser;
-    }
-
-    private function getRowCount(string $productClass): ?int
-    {
-        $rowCount                = null;
-        $targetEntityManagerName = null;
-        foreach ($this->entityManagerNameToListOfEntityClasses as $entityManagerName => $listOfEntityClasses) {
-            foreach ($listOfEntityClasses as $entityClass) {
-                if ($entityClass === $productClass) {
-                    $targetEntityManagerName = $entityManagerName;
-                    break 2;
-                }
-            }
-        }
-        if ($targetEntityManagerName) {
-            $rowCount = (int) $this->getEntityManager($targetEntityManagerName)
-                ->getRepository($productClass)
-                ->createQueryBuilder('p')
-                ->select('COUNT(p.id)')
-                ->getQuery()
-                ->getSingleScalarResult();
-        }
-
-        return $rowCount;
+        $idA              = new BurialId('B001');
+        $idB              = new BurialId('B002');
+        $idC              = new BurialId('B003');
+        $burialCodeA      = new BurialCode('BC001');
+        $burialCodeB      = new BurialCode('BC002');
+        $burialCodeC      = new BurialCode('BC003');
+        $naturalPersonIdA = new NaturalPersonId('NP001');
+        $naturalPersonIdB = new NaturalPersonId('NP002');
+        $naturalPersonIdC = new NaturalPersonId('NP003');
+        $customerId       = new CustomerId('C001', CustomerType::naturalPerson());
+        $siteIdA          = new SiteId('S001');
+        $siteIdB          = new SiteId('S002');
+        $siteIdC          = new SiteId('S003');
+        $this->burialA    = new Burial($idA, $burialCodeA, $naturalPersonIdA, $siteIdA, $customerId, null);
+        $this->burialB    = new Burial($idB, $burialCodeB, $naturalPersonIdB, $siteIdB, $customerId, $naturalPersonIdB);
+        $this->burialC    = new Burial($idC, $burialCodeC, $naturalPersonIdC, $siteIdC, $customerId, $naturalPersonIdC);
     }
 
     private function truncateEntities(): void
     {
-        foreach (\array_keys($this->entityManagerNameToListOfEntityClasses) as $entityManagerName) {
-            (new ORMPurger($this->getEntityManager($entityManagerName)))->purge();
-        }
+        (new ORMPurger($this->entityManager))->purge();
     }
 
-    private function getEntityManager(string $name): EntityManagerInterface
+    private function getRowCount(): int
     {
-        return $this->managerRegistry->getManager($name);
-    }
-
-    private function initializeRepoSettings(int $flushCount, bool $handleDuplicates, bool $updateIfExists): void
-    {
-        $this->mockSettingManager->method('get')->willReturnMap([
-            ['product', 'flush_count', $flushCount],
-            ['product', 'handle_duplicates', $handleDuplicates],
-            ['product', 'update_if_exists', $updateIfExists],
-        ]);
-        $this->repo->configure(self::TEST_SCRAPER_NAME);
+        return (int) $this->entityManager
+            ->getRepository(Burial::class)
+            ->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

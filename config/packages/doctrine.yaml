@@ -1,13 +1,19 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-#        driver: pdo_mysql
-#        server_version: 8.0
-#        charset: utf8mb4
+        driver: pdo_mysql
+        server_version: 8.0
+        charset: utf8mb4
+        types:
+            burial_code: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialCodeType
+            burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialCodeType
+            customer_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomerIdType
+            natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPersonIdType
+            site_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\SiteIdType
     orm:
-#        auto_generate_proxy_classes: true
-#        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-#        auto_mapping: true
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
         mappings:
             Cemetery\Registrar:
                 is_bundle: false
