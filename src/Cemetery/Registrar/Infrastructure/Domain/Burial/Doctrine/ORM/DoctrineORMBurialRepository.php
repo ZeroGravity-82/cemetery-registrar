@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,11 +16,19 @@ use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
 final class DoctrineORMBurialRepository implements BurialRepositoryInterface
 {
     /**
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+    ) {}
+
+    /**
      * {@inheritdoc}
      */
     public function save(Burial $burial): void
     {
-        // TODO: Implement save() method.
+        $this->entityManager->persist($burial);
+        $this->entityManager->flush();
     }
 
     /**
@@ -27,7 +36,10 @@ final class DoctrineORMBurialRepository implements BurialRepositoryInterface
      */
     public function saveAll(BurialCollection $burials): void
     {
-        // TODO: Implement saveAll() method.
+        foreach ($burials as $burial) {
+            $this->entityManager->persist($burial);
+        }
+        $this->entityManager->flush();
     }
 
     /**
@@ -35,7 +47,7 @@ final class DoctrineORMBurialRepository implements BurialRepositoryInterface
      */
     public function findById(BurialId $burialId): ?Burial
     {
-        // TODO: Implement findById() method.
+        return $this->entityManager->getRepository(Burial::class)->find((string) $burialId);
     }
 
     /**
@@ -43,7 +55,8 @@ final class DoctrineORMBurialRepository implements BurialRepositoryInterface
      */
     public function remove(Burial $burial): void
     {
-        // TODO: Implement remove() method.
+        $this->entityManager->remove($burial);
+        $this->entityManager->flush();
     }
 
     /**
@@ -51,6 +64,9 @@ final class DoctrineORMBurialRepository implements BurialRepositoryInterface
      */
     public function removeAll(BurialCollection $burials): void
     {
-        // TODO: Implement removeAll() method.
+        foreach ($burials as $burial) {
+            $this->entityManager->remove($burial);
+        }
+        $this->entityManager->flush();
     }
 }

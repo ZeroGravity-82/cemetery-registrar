@@ -8,15 +8,16 @@
         </id>
 
         <unique-constraints>
-            <unique-constraint columns="burial_code" name="burial_burial_code_uq" />
+            <unique-constraint columns="code"        name="burial_code_uq" />
             <unique-constraint columns="deceased_id" name="burial_deceased_id_uq" />
         </unique-constraints>
 
-        <field name="code"           column="code"             type="burial_code"                        />
-        <field name="deceasedId"     column="deceased_id"      type="natural_person_id"                  />
-        <field name="siteId"         column="site_id"          type="site_id"                            />
-        <field name="customerId"     column="customer_id"      type="customer_id"        nullable="true" />
-        <field name="siteOwnerId"    column="site_owner_id"    type="natural_person_id"  nullable="true" />
+        <field name="code"        column="code"          type="burial_code"                       />
+        <field name="deceasedId"  column="deceased_id"   type="natural_person_id"                 />
+        <field name="siteId"      column="site_id"       type="site_id"                           />
+        <field name="siteOwnerId" column="site_owner_id" type="natural_person_id" nullable="true" />
+
+        <embedded name="customerId" class="CustomerId" use-column-prefix="false" />
     </entity>
 
 </doctrine-mapping>

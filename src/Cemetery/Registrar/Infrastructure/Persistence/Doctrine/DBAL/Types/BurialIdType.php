@@ -37,9 +37,9 @@ class BurialIdType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): BurialId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialId
     {
-        return new BurialId($value);
+        return !empty($value) ? new BurialId($value) : null;
     }
 
     /**

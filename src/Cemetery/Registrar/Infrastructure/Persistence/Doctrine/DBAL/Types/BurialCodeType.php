@@ -37,9 +37,9 @@ class BurialCodeType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): BurialCode
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialCode
     {
-        return new BurialCode($value);
+        return !empty($value) ? new BurialCode($value) : null;
     }
 
     /**

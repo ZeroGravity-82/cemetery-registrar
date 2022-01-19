@@ -37,9 +37,9 @@ class NaturalPersonIdType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): NaturalPersonId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?NaturalPersonId
     {
-        return new NaturalPersonId($value);
+        return !empty($value) ? new NaturalPersonId($value) : null;
     }
 
     /**

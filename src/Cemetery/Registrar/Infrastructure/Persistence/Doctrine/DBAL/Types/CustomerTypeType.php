@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
 
-use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CustomerIdType extends StringType
+class CustomerTypeType extends StringType
 {
-    private const CUSTOMER_ID_TYPE = 'customer_id';
+    private const CUSTOMER_TYPE_TYPE = 'customer_type';
 
     /**
-     * Registers CustomerId type to the type map.
+     * Registers BurialCode type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::CUSTOMER_ID_TYPE)) {
+        if (self::hasType(self::CUSTOMER_TYPE_TYPE)) {
             return;
         }
-        self::addType(self::CUSTOMER_ID_TYPE, self::class);
+        self::addType(self::CUSTOMER_TYPE_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class CustomerIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof CustomerId ? $value->getValue() : $value;
+        return $value instanceof CustomerType ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): CustomerId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?CustomerType
     {
-        return new CustomerId($value);
+        return !empty($value) ? new CustomerType($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class CustomerIdType extends StringType
      */
     public function getName(): string
     {
-        return self::CUSTOMER_ID_TYPE;
+        return self::CUSTOMER_TYPE_TYPE;
     }
 
     /**

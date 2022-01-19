@@ -19,5 +19,16 @@ services:
             - '../src/Cemetery/Kernel.php'
             - '../tests/Cemetery/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # third-party services
+    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\PropertyAccessor:
+        arguments:
+            - '@property_accessor'
+    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\ClosureNullator: ~
+    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\NullableEmbeddableListener:
+        arguments:
+            - '@Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\PropertyAccessor'
+            - '@Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\ClosureNullator'
+        tags:
+            - { name: 'doctrine.orm.entity_listener', entity: 'Cemetery\Registrar\Domain\Burial\Burial', event: 'postLoad' }
+        calls:
+            - ['addMapping', ['Cemetery\Registrar\Domain\Burial\Burial', 'customerId']]

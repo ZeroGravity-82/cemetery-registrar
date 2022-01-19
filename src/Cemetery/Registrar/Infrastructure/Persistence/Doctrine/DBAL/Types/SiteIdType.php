@@ -37,9 +37,9 @@ class SiteIdType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): SiteId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?SiteId
     {
-        return new SiteId($value);
+        return !empty($value) ? new SiteId($value) : null;
     }
 
     /**
