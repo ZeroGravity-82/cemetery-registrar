@@ -20,7 +20,7 @@ final class NullableEmbeddableListenerFactory
     public static function createWithClosureNullator(): NullableEmbeddableListener
     {
         $evaluator = PropertyAccessor::createWithDefault();
-        $nullator = new ClosureNullator();
+        $nullator  = new ClosureNullator();
 
         return new NullableEmbeddableListener($evaluator, $nullator);
     }

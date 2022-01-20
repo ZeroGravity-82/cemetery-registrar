@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmb
  */
 final class ClosureNullator implements NullatorInterface
 {
-    public function setNull(&$object, $property)
+    public function setNull($object, $property)
     {
         $nullator = \Closure::bind(function ($property) {
             $this->{$property} = null;

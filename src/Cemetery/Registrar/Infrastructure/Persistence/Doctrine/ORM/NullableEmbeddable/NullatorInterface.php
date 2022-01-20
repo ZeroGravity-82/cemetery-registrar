@@ -12,5 +12,5 @@ use Symfony\Component\PropertyAccess\PropertyPathInterface;
  */
 interface NullatorInterface
 {
-    public function setNull(&$object, $property);
+    public function setNull($object, $property);
 }
