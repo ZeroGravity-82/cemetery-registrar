@@ -28,15 +28,20 @@ final class PropertyAccessor implements EvaluatorInterface, NullatorInterface
         return new self(new DefaultPropertyAccessor());
     }
 
-
     public function isNull($object, $property): bool
     {
-        $embeddable = $this->propertyAccessor->getValue($object, $property);
-        if ($embeddable instanceof NullableEmbeddableInterface) {
-            return $embeddable->isNull();
+        $isNull          = true;
+        $embeddable      = $this->propertyAccessor->getValue($object, $property);
+        $classReflector  = new \ReflectionClass($embeddable);
+        foreach ($classReflector->getProperties() as $property) {
+            $property->setAccessible(true);
+            if ($property->isInitialized($embeddable)) {
+                $isNull = false;
+                break;
+            }
         }
 
-        return false;
+        return $isNull;
     }
 
     public function setNull(&$object, $property)
