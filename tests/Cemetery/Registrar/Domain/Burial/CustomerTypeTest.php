@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 class CustomerTypeTest extends TestCase
 {
-    public function testItSuccessfullyCreatedForNaturalPerson(): void
+    public function testItSuccessfullyCreated(): void
     {
         $customerType = new CustomerType(CustomerType::NATURAL_PERSON);
         $this->assertSame(CustomerType::NATURAL_PERSON, $customerType->getValue());
