@@ -14,20 +14,22 @@ use Cemetery\Registrar\Domain\Site\SiteId;
 final class Burial extends AbstractAggregateRoot
 {
     /**
-     * @param BurialId             $id
-     * @param BurialCode           $code
-     * @param NaturalPersonId      $deceasedId
-     * @param SiteId               $siteId
-     * @param CustomerId|null      $customerId
-     * @param NaturalPersonId|null $siteOwnerId
+     * @param BurialId              $id
+     * @param BurialCode            $code
+     * @param NaturalPersonId       $deceasedId
+     * @param SiteId                $siteId
+     * @param CustomerId|null       $customerId
+     * @param NaturalPersonId|null  $siteOwnerId
+     * @param FuneralCompanyId|null $funeralCompanyId
      */
     public function __construct(
-        private BurialId         $id,
-        private BurialCode       $code,
-        private NaturalPersonId  $deceasedId,
-        private SiteId           $siteId,
-        private ?CustomerId      $customerId,
-        private ?NaturalPersonId $siteOwnerId,
+        private BurialId          $id,
+        private BurialCode        $code,
+        private NaturalPersonId   $deceasedId,
+        private SiteId            $siteId,
+        private ?CustomerId       $customerId,
+        private ?NaturalPersonId  $siteOwnerId,
+        private ?FuneralCompanyId $funeralCompanyId,
     ) {}
 
     /**
@@ -94,6 +96,19 @@ final class Burial extends AbstractAggregateRoot
         $this->siteOwnerId = $siteOwnerId;
     }
 
+    /**
+     * @return FuneralCompanyId|null
+     */
+    public function getFuneralCompanyId(): ?FuneralCompanyId
+    {
+        return $this->funeralCompanyId;
+    }
 
-
+    /**
+     * @param FuneralCompanyId|null $funeralCompanyId
+     */
+    public function setFuneralCompanyId(?FuneralCompanyId $funeralCompanyId): void
+    {
+        $this->funeralCompanyId = $funeralCompanyId;
+    }
 }
