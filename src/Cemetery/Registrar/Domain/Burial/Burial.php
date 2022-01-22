@@ -30,7 +30,9 @@ final class Burial extends AbstractAggregateRoot
         private ?CustomerId       $customerId,
         private ?NaturalPersonId  $siteOwnerId,
         private ?FuneralCompanyId $funeralCompanyId,
-    ) {}
+    ) {
+        parent::__construct();
+    }
 
     /**
      * @return BurialId

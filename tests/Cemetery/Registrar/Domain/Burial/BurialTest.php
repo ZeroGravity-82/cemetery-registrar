@@ -54,6 +54,10 @@ class BurialTest extends TestCase
         $this->assertSame('NP002', (string) $burial->getSiteOwnerId());
         $this->assertInstanceOf(FuneralCompanyId::class, $burial->getFuneralCompanyId());
         $this->assertSame('FC001', $burial->getFuneralCompanyId()->getValue());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $burial->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getUpdatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $burial->getUpdatedAt());
     }
 
     public function testItSuccessfullyCreatedWithoutOptionalFields(): void
