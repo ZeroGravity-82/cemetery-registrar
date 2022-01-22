@@ -16,7 +16,7 @@ class CustomerTypeType extends StringType
     private const CUSTOMER_TYPE_TYPE = 'customer_type';
 
     /**
-     * Registers BurialCode type to the type map.
+     * Registers CustomerType type to the type map.
      */
     public static function registerType(): void
     {
