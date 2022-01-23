@@ -10,6 +10,8 @@ use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Site\SiteId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\DoctrineORMBurialRepository;
@@ -84,6 +86,17 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         $this->assertNull($persistedBurial->getCustomerId());
     }
 
+    public function testItHydratesFuneralCompanyIdEmbeddable(): void
+    {
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialA, $this->burialC]));
+        $this->entityManager->clear();
+
+        $persistedBurial = $this->repo->findById($this->burialA->getId());
+        $this->assertNull($persistedBurial->getFuneralCompanyId());
+        $persistedBurial = $this->repo->findById($this->burialC->getId());
+        $this->assertInstanceOf(FuneralCompanyId::class, $persistedBurial->getFuneralCompanyId());
+    }
+
     public function testItRemovesABurial(): void
     {
         // Prepare the repo for testing
@@ -133,22 +146,23 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
 
     private function buildBurials(): void
     {
-        $idA              = new BurialId('B001');
-        $idB              = new BurialId('B002');
-        $idC              = new BurialId('B003');
-        $burialCodeA      = new BurialCode('BC001');
-        $burialCodeB      = new BurialCode('BC002');
-        $burialCodeC      = new BurialCode('BC003');
-        $naturalPersonIdA = new NaturalPersonId('NP001');
-        $naturalPersonIdB = new NaturalPersonId('NP002');
-        $naturalPersonIdC = new NaturalPersonId('NP003');
-        $customerId       = new CustomerId('C001', CustomerType::naturalPerson());
-        $siteIdA          = new SiteId('S001');
-        $siteIdB          = new SiteId('S002');
-        $siteIdC          = new SiteId('S003');
-        $this->burialA    = new Burial($idA, $burialCodeA, $naturalPersonIdA, $siteIdA, $customerId, null);
-        $this->burialB    = new Burial($idB, $burialCodeB, $naturalPersonIdB, $siteIdB, $customerId, $naturalPersonIdB);
-        $this->burialC    = new Burial($idC, $burialCodeC, $naturalPersonIdC, $siteIdC, null, $naturalPersonIdC);
+        $idA               = new BurialId('B001');
+        $idB               = new BurialId('B002');
+        $idC               = new BurialId('B003');
+        $burialCodeA       = new BurialCode('BC001');
+        $burialCodeB       = new BurialCode('BC002');
+        $burialCodeC       = new BurialCode('BC003');
+        $naturalPersonIdA  = new NaturalPersonId('NP001');
+        $naturalPersonIdB  = new NaturalPersonId('NP002');
+        $naturalPersonIdC  = new NaturalPersonId('NP003');
+        $customerId        = new CustomerId('C001', CustomerType::naturalPerson());
+        $siteIdA           = new SiteId('S001');
+        $siteIdB           = new SiteId('S002');
+        $siteIdC           = new SiteId('S003');
+        $funeralCompanyIdC = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
+        $this->burialA     = new Burial($idA, $burialCodeA, $naturalPersonIdA, $siteIdA, $customerId, null, null);
+        $this->burialB     = new Burial($idB, $burialCodeB, $naturalPersonIdB, $siteIdB, $customerId, $naturalPersonIdB, null);
+        $this->burialC     = new Burial($idC, $burialCodeC, $naturalPersonIdC, $siteIdC, null, $naturalPersonIdC, $funeralCompanyIdC);
     }
 
     private function truncateEntities(): void
