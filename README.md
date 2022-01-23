@@ -6,6 +6,5 @@ dev:
 
 test:
     make init
-    make -- cli mkdir var/data
     make -- sf doctrine:database:create --env=test
     make -- sf doctrine:schema:create --env=test
