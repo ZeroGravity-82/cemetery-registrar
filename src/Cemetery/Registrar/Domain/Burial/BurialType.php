@@ -9,12 +9,10 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialType
 {
-    public const COFFIN_IN_GROUND          = 'coffin_in_ground';
-    public const URN_IN_GROUND             = 'urn_in_ground';
-    public const URN_IN_OPEN_COLUMBARIUM   = 'urn_in_open_columbarium';
-    public const URN_IN_CLOSED_COLUMBARIUM = 'urn_in_closed_columbarium';
-    public const URN_IN_SARCOPHAGUS        = 'urn_in_sarcophagus';
-    public const ASHES_UNDER_TREE          = 'ashes_under_tree';
+    public const COFFIN_IN_GRAVE    = 'coffin_in_grave';
+    public const URN_IN_GRAVE       = 'urn_in_grave';
+    public const URN_IN_COLUMBARIUM = 'urn_in_columbarium';
+    public const ASHES_UNDER_TREE   = 'ashes_under_tree';
 
     /**
      * @param string $value
@@ -28,41 +26,25 @@ final class BurialType
     /**
      * @return self
      */
-    public static function coffinInGround(): self
+    public static function coffinInGrave(): self
     {
-        return new self(self::COFFIN_IN_GROUND);
+        return new self(self::COFFIN_IN_GRAVE);
     }
 
     /**
      * @return self
      */
-    public static function urnInGround(): self
+    public static function urnInGrave(): self
     {
-        return new self(self::URN_IN_GROUND);
+        return new self(self::URN_IN_GRAVE);
     }
 
     /**
      * @return self
      */
-    public static function urnInOpenColumbarium(): self
+    public static function urnInColumbarium(): self
     {
-        return new self(self::URN_IN_OPEN_COLUMBARIUM);
-    }
-
-    /**
-     * @return self
-     */
-    public static function urnInClosedColumbarium(): self
-    {
-        return new self(self::URN_IN_CLOSED_COLUMBARIUM);
-    }
-
-    /**
-     * @return self
-     */
-    public static function urnInSarcophagus(): self
-    {
-        return new self(self::URN_IN_SARCOPHAGUS);
+        return new self(self::URN_IN_COLUMBARIUM);
     }
 
     /**
@@ -102,41 +84,25 @@ final class BurialType
     /**
      * @return bool
      */
-    public function isCoffinInGround(): bool
+    public function isCoffinInGrave(): bool
     {
-        return $this->value === self::COFFIN_IN_GROUND;
+        return $this->value === self::COFFIN_IN_GRAVE;
     }
 
     /**
      * @return bool
      */
-    public function isUrnInGround(): bool
+    public function isUrnInGrave(): bool
     {
-        return $this->value === self::URN_IN_GROUND;
+        return $this->value === self::URN_IN_GRAVE;
     }
 
     /**
      * @return bool
      */
-    public function isUrnInOpenColumbarium(): bool
+    public function isUrnInColumbarium(): bool
     {
-        return $this->value === self::URN_IN_OPEN_COLUMBARIUM;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isUrnInClosedColumbarium(): bool
-    {
-        return $this->value === self::URN_IN_CLOSED_COLUMBARIUM;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isUrnInSarcophagus(): bool
-    {
-        return $this->value === self::URN_IN_SARCOPHAGUS;
+        return $this->value === self::URN_IN_COLUMBARIUM;
     }
 
     /**
@@ -155,11 +121,9 @@ final class BurialType
     private function assertValidValue(string $value): void
     {
         $supportedBurialTypes = [
-            self::COFFIN_IN_GROUND,
-            self::URN_IN_GROUND,
-            self::URN_IN_OPEN_COLUMBARIUM,
-            self::URN_IN_CLOSED_COLUMBARIUM,
-            self::URN_IN_SARCOPHAGUS,
+            self::COFFIN_IN_GRAVE,
+            self::URN_IN_GRAVE,
+            self::URN_IN_COLUMBARIUM,
             self::ASHES_UNDER_TREE,
         ];
         if (!\in_array($value, $supportedBurialTypes)) {

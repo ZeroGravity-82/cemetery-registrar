@@ -14,22 +14,18 @@ class BurialTypeTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialType = new BurialType(BurialType::COFFIN_IN_GROUND);
-        $this->assertSame(BurialType::COFFIN_IN_GROUND, $burialType->getValue());
-        $this->assertTrue($burialType->isCoffinInGround());
-        $this->assertFalse($burialType->isUrnInGround());
-        $this->assertFalse($burialType->isUrnInOpenColumbarium());
-        $this->assertFalse($burialType->isUrnInClosedColumbarium());
-        $this->assertFalse($burialType->isUrnInSarcophagus());
+        $burialType = new BurialType(BurialType::COFFIN_IN_GRAVE);
+        $this->assertSame(BurialType::COFFIN_IN_GRAVE, $burialType->getValue());
+        $this->assertTrue($burialType->isCoffinInGrave());
+        $this->assertFalse($burialType->isUrnInGrave());
+        $this->assertFalse($burialType->isUrnInColumbarium());
         $this->assertFalse($burialType->isAshesUnderTree());
 
-        $burialType = BurialType::urnInOpenColumbarium();
-        $this->assertSame(BurialType::URN_IN_OPEN_COLUMBARIUM, $burialType->getValue());
-        $this->assertFalse($burialType->isCoffinInGround());
-        $this->assertFalse($burialType->isUrnInGround());
-        $this->assertTrue($burialType->isUrnInOpenColumbarium());
-        $this->assertFalse($burialType->isUrnInClosedColumbarium());
-        $this->assertFalse($burialType->isUrnInSarcophagus());
+        $burialType = BurialType::urnInColumbarium();
+        $this->assertSame(BurialType::URN_IN_COLUMBARIUM, $burialType->getValue());
+        $this->assertFalse($burialType->isCoffinInGrave());
+        $this->assertFalse($burialType->isUrnInGrave());
+        $this->assertTrue($burialType->isUrnInColumbarium());
         $this->assertFalse($burialType->isAshesUnderTree());
     }
 
@@ -37,12 +33,10 @@ class BurialTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Unsupported burial type "wrong_type", expected to be one of "%s", "%s", "%s", "%s", "%s", "%s".',
-            BurialType::COFFIN_IN_GROUND,
-            BurialType::URN_IN_GROUND,
-            BurialType::URN_IN_OPEN_COLUMBARIUM,
-            BurialType::URN_IN_CLOSED_COLUMBARIUM,
-            BurialType::URN_IN_SARCOPHAGUS,
+            'Unsupported burial type "wrong_type", expected to be one of "%s", "%s", "%s", "%s".',
+            BurialType::COFFIN_IN_GRAVE,
+            BurialType::URN_IN_GRAVE,
+            BurialType::URN_IN_COLUMBARIUM,
             BurialType::ASHES_UNDER_TREE,
         ));
         new BurialType('wrong_type');
@@ -50,36 +44,25 @@ class BurialTypeTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $burialType = BurialType::coffinInGround();
+        $burialType = BurialType::coffinInGrave();
 
-        $this->assertSame(BurialType::COFFIN_IN_GROUND, (string) $burialType);
+        $this->assertSame(BurialType::COFFIN_IN_GRAVE, (string) $burialType);
     }
 
     public function testItComparable(): void
     {
-        $burialTypeCoffinInGroundA        = BurialType::coffinInGround();
-        $burialTypeUrnInGround            = BurialType::urnInGround();
-        $burialTypeUrnInOpenColumbarium   = BurialType::urnInOpenColumbarium();
-        $burialTypeUrnInClosedColumbarium = BurialType::urnInClosedColumbarium();
-        $burialTypeUrnInSarcophagus       = BurialType::urnInSarcophagus();
-        $burialTypeAshesUnderTree         = BurialType::ashesUnderTree();
-        $burialTypeCoffinInGroundB        = BurialType::coffinInGround();
+        $burialTypeCoffinInGraveA   = BurialType::coffinInGrave();
+        $burialTypeUrnInGround      = BurialType::urnInGrave();
+        $burialTypeUrnInColumbarium = BurialType::urnInColumbarium();
+        $burialTypeAshesUnderTree   = BurialType::ashesUnderTree();
+        $burialTypeCoffinInGraveB   = BurialType::coffinInGrave();
 
-        $this->assertFalse($burialTypeCoffinInGroundA->isEqual($burialTypeUrnInGround));
-        $this->assertFalse($burialTypeCoffinInGroundA->isEqual($burialTypeUrnInOpenColumbarium));
-        $this->assertFalse($burialTypeCoffinInGroundA->isEqual($burialTypeUrnInClosedColumbarium));
-        $this->assertFalse($burialTypeCoffinInGroundA->isEqual($burialTypeUrnInSarcophagus));
-        $this->assertFalse($burialTypeCoffinInGroundA->isEqual($burialTypeAshesUnderTree));
-        $this->assertTrue($burialTypeCoffinInGroundA->isEqual($burialTypeCoffinInGroundB));
-        $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeUrnInOpenColumbarium));
-        $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeUrnInClosedColumbarium));
-        $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeUrnInSarcophagus));
+        $this->assertFalse($burialTypeCoffinInGraveA->isEqual($burialTypeUrnInGround));
+        $this->assertFalse($burialTypeCoffinInGraveA->isEqual($burialTypeUrnInColumbarium));
+        $this->assertFalse($burialTypeCoffinInGraveA->isEqual($burialTypeAshesUnderTree));
+        $this->assertTrue($burialTypeCoffinInGraveA->isEqual($burialTypeCoffinInGraveB));
+        $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeUrnInColumbarium));
         $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeAshesUnderTree));
-        $this->assertFalse($burialTypeUrnInOpenColumbarium->isEqual($burialTypeUrnInClosedColumbarium));
-        $this->assertFalse($burialTypeUrnInOpenColumbarium->isEqual($burialTypeUrnInSarcophagus));
-        $this->assertFalse($burialTypeUrnInOpenColumbarium->isEqual($burialTypeAshesUnderTree));
-        $this->assertFalse($burialTypeUrnInClosedColumbarium->isEqual($burialTypeUrnInSarcophagus));
-        $this->assertFalse($burialTypeUrnInClosedColumbarium->isEqual($burialTypeAshesUnderTree));
-        $this->assertFalse($burialTypeUrnInSarcophagus->isEqual($burialTypeAshesUnderTree));
+        $this->assertFalse($burialTypeUrnInColumbarium->isEqual($burialTypeAshesUnderTree));
     }
 }
