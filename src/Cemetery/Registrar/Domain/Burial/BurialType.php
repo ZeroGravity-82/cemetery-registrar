@@ -9,10 +9,10 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialType
 {
-    public const COFFIN_IN_GRAVE_SITE    = 'coffin_in_grave';
-    public const URN_IN_GRAVE_SITE       = 'urn_in_grave';
-    public const URN_IN_COLUMBARIUM_NICHE = 'urn_in_columbarium';
-    public const ASHES_UNDER_MEMORIAL_TREE   = 'ashes_under_tree';
+    public const COFFIN_IN_GRAVE_SITE      = 'coffin_in_grave';
+    public const URN_IN_GRAVE_SITE         = 'urn_in_grave';
+    public const URN_IN_COLUMBARIUM_NICHE  = 'urn_in_columbarium';
+    public const ASHES_UNDER_MEMORIAL_TREE = 'ashes_under_tree';
 
     /**
      * @param string $value
