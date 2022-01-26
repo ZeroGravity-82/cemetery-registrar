@@ -9,10 +9,10 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialType
 {
-    public const COFFIN_IN_GRAVE    = 'coffin_in_grave';
-    public const URN_IN_GRAVE       = 'urn_in_grave';
-    public const URN_IN_COLUMBARIUM = 'urn_in_columbarium';
-    public const ASHES_UNDER_TREE   = 'ashes_under_tree';
+    public const COFFIN_IN_GRAVE_SITE    = 'coffin_in_grave';
+    public const URN_IN_GRAVE_SITE       = 'urn_in_grave';
+    public const URN_IN_COLUMBARIUM_NICHE = 'urn_in_columbarium';
+    public const ASHES_UNDER_MEMORIAL_TREE   = 'ashes_under_tree';
 
     /**
      * @param string $value
@@ -26,33 +26,33 @@ final class BurialType
     /**
      * @return self
      */
-    public static function coffinInGrave(): self
+    public static function coffinInGraveSite(): self
     {
-        return new self(self::COFFIN_IN_GRAVE);
+        return new self(self::COFFIN_IN_GRAVE_SITE);
     }
 
     /**
      * @return self
      */
-    public static function urnInGrave(): self
+    public static function urnInGraveSite(): self
     {
-        return new self(self::URN_IN_GRAVE);
+        return new self(self::URN_IN_GRAVE_SITE);
     }
 
     /**
      * @return self
      */
-    public static function urnInColumbarium(): self
+    public static function urnInColumbariumNiche(): self
     {
-        return new self(self::URN_IN_COLUMBARIUM);
+        return new self(self::URN_IN_COLUMBARIUM_NICHE);
     }
 
     /**
      * @return self
      */
-    public static function ashesUnderTree(): self
+    public static function ashesUnderMemorialTree(): self
     {
-        return new self(self::ASHES_UNDER_TREE);
+        return new self(self::ASHES_UNDER_MEMORIAL_TREE);
     }
 
     /**
@@ -84,33 +84,33 @@ final class BurialType
     /**
      * @return bool
      */
-    public function isCoffinInGrave(): bool
+    public function isCoffinInGraveSite(): bool
     {
-        return $this->value === self::COFFIN_IN_GRAVE;
+        return $this->value === self::COFFIN_IN_GRAVE_SITE;
     }
 
     /**
      * @return bool
      */
-    public function isUrnInGrave(): bool
+    public function isUrnInGraveSite(): bool
     {
-        return $this->value === self::URN_IN_GRAVE;
+        return $this->value === self::URN_IN_GRAVE_SITE;
     }
 
     /**
      * @return bool
      */
-    public function isUrnInColumbarium(): bool
+    public function isUrnInColumbariumNiche(): bool
     {
-        return $this->value === self::URN_IN_COLUMBARIUM;
+        return $this->value === self::URN_IN_COLUMBARIUM_NICHE;
     }
 
     /**
      * @return bool
      */
-    public function isAshesUnderTree(): bool
+    public function isAshesUnderMemorialTree(): bool
     {
-        return $this->value === self::ASHES_UNDER_TREE;
+        return $this->value === self::ASHES_UNDER_MEMORIAL_TREE;
     }
 
     /**
@@ -121,10 +121,10 @@ final class BurialType
     private function assertValidValue(string $value): void
     {
         $supportedBurialTypes = [
-            self::COFFIN_IN_GRAVE,
-            self::URN_IN_GRAVE,
-            self::URN_IN_COLUMBARIUM,
-            self::ASHES_UNDER_TREE,
+            self::COFFIN_IN_GRAVE_SITE,
+            self::URN_IN_GRAVE_SITE,
+            self::URN_IN_COLUMBARIUM_NICHE,
+            self::ASHES_UNDER_MEMORIAL_TREE,
         ];
         if (!\in_array($value, $supportedBurialTypes)) {
             throw new \InvalidArgumentException(\sprintf(
