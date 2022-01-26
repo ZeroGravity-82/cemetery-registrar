@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
 
-use Cemetery\Registrar\Domain\Site\SiteId;
+use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SiteIdType extends StringType
+class BurialPlaceTypeType extends StringType
 {
-    private const SITE_ID_TYPE = 'site_id';
+    private const BURIAL_PLACE_TYPE_TYPE = 'burial_place_type';
 
     /**
-     * Registers SiteId type to the type map.
+     * Registers BurialPlaceType type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::SITE_ID_TYPE)) {
+        if (self::hasType(self::BURIAL_PLACE_TYPE_TYPE)) {
             return;
         }
-        self::addType(self::SITE_ID_TYPE, self::class);
+        self::addType(self::BURIAL_PLACE_TYPE_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class SiteIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof SiteId ? $value->getValue() : $value;
+        return $value instanceof BurialPlaceType ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?SiteId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialPlaceType
     {
-        return !empty($value) ? new SiteId($value) : null;
+        return !empty($value) ? new BurialPlaceType($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class SiteIdType extends StringType
      */
     public function getName(): string
     {
-        return self::SITE_ID_TYPE;
+        return self::BURIAL_PLACE_TYPE_TYPE;
     }
 
     /**

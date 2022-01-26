@@ -7,12 +7,13 @@ namespace Cemetery\Tests\Registrar\Domain\Burial;
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialId;
+use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Site\SiteId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,20 +23,20 @@ class BurialTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialId         = new BurialId('B001');
-        $burialCode       = new BurialCode('BC001');
-        $deceasedId       = new NaturalPersonId('NP001');
-        $siteId           = new SiteId('S001');
-        $customerId       = new CustomerId('C001', CustomerType::naturalPerson());
-        $siteOwnerId      = new NaturalPersonId('NP002');
-        $funeralCompanyId = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
-        $burial           = new Burial(
+        $burialId           = new BurialId('B001');
+        $burialCode         = new BurialCode('BC001');
+        $deceasedId         = new NaturalPersonId('NP001');
+        $burialPlaceId      = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
+        $customerId         = new CustomerId('C001', CustomerType::naturalPerson());
+        $burialPlaceOwnerId = new NaturalPersonId('NP002');
+        $funeralCompanyId   = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
+        $burial             = new Burial(
             $burialId,
             $burialCode,
             $deceasedId,
-            $siteId,
+            $burialPlaceId,
             $customerId,
-            $siteOwnerId,
+            $burialPlaceOwnerId,
             $funeralCompanyId,
         );
 
@@ -45,13 +46,14 @@ class BurialTest extends TestCase
         $this->assertSame('BC001', (string) $burial->getCode());
         $this->assertInstanceOf(NaturalPersonId::class, $burial->getDeceasedId());
         $this->assertSame('NP001', (string) $burial->getDeceasedId());
-        $this->assertInstanceOf(SiteId::class, $burial->getSiteId());
-        $this->assertSame('S001', (string) $burial->getSiteId());
+        $this->assertInstanceOf(BurialPlaceId::class, $burial->getBurialPlaceId());
+        $this->assertSame('BP001', (string) $burial->getBurialPlaceId()->getValue());
+        $this->assertSame(BurialPlaceType::GRAVE_SITE, (string) $burial->getBurialPlaceId()->getType());
         $this->assertInstanceOf(CustomerId::class, $burial->getCustomerId());
         $this->assertSame('C001', $burial->getCustomerId()->getValue());
         $this->assertSame(CustomerType::NATURAL_PERSON, (string) $burial->getCustomerId()->getType());
-        $this->assertInstanceOf(NaturalPersonId::class, $burial->getSiteOwnerId());
-        $this->assertSame('NP002', (string) $burial->getSiteOwnerId());
+        $this->assertInstanceOf(NaturalPersonId::class, $burial->getBurialPlaceOwnerId());
+        $this->assertSame('NP002', (string) $burial->getBurialPlaceOwnerId());
         $this->assertInstanceOf(FuneralCompanyId::class, $burial->getFuneralCompanyId());
         $this->assertSame('FC001', $burial->getFuneralCompanyId()->getValue());
         $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
@@ -65,8 +67,7 @@ class BurialTest extends TestCase
         $burialId   = new BurialId('B001');
         $burialCode = new BurialCode('BC001');
         $deceasedId = new NaturalPersonId('NP001');
-        $siteId     = new SiteId('S001');
-        $burial     = new Burial($burialId, $burialCode, $deceasedId, $siteId, null, null, null);
+        $burial     = new Burial($burialId, $burialCode, $deceasedId, null, null, null, null);
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
         $this->assertSame('B001', (string) $burial->getId());
@@ -74,10 +75,9 @@ class BurialTest extends TestCase
         $this->assertSame('BC001', (string) $burial->getCode());
         $this->assertInstanceOf(NaturalPersonId::class, $burial->getDeceasedId());
         $this->assertSame('NP001', (string) $burial->getDeceasedId());
-        $this->assertInstanceOf(SiteId::class, $burial->getSiteId());
-        $this->assertSame('S001', (string) $burial->getSiteId());
+        $this->assertNull($burial->getBurialPlaceId());
         $this->assertNull($burial->getCustomerId());
-        $this->assertNull($burial->getSiteOwnerId());
+        $this->assertNull($burial->getBurialPlaceOwnerId());
         $this->assertNull($burial->getFuneralCompanyId());
     }
 }

@@ -31,5 +31,6 @@ services:
         tags:
             - { name: 'doctrine.orm.entity_listener', entity: 'Cemetery\Registrar\Domain\Burial\Burial', event: 'postLoad' }
         calls:
+            - ['addMapping', ['Cemetery\Registrar\Domain\Burial\Burial', 'burialPlaceId']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Burial\Burial', 'customerId']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Burial\Burial', 'funeralCompanyId']]

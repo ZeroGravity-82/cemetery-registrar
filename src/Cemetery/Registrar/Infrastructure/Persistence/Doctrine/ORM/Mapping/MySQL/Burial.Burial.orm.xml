@@ -12,13 +12,13 @@
             <unique-constraint columns="deceased_id" name="burial_deceased_id_uq" />
         </unique-constraints>
 
-        <field name="code"        column="code"          type="burial_code"                        />
-        <field name="deceasedId"  column="deceased_id"   type="natural_person_id"                  />
-        <field name="siteId"      column="site_id"       type="site_id"                            />
-        <field name="siteOwnerId" column="site_owner_id" type="natural_person_id"  nullable="true" />
-        <field name="createdAt"   column="created_at"    type="datetime_immutable"                 />
-        <field name="updatedAt"   column="updated_at"    type="datetime_immutable"                 />
+        <field name="code"               column="code"                  type="burial_code"                        />
+        <field name="deceasedId"         column="deceased_id"           type="natural_person_id"                  />
+        <field name="burialPlaceOwnerId" column="burial_place_owner_id" type="natural_person_id"  nullable="true" />
+        <field name="createdAt"          column="created_at"            type="datetime_immutable"                 />
+        <field name="updatedAt"          column="updated_at"            type="datetime_immutable"                 />
 
+        <embedded name="burialPlaceId"    class="BurialPlaceId"    use-column-prefix="false" />
         <embedded name="customerId"       class="CustomerId"       use-column-prefix="false" />
         <embedded name="funeralCompanyId" class="FuneralCompanyId" use-column-prefix="false" />
     </entity>

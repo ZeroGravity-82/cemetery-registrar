@@ -6,7 +6,6 @@ namespace Cemetery\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Site\SiteId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -17,18 +16,18 @@ final class Burial extends AbstractAggregateRoot
      * @param BurialId              $id
      * @param BurialCode            $code
      * @param NaturalPersonId       $deceasedId
-     * @param SiteId                $siteId
+     * @param BurialPlaceId|null    $burialPlaceId
      * @param CustomerId|null       $customerId
-     * @param NaturalPersonId|null  $siteOwnerId
+     * @param NaturalPersonId|null  $burialPlaceOwnerId
      * @param FuneralCompanyId|null $funeralCompanyId
      */
     public function __construct(
         private BurialId          $id,
         private BurialCode        $code,
         private NaturalPersonId   $deceasedId,
-        private SiteId            $siteId,
+        private ?BurialPlaceId    $burialPlaceId,
         private ?CustomerId       $customerId,
-        private ?NaturalPersonId  $siteOwnerId,
+        private ?NaturalPersonId  $burialPlaceOwnerId,
         private ?FuneralCompanyId $funeralCompanyId,
     ) {
         parent::__construct();
@@ -59,11 +58,19 @@ final class Burial extends AbstractAggregateRoot
     }
 
     /**
-     * @return SiteId
+     * @return BurialPlaceId|null
      */
-    public function getSiteId(): SiteId
+    public function getBurialPlaceId(): ?BurialPlaceId
     {
-        return $this->siteId;
+        return $this->burialPlaceId;
+    }
+
+    /**
+     * @param BurialPlaceId|null $burialPlaceId
+     */
+    public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): void
+    {
+        $this->burialPlaceId = $burialPlaceId;
     }
 
     /**
@@ -85,17 +92,17 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return NaturalPersonId|null
      */
-    public function getSiteOwnerId(): ?NaturalPersonId
+    public function getBurialPlaceOwnerId(): ?NaturalPersonId
     {
-        return $this->siteOwnerId;
+        return $this->burialPlaceOwnerId;
     }
 
     /**
-     * @param NaturalPersonId|null $siteOwnerId
+     * @param NaturalPersonId|null $burialPlaceOwnerId
      */
-    public function setSiteOwnerId(?NaturalPersonId $siteOwnerId): void
+    public function setBurialPlaceOwnerId(?NaturalPersonId $burialPlaceOwnerId): void
     {
-        $this->siteOwnerId = $siteOwnerId;
+        $this->burialPlaceOwnerId = $burialPlaceOwnerId;
     }
 
     /**
