@@ -45,12 +45,12 @@ class FuneralCompanyTypeTest extends TestCase
 
     public function testItComparable(): void
     {
-        $funeralCompanyTypeSoleProprietorA = FuneralCompanyType::soleProprietor();
-        $funeralCompanyTypeJuristicPerson  = FuneralCompanyType::juristicPerson();
-        $funeralCompanyTypeSoleProprietorB = FuneralCompanyType::soleProprietor();
+        $funeralCompanyTypeA = FuneralCompanyType::soleProprietor();
+        $funeralCompanyTypeB = FuneralCompanyType::juristicPerson();
+        $funeralCompanyTypeC = FuneralCompanyType::soleProprietor();
 
-        $this->assertFalse($funeralCompanyTypeSoleProprietorA->isEqual($funeralCompanyTypeJuristicPerson));
-        $this->assertTrue($funeralCompanyTypeSoleProprietorA->isEqual($funeralCompanyTypeSoleProprietorB));
-        $this->assertFalse($funeralCompanyTypeJuristicPerson->isEqual($funeralCompanyTypeSoleProprietorB));
+        $this->assertFalse($funeralCompanyTypeA->isEqual($funeralCompanyTypeB));
+        $this->assertTrue($funeralCompanyTypeA->isEqual($funeralCompanyTypeC));
+        $this->assertFalse($funeralCompanyTypeB->isEqual($funeralCompanyTypeC));
     }
 }

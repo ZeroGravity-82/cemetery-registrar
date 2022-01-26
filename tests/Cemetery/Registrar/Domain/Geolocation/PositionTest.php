@@ -54,18 +54,18 @@ class PositionTest extends TestCase
 
     public function testItComparable(): void
     {
-        $positionA  = new Position($this->coordinatesA, $this->accuracyA);
-        $positionB1 = new Position($this->coordinatesA, $this->accuracyB);
-        $positionB2 = new Position($this->coordinatesB);
-        $positionB3 = new Position($this->coordinatesC, $this->accuracyA);
-        $positionC  = new Position($this->coordinatesA, $this->accuracyA);
+        $positionA = new Position($this->coordinatesA, $this->accuracyA);
+        $positionB = new Position($this->coordinatesA, $this->accuracyB);
+        $positionC = new Position($this->coordinatesB);
+        $positionD = new Position($this->coordinatesC, $this->accuracyA);
+        $positionE = new Position($this->coordinatesA, $this->accuracyA);
 
-        $this->assertFalse($positionA->isEqual($positionB1));
-        $this->assertFalse($positionA->isEqual($positionB2));
-        $this->assertFalse($positionA->isEqual($positionB3));
-        $this->assertTrue($positionA->isEqual($positionC));
-        $this->assertFalse($positionB1->isEqual($positionC));
-        $this->assertFalse($positionB2->isEqual($positionC));
-        $this->assertFalse($positionB3->isEqual($positionC));
+        $this->assertFalse($positionA->isEqual($positionB));
+        $this->assertFalse($positionA->isEqual($positionC));
+        $this->assertFalse($positionA->isEqual($positionD));
+        $this->assertTrue($positionA->isEqual($positionE));
+        $this->assertFalse($positionB->isEqual($positionE));
+        $this->assertFalse($positionC->isEqual($positionE));
+        $this->assertFalse($positionD->isEqual($positionE));
     }
 }

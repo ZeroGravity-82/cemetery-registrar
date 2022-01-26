@@ -48,16 +48,16 @@ class CustomerTypeTest extends TestCase
 
     public function testItComparable(): void
     {
-        $customerTypeNaturalPersonA = CustomerType::naturalPerson();
-        $customerTypeSoleProprietor = CustomerType::soleProprietor();
-        $customerTypeJuristicPerson = CustomerType::juristicPerson();
-        $customerTypeNaturalPersonB = CustomerType::naturalPerson();
+        $customerTypeA = CustomerType::naturalPerson();
+        $customerTypeB = CustomerType::soleProprietor();
+        $customerTypeC = CustomerType::juristicPerson();
+        $customerTypeD = CustomerType::naturalPerson();
 
-        $this->assertFalse($customerTypeNaturalPersonA->isEqual($customerTypeSoleProprietor));
-        $this->assertFalse($customerTypeNaturalPersonA->isEqual($customerTypeJuristicPerson));
-        $this->assertTrue($customerTypeNaturalPersonA->isEqual($customerTypeNaturalPersonB));
-        $this->assertFalse($customerTypeSoleProprietor->isEqual($customerTypeJuristicPerson));
-        $this->assertFalse($customerTypeSoleProprietor->isEqual($customerTypeNaturalPersonB));
-        $this->assertFalse($customerTypeJuristicPerson->isEqual($customerTypeNaturalPersonB));
+        $this->assertFalse($customerTypeA->isEqual($customerTypeB));
+        $this->assertFalse($customerTypeA->isEqual($customerTypeC));
+        $this->assertTrue($customerTypeA->isEqual($customerTypeD));
+        $this->assertFalse($customerTypeB->isEqual($customerTypeC));
+        $this->assertFalse($customerTypeB->isEqual($customerTypeD));
+        $this->assertFalse($customerTypeC->isEqual($customerTypeD));
     }
 }

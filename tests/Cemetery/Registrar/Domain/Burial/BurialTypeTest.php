@@ -51,18 +51,18 @@ class BurialTypeTest extends TestCase
 
     public function testItComparable(): void
     {
-        $burialTypeCoffinInGraveA   = BurialType::coffinInGrave();
-        $burialTypeUrnInGround      = BurialType::urnInGrave();
-        $burialTypeUrnInColumbarium = BurialType::urnInColumbarium();
-        $burialTypeAshesUnderTree   = BurialType::ashesUnderTree();
-        $burialTypeCoffinInGraveB   = BurialType::coffinInGrave();
+        $burialTypeA = BurialType::coffinInGrave();
+        $burialTypeB = BurialType::urnInGrave();
+        $burialTypeC = BurialType::urnInColumbarium();
+        $burialTypeD = BurialType::ashesUnderTree();
+        $burialTypeE = BurialType::coffinInGrave();
 
-        $this->assertFalse($burialTypeCoffinInGraveA->isEqual($burialTypeUrnInGround));
-        $this->assertFalse($burialTypeCoffinInGraveA->isEqual($burialTypeUrnInColumbarium));
-        $this->assertFalse($burialTypeCoffinInGraveA->isEqual($burialTypeAshesUnderTree));
-        $this->assertTrue($burialTypeCoffinInGraveA->isEqual($burialTypeCoffinInGraveB));
-        $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeUrnInColumbarium));
-        $this->assertFalse($burialTypeUrnInGround->isEqual($burialTypeAshesUnderTree));
-        $this->assertFalse($burialTypeUrnInColumbarium->isEqual($burialTypeAshesUnderTree));
+        $this->assertFalse($burialTypeA->isEqual($burialTypeB));
+        $this->assertFalse($burialTypeA->isEqual($burialTypeC));
+        $this->assertFalse($burialTypeA->isEqual($burialTypeD));
+        $this->assertTrue($burialTypeA->isEqual($burialTypeE));
+        $this->assertFalse($burialTypeB->isEqual($burialTypeC));
+        $this->assertFalse($burialTypeB->isEqual($burialTypeD));
+        $this->assertFalse($burialTypeC->isEqual($burialTypeD));
     }
 }

@@ -80,15 +80,15 @@ class CoordinatesTest extends TestCase
 
     public function testItComparable(): void
     {
-        $coordinatesA  = new Coordinates('54.950357', '82.7972252');
-        $coordinatesB1 = new Coordinates('44.950357', '82.7972252');
-        $coordinatesB2 = new Coordinates('54.950357', '72.7972252');
-        $coordinatesC  = new Coordinates('54.950357', '82.7972252');
+        $coordinatesA = new Coordinates('54.950357', '82.7972252');
+        $coordinatesB = new Coordinates('44.950357', '82.7972252');
+        $coordinatesC = new Coordinates('54.950357', '72.7972252');
+        $coordinatesD = new Coordinates('54.950357', '82.7972252');
 
-        $this->assertFalse($coordinatesA->isEqual($coordinatesB1));
-        $this->assertFalse($coordinatesA->isEqual($coordinatesB2));
-        $this->assertTrue($coordinatesA->isEqual($coordinatesC));
-        $this->assertFalse($coordinatesB1->isEqual($coordinatesC));
-        $this->assertFalse($coordinatesB2->isEqual($coordinatesC));
+        $this->assertFalse($coordinatesA->isEqual($coordinatesB));
+        $this->assertFalse($coordinatesA->isEqual($coordinatesC));
+        $this->assertTrue($coordinatesA->isEqual($coordinatesD));
+        $this->assertFalse($coordinatesB->isEqual($coordinatesD));
+        $this->assertFalse($coordinatesC->isEqual($coordinatesD));
     }
 }
