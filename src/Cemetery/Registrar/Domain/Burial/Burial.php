@@ -16,8 +16,8 @@ final class Burial extends AbstractAggregateRoot
      * @param BurialId              $id
      * @param BurialCode            $code
      * @param NaturalPersonId       $deceasedId
-     * @param BurialPlaceId|null    $burialPlaceId
      * @param CustomerId|null       $customerId
+     * @param BurialPlaceId|null    $burialPlaceId
      * @param NaturalPersonId|null  $burialPlaceOwnerId
      * @param FuneralCompanyId|null $funeralCompanyId
      */
@@ -25,8 +25,8 @@ final class Burial extends AbstractAggregateRoot
         private BurialId          $id,
         private BurialCode        $code,
         private NaturalPersonId   $deceasedId,
-        private ?BurialPlaceId    $burialPlaceId,
         private ?CustomerId       $customerId,
+        private ?BurialPlaceId    $burialPlaceId,
         private ?NaturalPersonId  $burialPlaceOwnerId,
         private ?FuneralCompanyId $funeralCompanyId,
     ) {
@@ -58,22 +58,6 @@ final class Burial extends AbstractAggregateRoot
     }
 
     /**
-     * @return BurialPlaceId|null
-     */
-    public function getBurialPlaceId(): ?BurialPlaceId
-    {
-        return $this->burialPlaceId;
-    }
-
-    /**
-     * @param BurialPlaceId|null $burialPlaceId
-     */
-    public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): void
-    {
-        $this->burialPlaceId = $burialPlaceId;
-    }
-
-    /**
      * @return CustomerId|null
      */
     public function getCustomerId(): ?CustomerId
@@ -87,6 +71,22 @@ final class Burial extends AbstractAggregateRoot
     public function setCustomerId(?CustomerId $customerId): void
     {
         $this->customerId = $customerId;
+    }
+
+    /**
+     * @return BurialPlaceId|null
+     */
+    public function getBurialPlaceId(): ?BurialPlaceId
+    {
+        return $this->burialPlaceId;
+    }
+
+    /**
+     * @param BurialPlaceId|null $burialPlaceId
+     */
+    public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): void
+    {
+        $this->burialPlaceId = $burialPlaceId;
     }
 
     /**

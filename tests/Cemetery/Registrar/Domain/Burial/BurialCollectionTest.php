@@ -41,10 +41,10 @@ class BurialCollectionTest extends AbstractEntityCollectionTest
         $siteIdB           = new BurialPlaceId('BP002', BurialPlaceType::graveSite());
         $siteIdC           = new BurialPlaceId('BP003', BurialPlaceType::memorialTree());
         $funeralCompanyIdC = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
-        $this->entityA     = new Burial($this->idA, $burialCodeA, $naturalPersonIdA, $siteIdA, $customerId, null, null);
-        $this->entityB     = new Burial($this->idB, $burialCodeB, $naturalPersonIdB, $siteIdB, $customerId, $naturalPersonIdB, null);
-        $this->entityC     = new Burial($this->idC, $burialCodeC, $naturalPersonIdC, $siteIdC, $customerId, $naturalPersonIdC, $funeralCompanyIdC);
-        $this->entityD     = new Burial($this->idD, $burialCodeD, $naturalPersonIdD, null, $customerId, null, null);
+        $this->entityA     = new Burial($this->idA, $burialCodeA, $naturalPersonIdA, $customerId, $siteIdA, null, null);
+        $this->entityB     = new Burial($this->idB, $burialCodeB, $naturalPersonIdB, $customerId, $siteIdB, $naturalPersonIdB, null);
+        $this->entityC     = new Burial($this->idC, $burialCodeC, $naturalPersonIdC, $customerId, $siteIdC, $naturalPersonIdC, $funeralCompanyIdC);
+        $this->entityD     = new Burial($this->idD, $burialCodeD, $naturalPersonIdD, $customerId, null, null, null);
         $this->collection  = new BurialCollection([$this->entityA]);
     }
 
