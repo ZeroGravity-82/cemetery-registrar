@@ -1,0 +1,16 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson" table="natural_person">
+        <id name="id" column="id" type="natural_person_id">
+        </id>
+
+        <field name="fullName"  column="full_name"  type="full_name"          nullable="true" />
+        <field name="bornAt"    column="born_at"    type="datetime_immutable" nullable="true" />
+        <field name="createdAt" column="created_at" type="datetime_immutable"                 />
+        <field name="updatedAt" column="updated_at" type="datetime_immutable"                 />
+    </entity>
+
+</doctrine-mapping>
