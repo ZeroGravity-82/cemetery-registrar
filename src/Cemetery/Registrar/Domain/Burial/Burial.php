@@ -13,22 +13,24 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class Burial extends AbstractAggregateRoot
 {
     /**
-     * @param BurialId              $id
-     * @param BurialCode            $code
-     * @param NaturalPersonId       $deceasedId
-     * @param CustomerId|null       $customerId
-     * @param BurialPlaceId|null    $burialPlaceId
-     * @param NaturalPersonId|null  $burialPlaceOwnerId
-     * @param FuneralCompanyId|null $funeralCompanyId
+     * @param BurialId               $id
+     * @param BurialCode             $code
+     * @param NaturalPersonId        $deceasedId
+     * @param CustomerId|null        $customerId
+     * @param BurialPlaceId|null     $burialPlaceId
+     * @param NaturalPersonId|null   $burialPlaceOwnerId
+     * @param FuneralCompanyId|null  $funeralCompanyId
+     * @param BurialContainerId|null $burialContainerId
      */
     public function __construct(
-        private BurialId          $id,
-        private BurialCode        $code,
-        private NaturalPersonId   $deceasedId,
-        private ?CustomerId       $customerId,
-        private ?BurialPlaceId    $burialPlaceId,
-        private ?NaturalPersonId  $burialPlaceOwnerId,
-        private ?FuneralCompanyId $funeralCompanyId,
+        private BurialId           $id,
+        private BurialCode         $code,
+        private NaturalPersonId    $deceasedId,
+        private ?CustomerId        $customerId,
+        private ?BurialPlaceId     $burialPlaceId,
+        private ?NaturalPersonId   $burialPlaceOwnerId,
+        private ?FuneralCompanyId  $funeralCompanyId,
+        private ?BurialContainerId $burialContainerId,
     ) {
         parent::__construct();
     }
@@ -119,5 +121,21 @@ final class Burial extends AbstractAggregateRoot
     public function setFuneralCompanyId(?FuneralCompanyId $funeralCompanyId): void
     {
         $this->funeralCompanyId = $funeralCompanyId;
+    }
+
+    /**
+     * @return BurialContainerId|null
+     */
+    public function getBurialContainerId(): ?BurialContainerId
+    {
+        return $this->burialContainerId;
+    }
+
+    /**
+     * @param BurialContainerId|null $burialContainerId
+     */
+    public function setBurialContainerId(?BurialContainerId $burialContainerId): void
+    {
+        $this->burialContainerId = $burialContainerId;
     }
 }

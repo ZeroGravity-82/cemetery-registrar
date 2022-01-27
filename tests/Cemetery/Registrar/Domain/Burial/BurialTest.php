@@ -6,6 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
+use Cemetery\Registrar\Domain\Burial\BurialContainerId;
+use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
@@ -30,6 +32,7 @@ class BurialTest extends TestCase
         $burialPlaceId      = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
         $burialPlaceOwnerId = new NaturalPersonId('NP002');
         $funeralCompanyId   = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
+        $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
         $burial             = new Burial(
             $burialId,
             $burialCode,
@@ -38,6 +41,7 @@ class BurialTest extends TestCase
             $burialPlaceId,
             $burialPlaceOwnerId,
             $funeralCompanyId,
+            $burialContainerId,
         );
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
@@ -56,6 +60,8 @@ class BurialTest extends TestCase
         $this->assertSame('NP002', (string) $burial->getBurialPlaceOwnerId());
         $this->assertInstanceOf(FuneralCompanyId::class, $burial->getFuneralCompanyId());
         $this->assertSame('FC001', $burial->getFuneralCompanyId()->getValue());
+        $this->assertInstanceOf(BurialContainerId::class, $burial->getBurialContainerId());
+        $this->assertSame('CT001', $burial->getBurialContainerId()->getValue());
         $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
         $this->assertLessThan(new \DateTimeImmutable(), $burial->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getUpdatedAt());
@@ -67,7 +73,7 @@ class BurialTest extends TestCase
         $burialId   = new BurialId('B001');
         $burialCode = new BurialCode('BC001');
         $deceasedId = new NaturalPersonId('NP001');
-        $burial     = new Burial($burialId, $burialCode, $deceasedId, null, null, null, null);
+        $burial     = new Burial($burialId, $burialCode, $deceasedId, null, null, null, null, null);
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
         $this->assertSame('B001', (string) $burial->getId());
@@ -79,5 +85,6 @@ class BurialTest extends TestCase
         $this->assertNull($burial->getBurialPlaceId());
         $this->assertNull($burial->getBurialPlaceOwnerId());
         $this->assertNull($burial->getFuneralCompanyId());
+        $this->assertNull($burial->getBurialContainerId());
     }
 }
