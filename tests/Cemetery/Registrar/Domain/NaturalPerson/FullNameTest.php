@@ -15,13 +15,13 @@ class FullNameTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $fullName = new FullName('Ivanov Ivan Ivanovich');
-        $this->assertSame($fullName->getValue(), 'Иванов Иван Иванович');
+        $this->assertSame($fullName->getValue(), 'Ivanov Ivan Ivanovich');
     }
 
     public function testItFailsWithEmptyValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Full name value cannot be empty.');
+        $this->expectExceptionMessage('Full name value cannot be empty string.');
         new FullName('');
     }
 
