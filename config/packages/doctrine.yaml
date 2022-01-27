@@ -10,7 +10,7 @@ doctrine:
             burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainerTypeType
             burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlaceTypeType
             customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomerTypeType
-            full_name_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FullNameType
+            full_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FullNameType
             funeral_company_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FuneralCompanyTypeType
             natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPersonIdType
     orm:
