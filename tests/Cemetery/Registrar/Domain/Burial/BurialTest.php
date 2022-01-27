@@ -25,7 +25,7 @@ class BurialTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialId           = new BurialId('B001');
+        $id                 = new BurialId('B001');
         $burialCode         = new BurialCode('BC001');
         $deceasedId         = new NaturalPersonId('NP001');
         $customerId         = new CustomerId('C001', CustomerType::naturalPerson());
@@ -35,7 +35,7 @@ class BurialTest extends TestCase
         $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
         $buriedAt           = new \DateTimeImmutable('2022-01-01 01:01:01');
         $burial             = new Burial(
-            $burialId,
+            $id,
             $burialCode,
             $deceasedId,
             $customerId,
@@ -73,10 +73,10 @@ class BurialTest extends TestCase
 
     public function testItSuccessfullyCreatedWithoutOptionalFields(): void
     {
-        $burialId   = new BurialId('B001');
+        $id         = new BurialId('B001');
         $burialCode = new BurialCode('BC001');
         $deceasedId = new NaturalPersonId('NP001');
-        $burial     = new Burial($burialId, $burialCode, $deceasedId, null, null, null, null, null, null);
+        $burial     = new Burial($id, $burialCode, $deceasedId, null, null, null, null, null, null);
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
         $this->assertSame('B001', (string) $burial->getId());
