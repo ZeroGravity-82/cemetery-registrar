@@ -7,10 +7,11 @@ doctrine:
         types:
             burial_code: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialCodeType
             burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialIdType
+            burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainerTypeType
+            burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlaceTypeType
             customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomerTypeType
             funeral_company_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FuneralCompanyTypeType
             natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPersonIdType
-            burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlaceTypeType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
