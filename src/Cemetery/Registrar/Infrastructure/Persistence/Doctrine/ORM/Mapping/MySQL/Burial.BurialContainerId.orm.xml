@@ -1,0 +1,11 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <embeddable name="Cemetery\Registrar\Domain\Burial\BurialContainerId">
+        <field name="value" column="burial_container_id_value" type="string"                nullable="true" />
+        <field name="type"  column="burial_container_id_type"  type="burial_container_type" nullable="true" />
+    </embeddable>
+
+</doctrine-mapping>
