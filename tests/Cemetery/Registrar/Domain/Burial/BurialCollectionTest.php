@@ -64,4 +64,3 @@ class BurialCollectionTest extends AbstractEntityCollectionTest
         };
     }
 }
-
