@@ -6,8 +6,8 @@ doctrine:
         charset: utf8mb4
         types:
             burial_code: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialCodeType
-            burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialIdType
             burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainerTypeType
+            burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialIdType
             burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlaceTypeType
             customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomerTypeType
             full_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FullNameType
