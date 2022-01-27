@@ -20,7 +20,7 @@ class NaturalPersonIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '28485684-6cf6-4bca-adfc-37a67c3ec4ec';
-        $this->phpValue = new NaturalPersonId('28485684-6cf6-4bca-adfc-37a67c3ec4ec');
+        $this->dbValue  = '1716d71d-4d28-44eb-b8b4-28cda07a89e7';
+        $this->phpValue = new NaturalPersonId('1716d71d-4d28-44eb-b8b4-28cda07a89e7');
     }
 }
