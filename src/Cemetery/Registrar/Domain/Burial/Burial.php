@@ -13,24 +13,26 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class Burial extends AbstractAggregateRoot
 {
     /**
-     * @param BurialId               $id
-     * @param BurialCode             $code
-     * @param NaturalPersonId        $deceasedId
-     * @param CustomerId|null        $customerId
-     * @param BurialPlaceId|null     $burialPlaceId
-     * @param NaturalPersonId|null   $burialPlaceOwnerId
-     * @param FuneralCompanyId|null  $funeralCompanyId
-     * @param BurialContainerId|null $burialContainerId
+     * @param BurialId                $id
+     * @param BurialCode              $code
+     * @param NaturalPersonId         $deceasedId
+     * @param CustomerId|null         $customerId
+     * @param BurialPlaceId|null      $burialPlaceId
+     * @param NaturalPersonId|null    $burialPlaceOwnerId
+     * @param FuneralCompanyId|null   $funeralCompanyId
+     * @param BurialContainerId|null  $burialContainerId
+     * @param \DateTimeImmutable|null $buriedAt
      */
     public function __construct(
-        private BurialId           $id,
-        private BurialCode         $code,
-        private NaturalPersonId    $deceasedId,
-        private ?CustomerId        $customerId,
-        private ?BurialPlaceId     $burialPlaceId,
-        private ?NaturalPersonId   $burialPlaceOwnerId,
-        private ?FuneralCompanyId  $funeralCompanyId,
-        private ?BurialContainerId $burialContainerId,
+        private BurialId            $id,
+        private BurialCode          $code,
+        private NaturalPersonId     $deceasedId,
+        private ?CustomerId         $customerId,
+        private ?BurialPlaceId      $burialPlaceId,
+        private ?NaturalPersonId    $burialPlaceOwnerId,
+        private ?FuneralCompanyId   $funeralCompanyId,
+        private ?BurialContainerId  $burialContainerId,
+        private ?\DateTimeImmutable $buriedAt,
     ) {
         parent::__construct();
     }
@@ -137,5 +139,21 @@ final class Burial extends AbstractAggregateRoot
     public function setBurialContainerId(?BurialContainerId $burialContainerId): void
     {
         $this->burialContainerId = $burialContainerId;
+    }
+
+    /**
+     * @return \DateTimeImmutable|null
+     */
+    public function getBuriedAt(): ?\DateTimeImmutable
+    {
+        return $this->buriedAt;
+    }
+
+    /**
+     * @param \DateTimeImmutable|null $buriedAt
+     */
+    public function setBuriedAt(?\DateTimeImmutable $buriedAt): void
+    {
+        $this->buriedAt = $buriedAt;
     }
 }

@@ -33,6 +33,7 @@ class BurialTest extends TestCase
         $burialPlaceOwnerId = new NaturalPersonId('NP002');
         $funeralCompanyId   = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
         $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
+        $buriedAt           = new \DateTimeImmutable('2022-01-01 01:01:01');
         $burial             = new Burial(
             $burialId,
             $burialCode,
@@ -42,6 +43,7 @@ class BurialTest extends TestCase
             $burialPlaceOwnerId,
             $funeralCompanyId,
             $burialContainerId,
+            $buriedAt,
         );
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
@@ -62,6 +64,7 @@ class BurialTest extends TestCase
         $this->assertSame('FC001', $burial->getFuneralCompanyId()->getValue());
         $this->assertInstanceOf(BurialContainerId::class, $burial->getBurialContainerId());
         $this->assertSame('CT001', $burial->getBurialContainerId()->getValue());
+        $this->assertSame('2022-01-01 01:01:01', $burial->getBuriedAt()->format('Y-m-d H:i:s'));
         $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
         $this->assertLessThan(new \DateTimeImmutable(), $burial->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getUpdatedAt());
@@ -73,7 +76,7 @@ class BurialTest extends TestCase
         $burialId   = new BurialId('B001');
         $burialCode = new BurialCode('BC001');
         $deceasedId = new NaturalPersonId('NP001');
-        $burial     = new Burial($burialId, $burialCode, $deceasedId, null, null, null, null, null);
+        $burial     = new Burial($burialId, $burialCode, $deceasedId, null, null, null, null, null, null);
 
         $this->assertInstanceOf(BurialId::class, $burial->getId());
         $this->assertSame('B001', (string) $burial->getId());
@@ -86,5 +89,10 @@ class BurialTest extends TestCase
         $this->assertNull($burial->getBurialPlaceOwnerId());
         $this->assertNull($burial->getFuneralCompanyId());
         $this->assertNull($burial->getBurialContainerId());
+        $this->assertNull($burial->getBuriedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $burial->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getUpdatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $burial->getUpdatedAt());
     }
 }
