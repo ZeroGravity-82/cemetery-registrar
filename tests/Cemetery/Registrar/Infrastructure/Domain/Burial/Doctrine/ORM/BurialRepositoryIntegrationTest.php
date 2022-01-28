@@ -7,6 +7,8 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
+use Cemetery\Registrar\Domain\Burial\BurialContainerId;
+use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
@@ -14,6 +16,7 @@ use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
+use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\DoctrineORMBurialRepository;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
@@ -158,22 +161,27 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
 
     private function buildBurials(): void
     {
-        $idA               = new BurialId('B001');
-        $idB               = new BurialId('B002');
-        $idC               = new BurialId('B003');
-        $burialCodeA       = new BurialCode('BC001');
-        $burialCodeB       = new BurialCode('BC002');
-        $burialCodeC       = new BurialCode('BC003');
-        $naturalPersonIdA  = new NaturalPersonId('NP001');
-        $naturalPersonIdB  = new NaturalPersonId('NP002');
-        $naturalPersonIdC  = new NaturalPersonId('NP003');
-        $customerId        = new CustomerId('C001', CustomerType::naturalPerson());
-        $burialPlaceIdA    = new BurialPlaceId('BP001', BurialPlaceType::memorialTree());
-        $burialPlaceIdB    = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
-        $funeralCompanyIdC = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
-        $this->burialA     = new Burial($idA, $burialCodeA, $naturalPersonIdA, $burialPlaceIdA, $customerId, null, null);
-        $this->burialB     = new Burial($idB, $burialCodeB, $naturalPersonIdB, $burialPlaceIdB, $customerId, $naturalPersonIdB, null);
-        $this->burialC     = new Burial($idC, $burialCodeC, $naturalPersonIdC, null, null, $naturalPersonIdC, $funeralCompanyIdC);
+        $idA                 = new BurialId('B001');
+        $idB                 = new BurialId('B002');
+        $idC                 = new BurialId('B003');
+        $burialCodeA         = new BurialCode('BC001');
+        $burialCodeB         = new BurialCode('BC002');
+        $burialCodeC         = new BurialCode('BC003');
+        $deceasedIdA         = new DeceasedId('D001');
+        $deceasedIdB         = new DeceasedId('D002');
+        $deceasedIdC         = new DeceasedId('D003');
+        $customerId          = new CustomerId('C001', CustomerType::naturalPerson());
+        $burialPlaceIdA      = new BurialPlaceId('BP001', BurialPlaceType::memorialTree());
+        $burialPlaceIdB      = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
+        $burialPlaceOwnerIdB = new NaturalPersonId('NP002');
+        $burialPlaceOwnerIdC = new NaturalPersonId('NP003');
+        $funeralCompanyIdC   = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
+        $burialContainerIdB  = new BurialContainerId('CT001', BurialContainerType::coffin());
+        $burialContainerIdC  = new BurialContainerId('CT002', BurialContainerType::coffin());
+        $buriedAtA           = new \DateTimeImmutable('2022-01-15 13:10:00');
+        $this->burialA       = new Burial($idA, $burialCodeA, $deceasedIdA, $customerId, $burialPlaceIdA, null, null, null, $buriedAtA);
+        $this->burialB       = new Burial($idB, $burialCodeB, $deceasedIdB, $customerId, $burialPlaceIdB, $burialPlaceOwnerIdB, null, $burialContainerIdB, null);
+        $this->burialC       = new Burial($idC, $burialCodeC, $deceasedIdC, null, null, $burialPlaceOwnerIdC, $funeralCompanyIdC, $burialContainerIdC, null);
     }
 
     private function truncateEntities(): void
