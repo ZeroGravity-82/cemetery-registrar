@@ -7,6 +7,7 @@ namespace Cemetery\Tests\Registrar\Domain\Deceased;
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
 use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
+use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use PHPUnit\Framework\TestCase;
 
@@ -17,19 +18,23 @@ class DeceasedTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $id                 = new NaturalPersonId('NP001');
+        $id                 = new DeceasedId('D001');
+        $naturalPersonId    = new NaturalPersonId('NP001');
         $diedAt             = new \DateTimeImmutable('2022-01-10');
         $deathCertificateId = new DeathCertificateId('DC001');
         $causeOfDeath       = new CauseOfDeath('Some cause of death');
         $deceased           = new Deceased(
             $id,
+            $naturalPersonId,
             $diedAt,
             $deathCertificateId,
             $causeOfDeath,
         );
 
-        $this->assertInstanceOf(NaturalPersonId::class, $deceased->getId());
-        $this->assertSame('NP001', (string) $deceased->getId());
+        $this->assertInstanceOf(DeceasedId::class, $deceased->getId());
+        $this->assertSame('D001', (string) $deceased->getId());
+        $this->assertInstanceOf(NaturalPersonId::class, $deceased->getNaturalPersonId());
+        $this->assertSame('NP001', (string) $deceased->getNaturalPersonId());
         $this->assertInstanceOf(\DateTimeImmutable::class, $deceased->getDiedAt());
         $this->assertSame('2022-01-10', $deceased->getDiedAt()->format('Y-m-d'));
         $this->assertInstanceOf(DeathCertificateId::class, $deceased->getDeathCertificateId());
@@ -44,12 +49,15 @@ class DeceasedTest extends TestCase
 
     public function testItSuccessfullyCreatedWithoutOptionalFields(): void
     {
-        $id       = new NaturalPersonId('NP001');
-        $diedAt   = new \DateTimeImmutable('2022-01-10');
-        $deceased = new Deceased($id, $diedAt, null, null);
+        $id              = new DeceasedId('D001');
+        $naturalPersonId = new NaturalPersonId('NP001');
+        $diedAt          = new \DateTimeImmutable('2022-01-10');
+        $deceased        = new Deceased($id, $naturalPersonId, $diedAt, null, null);
 
-        $this->assertInstanceOf(NaturalPersonId::class, $deceased->getId());
-        $this->assertSame('NP001', (string) $deceased->getId());
+        $this->assertInstanceOf(DeceasedId::class, $deceased->getId());
+        $this->assertSame('D001', (string) $deceased->getId());
+        $this->assertInstanceOf(NaturalPersonId::class, $deceased->getNaturalPersonId());
+        $this->assertSame('NP001', (string) $deceased->getNaturalPersonId());
         $this->assertInstanceOf(\DateTimeImmutable::class, $deceased->getDiedAt());
         $this->assertSame('2022-01-10', $deceased->getDiedAt()->format('Y-m-d'));
         $this->assertNull($deceased->getDeathCertificateId());

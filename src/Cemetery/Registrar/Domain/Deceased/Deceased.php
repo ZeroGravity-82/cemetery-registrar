@@ -13,13 +13,15 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class Deceased extends AbstractAggregateRoot
 {
     /**
-     * @param NaturalPersonId         $id
+     * @param DeceasedId              $id
+     * @param NaturalPersonId         $naturalPersonId
      * @param \DateTimeImmutable      $diedAt
      * @param DeathCertificateId|null $deathCertificateId
      * @param CauseOfDeath|null       $causeOfDeath
      */
     public function __construct(
-        private NaturalPersonId     $id,
+        private DeceasedId          $id,
+        private NaturalPersonId     $naturalPersonId,
         private \DateTimeImmutable  $diedAt,
         private ?DeathCertificateId $deathCertificateId,
         private ?CauseOfDeath       $causeOfDeath,
@@ -28,11 +30,27 @@ final class Deceased extends AbstractAggregateRoot
     }
 
     /**
-     * @return NaturalPersonId
+     * @return DeceasedId
      */
-    public function getId(): NaturalPersonId
+    public function getId(): DeceasedId
     {
         return $this->id;
+    }
+
+    /**
+     * @return NaturalPersonId
+     */
+    public function getNaturalPersonId(): NaturalPersonId
+    {
+        return $this->naturalPersonId;
+    }
+
+    /**
+     * @param NaturalPersonId $naturalPersonId
+     */
+    public function setNaturalPersonId(NaturalPersonId $naturalPersonId): void
+    {
+        $this->naturalPersonId = $naturalPersonId;
     }
 
     /**
