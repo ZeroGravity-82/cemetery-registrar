@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\ORM\DoctrineORMDeceasedRepository;
+use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\ORM\DeceasedRepository as DoctrineOrmDeceasedRepository;
 use Cemetery\Tests\Registrar\Domain\Deceased\DeceasedProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +31,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
 
     private EntityManagerInterface $entityManager;
 
-    private DoctrineORMDeceasedRepository $repo;
+    private DoctrineOrmDeceasedRepository $repo;
 
     public function setUp(): void
     {
@@ -42,7 +42,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
         $this->deceasedB     = DeceasedProvider::getDeceasedB();
         $this->deceasedC     = DeceasedProvider::getDeceasedC();
         $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->repo          = new DoctrineORMDeceasedRepository(
+        $this->repo          = new DoctrineOrmDeceasedRepository(
             $this->entityManager,
         );
         $this->truncateEntities();

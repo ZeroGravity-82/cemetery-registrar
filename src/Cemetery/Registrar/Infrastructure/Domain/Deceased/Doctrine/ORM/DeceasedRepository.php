@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineORMDeceasedRepository implements DeceasedRepositoryInterface
+final class DeceasedRepository implements DeceasedRepositoryInterface
 {
     /**
      * @param EntityManagerInterface $entityManager
