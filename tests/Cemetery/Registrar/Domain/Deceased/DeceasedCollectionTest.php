@@ -19,26 +19,15 @@ class DeceasedCollectionTest extends AbstractEntityCollectionTest
 {
     public function setUp(): void
     {
-        $this->idA           = new DeceasedId('D001');
-        $this->idB           = new DeceasedId('D002');
-        $this->idC           = new DeceasedId('D003');
-        $this->idD           = new DeceasedId('D004');
-        $naturalPersonIdA    = new NaturalPersonId('NP001');
-        $naturalPersonIdB    = new NaturalPersonId('NP002');
-        $naturalPersonIdC    = new NaturalPersonId('NP003');
-        $naturalPersonIdD    = new NaturalPersonId('NP004');
-        $diedAtA             = new \DateTimeImmutable('2021-12-01');
-        $diedAtB             = new \DateTimeImmutable('2001-02-11');
-        $diedAtC             = new \DateTimeImmutable('2011-05-13');
-        $diedAtD             = new \DateTimeImmutable('2015-03-10');
-        $deathCertificateIdB = new DeathCertificateId('DC001');
-        $deathCertificateIdC = new DeathCertificateId('DC002');
-        $causeOfDeathB       = new CauseOfDeath('Some cause 1');
-        $this->entityA       = new Deceased($this->idA, $naturalPersonIdA, $diedAtA, null, null);
-        $this->entityB       = new Deceased($this->idB, $naturalPersonIdB, $diedAtB, $deathCertificateIdB, $causeOfDeathB);
-        $this->entityC       = new Deceased($this->idC, $naturalPersonIdC, $diedAtC, $deathCertificateIdC, null);
-        $this->entityD       = new Deceased($this->idD, $naturalPersonIdD, $diedAtD, null, null);
-        $this->collection    = new DeceasedCollection([$this->entityA]);
+        $this->entityA    = DeceasedProvider::getDeceasedA();
+        $this->entityB    = DeceasedProvider::getDeceasedB();
+        $this->entityC    = DeceasedProvider::getDeceasedC();
+        $this->entityD    = DeceasedProvider::getDeceasedD();
+        $this->idA        = $this->entityA->getId();
+        $this->idB        = $this->entityB->getId();
+        $this->idC        = $this->entityC->getId();
+        $this->idD        = $this->entityD->getId();
+        $this->collection = new DeceasedCollection([$this->entityA]);
     }
 
     public function testItReturnsEntityClass(): void
