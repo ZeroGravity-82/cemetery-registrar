@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineORMBurialRepository implements BurialRepositoryInterface
+final class BurialRepository implements BurialRepositoryInterface
 {
     /**
      * @param EntityManagerInterface $entityManager

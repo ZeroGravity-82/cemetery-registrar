@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\DoctrineORMBurialRepository;
+use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\BurialRepository as DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
@@ -35,7 +35,7 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
 
     private EntityManagerInterface $entityManager;
 
-    private DoctrineORMBurialRepository $repo;
+    private DoctrineOrmBurialRepository $repo;
 
     public function setUp(): void
     {
@@ -47,7 +47,7 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         $this->burialC       = BurialProvider::getBurialC();
         $this->burialD       = BurialProvider::getBurialD();
         $this->entityManager = $container->get(EntityManagerInterface::class);
-        $this->repo          = new DoctrineORMBurialRepository(
+        $this->repo          = new DoctrineOrmBurialRepository(
             $this->entityManager,
         );
         $this->truncateEntities();
