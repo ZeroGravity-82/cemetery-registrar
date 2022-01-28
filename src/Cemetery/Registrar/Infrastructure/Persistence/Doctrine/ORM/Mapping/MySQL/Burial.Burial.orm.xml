@@ -13,7 +13,7 @@
         </unique-constraints>
 
         <field name="code"               column="code"                  type="burial_code"                        />
-        <field name="deceasedId"         column="deceased_id"           type="natural_person_id"                  />
+        <field name="deceasedId"         column="deceased_id"           type="deceased_id"                        />
         <field name="burialPlaceOwnerId" column="burial_place_owner_id" type="natural_person_id"  nullable="true" />
         <field name="createdAt"          column="created_at"            type="datetime_immutable"                 />
         <field name="updatedAt"          column="updated_at"            type="datetime_immutable"                 />
