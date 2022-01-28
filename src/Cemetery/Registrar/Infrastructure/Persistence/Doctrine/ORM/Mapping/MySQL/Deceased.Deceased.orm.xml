@@ -1,0 +1,18 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Cemetery\Registrar\Domain\Deceased\Deceased" table="deceased">
+        <id name="id" column="id" type="deceased_id">
+        </id>
+
+        <field name="naturalPersonId"    column="natural_person_id"    type="natural_person_id"                    />
+        <field name="diedAt"             column="died_at"              type="datetime_immutable"                   />
+        <field name="deathCertificateId" column="death_certificate_id" type="death_certificate_id" nullable="true" />
+        <field name="causeOfDeath"       column="cause_of_death"       type="cause_of_death"       nullable="true" />
+        <field name="createdAt"          column="created_at"           type="datetime_immutable"                   />
+        <field name="updatedAt"          column="updated_at"           type="datetime_immutable"                   />
+    </entity>
+
+</doctrine-mapping>

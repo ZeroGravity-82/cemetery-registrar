@@ -17,11 +17,11 @@ interface DeceasedRepositoryInterface
     public function save(Deceased $deceased): void;
 
     /**
-     * Adds the collection of deceased to the repository. If any of the deceased already exist, they will be updated.
+     * Adds the collection of deceaseds to the repository. If any of the deceaseds already exist, they will be updated.
      *
-     * @param DeceasedCollection $deceased
+     * @param DeceasedCollection $deceaseds
      */
-    public function saveAll(DeceasedCollection $deceased): void;
+    public function saveAll(DeceasedCollection $deceaseds): void;
 
     /**
      * Returns the deceased by the ID. If no deceased found, null will be returned.
@@ -40,9 +40,9 @@ interface DeceasedRepositoryInterface
     public function remove(Deceased $deceased): void;
 
     /**
-     * Removes the collection of deceased from the repository.
+     * Removes the collection of deceaseds from the repository.
      *
-     * @param DeceasedCollection $deceased
+     * @param DeceasedCollection $deceaseds
      */
-    public function removeAll(DeceasedCollection $deceased): void;
+    public function removeAll(DeceasedCollection $deceaseds): void;
 }
