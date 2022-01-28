@@ -8,7 +8,7 @@
         </id>
 
         <field name="naturalPersonId"    column="natural_person_id"    type="natural_person_id"                    />
-        <field name="diedAt"             column="died_at"              type="datetime_immutable"                   />
+        <field name="diedAt"             column="died_at"              type="date_immutable"                       />
         <field name="deathCertificateId" column="death_certificate_id" type="death_certificate_id" nullable="true" />
         <field name="causeOfDeath"       column="cause_of_death"       type="cause_of_death"       nullable="true" />
         <field name="createdAt"          column="created_at"           type="datetime_immutable"                   />
