@@ -9,6 +9,7 @@ doctrine:
             burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainerTypeType
             burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialIdType
             burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlaceTypeType
+            cause_of_death: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CauseOfDeathType
             customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomerTypeType
             deceased_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\DeceasedIdType
             death_certificate_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\DeathCertificateIdType
