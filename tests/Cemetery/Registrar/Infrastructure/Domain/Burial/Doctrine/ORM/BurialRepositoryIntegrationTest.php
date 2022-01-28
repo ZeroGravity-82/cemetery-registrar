@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
-use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
-use Cemetery\Registrar\Domain\Burial\BurialContainerId;
-use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
@@ -16,9 +13,9 @@ use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
-use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\DoctrineORMBurialRepository;
+use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -45,7 +42,10 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->buildBurials();
+        $this->burialA       = BurialProvider::getBurialA();
+        $this->burialB       = BurialProvider::getBurialB();
+        $this->burialC       = BurialProvider::getBurialC();
+        $this->burialD       = BurialProvider::getBurialD();
         $this->entityManager = $container->get(EntityManagerInterface::class);
         $this->repo          = new DoctrineORMBurialRepository(
             $this->entityManager,
@@ -137,8 +137,10 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame((string) $this->burialC->getId(), (string) $persistedBurial->getId());
         $this->assertSame((string) $this->burialC->getCode(), (string) $persistedBurial->getCode());
         $this->assertSame((string) $this->burialC->getDeceasedId(), (string) $persistedBurial->getDeceasedId());
-        $this->assertNull($persistedBurial->getCustomerId());
-        $this->assertNull($persistedBurial->getBurialPlaceId());
+        $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
+        $this->assertSame(CustomerType::NATURAL_PERSON . '.' . 'C001', (string) $persistedBurial->getCustomerId());
+        $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->getBurialPlaceId());
+        $this->assertSame(BurialPlaceType::MEMORIAL_TREE . '.' . 'BP003', (string) $persistedBurial->getBurialPlaceId());
         $this->assertSame((string) $this->burialC->getBurialPlaceOwnerId(), (string) $persistedBurial->getBurialPlaceOwnerId());
         $this->assertSame((string) $this->burialC->getFuneralCompanyId(), (string) $persistedBurial->getFuneralCompanyId());
         $this->assertSame((string) $this->burialC->getBurialContainerId(), (string) $persistedBurial->getBurialContainerId());
@@ -149,35 +151,38 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
 
     public function testItHydratesBurialPlaceIdEmbeddable(): void
     {
-        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialC]));
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialD]));
         $this->entityManager->clear();
 
         $persistedBurial = $this->repo->findById($this->burialA->getId());
         $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->getBurialPlaceId());
-        $persistedBurial = $this->repo->findById($this->burialC->getId());
+        $this->assertSame(BurialPlaceType::COLUMBARIUM_NICHE . '.' . 'BP001', (string) $persistedBurial->getBurialPlaceId());
+        $persistedBurial = $this->repo->findById($this->burialD->getId());
         $this->assertNull($persistedBurial->getBurialPlaceId());
     }
 
     public function testItHydratesCustomerIdEmbeddable(): void
     {
-        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialC]));
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialD]));
         $this->entityManager->clear();
 
         $persistedBurial = $this->repo->findById($this->burialA->getId());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
-        $persistedBurial = $this->repo->findById($this->burialC->getId());
+        $this->assertSame(CustomerType::NATURAL_PERSON . '.' . 'C001', (string) $persistedBurial->getCustomerId());
+        $persistedBurial = $this->repo->findById($this->burialD->getId());
         $this->assertNull($persistedBurial->getCustomerId());
     }
 
     public function testItHydratesFuneralCompanyIdEmbeddable(): void
     {
-        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialA, $this->burialC]));
+        $this->repo->saveAll(new BurialCollection([$this->burialB, $this->burialC]));
         $this->entityManager->clear();
 
-        $persistedBurial = $this->repo->findById($this->burialA->getId());
+        $persistedBurial = $this->repo->findById($this->burialB->getId());
         $this->assertNull($persistedBurial->getFuneralCompanyId());
         $persistedBurial = $this->repo->findById($this->burialC->getId());
         $this->assertInstanceOf(FuneralCompanyId::class, $persistedBurial->getFuneralCompanyId());
+        $this->assertSame(FuneralCompanyType::SOLE_PROPRIETOR . '.' . 'FC001', (string) $persistedBurial->getFuneralCompanyId());
     }
 
     public function testItRemovesABurial(): void
@@ -225,31 +230,6 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         $burial = $this->repo->findById(new BurialId('unknown_id'));
 
         $this->assertNull($burial);
-    }
-
-    private function buildBurials(): void
-    {
-        $idA                 = new BurialId('B001');
-        $idB                 = new BurialId('B002');
-        $idC                 = new BurialId('B003');
-        $burialCodeA         = new BurialCode('BC001');
-        $burialCodeB         = new BurialCode('BC002');
-        $burialCodeC         = new BurialCode('BC003');
-        $deceasedIdA         = new DeceasedId('D001');
-        $deceasedIdB         = new DeceasedId('D002');
-        $deceasedIdC         = new DeceasedId('D003');
-        $customerId          = new CustomerId('C001', CustomerType::naturalPerson());
-        $burialPlaceIdA      = new BurialPlaceId('BP001', BurialPlaceType::memorialTree());
-        $burialPlaceIdB      = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
-        $burialPlaceOwnerIdB = new NaturalPersonId('NP002');
-        $burialPlaceOwnerIdC = new NaturalPersonId('NP003');
-        $funeralCompanyIdC   = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
-        $burialContainerIdB  = new BurialContainerId('CT001', BurialContainerType::coffin());
-        $burialContainerIdC  = new BurialContainerId('CT002', BurialContainerType::coffin());
-        $buriedAtA           = new \DateTimeImmutable('2022-01-15 13:10:00');
-        $this->burialA       = new Burial($idA, $burialCodeA, $deceasedIdA, $customerId, $burialPlaceIdA, null, null, null, $buriedAtA);
-        $this->burialB       = new Burial($idB, $burialCodeB, $deceasedIdB, $customerId, $burialPlaceIdB, $burialPlaceOwnerIdB, null, $burialContainerIdB, null);
-        $this->burialC       = new Burial($idC, $burialCodeC, $deceasedIdC, null, null, $burialPlaceOwnerIdC, $funeralCompanyIdC, $burialContainerIdC, null);
     }
 
     private function truncateEntities(): void

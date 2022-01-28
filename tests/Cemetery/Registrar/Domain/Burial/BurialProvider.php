@@ -64,8 +64,7 @@ final class BurialProvider
         $id         = new BurialId('B004');
         $burialCode = new BurialCode('BC004');
         $deceasedId = new DeceasedId('D004');
-        $customerId = new CustomerId('C001', CustomerType::naturalPerson());
 
-        return new Burial($id, $burialCode, $deceasedId, $customerId, null, null, null, null, null);
+        return new Burial($id, $burialCode, $deceasedId, null, null, null, null, null, null);
     }
 }
