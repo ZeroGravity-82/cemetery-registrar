@@ -8,7 +8,7 @@
         </id>
 
         <unique-constraints>
-            <unique-constraint columns="code"        name="burial_code_uq" />
+            <unique-constraint columns="code"        name="burial_code_uq"        />
             <unique-constraint columns="deceased_id" name="burial_deceased_id_uq" />
         </unique-constraints>
 
