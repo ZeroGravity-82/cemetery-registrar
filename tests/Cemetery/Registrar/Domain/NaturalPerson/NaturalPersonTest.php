@@ -19,11 +19,7 @@ class NaturalPersonTest extends TestCase
         $naturalPersonId = new NaturalPersonId('777');
         $fullName        = new FullName('Ivanov Ivan Ivanovich');
         $bornAt          = new \DateTimeImmutable('2000-01-01');
-        $naturalPerson   = new NaturalPerson(
-            $naturalPersonId,
-            $fullName,
-            $bornAt,
-        );
+        $naturalPerson   = new NaturalPerson($naturalPersonId, $fullName, $bornAt);
 
         $this->assertInstanceOf(NaturalPersonId::class, $naturalPerson->getId());
         $this->assertSame('777', (string) $naturalPerson->getId());
@@ -36,11 +32,13 @@ class NaturalPersonTest extends TestCase
     public function testItSuccessfullyCreatedWithoutOptionalFields(): void
     {
         $naturalPersonId = new NaturalPersonId('777');
-        $naturalPerson   = new NaturalPerson($naturalPersonId, null, null);
+        $fullName        = new FullName('Ivanov Ivan Ivanovich');
+        $naturalPerson   = new NaturalPerson($naturalPersonId, $fullName, null);
 
         $this->assertInstanceOf(NaturalPersonId::class, $naturalPerson->getId());
         $this->assertSame('777', (string) $naturalPerson->getId());
-        $this->assertNull($naturalPerson->getFullName());
+        $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
+        $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
         $this->assertNull($naturalPerson->getBornAt());
     }
 }

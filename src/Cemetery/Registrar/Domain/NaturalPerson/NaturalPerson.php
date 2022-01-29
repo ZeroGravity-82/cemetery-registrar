@@ -13,12 +13,12 @@ final class NaturalPerson extends AbstractAggregateRoot
 {
     /**
      * @param NaturalPersonId         $id
-     * @param FullName|null           $fullName
+     * @param FullName                $fullName
      * @param \DateTimeImmutable|null $bornAt
      */
     public function __construct(
         private NaturalPersonId     $id,
-        private ?FullName           $fullName,
+        private FullName            $fullName,
         private ?\DateTimeImmutable $bornAt,
     ) {
         parent::__construct();
@@ -33,17 +33,17 @@ final class NaturalPerson extends AbstractAggregateRoot
     }
 
     /**
-     * @return FullName|null
+     * @return FullName
      */
-    public function getFullName(): ?FullName
+    public function getFullName(): FullName
     {
         return $this->fullName;
     }
 
     /**
-     * @param FullName|null $fullName
+     * @param FullName $fullName
      */
-    public function setFullName(?FullName $fullName): void
+    public function setFullName(FullName $fullName): void
     {
         $this->fullName = $fullName;
     }

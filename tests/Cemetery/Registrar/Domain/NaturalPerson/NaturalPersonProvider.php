@@ -38,8 +38,9 @@ final class NaturalPersonProvider
 
     public static function getNaturalPersonD(): NaturalPerson
     {
-        $id = new NaturalPersonId('NP004');
+        $id       = new NaturalPersonId('NP004');
+        $fullName = new FullName('Sokolov German Markovich');
 
-        return new NaturalPerson($id, null, null);
+        return new NaturalPerson($id, $fullName, null);
     }
 }
