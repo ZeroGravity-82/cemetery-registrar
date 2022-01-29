@@ -131,8 +131,8 @@ class NaturalPersonRepositoryIntegrationTest extends KernelTestCase
     {
         // Prepare the repo for testing
         $this->repo->save($this->naturalPersonA);
-        $this->assertSame(1, $this->getRowCount());
         $this->entityManager->clear();
+        $this->assertSame(1, $this->getRowCount());
 
         // Testing itself
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonA->getId());
@@ -144,8 +144,8 @@ class NaturalPersonRepositoryIntegrationTest extends KernelTestCase
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new NaturalPersonCollection([$this->naturalPersonA, $this->naturalPersonB, $this->naturalPersonC]));
-        $this->assertSame(3, $this->getRowCount());
         $this->entityManager->clear();
+        $this->assertSame(3, $this->getRowCount());
 
         // Testing itself
         $persistedNaturalPersonB = $this->repo->findById($this->naturalPersonB->getId());
