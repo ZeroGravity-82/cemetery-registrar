@@ -189,8 +189,8 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
     {
         // Prepare the repo for testing
         $this->repo->save($this->burialA);
-        $this->assertSame(1, $this->getRowCount());
         $this->entityManager->clear();
+        $this->assertSame(1, $this->getRowCount());
 
         // Testing itself
         $persistedBurial = $this->repo->findById($this->burialA->getId());
@@ -202,8 +202,8 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB, $this->burialC]));
-        $this->assertSame(3, $this->getRowCount());
         $this->entityManager->clear();
+        $this->assertSame(3, $this->getRowCount());
 
         // Testing itself
         $persistedBurialB = $this->repo->findById($this->burialB->getId());
