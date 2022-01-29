@@ -150,8 +150,8 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
     {
         // Prepare the repo for testing
         $this->repo->save($this->deceasedA);
-        $this->assertSame(1, $this->getRowCount());
         $this->entityManager->clear();
+        $this->assertSame(1, $this->getRowCount());
 
         // Testing itself
         $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
@@ -163,8 +163,8 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new DeceasedCollection([$this->deceasedA, $this->deceasedB, $this->deceasedC]));
-        $this->assertSame(3, $this->getRowCount());
         $this->entityManager->clear();
+        $this->assertSame(3, $this->getRowCount());
 
         // Testing itself
         $persistedDeceasedB = $this->repo->findById($this->deceasedB->getId());
