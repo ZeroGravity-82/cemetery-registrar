@@ -21,6 +21,7 @@ final class CreateBurialRequest
     public function __construct(
         public string              $deceasedDetails,
         public ?string             $customerDetails,
+        public ?string             $customerType,
         public ?string             $burialPlaceDetails,
         public ?string             $burialPlaceOwnerDetails,
         public ?string             $funeralCompanyDetails,

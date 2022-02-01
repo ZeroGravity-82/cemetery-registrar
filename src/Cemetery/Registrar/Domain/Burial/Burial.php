@@ -14,26 +14,44 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class Burial extends AbstractAggregateRoot
 {
     /**
-     * @param BurialId                $id
-     * @param BurialCode              $code
-     * @param DeceasedId              $deceasedId
-     * @param CustomerId|null         $customerId
-     * @param BurialPlaceId|null      $burialPlaceId
-     * @param NaturalPersonId|null    $burialPlaceOwnerId
-     * @param FuneralCompanyId|null   $funeralCompanyId
-     * @param BurialContainerId|null  $burialContainerId
-     * @param \DateTimeImmutable|null $buriedAt
+     * @var CustomerId|null
+     */
+    private ?CustomerId $customerId = null;
+
+    /**
+     * @var BurialPlaceId|null
+     */
+    private ?BurialPlaceId $burialPlaceId = null;
+
+    /**
+     * @var NaturalPersonId|null
+     */
+    private ?NaturalPersonId $burialPlaceOwnerId = null;
+
+    /**
+     * @var FuneralCompanyId|null
+     */
+    private ?FuneralCompanyId $funeralCompanyId = null;
+
+    /**
+     * @var BurialContainerId|null
+     */
+    private ?BurialContainerId $burialContainerId = null;
+
+    /**
+     * @var \DateTimeImmutable|null
+     */
+    private ?\DateTimeImmutable $buriedAt = null;
+
+    /**
+     * @param BurialId   $id
+     * @param BurialCode $code
+     * @param DeceasedId $deceasedId
      */
     public function __construct(
-        private BurialId            $id,
-        private BurialCode          $code,
-        private DeceasedId          $deceasedId,
-        private ?CustomerId         $customerId,
-        private ?BurialPlaceId      $burialPlaceId,
-        private ?NaturalPersonId    $burialPlaceOwnerId,
-        private ?FuneralCompanyId   $funeralCompanyId,
-        private ?BurialContainerId  $burialContainerId,
-        private ?\DateTimeImmutable $buriedAt,
+        private BurialId   $id,
+        private BurialCode $code,
+        private DeceasedId $deceasedId,
     ) {
         parent::__construct();
     }
