@@ -12,6 +12,7 @@ final class CreateBurialRequest
     /**
      * @param string                  $deceasedDetails
      * @param string|null             $customerDetails
+     * @param string|null             $customerType
      * @param string|null             $burialPlaceDetails
      * @param string|null             $burialPlaceOwnerDetails
      * @param string|null             $funeralCompanyDetails

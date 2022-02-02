@@ -17,25 +17,28 @@ final class CreateBurial
     {
         $customerId                 = $request->customerId   ?? null;
         $customerType               = $request->customerType ?? null;
-        $isCustomerCreationRequired = is_null($customerId) && !is_null($customerType);
+        $isCustomerCreationRequired = \is_null($customerId) && !\is_null($customerType);
         if ($isCustomerCreationRequired) {
             switch ($customerType) {
                 case CustomerType::NATURAL_PERSON:
                     $customer = $this->naturalPersonFactory->create(
-                        $request->customerFullName,
-                        $request->customerBornAt,
+                        $request->customerNaturalPersonFullName ?? null,
+                        $request->customerNaturalPersonBornAt ?? null,
                     );
                     $this->naturalPersonRepo->save($customer);
                     break;
                 case CustomerType::SOLE_PROPRIETOR:
                     $customer = $this->soleProprietorFactory->create(
-
+                        $request->customerSoleProprietorFullName ?? null,
+                        $request->customerSoleProprietorInn ?? null,
                     );
                     $this->soleProprietorRepo->save($customer);
                     break;
                 case CustomerType::JURISTIC_PERSON:
                     $customer = $this->juristicPersonFactory->create(
-
+                        $request->customerJuristicPersonName ?? null,
+                        $request->customerJuristicPersonInn ?? null,
+                        $request->customerJuristicPersonKpp ?? null,
                     );
                     $this->juristicPersonRepo->save($customer);
                     break;
