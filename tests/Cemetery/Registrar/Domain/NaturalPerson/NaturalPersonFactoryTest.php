@@ -39,7 +39,10 @@ class NaturalPersonFactoryTest extends TestCase
 
     public function testItCreatesANaturalPersonWithoutOptionalFields(): void
     {
-        $naturalPerson = $this->naturalPersonFactory->create('Ivanov Ivan Ivanovich', null);
+        $naturalPerson = $this->naturalPersonFactory->create(
+            'Ivanov Ivan Ivanovich',
+            null
+        );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
         $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
         $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
