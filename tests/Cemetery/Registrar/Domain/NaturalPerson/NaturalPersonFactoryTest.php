@@ -24,7 +24,7 @@ class NaturalPersonFactoryTest extends TestCase
         $this->naturalPersonFactory = new NaturalPersonFactory($mockIdentityGenerator);
     }
 
-    public function testItCreatesANAturalPerson(): void
+    public function testItCreatesANaturalPerson(): void
     {
         $naturalPerson = $this->naturalPersonFactory->create(
             'Ivanov Ivan Ivanovich',
@@ -35,11 +35,11 @@ class NaturalPersonFactoryTest extends TestCase
         $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
         $this->assertInstanceOf(\DateTimeImmutable::class, $naturalPerson->getBornAt());
         $this->assertSame('2000-01-01', $naturalPerson->getBornAt()->format('Y-m-d'));
+    }
 
-        $naturalPerson = $this->naturalPersonFactory->create(
-            'Ivanov Ivan Ivanovich',
-            null,
-        );
+    public function testItCreatesANaturalPersonWithoutOptionalFields(): void
+    {
+        $naturalPerson = $this->naturalPersonFactory->create('Ivanov Ivan Ivanovich', null);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
         $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
         $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
