@@ -14,14 +14,15 @@ final class NaturalPersonFactory extends AbstractEntityFactory
     /**
      * Creates an object for the natural person.
      *
-     * @param FullName                $fullName
+     * @param string                  $fullName
      * @param \DateTimeImmutable|null $bornAt
      *
      * @return NaturalPerson
      */
-    public function create(FullName $fullName, ?\DateTimeImmutable $bornAt): NaturalPerson
+    public function create(string $fullName, ?\DateTimeImmutable $bornAt): NaturalPerson
     {
-        $nextId = new NaturalPersonId($this->identityGenerator->getNextIdentity());
+        $nextId   = new NaturalPersonId($this->identityGenerator->getNextIdentity());
+        $fullName = new FullName($fullName);
 
         return new NaturalPerson($nextId, $fullName, $bornAt);
     }
