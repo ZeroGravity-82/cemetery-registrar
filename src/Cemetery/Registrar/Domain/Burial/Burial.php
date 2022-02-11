@@ -90,10 +90,14 @@ final class Burial extends AbstractAggregateRoot
 
     /**
      * @param CustomerId|null $customerId
+     *
+     * @return $this
      */
-    public function setCustomerId(?CustomerId $customerId): void
+    public function setCustomerId(?CustomerId $customerId): self
     {
         $this->customerId = $customerId;
+
+        return $this;
     }
 
     /**
@@ -106,10 +110,14 @@ final class Burial extends AbstractAggregateRoot
 
     /**
      * @param BurialPlaceId|null $burialPlaceId
+     *
+     * @return $this
      */
-    public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): void
+    public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): self
     {
         $this->burialPlaceId = $burialPlaceId;
+
+        return $this;
     }
 
     /**
@@ -122,10 +130,14 @@ final class Burial extends AbstractAggregateRoot
 
     /**
      * @param NaturalPersonId|null $burialPlaceOwnerId
+     *
+     * @return $this
      */
-    public function setBurialPlaceOwnerId(?NaturalPersonId $burialPlaceOwnerId): void
+    public function setBurialPlaceOwnerId(?NaturalPersonId $burialPlaceOwnerId): self
     {
         $this->burialPlaceOwnerId = $burialPlaceOwnerId;
+
+        return $this;
     }
 
     /**
@@ -138,10 +150,14 @@ final class Burial extends AbstractAggregateRoot
 
     /**
      * @param FuneralCompanyId|null $funeralCompanyId
+     *
+     * @return $this
      */
-    public function setFuneralCompanyId(?FuneralCompanyId $funeralCompanyId): void
+    public function setFuneralCompanyId(?FuneralCompanyId $funeralCompanyId): self
     {
         $this->funeralCompanyId = $funeralCompanyId;
+
+        return $this;
     }
 
     /**
@@ -154,10 +170,14 @@ final class Burial extends AbstractAggregateRoot
 
     /**
      * @param BurialContainerId|null $burialContainerId
+     *
+     * @return $this
      */
-    public function setBurialContainerId(?BurialContainerId $burialContainerId): void
+    public function setBurialContainerId(?BurialContainerId $burialContainerId): self
     {
         $this->burialContainerId = $burialContainerId;
+
+        return $this;
     }
 
     /**
@@ -170,9 +190,13 @@ final class Burial extends AbstractAggregateRoot
 
     /**
      * @param \DateTimeImmutable|null $buriedAt
+     *
+     * @return $this
      */
-    public function setBuriedAt(?\DateTimeImmutable $buriedAt): void
+    public function setBuriedAt(?\DateTimeImmutable $buriedAt): self
     {
         $this->buriedAt = $buriedAt;
+
+        return $this;
     }
 }

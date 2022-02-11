@@ -29,7 +29,10 @@ final class BurialProvider
         $burialPlaceId = new BurialPlaceId('BP001', BurialPlaceType::columbariumNiche());
         $buriedAt      = new \DateTimeImmutable('2022-01-15 13:10:00');
 
-        return new Burial($id, $burialCode, $deceasedId, $customerId, $burialPlaceId, null, null, null, $buriedAt);
+        return (new Burial($id, $burialCode, $deceasedId))
+            ->setCustomerId($customerId)
+            ->setBurialPlaceId($burialPlaceId)
+            ->setBuriedAt($buriedAt);
     }
 
     public static function getBurialB(): Burial
@@ -42,7 +45,11 @@ final class BurialProvider
         $burialPlaceOwnerId = new NaturalPersonId('NP001');
         $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
 
-        return new Burial($id, $burialCode, $deceasedId, $customerId, $burialPlaceId, $burialPlaceOwnerId, null, $burialContainerId, null);
+        return (new Burial($id, $burialCode, $deceasedId))
+            ->setCustomerId($customerId)
+            ->setBurialPlaceId($burialPlaceId)
+            ->setBurialPlaceOwnerId($burialPlaceOwnerId)
+            ->setBurialContainerId($burialContainerId);
     }
 
     public static function getBurialC(): Burial
@@ -56,7 +63,12 @@ final class BurialProvider
         $funeralCompanyId   = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
         $burialContainerId  = new BurialContainerId('CT002', BurialContainerType::coffin());
 
-        return new Burial($id, $burialCode, $deceasedId, $customerId, $burialPlaceId, $burialPlaceOwnerId, $funeralCompanyId, $burialContainerId, null);
+        return (new Burial($id, $burialCode, $deceasedId))
+            ->setCustomerId($customerId)
+            ->setBurialPlaceId($burialPlaceId)
+            ->setBurialPlaceOwnerId($burialPlaceOwnerId)
+            ->setFuneralCompanyId($funeralCompanyId)
+            ->setBurialContainerId($burialContainerId);
     }
 
     public static function getBurialD(): Burial
@@ -65,6 +77,6 @@ final class BurialProvider
         $burialCode = new BurialCode('BC004');
         $deceasedId = new DeceasedId('D004');
 
-        return new Burial($id, $burialCode, $deceasedId, null, null, null, null, null, null);
+        return new Burial($id, $burialCode, $deceasedId);
     }
 }

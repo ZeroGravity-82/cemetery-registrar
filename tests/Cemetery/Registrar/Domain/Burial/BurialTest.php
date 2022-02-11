@@ -24,76 +24,82 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialTest extends TestCase
 {
-    public function testItSuccessfullyCreated(): void
-    {
-        $id                 = new BurialId('B001');
-        $burialCode         = new BurialCode('BC001');
-        $deceasedId         = new DeceasedId('D001');
-        $customerId         = new CustomerId('C001', CustomerType::naturalPerson());
-        $burialPlaceId      = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
-        $burialPlaceOwnerId = new NaturalPersonId('NP002');
-        $funeralCompanyId   = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
-        $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
-        $buriedAt           = new \DateTimeImmutable('2022-01-01 01:01:01');
-        $burial             = new Burial(
-            $id,
-            $burialCode,
-            $deceasedId,
-            $customerId,
-            $burialPlaceId,
-            $burialPlaceOwnerId,
-            $funeralCompanyId,
-            $burialContainerId,
-            $buriedAt,
-        );
+    private Burial $burial;
 
-        $this->assertInstanceOf(BurialId::class, $burial->getId());
-        $this->assertSame('B001', (string) $burial->getId());
-        $this->assertInstanceOf(BurialCode::class, $burial->getCode());
-        $this->assertSame('BC001', (string) $burial->getCode());
-        $this->assertInstanceOf(DeceasedId::class, $burial->getDeceasedId());
-        $this->assertSame('D001', (string) $burial->getDeceasedId());
-        $this->assertInstanceOf(CustomerId::class, $burial->getCustomerId());
-        $this->assertSame('C001', $burial->getCustomerId()->getValue());
-        $this->assertSame(CustomerType::NATURAL_PERSON, (string) $burial->getCustomerId()->getType());
-        $this->assertInstanceOf(BurialPlaceId::class, $burial->getBurialPlaceId());
-        $this->assertSame('BP001', $burial->getBurialPlaceId()->getValue());
-        $this->assertSame(BurialPlaceType::GRAVE_SITE, (string) $burial->getBurialPlaceId()->getType());
-        $this->assertInstanceOf(NaturalPersonId::class, $burial->getBurialPlaceOwnerId());
-        $this->assertSame('NP002', (string) $burial->getBurialPlaceOwnerId());
-        $this->assertInstanceOf(FuneralCompanyId::class, $burial->getFuneralCompanyId());
-        $this->assertSame('FC001', $burial->getFuneralCompanyId()->getValue());
-        $this->assertInstanceOf(BurialContainerId::class, $burial->getBurialContainerId());
-        $this->assertSame('CT001', $burial->getBurialContainerId()->getValue());
-        $this->assertSame('2022-01-01 01:01:01', $burial->getBuriedAt()->format('Y-m-d H:i:s'));
-        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $burial->getCreatedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getUpdatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $burial->getUpdatedAt());
+    public function setUp(): void
+    {
+        $id           = new BurialId('B001');
+        $burialCode   = new BurialCode('BC001');
+        $deceasedId   = new DeceasedId('D001');
+        $this->burial = new Burial($id, $burialCode, $deceasedId);
     }
 
-    public function testItSuccessfullyCreatedWithoutOptionalFields(): void
+    public function testItSuccessfullyCreated(): void
     {
-        $id         = new BurialId('B001');
-        $burialCode = new BurialCode('BC001');
-        $deceasedId = new DeceasedId('D001');
-        $burial     = new Burial($id, $burialCode, $deceasedId, null, null, null, null, null, null);
+        $this->assertInstanceOf(BurialId::class, $this->burial->getId());
+        $this->assertSame('B001', (string) $this->burial->getId());
+        $this->assertInstanceOf(BurialCode::class, $this->burial->getCode());
+        $this->assertSame('BC001', (string) $this->burial->getCode());
+        $this->assertInstanceOf(DeceasedId::class, $this->burial->getDeceasedId());
+        $this->assertSame('D001', (string) $this->burial->getDeceasedId());
+        $this->assertNull($this->burial->getCustomerId());
+        $this->assertNull($this->burial->getBurialPlaceId());
+        $this->assertNull($this->burial->getBurialPlaceOwnerId());
+        $this->assertNull($this->burial->getFuneralCompanyId());
+        $this->assertNull($this->burial->getBurialContainerId());
+        $this->assertNull($this->burial->getBuriedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->burial->getCreatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->burial->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->burial->getUpdatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->burial->getUpdatedAt());
+    }
 
-        $this->assertInstanceOf(BurialId::class, $burial->getId());
-        $this->assertSame('B001', (string) $burial->getId());
-        $this->assertInstanceOf(BurialCode::class, $burial->getCode());
-        $this->assertSame('BC001', (string) $burial->getCode());
-        $this->assertInstanceOf(DeceasedId::class, $burial->getDeceasedId());
-        $this->assertSame('D001', (string) $burial->getDeceasedId());
-        $this->assertNull($burial->getCustomerId());
-        $this->assertNull($burial->getBurialPlaceId());
-        $this->assertNull($burial->getBurialPlaceOwnerId());
-        $this->assertNull($burial->getFuneralCompanyId());
-        $this->assertNull($burial->getBurialContainerId());
-        $this->assertNull($burial->getBuriedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getCreatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $burial->getCreatedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $burial->getUpdatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $burial->getUpdatedAt());
+    public function testItSetsCustomerId(): void
+    {
+        $customerId = new CustomerId('C001', CustomerType::naturalPerson());
+        $this->burial->setCustomerId($customerId);
+        $this->assertInstanceOf(CustomerId::class, $this->burial->getCustomerId());
+        $this->assertSame('C001', $this->burial->getCustomerId()->getValue());
+        $this->assertSame(CustomerType::NATURAL_PERSON, (string) $this->burial->getCustomerId()->getType());
+    }
+
+    public function testItSetsBurialPlaceId(): void
+    {
+        $burialPlaceId = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
+        $this->burial->setBurialPlaceId($burialPlaceId);
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
+        $this->assertSame('BP001', $this->burial->getBurialPlaceId()->getValue());
+        $this->assertSame(BurialPlaceType::GRAVE_SITE, (string) $this->burial->getBurialPlaceId()->getType());
+    }
+
+    public function testItSetsBurialPlaceOwnerId(): void
+    {
+        $burialPlaceOwnerId = new NaturalPersonId('NP002');
+        $this->burial->setBurialPlaceOwnerId($burialPlaceOwnerId);
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->getBurialPlaceOwnerId());
+        $this->assertSame('NP002', (string) $this->burial->getBurialPlaceOwnerId());
+    }
+    
+    public function testItSetsFuneralCompanyId(): void
+    {
+        $funeralCompanyId = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
+        $this->burial->setFuneralCompanyId($funeralCompanyId);
+        $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->getFuneralCompanyId());
+        $this->assertSame('FC001', $this->burial->getFuneralCompanyId()->getValue());
+    }
+
+    public function testItSetsBurialContainerId(): void
+    {
+        $burialContainerId = new BurialContainerId('CT001', BurialContainerType::coffin());
+        $this->burial->setBurialContainerId($burialContainerId);
+        $this->assertInstanceOf(BurialContainerId::class, $this->burial->getBurialContainerId());
+        $this->assertSame('CT001', $this->burial->getBurialContainerId()->getValue());
+    }
+    
+    public function testItSetsBuriedAt(): void
+    {
+        $buriedAt = new \DateTimeImmutable('2022-01-01 01:01:01');
+        $this->burial->setBuriedAt($buriedAt);
+        $this->assertSame('2022-01-01 01:01:01', $this->burial->getBuriedAt()->format('Y-m-d H:i:s'));
     }
 }
