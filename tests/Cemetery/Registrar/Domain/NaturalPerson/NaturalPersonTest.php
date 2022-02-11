@@ -14,31 +14,35 @@ use PHPUnit\Framework\TestCase;
  */
 class NaturalPersonTest extends TestCase
 {
+    private NaturalPerson $naturalPerson;
+    
+    public function setUp(): void
+    {
+        $naturalPersonId     = new NaturalPersonId('777');
+        $fullName            = new FullName('Ivanov Ivan Ivanovich');
+        $this->naturalPerson = new NaturalPerson($naturalPersonId, $fullName);
+    }
+    
     public function testItSuccessfullyCreated(): void
     {
-        $naturalPersonId = new NaturalPersonId('777');
-        $fullName        = new FullName('Ivanov Ivan Ivanovich');
-        $bornAt          = new \DateTimeImmutable('2000-01-01');
-        $naturalPerson   = new NaturalPerson($naturalPersonId, $fullName, $bornAt);
-
-        $this->assertInstanceOf(NaturalPersonId::class, $naturalPerson->getId());
-        $this->assertSame('777', (string) $naturalPerson->getId());
-        $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
-        $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $naturalPerson->getBornAt());
-        $this->assertSame('2000-01-01', $naturalPerson->getBornAt()->format('Y-m-d'));
+        $this->assertInstanceOf(NaturalPersonId::class, $this->naturalPerson->getId());
+        $this->assertSame('777', (string) $this->naturalPerson->getId());
+        $this->assertInstanceOf(FullName::class, $this->naturalPerson->getFullName());
+        $this->assertSame('Ivanov Ivan Ivanovich', (string) $this->naturalPerson->getFullName());
+        $this->assertNull($this->naturalPerson->getBornAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->getCreatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->naturalPerson->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->getUpdatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->naturalPerson->getUpdatedAt());
     }
-
-    public function testItSuccessfullyCreatedWithoutOptionalFields(): void
+    
+    public function testItSetsBornAt(): void
     {
-        $naturalPersonId = new NaturalPersonId('777');
-        $fullName        = new FullName('Ivanov Ivan Ivanovich');
-        $naturalPerson   = new NaturalPerson($naturalPersonId, $fullName, null);
-
-        $this->assertInstanceOf(NaturalPersonId::class, $naturalPerson->getId());
-        $this->assertSame('777', (string) $naturalPerson->getId());
-        $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
-        $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
-        $this->assertNull($naturalPerson->getBornAt());
+        $bornAt = new \DateTimeImmutable('2000-01-01');
+        $this->naturalPerson->setBornAt($bornAt);
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->getBornAt());
+        $this->assertSame('2000-01-01', $this->naturalPerson->getBornAt()->format('Y-m-d'));
     }
+
+
 }

@@ -12,14 +12,17 @@ use Cemetery\Registrar\Domain\AbstractAggregateRoot;
 final class NaturalPerson extends AbstractAggregateRoot
 {
     /**
-     * @param NaturalPersonId         $id
-     * @param FullName                $fullName
-     * @param \DateTimeImmutable|null $bornAt
+     * @var \DateTimeImmutable|null
+     */
+    private ?\DateTimeImmutable $bornAt = null;
+
+    /**
+     * @param NaturalPersonId $id
+     * @param FullName        $fullName
      */
     public function __construct(
-        private NaturalPersonId     $id,
-        private FullName            $fullName,
-        private ?\DateTimeImmutable $bornAt,
+        private NaturalPersonId $id,
+        private FullName        $fullName,
     ) {
         parent::__construct();
     }
@@ -42,10 +45,14 @@ final class NaturalPerson extends AbstractAggregateRoot
 
     /**
      * @param FullName $fullName
+     *
+     * @return $this
      */
-    public function setFullName(FullName $fullName): void
+    public function setFullName(FullName $fullName): self
     {
         $this->fullName = $fullName;
+
+        return $this;
     }
 
     /**
@@ -58,9 +65,13 @@ final class NaturalPerson extends AbstractAggregateRoot
 
     /**
      * @param \DateTimeImmutable|null $bornAt
+     *
+     * @return $this
      */
-    public function setBornAt(?\DateTimeImmutable $bornAt): void
+    public function setBornAt(?\DateTimeImmutable $bornAt): self
     {
         $this->bornAt = $bornAt;
+
+        return $this;
     }
 }

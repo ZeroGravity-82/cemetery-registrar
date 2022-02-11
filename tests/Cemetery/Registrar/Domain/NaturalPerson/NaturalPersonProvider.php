@@ -15,7 +15,7 @@ final class NaturalPersonProvider
         $id       = new NaturalPersonId('NP001');
         $fullName = new FullName('Ivanov Ivan Ivanovich');
 
-        return new NaturalPerson($id, $fullName, null);
+        return new NaturalPerson($id, $fullName);
     }
 
     public static function getNaturalPersonB(): NaturalPerson
@@ -24,7 +24,8 @@ final class NaturalPersonProvider
         $fullName = new FullName('Petrov Petr Petrovich');
         $bornAt   = new \DateTimeImmutable('1998-12-30');
 
-        return new NaturalPerson($id, $fullName, $bornAt);
+        return (new NaturalPerson($id, $fullName))
+            ->setBornAt($bornAt);
     }
 
     public static function getNaturalPersonC(): NaturalPerson
@@ -33,7 +34,8 @@ final class NaturalPersonProvider
         $fullName = new FullName('Sidorov Sidr Sidorovich');
         $bornAt   = new \DateTimeImmutable('2005-05-20');
 
-        return new NaturalPerson($id, $fullName, $bornAt);
+        return (new NaturalPerson($id, $fullName))
+            ->setBornAt($bornAt);
     }
 
     public static function getNaturalPersonD(): NaturalPerson
@@ -41,6 +43,6 @@ final class NaturalPersonProvider
         $id       = new NaturalPersonId('NP004');
         $fullName = new FullName('Sokolov German Markovich');
 
-        return new NaturalPerson($id, $fullName, null);
+        return new NaturalPerson($id, $fullName);
     }
 }

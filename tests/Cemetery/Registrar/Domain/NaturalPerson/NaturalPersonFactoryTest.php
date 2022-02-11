@@ -27,21 +27,8 @@ class NaturalPersonFactoryTest extends TestCase
     public function testItCreatesANaturalPerson(): void
     {
         $naturalPerson = $this->naturalPersonFactory->create(
-            'Ivanov Ivan Ivanovich',
+            new FullName('Ivanov Ivan Ivanovich'),
             new \DateTimeImmutable('2000-01-01'),
-        );
-        $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
-        $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $naturalPerson->getBornAt());
-        $this->assertSame('2000-01-01', $naturalPerson->getBornAt()->format('Y-m-d'));
-    }
-
-    public function testItCreatesANaturalPersonWithoutOptionalFields(): void
-    {
-        $naturalPerson = $this->naturalPersonFactory->create(
-            'Ivanov Ivan Ivanovich',
-            null
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
         $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
