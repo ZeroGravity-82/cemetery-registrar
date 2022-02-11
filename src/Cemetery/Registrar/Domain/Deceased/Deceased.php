@@ -13,18 +13,25 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class Deceased extends AbstractAggregateRoot
 {
     /**
-     * @param DeceasedId              $id
-     * @param NaturalPersonId         $naturalPersonId
-     * @param \DateTimeImmutable      $diedAt
-     * @param DeathCertificateId|null $deathCertificateId
-     * @param CauseOfDeath|null       $causeOfDeath
+     * @var DeathCertificateId|null
+     */
+    private ?DeathCertificateId $deathCertificateId = null;
+
+    /**
+     * @var CauseOfDeath|null
+     */
+    private ?CauseOfDeath $causeOfDeath = null;
+
+    /**
+     * @param DeceasedId         $id
+     * @param NaturalPersonId    $naturalPersonId
+     * @param \DateTimeImmutable $diedAt
      */
     public function __construct(
-        private DeceasedId          $id,
-        private NaturalPersonId     $naturalPersonId,
-        private \DateTimeImmutable  $diedAt,
-        private ?DeathCertificateId $deathCertificateId,
-        private ?CauseOfDeath       $causeOfDeath,
+        private DeceasedId         $id,
+        private NaturalPersonId    $naturalPersonId,
+        private \DateTimeImmutable $diedAt,
+
     ) {
         parent::__construct();
     }
