@@ -15,24 +15,17 @@ final class DeceasedFactory extends AbstractEntityFactory
     /**
      * Creates an object for the deceased.
      *
-     * @param string             $naturalPersonId
+     * @param NaturalPersonId    $naturalPersonId
      * @param \DateTimeImmutable $diedAt
-     * @param string|null        $deathCertificateId
-     * @param string|null        $causeOfDeath
      *
      * @return Deceased
      */
     public function create(
-        string              $naturalPersonId,
-        \DateTimeImmutable  $diedAt,
-        ?string             $deathCertificateId,
-        ?string             $causeOfDeath,
+        NaturalPersonId    $naturalPersonId,
+        \DateTimeImmutable $diedAt,
     ): Deceased {
-        $nextId             = new DeceasedId($this->identityGenerator->getNextIdentity());
-        $naturalPersonId    = new NaturalPersonId($naturalPersonId);
-        $deathCertificateId = $deathCertificateId ? new DeathCertificateId($deathCertificateId) : null;
-        $causeOfDeath       = $causeOfDeath ? new CauseOfDeath($causeOfDeath) : null;
+        $nextId = new DeceasedId($this->identityGenerator->getNextIdentity());
 
-        return new Deceased($nextId, $naturalPersonId, $diedAt, $deathCertificateId, $causeOfDeath);
+        return new Deceased($nextId, $naturalPersonId, $diedAt);
     }
 }
