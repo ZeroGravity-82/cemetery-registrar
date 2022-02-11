@@ -54,10 +54,14 @@ final class Deceased extends AbstractAggregateRoot
 
     /**
      * @param NaturalPersonId $naturalPersonId
+     *
+     * @return $this
      */
-    public function setNaturalPersonId(NaturalPersonId $naturalPersonId): void
+    public function setNaturalPersonId(NaturalPersonId $naturalPersonId): self
     {
         $this->naturalPersonId = $naturalPersonId;
+
+        return $this;
     }
 
     /**
@@ -70,10 +74,14 @@ final class Deceased extends AbstractAggregateRoot
 
     /**
      * @param \DateTimeImmutable $diedAt
+     *
+     * @return $this
      */
-    public function setDiedAt(\DateTimeImmutable $diedAt): void
+    public function setDiedAt(\DateTimeImmutable $diedAt): self
     {
         $this->diedAt = $diedAt;
+
+        return $this;
     }
 
     /**
@@ -86,10 +94,14 @@ final class Deceased extends AbstractAggregateRoot
 
     /**
      * @param DeathCertificateId|null $deathCertificateId
+     *
+     * @return $this
      */
-    public function setDeathCertificateId(?DeathCertificateId $deathCertificateId): void
+    public function setDeathCertificateId(?DeathCertificateId $deathCertificateId): self
     {
         $this->deathCertificateId = $deathCertificateId;
+
+        return $this;
     }
 
     /**
@@ -102,9 +114,13 @@ final class Deceased extends AbstractAggregateRoot
 
     /**
      * @param CauseOfDeath|null $causeOfDeath
+     *
+     * @return $this
      */
-    public function setCauseOfDeath(?CauseOfDeath $causeOfDeath): void
+    public function setCauseOfDeath(?CauseOfDeath $causeOfDeath): self
     {
         $this->causeOfDeath = $causeOfDeath;
+
+        return $this;
     }
 }
