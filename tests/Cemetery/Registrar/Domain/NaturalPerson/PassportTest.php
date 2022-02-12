@@ -19,6 +19,7 @@ class PassportTest extends TestCase
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
         );
         $this->assertSame('1234', $passport->getSeries());
         $this->assertSame('567890', $passport->getNumber());
@@ -27,6 +28,7 @@ class PassportTest extends TestCase
             'DIA of the Kirovsky district of the city of Novosibirsk',
             $passport->getIssuedBy()
         );
+        $this->assertSame('540-001', $passport->getDivisionCode());
     }
 
     public function testItFailsWithEmptySeriesValue(): void
@@ -38,6 +40,7 @@ class PassportTest extends TestCase
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            null,
         );
     }
 
@@ -50,6 +53,7 @@ class PassportTest extends TestCase
             '',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            null,
         );
     }
 
@@ -62,6 +66,7 @@ class PassportTest extends TestCase
             '567890',
             (new \DateTimeImmutable())->modify('+1 day'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            null,
         );
     }
 
@@ -74,6 +79,7 @@ class PassportTest extends TestCase
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             '',
+            null,
         );
     }
 
@@ -84,9 +90,10 @@ class PassportTest extends TestCase
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
         );
         $this->assertSame(
-            '1234 567890, issued at 01.01.2001 by DIA of the Kirovsky district of the city of Novosibirsk',
+            '1234 567890, issued at 01.01.2001 by DIA of the Kirovsky district of the city of Novosibirsk (division code 540-001)',
             (string) $passport
         );
     }
@@ -98,36 +105,49 @@ class PassportTest extends TestCase
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
         );
         $passportB = new Passport(
             '1235',
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
         );
         $passportC = new Passport(
             '1234',
             '567891',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
         );
         $passportD = new Passport(
             '1234',
             '567890',
             new \DateTimeImmutable('2001-01-02'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
         );
         $passportE = new Passport(
             '1234',
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Dzerzhinsky district of the city of Novosibirsk',
+            '540-001',
         );
         $passportF = new Passport(
             '1234',
             '567890',
             new \DateTimeImmutable('2001-01-01'),
             'DIA of the Kirovsky district of the city of Novosibirsk',
+            '540-001',
+        );
+        $passportG = new Passport(
+            '1234',
+            '567890',
+            new \DateTimeImmutable('2001-01-01'),
+            'DIA of the Kirovsky district of the city of Novosibirsk',
+            '541-001',
         );
 
         $this->assertFalse($passportA->isEqual($passportB));
@@ -145,5 +165,6 @@ class PassportTest extends TestCase
         $this->assertFalse($passportD->isEqual($passportE));
         $this->assertFalse($passportD->isEqual($passportF));
         $this->assertFalse($passportE->isEqual($passportF));
+        $this->assertFalse($passportF->isEqual($passportG));
     }
 }

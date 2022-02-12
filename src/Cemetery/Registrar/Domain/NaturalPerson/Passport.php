@@ -14,17 +14,20 @@ final class Passport
      * @param string             $number
      * @param \DateTimeImmutable $issuedAt
      * @param string             $issuedBy
+     * @param string|null        $divisionCode
      */
     public function __construct(
         private string             $series,
         private string             $number,
         private \DateTimeImmutable $issuedAt,
         private string             $issuedBy,
+        private ?string            $divisionCode,
     ) {
         $this->assertValidSeries($series);
         $this->assertValidNumber($number);
         $this->assertValidIssuedAt($issuedAt);
         $this->assertValidIssuedBy($issuedBy);
+        $this->assertValidDivisionCode($this->divisionCode);
     }
 
     /**
@@ -33,11 +36,12 @@ final class Passport
     public function __toString(): string
     {
         return \sprintf(
-            '%s %s, issued at %s by %s',
+            '%s %s, issued at %s by %s (division code %s)',
             $this->getSeries(),
             $this->getNumber(),
             $this->getIssuedAt()->format('d.m.Y'),
-            $this->getIssuedBy()
+            $this->getIssuedBy(),
+            $this->getDivisionCode(),
         );
     }
 
@@ -74,18 +78,27 @@ final class Passport
     }
 
     /**
+     * @return string|null
+     */
+    public function getDivisionCode(): ?string
+    {
+        return $this->divisionCode;
+    }
+
+    /**
      * @param self $passport
      *
      * @return bool
      */
     public function isEqual(self $passport): bool
     {
-        $isSameSeries   = $passport->getSeries() === $this->getSeries();
-        $isSameNumber   = $passport->getNumber() === $this->getNumber();
-        $isSameIssuedAt = $passport->getIssuedAt()->format('Y-m-d') === $this->getIssuedAt()->format('Y-m-d');
-        $isSameIssuedBy = $passport->getIssuedBy() === $this->getIssuedBy();
+        $isSameSeries       = $passport->getSeries() === $this->getSeries();
+        $isSameNumber       = $passport->getNumber() === $this->getNumber();
+        $isSameIssuedAt     = $passport->getIssuedAt()->format('Y-m-d') === $this->getIssuedAt()->format('Y-m-d');
+        $isSameIssuedBy     = $passport->getIssuedBy() === $this->getIssuedBy();
+        $isSameDivisionCode = $passport->getDivisionCode() === $this->getDivisionCode();
 
-        return $isSameSeries && $isSameNumber && $isSameIssuedAt && $isSameIssuedBy;
+        return $isSameSeries && $isSameNumber && $isSameIssuedAt && $isSameIssuedBy && $isSameDivisionCode;
     }
 
     /**
@@ -121,6 +134,17 @@ final class Passport
     private function assertValidIssuedBy(string $issuedBy): void
     {
         $this->assertNotEmpty($issuedBy, 'passport issued by');
+    }
+
+    /**
+     * @param string|null $divisionCode
+     */
+    private function assertValidDivisionCode(?string $divisionCode): void
+    {
+        if ($divisionCode === null) {
+            return;
+        }
+        $this->assertNotEmpty($divisionCode, 'division code');
     }
 
     /**
