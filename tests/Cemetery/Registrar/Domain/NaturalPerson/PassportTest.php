@@ -83,6 +83,19 @@ class PassportTest extends TestCase
         );
     }
 
+    public function testItFailsWithEmptyDivisionCode(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Division code value cannot be empty string.');
+        new Passport(
+            '1234',
+            '567890',
+            new \DateTimeImmutable('2001-01-01'),
+            'DIA of the Kirovsky district of the city of Novosibirsk',
+            '',
+        );
+    }
+
     public function testItStringifyable(): void
     {
         $passport = new Passport(
