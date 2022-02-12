@@ -17,6 +17,11 @@ final class NaturalPerson extends AbstractAggregateRoot
     private ?\DateTimeImmutable $bornAt = null;
 
     /**
+     * @var Passport|null
+     */
+    private ?Passport $passport = null;
+
+    /**
      * @param NaturalPersonId $id
      * @param FullName        $fullName
      */
@@ -71,6 +76,26 @@ final class NaturalPerson extends AbstractAggregateRoot
     public function setBornAt(?\DateTimeImmutable $bornAt): self
     {
         $this->bornAt = $bornAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Passport|null
+     */
+    public function getPassport(): ?Passport
+    {
+        return $this->passport;
+    }
+
+    /**
+     * @param Passport|null $passport
+     *
+     * @return $this
+     */
+    public function setPassport(?Passport $passport): self
+    {
+        $this->passport = $passport;
 
         return $this;
     }
