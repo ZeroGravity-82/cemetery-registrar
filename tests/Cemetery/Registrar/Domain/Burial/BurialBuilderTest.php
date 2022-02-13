@@ -20,6 +20,7 @@ use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,9 +28,9 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialBuilderTest extends TestCase
 {
-    private IdentityGeneratorInterface   $mockIdentityGenerator;
-    private BurialCodeGeneratorInterface $mockBurialCodeGenerator;
-    private BurialBuilder                $burialBuilder;
+    private MockObject|IdentityGeneratorInterface   $mockIdentityGenerator;
+    private MockObject|BurialCodeGeneratorInterface $mockBurialCodeGenerator;
+    private BurialBuilder                           $burialBuilder;
 
     public function setUp(): void
     {
@@ -42,10 +43,11 @@ class BurialBuilderTest extends TestCase
         $this->burialBuilder->initialize(new DeceasedId('777'));
     }
 
-    public function testItInitiatesABurialWithADeceasedId(): void
+    public function testItInitializesABurialWithADeceasedId(): void
     {
         $burial = $this->burialBuilder->build();
 
+        $this->assertInstanceOf(Burial::class, $burial);
         $this->assertInstanceOf(BurialId::class, $burial->getId());
         $this->assertSame('555', (string) $burial->getId());
         $this->assertInstanceOf(BurialCode::class, $burial->getCode());
@@ -60,7 +62,7 @@ class BurialBuilderTest extends TestCase
         $this->assertNull($burial->getBuriedAt());
     }
 
-    public function testItFailsToBuildABurialWithoutDeceasedId(): void
+    public function testItFailsToBuildABurialWithoutADeceasedId(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('The burial is not initialized.');
