@@ -32,7 +32,7 @@ final class BurialBuilder
      *
      * @return $this
      */
-    public function initializeBurial(DeceasedId $deceasedId): self
+    public function initialize(DeceasedId $deceasedId): self
     {
         $this->burial = new Burial(
             new BurialId($this->identityGenerator->getNextIdentity()),
@@ -113,7 +113,7 @@ final class BurialBuilder
      *
      * @return $this
      */
-    public function setBuriedAt(\DateTimeImmutable $buriedAt): self
+    public function addBuriedAt(\DateTimeImmutable $buriedAt): self
     {
         $this->assertInitialized();
         $this->burial->setBuriedAt($buriedAt);
@@ -124,7 +124,7 @@ final class BurialBuilder
     /**
      * @return Burial
      */
-    public function getBurial(): Burial
+    public function build(): Burial
     {
         $this->assertInitialized();
         $burial = $this->burial;
