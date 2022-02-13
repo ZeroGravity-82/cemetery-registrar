@@ -30,19 +30,59 @@ class NaturalPersonTest extends TestCase
         $this->assertSame('777', (string) $this->naturalPerson->getId());
         $this->assertInstanceOf(FullName::class, $this->naturalPerson->getFullName());
         $this->assertSame('Ivanov Ivan Ivanovich', (string) $this->naturalPerson->getFullName());
+        $this->assertNull($this->naturalPerson->getPhone());
+        $this->assertNull($this->naturalPerson->getPhoneAdditional());
+        $this->assertNull($this->naturalPerson->getEmail());
+        $this->assertNull($this->naturalPerson->getAddress());
         $this->assertNull($this->naturalPerson->getBornAt());
+        $this->assertNull($this->naturalPerson->getPlaceOfBirth());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->getCreatedAt());
         $this->assertLessThan(new \DateTimeImmutable(), $this->naturalPerson->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->getUpdatedAt());
         $this->assertLessThan(new \DateTimeImmutable(), $this->naturalPerson->getUpdatedAt());
     }
-    
+
+    public function testItSetsPhone(): void
+    {
+        $phone = '+7-913-777-88-99';
+        $this->naturalPerson->setPhone($phone);
+        $this->assertSame('+7-913-777-88-99', $this->naturalPerson->getPhone());
+    }
+
+    public function testItSetsPhoneAdditional(): void
+    {
+        $phone = '+7-913-555-66-77';
+        $this->naturalPerson->setPhoneAdditional($phone);
+        $this->assertSame('+7-913-555-66-77', $this->naturalPerson->getPhoneAdditional());
+    }
+
+    public function testItSetsEmail(): void
+    {
+        $email = 'info@example.com';
+        $this->naturalPerson->setEmail($email);
+        $this->assertSame('info@example.com', $this->naturalPerson->getEmail());
+    }
+
+    public function testItSetsAddress(): void
+    {
+        $address = '37 Dmitriya Shamshurina str., Novosibirsk';
+        $this->naturalPerson->setAddress($address);
+        $this->assertSame('37 Dmitriya Shamshurina str., Novosibirsk', $this->naturalPerson->getAddress());
+    }
+
     public function testItSetsBornAt(): void
     {
         $bornAt = new \DateTimeImmutable('2000-01-01');
         $this->naturalPerson->setBornAt($bornAt);
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->getBornAt());
         $this->assertSame('2000-01-01', $this->naturalPerson->getBornAt()->format('Y-m-d'));
+    }
+
+    public function testItSetsPlaceOfBirth(): void
+    {
+        $placeOfBirth = 'Novosibirsk city';
+        $this->naturalPerson->setPlaceOfBirth($placeOfBirth);
+        $this->assertSame('Novosibirsk city', $this->naturalPerson->getPlaceOfBirth());
     }
 
     public function testItSetsPassport(): void

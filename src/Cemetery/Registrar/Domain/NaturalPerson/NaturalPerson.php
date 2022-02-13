@@ -12,9 +12,34 @@ use Cemetery\Registrar\Domain\AbstractAggregateRoot;
 final class NaturalPerson extends AbstractAggregateRoot
 {
     /**
+     * @var string|null
+     */
+    private ?string $phone = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $phoneAdditional = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $email = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $address = null;
+
+    /**
      * @var \DateTimeImmutable|null
      */
     private ?\DateTimeImmutable $bornAt = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $placeOfBirth = null;
 
     /**
      * @var Passport|null
@@ -61,6 +86,86 @@ final class NaturalPerson extends AbstractAggregateRoot
     }
 
     /**
+     * @return string|null
+     */
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string|null $phone
+     *
+     * @return $this
+     */
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPhoneAdditional(): ?string
+    {
+        return $this->phoneAdditional;
+    }
+
+    /**
+     * @param string|null $phoneAdditional
+     *
+     * @return $this
+     */
+    public function setPhoneAdditional(?string $phoneAdditional): self
+    {
+        $this->phoneAdditional = $phoneAdditional;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string|null $email
+     *
+     * @return $this
+     */
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string|null $address
+     *
+     * @return $this
+     */
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
      * @return \DateTimeImmutable|null
      */
     public function getBornAt(): ?\DateTimeImmutable
@@ -96,6 +201,26 @@ final class NaturalPerson extends AbstractAggregateRoot
     public function setPassport(?Passport $passport): self
     {
         $this->passport = $passport;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPlaceOfBirth(): ?string
+    {
+        return $this->placeOfBirth;
+    }
+
+    /**
+     * @param string|null $placeOfBirth
+     *
+     * @return $this
+     */
+    public function setPlaceOfBirth(?string $placeOfBirth): self
+    {
+        $this->placeOfBirth = $placeOfBirth;
 
         return $this;
     }
