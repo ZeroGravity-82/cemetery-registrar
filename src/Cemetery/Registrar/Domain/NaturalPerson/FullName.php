@@ -10,12 +10,18 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 final class FullName
 {
     /**
-     * @param string $value
+     * @var string
+     */
+    private string $value;
+
+    /**
+     * @param string|null $value
      */
     public function __construct(
-        private string $value,
+        ?string $value,
     ) {
         $this->assertValidValue($value);
+        $this->value = $value;
     }
 
     /**
@@ -45,22 +51,22 @@ final class FullName
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      */
-    private function assertValidValue(string $value): void
+    private function assertValidValue(?string $value): void
     {
         $this->assertNotEmpty($value);
     }
 
     /**
-     * @param string $value
+     * @param string|null $value
      *
-     * @throws \InvalidArgumentException when the full name is an empty string
+     * @throws \InvalidArgumentException when the full name is an empty
      */
-    private function assertNotEmpty(string $value): void
+    private function assertNotEmpty(?string $value): void
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException('Full name value cannot be empty string.');
+        if ($value === '' || $value === null) {
+            throw new \InvalidArgumentException('Full name value cannot be empty.');
         }
     }
 }

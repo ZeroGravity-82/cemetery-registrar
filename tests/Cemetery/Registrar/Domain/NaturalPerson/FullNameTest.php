@@ -21,8 +21,15 @@ class FullNameTest extends TestCase
     public function testItFailsWithEmptyValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Full name value cannot be empty string.');
+        $this->expectExceptionMessage('Full name value cannot be empty.');
         new FullName('');
+    }
+
+    public function testItFailsWithNullValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Full name value cannot be empty.');
+        new FullName(null);
     }
 
     public function testItStringifyable(): void
