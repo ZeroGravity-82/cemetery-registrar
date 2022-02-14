@@ -10,6 +10,31 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 final class Passport
 {
     /**
+     * @var string
+     */
+    private string $series;
+
+    /**
+     * @var string
+     */
+    private string $number;
+
+    /**
+     * @var \DateTimeImmutable
+     */
+    private \DateTimeImmutable $issuedAt;
+
+    /**
+     * @var string
+     */
+    private string $issuedBy;
+
+    /**
+     * @var string|null
+     */
+    private ?string $divisionCode = null;
+
+    /**
      * @param string|null             $series
      * @param string|null             $number
      * @param \DateTimeImmutable|null $issuedAt
@@ -17,17 +42,22 @@ final class Passport
      * @param string|null             $divisionCode
      */
     public function __construct(
-        private ?string             $series,
-        private ?string             $number,
-        private ?\DateTimeImmutable $issuedAt,
-        private ?string             $issuedBy,
-        private ?string             $divisionCode,
+        ?string             $series,
+        ?string             $number,
+        ?\DateTimeImmutable $issuedAt,
+        ?string             $issuedBy,
+        ?string             $divisionCode,
     ) {
         $this->assertValidSeries($series);
         $this->assertValidNumber($number);
         $this->assertValidIssuedAt($issuedAt);
         $this->assertValidIssuedBy($issuedBy);
-        $this->assertValidDivisionCode($this->divisionCode);
+        $this->assertValidDivisionCode($divisionCode);
+        $this->series       = $series;
+        $this->number       = $number;
+        $this->issuedAt     = $issuedAt;
+        $this->issuedBy     = $issuedBy;
+        $this->divisionCode = $divisionCode;
     }
 
     /**
