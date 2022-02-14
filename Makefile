@@ -47,7 +47,7 @@ ifeq (phpunit,$(firstword $(MAKECMDGOALS)))
     $(eval $(PHPUNIT_ARGS_ESCAPED):dummy;@:)
 endif
 phpunit:
-	$(CLI) ./vendor/bin/phpunit $(PHPUNIT_ARGS) $(-*-command-variables-*-)
+	$(CLI) ./bin/phpunit $(PHPUNIT_ARGS) $(-*-command-variables-*-)
 
 ##
 ## Run CLI command ("make -- cli ls -la /app")
