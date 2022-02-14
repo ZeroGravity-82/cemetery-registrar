@@ -12,47 +12,94 @@ use PHPUnit\Framework\TestCase;
  */
 class PassportTest extends TestCase
 {
+    private string             $passportSeriesA;
+    private string             $passportSeriesB;
+    private string             $passportNumberA;
+    private string             $passportNumberB;
+    private \DateTimeImmutable $passportIssuedAtA;
+    private \DateTimeImmutable $passportIssuedAtB;
+    private string             $passportIssuedByA;
+    private string             $passportIssuedByB;
+    private string             $passportDivisionCodeA;
+    private string             $passportDivisionCodeB;
+
+    public function setUp(): void
+    {
+        $this->passportSeriesA       = '1234';
+        $this->passportSeriesB       = '1235';
+        $this->passportNumberA       = '567890';
+        $this->passportNumberB       = '567891';
+        $this->passportIssuedAtA     = new \DateTimeImmutable('2001-01-01');
+        $this->passportIssuedAtB     = new \DateTimeImmutable('2001-01-02');
+        $this->passportIssuedByA     = 'DIA of the Kirovsky district of the city of Novosibirsk';
+        $this->passportIssuedByB     = 'DIA of the Dzerzhinsky district of the city of Novosibirsk';
+        $this->passportDivisionCodeA = '540-001';
+        $this->passportDivisionCodeB = '541-001';
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $passport = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
-        $this->assertSame('1234', $passport->getSeries());
-        $this->assertSame('567890', $passport->getNumber());
-        $this->assertSame('2001-01-01', $passport->getIssuedAt()->format('Y-m-d'));
+        $this->assertSame($this->passportSeriesA, $passport->getSeries());
+        $this->assertSame($this->passportNumberA, $passport->getNumber());
+        $this->assertSame($this->passportIssuedAtA->format('Y-m-d'), $passport->getIssuedAt()->format('Y-m-d'));
         $this->assertSame(
-            'DIA of the Kirovsky district of the city of Novosibirsk',
+            $this->passportIssuedByA,
             $passport->getIssuedBy()
         );
-        $this->assertSame('540-001', $passport->getDivisionCode());
+        $this->assertSame($this->passportDivisionCodeA, $passport->getDivisionCode());
     }
 
     public function testItFailsWithEmptySeriesValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Passport series value cannot be empty string.');
+        $this->expectExceptionForEmptyValue('passport series');
         new Passport(
             '',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            null,
+        );
+    }
+
+    public function testItFailsWithNullSeriesValue(): void
+    {
+        $this->expectExceptionForEmptyValue('passport series');
+        new Passport(
+            null,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
             null,
         );
     }
 
     public function testItFailsWithEmptyNumberValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Passport number value cannot be empty string.');
+        $this->expectExceptionForEmptyValue('passport number');
         new Passport(
-            '1234',
+            $this->passportSeriesA,
             '',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            null,
+        );
+    }
+
+    public function testItFailsWithNullNumberValue(): void
+    {
+        $this->expectExceptionForEmptyValue('passport number');
+        new Passport(
+            $this->passportSeriesA,
+            null,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
             null,
         );
     }
@@ -62,36 +109,46 @@ class PassportTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Passport cannot be issued in the future.');
         new Passport(
-            '1234',
-            '567890',
+            $this->passportSeriesA,
+            $this->passportNumberA,
             (new \DateTimeImmutable())->modify('+1 day'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
+            $this->passportIssuedByA,
             null,
         );
     }
 
     public function testItFailsWithEmptyIssuedByValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Passport issued by value cannot be empty string.');
+        $this->expectExceptionForEmptyValue('passport issued by');
         new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
             '',
+            null,
+        );
+    }
+
+    public function testItFailsWithNullIssuedByValue(): void
+    {
+        $this->expectExceptionForEmptyValue('passport issued by');
+        new Passport(
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            null,
             null,
         );
     }
 
     public function testItFailsWithEmptyDivisionCode(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Division code value cannot be empty string.');
+        $this->expectExceptionForEmptyValue('division code');
         new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
             '',
         );
     }
@@ -99,14 +156,21 @@ class PassportTest extends TestCase
     public function testItStringifyable(): void
     {
         $passport = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
         $this->assertSame(
-            '1234 567890, issued at 01.01.2001 by DIA of the Kirovsky district of the city of Novosibirsk (division code 540-001)',
+            \sprintf(
+                '%s %s, issued at %s by %s (division code %s)',
+                $this->passportSeriesA,
+                $this->passportNumberA,
+                $this->passportIssuedAtA->format('d.m.Y'),
+                $this->passportIssuedByA,
+                $this->passportDivisionCodeA,
+            ),
             (string) $passport
         );
     }
@@ -114,53 +178,53 @@ class PassportTest extends TestCase
     public function testItComparable(): void
     {
         $passportA = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
         $passportB = new Passport(
-            '1235',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesB,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
         $passportC = new Passport(
-            '1234',
-            '567891',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberB,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
         $passportD = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-02'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtB,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
         $passportE = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Dzerzhinsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByB,
+            $this->passportDivisionCodeA,
         );
         $passportF = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '540-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeA,
         );
         $passportG = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
-            '541-001',
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            $this->passportDivisionCodeB,
         );
 
         $this->assertFalse($passportA->isEqual($passportB));
@@ -179,5 +243,13 @@ class PassportTest extends TestCase
         $this->assertFalse($passportD->isEqual($passportF));
         $this->assertFalse($passportE->isEqual($passportF));
         $this->assertFalse($passportF->isEqual($passportG));
+    }
+
+    private function expectExceptionForEmptyValue(string $name): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(
+            \sprintf('%s value cannot be empty.', ucfirst($name))
+        );
     }
 }
