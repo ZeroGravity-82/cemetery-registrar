@@ -24,11 +24,11 @@ final class NaturalPersonBuilder
     ) {}
 
     /**
-     * @param string $fullName
+     * @param string|null $fullName
      *
      * @return $this
      */
-    public function initialize(string $fullName): self
+    public function initialize(?string $fullName): self
     {
         $fullName            = new FullName($fullName);
         $this->naturalPerson = new NaturalPerson(

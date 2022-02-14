@@ -30,7 +30,7 @@ class NaturalPersonBuilderTest extends TestCase
         $this->naturalPersonBuilder->initialize('Ivanov Ivan Ivanovich');
     }
 
-    public function testItInitializesANaturalPersonWithAFullName(): void
+    public function testItInitializesANaturalPersonWithRequiredFields(): void
     {
         $naturalPerson = $this->naturalPersonBuilder->build();
 
@@ -48,7 +48,7 @@ class NaturalPersonBuilderTest extends TestCase
         $this->assertNull($naturalPerson->getPassport());
     }
 
-    public function testItFailsToBuildANaturalPersonWithoutAFullName(): void
+    public function testItFailsToBuildANaturalPersonBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('The natural person is not initialized.');
@@ -122,6 +122,12 @@ class NaturalPersonBuilderTest extends TestCase
         $this->assertSame('2001-01-01', $naturalPerson->getPassport()->getIssuedAt()->format('Y-m-d'));
         $this->assertSame('DIA of the Kirovsky district of the city of Novosibirsk', $naturalPerson->getPassport()->getIssuedBy());
         $this->assertSame('540-001', $naturalPerson->getPassport()->getDivisionCode());
+    }
+
+    public function testItFailsWithNullValueForFullName(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->naturalPersonBuilder->initialize(null);
     }
 
     public function testItIgnoresNullValues(): void
