@@ -68,36 +68,12 @@ class PassportTest extends TestCase
         );
     }
 
-    public function testItFailsWithNullSeriesValue(): void
-    {
-        $this->expectExceptionForEmptyValue('passport series');
-        new Passport(
-            null,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            null,
-        );
-    }
-
     public function testItFailsWithEmptyNumberValue(): void
     {
         $this->expectExceptionForEmptyValue('passport number');
         new Passport(
             $this->passportSeriesA,
             '',
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            null,
-        );
-    }
-
-    public function testItFailsWithNullNumberValue(): void
-    {
-        $this->expectExceptionForEmptyValue('passport number');
-        new Passport(
-            $this->passportSeriesA,
-            null,
             $this->passportIssuedAtA,
             $this->passportIssuedByA,
             null,
@@ -125,18 +101,6 @@ class PassportTest extends TestCase
             $this->passportNumberA,
             $this->passportIssuedAtA,
             '',
-            null,
-        );
-    }
-
-    public function testItFailsWithNullIssuedByValue(): void
-    {
-        $this->expectExceptionForEmptyValue('passport issued by');
-        new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            null,
             null,
         );
     }

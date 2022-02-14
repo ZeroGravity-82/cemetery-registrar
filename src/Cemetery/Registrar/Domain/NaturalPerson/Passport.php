@@ -10,54 +10,24 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 final class Passport
 {
     /**
-     * @var string
-     */
-    private string $series;
-
-    /**
-     * @var string
-     */
-    private string $number;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    private \DateTimeImmutable $issuedAt;
-
-    /**
-     * @var string
-     */
-    private string $issuedBy;
-
-    /**
-     * @var string|null
-     */
-    private ?string $divisionCode = null;
-
-    /**
-     * @param string|null             $series
-     * @param string|null             $number
-     * @param \DateTimeImmutable|null $issuedAt
-     * @param string|null             $issuedBy
-     * @param string|null             $divisionCode
+     * @param string             $series
+     * @param string             $number
+     * @param \DateTimeImmutable $issuedAt
+     * @param string             $issuedBy
+     * @param string|null        $divisionCode
      */
     public function __construct(
-        ?string             $series,
-        ?string             $number,
-        ?\DateTimeImmutable $issuedAt,
-        ?string             $issuedBy,
-        ?string             $divisionCode,
+        private string             $series,
+        private string             $number,
+        private \DateTimeImmutable $issuedAt,
+        private string             $issuedBy,
+        private ?string            $divisionCode,
     ) {
         $this->assertValidSeries($series);
         $this->assertValidNumber($number);
         $this->assertValidIssuedAt($issuedAt);
         $this->assertValidIssuedBy($issuedBy);
-        $this->assertValidDivisionCode($divisionCode);
-        $this->series       = $series;
-        $this->number       = $number;
-        $this->issuedAt     = $issuedAt;
-        $this->issuedBy     = $issuedBy;
-        $this->divisionCode = $divisionCode;
+        $this->assertValidDivisionCode($this->divisionCode);
     }
 
     /**
@@ -132,34 +102,36 @@ final class Passport
     }
 
     /**
-     * @param string|null $series
+     * @param string $series
      */
-    private function assertValidSeries(?string $series): void
+    private function assertValidSeries(string $series): void
     {
         $this->assertNotEmpty($series, 'passport series');
     }
 
     /**
-     * @param string|null $number
+     * @param string $number
      */
-    private function assertValidNumber(?string $number): void
+    private function assertValidNumber(string $number): void
     {
         $this->assertNotEmpty($number, 'passport number');
     }
 
     /**
-     * @param \DateTimeImmutable|null $issuedAt
+     * @param \DateTimeImmutable $issuedAt
      */
-    private function assertValidIssuedAt(?\DateTimeImmutable $issuedAt): void
+    private function assertValidIssuedAt(\DateTimeImmutable $issuedAt): void
     {
-        $this->assertNotEmpty($issuedAt, 'passport issued at');
-        $this->assertNotIssuedInTheFuture($issuedAt);
+        $now = new \DateTimeImmutable();
+        if ($issuedAt > $now) {
+            throw new \InvalidArgumentException('Passport cannot be issued in the future.');
+        }
     }
 
     /**
-     * @param string|null $issuedBy
+     * @param string $issuedBy
      */
-    private function assertValidIssuedBy(?string $issuedBy): void
+    private function assertValidIssuedBy(string $issuedBy): void
     {
         $this->assertNotEmpty($issuedBy, 'passport issued by');
     }
@@ -176,28 +148,15 @@ final class Passport
     }
 
     /**
-     * @param mixed  $value
+     * @param string $value
      * @param string $name
      *
      * @throws \InvalidArgumentException when the value is empty
      */
-    private function assertNotEmpty(mixed $value, string $name): void
+    private function assertNotEmpty(string $value, string $name): void
     {
-        if ($value === '' || $value === null) {
+        if ($value === '') {
             throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', ucfirst($name)));
-        }
-    }
-
-    /**
-     * @param \DateTimeImmutable $issuedAt
-     *
-    * @throws \InvalidArgumentException when the issued at value is in the future
-     */
-    private function assertNotIssuedInTheFuture(\DateTimeImmutable $issuedAt): void
-    {
-        $now = new \DateTimeImmutable();
-        if ($issuedAt > $now) {
-            throw new \InvalidArgumentException('Passport cannot be issued in the future.');
         }
     }
 }
