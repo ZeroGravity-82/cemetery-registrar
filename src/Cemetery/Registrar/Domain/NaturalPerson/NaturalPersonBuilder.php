@@ -24,11 +24,11 @@ final class NaturalPersonBuilder
     ) {}
 
     /**
-     * @param string|null $fullName
+     * @param string $fullName
      *
      * @return $this
      */
-    public function initialize(?string $fullName): self
+    public function initialize(string $fullName): self
     {
         $fullName            = new FullName($fullName);
         $this->naturalPerson = new NaturalPerson(
@@ -170,12 +170,12 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @throws \LogicException when the natural person is not initialized
+     * @throws \LogicException when the natural person builder is not initialized
      */
     private function assertInitialized(): void
     {
         if (!isset($this->naturalPerson)) {
-            throw new \LogicException('The natural person is not initialized.');
+            throw new \LogicException('The natural person builder is not initialized.');
         }
     }
 }
