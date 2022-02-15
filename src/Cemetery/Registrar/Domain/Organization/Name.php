@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Organization\SoleProprietor;
+namespace Cemetery\Registrar\Domain\Organization;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FullName
+final class Name
 {
     /**
      * @param string $value
