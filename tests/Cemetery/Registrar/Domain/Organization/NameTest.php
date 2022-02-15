@@ -14,8 +14,8 @@ class NameTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $Name = new Name('ИП Иванов Иван Иванович');
-        $this->assertSame($Name->getValue(), 'ИП Иванов Иван Иванович');
+        $name = new Name('ИП Иванов Иван Иванович');
+        $this->assertSame($name->getValue(), 'ИП Иванов Иван Иванович');
     }
 
     public function testItFailsWithEmptyValue(): void
@@ -27,18 +27,18 @@ class NameTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $Name = new Name('ИП Иванов Иван Иванович');
-        $this->assertSame('ИП Иванов Иван Иванович', (string) $Name);
+        $name = new Name('ИП Иванов Иван Иванович');
+        $this->assertSame('ИП Иванов Иван Иванович', (string) $name);
     }
 
     public function testItComparable(): void
     {
-        $NameA = new Name('ИП Иванов Иван Иванович');
-        $NameB = new Name('ООО "Рога и копыта"');
-        $NameC = new Name('ИП Иванов Иван Иванович');
+        $nameA = new Name('ИП Иванов Иван Иванович');
+        $nameB = new Name('ООО "Рога и копыта"');
+        $nameC = new Name('ИП Иванов Иван Иванович');
 
-        $this->assertFalse($NameA->isEqual($NameB));
-        $this->assertTrue($NameA->isEqual($NameC));
-        $this->assertFalse($NameB->isEqual($NameC));
+        $this->assertFalse($nameA->isEqual($nameB));
+        $this->assertTrue($nameA->isEqual($nameC));
+        $this->assertFalse($nameB->isEqual($nameC));
     }
 }
