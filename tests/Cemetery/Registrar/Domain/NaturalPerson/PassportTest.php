@@ -105,7 +105,7 @@ class PassportTest extends TestCase
         );
     }
 
-    public function testItFailsWithEmptyDivisionCode(): void
+    public function testItFailsWithEmptyDivisionCodeValue(): void
     {
         $this->expectExceptionForEmptyValue('division code');
         new Passport(
