@@ -35,14 +35,18 @@ final class Passport
      */
     public function __toString(): string
     {
-        return \sprintf(
-            '%s %s, issued at %s by %s (division code %s)',
+        $string = \sprintf(
+            'Паспорт серия %s номер %s, выдан %s %s',
             $this->getSeries(),
             $this->getNumber(),
-            $this->getIssuedAt()->format('d.m.Y'),
             $this->getIssuedBy(),
-            $this->getDivisionCode(),
+            $this->getIssuedAt()->format('d.m.Y'),
         );
+        if ($this->divisionCode) {
+            $string = \sprintf('%s (код подразделения %s)', $string, $this->getDivisionCode());
+        }
+
+        return $string;
     }
 
     /**
@@ -106,7 +110,7 @@ final class Passport
      */
     private function assertValidSeries(string $series): void
     {
-        $this->assertNotEmpty($series, 'passport series');
+        $this->assertNotEmpty($series, 'Серия паспорта');
     }
 
     /**
@@ -114,7 +118,7 @@ final class Passport
      */
     private function assertValidNumber(string $number): void
     {
-        $this->assertNotEmpty($number, 'passport number');
+        $this->assertNotEmpty($number, 'Номер паспорта');
     }
 
     /**
@@ -124,7 +128,7 @@ final class Passport
     {
         $now = new \DateTimeImmutable();
         if ($issuedAt > $now) {
-            throw new \InvalidArgumentException('Passport cannot be issued in the future.');
+            throw new \InvalidArgumentException('Дата выдачи паспорта не может иметь значение из будущего.');
         }
     }
 
@@ -133,7 +137,7 @@ final class Passport
      */
     private function assertValidIssuedBy(string $issuedBy): void
     {
-        $this->assertNotEmpty($issuedBy, 'passport issued by');
+        $this->assertNotEmpty($issuedBy, 'Наименование органа, выдавшего паспорт,');
     }
 
     /**
@@ -144,7 +148,7 @@ final class Passport
         if ($divisionCode === null) {
             return;
         }
-        $this->assertNotEmpty($divisionCode, 'division code');
+        $this->assertNotEmpty($divisionCode, 'Код подразделения');
     }
 
     /**
@@ -156,7 +160,7 @@ final class Passport
     private function assertNotEmpty(string $value, string $name): void
     {
         if ($value === '') {
-            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', \ucfirst($name)));
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
         }
     }
 }

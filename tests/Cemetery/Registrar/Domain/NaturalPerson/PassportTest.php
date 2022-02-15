@@ -29,10 +29,10 @@ class PassportTest extends TestCase
         $this->passportSeriesB       = '1235';
         $this->passportNumberA       = '567890';
         $this->passportNumberB       = '567891';
-        $this->passportIssuedAtA     = new \DateTimeImmutable('2001-01-01');
-        $this->passportIssuedAtB     = new \DateTimeImmutable('2001-01-02');
-        $this->passportIssuedByA     = 'DIA of the Kirovsky district of the city of Novosibirsk';
-        $this->passportIssuedByB     = 'DIA of the Dzerzhinsky district of the city of Novosibirsk';
+        $this->passportIssuedAtA     = new \DateTimeImmutable('2002-10-28');
+        $this->passportIssuedAtB     = new \DateTimeImmutable('2011-03-23');
+        $this->passportIssuedByA     = 'УВД Кировского района города Новосибирска';
+        $this->passportIssuedByB     = 'Отделом УФМС России по Новосибирской области в Заельцовском районе';
         $this->passportDivisionCodeA = '540-001';
         $this->passportDivisionCodeB = '541-001';
     }
@@ -58,7 +58,7 @@ class PassportTest extends TestCase
 
     public function testItFailsWithEmptySeriesValue(): void
     {
-        $this->expectExceptionForEmptyValue('passport series');
+        $this->expectExceptionForEmptyValue('Серия паспорта');
         new Passport(
             '',
             $this->passportNumberA,
@@ -70,7 +70,7 @@ class PassportTest extends TestCase
 
     public function testItFailsWithEmptyNumberValue(): void
     {
-        $this->expectExceptionForEmptyValue('passport number');
+        $this->expectExceptionForEmptyValue('Номер паспорта');
         new Passport(
             $this->passportSeriesA,
             '',
@@ -83,7 +83,7 @@ class PassportTest extends TestCase
     public function testItFailsWithFutureIssuedAtValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Passport cannot be issued in the future.');
+        $this->expectExceptionMessage('Дата выдачи паспорта не может иметь значение из будущего.');
         new Passport(
             $this->passportSeriesA,
             $this->passportNumberA,
@@ -95,7 +95,7 @@ class PassportTest extends TestCase
 
     public function testItFailsWithEmptyIssuedByValue(): void
     {
-        $this->expectExceptionForEmptyValue('passport issued by');
+        $this->expectExceptionForEmptyValue('Наименование органа, выдавшего паспорт,');
         new Passport(
             $this->passportSeriesA,
             $this->passportNumberA,
@@ -107,7 +107,7 @@ class PassportTest extends TestCase
 
     public function testItFailsWithEmptyDivisionCodeValue(): void
     {
-        $this->expectExceptionForEmptyValue('division code');
+        $this->expectExceptionForEmptyValue('Код подразделения');
         new Passport(
             $this->passportSeriesA,
             $this->passportNumberA,
@@ -128,12 +128,33 @@ class PassportTest extends TestCase
         );
         $this->assertSame(
             \sprintf(
-                '%s %s, issued at %s by %s (division code %s)',
+                'Паспорт серия %s номер %s, выдан %s %s (код подразделения %s)',
                 $this->passportSeriesA,
                 $this->passportNumberA,
-                $this->passportIssuedAtA->format('d.m.Y'),
                 $this->passportIssuedByA,
+                $this->passportIssuedAtA->format('d.m.Y'),
                 $this->passportDivisionCodeA,
+            ),
+            (string) $passport
+        );
+    }
+
+    public function testItStringifyableWithoutDivisionCode(): void
+    {
+        $passport = new Passport(
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            null,
+        );
+        $this->assertSame(
+            \sprintf(
+                'Паспорт серия %s номер %s, выдан %s %s',
+                $this->passportSeriesA,
+                $this->passportNumberA,
+                $this->passportIssuedByA,
+                $this->passportIssuedAtA->format('d.m.Y'),
             ),
             (string) $passport
         );
@@ -213,7 +234,7 @@ class PassportTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            \sprintf('%s value cannot be empty.', \ucfirst($name))
+            \sprintf('%s не может иметь пустое значение.', $name)
         );
     }
 }
