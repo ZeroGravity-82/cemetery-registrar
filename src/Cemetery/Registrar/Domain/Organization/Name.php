@@ -55,7 +55,7 @@ final class Name
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the full name is empty
+     * @throws \InvalidArgumentException when the name is empty
      */
     private function assertNotEmpty(string $value): void
     {
