@@ -24,12 +24,12 @@ final class CreateBurialRequest
      * @param string|null             $customerNaturalPersonEmail
      * @param string|null             $customerNaturalPersonAddress
      * @param \DateTimeImmutable|null $customerNaturalPersonBornAt
+     * @param string|null             $customerNaturalPersonPlaceOfBirth
      * @param string|null             $customerNaturalPersonPassportSeries
      * @param string|null             $customerNaturalPersonPassportNumber
      * @param \DateTimeImmutable|null $customerNaturalPersonPassportIssuedAt
      * @param string|null             $customerNaturalPersonPassportIssuedBy
      * @param string|null             $customerNaturalPersonPassportDivisionCode
-     * @param string|null             $customerNaturalPersonPassportPlaceOfBirth
      * @param string|null             $customerSoleProprietorFullName
      * @param string|null             $customerSoleProprietorInn
      * @param string|null             $customerSoleProprietorOgrnip
@@ -44,7 +44,8 @@ final class CreateBurialRequest
      * @param string|null             $customerSoleProprietorEmail
      * @param string|null             $customerSoleProprietorFax
      * @param string|null             $customerSoleProprietorWebsite
-     * @param string|null             $customerJuristicPersonName
+     * @param string|null             $customerJuristicPersonFullName
+     * @param string|null             $customerJuristicPersonShortName
      * @param string|null             $customerJuristicPersonInn
      * @param string|null             $customerJuristicPersonKpp
      * @param string|null             $customerJuristicPersonOgrn
@@ -106,12 +107,12 @@ final class CreateBurialRequest
         public ?string             $customerNaturalPersonEmail,
         public ?string             $customerNaturalPersonAddress,
         public ?\DateTimeImmutable $customerNaturalPersonBornAt,
+        public ?string             $customerNaturalPersonPlaceOfBirth,
         public ?string             $customerNaturalPersonPassportSeries,
         public ?string             $customerNaturalPersonPassportNumber,
         public ?\DateTimeImmutable $customerNaturalPersonPassportIssuedAt,
         public ?string             $customerNaturalPersonPassportIssuedBy,
         public ?string             $customerNaturalPersonPassportDivisionCode,
-        public ?string             $customerNaturalPersonPassportPlaceOfBirth,
         public ?string             $customerSoleProprietorFullName,
         public ?string             $customerSoleProprietorInn,
         public ?string             $customerSoleProprietorOgrnip,
@@ -126,7 +127,8 @@ final class CreateBurialRequest
         public ?string             $customerSoleProprietorEmail,
         public ?string             $customerSoleProprietorFax,
         public ?string             $customerSoleProprietorWebsite,
-        public ?string             $customerJuristicPersonName,
+        public ?string             $customerJuristicPersonFullName,
+        public ?string             $customerJuristicPersonShortName,
         public ?string             $customerJuristicPersonInn,
         public ?string             $customerJuristicPersonKpp,
         public ?string             $customerJuristicPersonOgrn,
