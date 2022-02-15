@@ -213,7 +213,7 @@ class PassportTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            \sprintf('%s value cannot be empty.', ucfirst($name))
+            \sprintf('%s value cannot be empty.', \ucfirst($name))
         );
     }
 }

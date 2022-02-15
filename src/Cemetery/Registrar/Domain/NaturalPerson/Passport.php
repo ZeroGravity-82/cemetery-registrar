@@ -156,7 +156,7 @@ final class Passport
     private function assertNotEmpty(string $value, string $name): void
     {
         if ($value === '') {
-            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', ucfirst($name)));
+            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', \ucfirst($name)));
         }
     }
 }
