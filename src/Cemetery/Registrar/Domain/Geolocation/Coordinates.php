@@ -93,7 +93,7 @@ final class Coordinates
     private function assertNotEmpty(string $value, string $name): void
     {
         if ($value === '') {
-            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', ucfirst($name)));
+            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', \ucfirst($name)));
         }
     }
 
@@ -108,7 +108,7 @@ final class Coordinates
         if (!\preg_match(self::VALUE_PATTERN, $value)) {
             throw new \InvalidArgumentException(\sprintf(
                 '%s value "%s" has an invalid format.',
-                ucfirst($name),
+                \ucfirst($name),
                 $value,
             ));
         }
@@ -127,7 +127,7 @@ final class Coordinates
         if ((float) $value < $min || (float) $value > $max) {
             throw new \InvalidArgumentException(\sprintf(
                 '%s value "%s" is out of valid range [%.0f, %.0f].',
-                ucfirst($name),
+                \ucfirst($name),
                 $value,
                 $min,
                 $max,
