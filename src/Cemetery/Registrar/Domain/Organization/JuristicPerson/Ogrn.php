@@ -35,13 +35,13 @@ final class Ogrn
     }
 
     /**
-     * @param self $fullName
+     * @param self $ogrn
      *
      * @return bool
      */
-    public function isEqual(self $fullName): bool
+    public function isEqual(self $ogrn): bool
     {
-        return $fullName->getValue() === $this->getValue();
+        return $ogrn->getValue() === $this->getValue();
     }
 
     /**
