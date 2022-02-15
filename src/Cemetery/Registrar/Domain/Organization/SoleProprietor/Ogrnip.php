@@ -35,13 +35,13 @@ final class Ogrnip
     }
 
     /**
-     * @param self $fullName
+     * @param self $orgnip
      *
      * @return bool
      */
-    public function isEqual(self $fullName): bool
+    public function isEqual(self $orgnip): bool
     {
-        return $fullName->getValue() === $this->getValue();
+        return $orgnip->getValue() === $this->getValue();
     }
 
     /**
