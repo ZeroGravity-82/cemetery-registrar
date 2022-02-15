@@ -35,13 +35,13 @@ final class Name
     }
 
     /**
-     * @param self $fullName
+     * @param self $name
      *
      * @return bool
      */
-    public function isEqual(self $fullName): bool
+    public function isEqual(self $name): bool
     {
-        return $fullName->getValue() === $this->getValue();
+        return $name->getValue() === $this->getValue();
     }
 
     /**
