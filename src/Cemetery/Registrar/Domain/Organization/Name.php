@@ -60,7 +60,7 @@ final class Name
     private function assertNotEmpty(string $value): void
     {
         if ($value === '') {
-            throw new \InvalidArgumentException('Full name value cannot be empty.');
+            throw new \InvalidArgumentException('Наименование не может иметь пустое значение.');
         }
     }
 }
