@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Organization;
+namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
-use Cemetery\Registrar\Domain\Organization\Inn;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
 use PHPUnit\Framework\TestCase;
 
 /**

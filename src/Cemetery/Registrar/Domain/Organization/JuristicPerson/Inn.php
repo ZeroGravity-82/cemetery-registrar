@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Organization;
+namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
