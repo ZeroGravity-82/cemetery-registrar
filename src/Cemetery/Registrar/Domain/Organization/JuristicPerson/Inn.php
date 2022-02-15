@@ -35,13 +35,13 @@ final class Inn
     }
 
     /**
-     * @param self $fullName
+     * @param self $inn
      *
      * @return bool
      */
-    public function isEqual(self $fullName): bool
+    public function isEqual(self $inn): bool
     {
-        return $fullName->getValue() === $this->getValue();
+        return $inn->getValue() === $this->getValue();
     }
 
     /**
