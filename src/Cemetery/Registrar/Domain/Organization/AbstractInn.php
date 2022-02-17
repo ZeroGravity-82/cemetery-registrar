@@ -54,6 +54,12 @@ abstract class AbstractInn
         return $inn->getValue() === $this->getValue();
     }
 
+    /**
+     * @param string $value
+     * @param array  $coefficients
+     *
+     * @return int
+     */
     protected function calculateCheckDigit(string $value, array $coefficients): int
     {
         $checkDigit = 0;
