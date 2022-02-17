@@ -29,7 +29,7 @@ final class Inn extends AbstractInn
         $checkDigit1        = $this->calculateCheckDigit($value, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
         $isCheckDigit1Valid = $checkDigit1 === (int) $value[9];
         if (!$isCheckDigit1Valid) {
-            throw new \InvalidArgumentException('ИНН недействителен.');
+            $this->throwIncorrectCheckDigitsException();
         }
     }
 }

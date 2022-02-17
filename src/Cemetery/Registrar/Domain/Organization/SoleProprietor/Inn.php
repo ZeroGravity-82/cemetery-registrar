@@ -31,7 +31,7 @@ final class Inn extends AbstractInn
         $isCheckDigit1Valid = $checkDigit1 === (int) $value[10];
         $isCheckDigit2Valid = $checkDigit2 === (int) $value[11];
         if (!$isCheckDigit1Valid || !$isCheckDigit2Valid) {
-            throw new \InvalidArgumentException('ИНН недействителен.');
+            $this->throwIncorrectCheckDigitsException();
         }
     }
 }

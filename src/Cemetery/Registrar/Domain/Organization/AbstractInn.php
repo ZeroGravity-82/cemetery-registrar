@@ -25,8 +25,6 @@ abstract class AbstractInn
 
     /**
      * @param string $value
-     *
-     * @throws \InvalidArgumentException when the INN contains an incorrect check digits
      */
     abstract protected function assertValidCheckDigits(string $value): void;
 
@@ -64,6 +62,14 @@ abstract class AbstractInn
         }
 
         return $checkDigit % 11 % 10;
+    }
+
+    /**
+     * @throws \InvalidArgumentException when the INN contains an incorrect check digits
+     */
+    protected function throwIncorrectCheckDigitsException(): void
+    {
+        throw new \InvalidArgumentException('ИНН недействителен.');
     }
 
     /**
