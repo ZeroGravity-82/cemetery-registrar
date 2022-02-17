@@ -48,11 +48,9 @@ class OgrnipTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $this->expectExceptionMessage('ОГРНИП недействителен.');
-//        new Ogrnip('3155476000243792');
-
-        $this->markTestIncomplete();
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОГРНИП недействителен.');
+        new Ogrnip('315547600024378');
     }
 
     public function testItStringifyable(): void

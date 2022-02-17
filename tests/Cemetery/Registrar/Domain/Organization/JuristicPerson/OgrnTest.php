@@ -48,11 +48,9 @@ class OgrnTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $this->expectExceptionMessage('ОГРН недействителен.');
-//        new Ogrn('1027700132195');
-
-        $this->markTestIncomplete();
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОГРН недействителен.');
+        new Ogrn('1027700132194');
     }
 
     public function testItStringifyable(): void

@@ -4,101 +4,30 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\Organization\AbstractOgrn;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Ogrnip
+final class Ogrnip extends AbstractOgrn
 {
+    private const OGRN_NAME = 'ОГРНИП';
+
+    private const OGRN_LENGTH = 15;
+
     /**
-     * @param string $value
+     * {@inheritdoc}
      */
-    public function __construct(
-        private string $value,
-    ) {
-        $this->assertValidValue($value);
+    protected function getOgrnName(): string
+    {
+        return self::OGRN_NAME;
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function __toString(): string
+    protected function getOgrnLength(): int
     {
-        return $this->getValue();
-    }
-
-    /**
-     * @return string
-     */
-    public function getValue(): string
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param self $orgnip
-     *
-     * @return bool
-     */
-    public function isEqual(self $orgnip): bool
-    {
-        return $orgnip->getValue() === $this->getValue();
-    }
-
-    /**
-     * @param string $value
-     */
-    private function assertValidValue(string $value): void
-    {
-        $this->assertNotEmpty($value);
-        $this->assertNumeric($value);
-        $this->assertValidLength($value);
-        $this->assertValidCheckDigit($value);
-    }
-
-    /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the OGRNIP is empty
-     */
-    private function assertNotEmpty(string $value): void
-    {
-        if ($value === '') {
-            throw new \InvalidArgumentException('ОГРНИП не может иметь пустое значение.');
-        }
-    }
-
-    /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the OGRNIP has non-numeric value
-     */
-    private function assertNumeric(string $value): void
-    {
-        if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException('ОГРНИП должен состоять только из цифр.');
-        }
-    }
-
-    /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the length of the OGRNIP is not equal to 15
-     */
-    private function assertValidLength(string $value): void
-    {
-        if (\strlen($value) !== 15) {
-            throw new \InvalidArgumentException('ОГРНИП должен состоять из 15 цифр.');
-        }
-    }
-
-    /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the OGRNIP contains an incorrect check digit
-     */
-    private function assertValidCheckDigit(string $value): void
-    {
-        // TODO implement the following:
-        // Контрольная цифра. Она равна младшему разряду остатка от деления числа, состоящего из первых 12 цифр, на 11 (для юрлиц) или 14-значного числа на 13 (для ИП). Если остаток больше 9, контрольная цифра равна последней цифре остатка.
+        return self::OGRN_LENGTH;
     }
 }
