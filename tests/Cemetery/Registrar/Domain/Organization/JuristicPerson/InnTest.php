@@ -48,11 +48,9 @@ class InnTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-//        $this->expectException(\InvalidArgumentException::class);
-//        $this->expectExceptionMessage('ИНН недействителен.');
-//        new Inn('7728168972');
-
-        $this->markTestIncomplete();
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ИНН недействителен.');
+        new Inn('7728168972');
     }
 
     public function testItStringifyable(): void
