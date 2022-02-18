@@ -55,7 +55,7 @@ class BikTest extends TestCase
     public function testItComparable(): void
     {
         $bikA = new Bik('045004774');
-        $bikB = new Bik('044525974');
+        $bikB = new Bik('044106001');
         $bikC = new Bik('045004774');
 
         $this->assertFalse($bikA->isEqual($bikB));
