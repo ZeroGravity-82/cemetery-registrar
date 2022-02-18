@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Organization;
+namespace Cemetery\Tests\Registrar\Domain\Organization\BankDetails;
 
-use Cemetery\Registrar\Domain\Organization\Bik;
+use Cemetery\Registrar\Domain\Organization\BankDetails\Bik;
 use PHPUnit\Framework\TestCase;
 
 /**
