@@ -10,21 +10,45 @@ namespace Cemetery\Registrar\Domain\Organization\BankDetails;
 final class BankDetails
 {
     /**
+     * @var BankName
+     */
+    private BankName $bankName;
+
+    /**
+     * @var Bik
+     */
+    private Bik $bik;
+
+    /**
+     * @var CorrespondentAccount
+     */
+    private CorrespondentAccount $correspondentAccount;
+
+    /**
+     * @var CurrentAccount
+     */
+    private CurrentAccount $currentAccount;
+
+    /**
      * @param string $bankName
-     * @param string $rcbic
+     * @param string $bik
      * @param string $correspondentAccount
      * @param string $currentAccount
      */
     public function __construct(
-        private string $bankName,
-        private string $rcbic,
-        private string $correspondentAccount,
-        private string $currentAccount,
+        string $bankName,
+        string $bik,
+        string $correspondentAccount,
+        string $currentAccount,
     ) {
         $this->assertValidBankName($bankName);
-        $this->assertValidRcbic($rcbic);
+        $this->assertValidBik($bik);
         $this->assertValidCorrespondentAccount($correspondentAccount);
-        $this->assertValidCurrentAccount($this->currentAccount);
+        $this->assertValidCurrentAccount($currentAccount);
+        $this->bankName             = new BankName($bankName);
+        $this->bik                  = new Bik($bik);
+        $this->correspondentAccount = new CorrespondentAccount($correspondentAccount);
+        $this->currentAccount       = new CurrentAccount($currentAccount);
     }
 
     /**
@@ -37,38 +61,38 @@ final class BankDetails
             $this->getBankName(),
             $this->getCurrentAccount(),
             $this->getCorrespondentAccount(),
-            $this->getRcbic(),
+            $this->getBik(),
         );
     }
 
     /**
-     * @return string
+     * @return BankName
      */
-    public function getBankName(): string
+    public function getBankName(): BankName
     {
         return $this->bankName;
     }
 
     /**
-     * @return string
+     * @return Bik
      */
-    public function getRcbic(): string
+    public function getBik(): Bik
     {
-        return $this->rcbic;
+        return $this->bik;
     }
 
     /**
-     * @return string
+     * @return CorrespondentAccount
      */
-    public function getCorrespondentAccount(): string
+    public function getCorrespondentAccount(): CorrespondentAccount
     {
         return $this->correspondentAccount;
     }
 
     /**
-     * @return string
+     * @return CurrentAccount
      */
-    public function getCurrentAccount(): string
+    public function getCurrentAccount(): CurrentAccount
     {
         return $this->currentAccount;
     }
@@ -80,12 +104,12 @@ final class BankDetails
      */
     public function isEqual(self $bankDetails): bool
     {
-        $isSameBankName             = $bankDetails->getBankName() === $this->getBankName();
-        $isSameRcbic                = $bankDetails->getRcbic() === $this->getRcbic();
-        $isSameCorrespondentAccount = $bankDetails->getCorrespondentAccount() === $this->getCorrespondentAccount();
-        $isSameCurrentAccount       = $bankDetails->getCurrentAccount() === $this->getCurrentAccount();
+        $isSameBankName             = $bankDetails->getBankName()->isEqual($this->getBankName());
+        $isSameBik                  = $bankDetails->getBik()->isEqual($this->getBik());
+        $isSameCorrespondentAccount = $bankDetails->getCorrespondentAccount()->isEqual($this->getCorrespondentAccount());
+        $isSameCurrentAccount       = $bankDetails->getCurrentAccount()->isEqual($this->getCurrentAccount());
 
-        return $isSameBankName && $isSameRcbic && $isSameCorrespondentAccount && $isSameCurrentAccount;
+        return $isSameBankName && $isSameBik && $isSameCorrespondentAccount && $isSameCurrentAccount;
     }
 
     /**
@@ -97,11 +121,11 @@ final class BankDetails
     }
 
     /**
-     * @param string $rcbic
+     * @param string $bik
      */
-    private function assertValidRcbic(string $rcbic): void
+    private function assertValidBik(string $bik): void
     {
-        $this->assertNotEmpty($rcbic, 'БИК');
+        $this->assertNotEmpty($bik, 'БИК');
     }
 
     /**
@@ -109,7 +133,7 @@ final class BankDetails
      */
     private function assertValidCorrespondentAccount(string $correspondentAccount): void
     {
-        $this->assertNotEmpty($correspondentAccount, 'корреспондентский счёт');
+        $this->assertNotEmpty($correspondentAccount, 'к/счёт');
     }
 
     /**
@@ -117,7 +141,7 @@ final class BankDetails
      */
     private function assertValidCurrentAccount(string $currentAccount): void
     {
-        $this->assertNotEmpty($currentAccount, 'расчётный счёт');
+        $this->assertNotEmpty($currentAccount, 'р/счёт');
     }
 
     /**

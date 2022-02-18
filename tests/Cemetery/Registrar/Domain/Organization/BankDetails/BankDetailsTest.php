@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Organization\BankDetails;
 
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Organization\BankDetails\BankName;
+use Cemetery\Registrar\Domain\Organization\BankDetails\Bik;
+use Cemetery\Registrar\Domain\Organization\BankDetails\CorrespondentAccount;
+use Cemetery\Registrar\Domain\Organization\BankDetails\CurrentAccount;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,8 +18,8 @@ class BankDetailsTest extends TestCase
 {
     private string $bankNameA;
     private string $bankNameB;
-    private string $rcbicA;
-    private string $rcbicB;
+    private string $bikA;
+    private string $bikB;
     private string $correspondentAccountA;
     private string $correspondentAccountB;
     private string $currentAccountA;
@@ -25,8 +29,8 @@ class BankDetailsTest extends TestCase
     {
         $this->bankNameA             = 'Сибирский филиал Публичного акционерного общества "Промсвязьбанк"';
         $this->bankNameB             = 'Сибирский банк ПАО Сбербанк, г. Новосибирск';
-        $this->rcbicA                = '045004816';
-        $this->rcbicB                = '045004641';
+        $this->bikA                  = '045004816';
+        $this->bikB                  = '045004641';
         $this->correspondentAccountA = '30101810500000000816';
         $this->correspondentAccountB = '30101810500000000641';
         $this->currentAccountA       = '40702810904111040651';
@@ -37,14 +41,18 @@ class BankDetailsTest extends TestCase
     {
         $bankDetails = new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
-        $this->assertSame($this->bankNameA, $bankDetails->getBankName());
-        $this->assertSame($this->rcbicA, $bankDetails->getRcbic());
-        $this->assertSame($this->correspondentAccountA, $bankDetails->getCorrespondentAccount());
-        $this->assertSame($this->currentAccountA, $bankDetails->getCurrentAccount());
+        $this->assertInstanceOf(BankName::class, $bankDetails->getBankName());
+        $this->assertSame($this->bankNameA, (string) $bankDetails->getBankName());
+        $this->assertInstanceOf(Bik::class, $bankDetails->getBik());
+        $this->assertSame($this->bikA, (string) $bankDetails->getBik());
+        $this->assertInstanceOf(CorrespondentAccount::class, $bankDetails->getCorrespondentAccount());
+        $this->assertSame($this->correspondentAccountA, (string) $bankDetails->getCorrespondentAccount());
+        $this->assertInstanceOf(CurrentAccount::class, $bankDetails->getCurrentAccount());
+        $this->assertSame($this->currentAccountA, (string) $bankDetails->getCurrentAccount());
     }
 
     public function testItFailsWithEmptyBankNameValue(): void
@@ -52,13 +60,13 @@ class BankDetailsTest extends TestCase
         $this->expectExceptionForEmptyValue('наименование банка');
         new BankDetails(
             '',
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
     }
 
-    public function testItFailsWithEmptyRcbicValue(): void
+    public function testItFailsWithEmptyBikValue(): void
     {
         $this->expectExceptionForEmptyValue('БИК');
         new BankDetails(
@@ -71,10 +79,10 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithEmptyCorrespondentAccountValue(): void
     {
-        $this->expectExceptionForEmptyValue('корреспондентский счёт');
+        $this->expectExceptionForEmptyValue('к/счёт');
         new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             '',
             $this->currentAccountA,
         );
@@ -82,10 +90,10 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithEmptyCurrentAccountValue(): void
     {
-        $this->expectExceptionForEmptyValue('расчётный счёт');
+        $this->expectExceptionForEmptyValue('р/счёт');
         new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             '',
         );
@@ -95,7 +103,7 @@ class BankDetailsTest extends TestCase
     {
         $bankDetails = new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
@@ -105,7 +113,7 @@ class BankDetailsTest extends TestCase
                 $this->bankNameA,
                 $this->currentAccountA,
                 $this->correspondentAccountA,
-                $this->rcbicA,
+                $this->bikA,
             ),
             (string) $bankDetails
         );
@@ -113,58 +121,58 @@ class BankDetailsTest extends TestCase
 
     public function testItComparable(): void
     {
-        $passportA = new BankDetails(
+        $bankDetailsA = new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
-        $passportB = new BankDetails(
+        $bankDetailsB = new BankDetails(
             $this->bankNameB,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
-        $passportC = new BankDetails(
+        $bankDetailsC = new BankDetails(
             $this->bankNameA,
-            $this->rcbicB,
+            $this->bikB,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
-        $passportD = new BankDetails(
+        $bankDetailsD = new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountB,
             $this->currentAccountA,
         );
-        $passportE = new BankDetails(
+        $bankDetailsE = new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountB,
         );
-        $passportF = new BankDetails(
+        $bankDetailsF = new BankDetails(
             $this->bankNameA,
-            $this->rcbicA,
+            $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA,
         );
 
-        $this->assertFalse($passportA->isEqual($passportB));
-        $this->assertFalse($passportA->isEqual($passportC));
-        $this->assertFalse($passportA->isEqual($passportD));
-        $this->assertFalse($passportA->isEqual($passportE));
-        $this->assertTrue($passportA->isEqual($passportF));
-        $this->assertFalse($passportB->isEqual($passportC));
-        $this->assertFalse($passportB->isEqual($passportD));
-        $this->assertFalse($passportB->isEqual($passportE));
-        $this->assertFalse($passportB->isEqual($passportF));
-        $this->assertFalse($passportC->isEqual($passportD));
-        $this->assertFalse($passportC->isEqual($passportE));
-        $this->assertFalse($passportC->isEqual($passportF));
-        $this->assertFalse($passportD->isEqual($passportE));
-        $this->assertFalse($passportD->isEqual($passportF));
-        $this->assertFalse($passportE->isEqual($passportF));
+        $this->assertFalse($bankDetailsA->isEqual($bankDetailsB));
+        $this->assertFalse($bankDetailsA->isEqual($bankDetailsC));
+        $this->assertFalse($bankDetailsA->isEqual($bankDetailsD));
+        $this->assertFalse($bankDetailsA->isEqual($bankDetailsE));
+        $this->assertTrue($bankDetailsA->isEqual($bankDetailsF));
+        $this->assertFalse($bankDetailsB->isEqual($bankDetailsC));
+        $this->assertFalse($bankDetailsB->isEqual($bankDetailsD));
+        $this->assertFalse($bankDetailsB->isEqual($bankDetailsE));
+        $this->assertFalse($bankDetailsB->isEqual($bankDetailsF));
+        $this->assertFalse($bankDetailsC->isEqual($bankDetailsD));
+        $this->assertFalse($bankDetailsC->isEqual($bankDetailsE));
+        $this->assertFalse($bankDetailsC->isEqual($bankDetailsF));
+        $this->assertFalse($bankDetailsD->isEqual($bankDetailsE));
+        $this->assertFalse($bankDetailsD->isEqual($bankDetailsF));
+        $this->assertFalse($bankDetailsE->isEqual($bankDetailsF));
     }
 
     private function expectExceptionForEmptyValue(string $name): void
