@@ -87,9 +87,8 @@ final class Bik
      */
     private function assertValidLength(string $value): void
     {
-        $bikLength = self::BIK_LENGTH;
-        if (\strlen($value) !== $bikLength) {
-            throw new \InvalidArgumentException(\sprintf('БИК должен состоять из %d цифр.', $bikLength));
+        if (\strlen($value) !== self::BIK_LENGTH) {
+            throw new \InvalidArgumentException(\sprintf('БИК должен состоять из %d цифр.', self::BIK_LENGTH));
         }
     }
 }
