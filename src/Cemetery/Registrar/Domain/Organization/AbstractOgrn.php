@@ -63,7 +63,7 @@ abstract class AbstractOgrn
         $this->assertNotEmpty($value);
         $this->assertNumeric($value);
         $this->assertValidLength($value);
-        $this->assertValidCheckDigits($value);
+        $this->assertValidCheckDigit($value);
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class AbstractOgrn
      *
      * @throws \InvalidArgumentException when the OGRN contains an incorrect check digit
      */
-    private function assertValidCheckDigits(string $value): void
+    private function assertValidCheckDigit(string $value): void
     {
         $ogrnLength        = $this->getOgrnLength();
         $checkDigit        = $this->calculateCheckDigit($value);
