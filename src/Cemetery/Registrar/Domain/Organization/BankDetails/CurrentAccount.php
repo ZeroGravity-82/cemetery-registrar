@@ -14,6 +14,17 @@ final class CurrentAccount extends AbstractAccount
     /**
      * {@inheritdoc}
      */
+    protected function assertValidValue(string $value, Bik $bik): void
+    {
+        $this->assertNotEmpty($value);
+        $this->assertNumeric($value);
+        $this->assertValidLength($value);
+        $this->assertValidCheckDigit($value, $bik);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAccountName(): string
     {
         return self::ACCOUNT_NAME;

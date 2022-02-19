@@ -22,10 +22,10 @@ class CurrentAccountTest extends TestCase
         $this->assertSame('042908762', (string) $currentAccount->getBik());
 
         // Current account opened in the cash settlement center (belongs to Central Bank of Russia)
-//        $currentAccount = new CurrentAccount('40701810000001002118', new Bik('044106001'));
-//        $this->assertSame($currentAccount->getValue(), '40701810000001002118');
-//        $this->assertInstanceOf(Bik::class, $currentAccount->getBik());
-//        $this->assertSame('044106001', (string) $currentAccount->getBik());
+        $currentAccount = new CurrentAccount('40701810000001002118', new Bik('044106001'));
+        $this->assertSame($currentAccount->getValue(), '40701810000001002118');
+        $this->assertInstanceOf(Bik::class, $currentAccount->getBik());
+        $this->assertSame('044106001', (string) $currentAccount->getBik());
     }
 
     public function testItFailsWithEmptyValue(): void
