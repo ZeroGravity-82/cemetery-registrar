@@ -14,6 +14,18 @@ final class CorrespondentAccount extends AbstractAccount
     /**
      * {@inheritdoc}
      */
+    protected function assertValidValue(string $value, Bik $bik): void
+    {
+        $this->assertNotEmpty($value);
+        $this->assertNumeric($value);
+        $this->assertValidLength($value);
+        $this->assertValidCheckDigit($value, $bik);
+        $this->assertBikNotBelongsToCentralBankOfRussia($bik);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getAccountName(): string
     {
         return self::ACCOUNT_NAME;
@@ -25,5 +37,17 @@ final class CorrespondentAccount extends AbstractAccount
     protected function getStringForCheckSum(string $value, Bik $bik): string
     {
         return $this->getStringForCorrespondentAccountCheckSum($value, $bik);
+    }
+
+    /**
+     * @param Bik $bik
+     *
+     * @throws \InvalidArgumentException when the BIK belongs to Central Bank of Russia
+     */
+    private function assertBikNotBelongsToCentralBankOfRussia(Bik $bik): void
+    {
+        if ($bik->isBelongToCentralBankOfRussia()) {
+            throw new \InvalidArgumentException('К/счёт не должен быть указан для данного БИК.');
+        }
     }
 }

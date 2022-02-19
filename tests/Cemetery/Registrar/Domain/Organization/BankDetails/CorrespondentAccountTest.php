@@ -15,7 +15,6 @@ class CorrespondentAccountTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        // Correspondent account opened with a credit institution
         $correspondentAccount = new CorrespondentAccount('30101810600000000774', new Bik('045004774'));
         $this->assertSame($correspondentAccount->getValue(), '30101810600000000774');
         $this->assertInstanceOf(Bik::class, $correspondentAccount->getBik());
@@ -55,6 +54,13 @@ class CorrespondentAccountTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('К/счёт недействителен (не соответствует БИК).');
         new CorrespondentAccount('30101810600000000774', new Bik('044525974'));
+    }
+
+    public function testItFailsWithBikValueOfCentralBankOfRussia(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('К/счёт не должен быть указан для данного БИК.');
+        new CorrespondentAccount('30101810800000000746', new Bik('049805000'));
     }
 
     public function testItStringifyable(): void

@@ -23,6 +23,12 @@ abstract class AbstractAccount
     }
 
     /**
+     * @param string $value
+     * @param Bik    $bik
+     */
+    abstract protected function assertValidValue(string $value, Bik $bik): void;
+
+    /**
      * @return string
      */
     abstract protected function getAccountName(): string;
@@ -74,22 +80,10 @@ abstract class AbstractAccount
 
     /**
      * @param string $value
-     * @param Bik    $bik
-     */
-    private function assertValidValue(string $value, Bik $bik): void
-    {
-        $this->assertNotEmpty($value);
-        $this->assertNumeric($value);
-        $this->assertValidLength($value);
-        $this->assertValidCheckDigit($value, $bik);
-    }
-
-    /**
-     * @param string $value
      *
      * @throws \InvalidArgumentException when the account is empty
      */
-    private function assertNotEmpty(string $value): void
+    protected function assertNotEmpty(string $value): void
     {
         if ($value === '') {
             throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getAccountName()));
@@ -101,7 +95,7 @@ abstract class AbstractAccount
      *
      * @throws \InvalidArgumentException when the account has non-numeric value
      */
-    private function assertNumeric(string $value): void
+    protected function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
             throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->getAccountName()));
@@ -113,7 +107,7 @@ abstract class AbstractAccount
      *
      * @throws \InvalidArgumentException when the length of the account is wrong
      */
-    private function assertValidLength(string $value): void
+    protected function assertValidLength(string $value): void
     {
         $accountName   = $this->getAccountName();
         $accountLength = self::ACCOUNT_LENGTH;
@@ -130,7 +124,7 @@ abstract class AbstractAccount
      *
      * @throws \InvalidArgumentException when the account contains an incorrect check digit
      */
-    private function assertValidCheckDigit(string $value, Bik $bik): void
+    protected function assertValidCheckDigit(string $value, Bik $bik): void
     {
         $checkDigit        = $this->calculateCheckDigit($value, $bik);
         $isCheckDigitValid = $checkDigit === 0;
