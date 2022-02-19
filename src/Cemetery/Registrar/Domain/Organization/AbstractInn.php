@@ -62,12 +62,12 @@ abstract class AbstractInn
      */
     protected function calculateCheckDigit(string $value, array $coefficients): int
     {
-        $checkDigit = 0;
+        $checkSum = 0;
         foreach ($coefficients as $index => $coefficient) {
-            $checkDigit += $coefficient * (int) $value[$index];
+            $checkSum += $coefficient * (int) $value[$index];
         }
 
-        return $checkDigit % 11 % 10;
+        return $checkSum % 11 % 10;
     }
 
     /**
