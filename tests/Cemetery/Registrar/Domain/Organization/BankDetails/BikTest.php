@@ -18,6 +18,15 @@ class BikTest extends TestCase
         $this->assertSame($bik->getValue(), '045004774');
     }
 
+    public function testItReturnsBelongingToCashSettlementCenter(): void
+    {
+        $bik = new Bik('045004774');
+        $this->assertFalse($bik->isBelongToCashSettlementCenter());
+
+        $bik = new Bik('049805000');
+        $this->assertTrue($bik->isBelongToCashSettlementCenter());
+    }
+
     public function testItFailsWithEmptyValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);

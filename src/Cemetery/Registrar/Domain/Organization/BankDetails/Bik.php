@@ -47,6 +47,14 @@ final class Bik
     }
 
     /**
+     * @return bool
+     */
+    public function isBelongToCashSettlementCenter(): bool
+    {
+        return \substr($this->getValue(), -3, 2) === '00';
+    }
+
+    /**
      * @param string $value
      */
     private function assertValidValue(string $value): void
