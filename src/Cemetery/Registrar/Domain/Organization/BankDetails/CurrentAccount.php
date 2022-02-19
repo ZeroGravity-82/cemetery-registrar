@@ -13,11 +13,13 @@ final class CurrentAccount
 
     /**
      * @param string $value
+     * @param Bik    $bik
      */
     public function __construct(
         private string $value,
+        private Bik    $bik,
     ) {
-        $this->assertValidValue($value);
+        $this->assertValidValue($value, $bik);
     }
 
     /**
@@ -37,23 +39,36 @@ final class CurrentAccount
     }
 
     /**
+     * @return Bik
+     */
+    public function getBik(): Bik
+    {
+        return $this->bik;
+    }
+
+    /**
      * @param self $currentAccount
      *
      * @return bool
      */
     public function isEqual(self $currentAccount): bool
     {
-        return $currentAccount->getValue() === $this->getValue();
+        $isSameValue = $currentAccount->getValue() === $this->getValue();
+        $isSameBik   = $currentAccount->getBik()->isEqual($this->getBik());
+
+        return $isSameValue && $isSameBik;
     }
 
     /**
      * @param string $value
+     * @param Bik    $bik
      */
-    private function assertValidValue(string $value): void
+    private function assertValidValue(string $value, Bik $bik): void
     {
         $this->assertNotEmpty($value);
         $this->assertNumeric($value);
         $this->assertValidLength($value);
+        $this->assertValidCheckDigit($value, $bik);
     }
 
     /**
@@ -92,5 +107,38 @@ final class CurrentAccount
                 \sprintf('Р/счёт должен состоять из %d цифр.', self::CURR_ACCOUNT_LENGTH)
             );
         }
+    }
+
+    /**
+     * @param string $value
+     * @param Bik    $bik
+     *
+     * @throws \InvalidArgumentException when the current account contains an incorrect check digit
+     */
+    private function assertValidCheckDigit(string $value, Bik $bik): void
+    {
+        $checkDigit        = $this->calculateCheckDigit($value, $bik);
+        $isCheckDigitValid = $checkDigit === 0;
+        if (!$isCheckDigitValid) {
+            throw new \InvalidArgumentException('Р/счёт недействителен (не соответствует БИК).');
+        }
+    }
+
+    /**
+     * @param string $value
+     * @param Bik    $bik
+     *
+     * @return int
+     */
+    private function calculateCheckDigit(string $value, Bik $bik): int
+    {
+        $checkSum     = 0;
+        $coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
+        $stringToTest = \substr($bik->getValue(), -3) . $value;
+        foreach ($coefficients as $index => $coefficient) {
+            $checkSum += $coefficient * ((int) $stringToTest[$index] % 10);
+        }
+
+        return $checkSum % 10;
     }
 }
