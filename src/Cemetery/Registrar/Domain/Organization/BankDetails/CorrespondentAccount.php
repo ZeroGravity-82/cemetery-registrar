@@ -13,11 +13,13 @@ final class CorrespondentAccount
 
     /**
      * @param string $value
+     * @param Bik    $bik
      */
     public function __construct(
         private string $value,
+        private Bik    $bik,
     ) {
-        $this->assertValidValue($value);
+        $this->assertValidValue($value, $bik);
     }
 
     /**
@@ -37,23 +39,36 @@ final class CorrespondentAccount
     }
 
     /**
+     * @return Bik
+     */
+    public function getBik(): Bik
+    {
+        return $this->bik;
+    }
+
+    /**
      * @param self $correspondentAccount
      *
      * @return bool
      */
     public function isEqual(self $correspondentAccount): bool
     {
-        return $correspondentAccount->getValue() === $this->getValue();
+        $isSameValue = $correspondentAccount->getValue() === $this->getValue();
+        $isSameBik   = $correspondentAccount->getBik()->isEqual($this->getBik());
+
+        return $isSameValue && $isSameBik;
     }
 
     /**
      * @param string $value
+     * @param Bik    $bik
      */
-    private function assertValidValue(string $value): void
+    private function assertValidValue(string $value, Bik $bik): void
     {
         $this->assertNotEmpty($value);
         $this->assertNumeric($value);
         $this->assertValidLength($value);
+        $this->assertValidCheckDigit($value, $bik);
     }
 
     /**
@@ -92,5 +107,38 @@ final class CorrespondentAccount
                 \sprintf('К/счёт должен состоять из %d цифр.', self::CORR_ACCOUNT_LENGTH)
             );
         }
+    }
+
+    /**
+     * @param string $value
+     * @param Bik    $bik
+     *
+     * @throws \InvalidArgumentException when the correspondent account contains an incorrect check digit
+     */
+    private function assertValidCheckDigit(string $value, Bik $bik): void
+    {
+        $checkDigit        = $this->calculateCheckDigit($value, $bik);
+        $isCheckDigitValid = $checkDigit === 0;
+        if (!$isCheckDigitValid) {
+            throw new \InvalidArgumentException('К/счёт недействителен (не соответствует БИК).');
+        }
+    }
+
+    /**
+     * @param string $value
+     * @param Bik    $bik
+     *
+     * @return int
+     */
+    private function calculateCheckDigit(string $value, Bik $bik): int
+    {
+        $checkSum     = 0;
+        $coefficients = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
+        $stringToTest = '0' . \substr($bik->getValue(), -5, 2) . $value;
+        foreach ($coefficients as $index => $coefficient) {
+            $checkSum += $coefficient * ((int) $stringToTest[$index] % 10);
+        }
+
+        return $checkSum % 10;
     }
 }
