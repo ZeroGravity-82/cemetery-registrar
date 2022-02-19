@@ -49,7 +49,7 @@ final class Bik
     /**
      * @return bool
      */
-    public function isBelongToCashSettlementCenter(): bool
+    public function isBelongToCentralBankOfRussia(): bool
     {
         return \substr($this->getValue(), -3, 2) === '00';
     }

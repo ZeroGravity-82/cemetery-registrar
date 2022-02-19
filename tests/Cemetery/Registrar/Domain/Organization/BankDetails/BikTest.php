@@ -18,13 +18,13 @@ class BikTest extends TestCase
         $this->assertSame($bik->getValue(), '045004774');
     }
 
-    public function testItReturnsBelongingToCashSettlementCenter(): void
+    public function testItReturnsBelongingToCentralBankOfRussia(): void
     {
         $bik = new Bik('045004774');
-        $this->assertFalse($bik->isBelongToCashSettlementCenter());
+        $this->assertFalse($bik->isBelongToCentralBankOfRussia());
 
         $bik = new Bik('049805000');
-        $this->assertTrue($bik->isBelongToCashSettlementCenter());
+        $this->assertTrue($bik->isBelongToCentralBankOfRussia());
     }
 
     public function testItFailsWithEmptyValue(): void
