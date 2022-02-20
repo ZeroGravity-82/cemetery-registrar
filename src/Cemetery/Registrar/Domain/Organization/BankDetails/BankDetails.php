@@ -20,9 +20,9 @@ final class BankDetails
     private Bik $bik;
 
     /**
-     * @var CorrespondentAccount
+     * @var CorrespondentAccount|null
      */
-    private CorrespondentAccount $correspondentAccount;
+    private ?CorrespondentAccount $correspondentAccount = null;
 
     /**
      * @var CurrentAccount
@@ -30,25 +30,27 @@ final class BankDetails
     private CurrentAccount $currentAccount;
 
     /**
-     * @param string $bankName
-     * @param string $bik
-     * @param string $correspondentAccount
-     * @param string $currentAccount
+     * @param string      $bankName
+     * @param string      $bik
+     * @param string|null $correspondentAccount
+     * @param string      $currentAccount
      */
     public function __construct(
-        string $bankName,
-        string $bik,
-        string $correspondentAccount,
-        string $currentAccount,
+        string  $bankName,
+        string  $bik,
+        ?string $correspondentAccount,
+        string  $currentAccount,
     ) {
         $this->assertValidBankName($bankName);
+        $this->bankName = new BankName($bankName);
         $this->assertValidBik($bik);
-        $this->assertValidCorrespondentAccount($correspondentAccount);
+        $this->bik = new Bik($bik);
+        if ($correspondentAccount !== null) {
+            $this->assertValidCorrespondentAccount($correspondentAccount);
+            $this->correspondentAccount = new CorrespondentAccount($correspondentAccount, $this->getBik());
+        }
         $this->assertValidCurrentAccount($currentAccount);
-        $this->bankName             = new BankName($bankName);
-        $this->bik                  = new Bik($bik);
-        $this->correspondentAccount = new CorrespondentAccount($correspondentAccount);
-        $this->currentAccount       = new CurrentAccount($currentAccount);
+        $this->currentAccount = new CurrentAccount($currentAccount, $this->getBik());
     }
 
     /**
@@ -82,9 +84,9 @@ final class BankDetails
     }
 
     /**
-     * @return CorrespondentAccount
+     * @return CorrespondentAccount|null
      */
-    public function getCorrespondentAccount(): CorrespondentAccount
+    public function getCorrespondentAccount(): ?CorrespondentAccount
     {
         return $this->correspondentAccount;
     }

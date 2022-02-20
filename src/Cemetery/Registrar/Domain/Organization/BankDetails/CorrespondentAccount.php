@@ -19,8 +19,8 @@ final class CorrespondentAccount extends AbstractAccount
         $this->assertNotEmpty($value);
         $this->assertNumeric($value);
         $this->assertValidLength($value);
-        $this->assertValidCheckDigit($value, $bik);
         $this->assertBikNotBelongsToCentralBankOfRussia($bik);
+        $this->assertValidCheckDigit($value, $bik);
     }
 
     /**
@@ -47,7 +47,7 @@ final class CorrespondentAccount extends AbstractAccount
     private function assertBikNotBelongsToCentralBankOfRussia(Bik $bik): void
     {
         if ($bik->isBelongToCentralBankOfRussia()) {
-            throw new \InvalidArgumentException('К/счёт не должен быть указан для данного БИК.');
+            throw new \InvalidArgumentException('К/счёт не может быть указан для данного БИК.');
         }
     }
 }

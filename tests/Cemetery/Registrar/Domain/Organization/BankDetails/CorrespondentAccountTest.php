@@ -59,7 +59,7 @@ class CorrespondentAccountTest extends TestCase
     public function testItFailsWithBikValueOfCentralBankOfRussia(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('К/счёт не должен быть указан для данного БИК.');
+        $this->expectExceptionMessage('К/счёт не может быть указан для данного БИК.');
         new CorrespondentAccount('30101810800000000746', new Bik('049805000'));
     }
 
