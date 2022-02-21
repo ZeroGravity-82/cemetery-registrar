@@ -4,133 +4,273 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\CreateBurial;
 
+use Cemetery\Registrar\Domain\Burial\BurialBuilder;
+use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
+use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\Deceased\Deceased;
+use Cemetery\Registrar\Domain\Deceased\DeceasedBuilder;
+use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class CreateBurial
 {
+    public function __construct(
+        private BurialBuilder                    $burialBuilder,
+        private DeceasedBuilder                  $deceasedBuilder,
+        private NaturalPersonBuilder             $naturalPersonBuilder,
+        private SoleProprietorFactory            $soleProprietorFactory,
+        private JuristicPersonFactory            $juristicPersonFactory,
+        private GraveSiteFactory                 $graveSiteFactory,
+        private ColumbariumNicheFactory          $columbariumNicheFactory,
+        private MemorialTreeFactory              $memorialTreeFactory,
 
+
+        private DeceasedRepositoryInterface      $deceasedRepo,
+        private NaturalPersonRepositoryInterface $naturalPersonRepo,
+        private SoleProprietorRepositoryInterface     $soleProprietorRepo,
+        private JuristicPersonRepositoryInterface     $juristicPersonRepo,
+        private GraveSiteRepositoryInterface          $graveSiteRepo,
+        private ColumbariumNicheRepositoryInterface   $columbariumNicheRepo,
+        private MemorialTreeRepositoryInterface       $memorialTreeRepo,
+
+
+    ) {}
 
     public function execute(CreateBurialRequest $request): CreateBurialResponse
     {
-        $customerId                 = $request->customerId   ?? null;
-        $customerType               = $request->customerType ?? null;
-        $isCustomerCreationRequired = \is_null($customerId) && !\is_null($customerType);
-        if ($isCustomerCreationRequired) {
-            switch ($customerType) {
-                case CustomerType::NATURAL_PERSON:
-                    $customer = $this->naturalPersonFactory->create(
-                        $request->customerNaturalPersonFullName ?? null,
-                        $request->customerNaturalPersonBornAt ?? null,
-                    );
-                    $this->naturalPersonRepo->save($customer);
-                    break;
-                case CustomerType::SOLE_PROPRIETOR:
-                    $customer = $this->soleProprietorFactory->create(
-                        $request->customerSoleProprietorFullName ?? null,
-                        $request->customerSoleProprietorInn ?? null,
-                    );
-                    $this->soleProprietorRepo->save($customer);
-                    break;
-                case CustomerType::JURISTIC_PERSON:
-                    $customer = $this->juristicPersonFactory->create(
-                        $request->customerJuristicPersonName ?? null,
-                        $request->customerJuristicPersonInn ?? null,
-                        $request->customerJuristicPersonKpp ?? null,
-                    );
-                    $this->juristicPersonRepo->save($customer);
-                    break;
-                default:
-                    throw new \InvalidArgumentException(\sprintf('Invalid customer type "%s".', $customerType));
-            };
-            $customerId = (string) $customer->getId();
-        }
-        if ($customerId && $customerType) {
-            $this->burialBuilder->addCustomerId($customerId, $customerType);
-        }
-
-
-
-
-
-        $this->burialBuilder->addDeceased();
-        $this->burialBuilder->addBurialPlace();
-        $this->burialBuilder->addBurialPlaceOwner();
-        $this->burialBuilder->addFuneralCompany();
-        $this->burialBuilder->addBurialContainer();
-        $this->burialBuilder->addBuriedAt();
+        $this->processDeceasedData($request, $this->burialBuilder);
+        $this->processCustomerData($request, $this->burialBuilder);
+        $this->processBurialPlaceData($request, $this->burialBuilder);
+        $this->processBurialPlaceOwnerData($request, $this->burialBuilder);
+        $this->processFuneralCompanyData($request, $this->burialBuilder);
+        $this->processBurialContainerData($request, $this->burialBuilder);
+        $this->processBuriedAtData($request, $this->burialBuilder);
 
         $burial = $this->burialBuilder->getResult();
         $this->burailRepo->save($burial);
 
         return new CreateBurialResponse((string) $burial->getId());
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        $deceasedDetails = \json_decode($request->deceasedDetails);
-        if (!isset($deceasedDetails->naturalPersonId)) {
-            $naturalPerson = $this->naturalPersonFactory()->create(
-                $deceasedDetails->fullName,
-                $deceasedDetails->bornAt,
-            );
-            $this->naturalPersonFactory->save($naturalPerson);
-            $naturalPersonId = $naturalPerson->getId();
-        } else {
-            $naturalPersonId = $deceasedDetails->naturalPersonId;
+    /**
+     * @param CreateBurialRequest $request
+     * @param BurialBuilder       $burialBuilder
+     */
+    private function processDeceasedData(CreateBurialRequest $request, BurialBuilder $burialBuilder): void
+    {
+        $this->assertValidDeceasedData($request);
+        $naturalPersonId                 = $request->deceasedNaturalPersonId;
+        $isNaturalPersonCreationRequired = !$naturalPersonId;
+        if ($isNaturalPersonCreationRequired) {
+            $naturalPerson   = $this->createNaturalPersonForDeceased($request);
+            $naturalPersonId = (string) $naturalPerson->getId();
         }
-        $deceased = $this->deceasedFactory->create(
-            $naturalPersonId,
-            $deceasedDetails->diedAt,
-            $deceasedDetails->deathCertificateId,
-            $deceasedDetails->causeOfDeath,
-        );
+        $deceased = $this->createDeceased($naturalPersonId, $request);
+        $burialBuilder->initialize($deceased->getId());
+    }
+
+    /**
+     * @param CreateBurialRequest $request
+     * @param BurialBuilder       $burialBuilder
+     */
+    private function processCustomerData(CreateBurialRequest $request, BurialBuilder $burialBuilder): void
+    {
+        $this->assertValidCustomerData($request);
+        $customerId                 = $request->customerId;
+        $isCustomerCreationRequired = !$customerId && $request->customerType;
+        if ($isCustomerCreationRequired) {
+            $customer   = $this->createCustomer($request);
+            $customerId = (string) $customer->getId();
+        }
+        if ($customerId) {
+            $customerType = new CustomerType($request->customerType);
+            $customerId   = new CustomerId($customerId, $customerType);
+            $burialBuilder->addCustomerId($customerId);
+        }
+    }
+
+    private function processBurialPlaceData(CreateBurialRequest $request, BurialBuilder $burialBuilder): void
+    {
+        $this->assertValidBurialPlaceData($request);
+        $burialPlaceId                 = $request->burialPlaceId;
+        $burialPlaceType               = $request->burialPlaceType;
+        $isBurialPlaceCreationRequired = !$burialPlaceId && $burialPlaceType;
+        if ($isBurialPlaceCreationRequired) {
+            $burialPlace   = $this->createBurialPlace($request);
+            $burialPlaceId = (string) $burialPlace->getId();
+        }
+        if ($burialPlaceId) {
+            $burialPlaceType = new BurialPlaceType($burialPlaceType);
+            $burialPlaceId   = new BurialPlaceId($burialPlaceId, $burialPlaceType);
+            $burialBuilder->addBurialPlaceId($burialPlaceId);
+        }
+    }
+
+
+
+
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return NaturalPerson
+     */
+    private function createNaturalPersonForDeceased(CreateBurialRequest $request): NaturalPerson
+    {
+        $naturalPerson = $this->naturalPersonBuilder
+            ->initialize($request->deceasedNaturalPersonFullName)
+            ->addBornAt($request->deceasedNaturalPersonBornAt)
+            ->build();
+        $this->naturalPersonRepo->save($naturalPerson);
+
+        return $naturalPerson;
+    }
+
+    /**
+     * @param string              $naturalPersonId
+     * @param CreateBurialRequest $request
+     *
+     * @return Deceased
+     */
+    private function createDeceased(string $naturalPersonId, CreateBurialRequest $request): Deceased
+    {
+        $deceased = $this->deceasedBuilder
+            ->initialize($naturalPersonId, $request->deceasedDiedAt)
+            ->addDeathCertificateId($request->deceasedDeathCertificateId)
+            ->addCauseOfDeath($request->deceasedCauseOfDeath)
+            ->build();
         $this->deceasedRepo->save($deceased);
 
-
-        $customerDetails = $request->customerDetails ?: \json_decode($request->customerDetails);
-
-
-        $burialPlaceDetails = $request->burialPlaceDetails ?: \json_decode($request->burialPlaceDetails);
-
-
-        $burialPlaceOwnerDetails = $request->burialPlaceOwnerDetails ?: \json_decode($request->burialPlaceOwnerDetails);
-
-
-        $funeralCompanyDetails = $request->funeralCompanyDetails ?: \json_decode($request->funeralCompanyDetails);
-
-
-        $burialContainerDetails = $request->burialContainerDetails ?: \json_decode($request->burialContainerDetails);
-
-
-        $buriedAt = $request->buriedAt;
-
-
-
-        $burial = $this->burialFactory->create(
-            $deceasedId,
-            $customerId,
-            $burialPlaceId,
-            $burialPlaceOwnerId,
-            $funeralCompanyId,
-            $burialContainerId,
-            $buriedAt,
-        );
-        $this->burailRepo->save($burial);
-
-        return new CreateBurialResponse((string) $burial->getId());
+        return $deceased;
     }
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return NaturalPerson|SoleProprietor|JuristicPerson
+     *
+     * @throws \InvalidArgumentException when the provided customer type is unsupported
+     */
+    private function createCustomer(CreateBurialRequest $request): NaturalPerson|SoleProprietor|JuristicPerson
+    {
+        return match($request->customerType) {
+            CustomerType::NATURAL_PERSON  => $this->createNaturalPersonForCustomer($request),
+            CustomerType::SOLE_PROPRIETOR => $this->createSoleProprietorForCustomer($request),
+            CustomerType::JURISTIC_PERSON => $this->createJuristicPersonForCustomer($request),
+            default                       => throw new \InvalidArgumentException(
+                \sprintf('Unsupported customer type "%s".', $request->customerType)
+            ),
+        };
+    }
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return NaturalPerson
+     */
+    private function createNaturalPersonForCustomer(CreateBurialRequest $request): NaturalPerson
+    {
+        $naturalPerson = $this->naturalPersonBuilder
+            ->initialize($request->customerNaturalPersonFullName)
+            ->addPhone($request->customerNaturalPersonPhone)
+            ->addPhoneAdditional($request->customerNaturalPersonPhoneAdditional)
+            ->addEmail($request->customerNaturalPersonEmail)
+            ->addAddress($request->customerNaturalPersonAddress)
+            ->addBornAt($request->customerNaturalPersonBornAt)
+            ->addPlaceOfBirth($request->customerNaturalPersonPlaceOfBirth)
+            ->addPassport(
+                $request->customerNaturalPersonPassportSeries,
+                $request->customerNaturalPersonPassportNumber,
+                $request->customerNaturalPersonPassportIssuedAt,
+                $request->customerNaturalPersonPassportIssuedBy,
+                $request->customerNaturalPersonPassportDivisionCode,
+            )
+            ->build();
+        $this->naturalPersonRepo->save($naturalPerson);
+
+        return $naturalPerson;
+    }
+
+
+
+
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return GraveSite|ColumbariumNiche|MemorialTree
+     *
+     * @throws \InvalidArgumentException when the provided burial place type is unsupported
+     */
+    private function createBurialPlace(CreateBurialRequest $request): GraveSite|ColumbariumNiche|MemorialTree
+    {
+        switch ($request->burialPlaceType) {
+            case BurialPlaceType::GRAVE_SITE:
+                $burialPlace = $this->graveSiteFactory->create(
+
+                );
+                $this->graveSiteRepo->save($burialPlace);
+                break;
+            case BurialPlaceType::COLUMBARIUM_NICHE:
+                $burialPlace = $this->columbariumNicheFactory->create(
+
+                );
+                $this->columbariumNicheRepo->save($burialPlace);
+                break;
+            case BurialPlaceType::MEMORIAL_TREE:
+                $burialPlace = $this->memorialTreeFactory->create(
+
+                );
+                $this->memorialTreeRepo->save($burialPlace);
+                break;
+            default:
+                throw new \InvalidArgumentException(
+                    \sprintf('Unsupported burial place type "%s".', $request->burialPlaceType)
+                );
+        }
+
+        return $burialPlace;
+    }
+
+
+
+
+
+
+    private function assertValidDeceasedData(CreateBurialRequest $request): void
+    {
+        $isDataComplete = $request->deceasedNaturalPersonId ||
+            $request->deceasedNaturalPersonFullName;
+        if (!$isDataComplete) {
+            throw new \InvalidArgumentException('The data of the deceased is incomplete.');
+        }
+    }
+
+    private function assertValidCustomerData(CreateBurialRequest $request): void
+    {
+        $isDataComplete = $request->customerId ||
+            $request->customerType;
+        if (!$isDataComplete) {
+            throw new \InvalidArgumentException('The data of the customer is incomplete.');
+        }
+    }
+
+    private function assertValidBurialPlaceData(CreateBurialRequest $request): void
+    {
+        $isDataComplete = $request->burialPlaceId ||
+            $request->burialPlaceType;
+        if (!$isDataComplete) {
+            throw new \InvalidArgumentException('The data of the burial place is incomplete.');
+        }
+    }
+
+
 }
