@@ -30,35 +30,37 @@ final class CreateBurialRequest
      * @param \DateTimeImmutable|null $customerNaturalPersonPassportIssuedAt
      * @param string|null             $customerNaturalPersonPassportIssuedBy
      * @param string|null             $customerNaturalPersonPassportDivisionCode
-     * @param string|null             $customerSoleProprietorFullName
+     * @param string|null             $customerSoleProprietorName
      * @param string|null             $customerSoleProprietorInn
      * @param string|null             $customerSoleProprietorOgrnip
      * @param string|null             $customerSoleProprietorRegistrationAddress
      * @param string|null             $customerSoleProprietorActualLocationAddress
      * @param string|null             $customerSoleProprietorBankName
-     * @param string|null             $customerSoleProprietorRcbic
+     * @param string|null             $customerSoleProprietorBik
      * @param string|null             $customerSoleProprietorCorrespondentAccount
      * @param string|null             $customerSoleProprietorCurrentAccount
      * @param string|null             $customerSoleProprietorPhone
      * @param string|null             $customerSoleProprietorPhoneAdditional
-     * @param string|null             $customerSoleProprietorEmail
      * @param string|null             $customerSoleProprietorFax
+     * @param string|null             $customerSoleProprietorEmail
      * @param string|null             $customerSoleProprietorWebsite
-     * @param string|null             $customerJuristicPersonFullName
-     * @param string|null             $customerJuristicPersonShortName
+     * @param string|null             $customerJuristicPersonName
      * @param string|null             $customerJuristicPersonInn
      * @param string|null             $customerJuristicPersonKpp
      * @param string|null             $customerJuristicPersonOgrn
+     * @param string|null             $customerJuristicPersonOkpo
+     * @param string|null             $customerJuristicPersonOkato
      * @param string|null             $customerJuristicPersonLegalAddress
      * @param string|null             $customerJuristicPersonPostalAddress
      * @param string|null             $customerJuristicPersonBankName
-     * @param string|null             $customerJuristicPersonRcbic
+     * @param string|null             $customerJuristicPersonBik
      * @param string|null             $customerJuristicPersonCorrespondentAccount
      * @param string|null             $customerJuristicPersonCurrentAccount
      * @param string|null             $customerJuristicPersonPhone
      * @param string|null             $customerJuristicPersonPhoneAdditional
-     * @param string|null             $customerJuristicPersonEmail
      * @param string|null             $customerJuristicPersonFax
+     * @param string|null             $customerJuristicPersonGeneralDirector
+     * @param string|null             $customerJuristicPersonEmail
      * @param string|null             $customerJuristicPersonWebsite
      * @param string|null             $burialPlaceOwnerId
      * @param string|null             $burialPlaceOwnerFullName
@@ -113,35 +115,38 @@ final class CreateBurialRequest
         public ?\DateTimeImmutable $customerNaturalPersonPassportIssuedAt,
         public ?string             $customerNaturalPersonPassportIssuedBy,
         public ?string             $customerNaturalPersonPassportDivisionCode,
-        public ?string             $customerSoleProprietorFullName,
+        public ?string             $customerSoleProprietorName,
         public ?string             $customerSoleProprietorInn,
         public ?string             $customerSoleProprietorOgrnip,
         public ?string             $customerSoleProprietorRegistrationAddress,
         public ?string             $customerSoleProprietorActualLocationAddress,
         public ?string             $customerSoleProprietorBankName,
-        public ?string             $customerSoleProprietorRcbic,
+        public ?string             $customerSoleProprietorBik,
         public ?string             $customerSoleProprietorCorrespondentAccount,
         public ?string             $customerSoleProprietorCurrentAccount,
         public ?string             $customerSoleProprietorPhone,
         public ?string             $customerSoleProprietorPhoneAdditional,
-        public ?string             $customerSoleProprietorEmail,
         public ?string             $customerSoleProprietorFax,
+        public ?string             $customerSoleProprietorEmail,
         public ?string             $customerSoleProprietorWebsite,
-        public ?string             $customerJuristicPersonFullName,
-        public ?string             $customerJuristicPersonShortName,
+        public ?string             $customerJuristicPersonName,
         public ?string             $customerJuristicPersonInn,
         public ?string             $customerJuristicPersonKpp,
         public ?string             $customerJuristicPersonOgrn,
+        public ?string             $customerJuristicPersonOkpo,
+        public ?string             $customerJuristicPersonOkato,
+        public ?string             $customerJuristicPersonOkved,
         public ?string             $customerJuristicPersonLegalAddress,
         public ?string             $customerJuristicPersonPostalAddress,
         public ?string             $customerJuristicPersonBankName,
-        public ?string             $customerJuristicPersonRcbic,
+        public ?string             $customerJuristicPersonBik,
         public ?string             $customerJuristicPersonCorrespondentAccount,
         public ?string             $customerJuristicPersonCurrentAccount,
         public ?string             $customerJuristicPersonPhone,
         public ?string             $customerJuristicPersonPhoneAdditional,
-        public ?string             $customerJuristicPersonEmail,
         public ?string             $customerJuristicPersonFax,
+        public ?string             $customerJuristicPersonGeneralDirector,
+        public ?string             $customerJuristicPersonEmail,
         public ?string             $customerJuristicPersonWebsite,
         public ?string             $burialPlaceOwnerId,
         public ?string             $burialPlaceOwnerFullName,
