@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization;
 
+use Cemetery\Registrar\Domain\Organization\Okved;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,13 +28,32 @@ class OkvedTest extends TestCase
     public function testItFailsWithInvalidFormatA(): void
     {
         $this->expectExceptionForInvalidFormat();
-        new Okved('7482.');
+        new Okved('74');
     }
 
     public function testItFailsWithInvalidFormatB(): void
     {
         $this->expectExceptionForInvalidFormat();
+        new Okved('7482.');
+    }
+
+    public function testItFailsWithInvalidFormatC(): void
+    {
+        $this->expectExceptionForInvalidFormat();
         new Okved('74.8A');
+    }
+
+
+    public function testItFailsWithInvalidFormatD(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Okved('74.82.224');
+    }
+
+    public function testItFailsWithInvalidFormatE(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Okved('74.82.22.23');
     }
 
     public function testItStringifyable(): void
@@ -56,6 +76,6 @@ class OkvedTest extends TestCase
     private function expectExceptionForInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОКВЭД должен состоять из чисел, разделённых точками.');
+        $this->expectExceptionMessage('Неверный формат ОКВЭД.');
     }
 }

@@ -68,12 +68,12 @@ final class Okved
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the OKVED invalid format
+     * @throws \InvalidArgumentException when the OKVED has invalid format
      */
     private function assertValidFormat(string $value): void
     {
-        if (!\preg_match('~[\d+\.]+\d+~')) {
-            throw new \InvalidArgumentException('ОКВЭД должен состоять только из цифр.');
+        if (!\preg_match('~^\d{2}\.\d{2}(\.\d{1,2})?$~', $value)) {
+            throw new \InvalidArgumentException('Неверный формат ОКВЭД.');
         }
     }
 }
