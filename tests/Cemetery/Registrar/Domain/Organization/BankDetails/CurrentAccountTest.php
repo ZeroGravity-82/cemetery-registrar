@@ -44,15 +44,13 @@ class CurrentAccountTest extends TestCase
 
     public function testItFailsWithTooShortValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Р/счёт должен состоять из 20 цифр.');
+        $this->expectExceptionForInvalidLength();
         new CurrentAccount('4060281070000000002', new Bik('042908762'));
     }
 
     public function testItFailsWithTooLongValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Р/счёт должен состоять из 20 цифр.');
+        $this->expectExceptionForInvalidLength();
         new CurrentAccount('406028107000000000251', new Bik('042908762'));
     }
 
@@ -78,5 +76,11 @@ class CurrentAccountTest extends TestCase
         $this->assertFalse($currentAccountA->isEqual($currentAccountB));
         $this->assertTrue($currentAccountA->isEqual($currentAccountC));
         $this->assertFalse($currentAccountB->isEqual($currentAccountC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Р/счёт должен состоять из 20 цифр.');
     }
 }

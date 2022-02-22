@@ -43,15 +43,13 @@ class BikTest extends TestCase
 
     public function testItFailsWithTooShortValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('БИК должен состоять из 9 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Bik('04500477');
     }
 
     public function testItFailsWithTooLongValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('БИК должен состоять из 9 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Bik('0450047741');
     }
 
@@ -70,5 +68,11 @@ class BikTest extends TestCase
         $this->assertFalse($bikA->isEqual($bikB));
         $this->assertTrue($bikA->isEqual($bikC));
         $this->assertFalse($bikB->isEqual($bikC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('БИК должен состоять из 9 цифр.');
     }
 }

@@ -34,15 +34,13 @@ class OgrnipTest extends TestCase
 
     public function testItFailsWithTooShortValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОГРНИП должен состоять из 15 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Ogrnip('31554760002437');
     }
 
     public function testItFailsWithTooLongValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОГРНИП должен состоять из 15 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Ogrnip('3155476000243791');
     }
 
@@ -68,5 +66,11 @@ class OgrnipTest extends TestCase
         $this->assertFalse($ogrnipA->isEqual($ogrnipB));
         $this->assertTrue($ogrnipA->isEqual($ogrnipC));
         $this->assertFalse($ogrnipB->isEqual($ogrnipC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОГРНИП должен состоять из 15 цифр.');
     }
 }

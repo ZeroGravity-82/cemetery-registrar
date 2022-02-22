@@ -34,15 +34,13 @@ class OgrnTest extends TestCase
 
     public function testItFailsWithTooShortValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОГРН должен состоять из 13 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Ogrn('102770013219');
     }
 
     public function testItFailsWithTooLongValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОГРН должен состоять из 13 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Ogrn('10277001321951');
     }
 
@@ -68,5 +66,11 @@ class OgrnTest extends TestCase
         $this->assertFalse($ogrnA->isEqual($ogrnB));
         $this->assertTrue($ogrnA->isEqual($ogrnC));
         $this->assertFalse($ogrnB->isEqual($ogrnC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОГРН должен состоять из 13 цифр.');
     }
 }

@@ -34,15 +34,13 @@ class InnTest extends TestCase
 
     public function testItFailsWithTooShortValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ИНН должен состоять из 12 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Inn('77220878609');
     }
 
     public function testItFailsWithTooLongValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ИНН должен состоять из 12 цифр.');
+        $this->expectExceptionForInvalidLength();
         new Inn('7722087860911');
     }
 
@@ -68,5 +66,11 @@ class InnTest extends TestCase
         $this->assertFalse($innA->isEqual($innB));
         $this->assertTrue($innA->isEqual($innC));
         $this->assertFalse($innB->isEqual($innC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ИНН должен состоять из 12 цифр.');
     }
 }
