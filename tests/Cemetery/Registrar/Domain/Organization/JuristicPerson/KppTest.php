@@ -1,0 +1,83 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
+
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ */
+class KppTest extends TestCase
+{
+    public function testItSuccessfullyCreated(): void
+    {
+        $kpp = new Kpp('1234AB789');
+        $this->assertSame($kpp->getValue(), '1234AB789');
+
+        $kpp = new Kpp('123456789');
+        $this->assertSame($kpp->getValue(), '123456789');
+    }
+
+    public function testItFailsWithEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('КПП не может иметь пустое значение.');
+        new Kpp('');
+    }
+
+    public function testItFailsWithTooShortValue(): void
+    {
+        $this->expectExceptionForInvalidLength();
+        new Kpp('1234AB78');
+    }
+
+    public function testItFailsWithTooLongValue(): void
+    {
+        $this->expectExceptionForInvalidLength();
+        new Kpp('1234AB7891');
+    }
+
+    public function testItFailsWithInvalidFormatA(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Kpp('1234_B789');
+    }
+
+    public function testItFailsWithInvalidFormatB(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Kpp('1234Ф6789');
+    }
+
+    public function testItStringifyable(): void
+    {
+        $kpp = new Kpp('1234AB789');
+        $this->assertSame('1234AB789', (string) $kpp);
+    }
+
+    public function testItComparable(): void
+    {
+        $kppA = new Kpp('1234AB789');
+        $kppB = new Kpp('123456789');
+        $kppC = new Kpp('1234AB789');
+
+        $this->assertFalse($kppA->isEqual($kppB));
+        $this->assertTrue($kppA->isEqual($kppC));
+        $this->assertFalse($kppB->isEqual($kppC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('КПП должен состоять из 9 символов.');
+    }
+
+    private function expectExceptionForInvalidFormat(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Неверный формат КПП.');
+    }
+}
