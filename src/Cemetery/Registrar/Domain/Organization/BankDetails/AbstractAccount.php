@@ -109,11 +109,10 @@ abstract class AbstractAccount
      */
     protected function assertValidLength(string $value): void
     {
-        $accountName   = $this->getAccountName();
-        $accountLength = self::ACCOUNT_LENGTH;
-        if (\strlen($value) !== $accountLength) {
+        $accountName = $this->getAccountName();
+        if (\strlen($value) !== self::ACCOUNT_LENGTH) {
             throw new \InvalidArgumentException(
-                \sprintf('%s должен состоять из %d цифр.', $accountName, $accountLength)
+                \sprintf('%s должен состоять из %d цифр.', $accountName, self::ACCOUNT_LENGTH)
             );
         }
     }
