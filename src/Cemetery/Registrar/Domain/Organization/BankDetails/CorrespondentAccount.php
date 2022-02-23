@@ -20,7 +20,7 @@ final class CorrespondentAccount extends AbstractAccount
         $this->assertNumeric($value);
         $this->assertValidLength($value);
         $this->assertBikNotBelongsToCentralBankOfRussia($bik);
-        $this->assertValidCheckDigit($value, $bik);
+        $this->assertMatchesTheBik($value, $bik);
     }
 
     /**

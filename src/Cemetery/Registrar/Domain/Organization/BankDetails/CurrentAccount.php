@@ -19,7 +19,7 @@ final class CurrentAccount extends AbstractAccount
         $this->assertNotEmpty($value);
         $this->assertNumeric($value);
         $this->assertValidLength($value);
-        $this->assertValidCheckDigit($value, $bik);
+        $this->assertMatchesTheBik($value, $bik);
     }
 
     /**

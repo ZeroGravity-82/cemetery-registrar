@@ -121,13 +121,12 @@ abstract class AbstractAccount
      * @param string $value
      * @param Bik    $bik
      *
-     * @throws \InvalidArgumentException when the account contains an incorrect check digit
+     * @throws \InvalidArgumentException when the account doesn't match the BIK
      */
-    protected function assertValidCheckDigit(string $value, Bik $bik): void
+    protected function assertMatchesTheBik(string $value, Bik $bik): void
     {
-        $checkDigit        = $this->calculateCheckDigit($value, $bik);
-        $isCheckDigitValid = $checkDigit === 0;
-        if (!$isCheckDigitValid) {
+        $checkValue = $this->calculateCheckValue($value, $bik);
+        if ($checkValue !== 0) {
             throw new \InvalidArgumentException(
                 \sprintf('%s недействителен (не соответствует БИК).', $this->getAccountName())
             );
@@ -162,7 +161,7 @@ abstract class AbstractAccount
      *
      * @return int
      */
-    private function calculateCheckDigit(string $value, Bik $bik): int
+    private function calculateCheckValue(string $value, Bik $bik): int
     {
         $checkSum          = 0;
         $coefficients      = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
