@@ -1,0 +1,76 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
+
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\Okpo;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ */
+class OkpoTest extends TestCase
+{
+    public function testItSuccessfullyCreated(): void
+    {
+        $okpo = new Okpo('0148543122');
+        $this->assertSame($okpo->getValue(), '0148543122');
+    }
+
+    public function testItFailsWithEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОКПО не может иметь пустое значение.');
+        new Okpo('');
+    }
+
+    public function testItFailsWithNonNumericValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОКПО должен состоять только из цифр.');
+        new Okpo('014854312A');
+    }
+
+    public function testItFailsWithTooShortValue(): void
+    {
+        $this->expectExceptionForInvalidLength();
+        new Okpo('014854312');
+    }
+
+    public function testItFailsWithTooLongValue(): void
+    {
+        $this->expectExceptionForInvalidLength();
+        new Okpo('01485431221');
+    }
+
+    public function testItFailsWithWrongCheckDigit(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОКПО недействителен.');
+        new Okpo('0148543123');
+    }
+
+    public function testItStringifyable(): void
+    {
+        $okpo = new Okpo('0148543122');
+        $this->assertSame('0148543122', (string) $okpo);
+    }
+
+    public function testItComparable(): void
+    {
+        $okpoA = new Okpo('0148543122');
+        $okpoB = new Okpo('0137327072');
+        $okpoC = new Okpo('0148543122');
+
+        $this->assertFalse($okpoA->isEqual($okpoB));
+        $this->assertTrue($okpoA->isEqual($okpoC));
+        $this->assertFalse($okpoB->isEqual($okpoC));
+    }
+
+    private function expectExceptionForInvalidLength(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОКПО должен состоять из 10 цифр.');
+    }
+}
