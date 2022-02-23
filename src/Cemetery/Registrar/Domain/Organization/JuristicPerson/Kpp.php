@@ -71,7 +71,7 @@ final class Kpp
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the length of the INN is wrong
+     * @throws \InvalidArgumentException when the length of the KPP is wrong
      */
     private function assertValidLength(string $value): void
     {
