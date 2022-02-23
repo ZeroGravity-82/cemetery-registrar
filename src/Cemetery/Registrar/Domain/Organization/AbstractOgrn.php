@@ -28,7 +28,6 @@ abstract class AbstractOgrn
      */
     abstract protected function getOgrnLength(): int;
 
-
     /**
      * @return string
      */
