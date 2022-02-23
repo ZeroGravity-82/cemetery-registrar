@@ -26,9 +26,9 @@ final class Inn extends AbstractInn
      */
     protected function assertValidCheckDigits(string $value): void
     {
-        $checkDigit1        = $this->calculateCheckDigit($value, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
-        $isCheckDigit1Valid = $checkDigit1 === (int) $value[9];
-        if (!$isCheckDigit1Valid) {
+        $checkDigit1 = (int) $value[$this->getInnLength() - 1];
+        $checkValue1 = $this->calculateCheckDigit($value, [2, 4, 10, 3, 5, 9, 4, 6, 8]);
+        if ($checkDigit1 !== $checkValue1) {
             $this->throwIncorrectCheckDigitsException();
         }
     }

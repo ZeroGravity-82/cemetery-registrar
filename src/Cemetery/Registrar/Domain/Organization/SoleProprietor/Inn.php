@@ -26,11 +26,11 @@ final class Inn extends AbstractInn
      */
     protected function assertValidCheckDigits(string $value): void
     {
-        $checkDigit1        = $this->calculateCheckDigit($value, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
-        $checkDigit2        = $this->calculateCheckDigit($value, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
-        $isCheckDigit1Valid = $checkDigit1 === (int) $value[10];
-        $isCheckDigit2Valid = $checkDigit2 === (int) $value[11];
-        if (!$isCheckDigit1Valid || !$isCheckDigit2Valid) {
+        $checkDigit1 = (int) $value[$this->getInnLength() - 2];
+        $checkDigit2 = (int) $value[$this->getInnLength() - 1];
+        $checkValue1 = $this->calculateCheckDigit($value, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+        $checkValue2 = $this->calculateCheckDigit($value, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+        if ($checkDigit1 !== $checkValue1 || $checkDigit2 !== $checkValue2) {
             $this->throwIncorrectCheckDigitsException();
         }
     }
