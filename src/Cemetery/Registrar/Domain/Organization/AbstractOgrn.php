@@ -111,9 +111,8 @@ abstract class AbstractOgrn
      */
     private function assertValidCheckDigit(string $value): void
     {
-        $ogrnLength        = $this->getOgrnLength();
         $checkDigit        = $this->calculateCheckDigit($value);
-        $isCheckDigitValid = $checkDigit === (int) $value[$ogrnLength - 1];
+        $isCheckDigitValid = $checkDigit === (int) $value[$this->getOgrnLength() - 1];
         if (!$isCheckDigitValid) {
             throw new \InvalidArgumentException(\sprintf('%s недействителен.', $this->getOgrnName()));
         }
