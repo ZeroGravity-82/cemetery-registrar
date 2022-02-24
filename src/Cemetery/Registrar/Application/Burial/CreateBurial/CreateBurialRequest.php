@@ -49,7 +49,6 @@ final class CreateBurialRequest
      * @param string|null             $customerJuristicPersonKpp
      * @param string|null             $customerJuristicPersonOgrn
      * @param string|null             $customerJuristicPersonOkpo
-     * @param string|null             $customerJuristicPersonOkato
      * @param string|null             $customerJuristicPersonLegalAddress
      * @param string|null             $customerJuristicPersonPostalAddress
      * @param string|null             $customerJuristicPersonBankName
@@ -134,7 +133,6 @@ final class CreateBurialRequest
         public ?string             $customerJuristicPersonKpp,
         public ?string             $customerJuristicPersonOgrn,
         public ?string             $customerJuristicPersonOkpo,
-        public ?string             $customerJuristicPersonOkato,
         public ?string             $customerJuristicPersonOkved,
         public ?string             $customerJuristicPersonLegalAddress,
         public ?string             $customerJuristicPersonPostalAddress,
