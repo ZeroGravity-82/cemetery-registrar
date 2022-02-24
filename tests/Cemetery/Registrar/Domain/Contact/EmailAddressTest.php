@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Cemetery\Tests\Registrar\Domain\Contact;
+
+use Cemetery\Registrar\Domain\Contact\Email;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ */
+class EmailAddressTest extends TestCase
+{
+        public function testItSuccessfullyCreated(): void
+    {
+        $email = new Email('info@google.com');
+        $this->assertSame($email->getValue(), 'info@google.com');
+    }
+
+    public function testItFailsWithEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Адрес электронной почты не может иметь пустое значение.');
+        new Email('');
+    }
+
+    public function testItFailsWithInvalidFormatA(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Email('info.example.com');
+    }
+
+    public function testItFailsWithInvalidFormatB(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Email('info@help@example.com');
+    }
+
+    public function testItFailsWithInvalidFormatC(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Email('info"help"@example.com');
+    }
+
+    public function testItStringifyable(): void
+    {
+        $coordinates = new Email('info@google.com');
+        $this->assertSame('info@google.com', (string) $coordinates);
+    }
+
+    public function testItComparable(): void
+    {
+        $emailA = new Email('info@google.com');
+        $emailB = new Email('support@example.domain.com');
+        $emailC = new Email('info@google.com');
+
+        $this->assertFalse($emailA->isEqual($emailB));
+        $this->assertTrue($emailA->isEqual($emailC));
+        $this->assertFalse($emailB->isEqual($emailC));
+    }
+
+    private function expectExceptionForInvalidFormat(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Неверный формат адреса электронной почты.');
+    }
+}
