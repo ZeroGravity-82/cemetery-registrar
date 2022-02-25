@@ -65,7 +65,7 @@ final class Email
         }
     }
 
-        /**
+    /**
      * @param string $value
      *
      * @throws \InvalidArgumentException when the e-mail address has invalid format
