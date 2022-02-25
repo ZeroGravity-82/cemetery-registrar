@@ -33,15 +33,13 @@ class WebsiteTest extends TestCase
 
     public function testItFailsWithTooLongFullValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Адрес веб-сайта не может иметь длину более 253 символов.');
+        $this->expectExceptionForInvalidFormat();
         new Website('https://123example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.example.com');
     }
 
     public function testItFailsWithTooLongLabelValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Фрагмент адреса веб-сайта не может иметь длину более 63 символов.');
+        $this->expectExceptionForInvalidFormat();
         new Website('https://exampleexampleexampleexampleexampleexampleexampleexampleexample1.com');
     }
 
@@ -57,7 +55,7 @@ class WebsiteTest extends TestCase
         new Website('https://www.youtube.com/watch');
     }
     
-    public function testItFailsWithInvalidFormatС(): void
+    public function testItFailsWithInvalidFormatC(): void
     {
         $this->expectExceptionForInvalidFormat();
         new Website('youtube');

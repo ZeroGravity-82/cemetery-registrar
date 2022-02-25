@@ -72,40 +72,30 @@ final class Website
 
     /**
      * @param string $value
-     *
-     * @throws \InvalidArgumentException when the website address is too long
      */
     private function assertValidFullLength(string $value): void
     {
         $value = $this->trim($value);
         if (\mb_strlen($value) > self::DOMAIN_NAME_MAX_LENGTH) {
-            throw new \InvalidArgumentException(
-                \sprintf('Адрес веб-сайта не может иметь длину более %d символов.', self::DOMAIN_NAME_MAX_LENGTH)
-            );
+            $this->throwInvalidFormatException();
         }
     }
 
     /**
      * @param string $value
-     *
-     * @throws \InvalidArgumentException when the fragment of the website address is too long
      */
     private function assertValidLabelsLength(string $value): void
     {
         $value = $this->trim($value);
         foreach (\explode('.', $value) as $label) {
             if (\mb_strlen($label) > self::LABEL_MAX_LENGTH) {
-                throw new \InvalidArgumentException(
-                    \sprintf('Фрагмент адреса веб-сайта не может иметь длину более %d символов.', self::LABEL_MAX_LENGTH)
-                );
+                $this->throwInvalidFormatException();
             }
         }
     }
 
     /**
      * @param string $value
-     *
-     * @throws \InvalidArgumentException when the website address has invalid format
      */
     private function assertValidFormat(string $value): void
     {
@@ -121,7 +111,7 @@ final class Website
             $alphabetSymbol
         );
         if (!\preg_match($pattern, $value)) {
-            throw new \InvalidArgumentException('Неверный формат адреса веб-сайта.');
+            $this->throwInvalidFormatException();
         }
     }
 
@@ -135,5 +125,13 @@ final class Website
         $value = \str_replace(['http://', 'https://'], '', $value);
 
         return \preg_replace('~/$~', '', $value);                     // remove trailing slash
+    }
+
+    /**
+     * @throws \InvalidArgumentException when the website address has invalid format
+     */
+    private function throwInvalidFormatException(): void
+    {
+        throw new \InvalidArgumentException('Неверный формат адреса веб-сайта.');
     }
 }
