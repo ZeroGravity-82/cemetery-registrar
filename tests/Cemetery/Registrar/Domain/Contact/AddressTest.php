@@ -12,10 +12,10 @@ use PHPUnit\Framework\TestCase;
  */
 class AddressTest extends TestCase
 {
-        public function testItSuccessfullyCreated(): void
+    public function testItSuccessfullyCreated(): void
     {
         $address = new Address('г. Новосибирск, ул. 3 Интернационала, д. 127');
-        $this->assertSame($address->getValue(), 'г. Новосибирск, ул. 3 Интернационала, д. 127');
+        $this->assertSame('г. Новосибирск, ул. 3 Интернационала, д. 127', $address->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

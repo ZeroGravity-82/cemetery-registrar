@@ -15,7 +15,7 @@ class OkvedTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $okved = new Okved('74.82');
-        $this->assertSame($okved->getValue(), '74.82');
+        $this->assertSame('74.82', $okved->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void
@@ -42,7 +42,6 @@ class OkvedTest extends TestCase
         $this->expectExceptionForInvalidFormat();
         new Okved('74.8A');
     }
-
 
     public function testItFailsWithInvalidFormatD(): void
     {

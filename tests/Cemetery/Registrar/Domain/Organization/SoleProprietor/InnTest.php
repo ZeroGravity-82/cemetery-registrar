@@ -15,7 +15,7 @@ class InnTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $inn = new Inn('772208786091');
-        $this->assertSame($inn->getValue(), '772208786091');
+        $this->assertSame('772208786091', $inn->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

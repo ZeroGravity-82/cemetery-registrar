@@ -15,10 +15,10 @@ class KppTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $kpp = new Kpp('1234AB789');
-        $this->assertSame($kpp->getValue(), '1234AB789');
+        $this->assertSame('1234AB789', $kpp->getValue());
 
         $kpp = new Kpp('123456789');
-        $this->assertSame($kpp->getValue(), '123456789');
+        $this->assertSame('123456789', $kpp->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

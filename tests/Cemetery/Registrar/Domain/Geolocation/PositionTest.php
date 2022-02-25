@@ -36,13 +36,13 @@ class PositionTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $position = new Position($this->coordinatesA, $this->accuracyA);
-        $this->assertSame($position->getCoordinates()->getLatitude(), '54.950357');
-        $this->assertSame($position->getCoordinates()->getLongitude(), '82.7972252');
-        $this->assertSame($position->getAccuracy()->getValue(), '1.2');
+        $this->assertSame('54.950357', $position->getCoordinates()->getLatitude());
+        $this->assertSame('82.7972252', $position->getCoordinates()->getLongitude());
+        $this->assertSame('1.2', $position->getAccuracy()->getValue());
 
         $position = new Position($this->coordinatesA);
-        $this->assertSame($position->getCoordinates()->getLatitude(), '54.950357');
-        $this->assertSame($position->getCoordinates()->getLongitude(), '82.7972252');
+        $this->assertSame('54.950357', $position->getCoordinates()->getLatitude());
+        $this->assertSame('82.7972252', $position->getCoordinates()->getLongitude());
         $this->assertNull($position->getAccuracy());
     }
 

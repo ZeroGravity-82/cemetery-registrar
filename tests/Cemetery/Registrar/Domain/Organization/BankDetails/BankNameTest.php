@@ -15,7 +15,7 @@ class BankNameTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $bankName = new BankName('АО "Тинькофф Банк"');
-        $this->assertSame($bankName->getValue(), 'АО "Тинькофф Банк"');
+        $this->assertSame('АО "Тинькофф Банк"', $bankName->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

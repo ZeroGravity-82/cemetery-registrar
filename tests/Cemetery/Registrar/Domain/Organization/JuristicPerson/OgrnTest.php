@@ -15,7 +15,7 @@ class OgrnTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $ogrn = new Ogrn('1027700132195');
-        $this->assertSame($ogrn->getValue(), '1027700132195');
+        $this->assertSame('1027700132195', $ogrn->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

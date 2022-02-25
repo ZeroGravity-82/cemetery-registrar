@@ -15,7 +15,7 @@ class FullNameTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $fullName = new FullName('Ivanov Ivan Ivanovich');
-        $this->assertSame($fullName->getValue(), 'Ivanov Ivan Ivanovich');
+        $this->assertSame('Ivanov Ivan Ivanovich', $fullName->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

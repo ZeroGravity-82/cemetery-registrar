@@ -16,7 +16,7 @@ class CorrespondentAccountTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $correspondentAccount = new CorrespondentAccount('30101810600000000774', new Bik('045004774'));
-        $this->assertSame($correspondentAccount->getValue(), '30101810600000000774');
+        $this->assertSame('30101810600000000774', $correspondentAccount->getValue());
         $this->assertInstanceOf(Bik::class, $correspondentAccount->getBik());
         $this->assertSame('045004774', (string) $correspondentAccount->getBik());
     }

@@ -15,7 +15,7 @@ class AccuracyTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $accuracy = new Accuracy('0.89');
-        $this->assertSame($accuracy->getValue(), '0.89');
+        $this->assertSame('0.89', $accuracy->getValue());
     }
 
     public function testItFailsWithNegativeValue(): void

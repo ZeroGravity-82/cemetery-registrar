@@ -15,7 +15,7 @@ class PhoneNumberTest extends TestCase
         public function testItSuccessfullyCreated(): void
     {
         $phoneNumber = new PhoneNumber('+7-913-777-88-99');
-        $this->assertSame($phoneNumber->getValue(), '+7-913-777-88-99');
+        $this->assertSame('+7-913-777-88-99', $phoneNumber->getValue());
     }
 
     public function testItFailsWithEmptyValue(): void

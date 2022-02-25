@@ -15,7 +15,7 @@ class BikTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $bik = new Bik('045004774');
-        $this->assertSame($bik->getValue(), '045004774');
+        $this->assertSame('045004774', $bik->getValue());
     }
 
     public function testItReturnsBelongingToCentralBankOfRussia(): void
