@@ -77,7 +77,7 @@ abstract class AbstractOkpo
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('ОКПО не может иметь пустое значение.');
         }
     }

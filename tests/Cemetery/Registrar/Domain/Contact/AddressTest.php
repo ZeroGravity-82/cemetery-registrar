@@ -20,9 +20,14 @@ class AddressTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Адрес не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Address('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Address('   ');
     }
 
     public function testItStringifyable(): void
@@ -40,5 +45,11 @@ class AddressTest extends TestCase
         $this->assertFalse($addressA->isEqual($addressB));
         $this->assertTrue($addressA->isEqual($addressC));
         $this->assertFalse($addressB->isEqual($addressC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Адрес не может иметь пустое значение.');
     }
 }

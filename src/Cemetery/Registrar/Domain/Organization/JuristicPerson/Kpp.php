@@ -63,7 +63,7 @@ final class Kpp
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('КПП не может иметь пустое значение.');
         }
     }

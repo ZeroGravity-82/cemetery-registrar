@@ -30,9 +30,14 @@ class CurrentAccountTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Р/счёт не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new CurrentAccount('', new Bik('042908762'));
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new CurrentAccount('   ', new Bik('042908762'));
     }
 
     public function testItFailsWithNonNumericValue(): void
@@ -77,6 +82,13 @@ class CurrentAccountTest extends TestCase
         $this->assertTrue($currentAccountA->isEqual($currentAccountC));
         $this->assertFalse($currentAccountB->isEqual($currentAccountC));
     }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Р/счёт не может иметь пустое значение.');
+    }
+
 
     private function expectExceptionForInvalidLength(): void
     {

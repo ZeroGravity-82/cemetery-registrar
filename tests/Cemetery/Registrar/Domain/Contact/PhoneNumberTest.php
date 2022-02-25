@@ -20,9 +20,14 @@ class PhoneNumberTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Номер телефона не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new PhoneNumber('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new PhoneNumber('   ');
     }
 
     public function testItStringifyable(): void
@@ -40,5 +45,11 @@ class PhoneNumberTest extends TestCase
         $this->assertFalse($phoneNumberA->isEqual($phoneNumberB));
         $this->assertTrue($phoneNumberA->isEqual($phoneNumberC));
         $this->assertFalse($phoneNumberB->isEqual($phoneNumberC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Номер телефона не может иметь пустое значение.');
     }
 }

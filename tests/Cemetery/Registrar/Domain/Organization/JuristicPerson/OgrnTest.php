@@ -20,9 +20,14 @@ class OgrnTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОГРН не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Ogrn('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Ogrn('   ');
     }
 
     public function testItFailsWithNonNumericValue(): void
@@ -66,6 +71,12 @@ class OgrnTest extends TestCase
         $this->assertFalse($ogrnA->isEqual($ogrnB));
         $this->assertTrue($ogrnA->isEqual($ogrnC));
         $this->assertFalse($ogrnB->isEqual($ogrnC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОГРН не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void

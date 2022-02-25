@@ -65,7 +65,7 @@ final class Website
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('Адрес веб-сайта не может иметь пустое значение.');
         }
     }

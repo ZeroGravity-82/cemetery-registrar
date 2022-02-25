@@ -59,7 +59,7 @@ final class PhoneNumber
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('Номер телефона не может иметь пустое значение.');
         }
     }

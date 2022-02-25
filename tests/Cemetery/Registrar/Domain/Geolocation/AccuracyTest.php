@@ -34,9 +34,14 @@ class AccuracyTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Accuracy value cannot be empty.');
+        $this->expectExceptionForEmptyValue();
         new Accuracy('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Accuracy('   ');
     }
 
     public function testItStringifyable(): void
@@ -54,5 +59,11 @@ class AccuracyTest extends TestCase
         $this->assertFalse($accuracyA->isEqual($accuracyB));
         $this->assertTrue($accuracyA->isEqual($accuracyC));
         $this->assertFalse($accuracyB->isEqual($accuracyC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Погрешность не может иметь пустое значение.');
     }
 }

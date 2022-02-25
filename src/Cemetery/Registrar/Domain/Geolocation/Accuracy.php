@@ -63,8 +63,8 @@ final class Accuracy
      */
     private function assertNotEmpty(string $accuracy): void
     {
-        if ($accuracy === '') {
-            throw new \InvalidArgumentException('Accuracy value cannot be empty.');
+        if (\trim($accuracy) === '') {
+            throw new \InvalidArgumentException('Погрешность не может иметь пустое значение.');
         }
     }
 

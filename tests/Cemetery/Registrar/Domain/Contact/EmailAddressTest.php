@@ -20,9 +20,14 @@ class EmailAddressTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Адрес электронной почты не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Email('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Email('   ');
     }
 
     public function testItFailsWithInvalidFormatA(): void
@@ -58,6 +63,12 @@ class EmailAddressTest extends TestCase
         $this->assertFalse($emailA->isEqual($emailB));
         $this->assertTrue($emailA->isEqual($emailC));
         $this->assertFalse($emailB->isEqual($emailC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Адрес электронной почты не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidFormat(): void

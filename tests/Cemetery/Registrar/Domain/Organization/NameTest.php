@@ -20,9 +20,14 @@ class NameTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Наименование не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Name('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Name('   ');
     }
 
     public function testItStringifyable(): void
@@ -40,5 +45,11 @@ class NameTest extends TestCase
         $this->assertFalse($nameA->isEqual($nameB));
         $this->assertTrue($nameA->isEqual($nameC));
         $this->assertFalse($nameB->isEqual($nameC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Наименование не может иметь пустое значение.');
     }
 }

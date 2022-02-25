@@ -60,7 +60,7 @@ final class Okved
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('ОКВЭД не может иметь пустое значение.');
         }
     }

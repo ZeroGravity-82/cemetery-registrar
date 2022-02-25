@@ -20,9 +20,14 @@ class FullNameTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Full name value cannot be empty.');
+        $this->expectExceptionForEmptyValue();
         new FullName('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new FullName('   ');
     }
 
     public function testItStringifyable(): void
@@ -40,5 +45,11 @@ class FullNameTest extends TestCase
         $this->assertFalse($fullNameA->isEqual($fullNameB));
         $this->assertTrue($fullNameA->isEqual($fullNameC));
         $this->assertFalse($fullNameB->isEqual($fullNameC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ФИО не может иметь пустое значение.');
     }
 }

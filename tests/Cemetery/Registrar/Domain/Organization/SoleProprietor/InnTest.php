@@ -20,9 +20,14 @@ class InnTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ИНН не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Inn('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Inn('   ');
     }
 
     public function testItFailsWithNonNumericValue(): void
@@ -66,6 +71,12 @@ class InnTest extends TestCase
         $this->assertFalse($innA->isEqual($innB));
         $this->assertTrue($innA->isEqual($innC));
         $this->assertFalse($innB->isEqual($innC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ИНН не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void

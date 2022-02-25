@@ -59,8 +59,8 @@ final class FullName
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException('Full name value cannot be empty.');
+        if (\trim($value) === '') {
+            throw new \InvalidArgumentException('ФИО не может иметь пустое значение.');
         }
     }
 }

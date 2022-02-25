@@ -20,9 +20,14 @@ class BankNameTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Наименование не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new BankName('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new BankName('   ');
     }
 
     public function testItStringifyable(): void
@@ -40,5 +45,11 @@ class BankNameTest extends TestCase
         $this->assertFalse($bankNameA->isEqual($bankNameB));
         $this->assertTrue($bankNameA->isEqual($bankNameC));
         $this->assertFalse($bankNameB->isEqual($bankNameC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Наименование не может иметь пустое значение.');
     }
 }

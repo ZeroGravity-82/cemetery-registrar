@@ -59,7 +59,7 @@ final class BankName
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('Наименование не может иметь пустое значение.');
         }
     }

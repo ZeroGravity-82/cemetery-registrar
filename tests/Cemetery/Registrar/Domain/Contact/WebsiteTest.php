@@ -26,9 +26,14 @@ class WebsiteTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Адрес веб-сайта не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Website('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Website('   ');
     }
 
     public function testItFailsWithTooLongFullValue(): void
@@ -76,6 +81,12 @@ class WebsiteTest extends TestCase
         $this->assertFalse($websiteA->isEqual($websiteB));
         $this->assertTrue($websiteA->isEqual($websiteC));
         $this->assertFalse($websiteB->isEqual($websiteC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Адрес веб-сайта не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidFormat(): void

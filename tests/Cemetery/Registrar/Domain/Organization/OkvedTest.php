@@ -20,9 +20,14 @@ class OkvedTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОКВЭД не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Okved('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Okved('   ');
     }
 
     public function testItFailsWithInvalidFormatA(): void
@@ -70,6 +75,12 @@ class OkvedTest extends TestCase
         $this->assertFalse($okvedA->isEqual($okvedB));
         $this->assertTrue($okvedA->isEqual($okvedC));
         $this->assertFalse($okvedB->isEqual($okvedC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОКВЭД не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidFormat(): void

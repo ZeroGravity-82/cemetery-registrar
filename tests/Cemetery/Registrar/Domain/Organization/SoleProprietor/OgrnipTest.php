@@ -20,9 +20,14 @@ class OgrnipTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ОГРНИП не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Ogrnip('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Ogrnip('   ');
     }
 
     public function testItFailsWithNonNumericValue(): void
@@ -66,6 +71,12 @@ class OgrnipTest extends TestCase
         $this->assertFalse($ogrnipA->isEqual($ogrnipB));
         $this->assertTrue($ogrnipA->isEqual($ogrnipC));
         $this->assertFalse($ogrnipB->isEqual($ogrnipC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ОГРНИП не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void

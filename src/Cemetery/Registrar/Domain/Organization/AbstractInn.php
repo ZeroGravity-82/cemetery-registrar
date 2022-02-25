@@ -96,7 +96,7 @@ abstract class AbstractInn
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('ИНН не может иметь пустое значение.');
         }
     }

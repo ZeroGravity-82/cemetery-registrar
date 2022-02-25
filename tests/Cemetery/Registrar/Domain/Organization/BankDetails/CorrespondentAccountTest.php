@@ -23,9 +23,14 @@ class CorrespondentAccountTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('К/счёт не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new CorrespondentAccount('', new Bik('045004774'));
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new CorrespondentAccount('   ', new Bik('045004774'));
     }
 
     public function testItFailsWithNonNumericValue(): void
@@ -76,6 +81,12 @@ class CorrespondentAccountTest extends TestCase
         $this->assertFalse($correspondentAccountA->isEqual($correspondentAccountB));
         $this->assertTrue($correspondentAccountA->isEqual($correspondentAccountC));
         $this->assertFalse($correspondentAccountB->isEqual($correspondentAccountC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('К/счёт не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void

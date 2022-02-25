@@ -60,7 +60,7 @@ final class Email
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('Адрес электронной почты не может иметь пустое значение.');
         }
     }

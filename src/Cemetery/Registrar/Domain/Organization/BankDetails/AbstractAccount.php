@@ -85,7 +85,7 @@ abstract class AbstractAccount
      */
     protected function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getAccountName()));
         }
     }

@@ -29,9 +29,14 @@ class BikTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('БИК не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Bik('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Bik('   ');
     }
 
     public function testItFailsWithNonNumericValue(): void
@@ -68,6 +73,12 @@ class BikTest extends TestCase
         $this->assertFalse($bikA->isEqual($bikB));
         $this->assertTrue($bikA->isEqual($bikC));
         $this->assertFalse($bikB->isEqual($bikC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('БИК не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void

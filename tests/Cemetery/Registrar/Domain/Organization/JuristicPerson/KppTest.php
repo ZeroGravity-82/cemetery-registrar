@@ -23,9 +23,14 @@ class KppTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('КПП не может иметь пустое значение.');
+        $this->expectExceptionForEmptyValue();
         new Kpp('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new Kpp('   ');
     }
 
     public function testItFailsWithTooShortValue(): void
@@ -67,6 +72,12 @@ class KppTest extends TestCase
         $this->assertFalse($kppA->isEqual($kppB));
         $this->assertTrue($kppA->isEqual($kppC));
         $this->assertFalse($kppB->isEqual($kppC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('КПП не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
