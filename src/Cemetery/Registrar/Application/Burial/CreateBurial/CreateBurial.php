@@ -14,6 +14,7 @@ use Cemetery\Registrar\Domain\Deceased\DeceasedBuilder;
 use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonDirector;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
 
 /**
@@ -22,19 +23,19 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
 final class CreateBurial
 {
     public function __construct(
-        private BurialBuilder                    $burialBuilder,
-        private DeceasedBuilder                  $deceasedBuilder,
-        private NaturalPersonBuilder             $naturalPersonBuilder,
-        private SoleProprietorFactory            $soleProprietorFactory,
-        private JuristicPersonFactory            $juristicPersonFactory,
-        private GraveSiteFactory                 $graveSiteFactory,
-        private ColumbariumNicheFactory          $columbariumNicheFactory,
-        private MemorialTreeFactory              $memorialTreeFactory,
+        private BurialBuilder                     $burialBuilder,
+        private DeceasedBuilder                   $deceasedBuilder,
+        private NaturalPersonDirector             $naturalPersonDirector,
+        private SoleProprietorFactory             $soleProprietorFactory,
+        private JuristicPersonFactory             $juristicPersonFactory,
+        private GraveSiteFactory                  $graveSiteFactory,
+        private ColumbariumNicheFactory           $columbariumNicheFactory,
+        private MemorialTreeFactory               $memorialTreeFactory,
 
 
-        private DeceasedRepositoryInterface      $deceasedRepo,
-        private NaturalPersonRepositoryInterface $naturalPersonRepo,
-        private SoleProprietorRepositoryInterface     $soleProprietorRepo,
+        private DeceasedRepositoryInterface       $deceasedRepo,
+        private NaturalPersonRepositoryInterface  $naturalPersonRepo,
+        private SoleProprietorRepositoryInterface $soleProprietorRepo,
         private JuristicPersonRepositoryInterface     $juristicPersonRepo,
         private GraveSiteRepositoryInterface          $graveSiteRepo,
         private ColumbariumNicheRepositoryInterface   $columbariumNicheRepo,
@@ -125,10 +126,10 @@ final class CreateBurial
      */
     private function createNaturalPersonForDeceased(CreateBurialRequest $request): NaturalPerson
     {
-        $naturalPerson = $this->naturalPersonBuilder
-            ->initialize($request->deceasedNaturalPersonFullName)
-            ->addBornAt($request->deceasedNaturalPersonBornAt)
-            ->build();
+        $naturalPerson = $this->naturalPersonDirector->createNaturalPersonForDeceased(
+            $request->deceasedNaturalPersonFullName,
+            $request->deceasedNaturalPersonBornAt,
+        );
         $this->naturalPersonRepo->save($naturalPerson);
 
         return $naturalPerson;
@@ -178,22 +179,20 @@ final class CreateBurial
      */
     private function createNaturalPersonForCustomer(CreateBurialRequest $request): NaturalPerson
     {
-        $naturalPerson = $this->naturalPersonBuilder
-            ->initialize($request->customerNaturalPersonFullName)
-            ->addPhone($request->customerNaturalPersonPhone)
-            ->addPhoneAdditional($request->customerNaturalPersonPhoneAdditional)
-            ->addEmail($request->customerNaturalPersonEmail)
-            ->addAddress($request->customerNaturalPersonAddress)
-            ->addBornAt($request->customerNaturalPersonBornAt)
-            ->addPlaceOfBirth($request->customerNaturalPersonPlaceOfBirth)
-            ->addPassport(
-                $request->customerNaturalPersonPassportSeries,
-                $request->customerNaturalPersonPassportNumber,
-                $request->customerNaturalPersonPassportIssuedAt,
-                $request->customerNaturalPersonPassportIssuedBy,
-                $request->customerNaturalPersonPassportDivisionCode,
-            )
-            ->build();
+        $naturalPerson = $this->naturalPersonDirector->createNaturalPersonForCustomer(
+            $request->customerNaturalPersonFullName,
+            $request->customerNaturalPersonPhone,
+            $request->customerNaturalPersonPhoneAdditional,
+            $request->customerNaturalPersonEmail,
+            $request->customerNaturalPersonAddress,
+            $request->customerNaturalPersonBornAt,
+            $request->customerNaturalPersonPlaceOfBirth,
+            $request->customerNaturalPersonPassportSeries,
+            $request->customerNaturalPersonPassportNumber,
+            $request->customerNaturalPersonPassportIssuedAt,
+            $request->customerNaturalPersonPassportIssuedBy,
+            $request->customerNaturalPersonPassportDivisionCode,
+        );
         $this->naturalPersonRepo->save($naturalPerson);
 
         return $naturalPerson;
