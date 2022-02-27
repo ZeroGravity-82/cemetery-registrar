@@ -88,7 +88,7 @@ final class Kpp
     private function assertValidFormat(string $value): void
     {
         if (!\preg_match('~^\d{4}[0-9A-Z]{2}\d{3}$~', $value)) {
-            throw new \InvalidArgumentException('Неверный формат КПП.');
+            throw new \InvalidArgumentException('КПП имеет неверный формат.');
         }
     }
 }

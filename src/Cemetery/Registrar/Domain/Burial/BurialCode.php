@@ -59,8 +59,8 @@ final class BurialCode
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException('Burial code cannot be empty string.');
+        if (\trim($value) === '') {
+            throw new \InvalidArgumentException('Код захоронения не может иметь пустое значение.');
         }
     }
 }

@@ -73,7 +73,7 @@ final class Email
     private function assertValidFormat(string $value): void
     {
         if (\filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
-            throw new \InvalidArgumentException('Неверный формат адреса электронной почты.');
+            throw new \InvalidArgumentException('Адрес электронной почты имеет неверный формат.');
         }
     }
 }

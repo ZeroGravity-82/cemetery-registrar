@@ -86,6 +86,6 @@ class OkvedTest extends TestCase
     private function expectExceptionForInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Неверный формат ОКВЭД.');
+        $this->expectExceptionMessage('ОКВЭД имеет неверный формат.');
     }
 }

@@ -14,22 +14,22 @@ class CauseOfDeathTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $causeOfDeath = new CauseOfDeath('Some reason');
-        $this->assertSame('Some reason', $causeOfDeath->getValue());
+        $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
+        $this->assertSame('Некоторая причина смерти', $causeOfDeath->getValue());
     }
 
     public function testItStringifyable(): void
     {
-        $causeOfDeath = new CauseOfDeath('Some reason');
+        $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
 
-        $this->assertSame('Some reason', (string) $causeOfDeath);
+        $this->assertSame('Некоторая причина смерти', (string) $causeOfDeath);
     }
 
     public function testItComparable(): void
     {
-        $causeOfDeathA = new CauseOfDeath('Some reason');
-        $causeOfDeathB = new CauseOfDeath('Other reason');
-        $causeOfDeathC = new CauseOfDeath('Some reason');
+        $causeOfDeathA = new CauseOfDeath('Некоторая причина смерти');
+        $causeOfDeathB = new CauseOfDeath('Другая причина смерти');
+        $causeOfDeathC = new CauseOfDeath('Некоторая причина смерти');
 
         $this->assertFalse($causeOfDeathA->isEqual($causeOfDeathB));
         $this->assertTrue($causeOfDeathA->isEqual($causeOfDeathC));

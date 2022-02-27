@@ -30,43 +30,53 @@ class CoordinatesTest extends TestCase
     public function testItFailsWithLatitudeValueOutOfRange(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Latitude value "91.5" is out of valid range [-90, 90].');
+        $this->expectExceptionMessage('Широта "91.5" находится вне допустимого диапазона [-90, 90].');
         new Coordinates('91.5', '82.7972252');
     }
 
     public function testItFailsWithLatitudeValueInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Latitude value "54.9A" has an invalid format.');
+        $this->expectExceptionMessage('Широта "54.9A" имеет неверный формат.');
         new Coordinates('54.9A', '82.7972252');
     }
 
     public function testItFailsWithEmptyLatitudeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Latitude value cannot be empty.');
+        $this->expectExceptionForEmptyValue('Широта');
         new Coordinates('', '82.7972252');
+    }
+
+    public function testItFailsWithLatitudeValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Широта');
+        new Coordinates('   ', '82.7972252');
     }
 
     public function testItFailsLongitudeValueOutOfRange(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Longitude value "182.7" is out of valid range [-180, 180].');
+        $this->expectExceptionMessage('Долгота "182.7" находится вне допустимого диапазона [-180, 180].');
         new Coordinates('54.950357', '182.7');
     }
 
     public function testItFailsWithLongitudeValueInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Longitude value "-82.7A" has an invalid format.');
+        $this->expectExceptionMessage('Долгота "-82.7A" имеет неверный формат.');
         new Coordinates('54.950357', '-82.7A');
     }
 
     public function testItFailsWithEmptyLongitudeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Longitude value cannot be empty.');
+        $this->expectExceptionForEmptyValue('Долгота');
         new Coordinates('54.950357', '');
+    }
+
+    public function testItFailsWithLongitudeValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Долгота');
+        new Coordinates('54.950357', '   ');
     }
 
     public function testItStringifyable(): void
@@ -90,5 +100,11 @@ class CoordinatesTest extends TestCase
         $this->assertTrue($coordinatesA->isEqual($coordinatesD));
         $this->assertFalse($coordinatesB->isEqual($coordinatesD));
         $this->assertFalse($coordinatesC->isEqual($coordinatesD));
+    }
+
+    private function expectExceptionForEmptyValue(string $name): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf('%s не может иметь пустое значение.', $name));
     }
 }

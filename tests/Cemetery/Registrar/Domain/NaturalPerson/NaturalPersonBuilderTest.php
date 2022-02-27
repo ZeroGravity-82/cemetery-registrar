@@ -27,7 +27,7 @@ class NaturalPersonBuilderTest extends TestCase
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
 
         $this->naturalPersonBuilder = new NaturalPersonBuilder($this->mockIdentityGenerator);
-        $this->naturalPersonBuilder->initialize('Ivanov Ivan Ivanovich');
+        $this->naturalPersonBuilder->initialize('Иванов Иван Иванович');
     }
 
     public function testItInitializesANaturalPersonWithRequiredFields(): void
@@ -38,7 +38,7 @@ class NaturalPersonBuilderTest extends TestCase
         $this->assertInstanceOf(NaturalPersonId::class, $naturalPerson->getId());
         $this->assertSame('555', (string) $naturalPerson->getId());
         $this->assertInstanceOf(FullName::class, $naturalPerson->getFullName());
-        $this->assertSame('Ivanov Ivan Ivanovich', (string) $naturalPerson->getFullName());
+        $this->assertSame('Иванов Иван Иванович', (string) $naturalPerson->getFullName());
         $this->assertNull($naturalPerson->getPhone());
         $this->assertNull($naturalPerson->getPhoneAdditional());
         $this->assertNull($naturalPerson->getEmail());
@@ -51,7 +51,7 @@ class NaturalPersonBuilderTest extends TestCase
     public function testItFailsToBuildANaturalPersonBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('The natural person builder is not initialized.');
+        $this->expectExceptionMessage('Строитель физического лица не инициализирован.');
 
         $naturalPersonBuilder = new NaturalPersonBuilder($this->mockIdentityGenerator);
         $naturalPersonBuilder->build();
@@ -80,9 +80,9 @@ class NaturalPersonBuilderTest extends TestCase
 
     public function testItAddsAnAddress(): void
     {
-        $address       = '37 Dmitriya Shamshurina str., Novosibirsk';
+        $address       = 'г. Новосибирск, ул. Дмитрия Шамшурина, д. 37';
         $naturalPerson = $this->naturalPersonBuilder->addAddress($address)->build();
-        $this->assertSame('37 Dmitriya Shamshurina str., Novosibirsk', $naturalPerson->getAddress());
+        $this->assertSame('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37', $naturalPerson->getAddress());
     }
 
     public function testItAddsABornAt(): void
@@ -95,9 +95,9 @@ class NaturalPersonBuilderTest extends TestCase
 
     public function testItAddsAPlaceOfBirth(): void
     {
-        $placeOfBirth  = 'Novosibirsk city';
+        $placeOfBirth  = 'город Новосибирск';
         $naturalPerson = $this->naturalPersonBuilder->addPlaceOfBirth($placeOfBirth)->build();
-        $this->assertSame('Novosibirsk city', $naturalPerson->getPlaceOfBirth());
+        $this->assertSame('город Новосибирск', $naturalPerson->getPlaceOfBirth());
     }
 
     public function testItAddsPassport(): void
@@ -105,7 +105,7 @@ class NaturalPersonBuilderTest extends TestCase
         $passportSeries       = '1234';
         $passportNumber       = '567890';
         $passportIssuedAt     = new \DateTimeImmutable('2001-01-01');
-        $passportIssuedBy     = 'DIA of the Kirovsky district of the city of Novosibirsk';
+        $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
         $passportDivisionCode = '540-001';
         $naturalPerson        = $this->naturalPersonBuilder
             ->addPassport(
@@ -120,7 +120,7 @@ class NaturalPersonBuilderTest extends TestCase
         $this->assertSame('1234', $naturalPerson->getPassport()->getSeries());
         $this->assertSame('567890', $naturalPerson->getPassport()->getNumber());
         $this->assertSame('2001-01-01', $naturalPerson->getPassport()->getIssuedAt()->format('Y-m-d'));
-        $this->assertSame('DIA of the Kirovsky district of the city of Novosibirsk', $naturalPerson->getPassport()->getIssuedBy());
+        $this->assertSame('УВД Кировского района города Новосибирска', $naturalPerson->getPassport()->getIssuedBy());
         $this->assertSame('540-001', $naturalPerson->getPassport()->getDivisionCode());
     }
 

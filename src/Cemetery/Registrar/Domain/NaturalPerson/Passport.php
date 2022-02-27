@@ -159,7 +159,7 @@ final class Passport
      */
     private function assertNotEmpty(string $value, string $name): void
     {
-        if ($value === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
         }
     }

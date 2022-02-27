@@ -20,7 +20,7 @@ class NaturalPersonTest extends TestCase
     public function setUp(): void
     {
         $naturalPersonId     = new NaturalPersonId('777');
-        $fullName            = new FullName('Ivanov Ivan Ivanovich');
+        $fullName            = new FullName('Иванов Иван Иванович');
         $this->naturalPerson = new NaturalPerson($naturalPersonId, $fullName);
     }
     
@@ -29,7 +29,7 @@ class NaturalPersonTest extends TestCase
         $this->assertInstanceOf(NaturalPersonId::class, $this->naturalPerson->getId());
         $this->assertSame('777', (string) $this->naturalPerson->getId());
         $this->assertInstanceOf(FullName::class, $this->naturalPerson->getFullName());
-        $this->assertSame('Ivanov Ivan Ivanovich', (string) $this->naturalPerson->getFullName());
+        $this->assertSame('Иванов Иван Иванович', (string) $this->naturalPerson->getFullName());
         $this->assertNull($this->naturalPerson->getPhone());
         $this->assertNull($this->naturalPerson->getPhoneAdditional());
         $this->assertNull($this->naturalPerson->getEmail());
@@ -65,9 +65,9 @@ class NaturalPersonTest extends TestCase
 
     public function testItSetsAddress(): void
     {
-        $address = '37 Dmitriya Shamshurina str., Novosibirsk';
+        $address = 'г. Новосибирск, ул. Дмитрия Шамшурина, д. 37';
         $this->naturalPerson->setAddress($address);
-        $this->assertSame('37 Dmitriya Shamshurina str., Novosibirsk', $this->naturalPerson->getAddress());
+        $this->assertSame('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37', $this->naturalPerson->getAddress());
     }
 
     public function testItSetsBornAt(): void
@@ -80,9 +80,9 @@ class NaturalPersonTest extends TestCase
 
     public function testItSetsPlaceOfBirth(): void
     {
-        $placeOfBirth = 'Novosibirsk city';
+        $placeOfBirth = 'город Новосибирск';
         $this->naturalPerson->setPlaceOfBirth($placeOfBirth);
-        $this->assertSame('Novosibirsk city', $this->naturalPerson->getPlaceOfBirth());
+        $this->assertSame('город Новосибирск', $this->naturalPerson->getPlaceOfBirth());
     }
 
     public function testItSetsPassport(): void
@@ -91,7 +91,7 @@ class NaturalPersonTest extends TestCase
             '1234',
             '567890',
             new \DateTimeImmutable('2001-01-01'),
-            'DIA of the Kirovsky district of the city of Novosibirsk',
+            'УВД Кировского района города Новосибирска',
             '540-001',
         );
         $this->naturalPerson->setPassport($passport);
@@ -99,7 +99,7 @@ class NaturalPersonTest extends TestCase
         $this->assertSame('1234', $this->naturalPerson->getPassport()->getSeries());
         $this->assertSame('567890', $this->naturalPerson->getPassport()->getNumber());
         $this->assertSame('2001-01-01', $this->naturalPerson->getPassport()->getIssuedAt()->format('Y-m-d'));
-        $this->assertSame('DIA of the Kirovsky district of the city of Novosibirsk', $this->naturalPerson->getPassport()->getIssuedBy());
+        $this->assertSame('УВД Кировского района города Новосибирска', $this->naturalPerson->getPassport()->getIssuedBy());
         $this->assertSame('540-001', $this->naturalPerson->getPassport()->getDivisionCode());
     }
 }

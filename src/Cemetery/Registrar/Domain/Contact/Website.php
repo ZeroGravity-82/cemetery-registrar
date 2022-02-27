@@ -132,6 +132,6 @@ final class Website
      */
     private function throwInvalidFormatException(): void
     {
-        throw new \InvalidArgumentException('Неверный формат адреса веб-сайта.');
+        throw new \InvalidArgumentException('Адрес веб-сайта имеет неверный формат.');
     }
 }

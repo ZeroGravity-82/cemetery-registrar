@@ -30,7 +30,7 @@ final class DeceasedProvider
         $naturalPersonId    = new NaturalPersonId('NP002');
         $diedAt             = new \DateTimeImmutable('2001-02-11');
         $deathCertificateId = new DeathCertificateId('DC001');
-        $causeOfDeath       = new CauseOfDeath('Some cause 1');
+        $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
 
         return (new Deceased($id, $naturalPersonId, $diedAt))
             ->setDeathCertificateId($deathCertificateId)

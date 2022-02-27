@@ -53,9 +53,9 @@ class DeceasedTest extends TestCase
 
     public function testItSetsCauseOfDeath(): void
     {
-        $causeOfDeath = new CauseOfDeath('Some cause of death');
+        $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
         $this->deceased->setCauseOfDeath($causeOfDeath);
         $this->assertInstanceOf(CauseOfDeath::class, $this->deceased->getCauseOfDeath());
-        $this->assertSame('Some cause of death', (string) $this->deceased->getCauseOfDeath());
+        $this->assertSame('Некоторая причина смерти', (string) $this->deceased->getCauseOfDeath());
     }
 }

@@ -21,14 +21,14 @@ class AccuracyTest extends TestCase
     public function testItFailsWithNegativeValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Accuracy value cannot be negative.');
+        $this->expectExceptionMessage('Погрешность не может иметь отрицательное значение.');
         new Accuracy('-1.2');
     }
 
     public function testItFailsWithInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Accuracy value "1.7A" has an invalid format.');
+        $this->expectExceptionMessage('Погрешность "1.7A" имеет неверный формат.');
         new Accuracy('1.7A');
     }
 

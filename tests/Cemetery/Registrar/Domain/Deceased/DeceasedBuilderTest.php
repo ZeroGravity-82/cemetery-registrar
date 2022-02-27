@@ -51,7 +51,7 @@ class DeceasedBuilderTest extends TestCase
     public function testItFailsToBuildADeceasedBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('The deceased builder is not initialized.');
+        $this->expectExceptionMessage('Строитель захоронения не инициализирован.');
 
         $deceasedBuilder = new DeceasedBuilder($this->mockIdentityGenerator);
         $deceasedBuilder->build();
@@ -66,9 +66,9 @@ class DeceasedBuilderTest extends TestCase
 
     public function testItAddsACauseOfDeath(): void
     {
-        $deceased = $this->deceasedBuilder->addCauseOfDeath('some cause')->build();
+        $deceased = $this->deceasedBuilder->addCauseOfDeath('Некоторая причина смерти')->build();
         $this->assertInstanceOf(CauseOfDeath::class, $deceased->getCauseOfDeath());
-        $this->assertSame('some cause', (string) $deceased->getCauseOfDeath());
+        $this->assertSame('Некоторая причина смерти', (string) $deceased->getCauseOfDeath());
     }
 
     public function testItIgnoresNullValues(): void

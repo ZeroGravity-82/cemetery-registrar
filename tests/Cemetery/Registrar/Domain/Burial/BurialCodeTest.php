@@ -19,11 +19,16 @@ class BurialCodeTest extends TestCase
         $this->assertSame('AAA', $burialCode->getValue());
     }
 
-    public function testItFailsWithEmptyCodeString(): void
+    public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Burial code cannot be empty string.');
+        $this->expectExceptionForEmptyValue();
         new BurialCode('');
+    }
+
+    public function testItFailsWithSpaceOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new BurialCode('   ');
     }
 
     public function testItStringifyable(): void
@@ -42,5 +47,11 @@ class BurialCodeTest extends TestCase
         $this->assertFalse($burialCodeA->isEqual($burialCodeB));
         $this->assertTrue($burialCodeA->isEqual($burialCodeC));
         $this->assertFalse($burialCodeB->isEqual($burialCodeC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Код захоронения не может иметь пустое значение.');
     }
 }

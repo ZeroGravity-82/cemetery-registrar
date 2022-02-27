@@ -31,12 +31,12 @@ class BurialPlaceTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Unsupported burial place type "wrong_type", expected to be one of "%s", "%s", "%s".',
+            'Неподдерживаемый тип места захоронения"неверный_тип", должен быть один из "%s", "%s", "%s".',
             BurialPlaceType::GRAVE_SITE,
             BurialPlaceType::COLUMBARIUM_NICHE,
             BurialPlaceType::MEMORIAL_TREE,
         ));
-        new BurialPlaceType('wrong_type');
+        new BurialPlaceType('неверный_тип');
     }
 
     public function testItStringifyable(): void

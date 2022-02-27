@@ -119,7 +119,7 @@ final class BankDetails
      */
     private function assertValidBankName(string $bankName): void
     {
-        $this->assertNotEmpty($bankName, 'наименование банка');
+        $this->assertNotEmpty($bankName, 'Наименование банка');
     }
 
     /**
@@ -135,7 +135,7 @@ final class BankDetails
      */
     private function assertValidCorrespondentAccount(string $correspondentAccount): void
     {
-        $this->assertNotEmpty($correspondentAccount, 'к/счёт');
+        $this->assertNotEmpty($correspondentAccount, 'К/счёт');
     }
 
     /**
@@ -143,7 +143,7 @@ final class BankDetails
      */
     private function assertValidCurrentAccount(string $currentAccount): void
     {
-        $this->assertNotEmpty($currentAccount, 'р/счёт');
+        $this->assertNotEmpty($currentAccount, 'Р/счёт');
     }
 
     /**
@@ -155,7 +155,7 @@ final class BankDetails
     private function assertNotEmpty(string $value, string $name): void
     {
         if ($value === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', \ucfirst($name)));
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
         }
     }
 }

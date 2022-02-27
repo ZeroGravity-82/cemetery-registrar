@@ -68,12 +68,36 @@ class PassportTest extends TestCase
         );
     }
 
+    public function testItFailsWithSeriesValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Серия паспорта');
+        new Passport(
+            '   ',
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            null,
+        );
+    }
+
     public function testItFailsWithEmptyNumberValue(): void
     {
         $this->expectExceptionForEmptyValue('Номер паспорта');
         new Passport(
             $this->passportSeriesA,
             '',
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            null,
+        );
+    }
+
+    public function testItFailsWithNumberValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Номер паспорта');
+        new Passport(
+            $this->passportSeriesA,
+            '   ',
             $this->passportIssuedAtA,
             $this->passportIssuedByA,
             null,
@@ -105,6 +129,18 @@ class PassportTest extends TestCase
         );
     }
 
+    public function testItFailsWithIssuedByValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Наименование органа, выдавшего паспорт,');
+        new Passport(
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            '   ',
+            null,
+        );
+    }
+
     public function testItFailsWithEmptyDivisionCodeValue(): void
     {
         $this->expectExceptionForEmptyValue('Код подразделения');
@@ -114,6 +150,18 @@ class PassportTest extends TestCase
             $this->passportIssuedAtA,
             $this->passportIssuedByA,
             '',
+        );
+    }
+
+    public function testItFailsWithDivisionCodeValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Код подразделения');
+        new Passport(
+            $this->passportSeriesA,
+            $this->passportNumberA,
+            $this->passportIssuedAtA,
+            $this->passportIssuedByA,
+            '   ',
         );
     }
 

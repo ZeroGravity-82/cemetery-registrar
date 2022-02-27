@@ -50,6 +50,6 @@ class BankNameTest extends TestCase
     private function expectExceptionForEmptyValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Наименование не может иметь пустое значение.');
+        $this->expectExceptionMessage('Наименование банка не может иметь пустое значение.');
     }
 }

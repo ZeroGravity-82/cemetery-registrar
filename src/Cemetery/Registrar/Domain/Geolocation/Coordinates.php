@@ -67,7 +67,7 @@ final class Coordinates
      */
     private function assertValidLatitudeValue(string $latitude): void
     {
-        $name = 'latitude';
+        $name = 'Широта';
         $this->assertNotEmpty($latitude, $name);
         $this->assertValidFormat($latitude, $name);
         $this->assertIsInTheValidRange($latitude, -90.0, 90.0, $name);
@@ -78,7 +78,7 @@ final class Coordinates
      */
     private function assertValidLongitudeValue(string $longitude): void
     {
-        $name = 'longitude';
+        $name = 'Долгота';
         $this->assertNotEmpty($longitude, $name);
         $this->assertValidFormat($longitude, $name);
         $this->assertIsInTheValidRange($longitude, -180.0, 180.0, $name);
@@ -92,8 +92,8 @@ final class Coordinates
      */
     private function assertNotEmpty(string $value, string $name): void
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException(\sprintf('%s value cannot be empty.', \ucfirst($name)));
+        if (\trim($value) === '') {
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
         }
     }
 
@@ -106,11 +106,7 @@ final class Coordinates
     private function assertValidFormat(string $value, string $name): void
     {
         if (!\preg_match(self::VALUE_PATTERN, $value)) {
-            throw new \InvalidArgumentException(\sprintf(
-                '%s value "%s" has an invalid format.',
-                \ucfirst($name),
-                $value,
-            ));
+            throw new \InvalidArgumentException(\sprintf('%s "%s" имеет неверный формат.', $name, $value));
         }
     }
 
@@ -126,8 +122,8 @@ final class Coordinates
     {
         if ((float) $value < $min || (float) $value > $max) {
             throw new \InvalidArgumentException(\sprintf(
-                '%s value "%s" is out of valid range [%.0f, %.0f].',
-                \ucfirst($name),
+                '%s "%s" находится вне допустимого диапазона [%.0f, %.0f].',
+                $name,
                 $value,
                 $min,
                 $max,

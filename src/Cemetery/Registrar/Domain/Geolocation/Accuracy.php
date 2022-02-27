@@ -76,7 +76,7 @@ final class Accuracy
     private function assertNotNegative(string $accuracy): void
     {
         if (\is_numeric($accuracy) && (float) $accuracy < 0.0) {
-            throw new \InvalidArgumentException('Accuracy value cannot be negative.');
+            throw new \InvalidArgumentException('Погрешность не может иметь отрицательное значение.');
         }
     }
 
@@ -88,7 +88,7 @@ final class Accuracy
     private function assertValidFormat(string $accuracy): void
     {
         if (!\preg_match(self::VALUE_PATTERN, $accuracy)) {
-            throw new \InvalidArgumentException(\sprintf('Accuracy value "%s" has an invalid format.', $accuracy));
+            throw new \InvalidArgumentException(\sprintf('Погрешность "%s" имеет неверный формат.', $accuracy));
         }
     }
 }

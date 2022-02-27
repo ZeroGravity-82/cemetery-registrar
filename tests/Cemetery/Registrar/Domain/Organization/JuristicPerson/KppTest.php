@@ -89,6 +89,6 @@ class KppTest extends TestCase
     private function expectExceptionForInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Неверный формат КПП.');
+        $this->expectExceptionMessage('КПП имеет неверный формат.');
     }
 }

@@ -40,11 +40,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string|null $phone
+     * @param string $phone
      *
      * @return $this
      */
-    public function addPhone(?string $phone): self
+    public function addPhone(string $phone): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setPhone($phone);
@@ -53,11 +53,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string|null $phoneAdditional
+     * @param string $phoneAdditional
      *
      * @return $this
      */
-    public function addPhoneAdditional(?string $phoneAdditional): self
+    public function addPhoneAdditional(string $phoneAdditional): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setPhoneAdditional($phoneAdditional);
@@ -66,11 +66,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string|null $email
+     * @param string $email
      *
      * @return $this
      */
-    public function addEmail(?string $email): self
+    public function addEmail(string $email): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setEmail($email);
@@ -79,11 +79,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string|null $address
+     * @param string $address
      *
      * @return $this
      */
-    public function addAddress(?string $address): self
+    public function addAddress(string $address): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setAddress($address);
@@ -92,11 +92,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param \DateTimeImmutable|null $bornAt
+     * @param \DateTimeImmutable $bornAt
      *
      * @return $this
      */
-    public function addBornAt(?\DateTimeImmutable $bornAt): self
+    public function addBornAt(\DateTimeImmutable $bornAt): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setBornAt($bornAt);
@@ -105,11 +105,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string|null $placeOfBirth
+     * @param string $placeOfBirth
      *
      * @return $this
      */
-    public function addPlaceOfBirth(?string $placeOfBirth): self
+    public function addPlaceOfBirth(string $placeOfBirth): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setPlaceOfBirth($placeOfBirth);
@@ -118,40 +118,29 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string|null             $passportSeries
-     * @param string|null             $passportNumber
-     * @param \DateTimeImmutable|null $passportIssuedAt
-     * @param string|null             $passportIssuedBy
-     * @param string|null             $passportDivisionCode
+     * @param string             $passportSeries
+     * @param string             $passportNumber
+     * @param \DateTimeImmutable $passportIssuedAt
+     * @param string             $passportIssuedBy
+     * @param string|null        $passportDivisionCode
      *
      * @return $this
      */
     public function addPassport(
-        ?string             $passportSeries,
-        ?string             $passportNumber,
-        ?\DateTimeImmutable $passportIssuedAt,
-        ?string             $passportIssuedBy,
-        ?string             $passportDivisionCode,
-    ): self
-    {
+        string             $passportSeries,
+        string             $passportNumber,
+        \DateTimeImmutable $passportIssuedAt,
+        string             $passportIssuedBy,
+        ?string            $passportDivisionCode,
+    ): self  {
         $this->assertInitialized();
-        if (
-            $passportSeries       === null &&
-            $passportNumber       === null &&
-            $passportIssuedAt     === null &&
-            $passportIssuedBy     === null &&
-            $passportDivisionCode === null
-        ) {
-            $passport = null;
-        } else {
-            $passport = new Passport(
-                $passportSeries,
-                $passportNumber,
-                $passportIssuedAt,
-                $passportIssuedBy,
-                $passportDivisionCode
-            );
-        }
+        $passport = new Passport(
+            $passportSeries,
+            $passportNumber,
+            $passportIssuedAt,
+            $passportIssuedBy,
+            $passportDivisionCode
+        );
         $this->naturalPerson->setPassport($passport);
 
         return $this;
@@ -175,7 +164,7 @@ final class NaturalPersonBuilder
     private function assertInitialized(): void
     {
         if (!isset($this->naturalPerson)) {
-            throw new \LogicException('The natural person builder is not initialized.');
+            throw new \LogicException('Строитель физического лица не инициализирован.');
         }
     }
 }

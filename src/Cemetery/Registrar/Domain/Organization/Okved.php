@@ -73,7 +73,7 @@ final class Okved
     private function assertValidFormat(string $value): void
     {
         if (!\preg_match('~^\d{2}\.\d{2}(\.\d{1,2})?$~', $value)) {
-            throw new \InvalidArgumentException('Неверный формат ОКВЭД.');
+            throw new \InvalidArgumentException('ОКВЭД имеет неверный формат.');
         }
     }
 }

@@ -79,9 +79,20 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithEmptyBankNameValue(): void
     {
-        $this->expectExceptionForEmptyValue('наименование банка');
+        $this->expectExceptionForEmptyValue('Наименование банка');
         new BankDetails(
             '',
+            $this->bikA,
+            $this->correspondentAccountA,
+            $this->currentAccountA1,
+        );
+    }
+
+    public function testItFailsWithBankNameValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Наименование банка');
+        new BankDetails(
+            '   ',
             $this->bikA,
             $this->correspondentAccountA,
             $this->currentAccountA1,
@@ -99,9 +110,20 @@ class BankDetailsTest extends TestCase
         );
     }
 
+    public function testItFailsWithBikValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('БИК');
+        new BankDetails(
+            $this->bankNameA,
+            '   ',
+            $this->correspondentAccountA,
+            $this->currentAccountA1,
+        );
+    }
+
     public function testItFailsWithEmptyCorrespondentAccountValue(): void
     {
-        $this->expectExceptionForEmptyValue('к/счёт');
+        $this->expectExceptionForEmptyValue('К/счёт');
         new BankDetails(
             $this->bankNameA,
             $this->bikA,
@@ -110,14 +132,36 @@ class BankDetailsTest extends TestCase
         );
     }
 
+    public function testItFailsWithCorrespondentAccountValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('К/счёт');
+        new BankDetails(
+            $this->bankNameA,
+            $this->bikA,
+            '   ',
+            $this->currentAccountA1,
+        );
+    }
+
     public function testItFailsWithEmptyCurrentAccountValue(): void
     {
-        $this->expectExceptionForEmptyValue('р/счёт');
+        $this->expectExceptionForEmptyValue('Р/счёт');
         new BankDetails(
             $this->bankNameA,
             $this->bikA,
             $this->correspondentAccountA,
             '',
+        );
+    }
+
+    public function testItFailsWithCurrentAccountValueOfSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue('Р/счёт');
+        new BankDetails(
+            $this->bankNameA,
+            $this->bikA,
+            $this->correspondentAccountA,
+            '   ',
         );
     }
 
@@ -180,7 +224,7 @@ class BankDetailsTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(
-            \sprintf('%s не может иметь пустое значение.', \ucfirst($name))
+            \sprintf('%s не может иметь пустое значение.', $name)
         );
     }
 }

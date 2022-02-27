@@ -29,11 +29,11 @@ class FuneralCompanyTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Unsupported funeral company type "wrong_type", expected to be one of "%s", "%s".',
+            'Неподдерживаемый тип похоронной фирмы "неверный_тип", должен быть один из "%s", "%s".',
             FuneralCompanyType::SOLE_PROPRIETOR,
             FuneralCompanyType::JURISTIC_PERSON,
         ));
-        new FuneralCompanyType('wrong_type');
+        new FuneralCompanyType('неверный_тип');
     }
 
     public function testItStringifyable(): void
