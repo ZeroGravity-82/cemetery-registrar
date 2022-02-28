@@ -9,9 +9,9 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialPlaceType
 {
-    public const GRAVE_SITE        = 'grave_site';
-    public const COLUMBARIUM_NICHE = 'columbarium_niche';
-    public const MEMORIAL_TREE     = 'memorial_tree';
+    public const GRAVE_SITE        = 'участок на кладбище';
+    public const COLUMBARIUM_NICHE = 'колумбарная ниша';
+    public const MEMORIAL_TREE     = 'памятное дерево';
 
     /**
      * @param string $value
@@ -106,7 +106,7 @@ final class BurialPlaceType
         $supportedBurialPlaceTypes = [self::GRAVE_SITE, self::COLUMBARIUM_NICHE, self::MEMORIAL_TREE];
         if (!\in_array($value, $supportedBurialPlaceTypes)) {
             throw new \InvalidArgumentException(\sprintf(
-                'Unsupported burial place type "%s", expected to be one of %s.',
+                'Неподдерживаемый тип места захоронения "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedBurialPlaceTypes))
             ));
