@@ -123,24 +123,4 @@ class NaturalPersonBuilderTest extends TestCase
         $this->assertSame('УВД Кировского района города Новосибирска', $naturalPerson->getPassport()->getIssuedBy());
         $this->assertSame('540-001', $naturalPerson->getPassport()->getDivisionCode());
     }
-
-    public function testItIgnoresNullValues(): void
-    {
-        $naturalPerson = $this->naturalPersonBuilder
-            ->addPhone(null)
-            ->addPhoneAdditional(null)
-            ->addEmail(null)
-            ->addAddress(null)
-            ->addBornAt(null)
-            ->addPlaceOfBirth(null)
-            ->addPassport(null, null, null, null, null)
-            ->build();
-        $this->assertNull($naturalPerson->getPhone());
-        $this->assertNull($naturalPerson->getPhoneAdditional());
-        $this->assertNull($naturalPerson->getEmail());
-        $this->assertNull($naturalPerson->getAddress());
-        $this->assertNull($naturalPerson->getBornAt());
-        $this->assertNull($naturalPerson->getPlaceOfBirth());
-        $this->assertNull($naturalPerson->getPassport());
-    }
 }
