@@ -9,8 +9,8 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialContainerType
 {
-    public const COFFIN = 'coffin';
-    public const URN    = 'urn';
+    public const COFFIN = 'гроб';
+    public const URN    = 'урна';
 
     /**
      * @param string $value
@@ -89,7 +89,7 @@ final class BurialContainerType
         $supportedBurialContainerTypes = [self::COFFIN, self::URN];
         if (!\in_array($value, $supportedBurialContainerTypes)) {
             throw new \InvalidArgumentException(\sprintf(
-                'Unsupported burial container type "%s", expected to be one of %s.',
+                'Неподдерживаемый тип контейнера захоронения "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedBurialContainerTypes))
             ));
