@@ -88,7 +88,7 @@ final class DeceasedBuilder
     private function assertInitialized(): void
     {
         if (!isset($this->deceased)) {
-            throw new \LogicException('The deceased builder is not initialized.');
+            throw new \LogicException('Строитель для класса Deceased не инициализирован.');
         }
     }
 }

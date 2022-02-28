@@ -9,8 +9,8 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class FuneralCompanyType
 {
-    public const SOLE_PROPRIETOR = 'sole_proprietor';
-    public const JURISTIC_PERSON = 'juristic_person';
+    public const SOLE_PROPRIETOR = 'индивидуальный предприниматель';
+    public const JURISTIC_PERSON = 'юридическое лицо';
 
     /**
      * @param string $value
@@ -89,7 +89,7 @@ final class FuneralCompanyType
         $supportedFuneralCompanyTypes = [self::SOLE_PROPRIETOR, self::JURISTIC_PERSON];
         if (!\in_array($value, $supportedFuneralCompanyTypes)) {
             throw new \InvalidArgumentException(\sprintf(
-                'Unsupported funeral company type "%s", expected to be one of %s.',
+                'Неподдерживаемый тип похоронной фирмы "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedFuneralCompanyTypes))
             ));

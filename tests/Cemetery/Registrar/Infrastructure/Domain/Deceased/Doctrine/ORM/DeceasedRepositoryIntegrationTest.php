@@ -73,7 +73,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
         // Testing itself
         $persistedDeceased  = $this->repo->findById($this->deceasedA->getId());
         $deathCertificateId = new DeathCertificateId('DC001');
-        $causeOfDeath       = new CauseOfDeath('Some cause 1');
+        $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
         $persistedDeceased->setDeathCertificateId($deathCertificateId);
         $persistedDeceased->setCauseOfDeath($causeOfDeath);
         $this->repo->save($persistedDeceased);
@@ -83,7 +83,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
         $this->assertSame('DC001', (string) $persistedDeceased->getDeathCertificateId());
         $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->getCauseOfDeath());
-        $this->assertSame('Some cause 1', (string) $persistedDeceased->getCauseOfDeath());
+        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->getCauseOfDeath());
         $this->assertSame(1, $this->getRowCount());
     }
 
@@ -108,7 +108,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
         // Testing itself
         $persistedDeceased  = $this->repo->findById($this->deceasedA->getId());
         $deathCertificateId = new DeathCertificateId('DC001');
-        $causeOfDeath       = new CauseOfDeath('Some cause 1');
+        $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
         $persistedDeceased->setDeathCertificateId($deathCertificateId);
         $persistedDeceased->setCauseOfDeath($causeOfDeath);
         $this->repo->saveAll(new DeceasedCollection([$persistedDeceased, $this->deceasedC]));
@@ -118,7 +118,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
         $this->assertSame('DC001', (string) $persistedDeceased->getDeathCertificateId());
         $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->getCauseOfDeath());
-        $this->assertSame('Some cause 1', (string) $persistedDeceased->getCauseOfDeath());
+        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->getCauseOfDeath());
 
         $persistedDeceased = $this->repo->findById($this->deceasedB->getId());
         $this->assertInstanceOf(DeceasedId::class, $persistedDeceased->getId());
@@ -130,7 +130,7 @@ class DeceasedRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
         $this->assertSame('DC001', (string) $persistedDeceased->getDeathCertificateId());
         $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->getCauseOfDeath());
-        $this->assertSame('Some cause 1', (string) $persistedDeceased->getCauseOfDeath());
+        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->getCauseOfDeath());
 
         $persistedDeceased = $this->repo->findById($this->deceasedC->getId());
         $this->assertInstanceOf(DeceasedId::class, $persistedDeceased->getId());

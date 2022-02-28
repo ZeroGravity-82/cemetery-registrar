@@ -112,7 +112,7 @@ class NaturalPersonRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(NaturalPersonId::class, $persistedNaturalPerson->getId());
         $this->assertSame('NP002', (string) $persistedNaturalPerson->getId());
         $this->assertInstanceOf(FullName::class, $persistedNaturalPerson->getFullName());
-        $this->assertSame('Petrov Petr Petrovich', (string) $persistedNaturalPerson->getFullName());
+        $this->assertSame('Петров Пётр Петрович', (string) $persistedNaturalPerson->getFullName());
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedNaturalPerson->getBornAt());
         $this->assertSame('1998-12-30', $persistedNaturalPerson->getBornAt()->format('Y-m-d'));
 
@@ -120,7 +120,7 @@ class NaturalPersonRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(NaturalPersonId::class, $persistedNaturalPerson->getId());
         $this->assertSame('NP003', (string) $persistedNaturalPerson->getId());
         $this->assertInstanceOf(FullName::class, $persistedNaturalPerson->getFullName());
-        $this->assertSame('Sidorov Sidr Sidorovich', (string) $persistedNaturalPerson->getFullName());
+        $this->assertSame('Сидоров Сидр Сидорович', (string) $persistedNaturalPerson->getFullName());
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedNaturalPerson->getBornAt());
         $this->assertSame('2005-05-20', $persistedNaturalPerson->getBornAt()->format('Y-m-d'));
 

@@ -33,7 +33,7 @@ class BurialTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Неподдерживаемый тип захоронения  "неподдерживаемый_тип", должен быть один из "%s", "%s", "%s", "%s".',
+            'Неподдерживаемый тип захоронения "неподдерживаемый_тип", должен быть один из "%s", "%s", "%s", "%s".',
             BurialType::COFFIN_IN_GRAVE_SITE,
             BurialType::URN_IN_GRAVE_SITE,
             BurialType::URN_IN_COLUMBARIUM_NICHE,

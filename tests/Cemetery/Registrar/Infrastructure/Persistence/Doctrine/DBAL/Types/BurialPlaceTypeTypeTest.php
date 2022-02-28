@@ -20,7 +20,7 @@ class BurialPlaceTypeTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'columbarium_niche';
-        $this->phpValue = new BurialPlaceType('columbarium_niche');
+        $this->dbValue  = 'колумбарная ниша';
+        $this->phpValue = new BurialPlaceType('колумбарная ниша');
     }
 }

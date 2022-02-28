@@ -9,10 +9,10 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialType
 {
-    public const COFFIN_IN_GRAVE_SITE      = 'coffin_in_grave';
-    public const URN_IN_GRAVE_SITE         = 'urn_in_grave';
-    public const URN_IN_COLUMBARIUM_NICHE  = 'urn_in_columbarium';
-    public const ASHES_UNDER_MEMORIAL_TREE = 'ashes_under_tree';
+    public const COFFIN_IN_GRAVE_SITE      = 'гробом в могилу';
+    public const URN_IN_GRAVE_SITE         = 'урной в могилу';
+    public const URN_IN_COLUMBARIUM_NICHE  = 'урной в колумбарную нишу';
+    public const ASHES_UNDER_MEMORIAL_TREE = 'прахом под деревом';
 
     /**
      * @param string $value
@@ -128,7 +128,7 @@ final class BurialType
         ];
         if (!\in_array($value, $supportedBurialTypes)) {
             throw new \InvalidArgumentException(\sprintf(
-                'Unsupported burial type "%s", expected to be one of %s.',
+                'Неподдерживаемый тип захоронения "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedBurialTypes))
             ));

@@ -20,7 +20,7 @@ class BurialContainerTypeTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'coffin';
-        $this->phpValue = new BurialContainerType('coffin');
+        $this->dbValue  = 'гроб';
+        $this->phpValue = new BurialContainerType('гроб');
     }
 }

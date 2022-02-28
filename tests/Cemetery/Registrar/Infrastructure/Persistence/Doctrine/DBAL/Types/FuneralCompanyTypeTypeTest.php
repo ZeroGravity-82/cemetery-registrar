@@ -20,7 +20,7 @@ class FuneralCompanyTypeTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'sole_proprietor';
-        $this->phpValue = new FuneralCompanyType('sole_proprietor');
+        $this->dbValue  = 'индивидуальный предприниматель';
+        $this->phpValue = new FuneralCompanyType('индивидуальный предприниматель');
     }
 }

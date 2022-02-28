@@ -20,7 +20,7 @@ class CauseOfDeathTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'Some cause';
-        $this->phpValue = new CauseOfDeath('Some cause');
+        $this->dbValue  = 'Некоторая причина смерти';
+        $this->phpValue = new CauseOfDeath('Некоторая причина смерти');
     }
 }

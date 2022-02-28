@@ -20,7 +20,7 @@ class CustomerTypeTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'natural_person';
-        $this->phpValue = new CustomerType('natural_person');
+        $this->dbValue  = 'физическое лицо';
+        $this->phpValue = new CustomerType('физическое лицо');
     }
 }

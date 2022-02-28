@@ -20,7 +20,7 @@ class FullNameTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'Ivanov Ivan Ivanovich';
-        $this->phpValue = new FullName('Ivanov Ivan Ivanovich');
+        $this->dbValue  = 'Иванов Иван Иванович';
+        $this->phpValue = new FullName('Иванов Иван Иванович');
     }
 }

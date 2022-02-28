@@ -9,9 +9,9 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class CustomerType
 {
-    public const NATURAL_PERSON  = 'natural_person';
-    public const SOLE_PROPRIETOR = 'sole_proprietor';
-    public const JURISTIC_PERSON = 'juristic_person';
+    public const NATURAL_PERSON  = 'физическое лицо';
+    public const SOLE_PROPRIETOR = 'индивидуальный предприниматель';
+    public const JURISTIC_PERSON = 'юридическое лицо';
 
     /**
      * @param string $value
@@ -106,7 +106,7 @@ final class CustomerType
         $supportedCustomerTypes = [self::NATURAL_PERSON, self::SOLE_PROPRIETOR, self::JURISTIC_PERSON];
         if (!\in_array($value, $supportedCustomerTypes)) {
             throw new \InvalidArgumentException(\sprintf(
-                'Unsupported customer type "%s", expected to be one of %s.',
+                'Неподдерживаемый тип заказчика захоронения "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedCustomerTypes))
             ));

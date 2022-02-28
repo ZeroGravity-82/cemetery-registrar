@@ -164,7 +164,7 @@ final class NaturalPersonBuilder
     private function assertInitialized(): void
     {
         if (!isset($this->naturalPerson)) {
-            throw new \LogicException('Строитель физического лица не инициализирован.');
+            throw new \LogicException('Строитель для класса NaturalPerson не инициализирован.');
         }
     }
 }
