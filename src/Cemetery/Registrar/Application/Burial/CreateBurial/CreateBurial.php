@@ -13,8 +13,7 @@ use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedBuilder;
 use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonDirector;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
 
 /**
@@ -25,7 +24,7 @@ final class CreateBurial
     public function __construct(
         private BurialBuilder                     $burialBuilder,
         private DeceasedBuilder                   $deceasedBuilder,
-        private NaturalPersonDirector             $naturalPersonDirector,
+        private NaturalPersonFactory              $naturalPersonFactory,
         private SoleProprietorFactory             $soleProprietorFactory,
         private JuristicPersonFactory             $juristicPersonFactory,
         private GraveSiteFactory                  $graveSiteFactory,
@@ -126,7 +125,7 @@ final class CreateBurial
      */
     private function createNaturalPersonForDeceased(CreateBurialRequest $request): NaturalPerson
     {
-        $naturalPerson = $this->naturalPersonDirector->createNaturalPersonForDeceased(
+        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForDeceased(
             $request->deceasedNaturalPersonFullName,
             $request->deceasedNaturalPersonBornAt,
         );
@@ -179,7 +178,7 @@ final class CreateBurial
      */
     private function createNaturalPersonForCustomer(CreateBurialRequest $request): NaturalPerson
     {
-        $naturalPerson = $this->naturalPersonDirector->createNaturalPersonForCustomer(
+        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForCustomer(
             $request->customerNaturalPersonFullName,
             $request->customerNaturalPersonPhone,
             $request->customerNaturalPersonPhoneAdditional,
