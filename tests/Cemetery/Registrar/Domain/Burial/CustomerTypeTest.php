@@ -31,12 +31,12 @@ class CustomerTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Неподдерживаемый тип заказчика захоронения "неверный_тип", должен быть один из "%s", "%s", "%s".',
+            'Неподдерживаемый тип заказчика захоронения "неподдерживаемый_тип", должен быть один из "%s", "%s", "%s".',
             CustomerType::NATURAL_PERSON,
             CustomerType::SOLE_PROPRIETOR,
             CustomerType::JURISTIC_PERSON,
         ));
-        new CustomerType('неверный_тип');
+        new CustomerType('неподдерживаемый_тип');
     }
 
     public function testItStringifyable(): void

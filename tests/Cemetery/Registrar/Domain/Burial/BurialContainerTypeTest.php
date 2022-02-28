@@ -29,11 +29,11 @@ class BurialContainerTypeTest extends TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Неподдерживаемый тип контейнера захоронения "неверный_тип", должен быть один из "%s", "%s".',
+            'Неподдерживаемый тип контейнера захоронения "неподдерживаемый_тип", должен быть один из "%s", "%s".',
             BurialContainerType::COFFIN,
             BurialContainerType::URN,
         ));
-        new BurialContainerType('неверный_тип');
+        new BurialContainerType('неподдерживаемый_тип');
     }
 
     public function testItStringifyable(): void
