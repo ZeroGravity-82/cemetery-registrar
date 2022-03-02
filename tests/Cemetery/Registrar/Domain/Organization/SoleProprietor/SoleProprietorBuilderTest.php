@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Contact\Website;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
+use Cemetery\Registrar\Domain\Organization\Okved;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Ogrnip;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
@@ -47,6 +48,7 @@ class SoleProprietorBuilderTest extends TestCase
         $this->assertSame('ИП Иванов Иван Иванович', (string) $soleProprietor->getName());
         $this->assertNull($soleProprietor->getInn());
         $this->assertNull($soleProprietor->getOgrnip());
+        $this->assertNull($soleProprietor->getOkved());
         $this->assertNull($soleProprietor->getRegistrationAddress());
         $this->assertNull($soleProprietor->getActualLocationAddress());
         $this->assertNull($soleProprietor->getBankDetails());
@@ -78,6 +80,13 @@ class SoleProprietorBuilderTest extends TestCase
         $soleProprietor = $this->soleProprietorBuilder->addOgrnip('315547600024379')->build();
         $this->assertInstanceOf(Ogrnip::class, $soleProprietor->getOgrnip());
         $this->assertSame('315547600024379', (string) $soleProprietor->getOgrnip());
+    }
+
+    public function testItAddsOkved(): void
+    {
+        $soleProprietor = $this->soleProprietorBuilder->addOkved('74.82')->build();
+        $this->assertInstanceOf(Okved::class, $soleProprietor->getOkved());
+        $this->assertSame('74.82', (string) $soleProprietor->getOkved());
     }
 
     public function testItAddsRegistrationAddress(): void

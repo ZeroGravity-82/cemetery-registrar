@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Contact\Website;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
+use Cemetery\Registrar\Domain\Organization\Okved;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -72,6 +73,21 @@ final class SoleProprietorBuilder
 
         return $this;
     }
+
+    /**
+     * @param string $okved
+     *
+     * @return $this
+     */
+    public function addOkved(string $okved): self
+    {
+        $this->assertInitialized();
+        $okved = new Okved($okved);
+        $this->soleProprietor->setOkved($okved);
+
+        return $this;
+    }
+
 
     /**
      * @param string $registrationAddress
