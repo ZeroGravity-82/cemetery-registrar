@@ -20,6 +20,7 @@ final class SoleProprietorFactory
      * @param string|null $name
      * @param string|null $inn
      * @param string|null $ogrnip
+     * @param string|null $okved
      * @param string|null $registrationAddress
      * @param string|null $actualLocationAddress
      * @param string|null $bankDetailsBankName
@@ -38,6 +39,7 @@ final class SoleProprietorFactory
         ?string             $name,
         ?string             $inn,
         ?string             $ogrnip,
+        ?string             $okved,
         ?string             $registrationAddress,
         ?string             $actualLocationAddress,
         ?string             $bankDetailsBankName,
@@ -58,6 +60,9 @@ final class SoleProprietorFactory
         }
         if ($ogrnip !== null) {
             $this->builder->addOgrnip($ogrnip);
+        }
+        if ($okved !== null) {
+            $this->builder->addOkved($okved);
         }
         if ($registrationAddress !== null) {
             $this->builder->addRegistrationAddress($registrationAddress);
