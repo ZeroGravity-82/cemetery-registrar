@@ -51,7 +51,7 @@ class DeceasedBuilderTest extends TestCase
     public function testItFailsToBuildADeceasedBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Строитель для класса Deceased не инициализирован.');
+        $this->expectExceptionMessage(\sprintf('Строитель для класса %s не инициализирован.', Deceased::class));
 
         $deceasedBuilder = new DeceasedBuilder($this->mockIdentityGenerator);
         $deceasedBuilder->build();

@@ -139,7 +139,7 @@ final class BurialBuilder
     private function assertInitialized(): void
     {
         if (!isset($this->burial)) {
-            throw new \LogicException('Строитель для класса Burial не инициализирован.');
+            throw new \LogicException(\sprintf('Строитель для класса %s не инициализирован.', Burial::class));
         }
     }
 }

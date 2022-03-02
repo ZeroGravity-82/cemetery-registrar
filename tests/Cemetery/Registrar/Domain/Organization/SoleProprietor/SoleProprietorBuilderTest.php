@@ -60,7 +60,7 @@ class SoleProprietorBuilderTest extends TestCase
     public function testItFailsToBuildASoleProprietorBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Строитель для класса SoleProprietor не инициализирован.');
+        $this->expectExceptionMessage(\sprintf('Строитель для класса %s не инициализирован.', SoleProprietor::class));
 
         $soleProprietorBuilder = new SoleProprietorBuilder($this->mockIdentityGenerator);
         $soleProprietorBuilder->build();

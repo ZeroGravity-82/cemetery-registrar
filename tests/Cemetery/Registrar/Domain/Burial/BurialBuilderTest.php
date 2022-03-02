@@ -65,7 +65,7 @@ class BurialBuilderTest extends TestCase
     public function testItFailsToBuildABurialWithoutADeceasedId(): void
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Строитель для класса Burial не инициализирован.');
+        $this->expectExceptionMessage(\sprintf('Строитель для класса %s не инициализирован.', Burial::class));
 
         $burialBuilder = new BurialBuilder($this->mockIdentityGenerator, $this->mockBurialCodeGenerator);
         $burialBuilder->build();

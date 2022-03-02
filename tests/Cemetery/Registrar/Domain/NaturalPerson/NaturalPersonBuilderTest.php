@@ -51,7 +51,7 @@ class NaturalPersonBuilderTest extends TestCase
     public function testItFailsToBuildANaturalPersonBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
-        $this->expectExceptionMessage('Строитель для класса NaturalPerson не инициализирован.');
+        $this->expectExceptionMessage(\sprintf('Строитель для класса %s не инициализирован.', NaturalPerson::class));
 
         $naturalPersonBuilder = new NaturalPersonBuilder($this->mockIdentityGenerator);
         $naturalPersonBuilder->build();

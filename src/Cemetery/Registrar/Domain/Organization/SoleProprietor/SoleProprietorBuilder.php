@@ -210,7 +210,7 @@ final class SoleProprietorBuilder
     private function assertInitialized(): void
     {
         if (!isset($this->soleProprietor)) {
-            throw new \LogicException('Строитель для класса SoleProprietor не инициализирован.');
+            throw new \LogicException(\sprintf('Строитель для класса %s не инициализирован.', SoleProprietor::class));
         }
     }
 }
