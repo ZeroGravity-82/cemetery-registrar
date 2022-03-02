@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\Organization\BankDetails;
  */
 final class CorrespondentAccount extends AbstractAccount
 {
-    private const ACCOUNT_NAME = 'К/счёт';
+    private const ACCOUNT_TYPE = 'К/счёт';
 
     /**
      * {@inheritdoc}
@@ -26,9 +26,9 @@ final class CorrespondentAccount extends AbstractAccount
     /**
      * {@inheritdoc}
      */
-    protected function getAccountName(): string
+    protected function getAccountType(): string
     {
-        return self::ACCOUNT_NAME;
+        return self::ACCOUNT_TYPE;
     }
 
     /**

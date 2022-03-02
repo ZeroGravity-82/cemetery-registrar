@@ -165,6 +165,42 @@ class BankDetailsTest extends TestCase
         );
     }
 
+    public function testItFailsWithCorrespondentAccountMismatchedTheBikValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('К/счёт недействителен (не соответствует БИК).');
+        new BankDetails(
+            $this->bankNameA,
+            $this->bikA,
+            $this->correspondentAccountB,
+            $this->currentAccountA1,
+        );
+    }
+
+    public function testItFailsWithCurrentAccountMismatchedTheBikValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Р/счёт недействителен (не соответствует БИК).');
+        new BankDetails(
+            $this->bankNameA,
+            $this->bikA,
+            $this->correspondentAccountA,
+            $this->currentAccountB,
+        );
+    }
+
+    public function testItFailsWithCorrespondentAccountProvidedForBikValueOfCentralBankOfRussia(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('К/счёт не может быть указан для данного БИК.');
+        new BankDetails(
+            $this->bankNameC,
+            $this->bikC,        // BIK value of the Central Bank of Russia
+            $this->correspondentAccountB,
+            $this->currentAccountC,
+        );
+    }
+
     public function testItStringifyable(): void
     {
         $bankDetails = new BankDetails(

@@ -31,7 +31,7 @@ abstract class AbstractAccount
     /**
      * @return string
      */
-    abstract protected function getAccountName(): string;
+    abstract protected function getAccountType(): string;
 
     /**
      * @param string $value
@@ -86,7 +86,7 @@ abstract class AbstractAccount
     protected function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getAccountName()));
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getAccountType()));
         }
     }
 
@@ -98,7 +98,7 @@ abstract class AbstractAccount
     protected function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->getAccountName()));
+            throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->getAccountType()));
         }
     }
 
@@ -109,7 +109,7 @@ abstract class AbstractAccount
      */
     protected function assertValidLength(string $value): void
     {
-        $accountName = $this->getAccountName();
+        $accountName = $this->getAccountType();
         if (\strlen($value) !== self::ACCOUNT_LENGTH) {
             throw new \InvalidArgumentException(
                 \sprintf('%s должен состоять из %d цифр.', $accountName, self::ACCOUNT_LENGTH)
@@ -128,7 +128,7 @@ abstract class AbstractAccount
         $checkValue = $this->calculateCheckValue($value, $bik);
         if ($checkValue !== 0) {
             throw new \InvalidArgumentException(
-                \sprintf('%s недействителен (не соответствует БИК).', $this->getAccountName())
+                \sprintf('%s недействителен (не соответствует БИК).', $this->getAccountType())
             );
         }
     }
