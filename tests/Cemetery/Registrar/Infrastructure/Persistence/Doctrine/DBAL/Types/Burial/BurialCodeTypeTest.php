@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
 use Cemetery\Registrar\Domain\Burial\BurialCode;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialCodeType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialCodeType;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

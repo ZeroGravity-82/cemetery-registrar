@@ -5,17 +5,22 @@ doctrine:
         server_version: 8.0
         charset: utf8mb4
         types:
-            burial_code: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialCodeType
-            burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainerTypeType
-            burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialIdType
-            burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlaceTypeType
-            cause_of_death: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CauseOfDeathType
-            customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomerTypeType
-            deceased_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\DeceasedIdType
-            death_certificate_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\DeathCertificateIdType
-            full_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FullNameType
-            funeral_company_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FuneralCompanyTypeType
-            natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPersonIdType
+            # Burial
+            burial_code: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialCodeType
+            burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialContainerTypeType
+            burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialIdType
+            burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceTypeType
+            customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerTypeType
+            funeral_company_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyTypeType
+            # Deceased
+            cause_of_death: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\CauseOfDeathType
+            death_certificate_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeathCertificateIdType
+            deceased_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeceasedIdType
+            # NaturalPerson
+            full_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\FullNameType
+            natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\NaturalPersonIdType
+            # Organization
+            organization_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

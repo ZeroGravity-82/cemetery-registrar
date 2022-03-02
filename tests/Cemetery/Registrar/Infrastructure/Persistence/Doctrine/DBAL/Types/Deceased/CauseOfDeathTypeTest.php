@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased;
 
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CauseOfDeathType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\CauseOfDeathType;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

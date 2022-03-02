@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
-use Cemetery\Registrar\Domain\Burial\BurialCode;
+use Cemetery\Registrar\Domain\Burial\BurialId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialCodeType extends StringType
+class BurialIdType extends StringType
 {
-    private const BURIAL_CODE_TYPE = 'burial_code';
+    private const BURIAL_ID_TYPE = 'burial_id';
 
     /**
-     * Registers BurialCode type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::BURIAL_CODE_TYPE)) {
+        if (self::hasType(self::BURIAL_ID_TYPE)) {
             return;
         }
-        self::addType(self::BURIAL_CODE_TYPE, self::class);
+        self::addType(self::BURIAL_ID_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class BurialCodeType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof BurialCode ? $value->getValue() : $value;
+        return $value instanceof BurialId ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialCode
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialId
     {
-        return !empty($value) ? new BurialCode($value) : null;
+        return !empty($value) ? new BurialId($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class BurialCodeType extends StringType
      */
     public function getName(): string
     {
-        return self::BURIAL_CODE_TYPE;
+        return self::BURIAL_ID_TYPE;
     }
 
     /**

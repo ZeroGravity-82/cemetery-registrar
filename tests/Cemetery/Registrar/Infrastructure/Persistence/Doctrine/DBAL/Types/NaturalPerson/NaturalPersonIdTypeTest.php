@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson;
 
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPersonIdType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\NaturalPersonIdType;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

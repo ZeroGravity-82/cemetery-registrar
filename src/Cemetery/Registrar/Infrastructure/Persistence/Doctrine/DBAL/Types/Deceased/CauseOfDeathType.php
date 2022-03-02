@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased;
 
-use Cemetery\Registrar\Domain\NaturalPerson\FullName;
+use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FullNameType extends StringType
+class CauseOfDeathType extends StringType
 {
-    private const FULL_NAME_TYPE = 'full_name';
+    private const CAUSE_OF_DEATH_TYPE = 'cause_of_death';
 
     /**
-     * Registers FullName type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::FULL_NAME_TYPE)) {
+        if (self::hasType(self::CAUSE_OF_DEATH_TYPE)) {
             return;
         }
-        self::addType(self::FULL_NAME_TYPE, self::class);
+        self::addType(self::CAUSE_OF_DEATH_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class FullNameType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof FullName ? $value->getValue() : $value;
+        return $value instanceof CauseOfDeath ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?FullName
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?CauseOfDeath
     {
-        return !empty($value) ? new FullName($value) : null;
+        return !empty($value) ? new CauseOfDeath($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class FullNameType extends StringType
      */
     public function getName(): string
     {
-        return self::FULL_NAME_TYPE;
+        return self::CAUSE_OF_DEATH_TYPE;
     }
 
     /**

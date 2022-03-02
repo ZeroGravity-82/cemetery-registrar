@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonIdType extends StringType
+class BurialCodeType extends StringType
 {
-    private const NATURAL_PERSON_ID_TYPE = 'natural_person_id';
+    private const BURIAL_CODE_TYPE = 'burial_code';
 
     /**
-     * Registers NaturalPersonId type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::NATURAL_PERSON_ID_TYPE)) {
+        if (self::hasType(self::BURIAL_CODE_TYPE)) {
             return;
         }
-        self::addType(self::NATURAL_PERSON_ID_TYPE, self::class);
+        self::addType(self::BURIAL_CODE_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class NaturalPersonIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof NaturalPersonId ? $value->getValue() : $value;
+        return $value instanceof BurialCode ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?NaturalPersonId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialCode
     {
-        return !empty($value) ? new NaturalPersonId($value) : null;
+        return !empty($value) ? new BurialCode($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class NaturalPersonIdType extends StringType
      */
     public function getName(): string
     {
-        return self::NATURAL_PERSON_ID_TYPE;
+        return self::BURIAL_CODE_TYPE;
     }
 
     /**

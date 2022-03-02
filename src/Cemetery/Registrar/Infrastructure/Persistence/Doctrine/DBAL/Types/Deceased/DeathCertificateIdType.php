@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased;
 
 use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -16,7 +16,7 @@ class DeathCertificateIdType extends StringType
     private const DEATH_CERTIFICATE_ID_TYPE = 'death_certificate_id';
 
     /**
-     * Registers DeathCertificateId type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {

@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
-use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CustomerTypeType extends StringType
+class BurialPlaceTypeType extends StringType
 {
-    private const CUSTOMER_TYPE_TYPE = 'customer_type';
+    private const BURIAL_PLACE_TYPE_TYPE = 'burial_place_type';
 
     /**
-     * Registers CustomerType type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::CUSTOMER_TYPE_TYPE)) {
+        if (self::hasType(self::BURIAL_PLACE_TYPE_TYPE)) {
             return;
         }
-        self::addType(self::CUSTOMER_TYPE_TYPE, self::class);
+        self::addType(self::BURIAL_PLACE_TYPE_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class CustomerTypeType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof CustomerType ? $value->getValue() : $value;
+        return $value instanceof BurialPlaceType ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?CustomerType
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialPlaceType
     {
-        return !empty($value) ? new CustomerType($value) : null;
+        return !empty($value) ? new BurialPlaceType($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class CustomerTypeType extends StringType
      */
     public function getName(): string
     {
-        return self::CUSTOMER_TYPE_TYPE;
+        return self::BURIAL_PLACE_TYPE_TYPE;
     }
 
     /**

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -16,7 +16,7 @@ class FuneralCompanyTypeType extends StringType
     private const FUNERAL_COMPANY_TYPE_TYPE = 'funeral_company_type';
 
     /**
-     * Registers FuneralCompanyType type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {

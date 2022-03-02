@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
 use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -16,7 +16,7 @@ class BurialContainerTypeType extends StringType
     private const BURIAL_CONTAINER_TYPE_TYPE = 'burial_container_type';
 
     /**
-     * Registers BurialContainerType type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {

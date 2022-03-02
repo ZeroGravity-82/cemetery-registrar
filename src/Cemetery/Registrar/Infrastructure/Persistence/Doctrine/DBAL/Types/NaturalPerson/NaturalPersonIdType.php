@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson;
 
-use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialPlaceTypeType extends StringType
+class NaturalPersonIdType extends StringType
 {
-    private const BURIAL_PLACE_TYPE_TYPE = 'burial_place_type';
+    private const NATURAL_PERSON_ID_TYPE = 'natural_person_id';
 
     /**
-     * Registers BurialPlaceType type to the type map.
+     * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::BURIAL_PLACE_TYPE_TYPE)) {
+        if (self::hasType(self::NATURAL_PERSON_ID_TYPE)) {
             return;
         }
-        self::addType(self::BURIAL_PLACE_TYPE_TYPE, self::class);
+        self::addType(self::NATURAL_PERSON_ID_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class BurialPlaceTypeType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof BurialPlaceType ? $value->getValue() : $value;
+        return $value instanceof NaturalPersonId ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialPlaceType
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?NaturalPersonId
     {
-        return !empty($value) ? new BurialPlaceType($value) : null;
+        return !empty($value) ? new NaturalPersonId($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class BurialPlaceTypeType extends StringType
      */
     public function getName(): string
     {
-        return self::BURIAL_PLACE_TYPE_TYPE;
+        return self::NATURAL_PERSON_ID_TYPE;
     }
 
     /**
