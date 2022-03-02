@@ -1,0 +1,13 @@
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+      xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <embeddable name="Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails">
+        <field name="bankName"             column="bank_details_bank_name"             type="bank_name"                 />
+        <field name="bik"                  column="bank_details_bik"                   type="bik"                       />
+        <field name="correspondentAccount" column="bank_details_correspondent_account" type="account"   nullable="true" />
+        <field name="currentAccount"       column="bank_details_current_account"       type="account"                   />
+    </embeddable>
+
+</doctrine-mapping>
