@@ -33,6 +33,7 @@ final class CreateBurialRequest
      * @param string|null             $customerSoleProprietorName
      * @param string|null             $customerSoleProprietorInn
      * @param string|null             $customerSoleProprietorOgrnip
+     * @param string|null             $customerSoleProprietorOkved
      * @param string|null             $customerSoleProprietorRegistrationAddress
      * @param string|null             $customerSoleProprietorActualLocationAddress
      * @param string|null             $customerSoleProprietorBankName
@@ -49,6 +50,7 @@ final class CreateBurialRequest
      * @param string|null             $customerJuristicPersonKpp
      * @param string|null             $customerJuristicPersonOgrn
      * @param string|null             $customerJuristicPersonOkpo
+     * @param string|null             $customerJuristicPersonOkved
      * @param string|null             $customerJuristicPersonLegalAddress
      * @param string|null             $customerJuristicPersonPostalAddress
      * @param string|null             $customerJuristicPersonBankName
@@ -117,6 +119,7 @@ final class CreateBurialRequest
         public ?string             $customerSoleProprietorName,
         public ?string             $customerSoleProprietorInn,
         public ?string             $customerSoleProprietorOgrnip,
+        public ?string             $customerSoleProprietorOkved,
         public ?string             $customerSoleProprietorRegistrationAddress,
         public ?string             $customerSoleProprietorActualLocationAddress,
         public ?string             $customerSoleProprietorBankName,
