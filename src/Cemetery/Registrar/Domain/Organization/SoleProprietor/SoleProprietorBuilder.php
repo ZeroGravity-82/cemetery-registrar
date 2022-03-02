@@ -27,8 +27,7 @@ final class SoleProprietorBuilder
      */
     public function __construct(
         private IdentityGeneratorInterface $identityGenerator,
-    ) {
-    }
+    ) {}
 
     /**
      * @param string $name
