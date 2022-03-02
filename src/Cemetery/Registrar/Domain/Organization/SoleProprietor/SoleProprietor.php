@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
+use Cemetery\Registrar\Domain\Organization\Okved;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -26,6 +27,11 @@ final class SoleProprietor extends AbstractAggregateRoot
      * @var Ogrnip|null
      */
     private ?Ogrnip $ogrnip = null;
+
+    /**
+     * @var Okved|null
+     */
+    private ?Okved $okved = null;
 
     /**
      * @var Address|null
@@ -142,6 +148,26 @@ final class SoleProprietor extends AbstractAggregateRoot
     public function setOgrnip(?Ogrnip $ogrnip): self
     {
         $this->ogrnip = $ogrnip;
+
+        return $this;
+    }
+
+    /**
+     * @return Okved|null
+     */
+    public function getOkved(): ?Okved
+    {
+        return $this->okved;
+    }
+
+    /**
+     * @param Okved|null $okved
+     *
+     * @return $this
+     */
+    public function setOkved(?Okved $okved): self
+    {
+        $this->okved = $okved;
 
         return $this;
     }
