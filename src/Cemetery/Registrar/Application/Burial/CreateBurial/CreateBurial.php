@@ -15,6 +15,9 @@ use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorFactory;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -195,6 +198,36 @@ final class CreateBurial
         $this->naturalPersonRepo->save($naturalPerson);
 
         return $naturalPerson;
+    }
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return SoleProprietor
+     */
+    private function createSoleProprietorForCustomer(CreateBurialRequest $request): SoleProprietor
+    {
+        $soleProprietor = $this->soleProprietorFactory->createSoleProprietorForCustomer(
+            $request->customerSoleProprietorName,
+            $request->customerSoleProprietorInn,
+            $request->customerSoleProprietorOgrnip,
+            $request->customerSoleProprietorOkpo,
+            $request->customerSoleProprietorOkved,
+            $request->customerSoleProprietorRegistrationAddress,
+            $request->customerSoleProprietorActualLocationAddress,
+            $request->customerSoleProprietorBankName,
+            $request->customerSoleProprietorBik,
+            $request->customerSoleProprietorCorrespondentAccount,
+            $request->customerSoleProprietorCurrentAccount,
+            $request->customerSoleProprietorPhone,
+            $request->customerSoleProprietorPhoneAdditional,
+            $request->customerSoleProprietorFax,
+            $request->customerSoleProprietorEmail,
+            $request->customerSoleProprietorWebsite,
+        );
+        $this->soleProprietorRepo->save($soleProprietor);
+
+        return $soleProprietor;
     }
 
 
