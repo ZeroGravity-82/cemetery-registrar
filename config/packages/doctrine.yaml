@@ -6,36 +6,36 @@ doctrine:
         charset: utf8mb4
         types:
             # Burial
-            burial_code: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialCodeType
+            burial_code:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialCodeType
             burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialContainerTypeType
-            burial_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialIdType
-            burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceTypeType
-            customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerTypeType
-            funeral_company_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyTypeType
+            burial_id:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialIdType
+            burial_place_type:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceTypeType
+            customer_type:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerTypeType
+            funeral_company_type:  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyTypeType
             # Contact
-            address: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
-            email: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
-            phone_number: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\PhoneNumberType
-            website: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\WebsiteType
+            address:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
+            email:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
+            phone_number:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\PhoneNumberType
+            website:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\WebsiteType
             # Deceased
-            cause_of_death: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\CauseOfDeathType
-            death_certificate_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeathCertificateIdType
-            deceased_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeceasedIdType
+            cause_of_death:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\CauseOfDeathType
+            death_certificate_id:  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeathCertificateIdType
+            deceased_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeceasedIdType
             # NaturalPerson
-            full_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\FullNameType
-            natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\NaturalPersonIdType
+            full_name:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\FullNameType
+            natural_person_id:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\NaturalPersonIdType
             # Organization
-            okved: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\OkvedType
-            organization_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
+            okved:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\OkvedType
+            organization_name:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
             # Organization/BankDetails
-            bik: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\BikType
+            bik:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\BikType
             correspondent_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CorrespondentAccountType
-            current_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CurrentAccountType
+            current_account:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CurrentAccountType
             # Organization/SoleProprietor
-            ogrnip: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OgrnipType
-            sole_proprietor_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\SoleProprietorIdType
-            sole_proprietor_inn: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\InnType
-            sole_proprietor_okpo: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OkpoType
+            ogrnip:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OgrnipType
+            sole_proprietor_id:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\SoleProprietorIdType
+            sole_proprietor_inn:   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\InnType
+            sole_proprietor_okpo:  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OkpoType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
