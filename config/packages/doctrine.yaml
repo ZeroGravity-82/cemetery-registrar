@@ -12,6 +12,11 @@ doctrine:
             burial_place_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceTypeType
             customer_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerTypeType
             funeral_company_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyTypeType
+            # Contact
+            address: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
+            email: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
+            phone_number: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\PhoneNumberType
+            website: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\WebsiteType
             # Deceased
             cause_of_death: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\CauseOfDeathType
             death_certificate_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeathCertificateIdType
