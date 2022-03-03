@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\BankDetails;
 
+use Cemetery\Registrar\Domain\Organization\Name;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class BankDetails
 {
     /**
-     * @var BankName
+     * @var Name
      */
-    private BankName $bankName;
+    private Name $bankName;
 
     /**
      * @var Bik
@@ -41,7 +43,7 @@ final class BankDetails
         ?string $correspondentAccount,
         string  $currentAccount,
     ) {
-        $this->bankName = new BankName($bankName);
+        $this->bankName = new Name($bankName);
         $this->bik      = new Bik($bik);
         if ($correspondentAccount !== null) {
             $this->assertValidCorrespondentAccount($correspondentAccount);
@@ -66,9 +68,9 @@ final class BankDetails
     }
 
     /**
-     * @return BankName
+     * @return Name
      */
-    public function getBankName(): BankName
+    public function getBankName(): Name
     {
         return $this->bankName;
     }

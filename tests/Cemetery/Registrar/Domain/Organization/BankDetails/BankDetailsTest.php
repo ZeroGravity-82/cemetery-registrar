@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Organization\BankDetails;
 
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Domain\Organization\BankDetails\BankName;
 use Cemetery\Registrar\Domain\Organization\BankDetails\Bik;
 use Cemetery\Registrar\Domain\Organization\BankDetails\CorrespondentAccount;
 use Cemetery\Registrar\Domain\Organization\BankDetails\CurrentAccount;
+use Cemetery\Registrar\Domain\Organization\Name;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -56,7 +56,7 @@ class BankDetailsTest extends TestCase
             $this->correspondentAccountA,
             $this->currentAccountA1,
         );
-        $this->assertInstanceOf(BankName::class, $bankDetails->getBankName());
+        $this->assertInstanceOf(Name::class, $bankDetails->getBankName());
         $this->assertSame($this->bankNameA, (string) $bankDetails->getBankName());
         $this->assertInstanceOf(Bik::class, $bankDetails->getBik());
         $this->assertSame($this->bikA, (string) $bankDetails->getBik());
@@ -72,7 +72,7 @@ class BankDetailsTest extends TestCase
             $this->correspondentAccountC,
             $this->currentAccountC,
         );
-        $this->assertInstanceOf(BankName::class, $bankDetails->getBankName());
+        $this->assertInstanceOf(Name::class, $bankDetails->getBankName());
         $this->assertSame($this->bankNameC, (string) $bankDetails->getBankName());
         $this->assertInstanceOf(Bik::class, $bankDetails->getBik());
         $this->assertSame($this->bikC, (string) $bankDetails->getBik());
@@ -83,7 +83,7 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithEmptyBankNameValue(): void
     {
-        $this->expectExceptionForEmptyValue('Наименование банка');
+        $this->expectExceptionForEmptyValue('Наименование');
         new BankDetails(
             '',
             $this->bikA,
@@ -94,7 +94,7 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithBankNameValueOfSpacesOnly(): void
     {
-        $this->expectExceptionForEmptyValue('Наименование банка');
+        $this->expectExceptionForEmptyValue('Наименование');
         new BankDetails(
             '   ',
             $this->bikA,
