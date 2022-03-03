@@ -6,6 +6,7 @@ dev:
 
 test:
     make init
+    make -- cli rm -rf var/data
     make -- cli mkdir var/data 
     make -- sf doctrine:database:create --env=test
     make -- sf doctrine:schema:create --env=test
