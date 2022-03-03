@@ -31,6 +31,7 @@ class SoleProprietorFactoryTest extends TestCase
         $name                            = 'ИП Иванов Иван Иванович';
         $inn                             = '772208786091';
         $ogrnip                          = '315547600024379';
+        $okpo                            = '0137327072';
         $okved                           = '74.82';
         $registrationAddress             = 'г. Новосибирск, ул. 3 Интернационала, д. 127';
         $actualLocationAddress           = 'г. Москва, ул. Стандартная, д. 21, корп. 1, кв. 5';
@@ -45,6 +46,7 @@ class SoleProprietorFactoryTest extends TestCase
         $website                         = 'https://example.com';
         $this->mockSoleProprietorBuilder->expects($this->once())->method('initialize')->with($name);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addInn')->with($inn);
+        $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkpo')->with($okpo);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addOgrnip')->with($ogrnip);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkved')->with($okved);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addRegistrationAddress')->with($registrationAddress);
@@ -65,6 +67,7 @@ class SoleProprietorFactoryTest extends TestCase
             $name,
             $inn,
             $ogrnip,
+            $okpo,
             $okved,
             $registrationAddress,
             $actualLocationAddress,
@@ -87,6 +90,7 @@ class SoleProprietorFactoryTest extends TestCase
         $this->mockSoleProprietorBuilder->expects($this->once())->method('initialize')->with($name);
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addInn');
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addOgrnip');
+        $this->mockSoleProprietorBuilder->expects($this->never())->method('addOkpo');
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addOkved');
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addRegistrationAddress');
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addActualLocationAddress');
@@ -113,6 +117,7 @@ class SoleProprietorFactoryTest extends TestCase
             null,
             null,
             null,
+            null,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
     }
@@ -121,6 +126,7 @@ class SoleProprietorFactoryTest extends TestCase
     {
         $this->expectExceptionForNotProvidedName();
         $this->soleProprietorFactory->createSoleProprietorForCustomer(
+            null,
             null,
             null,
             null,

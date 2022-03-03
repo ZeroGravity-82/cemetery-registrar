@@ -14,6 +14,7 @@ use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\Okved;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Ogrnip;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\Okpo;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorBuilder;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
@@ -48,6 +49,7 @@ class SoleProprietorBuilderTest extends TestCase
         $this->assertSame('ИП Иванов Иван Иванович', (string) $soleProprietor->getName());
         $this->assertNull($soleProprietor->getInn());
         $this->assertNull($soleProprietor->getOgrnip());
+        $this->assertNull($soleProprietor->getOkpo());
         $this->assertNull($soleProprietor->getOkved());
         $this->assertNull($soleProprietor->getRegistrationAddress());
         $this->assertNull($soleProprietor->getActualLocationAddress());
@@ -80,6 +82,13 @@ class SoleProprietorBuilderTest extends TestCase
         $soleProprietor = $this->soleProprietorBuilder->addOgrnip('315547600024379')->build();
         $this->assertInstanceOf(Ogrnip::class, $soleProprietor->getOgrnip());
         $this->assertSame('315547600024379', (string) $soleProprietor->getOgrnip());
+    }
+
+    public function testItAddsOkpo(): void
+    {
+        $soleProprietor = $this->soleProprietorBuilder->addOkpo('0137327072')->build();
+        $this->assertInstanceOf(Okpo::class, $soleProprietor->getOkpo());
+        $this->assertSame('0137327072', (string) $soleProprietor->getOkpo());
     }
 
     public function testItAddsOkved(): void

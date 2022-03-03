@@ -75,6 +75,20 @@ final class SoleProprietorBuilder
     }
 
     /**
+     * @param string $okpo
+     *
+     * @return $this
+     */
+    public function addOkpo(string $okpo): self
+    {
+        $this->assertInitialized();
+        $okpo = new Okpo($okpo);
+        $this->soleProprietor->setOkpo($okpo);
+
+        return $this;
+    }
+
+    /**
      * @param string $okved
      *
      * @return $this

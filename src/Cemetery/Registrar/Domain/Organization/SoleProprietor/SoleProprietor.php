@@ -29,6 +29,11 @@ final class SoleProprietor extends AbstractAggregateRoot
     private ?Ogrnip $ogrnip = null;
 
     /**
+     * @var Okpo|null
+     */
+    private ?Okpo $okpo = null;
+
+    /**
      * @var Okved|null
      */
     private ?Okved $okved = null;
@@ -148,6 +153,26 @@ final class SoleProprietor extends AbstractAggregateRoot
     public function setOgrnip(?Ogrnip $ogrnip): self
     {
         $this->ogrnip = $ogrnip;
+
+        return $this;
+    }
+
+    /**
+     * @return Okpo|null
+     */
+    public function getOkpo(): ?Okpo
+    {
+        return $this->okpo;
+    }
+
+    /**
+     * @param Okpo|null $okpo
+     *
+     * @return $this
+     */
+    public function setOkpo(?Okpo $okpo): self
+    {
+        $this->okpo = $okpo;
 
         return $this;
     }
