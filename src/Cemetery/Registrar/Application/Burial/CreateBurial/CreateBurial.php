@@ -169,7 +169,7 @@ final class CreateBurial
             CustomerType::SOLE_PROPRIETOR => $this->createSoleProprietorForCustomer($request),
             CustomerType::JURISTIC_PERSON => $this->createJuristicPersonForCustomer($request),
             default                       => throw new \InvalidArgumentException(
-                \sprintf('Unsupported customer type "%s".', $request->customerType)
+                \sprintf('Неподдерживаемый тип заказчика захоронения "%s".', $request->customerType)
             ),
         };
     }
