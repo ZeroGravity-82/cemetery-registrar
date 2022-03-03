@@ -16,30 +16,34 @@ use PHPUnit\Framework\TestCase;
  */
 class BankDetailsTest extends TestCase
 {
-    private string $bankNameA;
-    private string $bankNameB;
-    private string $bikA;
-    private string $bikB;
-    private string $correspondentAccountA;
-    private string $correspondentAccountB;
-    private string $currentAccountA1;
-    private string $currentAccountA2;
-    private string $currentAccountB;
+    private string  $bankNameA;
+    private string  $bankNameB;
+    private string  $bankNameC;
+    private string  $bikA;
+    private string  $bikB;
+    private string  $bikC;
+    private string  $correspondentAccountA;
+    private string  $correspondentAccountB;
+    private ?string $correspondentAccountC;
+    private string  $currentAccountA1;
+    private string  $currentAccountA2;
+    private string  $currentAccountB;
+    private string  $currentAccountC;
 
     public function setUp(): void
     {
         $this->bankNameA             = 'Сибирский филиал Публичного акционерного общества "Промсвязьбанк"';
-        $this->bankNameB             = 'Сибирский банк ПАО Сбербанк, г. Новосибирск';
+        $this->bankNameB             = 'АО "АЛЬФА-БАНК"';
         $this->bankNameC             = 'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ';
         $this->bikA                  = '045004816';
-        $this->bikB                  = '045004641';
+        $this->bikB                  = '044525593';
         $this->bikC                  = '044106001';
         $this->correspondentAccountA = '30101810500000000816';
-        $this->correspondentAccountB = '30101810500000000641';
+        $this->correspondentAccountB = '30101810200000000593';
         $this->correspondentAccountC = null;
         $this->currentAccountA1      = '40702810904000040651';
         $this->currentAccountA2      = '40702810304000039741';
-        $this->currentAccountB       = '40702810544070111112';
+        $this->currentAccountB       = '40701810401400000014';
         $this->currentAccountC       = '40601810900001000022';
     }
 
@@ -189,7 +193,7 @@ class BankDetailsTest extends TestCase
         );
     }
 
-    public function testItFailsWithCorrespondentAccountProvidedForBikValueOfCentralBankOfRussia(): void
+    public function testItFailsWithCorrespondentAccountProvidedForCentralBankOfRussia(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('К/счёт не может быть указан для данного БИК.');

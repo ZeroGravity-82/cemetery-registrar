@@ -13,33 +13,17 @@ abstract class AbstractAccount
 
     /**
      * @param string $value
-     * @param Bik    $bik
      */
     public function __construct(
         private string $value,
-        private Bik    $bik,
     ) {
-        $this->assertValidValue($value, $bik);
+        $this->assertValidValue($value);
     }
-
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     */
-    abstract protected function assertValidValue(string $value, Bik $bik): void;
 
     /**
      * @return string
      */
     abstract protected function getAccountType(): string;
-
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @return string
-     */
-    abstract protected function getStringForCheckSum(string $value, Bik $bik): string;
 
     /**
      * @return string
@@ -58,24 +42,23 @@ abstract class AbstractAccount
     }
 
     /**
-     * @return Bik
-     */
-    public function getBik(): Bik
-    {
-        return $this->bik;
-    }
-
-    /**
      * @param self $account
      *
      * @return bool
      */
     public function isEqual(self $account): bool
     {
-        $isSameValue = $account->getValue() === $this->getValue();
-        $isSameBik   = $account->getBik()->isEqual($this->getBik());
+        return $account->getValue() === $this->getValue();
+    }
 
-        return $isSameValue && $isSameBik;
+    /**
+     * @param string $value
+     */
+    private function assertValidValue(string $value): void
+    {
+        $this->assertNotEmpty($value);
+        $this->assertNumeric($value);
+        $this->assertValidLength($value);
     }
 
     /**
@@ -83,7 +66,7 @@ abstract class AbstractAccount
      *
      * @throws \InvalidArgumentException when the account is empty
      */
-    protected function assertNotEmpty(string $value): void
+    private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
             throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getAccountType()));
@@ -95,7 +78,7 @@ abstract class AbstractAccount
      *
      * @throws \InvalidArgumentException when the account has non-numeric value
      */
-    protected function assertNumeric(string $value): void
+    private function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
             throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->getAccountType()));
@@ -107,7 +90,7 @@ abstract class AbstractAccount
      *
      * @throws \InvalidArgumentException when the length of the account is wrong
      */
-    protected function assertValidLength(string $value): void
+    private function assertValidLength(string $value): void
     {
         $accountName = $this->getAccountType();
         if (\strlen($value) !== self::ACCOUNT_LENGTH) {
@@ -115,61 +98,5 @@ abstract class AbstractAccount
                 \sprintf('%s должен состоять из %d цифр.', $accountName, self::ACCOUNT_LENGTH)
             );
         }
-    }
-
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @throws \InvalidArgumentException when the account doesn't match the BIK
-     */
-    protected function assertMatchesTheBik(string $value, Bik $bik): void
-    {
-        $checkValue = $this->calculateCheckValue($value, $bik);
-        if ($checkValue !== 0) {
-            throw new \InvalidArgumentException(
-                \sprintf('%s недействителен (не соответствует БИК).', $this->getAccountType())
-            );
-        }
-    }
-
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @return string
-     */
-    protected function getStringForCurrentAccountCheckSum(string $value, Bik $bik): string
-    {
-        return \substr($bik->getValue(), -3) . $value;
-    }
-
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @return string
-     */
-    protected function getStringForCorrespondentAccountCheckSum(string $value, Bik $bik): string
-    {
-        return '0' . \substr($bik->getValue(), -5, 2) . $value;
-    }
-
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @return int
-     */
-    private function calculateCheckValue(string $value, Bik $bik): int
-    {
-        $checkSum          = 0;
-        $coefficients      = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
-        $stringForCheckSum = $this->getStringForCheckSum($value, $bik);
-        foreach ($coefficients as $index => $coefficient) {
-            $checkSum += $coefficient * ((int) $stringForCheckSum[$index] % 10);
-        }
-
-        return $checkSum % 10;
     }
 }

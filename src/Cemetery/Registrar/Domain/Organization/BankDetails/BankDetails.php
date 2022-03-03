@@ -41,16 +41,14 @@ final class BankDetails
         ?string $correspondentAccount,
         string  $currentAccount,
     ) {
-        $this->assertValidBankName($bankName);
         $this->bankName = new BankName($bankName);
-        $this->assertValidBik($bik);
-        $this->bik = new Bik($bik);
+        $this->bik      = new Bik($bik);
         if ($correspondentAccount !== null) {
             $this->assertValidCorrespondentAccount($correspondentAccount);
-            $this->correspondentAccount = new CorrespondentAccount($correspondentAccount, $this->getBik());
+            $this->correspondentAccount = new CorrespondentAccount($correspondentAccount);
         }
         $this->assertValidCurrentAccount($currentAccount);
-        $this->currentAccount = new CurrentAccount($currentAccount, $this->getBik());
+        $this->currentAccount = new CurrentAccount($currentAccount);
     }
 
     /**
@@ -115,27 +113,13 @@ final class BankDetails
     }
 
     /**
-     * @param string $bankName
-     */
-    private function assertValidBankName(string $bankName): void
-    {
-        $this->assertNotEmpty($bankName, 'Наименование банка');
-    }
-
-    /**
-     * @param string $bik
-     */
-    private function assertValidBik(string $bik): void
-    {
-        $this->assertNotEmpty($bik, 'БИК');
-    }
-
-    /**
      * @param string $correspondentAccount
      */
     private function assertValidCorrespondentAccount(string $correspondentAccount): void
     {
-        $this->assertNotEmpty($correspondentAccount, 'К/счёт');
+        $this->assertBikNotBelongsToCentralBankOfRussia($this->getBik());
+        $this->assertNotEmpty($correspondentAccount, CorrespondentAccount::ACCOUNT_TYPE);
+        $this->assertMatchesTheBik($correspondentAccount, CorrespondentAccount::ACCOUNT_TYPE, $this->getBik());
     }
 
     /**
@@ -143,19 +127,108 @@ final class BankDetails
      */
     private function assertValidCurrentAccount(string $currentAccount): void
     {
-        $this->assertNotEmpty($currentAccount, 'Р/счёт');
+        $this->assertNotEmpty($currentAccount, CurrentAccount::ACCOUNT_TYPE);
+        $this->assertMatchesTheBik($currentAccount, CurrentAccount::ACCOUNT_TYPE, $this->getBik());
+    }
+
+    /**
+     * @param Bik $bik
+     *
+     * @throws \InvalidArgumentException when the BIK belongs to Central Bank of Russia
+     */
+    private function assertBikNotBelongsToCentralBankOfRussia(Bik $bik): void
+    {
+        if ($bik->isBelongToCentralBankOfRussia()) {
+            throw new \InvalidArgumentException('К/счёт не может быть указан для данного БИК.');
+        }
     }
 
     /**
      * @param string $value
-     * @param string $name
+     * @param string $type
      *
      * @throws \InvalidArgumentException when the value is empty
      */
-    private function assertNotEmpty(string $value, string $name): void
+    private function assertNotEmpty(string $value, string $type): void
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
+        if (\trim($value) === '') {
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $type));
         }
+    }
+
+    /**
+     * @param string $value
+     * @param string $accountType
+     * @param Bik    $bik
+     *
+     * @throws \InvalidArgumentException when the account doesn't match the BIK
+     */
+    private function assertMatchesTheBik(string $value, string $accountType, Bik $bik): void
+    {
+        $checkValue = $this->calculateCheckValue($value, $accountType, $bik);
+        if ($checkValue !== 0) {
+            throw new \InvalidArgumentException(
+                \sprintf('%s недействителен (не соответствует БИК).', $accountType)
+            );
+        }
+    }
+
+    /**
+     * @param string $value
+     * @param string $accountType
+     * @param Bik    $bik
+     *
+     * @return int
+     */
+    private function calculateCheckValue(string $value, string $accountType, Bik $bik): int
+    {
+        $checkSum          = 0;
+        $coefficients      = [7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1];
+        $stringForCheckSum = $this->getStringForCheckSum($value, $accountType, $bik);
+        foreach ($coefficients as $index => $coefficient) {
+            $checkSum += $coefficient * ((int) $stringForCheckSum[$index] % 10);
+        }
+
+        return $checkSum % 10;
+    }
+
+    /**
+     * @param string $value
+     * @param string $accountType
+     * @param Bik    $bik
+     *
+     * @return string
+     */
+    private function getStringForCheckSum(string $value, string $accountType, Bik $bik): string
+    {
+        return match ($accountType) {
+            CorrespondentAccount::ACCOUNT_TYPE => $this->getStringForCorrespondentAccountCheckSum($value, $bik),
+            CurrentAccount::ACCOUNT_TYPE       =>  match ($bik->isBelongToCentralBankOfRussia()) {
+                false => $this->getStringForCurrentAccountCheckSum($value, $bik),
+                true  => $this->getStringForCorrespondentAccountCheckSum($value, $bik),
+            }
+        };
+    }
+
+    /**
+     * @param string $value
+     * @param Bik    $bik
+     *
+     * @return string
+     */
+    private function getStringForCurrentAccountCheckSum(string $value, Bik $bik): string
+    {
+        return \substr($bik->getValue(), -3) . $value;
+    }
+
+    /**
+     * @param string $value
+     * @param Bik    $bik
+     *
+     * @return string
+     */
+    private function getStringForCorrespondentAccountCheckSum(string $value, Bik $bik): string
+    {
+        return '0' . \substr($bik->getValue(), -5, 2) . $value;
     }
 }
