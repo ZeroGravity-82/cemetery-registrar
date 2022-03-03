@@ -37,22 +37,22 @@ final class SoleProprietorFactory
      * @return SoleProprietor
      */
     public function createSoleProprietorForCustomer(
-        ?string             $name,
-        ?string             $inn,
-        ?string             $ogrnip,
-        ?string             $okpo,
-        ?string             $okved,
-        ?string             $registrationAddress,
-        ?string             $actualLocationAddress,
-        ?string             $bankDetailsBankName,
-        ?string             $bankDetailsBik,
-        ?string             $bankDetailsCorrespondentAccount,
-        ?string             $bankDetailsCurrentAccount,
-        ?string             $phone,
-        ?string             $phoneAdditional,
-        ?string             $fax,
-        ?string             $email,
-        ?string             $website,
+        ?string $name,
+        ?string $inn,
+        ?string $ogrnip,
+        ?string $okpo,
+        ?string $okved,
+        ?string $registrationAddress,
+        ?string $actualLocationAddress,
+        ?string $bankDetailsBankName,
+        ?string $bankDetailsBik,
+        ?string $bankDetailsCorrespondentAccount,
+        ?string $bankDetailsCurrentAccount,
+        ?string $phone,
+        ?string $phoneAdditional,
+        ?string $fax,
+        ?string $email,
+        ?string $website,
     ): SoleProprietor {
         $this->assertNameIsProvided($name);
         $this->builder->initialize($name);
