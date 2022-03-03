@@ -46,8 +46,8 @@ class SoleProprietorFactoryTest extends TestCase
         $website                         = 'https://example.com';
         $this->mockSoleProprietorBuilder->expects($this->once())->method('initialize')->with($name);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addInn')->with($inn);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkpo')->with($okpo);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addOgrnip')->with($ogrnip);
+        $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkpo')->with($okpo);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkved')->with($okved);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addRegistrationAddress')->with($registrationAddress);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addActualLocationAddress')->with($actualLocationAddress);
