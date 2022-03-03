@@ -1,0 +1,25 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <entity name="Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor" table="sole_proprietor">
+        <id name="id" column="id" type="sole_proprietor_id">
+        </id>
+
+        <field name="name"                  column="name"                    type="organization_name"                      />
+        <field name="inn"                   column="inn"                     type="sole_proprietor_inn"    nullable="true" />
+        <field name="ogrnip"                column="ogrnip"                  type="ogrnip"                 nullable="true" />
+        <field name="okpo"                  column="okpo"                    type="sole_proprietor_okpo"   nullable="true" />
+        <field name="okved"                 column="okved"                   type="okved"                  nullable="true" />
+        <field name="registrationAddress"   column="registration_address"    type="address"                nullable="true" />
+        <field name="actualLocationAddress" column="actual_location_address" type="address"                nullable="true" />
+        <field name="phone"                 column="phone"                   type="phone_number"           nullable="true" />
+        <field name="phoneAdditional"       column="phone_additional"        type="phone_number"           nullable="true" />
+        <field name="fax"                   column="fax"                     type="phone_number"           nullable="true" />
+        <field name="email"                 column="email"                   type="email"                  nullable="true" />
+        <field name="website"               column="website"                 type="website"                nullable="true" />
+        <field name="createdAt"             column="created_at"              type="datetime_immutable"                     />
+        <field name="updatedAt"             column="updated_at"              type="datetime_immutable"                     />
+
+        <embedded name="bankDetails" class="Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>
