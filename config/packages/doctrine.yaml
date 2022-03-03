@@ -20,10 +20,15 @@ doctrine:
             full_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\FullNameType
             natural_person_id: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\NaturalPersonIdType
             # Organization
+            organization_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
+            # Organization/BankDetails
             bik: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\BikType
             correspondent_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CorrespondentAccountType
             current_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CurrentAccountType
-            organization_name: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
+            # Organization/SoleProprietor
+            ogrnip: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OgrnipType
+            sole_proprietor_inn: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\InnType
+            sole_proprietor_okpo: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OkpoType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
