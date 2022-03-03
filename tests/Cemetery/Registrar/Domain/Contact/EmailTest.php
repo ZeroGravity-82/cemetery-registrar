@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class EmailAddressTest extends TestCase
+class EmailTest extends TestCase
 {
         public function testItSuccessfullyCreated(): void
     {
