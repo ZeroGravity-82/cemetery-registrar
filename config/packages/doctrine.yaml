@@ -31,6 +31,12 @@ doctrine:
             bik:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\BikType
             correspondent_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CorrespondentAccountType
             current_account:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CurrentAccountType
+            # Organization/JuristicPerson
+            juristic_person_id:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\JuristicPerson\JuristicPersonIdType
+            juristic_person_inn:   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\JuristicPerson\InnType
+            kpp:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\JuristicPerson\KppType
+            juristic_person_okpo:  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\JuristicPerson\OkpoType
+            ogrn:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\JuristicPerson\OgrnType
             # Organization/SoleProprietor
             ogrnip:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\OgrnipType
             sole_proprietor_id:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\SoleProprietor\SoleProprietorIdType
