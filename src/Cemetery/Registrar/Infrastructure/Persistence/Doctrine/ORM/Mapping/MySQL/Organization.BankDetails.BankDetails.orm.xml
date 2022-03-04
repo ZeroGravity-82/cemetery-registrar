@@ -1,10 +1,10 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
     <embeddable name="Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails">
-        <field name="bankName"             column="bank_details_bank_name"             type="organization_name"                       />
-        <field name="bik"                  column="bank_details_bik"                   type="bik"                                     />
+        <field name="bankName"             column="bank_details_bank_name"             type="organization_name"       nullable="true" />
+        <field name="bik"                  column="bank_details_bik"                   type="bik"                     nullable="true" />
         <field name="correspondentAccount" column="bank_details_correspondent_account" type="correspondent_account"   nullable="true" />
-        <field name="currentAccount"       column="bank_details_current_account"       type="current_account"                         />
+        <field name="currentAccount"       column="bank_details_current_account"       type="current_account"         nullable="true" />
     </embeddable>
 
 </doctrine-mapping>
