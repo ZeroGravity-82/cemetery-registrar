@@ -15,6 +15,9 @@ use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorFactory;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
@@ -230,6 +233,37 @@ final class CreateBurial
         return $soleProprietor;
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return JuristicPerson
+     */
+    private function createJuristicPersonForCustomer(CreateBurialRequest $request): JuristicPerson
+    {
+        $juristicPerson = $this->juristicPersonFactory->createJuristicPersonForCustomer(
+            $request->customerJuristicPersonName,
+            $request->customerJuristicPersonInn,
+            $request->customerJuristicPersonKpp,
+            $request->customerJuristicPersonOgrn,
+            $request->customerJuristicPersonOkpo,
+            $request->customerJuristicPersonOkved,
+            $request->customerJuristicPersonLegalAddress,
+            $request->customerJuristicPersonPostalAddress,
+            $request->customerJuristicPersonBankName,
+            $request->customerJuristicPersonBik,
+            $request->customerJuristicPersonCorrespondentAccount,
+            $request->customerJuristicPersonCurrentAccount,
+            $request->customerJuristicPersonPhone,
+            $request->customerJuristicPersonPhoneAdditional,
+            $request->customerJuristicPersonFax,
+            $request->customerJuristicPersonGeneralDirector,
+            $request->customerJuristicPersonEmail,
+            $request->customerJuristicPersonWebsite,
+        );
+        $this->juristicPersonRepo->save($juristicPerson);
+
+        return $juristicPerson;
+    }
 
 
 
