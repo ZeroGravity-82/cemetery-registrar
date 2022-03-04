@@ -1,0 +1,27 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <entity name="Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson" table="juristic_person">
+        <id name="id" column="id" type="juristic_person_id">
+        </id>
+
+        <field name="name"                  column="name"                    type="organization_name"                      />
+        <field name="inn"                   column="inn"                     type="juristic_person_inn"    nullable="true" />
+        <field name="kpp"                   column="kpp"                     type="kpp"                    nullable="true" />
+        <field name="ogrn"                  column="ogrn"                    type="ogrn"                   nullable="true" />
+        <field name="okpo"                  column="okpo"                    type="juristic_person_okpo"   nullable="true" />
+        <field name="okved"                 column="okved"                   type="okved"                  nullable="true" />
+        <field name="legalAddress"          column="legal_address"           type="address"                nullable="true" />
+        <field name="postalAddress"         column="postal_address"          type="address"                nullable="true" />
+        <field name="phone"                 column="phone"                   type="phone_number"           nullable="true" />
+        <field name="phoneAdditional"       column="phone_additional"        type="phone_number"           nullable="true" />
+        <field name="fax"                   column="fax"                     type="phone_number"           nullable="true" />
+        <field name="generalDirector"       column="general_director"        type="full_name"              nullable="true" />
+        <field name="email"                 column="email"                   type="email"                  nullable="true" />
+        <field name="website"               column="website"                 type="website"                nullable="true" />
+        <field name="createdAt"             column="created_at"              type="datetime_immutable"                     />
+        <field name="updatedAt"             column="updated_at"              type="datetime_immutable"                     />
+
+        <embedded name="bankDetails" class="Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>
