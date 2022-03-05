@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 

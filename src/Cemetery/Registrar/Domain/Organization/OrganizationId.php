@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Burial;
+namespace Cemetery\Registrar\Domain\Organization;
 
 use Cemetery\Registrar\Domain\AbstractEntityId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyId extends AbstractEntityId
+final class OrganizationId extends AbstractEntityId
 {
     private const DELIMITER = '.';
 
     /**
-     * @param string             $value
-     * @param FuneralCompanyType $type
+     * @param string           $value
+     * @param OrganizationType $type
      */
     public function __construct(
-        protected string             $value,
-        private   FuneralCompanyType $type,
+        protected string           $value,
+        private   OrganizationType $type,
     ) {
         parent::__construct($value);
     }
@@ -33,9 +33,9 @@ final class FuneralCompanyId extends AbstractEntityId
     }
 
     /**
-     * @return FuneralCompanyType
+     * @return OrganizationType
      */
-    public function getType(): FuneralCompanyType
+    public function getType(): OrganizationType
     {
         return $this->type;
     }
@@ -47,10 +47,10 @@ final class FuneralCompanyId extends AbstractEntityId
      */
     public function isEqual(AbstractEntityId $id): bool
     {
-        $isSameClass              = $id instanceof self;
-        $isSameFuneralCompanyType = $id->getType()->isEqual($this->getType());
-        $isSameIdValue            = $id->getValue() === $this->getValue();
+        $isSameClass            = $id instanceof self;
+        $isSameOrganizationType = $id->getType()->isEqual($this->getType());
+        $isSameIdValue          = $id->getValue() === $this->getValue();
 
-        return $isSameClass && $isSameFuneralCompanyType && $isSameIdValue;
+        return $isSameClass && $isSameOrganizationType && $isSameIdValue;
     }
 }

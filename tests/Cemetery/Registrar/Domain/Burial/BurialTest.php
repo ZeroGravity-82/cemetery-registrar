@@ -13,9 +13,9 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use PHPUnit\Framework\TestCase;
 

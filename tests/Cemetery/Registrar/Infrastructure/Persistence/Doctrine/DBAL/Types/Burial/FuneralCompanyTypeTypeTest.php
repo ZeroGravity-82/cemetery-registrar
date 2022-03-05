@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyType;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyTypeType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractStringTypeTest;
 

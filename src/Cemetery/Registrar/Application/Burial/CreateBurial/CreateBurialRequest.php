@@ -82,13 +82,13 @@ final class CreateBurialRequest
      * @param string|null             $burialChainId
      * @param string|null             $burialPlaceId
      * @param string|null             $burialPlaceType
-     * @param string|null             $burialPlacePosition
-     * @param string|null             $burialPlaceGraveSiteCemeterySection
+     * @param string|null             $burialPlaceGeolocationPosition
+     * @param string|null             $burialPlaceGraveSiteCemeterySectionId
      * @param string|null             $burialPlaceGraveSiteRowNumber
-     * @param string|null             $burialPlaceColumbariumNicheColumbariumNumber
+     * @param string|null             $burialPlaceColumbariumNicheColumbariumId
      * @param string|null             $burialPlaceColumbariumNicheRowNumber
      * @param string|null             $burialPlaceColumbariumNicheNicheNumber
-     * @param string|null             $burialPlaceMemorialTreeNumber
+     * @param string|null             $burialPlaceMemorialTreeId
      * @param string|null             $burialContainerId
      * @param string|null             $burialContainerType
      * @param string|null             $burialContainerCoffinSize
@@ -169,13 +169,13 @@ final class CreateBurialRequest
         public ?string             $burialChainId,
         public ?string             $burialPlaceId,
         public ?string             $burialPlaceType,
-        public ?string             $burialPlacePosition,
-        public ?string             $burialPlaceGraveSiteCemeterySection,
+        public ?string             $burialPlaceGeolocationPosition,
+        public ?string             $burialPlaceGraveSiteCemeterySectionId,
         public ?string             $burialPlaceGraveSiteRowNumber,
-        public ?string             $burialPlaceColumbariumNicheColumbariumNumber,
+        public ?string             $burialPlaceColumbariumNicheColumbariumId,
         public ?string             $burialPlaceColumbariumNicheRowNumber,
         public ?string             $burialPlaceColumbariumNicheNicheNumber,
-        public ?string             $burialPlaceMemorialTreeNumber,
+        public ?string             $burialPlaceMemorialTreeId,
         public ?string             $burialContainerId,
         public ?string             $burialContainerType,
         public ?string             $burialContainerCoffinSize,

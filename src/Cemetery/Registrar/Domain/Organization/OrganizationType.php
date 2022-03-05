@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Burial;
+namespace Cemetery\Registrar\Domain\Organization;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyType
+final class OrganizationType
 {
     public const SOLE_PROPRIETOR = 'индивидуальный предприниматель';
     public const JURISTIC_PERSON = 'юридическое лицо';
@@ -82,16 +82,16 @@ final class FuneralCompanyType
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the funeral company type is not supported
+     * @throws \InvalidArgumentException when the organization type is not supported
      */
     private function assertValidValue(string $value): void
     {
-        $supportedFuneralCompanyTypes = [self::SOLE_PROPRIETOR, self::JURISTIC_PERSON];
-        if (!\in_array($value, $supportedFuneralCompanyTypes)) {
+        $supportedOrganizationTypes = [self::SOLE_PROPRIETOR, self::JURISTIC_PERSON];
+        if (!\in_array($value, $supportedOrganizationTypes)) {
             throw new \InvalidArgumentException(\sprintf(
-                'Неподдерживаемый тип похоронной фирмы "%s", должен быть один из %s.',
+                'Неподдерживаемый тип организации "%s", должен быть один из %s.',
                 $value,
-                \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedFuneralCompanyTypes))
+                \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedOrganizationTypes))
             ));
         }
     }
