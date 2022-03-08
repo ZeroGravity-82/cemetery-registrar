@@ -15,7 +15,6 @@ use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use PHPUnit\Framework\TestCase;
 
@@ -82,10 +81,10 @@ class BurialTest extends TestCase
     
     public function testItSetsFuneralCompanyId(): void
     {
-        $funeralCompanyId = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
+        $funeralCompanyId = new FuneralCompanyId('FC001');
         $this->burial->setFuneralCompanyId($funeralCompanyId);
         $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->getFuneralCompanyId());
-        $this->assertSame('FC001', $this->burial->getFuneralCompanyId()->getValue());
+        $this->assertSame('FC001', (string) $this->burial->getFuneralCompanyId());
     }
 
     public function testItSetsBurialContainerId(): void

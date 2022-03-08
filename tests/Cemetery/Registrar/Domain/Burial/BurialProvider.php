@@ -15,7 +15,6 @@ use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
 final class BurialProvider
@@ -60,7 +59,7 @@ final class BurialProvider
         $customerId         = new CustomerId('C001', CustomerType::naturalPerson());
         $burialPlaceId      = new BurialPlaceId('BP003', BurialPlaceType::memorialTree());
         $burialPlaceOwnerId = new NaturalPersonId('NP002');
-        $funeralCompanyId   = new FuneralCompanyId('FC001', FuneralCompanyType::soleProprietor());
+        $funeralCompanyId   = new FuneralCompanyId('FC001');
         $burialContainerId  = new BurialContainerId('CT002', BurialContainerType::coffin());
 
         return (new Burial($id, $burialCode, $deceasedId))

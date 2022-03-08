@@ -1,0 +1,8 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <embeddable name="Cemetery\Registrar\Domain\Organization\OrganizationId">
+        <field name="value" column="organization_id_value" type="string"            />
+        <field name="type"  column="organization_id_type"  type="organization_type" />
+    </embeddable>
+
+</doctrine-mapping>

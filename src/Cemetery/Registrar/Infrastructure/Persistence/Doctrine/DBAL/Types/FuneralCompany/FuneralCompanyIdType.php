@@ -2,28 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FuneralCompany;
 
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyTypeType extends StringType
+class FuneralCompanyIdType extends StringType
 {
-    private const FUNERAL_COMPANY_TYPE_TYPE = 'funeral_company_type';
+    private const FUNERAL_COMPANY_ID_TYPE = 'funeral_company_id';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::FUNERAL_COMPANY_TYPE_TYPE)) {
+        if (self::hasType(self::FUNERAL_COMPANY_ID_TYPE)) {
             return;
         }
-        self::addType(self::FUNERAL_COMPANY_TYPE_TYPE, self::class);
+        self::addType(self::FUNERAL_COMPANY_ID_TYPE, self::class);
     }
 
     /**
@@ -31,15 +31,15 @@ class FuneralCompanyTypeType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof FuneralCompanyType ? $value->getValue() : $value;
+        return $value instanceof FuneralCompanyId ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?FuneralCompanyType
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?FuneralCompanyId
     {
-        return !empty($value) ? new FuneralCompanyType($value) : null;
+        return !empty($value) ? new FuneralCompanyId($value) : null;
     }
 
     /**
@@ -47,7 +47,7 @@ class FuneralCompanyTypeType extends StringType
      */
     public function getName(): string
     {
-        return self::FUNERAL_COMPANY_TYPE_TYPE;
+        return self::FUNERAL_COMPANY_ID_TYPE;
     }
 
     /**

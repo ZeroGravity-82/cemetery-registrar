@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
@@ -21,12 +22,14 @@ final class SoleProprietorProvider
 
     public static function getSoleProprietorB(): SoleProprietor
     {
-        $id   = new SoleProprietorId('SP002');
-        $name = new Name('ИП Петров Пётр Петрович');
-        $inn  = new Inn('772208786091');
+        $id          = new SoleProprietorId('SP002');
+        $name        = new Name('ИП Петров Пётр Петрович');
+        $inn         = new Inn('772208786091');
+        $bankDetails = new BankDetails('АО "АЛЬФА-БАНК"', '044525593', '30101810200000000593', '40701810401400000014');
 
         return (new SoleProprietor($id, $name))
-            ->setInn($inn);
+            ->setInn($inn)
+            ->setBankDetails($bankDetails);
     }
 
     public static function getSoleProprietorC(): SoleProprietor

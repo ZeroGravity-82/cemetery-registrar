@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
@@ -21,12 +22,14 @@ final class JuristicPersonProvider
 
     public static function getJuristicPersonB(): JuristicPerson
     {
-        $id   = new JuristicPersonId('JP002');
-        $name = new Name('ООО Ромашка');
-        $inn  = new Inn('5404447629');
+        $id          = new JuristicPersonId('JP002');
+        $name        = new Name('ООО Ромашка');
+        $inn         = new Inn('5404447629');
+        $bankDetails = new BankDetails('АО "АЛЬФА-БАНК"', '044525593', '30101810200000000593', '40701810401400000014');
 
         return (new JuristicPerson($id, $name))
-            ->setInn($inn);
+            ->setInn($inn)
+            ->setBankDetails($bankDetails);
     }
 
     public static function getJuristicPersonC(): JuristicPerson

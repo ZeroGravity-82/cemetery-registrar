@@ -7,6 +7,7 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Organization\OrganizationId;
 use Cemetery\Registrar\Domain\Organization\OrganizationType;
 use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\ORM\FuneralCompanyRepository as DoctrineORMFuneralCompanyRepository;
 use Cemetery\Tests\Registrar\Domain\FuneralCompany\FuneralCompanyProvider;
@@ -75,7 +76,7 @@ class FuneralCompanyRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame(1, $this->getRowCount());
     }
 
-    public function testItSavesACollectionOfNewFuneralCompanys(): void
+    public function testItSavesACollectionOfNewFuneralCompanies(): void
     {
         $this->repo->saveAll(new FuneralCompanyCollection([$this->funeralCompanyA, $this->funeralCompanyB, $this->funeralCompanyC]));
         $this->entityManager->clear();
@@ -107,7 +108,7 @@ class FuneralCompanyRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(FuneralCompanyId::class, $persistedFuneralCompany->getId());
         $this->assertSame('FC002', (string) $persistedFuneralCompany->getId());
         $this->assertSame('888', $persistedFuneralCompany->getOrganizationId()->getValue());
-        $this->assertSame(OrganizationType::SOLE_PROPRIETOR, $persistedFuneralCompany->getOrganizationId()->getType());
+        $this->assertSame(OrganizationType::SOLE_PROPRIETOR, (string) $persistedFuneralCompany->getOrganizationId()->getType());
         $this->assertSame('Некоторый комментарий', $persistedFuneralCompany->getNote());
 
         $persistedFuneralCompany = $this->repo->findById($this->funeralCompanyC->getId());
@@ -118,6 +119,17 @@ class FuneralCompanyRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame('Другой комментарий', $persistedFuneralCompany->getNote());
 
         $this->assertSame(3, $this->getRowCount());
+    }
+
+    public function testItHydratesOrganizationIdEmbeddable(): void
+    {
+        $this->repo->save($this->funeralCompanyA);
+        $this->entityManager->clear();
+
+        $persistedFuneralCompany = $this->repo->findById($this->funeralCompanyA->getId());
+        $this->assertInstanceOf(OrganizationId::class, $persistedFuneralCompany->getOrganizationId());
+        $this->assertSame('777', $persistedFuneralCompany->getOrganizationId()->getValue());
+        $this->assertSame(OrganizationType::JURISTIC_PERSON, (string) $persistedFuneralCompany->getOrganizationId()->getType());
     }
 
     public function testItRemovesAFuneralCompany(): void
@@ -133,7 +145,7 @@ class FuneralCompanyRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame(0, $this->getRowCount());
     }
 
-    public function testItRemovesACollectionOfFuneralCompanys(): void
+    public function testItRemovesACollectionOfFuneralCompanies(): void
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new FuneralCompanyCollection([$this->funeralCompanyA, $this->funeralCompanyB, $this->funeralCompanyC]));

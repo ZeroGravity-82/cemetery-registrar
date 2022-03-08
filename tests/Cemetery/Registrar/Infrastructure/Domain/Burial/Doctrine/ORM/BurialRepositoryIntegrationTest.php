@@ -6,13 +6,14 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
+use Cemetery\Registrar\Domain\Burial\BurialContainerId;
+use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyType;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\BurialRepository as DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
@@ -149,6 +150,19 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame(3, $this->getRowCount());
     }
 
+    public function testItHydratesBurialContainerIdEmbeddable(): void
+    {
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB]));
+        $this->entityManager->clear();
+
+        $persistedBurial = $this->repo->findById($this->burialA->getId());
+        $this->assertNull($persistedBurial->getBurialContainerId());
+        $persistedBurial = $this->repo->findById($this->burialB->getId());
+        $this->assertInstanceOf(BurialContainerId::class, $persistedBurial->getBurialContainerId());
+        $this->assertSame('CT001', $persistedBurial->getBurialContainerId()->getValue());
+        $this->assertSame(BurialContainerType::COFFIN, (string) $persistedBurial->getBurialContainerId()->getType());
+    }
+
     public function testItHydratesBurialPlaceIdEmbeddable(): void
     {
         $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialD]));
@@ -156,7 +170,8 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
 
         $persistedBurial = $this->repo->findById($this->burialA->getId());
         $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->getBurialPlaceId());
-        $this->assertSame(BurialPlaceType::COLUMBARIUM_NICHE . '.' . 'BP001', (string) $persistedBurial->getBurialPlaceId());
+        $this->assertSame('BP001', $persistedBurial->getBurialPlaceId()->getValue());
+        $this->assertSame(BurialPlaceType::COLUMBARIUM_NICHE, (string) $persistedBurial->getBurialPlaceId()->getType());
         $persistedBurial = $this->repo->findById($this->burialD->getId());
         $this->assertNull($persistedBurial->getBurialPlaceId());
     }
@@ -168,21 +183,10 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
 
         $persistedBurial = $this->repo->findById($this->burialA->getId());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
-        $this->assertSame(CustomerType::NATURAL_PERSON . '.' . 'C001', (string) $persistedBurial->getCustomerId());
+        $this->assertSame('C001', $persistedBurial->getCustomerId()->getValue());
+        $this->assertSame(CustomerType::NATURAL_PERSON, (string) $persistedBurial->getCustomerId()->getType());
         $persistedBurial = $this->repo->findById($this->burialD->getId());
         $this->assertNull($persistedBurial->getCustomerId());
-    }
-
-    public function testItHydratesFuneralCompanyIdEmbeddable(): void
-    {
-        $this->repo->saveAll(new BurialCollection([$this->burialB, $this->burialC]));
-        $this->entityManager->clear();
-
-        $persistedBurial = $this->repo->findById($this->burialB->getId());
-        $this->assertNull($persistedBurial->getFuneralCompanyId());
-        $persistedBurial = $this->repo->findById($this->burialC->getId());
-        $this->assertInstanceOf(FuneralCompanyId::class, $persistedBurial->getFuneralCompanyId());
-        $this->assertSame(FuneralCompanyType::SOLE_PROPRIETOR . '.' . 'FC001', (string) $persistedBurial->getFuneralCompanyId());
     }
 
     public function testItRemovesABurial(): void

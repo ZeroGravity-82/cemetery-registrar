@@ -21,12 +21,15 @@ doctrine:
             cause_of_death:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\CauseOfDeathType
             death_certificate_id:  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeathCertificateIdType
             deceased_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Deceased\DeceasedIdType
+            # FuneralCompany
+            funeral_company_id:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\FuneralCompany\FuneralCompanyIdType
             # NaturalPerson
             full_name:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\FullNameType
             natural_person_id:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\NaturalPerson\NaturalPersonIdType
             # Organization
             okved:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\OkvedType
             organization_name:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
+            organization_type:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\OrganizationTypeType
             # Organization/BankDetails
             bik:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\BikType
             correspondent_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CorrespondentAccountType

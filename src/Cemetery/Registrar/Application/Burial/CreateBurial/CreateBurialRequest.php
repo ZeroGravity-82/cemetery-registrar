@@ -78,7 +78,6 @@ final class CreateBurialRequest
      * @param string|null             $burialPlaceOwnerPassportDivisionCode
      * @param string|null             $burialPlaceOwnerPassportPlaceOfBirth
      * @param string|null             $funeralCompanyId
-     * @param string|null             $funeralCompanyType
      * @param string|null             $burialChainId
      * @param string|null             $burialPlaceId
      * @param string|null             $burialPlaceType
@@ -165,7 +164,6 @@ final class CreateBurialRequest
         public ?string             $burialPlaceOwnerPassportDivisionCode,
         public ?string             $burialPlaceOwnerPassportPlaceOfBirth,
         public ?string             $funeralCompanyId,
-        public ?string             $funeralCompanyType,
         public ?string             $burialChainId,
         public ?string             $burialPlaceId,
         public ?string             $burialPlaceType,

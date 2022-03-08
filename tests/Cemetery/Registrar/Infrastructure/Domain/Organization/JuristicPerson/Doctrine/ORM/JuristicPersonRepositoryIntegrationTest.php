@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\ORM;
 
+use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollection;
@@ -96,9 +97,9 @@ class JuristicPersonRepositoryIntegrationTest extends KernelTestCase
     public function testItUpdatesExistingJuristicPersonWhenSavesACollection(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new JuristicPersonCollection([$this->juristicPersonA, $this->juristicPersonB]));
+        $this->repo->save($this->juristicPersonA);
         $this->entityManager->clear();
-        $this->assertSame(2, $this->getRowCount());
+        $this->assertSame(1, $this->getRowCount());
 
         // Testing itself
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->getId());
@@ -111,14 +112,6 @@ class JuristicPersonRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(Inn::class, $persistedJuristicPerson->getInn());
         $this->assertSame('7728168971', (string) $persistedJuristicPerson->getInn());
 
-        $persistedJuristicPerson = $this->repo->findById($this->juristicPersonB->getId());
-        $this->assertInstanceOf(JuristicPersonId::class, $persistedJuristicPerson->getId());
-        $this->assertSame('JP002', (string) $persistedJuristicPerson->getId());
-        $this->assertInstanceOf(Name::class, $persistedJuristicPerson->getName());
-        $this->assertSame('ООО Ромашка', (string) $persistedJuristicPerson->getName());
-        $this->assertInstanceOf(Inn::class, $persistedJuristicPerson->getInn());
-        $this->assertSame('5404447629', (string) $persistedJuristicPerson->getInn());
-
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonC->getId());
         $this->assertInstanceOf(JuristicPersonId::class, $persistedJuristicPerson->getId());
         $this->assertSame('JP003', (string) $persistedJuristicPerson->getId());
@@ -127,7 +120,22 @@ class JuristicPersonRepositoryIntegrationTest extends KernelTestCase
         $this->assertInstanceOf(Inn::class, $persistedJuristicPerson->getInn());
         $this->assertSame('7736050003', (string) $persistedJuristicPerson->getInn());
 
-        $this->assertSame(3, $this->getRowCount());
+        $this->assertSame(2, $this->getRowCount());
+    }
+
+    public function testItHydratesBankDetailsEmbeddable(): void
+    {
+        $this->repo->saveAll(new JuristicPersonCollection([$this->juristicPersonA, $this->juristicPersonB]));
+        $this->entityManager->clear();
+
+        $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->getId());
+        $this->assertNull($persistedJuristicPerson->getBankDetails());
+        $persistedJuristicPerson = $this->repo->findById($this->juristicPersonB->getId());
+        $this->assertInstanceOf(BankDetails::class, $persistedJuristicPerson->getBankDetails());
+        $this->assertSame('АО "АЛЬФА-БАНК"', (string) $persistedJuristicPerson->getBankDetails()->getBankName());
+        $this->assertSame('044525593', (string) $persistedJuristicPerson->getBankDetails()->getBik());
+        $this->assertSame('30101810200000000593', (string) $persistedJuristicPerson->getBankDetails()->getCorrespondentAccount());
+        $this->assertSame('40701810401400000014', (string) $persistedJuristicPerson->getBankDetails()->getCurrentAccount());
     }
 
     public function testItRemovesAJuristicPerson(): void
