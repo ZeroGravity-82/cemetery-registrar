@@ -35,7 +35,7 @@ final class PropertyAccessor implements EvaluatorInterface, NullatorInterface
         $classReflector = new \ReflectionClass($embeddable);
         foreach ($classReflector->getProperties() as $property) {
             $property->setAccessible(true);
-            if ($property->isInitialized($embeddable)) {
+            if ($property->isInitialized($embeddable) && $property->getValue($embeddable) !== null) {
                 $isNull = false;
                 break;
             }
