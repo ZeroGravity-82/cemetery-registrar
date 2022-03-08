@@ -33,7 +33,7 @@ class NaturalPersonFactoryTest extends TestCase
         $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
         $this->mockNaturalPersonBuilder->expects($this->once())->method('addBornAt')->with($bornAt);
         $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
-        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForDeceased($fullName, $bornAt);
+        $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, $bornAt);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
     }
 
@@ -43,14 +43,14 @@ class NaturalPersonFactoryTest extends TestCase
         $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
         $this->mockNaturalPersonBuilder->expects($this->never())->method('addBornAt');
         $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
-        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForDeceased($fullName, null);
+        $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, null);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
     }
 
     public function testItFailsToCreateNaturalPersonForDeceasedWithoutFullName(): void
     {
         $this->expectExceptionForNotProvidedFullName();
-        $this->naturalPersonFactory->createNaturalPersonForDeceased(null, null);
+        $this->naturalPersonFactory->createForDeceased(null, null);
     }
 
     public function testItCreatesNaturalPersonForCustomer(): void
@@ -82,7 +82,7 @@ class NaturalPersonFactoryTest extends TestCase
             $passportDivisionCode,
         );
         $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
-        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForCustomer(
+        $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
             $fullName,
             $phone,
             $phoneAdditional,
@@ -111,7 +111,7 @@ class NaturalPersonFactoryTest extends TestCase
         $this->mockNaturalPersonBuilder->expects($this->never())->method('addPlaceOfBirth');
         $this->mockNaturalPersonBuilder->expects($this->never())->method('addPassport');
         $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
-        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForCustomer(
+        $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
             $fullName,
             null,
             null,
@@ -131,7 +131,7 @@ class NaturalPersonFactoryTest extends TestCase
     public function testItFailsToCreateNaturalPersonForCustomerWithoutFullName(): void
     {
         $this->expectExceptionForNotProvidedFullName();
-        $this->naturalPersonFactory->createNaturalPersonForCustomer(
+        $this->naturalPersonFactory->createForBurialCustomer(
             null,
             null,
             null,

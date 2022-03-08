@@ -36,7 +36,7 @@ final class SoleProprietorFactory
      *
      * @return SoleProprietor
      */
-    public function createSoleProprietorForCustomer(
+    public function create(
         ?string $name,
         ?string $inn,
         ?string $ogrnip,

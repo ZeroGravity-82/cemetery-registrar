@@ -26,7 +26,7 @@ class SoleProprietorFactoryTest extends TestCase
         $this->mockSoleProprietor        = $this->createMock(SoleProprietor::class);
     }
 
-    public function testItCreatesSoleProprietorForCustomer(): void
+    public function testItCreatesSoleProprietor(): void
     {
         $name                            = 'ИП Иванов Иван Иванович';
         $inn                             = '772208786091';
@@ -63,7 +63,7 @@ class SoleProprietorFactoryTest extends TestCase
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addEmail')->with($email);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('addWebsite')->with($website);
         $this->mockSoleProprietorBuilder->expects($this->once())->method('build')->willReturn($this->mockSoleProprietor);
-        $soleProprietor = $this->soleProprietorFactory->createSoleProprietorForCustomer(
+        $soleProprietor = $this->soleProprietorFactory->create(
             $name,
             $inn,
             $ogrnip,
@@ -84,7 +84,7 @@ class SoleProprietorFactoryTest extends TestCase
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
     }
 
-    public function testItCreatesSoleProprietorForCustomerWithoutOptionalFields(): void
+    public function testItCreatesSoleProprietorWithoutOptionalFields(): void
     {
         $name = 'ИП Иванов Иван Иванович';
         $this->mockSoleProprietorBuilder->expects($this->once())->method('initialize')->with($name);
@@ -101,7 +101,7 @@ class SoleProprietorFactoryTest extends TestCase
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addEmail');
         $this->mockSoleProprietorBuilder->expects($this->never())->method('addWebsite');
         $this->mockSoleProprietorBuilder->expects($this->once())->method('build')->willReturn($this->mockSoleProprietor);
-        $soleProprietor = $this->soleProprietorFactory->createSoleProprietorForCustomer(
+        $soleProprietor = $this->soleProprietorFactory->create(
             $name,
             null,
             null,
@@ -122,10 +122,10 @@ class SoleProprietorFactoryTest extends TestCase
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
     }
 
-    public function testItFailsToCreateSoleProprietorForCustomerWithoutName(): void
+    public function testItFailsToCreateSoleProprietorWithoutName(): void
     {
         $this->expectExceptionForNotProvidedName();
-        $this->soleProprietorFactory->createSoleProprietorForCustomer(
+        $this->soleProprietorFactory->create(
             null,
             null,
             null,

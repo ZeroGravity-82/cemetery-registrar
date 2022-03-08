@@ -37,7 +37,7 @@ final class JuristicPersonFactory
      *
      * @return JuristicPerson
      */
-    public function createJuristicPersonForCustomer(
+    public function create(
         ?string $name,
         ?string $inn,
         ?string $kpp,

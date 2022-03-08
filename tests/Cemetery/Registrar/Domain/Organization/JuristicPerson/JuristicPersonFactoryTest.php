@@ -26,7 +26,7 @@ class JuristicPersonFactoryTest extends TestCase
         $this->mockJuristicPerson        = $this->createMock(JuristicPerson::class);
     }
 
-    public function testItCreatesJuristicPersonForCustomer(): void
+    public function testItCreatesJuristicPerson(): void
     {
         $name                            = 'ООО "Рога и копыта"';
         $inn                             = '7728168971';
@@ -67,7 +67,7 @@ class JuristicPersonFactoryTest extends TestCase
         $this->mockJuristicPersonBuilder->expects($this->once())->method('addEmail')->with($email);
         $this->mockJuristicPersonBuilder->expects($this->once())->method('addWebsite')->with($website);
         $this->mockJuristicPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockJuristicPerson);
-        $juristicPerson = $this->juristicPersonFactory->createJuristicPersonForCustomer(
+        $juristicPerson = $this->juristicPersonFactory->create(
             $name,
             $inn,
             $kpp,
@@ -90,7 +90,7 @@ class JuristicPersonFactoryTest extends TestCase
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
     }
 
-    public function testItCreatesJuristicPersonForCustomerWithoutOptionalFields(): void
+    public function testItCreatesJuristicPersonWithoutOptionalFields(): void
     {
         $name = 'ООО "Рога и копыта"';
         $this->mockJuristicPersonBuilder->expects($this->once())->method('initialize')->with($name);
@@ -109,7 +109,7 @@ class JuristicPersonFactoryTest extends TestCase
         $this->mockJuristicPersonBuilder->expects($this->never())->method('addEmail');
         $this->mockJuristicPersonBuilder->expects($this->never())->method('addWebsite');
         $this->mockJuristicPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockJuristicPerson);
-        $juristicPerson = $this->juristicPersonFactory->createJuristicPersonForCustomer(
+        $juristicPerson = $this->juristicPersonFactory->create(
             $name,
             null,
             null,
@@ -132,10 +132,10 @@ class JuristicPersonFactoryTest extends TestCase
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
     }
 
-    public function testItFailsToCreateJuristicPersonForCustomerWithoutName(): void
+    public function testItFailsToCreateJuristicPersonWithoutName(): void
     {
         $this->expectExceptionForNotProvidedName();
-        $this->juristicPersonFactory->createJuristicPersonForCustomer(
+        $this->juristicPersonFactory->create(
             null,
             null,
             null,

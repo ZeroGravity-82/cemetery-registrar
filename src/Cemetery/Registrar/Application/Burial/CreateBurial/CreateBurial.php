@@ -131,7 +131,7 @@ final class CreateBurial
      */
     private function createNaturalPersonForDeceased(CreateBurialRequest $request): NaturalPerson
     {
-        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForDeceased(
+        $naturalPerson = $this->naturalPersonFactory->createForDeceased(
             $request->deceasedNaturalPersonFullName,
             $request->deceasedNaturalPersonBornAt,
         );
@@ -184,7 +184,7 @@ final class CreateBurial
      */
     private function createNaturalPersonForCustomer(CreateBurialRequest $request): NaturalPerson
     {
-        $naturalPerson = $this->naturalPersonFactory->createNaturalPersonForCustomer(
+        $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
             $request->customerNaturalPersonFullName,
             $request->customerNaturalPersonPhone,
             $request->customerNaturalPersonPhoneAdditional,
@@ -210,7 +210,7 @@ final class CreateBurial
      */
     private function createSoleProprietorForCustomer(CreateBurialRequest $request): SoleProprietor
     {
-        $soleProprietor = $this->soleProprietorFactory->createSoleProprietorForCustomer(
+        $soleProprietor = $this->soleProprietorFactory->create(
             $request->customerSoleProprietorName,
             $request->customerSoleProprietorInn,
             $request->customerSoleProprietorOgrnip,
@@ -240,7 +240,7 @@ final class CreateBurial
      */
     private function createJuristicPersonForCustomer(CreateBurialRequest $request): JuristicPerson
     {
-        $juristicPerson = $this->juristicPersonFactory->createJuristicPersonForCustomer(
+        $juristicPerson = $this->juristicPersonFactory->create(
             $request->customerJuristicPersonName,
             $request->customerJuristicPersonInn,
             $request->customerJuristicPersonKpp,

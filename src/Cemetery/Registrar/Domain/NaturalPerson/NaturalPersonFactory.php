@@ -32,7 +32,7 @@ final class NaturalPersonFactory
      *
      * @return NaturalPerson
      */
-    public function createNaturalPersonForCustomer(
+    public function createForBurialCustomer(
         ?string             $fullName,
         ?string             $phone,
         ?string             $phoneAdditional,
@@ -91,7 +91,7 @@ final class NaturalPersonFactory
      *
      * @return NaturalPerson
      */
-    public function createNaturalPersonForDeceased(
+    public function createForDeceased(
         ?string             $fullName,
         ?\DateTimeImmutable $bornAt,
     ): NaturalPerson {
