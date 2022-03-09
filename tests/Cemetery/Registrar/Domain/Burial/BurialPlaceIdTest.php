@@ -15,7 +15,7 @@ class BurialPlaceIdTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialPlaceType = new BurialPlaceType(BurialPlaceType::GRAVE_SITE);
+        $burialPlaceType = BurialPlaceType::graveSite();
         $burialPlaceId   = new BurialPlaceId('777', $burialPlaceType);
         $this->assertSame('777', $burialPlaceId->getValue());
         $this->assertSame($burialPlaceType, $burialPlaceId->getType());
@@ -23,17 +23,17 @@ class BurialPlaceIdTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $burialPlaceType = new BurialPlaceType(BurialPlaceType::GRAVE_SITE);
+        $burialPlaceType = BurialPlaceType::graveSite();
         $burialPlaceId   = new BurialPlaceId('777', $burialPlaceType);
         $this->assertSame(BurialPlaceType::GRAVE_SITE . '.' . '777', (string) $burialPlaceId);
     }
 
     public function testItComparable(): void
     {
-        $burialPlaceIdA = new BurialPlaceId('777', new BurialPlaceType(BurialPlaceType::MEMORIAL_TREE));
-        $burialPlaceIdB = new BurialPlaceId('777', new BurialPlaceType(BurialPlaceType::GRAVE_SITE));
-        $burialPlaceIdC = new BurialPlaceId('888', new BurialPlaceType(BurialPlaceType::COLUMBARIUM_NICHE));
-        $burialPlaceIdD = new BurialPlaceId('777', new BurialPlaceType(BurialPlaceType::MEMORIAL_TREE));
+        $burialPlaceIdA = new BurialPlaceId('777', BurialPlaceType::memorialTree());
+        $burialPlaceIdB = new BurialPlaceId('777', BurialPlaceType::graveSite());
+        $burialPlaceIdC = new BurialPlaceId('888', BurialPlaceType::columbariumNiche());
+        $burialPlaceIdD = new BurialPlaceId('777', BurialPlaceType::memorialTree());
 
         $this->assertFalse($burialPlaceIdA->isEqual($burialPlaceIdB));
         $this->assertFalse($burialPlaceIdA->isEqual($burialPlaceIdC));

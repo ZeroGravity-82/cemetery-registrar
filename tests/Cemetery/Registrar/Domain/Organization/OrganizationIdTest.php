@@ -15,7 +15,7 @@ class OrganizationIdTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $organizationType = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $organizationType = OrganizationType::juristicPerson();
         $organizationId   = new OrganizationId('777', $organizationType);
         $this->assertSame('777', $organizationId->getValue());
         $this->assertSame($organizationType, $organizationId->getType());
@@ -23,17 +23,17 @@ class OrganizationIdTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $organizationType = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $organizationType = OrganizationType::juristicPerson();
         $organizationId   = new OrganizationId('777', $organizationType);
         $this->assertSame(OrganizationType::JURISTIC_PERSON . '.' . '777', (string) $organizationId);
     }
     
     public function testItComparable(): void
     {
-        $organizationIdA = new OrganizationId('777', new OrganizationType(OrganizationType::SOLE_PROPRIETOR));
-        $organizationIdB = new OrganizationId('777', new OrganizationType(OrganizationType::JURISTIC_PERSON));
-        $organizationIdC = new OrganizationId('888', new OrganizationType(OrganizationType::SOLE_PROPRIETOR));
-        $organizationIdD = new OrganizationId('777', new OrganizationType(OrganizationType::SOLE_PROPRIETOR));
+        $organizationIdA = new OrganizationId('777', OrganizationType::soleProprietor());
+        $organizationIdB = new OrganizationId('777', OrganizationType::juristicPerson());
+        $organizationIdC = new OrganizationId('888', OrganizationType::soleProprietor());
+        $organizationIdD = new OrganizationId('777', OrganizationType::soleProprietor());
 
         $this->assertFalse($organizationIdA->isEqual($organizationIdB));
         $this->assertFalse($organizationIdA->isEqual($organizationIdC));

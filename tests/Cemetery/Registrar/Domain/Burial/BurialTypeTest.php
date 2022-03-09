@@ -14,7 +14,7 @@ class BurialTypeTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialType = new BurialType(BurialType::COFFIN_IN_GRAVE_SITE);
+        $burialType = BurialType::coffinInGraveSite();
         $this->assertSame(BurialType::COFFIN_IN_GRAVE_SITE, $burialType->getValue());
         $this->assertTrue($burialType->isCoffinInGraveSite());
         $this->assertFalse($burialType->isUrnInGraveSite());

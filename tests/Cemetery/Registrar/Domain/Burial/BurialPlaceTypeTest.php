@@ -14,7 +14,7 @@ class BurialPlaceTypeTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialPlaceType = new BurialPlaceType(BurialPlaceType::GRAVE_SITE);
+        $burialPlaceType = BurialPlaceType::graveSite();
         $this->assertSame(BurialPlaceType::GRAVE_SITE, $burialPlaceType->getValue());
         $this->assertTrue($burialPlaceType->isGraveSite());
         $this->assertFalse($burialPlaceType->isColumbariumNiche());

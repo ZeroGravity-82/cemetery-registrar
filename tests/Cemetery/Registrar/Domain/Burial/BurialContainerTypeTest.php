@@ -14,7 +14,7 @@ class BurialContainerTypeTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialContainerType = new BurialContainerType(BurialContainerType::COFFIN);
+        $burialContainerType = BurialContainerType::coffin();
         $this->assertSame(BurialContainerType::COFFIN, $burialContainerType->getValue());
         $this->assertTrue($burialContainerType->isCoffin());
         $this->assertFalse($burialContainerType->isUrn());

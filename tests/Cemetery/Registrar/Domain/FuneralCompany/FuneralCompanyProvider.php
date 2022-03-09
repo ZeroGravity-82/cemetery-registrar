@@ -14,7 +14,7 @@ final class FuneralCompanyProvider
     public static function getFuneralCompanyA(): FuneralCompany
     {
         $id               = new FuneralCompanyId('FC001');
-        $organizationType = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $organizationType = OrganizationType::juristicPerson();
         $organizationId   = new OrganizationId('777', $organizationType);
 
         return new FuneralCompany($id, $organizationId);
@@ -23,7 +23,7 @@ final class FuneralCompanyProvider
     public static function getFuneralCompanyB(): FuneralCompany
     {
         $id               = new FuneralCompanyId('FC002');
-        $organizationType = new OrganizationType(OrganizationType::SOLE_PROPRIETOR);
+        $organizationType = OrganizationType::soleProprietor();
         $organizationId   = new OrganizationId('888', $organizationType);
 
         return (new FuneralCompany($id, $organizationId))
@@ -33,7 +33,7 @@ final class FuneralCompanyProvider
     public static function getFuneralCompanyC(): FuneralCompany
     {
         $id               = new FuneralCompanyId('FC003');
-        $organizationType = new OrganizationType(OrganizationType::SOLE_PROPRIETOR);
+        $organizationType = OrganizationType::soleProprietor();
         $organizationId   = new OrganizationId('999', $organizationType);
 
         return (new FuneralCompany($id, $organizationId))
@@ -43,7 +43,7 @@ final class FuneralCompanyProvider
     public static function getFuneralCompanyD(): FuneralCompany
     {
         $id               = new FuneralCompanyId('FC004');
-        $organizationType = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $organizationType = OrganizationType::juristicPerson();
         $organizationId   = new OrganizationId('AAA', $organizationType);
 
         return new FuneralCompany($id, $organizationId);

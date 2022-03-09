@@ -20,7 +20,7 @@ class FuneralCompanyTest extends TestCase
     public function setUp(): void
     {
         $funeralCompanyId     = new FuneralCompanyId('777');
-        $organizationType     = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $organizationType     = OrganizationType::juristicPerson();
         $organizationId       = new OrganizationId('888', $organizationType);
         $this->funeralCompany = new FuneralCompany($funeralCompanyId, $organizationId);
     }

@@ -14,7 +14,7 @@ class CustomerTypeTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $customerType = new CustomerType(CustomerType::NATURAL_PERSON);
+        $customerType = CustomerType::naturalPerson();
         $this->assertSame(CustomerType::NATURAL_PERSON, $customerType->getValue());
         $this->assertTrue($customerType->isNaturalPerson());
         $this->assertFalse($customerType->isSoleProprietor());

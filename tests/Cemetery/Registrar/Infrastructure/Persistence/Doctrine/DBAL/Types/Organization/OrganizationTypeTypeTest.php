@@ -22,6 +22,6 @@ class OrganizationTypeTypeTest extends AbstractStringTypeTest
         parent::setUp();
 
         $this->dbValue  = OrganizationType::JURISTIC_PERSON;
-        $this->phpValue = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $this->phpValue = OrganizationType::juristicPerson();
     }
 }

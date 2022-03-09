@@ -15,7 +15,7 @@ class CustomerIdTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $customerType = new CustomerType(CustomerType::NATURAL_PERSON);
+        $customerType = CustomerType::naturalPerson();
         $customerId   = new CustomerId('777', $customerType);
         $this->assertSame('777', $customerId->getValue());
         $this->assertSame($customerType, $customerId->getType());
@@ -23,18 +23,18 @@ class CustomerIdTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $customerType = new CustomerType(CustomerType::NATURAL_PERSON);
+        $customerType = CustomerType::naturalPerson();
         $customerId   = new CustomerId('777', $customerType);
         $this->assertSame(CustomerType::NATURAL_PERSON . '.' . '777', (string) $customerId);
     }
     
     public function testItComparable(): void
     {
-        $customerIdA = new CustomerId('777', new CustomerType(CustomerType::NATURAL_PERSON));
-        $customerIdB = new CustomerId('777', new CustomerType(CustomerType::SOLE_PROPRIETOR));
-        $customerIdC = new CustomerId('888', new CustomerType(CustomerType::NATURAL_PERSON));
-        $customerIdD = new CustomerId('999', new CustomerType(CustomerType::JURISTIC_PERSON));
-        $customerIdE = new CustomerId('777', new CustomerType(CustomerType::NATURAL_PERSON));
+        $customerIdA = new CustomerId('777', CustomerType::naturalPerson());
+        $customerIdB = new CustomerId('777', CustomerType::soleProprietor());
+        $customerIdC = new CustomerId('888', CustomerType::naturalPerson());
+        $customerIdD = new CustomerId('999', CustomerType::juristicPerson());
+        $customerIdE = new CustomerId('777', CustomerType::naturalPerson());
         
         $this->assertFalse($customerIdA->isEqual($customerIdB));
         $this->assertFalse($customerIdA->isEqual($customerIdC));

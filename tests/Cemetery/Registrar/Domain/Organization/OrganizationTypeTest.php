@@ -19,7 +19,7 @@ class OrganizationTypeTest extends TestCase
         $this->assertTrue($organizationType->isSoleProprietor());
         $this->assertFalse($organizationType->isJuristicPerson());
 
-        $organizationType = new OrganizationType(OrganizationType::JURISTIC_PERSON);
+        $organizationType = OrganizationType::juristicPerson();
         $this->assertSame(OrganizationType::JURISTIC_PERSON, $organizationType->getValue());
         $this->assertFalse($organizationType->isSoleProprietor());
         $this->assertTrue($organizationType->isJuristicPerson());
