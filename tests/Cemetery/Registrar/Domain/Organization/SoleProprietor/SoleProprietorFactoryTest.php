@@ -120,6 +120,18 @@ class SoleProprietorFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
+        $this->assertNull($soleProprietor->getInn());
+        $this->assertNull($soleProprietor->getOgrnip());
+        $this->assertNull($soleProprietor->getOkpo());
+        $this->assertNull($soleProprietor->getOkved());
+        $this->assertNull($soleProprietor->getRegistrationAddress());
+        $this->assertNull($soleProprietor->getActualLocationAddress());
+        $this->assertNull($soleProprietor->getBankDetails());
+        $this->assertNull($soleProprietor->getPhone());
+        $this->assertNull($soleProprietor->getPhoneAdditional());
+        $this->assertNull($soleProprietor->getFax());
+        $this->assertNull($soleProprietor->getEmail());
+        $this->assertNull($soleProprietor->getWebsite());
     }
 
     public function testItFailsToCreateSoleProprietorWithoutName(): void
