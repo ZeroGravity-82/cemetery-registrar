@@ -154,7 +154,7 @@ final class CreateFuneralCompany
         }
 
         if (!isset($organizationId)) {
-            throw new \LogicException(\sprintf('Организация с типом "%s" не может быть создана.', $organizationType));
+            throw new \LogicException(\sprintf('Организация с типом "%s" не была создана.', $organizationType));
         }
 
         return $organizationId;
