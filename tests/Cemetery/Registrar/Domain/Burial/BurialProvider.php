@@ -72,10 +72,12 @@ final class BurialProvider
 
     public static function getBurialD(): Burial
     {
-        $id         = new BurialId('B004');
-        $burialCode = new BurialCode('BC004');
-        $deceasedId = new DeceasedId('D004');
+        $id               = new BurialId('B004');
+        $burialCode       = new BurialCode('BC004');
+        $deceasedId       = new DeceasedId('D004');
+        $funeralCompanyId = new FuneralCompanyId('FC001');
 
-        return new Burial($id, $burialCode, $deceasedId);
+        return (new Burial($id, $burialCode, $deceasedId))
+            ->setFuneralCompanyId($funeralCompanyId);
     }
 }

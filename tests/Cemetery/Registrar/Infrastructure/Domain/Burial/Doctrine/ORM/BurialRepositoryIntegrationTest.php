@@ -236,6 +236,29 @@ class BurialRepositoryIntegrationTest extends KernelTestCase
         $this->assertNull($burial);
     }
 
+    public function testItFindsBurialsByFuneralCompanyId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB, $this->burialC, $this->burialD]));
+        $this->entityManager->clear();
+        $this->assertSame(4, $this->getRowCount());
+
+
+        // Testing itself
+        $burials = $this->repo->findByFuneralCompanyId(new FuneralCompanyId('FC001'));
+
+        $this->assertCount(2, $burials);
+        $this->assertTrue($burials->contains($this->burialC));
+        $this->assertTrue($burials->contains($this->burialD));
+    }
+
+    public function testItReturnsAnEmptyBurialCollectionForUnknownFuneralCompany(): void
+    {
+        $burials = $this->repo->findByFuneralCompanyId(new FuneralCompanyId('unknown_id'));
+
+        $this->assertEmpty($burials);
+    }
+
     private function truncateEntities(): void
     {
         (new ORMPurger($this->entityManager))->purge();

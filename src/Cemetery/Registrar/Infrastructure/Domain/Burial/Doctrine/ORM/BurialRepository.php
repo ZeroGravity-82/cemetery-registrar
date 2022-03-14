@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -48,6 +49,18 @@ final class BurialRepository implements BurialRepositoryInterface
     public function findById(BurialId $burialId): ?Burial
     {
         return $this->entityManager->getRepository(Burial::class)->find((string) $burialId);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): BurialCollection
+    {
+        $burials = $this->entityManager->getRepository(Burial::class)->findBy([
+            'funeralCompanyId' => (string) $funeralCompanyId,
+        ]);
+
+        return new BurialCollection($burials);
     }
 
     /**

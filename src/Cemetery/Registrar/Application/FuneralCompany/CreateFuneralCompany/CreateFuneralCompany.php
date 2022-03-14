@@ -97,6 +97,8 @@ final class CreateFuneralCompany
     }
 
     /**
+     * @todo Add throwing an exception if the organization already exists.
+     *
      * @param CreateFuneralCompanyRequest $request
      *
      * @return OrganizationId

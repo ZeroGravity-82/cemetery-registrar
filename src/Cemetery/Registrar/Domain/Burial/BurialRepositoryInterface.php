@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -31,6 +33,15 @@ interface BurialRepositoryInterface
      * @return Burial|null
      */
     public function findById(BurialId $burialId): ?Burial;
+
+    /**
+     * Returns a collection of burials associated with the funeral company.
+     *
+     * @param FuneralCompanyId $funeralCompanyId
+     *
+     * @return BurialCollection
+     */
+    public function findByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): BurialCollection;
 
     /**
      * Removes the burial from the repository.
