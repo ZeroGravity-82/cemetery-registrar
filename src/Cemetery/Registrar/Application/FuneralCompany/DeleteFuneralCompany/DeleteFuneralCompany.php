@@ -29,10 +29,14 @@ final class DeleteFuneralCompany
     public function execute(DeleteFuneralCompanyRequest $request): void
     {
         $funeralCompany = $this->getFuneralCompany($request->funeralCompanyId);
-        $hasNoBurials   = $this->burialRepo->countByFuneralCompanyId($funeralCompany->getId()) === 0;
-        if ($hasNoBurials) {
-            $this->funeralCompanyRepo->remove($funeralCompany);
+        $burialCount    = $this->burialRepo->countByFuneralCompanyId($funeralCompany->getId());
+        if ($burialCount > 0) {
+            throw new \RuntimeException(\sprintf(
+                'Похоронная компания не может быть удалена, т.к. она связана с %d захоронениями.',
+                $burialCount,
+            ));
         }
+        $this->funeralCompanyRepo->remove($funeralCompany);
     }
 
     /**
