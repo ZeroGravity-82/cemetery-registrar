@@ -18,6 +18,18 @@ class CauseOfDeathTest extends TestCase
         $this->assertSame('Некоторая причина смерти', $causeOfDeath->getValue());
     }
 
+    public function testItFailsWithEmptyValue(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new CauseOfDeath('');
+    }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new CauseOfDeath('   ');
+    }
+
     public function testItStringifyable(): void
     {
         $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
@@ -34,5 +46,11 @@ class CauseOfDeathTest extends TestCase
         $this->assertFalse($causeOfDeathA->isEqual($causeOfDeathB));
         $this->assertTrue($causeOfDeathA->isEqual($causeOfDeathC));
         $this->assertFalse($causeOfDeathB->isEqual($causeOfDeathC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Причина смерти не может иметь пустое значение.');
     }
 }

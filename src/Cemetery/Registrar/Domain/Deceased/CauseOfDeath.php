@@ -61,8 +61,8 @@ final class CauseOfDeath
      */
     private function assertNotEmpty(string $value): void
     {
-        if ($value === '') {
-            throw new \InvalidArgumentException('Cause of death cannot be empty string.');
+        if (\trim($value) === '') {
+            throw new \InvalidArgumentException('Причина смерти не может иметь пустое значение.');
         }
     }
 }
