@@ -20,12 +20,18 @@ abstract class AbstractEntityIdTest extends TestCase
         $this->assertSame('777', $entityId->getValue());
     }
 
-    public function testItFailsWithEmptyIdString(): void
+    public function testItFailsWithEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Domain entity ID cannot be empty string.');
+        $this->expectExceptionForEmptyValue();
         new $this->className('');
     }
+
+    public function testItFailsWithSpacesOnly(): void
+    {
+        $this->expectExceptionForEmptyValue();
+        new $this->className('   ');
+    }
+
 
     public function testItStringifyable(): void
     {
@@ -43,5 +49,11 @@ abstract class AbstractEntityIdTest extends TestCase
         $this->assertFalse($entityIdA->isEqual($entityIdB));
         $this->assertTrue($entityIdA->isEqual($entityIdC));
         $this->assertFalse($entityIdB->isEqual($entityIdC));
+    }
+
+    private function expectExceptionForEmptyValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Идентификатор доменной сущности не может иметь пустое значение.');
     }
 }
