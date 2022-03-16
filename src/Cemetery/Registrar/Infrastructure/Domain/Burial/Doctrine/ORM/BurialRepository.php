@@ -54,18 +54,6 @@ final class BurialRepository implements BurialRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function findByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): BurialCollection
-    {
-        $burials = $this->entityManager->getRepository(Burial::class)->findBy([
-            'funeralCompanyId' => (string) $funeralCompanyId,
-        ]);
-
-        return new BurialCollection($burials);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function remove(Burial $burial): void
     {
         $this->entityManager->remove($burial);
@@ -81,5 +69,20 @@ final class BurialRepository implements BurialRepositoryInterface
             $this->entityManager->remove($burial);
         }
         $this->entityManager->flush();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function countByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): int
+    {
+        return (int) $this->entityManager
+            ->getRepository(Burial::class)
+            ->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->andWhere('b.funeralCompanyId = :funeralCompanyId')
+            ->setParameter('funeralCompanyId', $funeralCompanyId)
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

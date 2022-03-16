@@ -35,15 +35,6 @@ interface BurialRepositoryInterface
     public function findById(BurialId $burialId): ?Burial;
 
     /**
-     * Returns a collection of burials associated with the funeral company.
-     *
-     * @param FuneralCompanyId $funeralCompanyId
-     *
-     * @return BurialCollection
-     */
-    public function findByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): BurialCollection;
-
-    /**
      * Removes the burial from the repository.
      *
      * @param Burial $burial
@@ -56,4 +47,13 @@ interface BurialRepositoryInterface
      * @param BurialCollection $burials
      */
     public function removeAll(BurialCollection $burials): void;
+
+    /**
+     * Counts burials associated with the funeral company.
+     *
+     * @param FuneralCompanyId $funeralCompanyId
+     *
+     * @return int
+     */
+    public function countByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): int;
 }
