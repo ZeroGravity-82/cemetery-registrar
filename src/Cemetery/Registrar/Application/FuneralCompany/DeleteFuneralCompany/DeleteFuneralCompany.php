@@ -4,22 +4,23 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\FuneralCompany\DeleteFuneralCompany;
 
+use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\ORM\FuneralCompanyRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\ORM\JuristicPersonRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\Doctrine\ORM\SoleProprietorRepository;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class DeleteFuneralCompany
 {
-
+    /**
+     * @param FuneralCompanyRepositoryInterface $funeralCompanyRepo
+     * @param BurialRepositoryInterface         $burialRepo
+     */
     public function __construct(
-        private SoleProprietorRepository $soleProprietorRepo,
-        private JuristicPersonRepository $juristicPersonRepo,
-        private FuneralCompanyRepository $funeralCompanyRepo,
+        private FuneralCompanyRepositoryInterface $funeralCompanyRepo,
+        private BurialRepositoryInterface         $burialRepo,
     ) {}
 
     /**
@@ -28,7 +29,10 @@ final class DeleteFuneralCompany
     public function execute(DeleteFuneralCompanyRequest $request): void
     {
         $funeralCompany = $this->getFuneralCompany($request->funeralCompanyId);
-
+        $hasNoBurials   = $this->burialRepo->countByFuneralCompanyId($funeralCompany->getId()) === 0;
+        if ($hasNoBurials) {
+            $this->funeralCompanyRepo->remove($funeralCompany);
+        }
     }
 
     /**
@@ -36,7 +40,7 @@ final class DeleteFuneralCompany
      *
      * @return FuneralCompany
      *
-     * @throws \RuntimeException when the funeral company does not exist.
+     * @throws \RuntimeException when the funeral company does not exist
      */
     private function getFuneralCompany(string $funeralCompanyId): FuneralCompany
     {
