@@ -25,7 +25,7 @@ final class EventDispatcher implements EventDispatcherInterface
         if (\in_array($listener, $this->listeners[$eventClass])) {
             throw new \LogicException(
                 \sprintf(
-                    'This event listener of type "%s" for event %s already added.',
+                    'Слушатель с типом "%s" для события "%s" уже добавлен.',
                     \get_debug_type($listener),
                     $eventClass
                 )
