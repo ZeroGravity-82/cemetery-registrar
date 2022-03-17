@@ -22,11 +22,11 @@ final class EventDispatcher implements EventDispatcherInterface
         if (!isset($this->listeners[$eventClass])) {
             $this->listeners[$eventClass] = [];
         }
-        if (in_array($listener, $this->listeners[$eventClass])) {
+        if (\in_array($listener, $this->listeners[$eventClass])) {
             throw new \LogicException(
                 \sprintf(
                     'This event listener of type "%s" for event %s already added.',
-                    get_debug_type($listener),
+                    \get_debug_type($listener),
                     $eventClass
                 )
             );
