@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\FuneralCompany\DeleteFuneralCompany;
 
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\EventDispatcherInterface;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepositoryInterface;
@@ -17,10 +18,12 @@ final class DeleteFuneralCompany
     /**
      * @param FuneralCompanyRepositoryInterface $funeralCompanyRepo
      * @param BurialRepositoryInterface         $burialRepo
+     * @param EventDispatcherInterface          $eventDispatcher
      */
     public function __construct(
         private FuneralCompanyRepositoryInterface $funeralCompanyRepo,
         private BurialRepositoryInterface         $burialRepo,
+        private EventDispatcherInterface          $eventDispatcher,
     ) {}
 
     /**
@@ -37,6 +40,7 @@ final class DeleteFuneralCompany
             ));
         }
         $this->funeralCompanyRepo->remove($funeralCompany);
+        $this->eventDispatcher->dispatch(...$funeralCompany->releaseRecordedEvents());
     }
 
     /**
