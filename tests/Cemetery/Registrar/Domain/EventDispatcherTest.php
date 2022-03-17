@@ -67,7 +67,7 @@ class EventDispatcherTest extends TestCase
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(
-            \sprintf('This event listener of type "Closure" for event %s already added.', $event::class)
+            \sprintf('Слушатель с типом "Closure" для события "%s" уже добавлен.', $event::class)
         );
         $dispatcher->addListener($event::class, $callable);
     }
