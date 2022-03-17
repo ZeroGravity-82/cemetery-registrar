@@ -9,12 +9,12 @@ use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedTest extends TestCase
+class DeceasedTest extends AbstractAggregateRootTest
 {
     private Deceased $deceased;
     
@@ -24,6 +24,7 @@ class DeceasedTest extends TestCase
         $naturalPersonId = new NaturalPersonId('NP001');
         $diedAt          = new \DateTimeImmutable('2022-01-10');
         $this->deceased  = new Deceased($id, $naturalPersonId, $diedAt);
+        $this->entity    = $this->deceased;
     }
     
     public function testItSuccessfullyCreated(): void

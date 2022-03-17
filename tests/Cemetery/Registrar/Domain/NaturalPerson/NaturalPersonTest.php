@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\NaturalPerson\Passport;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonTest extends TestCase
+class NaturalPersonTest extends AbstractAggregateRootTest
 {
     private NaturalPerson $naturalPerson;
     
@@ -22,6 +22,7 @@ class NaturalPersonTest extends TestCase
         $naturalPersonId     = new NaturalPersonId('777');
         $fullName            = new FullName('Иванов Иван Иванович');
         $this->naturalPerson = new NaturalPerson($naturalPersonId, $fullName);
+        $this->entity        = $this->naturalPerson;
     }
     
     public function testItSuccessfullyCreated(): void

@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Organization\OrganizationId;
 use Cemetery\Registrar\Domain\Organization\OrganizationType;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyTest extends TestCase
+class FuneralCompanyTest extends AbstractAggregateRootTest
 {
     private FuneralCompany $funeralCompany;
 
@@ -23,6 +23,7 @@ class FuneralCompanyTest extends TestCase
         $organizationType     = OrganizationType::juristicPerson();
         $organizationId       = new OrganizationId('888', $organizationType);
         $this->funeralCompany = new FuneralCompany($funeralCompanyId, $organizationId);
+        $this->entity         = $this->funeralCompany;
     }
 
     public function testItSuccessfullyCreated(): void

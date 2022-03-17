@@ -16,12 +16,12 @@ use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialTest extends TestCase
+class BurialTest extends AbstractAggregateRootTest
 {
     private Burial $burial;
 
@@ -31,6 +31,7 @@ class BurialTest extends TestCase
         $burialCode   = new BurialCode('BC001');
         $deceasedId   = new DeceasedId('D001');
         $this->burial = new Burial($id, $burialCode, $deceasedId);
+        $this->entity = $this->burial;
     }
 
     public function testItSuccessfullyCreated(): void
@@ -47,10 +48,6 @@ class BurialTest extends TestCase
         $this->assertNull($this->burial->getFuneralCompanyId());
         $this->assertNull($this->burial->getBurialContainerId());
         $this->assertNull($this->burial->getBuriedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->burial->getCreatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->burial->getCreatedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->burial->getUpdatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->burial->getUpdatedAt());
     }
 
     public function testItSetsCustomerId(): void

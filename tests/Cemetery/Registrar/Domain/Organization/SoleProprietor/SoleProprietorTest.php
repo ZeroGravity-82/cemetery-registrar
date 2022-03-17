@@ -16,12 +16,12 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\Ogrnip;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Okpo;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorTest extends TestCase
+class SoleProprietorTest extends AbstractAggregateRootTest
 {
     private SoleProprietor $soleProprietor;
 
@@ -30,6 +30,7 @@ class SoleProprietorTest extends TestCase
         $soleProprietorId       = new SoleProprietorId('777');
         $soleProprietorFullName = new Name('ИП Иванов Иван Иванович');
         $this->soleProprietor   = new SoleProprietor($soleProprietorId, $soleProprietorFullName);
+        $this->entity           = $this->soleProprietor;
     }
 
     public function testItSuccessfullyCreated(): void

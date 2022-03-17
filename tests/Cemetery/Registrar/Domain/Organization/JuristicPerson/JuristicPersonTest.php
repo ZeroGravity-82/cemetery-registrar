@@ -18,12 +18,12 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\Okved;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonTest extends TestCase
+class JuristicPersonTest extends AbstractAggregateRootTest
 {
     private JuristicPerson $juristicPerson;
 
@@ -32,6 +32,7 @@ class JuristicPersonTest extends TestCase
         $juristicPersonId     = new JuristicPersonId('777');
         $juristicPersonName   = new Name('ООО "Рога и копыта"');
         $this->juristicPerson = new JuristicPerson($juristicPersonId, $juristicPersonName);
+        $this->entity         = $this->juristicPerson;
     }
 
     public function testItSuccessfullyCreated(): void
