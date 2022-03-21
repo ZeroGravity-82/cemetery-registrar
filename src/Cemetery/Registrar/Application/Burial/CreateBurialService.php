@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\Burial\CreateBurial;
+namespace Cemetery\Registrar\Application\Burial;
 
 use Cemetery\Registrar\Domain\Burial\BurialBuilder;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
@@ -25,7 +25,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CreateBurial
+final class CreateBurialService extends BurialService
 {
     public function __construct(
         private BurialBuilder                     $burialBuilder,

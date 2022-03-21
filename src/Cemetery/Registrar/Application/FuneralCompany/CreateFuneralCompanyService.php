@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\FuneralCompany\CreateFuneralCompany;
+namespace Cemetery\Registrar\Application\FuneralCompany;
 
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyFactory;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepositoryInterface;
@@ -18,24 +18,26 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CreateFuneralCompany
+final class CreateFuneralCompanyService extends FuneralCompanyService
 {
     /**
      * @param SoleProprietorRepositoryInterface $soleProprietorRepository
      * @param SoleProprietorFactory             $soleProprietorFactory
      * @param JuristicPersonRepositoryInterface $juristicPersonRepository
      * @param JuristicPersonFactory             $juristicPersonFactory
-     * @param FuneralCompanyRepositoryInterface $funeralCompanyRepo
      * @param FuneralCompanyFactory             $funeralCompanyFactory
+     * @param FuneralCompanyRepositoryInterface $funeralCompanyRepo
      */
     public function __construct(
         private SoleProprietorRepositoryInterface $soleProprietorRepository,
         private SoleProprietorFactory             $soleProprietorFactory,
         private JuristicPersonRepositoryInterface $juristicPersonRepository,
         private JuristicPersonFactory             $juristicPersonFactory,
-        private FuneralCompanyRepositoryInterface $funeralCompanyRepo,
         private FuneralCompanyFactory             $funeralCompanyFactory,
-    ) {}
+        FuneralCompanyRepositoryInterface         $funeralCompanyRepo,
+    ) {
+        parent::__construct($funeralCompanyRepo);
+    }
 
     /**
      * @param CreateFuneralCompanyRequest $request
