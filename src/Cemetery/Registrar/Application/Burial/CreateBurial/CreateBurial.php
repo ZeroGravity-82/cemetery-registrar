@@ -167,7 +167,7 @@ final class CreateBurial
      */
     private function createCustomer(CreateBurialRequest $request): NaturalPerson|SoleProprietor|JuristicPerson
     {
-        return match($request->customerType) {
+        return match ($request->customerType) {
             CustomerType::NATURAL_PERSON  => $this->createNaturalPersonForCustomer($request),
             CustomerType::SOLE_PROPRIETOR => $this->createSoleProprietorForCustomer($request),
             CustomerType::JURISTIC_PERSON => $this->createJuristicPersonForCustomer($request),
