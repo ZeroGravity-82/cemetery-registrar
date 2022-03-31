@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\FuneralCompany;
 
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\EventDispatcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -14,10 +15,12 @@ final class FuneralCompanyRemover
     /**
      * @param BurialRepositoryInterface         $burialRepo
      * @param FuneralCompanyRepositoryInterface $funeralCompanyRepo
+     * @param EventDispatcherInterface          $eventDispatcher
      */
     public function __construct(
         private BurialRepositoryInterface         $burialRepo,
         private FuneralCompanyRepositoryInterface $funeralCompanyRepo,
+        private EventDispatcherInterface          $eventDispatcher,
     ) {}
 
     /**
@@ -33,5 +36,6 @@ final class FuneralCompanyRemover
             ));
         }
         $this->funeralCompanyRepo->remove($funeralCompany);
+        $this->eventDispatcher->dispatch(new FuneralCompanyRemoved($funeralCompany->getId()));
     }
 }
