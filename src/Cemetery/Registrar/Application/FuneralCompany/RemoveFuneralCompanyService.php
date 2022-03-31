@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\FuneralCompany;
 
 use Cemetery\Registrar\Domain\EventDispatcherInterface;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRemoved;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRemover;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepositoryInterface;
 
@@ -33,6 +34,6 @@ final class RemoveFuneralCompanyService extends FuneralCompanyService
     {
         $funeralCompany = $this->getFuneralCompany($request->funeralCompanyId);
         $this->funeralCompanyRemover->remove($funeralCompany);
-        $this->eventDispatcher->dispatch(...$funeralCompany->releaseRecordedEvents());
+        $this->eventDispatcher->dispatch(new FuneralCompanyRemoved($funeralCompany->getId()));
     }
 }
