@@ -31,5 +31,6 @@ abstract class AbstractEntityTest extends TestCase
         $this->assertLessThan(new \DateTimeImmutable(), $this->entity->getCreatedAt());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->entity->getUpdatedAt());
         $this->assertLessThan(new \DateTimeImmutable(), $this->entity->getUpdatedAt());
+        $this->assertNull($this->entity->getDeletedAt());
     }
 }

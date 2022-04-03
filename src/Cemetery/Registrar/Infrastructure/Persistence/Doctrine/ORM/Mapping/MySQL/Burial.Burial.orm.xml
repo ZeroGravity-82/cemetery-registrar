@@ -16,6 +16,7 @@
         <field name="buriedAt"           column="buried_at"             type="datetime_immutable" nullable="true" />
         <field name="createdAt"          column="created_at"            type="datetime_immutable"                 />
         <field name="updatedAt"          column="updated_at"            type="datetime_immutable"                 />
+        <field name="deletedAt"          column="deleted_at"            type="datetime_immutable" nullable="true" />
 
         <embedded name="burialContainerId" class="BurialContainerId" use-column-prefix="false" />
         <embedded name="burialPlaceId"     class="BurialPlaceId"     use-column-prefix="false" />
