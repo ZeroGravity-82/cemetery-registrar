@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\AbstractEvent;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyRemoved extends AbstractEvent
+final class FuneralCompanyDeleted extends AbstractEvent
 {
     /**
      * @param FuneralCompanyId $funeralCompanyId

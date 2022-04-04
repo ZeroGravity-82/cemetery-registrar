@@ -4,31 +4,31 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\FuneralCompany;
 
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRemover;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyDeleter;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class RemoveFuneralCompanyService extends FuneralCompanyService
+final class DeleteFuneralCompanyService extends FuneralCompanyService
 {
     /**
-     * @param FuneralCompanyRemover             $funeralCompanyRemover
+     * @param FuneralCompanyDeleter             $funeralCompanyDeleter
      * @param FuneralCompanyRepositoryInterface $funeralCompanyRepo
      */
     public function __construct(
-        private FuneralCompanyRemover     $funeralCompanyRemover,
+        private FuneralCompanyDeleter     $funeralCompanyDeleter,
         FuneralCompanyRepositoryInterface $funeralCompanyRepo,
     ) {
         parent::__construct($funeralCompanyRepo);
     }
 
     /**
-     * @param RemoveFuneralCompanyRequest $request
+     * @param DeleteFuneralCompanyRequest $request
      */
-    public function execute(RemoveFuneralCompanyRequest $request): void
+    public function execute(DeleteFuneralCompanyRequest $request): void
     {
         $funeralCompany = $this->getFuneralCompany($request->funeralCompanyId);
-        $this->funeralCompanyRemover->remove($funeralCompany);
+        $this->funeralCompanyDeleter->delete($funeralCompany);
     }
 }

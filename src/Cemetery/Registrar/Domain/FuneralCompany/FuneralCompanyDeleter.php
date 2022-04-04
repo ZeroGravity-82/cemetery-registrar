@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\EventDispatcherInterface;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyRemover
+final class FuneralCompanyDeleter
 {
     /**
      * @param BurialRepositoryInterface         $burialRepo
@@ -26,7 +26,7 @@ final class FuneralCompanyRemover
     /**
      * @param FuneralCompany $funeralCompany
      */
-    public function remove(FuneralCompany $funeralCompany): void
+    public function delete(FuneralCompany $funeralCompany): void
     {
         $burialCount = $this->burialRepo->countByFuneralCompanyId($funeralCompany->getId());
         if ($burialCount > 0) {
@@ -35,7 +35,8 @@ final class FuneralCompanyRemover
                 $burialCount,
             ));
         }
-        $this->funeralCompanyRepo->remove($funeralCompany);
-        $this->eventDispatcher->dispatch(new FuneralCompanyRemoved($funeralCompany->getId()));
+        $funeralCompany->delete();
+        $this->funeralCompanyRepo->save($funeralCompany);
+        $this->eventDispatcher->dispatch(new FuneralCompanyDeleted($funeralCompany->getId()));
     }
 }
