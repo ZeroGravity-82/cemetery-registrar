@@ -27,6 +27,7 @@ final class JuristicPersonRepository implements JuristicPersonRepositoryInterfac
      */
     public function save(JuristicPerson $juristicPerson): void
     {
+        $juristicPerson->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($juristicPerson);
         $this->entityManager->flush();
     }
@@ -37,6 +38,7 @@ final class JuristicPersonRepository implements JuristicPersonRepositoryInterfac
     public function saveAll(JuristicPersonCollection $juristicPersons): void
     {
         foreach ($juristicPersons as $juristicPerson) {
+            $juristicPerson->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($juristicPerson);
         }
         $this->entityManager->flush();
@@ -47,7 +49,10 @@ final class JuristicPersonRepository implements JuristicPersonRepositoryInterfac
      */
     public function findById(JuristicPersonId $juristicPersonId): ?JuristicPerson
     {
-        return $this->entityManager->getRepository(JuristicPerson::class)->find((string) $juristicPersonId);
+        return $this->entityManager->getRepository(JuristicPerson::class)->findBy([
+            'id'        => (string) $juristicPersonId,
+            'removedAt' => null,
+        ])[0] ?? null;
     }
 
     /**
@@ -55,7 +60,8 @@ final class JuristicPersonRepository implements JuristicPersonRepositoryInterfac
      */
     public function remove(JuristicPerson $juristicPerson): void
     {
-        $this->entityManager->remove($juristicPerson);
+        $juristicPerson->refreshRemovedAtTimestamp();
+        $this->entityManager->persist($juristicPerson);
         $this->entityManager->flush();
     }
 
@@ -65,7 +71,8 @@ final class JuristicPersonRepository implements JuristicPersonRepositoryInterfac
     public function removeAll(JuristicPersonCollection $juristicPersons): void
     {
         foreach ($juristicPersons as $juristicPerson) {
-            $this->entityManager->remove($juristicPerson);
+            $juristicPerson->refreshRemovedAtTimestamp();
+            $this->entityManager->persist($juristicPerson);
         }
         $this->entityManager->flush();
     }

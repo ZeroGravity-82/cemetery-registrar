@@ -27,6 +27,7 @@ final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
      */
     public function save(NaturalPerson $naturalPerson): void
     {
+        $naturalPerson->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($naturalPerson);
         $this->entityManager->flush();
     }
@@ -37,6 +38,7 @@ final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
     public function saveAll(NaturalPersonCollection $naturalPersons): void
     {
         foreach ($naturalPersons as $naturalPerson) {
+            $naturalPerson->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($naturalPerson);
         }
         $this->entityManager->flush();
@@ -47,7 +49,10 @@ final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
      */
     public function findById(NaturalPersonId $naturalPersonId): ?NaturalPerson
     {
-        return $this->entityManager->getRepository(NaturalPerson::class)->find((string) $naturalPersonId);
+        return $this->entityManager->getRepository(NaturalPerson::class)->findBy([
+            'id'        => (string) $naturalPersonId,
+            'removedAt' => null,
+        ])[0] ?? null;
     }
 
     /**
@@ -55,7 +60,8 @@ final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
      */
     public function remove(NaturalPerson $naturalPerson): void
     {
-        $this->entityManager->remove($naturalPerson);
+        $naturalPerson->refreshRemovedAtTimestamp();
+        $this->entityManager->persist($naturalPerson);
         $this->entityManager->flush();
     }
 
@@ -65,7 +71,8 @@ final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
     public function removeAll(NaturalPersonCollection $naturalPersons): void
     {
         foreach ($naturalPersons as $naturalPerson) {
-            $this->entityManager->remove($naturalPerson);
+            $naturalPerson->refreshRemovedAtTimestamp();
+            $this->entityManager->persist($naturalPerson);
         }
         $this->entityManager->flush();
     }

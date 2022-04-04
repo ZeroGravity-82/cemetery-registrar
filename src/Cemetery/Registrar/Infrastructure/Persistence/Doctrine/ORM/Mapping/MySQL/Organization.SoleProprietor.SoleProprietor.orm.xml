@@ -18,7 +18,7 @@
         <field name="website"               column="website"                 type="website"                nullable="true" />
         <field name="createdAt"             column="created_at"              type="datetime_immutable"                     />
         <field name="updatedAt"             column="updated_at"              type="datetime_immutable"                     />
-        <field name="deletedAt"             column="deleted_at"              type="datetime_immutable"     nullable="true" />
+        <field name="removedAt"             column="removed_at"              type="datetime_immutable"     nullable="true" />
 
         <embedded name="bankDetails" class="Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails" use-column-prefix="false" />
     </entity>

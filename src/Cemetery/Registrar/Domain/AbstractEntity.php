@@ -22,7 +22,7 @@ abstract class AbstractEntity
     /**
      * @var \DateTimeImmutable|null
      */
-    protected ?\DateTimeImmutable $deletedAt = null;
+    protected ?\DateTimeImmutable $removedAt = null;
 
     public function __construct()
     {
@@ -47,42 +47,28 @@ abstract class AbstractEntity
     }
 
     /**
-     * @return \DateTimeImmutable|null
+     * @return \DateTimeImmutable
      */
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
     /**
-     * @param \DateTimeImmutable $updatedAt
-     *
-     * @return self
-     */
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
      * @return \DateTimeImmutable|null
      */
-    public function getDeletedAt(): ?\DateTimeImmutable
+    public function getRemovedAt(): ?\DateTimeImmutable
     {
-        return $this->deletedAt;
+        return $this->removedAt;
     }
 
-    /**
-     * @param \DateTimeImmutable|null $deletedAt
-     *
-     * @return self
-     */
-    public function setDeletedAt(?\DateTimeImmutable $deletedAt): self
+    public function refreshUpdatedAtTimestamp(): void
     {
-        $this->deletedAt = $deletedAt;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
 
-        return $this;
+    public function refreshRemovedAtTimestamp(): void
+    {
+        $this->removedAt = new \DateTimeImmutable();
     }
 }

@@ -27,6 +27,7 @@ final class FuneralCompanyRepository implements FuneralCompanyRepositoryInterfac
      */
     public function save(FuneralCompany $funeralCompany): void
     {
+        $funeralCompany->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($funeralCompany);
         $this->entityManager->flush();
     }
@@ -37,6 +38,7 @@ final class FuneralCompanyRepository implements FuneralCompanyRepositoryInterfac
     public function saveAll(FuneralCompanyCollection $funeralCompanies): void
     {
         foreach ($funeralCompanies as $funeralCompany) {
+            $funeralCompany->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($funeralCompany);
         }
         $this->entityManager->flush();
@@ -47,7 +49,10 @@ final class FuneralCompanyRepository implements FuneralCompanyRepositoryInterfac
      */
     public function findById(FuneralCompanyId $funeralCompanyId): ?FuneralCompany
     {
-        return $this->entityManager->getRepository(FuneralCompany::class)->find((string) $funeralCompanyId);
+        return $this->entityManager->getRepository(FuneralCompany::class)->findBy([
+            'id'        => (string) $funeralCompanyId,
+            'removedAt' => null,
+        ])[0] ?? null;
     }
 
     /**
@@ -55,7 +60,8 @@ final class FuneralCompanyRepository implements FuneralCompanyRepositoryInterfac
      */
     public function remove(FuneralCompany $funeralCompany): void
     {
-        $this->entityManager->remove($funeralCompany);
+        $funeralCompany->refreshRemovedAtTimestamp();
+        $this->entityManager->persist($funeralCompany);
         $this->entityManager->flush();
     }
 
@@ -65,7 +71,8 @@ final class FuneralCompanyRepository implements FuneralCompanyRepositoryInterfac
     public function removeAll(FuneralCompanyCollection $funeralCompanies): void
     {
         foreach ($funeralCompanies as $funeralCompany) {
-            $this->entityManager->remove($funeralCompany);
+            $funeralCompany->refreshRemovedAtTimestamp();
+            $this->entityManager->persist($funeralCompany);
         }
         $this->entityManager->flush();
     }

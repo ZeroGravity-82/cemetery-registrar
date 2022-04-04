@@ -28,6 +28,7 @@ final class BurialRepository implements BurialRepositoryInterface
      */
     public function save(Burial $burial): void
     {
+        $burial->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($burial);
         $this->entityManager->flush();
     }
@@ -38,6 +39,7 @@ final class BurialRepository implements BurialRepositoryInterface
     public function saveAll(BurialCollection $burials): void
     {
         foreach ($burials as $burial) {
+            $burial->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($burial);
         }
         $this->entityManager->flush();
@@ -48,7 +50,10 @@ final class BurialRepository implements BurialRepositoryInterface
      */
     public function findById(BurialId $burialId): ?Burial
     {
-        return $this->entityManager->getRepository(Burial::class)->find((string) $burialId);
+        return $this->entityManager->getRepository(Burial::class)->findBy([
+            'id'        => (string) $burialId,
+            'removedAt' => null,
+        ])[0] ?? null;
     }
 
     /**
@@ -56,7 +61,8 @@ final class BurialRepository implements BurialRepositoryInterface
      */
     public function remove(Burial $burial): void
     {
-        $this->entityManager->remove($burial);
+        $burial->refreshRemovedAtTimestamp();
+        $this->entityManager->persist($burial);
         $this->entityManager->flush();
     }
 
@@ -66,7 +72,8 @@ final class BurialRepository implements BurialRepositoryInterface
     public function removeAll(BurialCollection $burials): void
     {
         foreach ($burials as $burial) {
-            $this->entityManager->remove($burial);
+            $burial->refreshRemovedAtTimestamp();
+            $this->entityManager->persist($burial);
         }
         $this->entityManager->flush();
     }

@@ -27,6 +27,7 @@ final class SoleProprietorRepository implements SoleProprietorRepositoryInterfac
      */
     public function save(SoleProprietor $soleProprietor): void
     {
+        $soleProprietor->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($soleProprietor);
         $this->entityManager->flush();
     }
@@ -37,6 +38,7 @@ final class SoleProprietorRepository implements SoleProprietorRepositoryInterfac
     public function saveAll(SoleProprietorCollection $soleProprietors): void
     {
         foreach ($soleProprietors as $soleProprietor) {
+            $soleProprietor->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($soleProprietor);
         }
         $this->entityManager->flush();
@@ -47,7 +49,10 @@ final class SoleProprietorRepository implements SoleProprietorRepositoryInterfac
      */
     public function findById(SoleProprietorId $soleProprietorId): ?SoleProprietor
     {
-        return $this->entityManager->getRepository(SoleProprietor::class)->find((string) $soleProprietorId);
+        return $this->entityManager->getRepository(SoleProprietor::class)->findBy([
+            'id'        => (string) $soleProprietorId,
+            'removedAt' => null,
+        ])[0] ?? null;
     }
 
     /**
@@ -55,7 +60,8 @@ final class SoleProprietorRepository implements SoleProprietorRepositoryInterfac
      */
     public function remove(SoleProprietor $soleProprietor): void
     {
-        $this->entityManager->remove($soleProprietor);
+        $soleProprietor->refreshRemovedAtTimestamp();
+        $this->entityManager->persist($soleProprietor);
         $this->entityManager->flush();
     }
 
@@ -65,7 +71,8 @@ final class SoleProprietorRepository implements SoleProprietorRepositoryInterfac
     public function removeAll(SoleProprietorCollection $soleProprietors): void
     {
         foreach ($soleProprietors as $soleProprietor) {
-            $this->entityManager->remove($soleProprietor);
+            $soleProprietor->refreshRemovedAtTimestamp();
+            $this->entityManager->persist($soleProprietor);
         }
         $this->entityManager->flush();
     }

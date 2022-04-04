@@ -27,6 +27,7 @@ final class DeceasedRepository implements DeceasedRepositoryInterface
      */
     public function save(Deceased $deceased): void
     {
+        $deceased->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($deceased);
         $this->entityManager->flush();
     }
@@ -37,6 +38,7 @@ final class DeceasedRepository implements DeceasedRepositoryInterface
     public function saveAll(DeceasedCollection $deceaseds): void
     {
         foreach ($deceaseds as $deceased) {
+            $deceased->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($deceased);
         }
         $this->entityManager->flush();
@@ -47,7 +49,10 @@ final class DeceasedRepository implements DeceasedRepositoryInterface
      */
     public function findById(DeceasedId $deceasedId): ?Deceased
     {
-        return $this->entityManager->getRepository(Deceased::class)->find((string) $deceasedId);
+        return $this->entityManager->getRepository(Deceased::class)->findBy([
+            'id'        => (string) $deceasedId,
+            'removedAt' => null,
+        ])[0] ?? null;
     }
 
     /**
@@ -55,7 +60,8 @@ final class DeceasedRepository implements DeceasedRepositoryInterface
      */
     public function remove(Deceased $deceased): void
     {
-        $this->entityManager->remove($deceased);
+        $deceased->refreshRemovedAtTimestamp();
+        $this->entityManager->persist($deceased);
         $this->entityManager->flush();
     }
 
@@ -65,7 +71,8 @@ final class DeceasedRepository implements DeceasedRepositoryInterface
     public function removeAll(DeceasedCollection $deceaseds): void
     {
         foreach ($deceaseds as $deceased) {
-            $this->entityManager->remove($deceased);
+            $deceased->refreshRemovedAtTimestamp();
+            $this->entityManager->persist($deceased);
         }
         $this->entityManager->flush();
     }
