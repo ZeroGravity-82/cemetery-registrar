@@ -25,7 +25,7 @@ class CustomerIdTest extends TestCase
     {
         $customerType = CustomerType::naturalPerson();
         $customerId   = new CustomerId('777', $customerType);
-        $this->assertSame(CustomerType::NATURAL_PERSON . '.' . '777', (string) $customerId);
+        $this->assertSame(CustomerType::NATURAL_PERSON . '.777', (string) $customerId);
     }
     
     public function testItComparable(): void
