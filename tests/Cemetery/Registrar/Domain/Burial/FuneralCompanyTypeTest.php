@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Cemetery\Tests\Registrar\Domain\Burial;
+
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
+use PHPUnit\Framework\TestCase;
+
+/**
+ * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ */
+class FuneralCompanyTypeTest extends TestCase
+{
+    public function testItSuccessfullyCreated(): void
+    {
+        $funeralCompanyType = FuneralCompanyType::soleProprietor();
+        $this->assertSame(FuneralCompanyType::SOLE_PROPRIETOR, $funeralCompanyType->getValue());
+        $this->assertTrue($funeralCompanyType->isSoleProprietor());
+        $this->assertFalse($funeralCompanyType->isJuristicPerson());
+
+        $funeralCompanyType = FuneralCompanyType::juristicPerson();
+        $this->assertSame(FuneralCompanyType::JURISTIC_PERSON, $funeralCompanyType->getValue());
+        $this->assertFalse($funeralCompanyType->isSoleProprietor());
+        $this->assertTrue($funeralCompanyType->isJuristicPerson());
+    }
+
+    public function testItFailsWithUnsupportedValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Неподдерживаемый тип похоронной фирмы "wrong_type", должен быть один из "%s", "%s".',
+            FuneralCompanyType::SOLE_PROPRIETOR,
+            FuneralCompanyType::JURISTIC_PERSON,
+        ));
+        new FuneralCompanyType('wrong_type');
+    }
+
+    public function testItStringifyable(): void
+    {
+        $funeralCompanyType = FuneralCompanyType::soleProprietor();
+
+        $this->assertSame(FuneralCompanyType::SOLE_PROPRIETOR, (string) $funeralCompanyType);
+    }
+
+    public function testItComparable(): void
+    {
+        $funeralCompanyTypeA = FuneralCompanyType::soleProprietor();
+        $funeralCompanyTypeB = FuneralCompanyType::juristicPerson();
+        $funeralCompanyTypeC = FuneralCompanyType::soleProprietor();
+
+        $this->assertFalse($funeralCompanyTypeA->isEqual($funeralCompanyTypeB));
+        $this->assertTrue($funeralCompanyTypeA->isEqual($funeralCompanyTypeC));
+        $this->assertFalse($funeralCompanyTypeB->isEqual($funeralCompanyTypeC));
+    }
+}

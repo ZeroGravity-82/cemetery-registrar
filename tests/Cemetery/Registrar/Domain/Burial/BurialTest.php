@@ -13,8 +13,9 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyType;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
@@ -78,10 +79,11 @@ class BurialTest extends AbstractAggregateRootTest
     
     public function testItSetsFuneralCompanyId(): void
     {
-        $funeralCompanyId = new FuneralCompanyId('FC001');
+        $funeralCompanyId = new FuneralCompanyId('FC001', FuneralCompanyType::juristicPerson());
         $this->burial->setFuneralCompanyId($funeralCompanyId);
         $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->getFuneralCompanyId());
-        $this->assertSame('FC001', (string) $this->burial->getFuneralCompanyId());
+        $this->assertSame('FC001', (string) $this->burial->getFuneralCompanyId()->getValue());
+        $this->assertSame(FuneralCompanyType::JURISTIC_PERSON, (string) $this->burial->getFuneralCompanyId()->getType());
     }
 
     public function testItSetsBurialContainerId(): void
@@ -90,6 +92,7 @@ class BurialTest extends AbstractAggregateRootTest
         $this->burial->setBurialContainerId($burialContainerId);
         $this->assertInstanceOf(BurialContainerId::class, $this->burial->getBurialContainerId());
         $this->assertSame('CT001', $this->burial->getBurialContainerId()->getValue());
+        $this->assertSame(BurialContainerType::COFFIN, (string) $this->burial->getBurialContainerId()->getType());
     }
     
     public function testItSetsBuriedAt(): void
