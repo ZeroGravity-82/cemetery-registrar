@@ -37,10 +37,6 @@ class DeceasedTest extends AbstractAggregateRootTest
         $this->assertSame('2022-01-10', $this->deceased->getDiedAt()->format('Y-m-d'));
         $this->assertNull($this->deceased->getDeathCertificateId());
         $this->assertNull($this->deceased->getCauseOfDeath());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->getCreatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->deceased->getCreatedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->getUpdatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->deceased->getUpdatedAt());
     }
     
     public function testItSetsDeathCertificateId(): void
@@ -49,7 +45,6 @@ class DeceasedTest extends AbstractAggregateRootTest
         $this->deceased->setDeathCertificateId($deathCertificateId);
         $this->assertInstanceOf(DeathCertificateId::class, $this->deceased->getDeathCertificateId());
         $this->assertSame('DC001', (string) $this->deceased->getDeathCertificateId());
-
     }
 
     public function testItSetsCauseOfDeath(): void
