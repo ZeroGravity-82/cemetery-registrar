@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CreateJuristicPersonService extends JuristicPersonService
+final class CreateAbstractJuristicPersonService extends AbstractJuristicPersonService
 {
     /**
      * @param JuristicPersonFactory             $juristicPersonFactory
@@ -36,24 +36,24 @@ final class CreateJuristicPersonService extends JuristicPersonService
     {
         // TODO add uniqueness check
         $juristicPerson = $this->juristicPersonFactory->create(
-            $request->juristicPersonName,
-            $request->juristicPersonInn,
-            $request->juristicPersonKpp,
-            $request->juristicPersonOgrn,
-            $request->juristicPersonOkpo,
-            $request->juristicPersonOkved,
-            $request->juristicPersonLegalAddress,
-            $request->juristicPersonPostalAddress,
-            $request->juristicPersonBankName,
-            $request->juristicPersonBik,
-            $request->juristicPersonCorrespondentAccount,
-            $request->juristicPersonCurrentAccount,
-            $request->juristicPersonPhone,
-            $request->juristicPersonPhoneAdditional,
-            $request->juristicPersonFax,
-            $request->juristicPersonGeneralDirector,
-            $request->juristicPersonEmail,
-            $request->juristicPersonWebsite,
+            $request->name,
+            $request->inn,
+            $request->kpp,
+            $request->ogrn,
+            $request->okpo,
+            $request->okved,
+            $request->legalAddress,
+            $request->postalAddress,
+            $request->bankName,
+            $request->bik,
+            $request->correspondentAccount,
+            $request->currentAccount,
+            $request->phone,
+            $request->phoneAdditional,
+            $request->fax,
+            $request->generalDirector,
+            $request->email,
+            $request->website,
         );
         $this->juristicPersonRepo->save($juristicPerson);
         $this->eventDispatcher->dispatch(new JuristicPersonCreated(

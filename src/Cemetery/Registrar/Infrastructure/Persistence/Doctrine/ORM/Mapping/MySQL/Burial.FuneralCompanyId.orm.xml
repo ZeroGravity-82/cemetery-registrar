@@ -1,0 +1,8 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <embeddable name="Cemetery\Registrar\Domain\Burial\FuneralCompanyId">
+        <field name="value" column="funeral_company_id_value" type="string" nullable="true" />
+        <field name="type"  column="funeral_company_id_type"  type="string" nullable="true" />
+    </embeddable>
+
+</doctrine-mapping>

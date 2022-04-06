@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class RemoveJuristicPersonService extends JuristicPersonService
+final class RemoveAbstractJuristicPersonService extends AbstractJuristicPersonService
 {
     /**
      * @param JuristicPersonRemover             $juristicPersonRemover
@@ -28,7 +28,7 @@ final class RemoveJuristicPersonService extends JuristicPersonService
      */
     public function execute(RemoveJuristicPersonRequest $request): void
     {
-        $juristicPerson = $this->getJuristicPerson($request->juristicPersonId);
+        $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRemover->remove($juristicPerson);
     }
 }

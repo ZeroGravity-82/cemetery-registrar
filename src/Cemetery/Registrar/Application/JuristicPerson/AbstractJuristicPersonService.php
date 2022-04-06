@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class JuristicPersonService
+abstract class AbstractJuristicPersonService
 {
     /**
      * @param JuristicPersonRepositoryInterface $juristicPersonRepo
@@ -21,18 +21,18 @@ abstract class JuristicPersonService
     ) {}
 
     /**
-     * @param string $juristicPersonId
+     * @param string $id
      *
      * @return JuristicPerson
      *
      * @throws \RuntimeException when the juristic person does not exist
      */
-    protected function getJuristicPerson(string $juristicPersonId): JuristicPerson
+    protected function getJuristicPerson(string $id): JuristicPerson
     {
-        $juristicPersonId = new JuristicPersonId($juristicPersonId);
-        $juristicPerson   = $this->juristicPersonRepo->findById($juristicPersonId);
+        $id             = new JuristicPersonId($id);
+        $juristicPerson = $this->juristicPersonRepo->findById($id);
         if (!$juristicPerson) {
-            throw new \RuntimeException('Юридическое лицо с ID "%s" не найдено.');
+            throw new \RuntimeException(\sprintf('Юридическое лицо с ID "%s" не найдено.', $id));
         }
 
         return $juristicPerson;
