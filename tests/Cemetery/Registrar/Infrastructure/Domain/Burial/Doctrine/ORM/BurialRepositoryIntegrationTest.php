@@ -13,8 +13,10 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\BurialRepository as DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
@@ -159,7 +161,8 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->getBurialPlaceId());
         $this->assertSame(BurialPlaceType::MEMORIAL_TREE . '.BP003', (string) $persistedBurial->getBurialPlaceId());
         $this->assertSame('NP002', (string) $persistedBurial->getBurialPlaceOwnerId());
-        $this->assertSame('FC001', (string) $persistedBurial->getFuneralCompanyId());
+        $this->assertInstanceOf(JuristicPersonId::class, $persistedBurial->getFuneralCompanyId()->getId());
+        $this->assertSame('JP001', (string) $persistedBurial->getFuneralCompanyId()->getId());
         $this->assertSame(BurialContainerType::COFFIN . '.CT002', (string) $persistedBurial->getBurialContainerId());
         $this->assertNull($persistedBurial->getBuriedAt());
 
@@ -282,10 +285,12 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame(4, $this->getRowCount(Burial::class));
 
         // Testing itself
-        $burialCount = $this->repo->countByFuneralCompanyId(new FuneralCompanyId('FC001'));
+        $knownFuneralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
+        $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
         $this->assertSame(2, $burialCount);
 
-        $burialCount = $this->repo->countByFuneralCompanyId(new FuneralCompanyId('unknown_id'));
+        $unknownFuneralCompanyId = new FuneralCompanyId(new SoleProprietorId('unknown_id'));
+        $burialCount             = $this->repo->countByFuneralCompanyId($unknownFuneralCompanyId);
         $this->assertSame(0, $burialCount);
     }
 }

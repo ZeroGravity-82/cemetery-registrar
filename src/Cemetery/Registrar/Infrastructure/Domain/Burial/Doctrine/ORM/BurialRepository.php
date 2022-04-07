@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**

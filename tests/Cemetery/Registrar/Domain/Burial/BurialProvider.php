@@ -13,9 +13,11 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
 final class BurialProvider
 {
@@ -59,7 +61,7 @@ final class BurialProvider
         $customerId         = new CustomerId('C001', CustomerType::naturalPerson());
         $burialPlaceId      = new BurialPlaceId('BP003', BurialPlaceType::memorialTree());
         $burialPlaceOwnerId = new NaturalPersonId('NP002');
-        $funeralCompanyId   = new FuneralCompanyId('FC001');
+        $funeralCompanyId   = new FuneralCompanyId(new JuristicPersonId('JP001'));
         $burialContainerId  = new BurialContainerId('CT002', BurialContainerType::coffin());
 
         return (new Burial($id, $burialCode, $deceasedId))
@@ -75,7 +77,7 @@ final class BurialProvider
         $id               = new BurialId('B004');
         $burialCode       = new BurialCode('BC004');
         $deceasedId       = new DeceasedId('D004');
-        $funeralCompanyId = new FuneralCompanyId('FC001');
+        $funeralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
 
         return (new Burial($id, $burialCode, $deceasedId))
             ->setFuneralCompanyId($funeralCompanyId);

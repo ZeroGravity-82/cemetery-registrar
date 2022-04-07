@@ -12,12 +12,12 @@
         <field name="code"               column="code"                  type="burial_code"                        />
         <field name="deceasedId"         column="deceased_id"           type="deceased_id"                        />
         <field name="burialPlaceOwnerId" column="burial_place_owner_id" type="natural_person_id"  nullable="true" />
+        <field name="funeralCompanyId"   column="funeral_company_id"    type="funeral_company_id" nullable="true" />
         <field name="buriedAt"           column="buried_at"             type="datetime_immutable" nullable="true" />
         <field name="createdAt"          column="created_at"            type="datetime_immutable"                 />
         <field name="updatedAt"          column="updated_at"            type="datetime_immutable"                 />
         <field name="removedAt"          column="removed_at"            type="datetime_immutable" nullable="true" />
 
-        <embedded name="funeralCompanyId"  class="FuneralCompanyId"  use-column-prefix="false" />
         <embedded name="burialContainerId" class="BurialContainerId" use-column-prefix="false" />
         <embedded name="burialPlaceId"     class="BurialPlaceId"     use-column-prefix="false" />
         <embedded name="customerId"        class="CustomerId"        use-column-prefix="false" />
