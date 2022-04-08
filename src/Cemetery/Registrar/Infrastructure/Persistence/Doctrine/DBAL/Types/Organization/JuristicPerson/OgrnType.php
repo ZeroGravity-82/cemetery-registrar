@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class OgrnType extends StringType
 {
-    private const OGRN_TYPE = 'ogrn';
+    private const TYPE_NAME = 'ogrn';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::OGRN_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::OGRN_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class OgrnType extends StringType
      */
     public function getName(): string
     {
-        return self::OGRN_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

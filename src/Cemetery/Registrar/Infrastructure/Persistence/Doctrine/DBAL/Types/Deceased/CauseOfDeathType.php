@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class CauseOfDeathType extends StringType
 {
-    private const CAUSE_OF_DEATH_TYPE = 'cause_of_death';
+    private const TYPE_NAME = 'cause_of_death';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::CAUSE_OF_DEATH_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::CAUSE_OF_DEATH_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class CauseOfDeathType extends StringType
      */
     public function getName(): string
     {
-        return self::CAUSE_OF_DEATH_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

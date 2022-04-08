@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Abst
 class BurialContainerTypeTypeTest extends AbstractStringTypeTest
 {
     protected string $className = BurialContainerTypeType::class;
-
-    protected string $typeName = 'burial_container_type';
+    protected string $typeName  = 'burial_container_type';
 
     public function setUp(): void
     {

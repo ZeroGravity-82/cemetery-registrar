@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractStringTypeTest extends AbstractTypeTest
+abstract class AbstractJsonTypeTest extends AbstractTypeTest
 {
     public function testItConvertsToDatabaseValue(): void
     {
@@ -21,6 +21,6 @@ abstract class AbstractStringTypeTest extends AbstractTypeTest
         $phpValue = $this->type->convertToPHPValue($this->dbValue, $this->mockPlatform);
 
         $this->assertInstanceOf(\get_class($this->phpValue), $phpValue);
-        $this->assertSame($this->dbValue, $phpValue->getValue());
+        $this->assertSame($this->dbValue, (string) $phpValue);
     }
 }

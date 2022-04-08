@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class InnType extends StringType
 {
-    private const JURISTIC_PERSON_INN_TYPE = 'juristic_person_inn';
+    private const TYPE_NAME = 'juristic_person_inn';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::JURISTIC_PERSON_INN_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::JURISTIC_PERSON_INN_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class InnType extends StringType
      */
     public function getName(): string
     {
-        return self::JURISTIC_PERSON_INN_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

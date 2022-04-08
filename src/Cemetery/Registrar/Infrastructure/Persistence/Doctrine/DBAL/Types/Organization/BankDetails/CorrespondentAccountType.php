@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class CorrespondentAccountType extends StringType
 {
-    private const CORRESPONDENT_ACCOUNT_TYPE = 'correspondent_account';
+    private const TYPE_NAME = 'correspondent_account';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::CORRESPONDENT_ACCOUNT_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::CORRESPONDENT_ACCOUNT_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class CorrespondentAccountType extends StringType
      */
     public function getName(): string
     {
-        return self::CORRESPONDENT_ACCOUNT_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

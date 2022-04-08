@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class PhoneNumberType extends StringType
 {
-    private const PHONE_NUMBER_TYPE = 'phone_number';
+    private const TYPE_NAME = 'phone_number';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::PHONE_NUMBER_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::PHONE_NUMBER_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class PhoneNumberType extends StringType
      */
     public function getName(): string
     {
-        return self::PHONE_NUMBER_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

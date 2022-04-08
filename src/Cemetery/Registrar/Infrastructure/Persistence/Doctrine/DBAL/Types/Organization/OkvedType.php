@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class OkvedType extends StringType
 {
-    private const OKVED_TYPE = 'okved';
+    private const TYPE_NAME = 'okved';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::OKVED_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::OKVED_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class OkvedType extends StringType
      */
     public function getName(): string
     {
-        return self::OKVED_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Abst
 class BurialPlaceTypeTypeTest extends AbstractStringTypeTest
 {
     protected string $className = BurialPlaceTypeType::class;
-
-    protected string $typeName = 'burial_place_type';
+    protected string $typeName  = 'burial_place_type';
 
     public function setUp(): void
     {

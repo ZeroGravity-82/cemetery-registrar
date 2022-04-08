@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class KppType extends StringType
 {
-    private const KPP_TYPE = 'kpp';
+    private const TYPE_NAME = 'kpp';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::KPP_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::KPP_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class KppType extends StringType
      */
     public function getName(): string
     {
-        return self::KPP_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

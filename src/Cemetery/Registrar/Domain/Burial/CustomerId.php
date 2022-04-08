@@ -4,53 +4,22 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
-use Cemetery\Registrar\Domain\AbstractEntityId;
+use Cemetery\Registrar\Domain\AbstractEntityPolymorphicId;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CustomerId extends AbstractEntityId
+final class CustomerId extends AbstractEntityPolymorphicId
 {
-    private const DELIMITER = '.';
-
     /**
-     * @param string       $value
-     * @param CustomerType $type
+     * @param NaturalPersonId|JuristicPersonId|SoleProprietorId $id
      */
     public function __construct(
-        protected string       $value,
-        private   CustomerType $type,
+        NaturalPersonId|JuristicPersonId|SoleProprietorId $id,
     ) {
-        parent::__construct($value);
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->getType() . self::DELIMITER . $this->getValue();
-    }
-
-    /**
-     * @return CustomerType
-     */
-    public function getType(): CustomerType
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param self $id
-     *
-     * @return bool
-     */
-    public function isEqual(AbstractEntityId $id): bool
-    {
-        $isSameClass        = $id instanceof self;
-        $isSameCustomerType = $id->getType()->isEqual($this->getType());
-        $isSameIdValue      = $id->getValue() === $this->getValue();
-
-        return $isSameClass && $isSameCustomerType && $isSameIdValue;
+        parent::__construct($id);
     }
 }

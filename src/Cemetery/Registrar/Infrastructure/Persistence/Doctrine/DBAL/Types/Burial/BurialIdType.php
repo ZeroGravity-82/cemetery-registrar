@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class BurialIdType extends StringType
 {
-    private const BURIAL_ID_TYPE = 'burial_id';
+    private const TYPE_NAME = 'burial_id';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::BURIAL_ID_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::BURIAL_ID_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class BurialIdType extends StringType
      */
     public function getName(): string
     {
-        return self::BURIAL_ID_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class EmailType extends StringType
 {
-    private const EMAIL_TYPE = 'email';
+    private const TYPE_NAME = 'email';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::EMAIL_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::EMAIL_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class EmailType extends StringType
      */
     public function getName(): string
     {
-        return self::EMAIL_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

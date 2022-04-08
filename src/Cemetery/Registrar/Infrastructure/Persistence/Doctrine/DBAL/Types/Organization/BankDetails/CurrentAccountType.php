@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class CurrentAccountType extends StringType
 {
-    private const CURRENT_ACCOUNT_TYPE = 'current_account';
+    private const TYPE_NAME = 'current_account';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::CURRENT_ACCOUNT_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::CURRENT_ACCOUNT_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class CurrentAccountType extends StringType
      */
     public function getName(): string
     {
-        return self::CURRENT_ACCOUNT_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

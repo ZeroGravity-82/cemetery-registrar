@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class BikType extends StringType
 {
-    private const BIK_TYPE = 'bik';
+    private const TYPE_NAME = 'bik';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::BIK_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::BIK_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class BikType extends StringType
      */
     public function getName(): string
     {
-        return self::BIK_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

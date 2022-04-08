@@ -47,7 +47,7 @@ abstract class AbstractEntityId
     /**
      * @param string $value
      */
-    protected function assertValidValue(string $value): void
+    private function assertValidValue(string $value): void
     {
         $this->assertNotEmpty($value);
     }

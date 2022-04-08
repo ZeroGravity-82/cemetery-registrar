@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class OkpoType extends StringType
 {
-    private const OKPO_TYPE = 'sole_proprietor_okpo';
+    private const TYPE_NAME = 'sole_proprietor_okpo';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::OKPO_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::OKPO_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -31,15 +31,19 @@ class OkpoType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Okpo ? $value->getValue() : $value;
+        $className = Okpo::class;
+
+        return $value instanceof $className ? $value->getValue() : $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?Okpo
+    public function convertToPHPValue($value, AbstractPlatform $platform)
     {
-        return !empty($value) ? new Okpo($value) : null;
+        $className = Okpo::class;
+
+        return !empty($value) ? new $className($value) : null;
     }
 
     /**
@@ -47,7 +51,7 @@ class OkpoType extends StringType
      */
     public function getName(): string
     {
-        return self::OKPO_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

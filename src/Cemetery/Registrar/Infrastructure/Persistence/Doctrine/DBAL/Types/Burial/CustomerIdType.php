@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
@@ -14,9 +15,9 @@ use Doctrine\DBAL\Types\JsonType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyIdType extends JsonType
+class CustomerIdType extends JsonType
 {
-    private const TYPE_NAME = 'funeral_company_id';
+    private const TYPE_NAME = 'customer_id';
 
     /**
      * Registers type to the type map.
@@ -34,7 +35,7 @@ class FuneralCompanyIdType extends JsonType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        if (!$value instanceof FuneralCompanyId) {
+        if (!$value instanceof CustomerId) {
             return $value;
         }
 
@@ -51,7 +52,7 @@ class FuneralCompanyIdType extends JsonType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?FuneralCompanyId
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?CustomerId
     {
         if ($value === null || $value === '') {
             return null;
@@ -62,8 +63,9 @@ class FuneralCompanyIdType extends JsonType
             $this->assertValid($decodedValue);
 
             return match ($decodedValue['type']) {
-                'JuristicPersonId' => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
-                'SoleProprietorId' => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
+                'NaturalPersonId'  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
+                'JuristicPersonId' => new CustomerId(new JuristicPersonId($decodedValue['value'])),
+                'SoleProprietorId' => new CustomerId(new SoleProprietorId($decodedValue['value'])),
             };
         } catch (\JsonException|\RuntimeException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
@@ -94,7 +96,7 @@ class FuneralCompanyIdType extends JsonType
     private function assertValid(mixed $decodedValue): void
     {
         if (!isset($decodedValue['type'], $decodedValue['value'])) {
-            throw new \RuntimeException('Неверный формат для ID похоронной фирмы.');
+            throw new \RuntimeException('Неверный формат для ID заказчика.');
         }
     }
 }

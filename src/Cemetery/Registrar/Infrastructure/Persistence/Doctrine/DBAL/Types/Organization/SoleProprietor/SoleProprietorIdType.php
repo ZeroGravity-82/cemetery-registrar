@@ -13,17 +13,17 @@ use Doctrine\DBAL\Types\StringType;
  */
 class SoleProprietorIdType extends StringType
 {
-    private const SOLE_PROPRIETOR_ID_TYPE = 'sole_proprietor_id';
+    private const TYPE_NAME = 'sole_proprietor_id';
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::SOLE_PROPRIETOR_ID_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::SOLE_PROPRIETOR_ID_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +47,7 @@ class SoleProprietorIdType extends StringType
      */
     public function getName(): string
     {
-        return self::SOLE_PROPRIETOR_ID_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**

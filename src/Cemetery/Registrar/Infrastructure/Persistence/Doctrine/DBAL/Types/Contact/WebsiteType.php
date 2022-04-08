@@ -13,17 +13,18 @@ use Doctrine\DBAL\Types\StringType;
  */
 class WebsiteType extends StringType
 {
-    private const WEBSITE_TYPE = 'website';
+    private const TYPE_NAME = 'website';
+
 
     /**
      * Registers type to the type map.
      */
     public static function registerType(): void
     {
-        if (self::hasType(self::WEBSITE_TYPE)) {
+        if (self::hasType(self::TYPE_NAME)) {
             return;
         }
-        self::addType(self::WEBSITE_TYPE, self::class);
+        self::addType(self::TYPE_NAME, self::class);
     }
 
     /**
@@ -47,7 +48,7 @@ class WebsiteType extends StringType
      */
     public function getName(): string
     {
-        return self::WEBSITE_TYPE;
+        return self::TYPE_NAME;
     }
 
     /**
