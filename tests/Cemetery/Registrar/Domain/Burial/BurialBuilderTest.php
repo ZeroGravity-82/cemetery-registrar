@@ -14,11 +14,11 @@ use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\CustomerType;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -72,11 +72,11 @@ class BurialBuilderTest extends TestCase
 
     public function testItAddsACustomerId(): void
     {
-        $customerId = new CustomerId('777', CustomerType::soleProprietor());
+        $customerId = new CustomerId(new SoleProprietorId('SP001'));
         $burial     = $this->burialBuilder->addCustomerId($customerId)->build();
         $this->assertInstanceOf(CustomerId::class, $burial->getCustomerId());
-        $this->assertSame('777', $burial->getCustomerId()->getValue());
-        $this->assertSame(CustomerType::SOLE_PROPRIETOR, (string) $burial->getCustomerId()->getType());
+        $this->assertInstanceOf(SoleProprietorId::class, $burial->getCustomerId()->getId());
+        $this->assertSame('SP001', $burial->getCustomerId()->getId()->getValue());
     }
 
     public function testItAddsABurialPlaceId(): void
@@ -98,10 +98,11 @@ class BurialBuilderTest extends TestCase
 
     public function testItAddsAFuneralCompanyId(): void
     {
-        $funeralCompanyId = new FuneralCompanyId('333');
+        $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP001'));
         $burial           = $this->burialBuilder->addFuneralCompanyId($funeralCompanyId)->build();
         $this->assertInstanceOf(FuneralCompanyId::class, $burial->getFuneralCompanyId());
-        $this->assertSame('333', (string) $burial->getFuneralCompanyId());
+        $this->assertInstanceOf(SoleProprietorId::class, $burial->getFuneralCompanyId()->getId());
+        $this->assertSame('SP001', $burial->getFuneralCompanyId()->getId()->getValue());
     }
 
     public function testItAddsABurialContainerId(): void

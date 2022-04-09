@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
