@@ -27,7 +27,6 @@ doctrine:
             # Organization
             okved:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\OkvedType
             organization_name:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\NameType
-            organization_type:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\OrganizationTypeType
             # Organization/BankDetails
             bik:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\BikType
             correspondent_account: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CorrespondentAccountType
