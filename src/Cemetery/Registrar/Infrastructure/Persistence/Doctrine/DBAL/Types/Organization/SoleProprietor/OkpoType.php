@@ -39,7 +39,7 @@ class OkpoType extends StringType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): ?Okpo
     {
         $className = Okpo::class;
 
