@@ -12,7 +12,6 @@ use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
@@ -57,10 +56,12 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
 
         $persistedBurial = $this->repo->findById($this->burialA->getId());
         $this->assertInstanceOf(Burial::class, $persistedBurial);
-        $this->assertSame('B001', (string) $persistedBurial->getId());
-        $this->assertSame('BC001', (string) $persistedBurial->getCode());
-        $this->assertSame('D001', (string) $persistedBurial->getDeceasedId());
-        $this->assertSame(CustomerType::NATURAL_PERSON . '.C001', (string) $persistedBurial->getCustomerId());
+        $this->assertSame('B001', $persistedBurial->getId()->getValue());
+        $this->assertSame('BC001', $persistedBurial->getCode()->getValue());
+        $this->assertSame('D001', $persistedBurial->getDeceasedId()->getValue());
+        $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
+        $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->getCustomerId()->getId());
+        $this->assertSame('NP001', $persistedBurial->getCustomerId()->getId()->getValue());
         $this->assertSame(BurialPlaceType::COLUMBARIUM_NICHE . '.BP001', (string) $persistedBurial->getBurialPlaceId());
         $this->assertNull($persistedBurial->getBurialPlaceOwnerId());
         $this->assertSame(1, $this->getRowCount(Burial::class));
@@ -144,7 +145,9 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('B002', (string) $persistedBurial->getId());
         $this->assertSame('BC002', (string) $persistedBurial->getCode());
         $this->assertSame('D002', (string) $persistedBurial->getDeceasedId());
-        $this->assertSame(CustomerType::NATURAL_PERSON . '.C001', (string) $persistedBurial->getCustomerId());
+        $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
+        $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->getCustomerId()->getId());
+        $this->assertSame('NP001', $persistedBurial->getCustomerId()->getId()->getValue());
         $this->assertSame(BurialPlaceType::GRAVE_SITE . '.BP002', (string) $persistedBurial->getBurialPlaceId());
         $this->assertSame('NP001', (string) $persistedBurial->getBurialPlaceOwnerId());
         $this->assertNull($persistedBurial->getFuneralCompanyId());
@@ -157,7 +160,8 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('BC003', (string) $persistedBurial->getCode());
         $this->assertSame('D003', (string) $persistedBurial->getDeceasedId());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
-        $this->assertSame(CustomerType::NATURAL_PERSON . '.C001', (string) $persistedBurial->getCustomerId());
+        $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->getCustomerId()->getId());
+        $this->assertSame('NP001', $persistedBurial->getCustomerId()->getId()->getValue());
         $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->getBurialPlaceId());
         $this->assertSame(BurialPlaceType::MEMORIAL_TREE . '.BP003', (string) $persistedBurial->getBurialPlaceId());
         $this->assertSame('NP002', (string) $persistedBurial->getBurialPlaceOwnerId());
@@ -199,22 +203,6 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $persistedBurial = $this->repo->findById($this->burialD->getId());
         $this->assertInstanceOf(Burial::class, $persistedBurial);
         $this->assertNull($persistedBurial->getBurialPlaceId());
-    }
-
-    public function testItHydratesCustomerIdEmbeddable(): void
-    {
-        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialD]));
-        $this->entityManager->clear();
-
-        $persistedBurial = $this->repo->findById($this->burialA->getId());
-        $this->assertInstanceOf(Burial::class, $persistedBurial);
-        $this->assertInstanceOf(CustomerId::class, $persistedBurial->getCustomerId());
-        $this->assertSame('C001', $persistedBurial->getCustomerId()->getValue());
-        $this->assertSame(CustomerType::NATURAL_PERSON, (string) $persistedBurial->getCustomerId()->getType());
-
-        $persistedBurial = $this->repo->findById($this->burialD->getId());
-        $this->assertInstanceOf(Burial::class, $persistedBurial);
-        $this->assertNull($persistedBurial->getCustomerId());
     }
 
     public function testItRemovesABurial(): void
