@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\EventDispatcherInterface;
 
 /**
@@ -28,10 +30,17 @@ final class JuristicPersonRemover
      */
     public function remove(JuristicPerson $juristicPerson): void
     {
-        $burialCount = $this->burialRepo->countByFuneralCompanyId($juristicPerson->getId());
+        $burialCount = $this->burialRepo->countByFuneralCompanyId(new FuneralCompanyId($juristicPerson->getId()));
         if ($burialCount > 0) {
             throw new \RuntimeException(\sprintf(
                 'Юридическое лицо не может быть удалено, т.к. оно указано как похоронная фирма для %d захоронений.',
+                $burialCount,
+            ));
+        }
+        $burialCount = $this->burialRepo->countByCustomerId(new CustomerId($juristicPerson->getId()));
+        if ($burialCount > 0) {
+            throw new \RuntimeException(\sprintf(
+                'Юридическое лицо не может быть удалено, т.к. оно указано как заказчик для %d захоронений.',
                 $burialCount,
             ));
         }

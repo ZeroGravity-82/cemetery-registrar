@@ -53,7 +53,7 @@ class JuristicPersonRemoverTest extends TestCase
         $this->juristicPersonRemover->remove($this->mockJuristicPerson);
     }
 
-    public function testItFailsToRemoveAJuristicPersonAsFuneralCompanyForBurials(): void
+    public function testItFailsToRemoveAJuristicPersonWhichIsAFuneralCompanyForBurials(): void
     {
         $this->mockBurialRepo->method('countByFuneralCompanyId')->willReturn(10);
         $this->mockBurialRepo->method('countByCustomerId')->willReturn(0);
@@ -64,10 +64,10 @@ class JuristicPersonRemoverTest extends TestCase
         $this->juristicPersonRemover->remove($this->mockJuristicPerson);
     }
 
-    public function testItFailsToRemoveAJuristicPersonAsCustomerForBurials(): void
+    public function testItFailsToRemoveAJuristicPersonWhichIsACustomerForBurials(): void
     {
-        $this->mockBurialRepo->method('countByCustomerId')->willReturn(5);
         $this->mockBurialRepo->method('countByFuneralCompanyId')->willReturn(0);
+        $this->mockBurialRepo->method('countByCustomerId')->willReturn(5);
         $this->mockJuristicPersonRepo->expects($this->never())->method('remove')->with($this->mockJuristicPerson);
         $this->mockEventDispatcher->expects($this->never())->method('dispatch');
         $this->expectException(\RuntimeException::class);

@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -89,6 +90,21 @@ final class BurialRepository implements BurialRepositoryInterface
             ->select('COUNT(b.id)')
             ->andWhere('b.funeralCompanyId = :funeralCompanyId')
             ->setParameter('funeralCompanyId', $funeralCompanyId)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function countByCustomerId(CustomerId $customerId): int
+    {
+        return (int) $this->entityManager
+            ->getRepository(Burial::class)
+            ->createQueryBuilder('b')
+            ->select('COUNT(b.id)')
+            ->andWhere('b.customerId = :customerId')
+            ->setParameter('customerId', $customerId)
             ->getQuery()
             ->getSingleScalarResult();
     }

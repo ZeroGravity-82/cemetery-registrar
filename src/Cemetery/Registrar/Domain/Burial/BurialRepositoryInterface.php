@@ -54,4 +54,13 @@ interface BurialRepositoryInterface
      * @return int
      */
     public function countByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): int;
+
+    /**
+     * Counts burials associated with the customer.
+     *
+     * @param CustomerId $customerId
+     *
+     * @return int
+     */
+    public function countByCustomerId(CustomerId $customerId): int;
 }
