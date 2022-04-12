@@ -35,8 +35,16 @@ class CustomerIdType extends JsonType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        if (!$value instanceof CustomerId) {
+        if ($value === null) {
             return $value;
+        }
+
+        if (!$value instanceof CustomerId) {
+            throw ConversionException::conversionFailedInvalidType(
+                $value,
+                $this->getName(),
+                ['null', CustomerId::class]
+            );
         }
 
         try {
@@ -54,8 +62,8 @@ class CustomerIdType extends JsonType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?CustomerId
     {
-        if ($value === null || $value === '') {
-            return null;
+        if ($value === null || $value instanceof CustomerId) {
+            return $value;
         }
 
         try {

@@ -34,8 +34,16 @@ class FuneralCompanyIdType extends JsonType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        if (!$value instanceof FuneralCompanyId) {
+        if ($value === null) {
             return $value;
+        }
+
+        if (!$value instanceof FuneralCompanyId) {
+            throw ConversionException::conversionFailedInvalidType(
+                $value,
+                $this->getName(),
+                ['null', FuneralCompanyId::class]
+            );
         }
 
         try {
@@ -53,8 +61,8 @@ class FuneralCompanyIdType extends JsonType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?FuneralCompanyId
     {
-        if ($value === null || $value === '') {
-            return null;
+        if ($value === null || $value instanceof FuneralCompanyId) {
+            return $value;
         }
 
         try {
