@@ -13,6 +13,7 @@ abstract class AbstractStringTypeTest extends AbstractTypeTest
     {
         $dbValue = $this->type->convertToDatabaseValue($this->phpValue, $this->mockPlatform);
 
+        $this->assertIsString($dbValue);
         $this->assertSame($this->dbValue, $dbValue);
     }
 

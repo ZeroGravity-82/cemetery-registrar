@@ -21,7 +21,7 @@ class SoleProprietorIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '8fcd705a-682d-479f-9740-c8e4fac82aff';
-        $this->phpValue = new SoleProprietorId('8fcd705a-682d-479f-9740-c8e4fac82aff');
+        $this->dbValue  = 'SP001';
+        $this->phpValue = new SoleProprietorId('SP001');
     }
 }

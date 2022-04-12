@@ -21,7 +21,7 @@ class DeceasedIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '84c6e97b-7274-4335-a426-d78abd74e909';
-        $this->phpValue = new DeceasedId('84c6e97b-7274-4335-a426-d78abd74e909');
+        $this->dbValue  = 'D001';
+        $this->phpValue = new DeceasedId('D001');
     }
 }

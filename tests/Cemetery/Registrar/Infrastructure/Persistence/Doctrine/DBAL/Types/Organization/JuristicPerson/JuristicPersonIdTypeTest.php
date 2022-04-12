@@ -21,7 +21,7 @@ class JuristicPersonIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '5847d50c-9710-4b80-b1f8-de4632dacf64';
-        $this->phpValue = new JuristicPersonId('5847d50c-9710-4b80-b1f8-de4632dacf64');
+        $this->dbValue  = 'JP001';
+        $this->phpValue = new JuristicPersonId('JP001');
     }
 }

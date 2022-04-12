@@ -21,7 +21,7 @@ class NaturalPersonIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '1716d71d-4d28-44eb-b8b4-28cda07a89e7';
-        $this->phpValue = new NaturalPersonId('1716d71d-4d28-44eb-b8b4-28cda07a89e7');
+        $this->dbValue  = 'NP001';
+        $this->phpValue = new NaturalPersonId('NP001');
     }
 }

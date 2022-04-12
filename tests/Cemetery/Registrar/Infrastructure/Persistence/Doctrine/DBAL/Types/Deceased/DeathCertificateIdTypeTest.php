@@ -21,7 +21,7 @@ class DeathCertificateIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '4497c4a7-3717-462d-b441-35909b755498';
-        $this->phpValue = new DeathCertificateId('4497c4a7-3717-462d-b441-35909b755498');
+        $this->dbValue  = 'DC001';
+        $this->phpValue = new DeathCertificateId('DC001');
     }
 }
