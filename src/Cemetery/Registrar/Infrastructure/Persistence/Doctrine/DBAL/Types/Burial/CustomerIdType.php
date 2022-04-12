@@ -41,7 +41,7 @@ class CustomerIdType extends JsonType
 
         try {
             return \json_encode(
-                ['value' => $value->getId()->getValue(), 'type' => $value->getIdType()],
+                ['type' => $value->getIdType(), 'value' => $value->getId()->getValue()],
                 JSON_THROW_ON_ERROR
             );
         } catch (\JsonException $e) {

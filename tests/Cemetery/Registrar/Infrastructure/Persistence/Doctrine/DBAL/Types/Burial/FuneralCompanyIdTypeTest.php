@@ -21,7 +21,7 @@ class FuneralCompanyIdTypeTest extends AbstractJsonTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '{"value":"JP001","type":"JuristicPersonId"}';
+        $this->dbValue  = '{"type":"JuristicPersonId","value":"JP001"}';
         $this->phpValue = new FuneralCompanyId(new JuristicPersonId('JP001'));
     }
 }

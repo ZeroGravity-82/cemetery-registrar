@@ -13,14 +13,23 @@ abstract class AbstractJsonTypeTest extends AbstractTypeTest
     {
         $dbValue = $this->type->convertToDatabaseValue($this->phpValue, $this->mockPlatform);
 
-        $this->assertSame($this->dbValue, $dbValue);
+        $decodedDbValue = \json_decode($dbValue, true);
+        $this->assertIsArray($decodedDbValue);
+        $this->assertArrayHasKey('type', $decodedDbValue);
+        $this->assertArrayHasKey('value', $decodedDbValue);
+        $this->assertSame($this->phpValue->getIdType(), $decodedDbValue['type']);
+        $this->assertSame($this->phpValue->getId()->getValue(), $decodedDbValue['value']);
     }
 
     public function testItConvertsToPhpValue(): void
     {
         $phpValue = $this->type->convertToPHPValue($this->dbValue, $this->mockPlatform);
 
+        $decodedDbValue = \json_decode($this->dbValue, true);
+        $this->assertArrayHasKey('type', $decodedDbValue);
+        $this->assertArrayHasKey('value', $decodedDbValue);
         $this->assertInstanceOf(\get_class($this->phpValue), $phpValue);
-        $this->assertSame($this->dbValue, (string) $phpValue);
+        $this->assertSame($decodedDbValue['type'], $phpValue->getIdType());
+        $this->assertSame($decodedDbValue['value'], $phpValue->getId()->getValue());
     }
 }

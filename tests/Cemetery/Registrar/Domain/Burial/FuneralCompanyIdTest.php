@@ -27,11 +27,21 @@ class FuneralCompanyIdTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $funeralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
-        $this->assertSame(\json_encode(['value' => 'JP001', 'type' => 'JuristicPersonId']), (string) $funeralCompanyId);
+        $funeralCompanyId        = new FuneralCompanyId(new JuristicPersonId('JP001'));
+        $decodedFuneralCompanyId = \json_decode((string) $funeralCompanyId, true);
+        $this->assertIsArray($decodedFuneralCompanyId);
+        $this->assertArrayHasKey('type', $decodedFuneralCompanyId);
+        $this->assertArrayHasKey('value', $decodedFuneralCompanyId);
+        $this->assertSame('JuristicPersonId', $decodedFuneralCompanyId['type']);
+        $this->assertSame('JP001', $decodedFuneralCompanyId['value']);
 
-        $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP001'));
-        $this->assertSame(\json_encode(['value' => 'SP001', 'type' => 'SoleProprietorId']), (string) $funeralCompanyId);
+        $funeralCompanyId        = new FuneralCompanyId(new SoleProprietorId('SP001'));
+        $decodedFuneralCompanyId = \json_decode((string) $funeralCompanyId, true);
+        $this->assertIsArray($decodedFuneralCompanyId);
+        $this->assertArrayHasKey('type', $decodedFuneralCompanyId);
+        $this->assertArrayHasKey('value', $decodedFuneralCompanyId);
+        $this->assertSame('SoleProprietorId', $decodedFuneralCompanyId['type']);
+        $this->assertSame('SP001', $decodedFuneralCompanyId['value']);
     }
     
     public function testItComparable(): void

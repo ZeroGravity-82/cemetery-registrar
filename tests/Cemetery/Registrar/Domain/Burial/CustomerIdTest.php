@@ -32,14 +32,27 @@ class CustomerIdTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $customerId = new CustomerId(new NaturalPersonId('NP001'));
-        $this->assertSame(\json_encode(['value' => 'NP001', 'type' => 'NaturalPersonId']), (string) $customerId);
+        $customerId        = new CustomerId(new NaturalPersonId('NP001'));
+        $decodedCustomerId = \json_decode((string) $customerId, true);
+        $this->assertIsArray($decodedCustomerId);
+        $this->assertArrayHasKey('type', $decodedCustomerId);
+        $this->assertArrayHasKey('value', $decodedCustomerId);
+        $this->assertSame('NaturalPersonId', $decodedCustomerId['type']);
+        $this->assertSame('NP001', $decodedCustomerId['value']);
 
-        $customerId = new CustomerId(new JuristicPersonId('JP001'));
-        $this->assertSame(\json_encode(['value' => 'JP001', 'type' => 'JuristicPersonId']), (string) $customerId);
+        $customerId        = new CustomerId(new JuristicPersonId('JP001'));
+        $decodedCustomerId = \json_decode((string) $customerId, true);
+        $this->assertArrayHasKey('type', $decodedCustomerId);
+        $this->assertArrayHasKey('value', $decodedCustomerId);
+        $this->assertSame('JuristicPersonId', $decodedCustomerId['type']);
+        $this->assertSame('JP001', $decodedCustomerId['value']);
 
-        $customerId = new CustomerId(new SoleProprietorId('SP001'));
-        $this->assertSame(\json_encode(['value' => 'SP001', 'type' => 'SoleProprietorId']), (string) $customerId);
+        $customerId        = new CustomerId(new SoleProprietorId('SP001'));
+        $decodedCustomerId = \json_decode((string) $customerId, true);
+        $this->assertArrayHasKey('type', $decodedCustomerId);
+        $this->assertArrayHasKey('value', $decodedCustomerId);
+        $this->assertSame('SoleProprietorId', $decodedCustomerId['type']);
+        $this->assertSame('SP001', $decodedCustomerId['value']);
     }
     
     public function testItComparable(): void

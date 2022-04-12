@@ -21,7 +21,7 @@ class CustomerIdTypeTest extends AbstractJsonTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '{"value":"NP001","type":"NaturalPersonId"}';
+        $this->dbValue  = '{"type":"NaturalPersonId","value":"NP001"}';
         $this->phpValue = new CustomerId(new NaturalPersonId('NP001'));
     }
 }

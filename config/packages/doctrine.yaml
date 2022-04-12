@@ -52,3 +52,6 @@ doctrine:
                 type: xml
                 dir: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Persistence/Doctrine/ORM/Mapping/MySQL'
                 prefix: Cemetery\Registrar\Domain
+        dql:
+            string_functions:
+                JSON_EXTRACT: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonExtract
