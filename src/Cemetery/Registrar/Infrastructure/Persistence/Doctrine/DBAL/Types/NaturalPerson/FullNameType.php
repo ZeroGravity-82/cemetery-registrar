@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FullNameType extends StringType
+final class FullNameType extends StringType
 {
     private const TYPE_NAME = 'full_name';
 

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class KppType extends StringType
+final class KppType extends StringType
 {
     private const TYPE_NAME = 'kpp';
 

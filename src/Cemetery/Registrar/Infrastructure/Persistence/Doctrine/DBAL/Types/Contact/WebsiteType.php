@@ -11,10 +11,9 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class WebsiteType extends StringType
+final class WebsiteType extends StringType
 {
     private const TYPE_NAME = 'website';
-
 
     /**
      * Registers type to the type map.

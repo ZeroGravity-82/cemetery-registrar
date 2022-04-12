@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class PhoneNumberType extends StringType
+final class PhoneNumberType extends StringType
 {
     private const TYPE_NAME = 'phone_number';
 

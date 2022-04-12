@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class OgrnType extends StringType
+final class OgrnType extends StringType
 {
     private const TYPE_NAME = 'ogrn';
 

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialCodeType extends StringType
+final class BurialCodeType extends StringType
 {
     private const TYPE_NAME = 'burial_code';
 

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AddressType extends StringType
+final class AddressType extends StringType
 {
     private const TYPE_NAME = 'address';
 

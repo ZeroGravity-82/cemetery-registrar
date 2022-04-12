@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorIdType extends StringType
+final class SoleProprietorIdType extends StringType
 {
     private const TYPE_NAME = 'sole_proprietor_id';
 

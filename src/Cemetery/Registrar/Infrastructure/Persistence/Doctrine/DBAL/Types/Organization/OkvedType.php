@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class OkvedType extends StringType
+final class OkvedType extends StringType
 {
     private const TYPE_NAME = 'okved';
 

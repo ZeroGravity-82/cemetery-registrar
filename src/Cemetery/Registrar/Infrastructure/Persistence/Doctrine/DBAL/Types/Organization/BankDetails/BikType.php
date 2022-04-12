@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BikType extends StringType
+final class BikType extends StringType
 {
     private const TYPE_NAME = 'bik';
 

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class OkpoType extends StringType
+final class OkpoType extends StringType
 {
     private const TYPE_NAME = 'juristic_person_okpo';
 

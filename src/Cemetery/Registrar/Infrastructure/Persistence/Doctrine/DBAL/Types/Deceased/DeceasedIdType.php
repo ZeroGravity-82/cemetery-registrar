@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedIdType extends StringType
+final class DeceasedIdType extends StringType
 {
     private const TYPE_NAME = 'deceased_id';
 

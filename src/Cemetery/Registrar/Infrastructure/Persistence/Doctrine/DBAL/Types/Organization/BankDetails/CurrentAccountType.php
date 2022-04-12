@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CurrentAccountType extends StringType
+final class CurrentAccountType extends StringType
 {
     private const TYPE_NAME = 'current_account';
 

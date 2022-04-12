@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\StringType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialPlaceTypeType extends StringType
+final class BurialPlaceTypeType extends StringType
 {
     private const TYPE_NAME = 'burial_place_type';
 

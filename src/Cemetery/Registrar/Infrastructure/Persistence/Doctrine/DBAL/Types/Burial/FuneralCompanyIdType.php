@@ -14,7 +14,7 @@ use Doctrine\DBAL\Types\JsonType;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyIdType extends JsonType
+final class FuneralCompanyIdType extends JsonType
 {
     private const TYPE_NAME = 'funeral_company_id';
 
