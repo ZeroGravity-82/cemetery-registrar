@@ -47,6 +47,5 @@ services:
                 event:  'postLoad'
         calls:
             - ['addMapping', ['Cemetery\Registrar\Domain\Burial\Burial',                              'burialContainerId']]
-            - ['addMapping', ['Cemetery\Registrar\Domain\Burial\Burial',                              'burialPlaceId']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson', 'bankDetails']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor', 'bankDetails']]

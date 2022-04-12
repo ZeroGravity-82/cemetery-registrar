@@ -10,9 +10,11 @@ use Cemetery\Registrar\Domain\Burial\BurialContainerId;
 use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
@@ -74,11 +76,23 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItSetsBurialPlaceId(): void
     {
-        $burialPlaceId = new BurialPlaceId('BP001', BurialPlaceType::graveSite());
+        $burialPlaceId = new BurialPlaceId(new GraveSiteId('GS001'));
         $this->burial->setBurialPlaceId($burialPlaceId);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
-        $this->assertSame('BP001', $this->burial->getBurialPlaceId()->getValue());
-        $this->assertSame(BurialPlaceType::GRAVE_SITE, (string) $this->burial->getBurialPlaceId()->getType());
+        $this->assertInstanceOf(GraveSiteId::class, $this->burial->getBurialPlaceId()->getId());
+        $this->assertSame('GS001', $this->burial->getBurialPlaceId()->getId()->getValue());
+
+        $burialPlaceId = new BurialPlaceId(new ColumbariumNicheId('CN001'));
+        $this->burial->setBurialPlaceId($burialPlaceId);
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
+        $this->assertInstanceOf(ColumbariumNicheId::class, $this->burial->getBurialPlaceId()->getId());
+        $this->assertSame('CN001', $this->burial->getBurialPlaceId()->getId()->getValue());
+
+        $burialPlaceId = new BurialPlaceId(new MemorialTreeId('MT001'));
+        $this->burial->setBurialPlaceId($burialPlaceId);
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
+        $this->assertInstanceOf(MemorialTreeId::class, $this->burial->getBurialPlaceId()->getId());
+        $this->assertSame('MT001', $this->burial->getBurialPlaceId()->getId()->getValue());
     }
 
     public function testItSetsBurialPlaceOwnerId(): void

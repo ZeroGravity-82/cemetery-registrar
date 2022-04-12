@@ -10,9 +10,11 @@ use Cemetery\Registrar\Domain\Burial\BurialContainerId;
 use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
@@ -25,7 +27,7 @@ final class BurialProvider
         $burialCode    = new BurialCode('BC001');
         $deceasedId    = new DeceasedId('D001');
         $customerId    = new CustomerId(new NaturalPersonId('NP001'));
-        $burialPlaceId = new BurialPlaceId('BP001', BurialPlaceType::columbariumNiche());
+        $burialPlaceId = new BurialPlaceId(new ColumbariumNicheId('CN001'));
         $buriedAt      = new \DateTimeImmutable('2022-01-15 13:10:00');
 
         return (new Burial($id, $burialCode, $deceasedId))
@@ -40,7 +42,7 @@ final class BurialProvider
         $burialCode         = new BurialCode('BC002');
         $deceasedId         = new DeceasedId('D002');
         $customerId         = new CustomerId(new NaturalPersonId('NP001'));
-        $burialPlaceId      = new BurialPlaceId('BP002', BurialPlaceType::graveSite());
+        $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS001'));
         $burialPlaceOwnerId = new NaturalPersonId('NP001');
         $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
 
@@ -57,7 +59,7 @@ final class BurialProvider
         $burialCode         = new BurialCode('BC003');
         $deceasedId         = new DeceasedId('D003');
         $customerId         = new CustomerId(new NaturalPersonId('NP001'));
-        $burialPlaceId      = new BurialPlaceId('BP003', BurialPlaceType::memorialTree());
+        $burialPlaceId      = new BurialPlaceId(new MemorialTreeId('MT001'));
         $burialPlaceOwnerId = new NaturalPersonId('NP002');
         $funeralCompanyId   = new FuneralCompanyId(new JuristicPersonId('JP001'));
         $burialContainerId  = new BurialContainerId('CT002', BurialContainerType::coffin());

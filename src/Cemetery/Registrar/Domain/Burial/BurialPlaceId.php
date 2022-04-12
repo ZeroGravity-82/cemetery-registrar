@@ -4,53 +4,22 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
-use Cemetery\Registrar\Domain\AbstractEntityId;
+use Cemetery\Registrar\Domain\AbstractEntityPolymorphicId;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialPlaceId extends AbstractEntityId
+final class BurialPlaceId extends AbstractEntityPolymorphicId
 {
-    private const DELIMITER = '.';
-
     /**
-     * @param string          $value
-     * @param BurialPlaceType $type
+     * @param GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
      */
     public function __construct(
-        protected string          $value,
-        private   BurialPlaceType $type,
+        GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
     ) {
-        parent::__construct($value);
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->getType() . self::DELIMITER . $this->getValue();
-    }
-
-    /**
-     * @return BurialPlaceType
-     */
-    public function getType(): BurialPlaceType
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param self $id
-     *
-     * @return bool
-     */
-    public function isEqual(AbstractEntityId $id): bool
-    {
-        $isSameClass           = $id instanceof self;
-        $isSameBurialPlaceType = $id->getType()->isEqual($this->getType());
-        $isSameIdValue         = $id->getValue() === $this->getValue();
-
-        return $isSameClass && $isSameBurialPlaceType && $isSameIdValue;
+        parent::__construct($id);
     }
 }

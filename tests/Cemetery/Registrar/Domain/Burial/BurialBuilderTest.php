@@ -12,9 +12,9 @@ use Cemetery\Registrar\Domain\Burial\BurialContainerId;
 use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
@@ -81,11 +81,11 @@ class BurialBuilderTest extends TestCase
 
     public function testItAddsABurialPlaceId(): void
     {
-        $burialPlaceId = new BurialPlaceId('888', BurialPlaceType::graveSite());
+        $burialPlaceId = new BurialPlaceId(new GraveSiteId('GS001'));
         $burial        = $this->burialBuilder->addBurialPlaceId($burialPlaceId)->build();
         $this->assertInstanceOf(BurialPlaceId::class, $burial->getBurialPlaceId());
-        $this->assertSame('888', $burial->getBurialPlaceId()->getValue());
-        $this->assertSame(BurialPlaceType::GRAVE_SITE, (string) $burial->getBurialPlaceId()->getType());
+        $this->assertInstanceOf(GraveSiteId::class, $burial->getBurialPlaceId()->getId());
+        $this->assertSame('GS001', $burial->getBurialPlaceId()->getId()->getValue());
     }
 
     public function testItAddsABurialPlaceOwnerId(): void
