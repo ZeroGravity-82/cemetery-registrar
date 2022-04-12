@@ -102,7 +102,7 @@ final class FuneralCompanyIdType extends JsonType
     private function assertValid(mixed $decodedValue): void
     {
         if (!isset($decodedValue['type'], $decodedValue['value'])) {
-            throw new \RuntimeException('Неверный формат для ID похоронной фирмы.');
+            throw new \RuntimeException(\sprintf('Неверный формат для ID похоронной фирмы: %s.', $decodedValue));
         }
     }
 }

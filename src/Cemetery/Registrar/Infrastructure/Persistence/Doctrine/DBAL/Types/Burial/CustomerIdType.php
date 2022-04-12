@@ -104,7 +104,7 @@ final class CustomerIdType extends JsonType
     private function assertValid(mixed $decodedValue): void
     {
         if (!isset($decodedValue['type'], $decodedValue['value'])) {
-            throw new \RuntimeException('Неверный формат для ID заказчика.');
+            throw new \RuntimeException(\sprintf('Неверный формат для ID заказчика: %s.', $decodedValue));
         }
     }
 }
