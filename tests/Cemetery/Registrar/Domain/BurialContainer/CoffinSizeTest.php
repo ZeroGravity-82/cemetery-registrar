@@ -12,45 +12,61 @@ use PHPUnit\Framework\TestCase;
  */
 class CoffinSizeTest extends TestCase
 {
-    private const COFFIN_MIN_SIZE = 165;
-    private const COFFIN_MAX_SIZE = 225;
+    private const MIN_SIZE = 165;
+    private const MAX_SIZE = 225;
 
     public function testItSuccessfullyCreated(): void
     {
-        $coffin = new CoffinSize(self::COFFIN_MIN_SIZE);
-        $this->assertSame(self::COFFIN_MIN_SIZE, $coffin->getValue());
+        $coffinSize = new CoffinSize(self::MIN_SIZE);
+        $this->assertSame(self::MIN_SIZE, $coffinSize->getValue());
 
-        $coffin = new CoffinSize(self::COFFIN_MAX_SIZE);
-        $this->assertSame(self::COFFIN_MAX_SIZE, $coffin->getValue());
+        $coffinSize = new CoffinSize(self::MAX_SIZE);
+        $this->assertSame(self::MAX_SIZE, $coffinSize->getValue());
 
-        $coffinAvgSize = (int) ((self::COFFIN_MIN_SIZE + self::COFFIN_MAX_SIZE) / 2);
-        $coffin        = new CoffinSize($coffinAvgSize);
-        $this->assertSame($coffinAvgSize, $coffin->getValue());
+        $coffinAvgSize = (int) ((self::MIN_SIZE + self::MAX_SIZE) / 2);
+        $coffinSize        = new CoffinSize($coffinAvgSize);
+        $this->assertSame($coffinAvgSize, $coffinSize->getValue());
     }
 
     public function testItFailsWithValueBelowAllowedRange(): void
     {
-        $valueBelowAllowedRange = self::COFFIN_MIN_SIZE - 1;
+        $coffinSizeBelowAllowedRange = self::MIN_SIZE - 1;
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf(
             'Размер гроба %d см находится вне допустимого диапазона [%d, %d] см.',
-            $valueBelowAllowedRange,
-            self::COFFIN_MIN_SIZE,
-            self::COFFIN_MAX_SIZE
+            $coffinSizeBelowAllowedRange,
+            self::MIN_SIZE,
+            self::MAX_SIZE
         ));
-        new CoffinSize($valueBelowAllowedRange);
+        new CoffinSize($coffinSizeBelowAllowedRange);
     }
 
     public function testItFailsWithValueAboveAllowedRange(): void
     {
-        $valueAboveAllowedRange = self::COFFIN_MAX_SIZE + 1;
+        $coffinSizeAboveAllowedRange = self::MAX_SIZE + 1;
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf(
             'Размер гроба %d см находится вне допустимого диапазона [%d, %d] см.',
-            $valueAboveAllowedRange,
-            self::COFFIN_MIN_SIZE,
-            self::COFFIN_MAX_SIZE
+            $coffinSizeAboveAllowedRange,
+            self::MIN_SIZE,
+            self::MAX_SIZE
         ));
-        new CoffinSize($valueAboveAllowedRange);
+        new CoffinSize($coffinSizeAboveAllowedRange);
+    }
+
+    public function testItStringifyable(): void
+    {
+        $coffinSize = new CoffinSize(180);
+        $this->assertSame('180', (string) $coffinSize);
+    }
+
+    public function testItComparable(): void
+    {
+        $coffinSizeA = new CoffinSize(180);
+        $coffinSizeB = new CoffinSize(175);
+        $coffinSizeC = new CoffinSize(180);
+        $this->assertFalse($coffinSizeA->isEqual($coffinSizeB));
+        $this->assertTrue($coffinSizeA->isEqual($coffinSizeC));
+        $this->assertFalse($coffinSizeB->isEqual($coffinSizeC));
     }
 }
