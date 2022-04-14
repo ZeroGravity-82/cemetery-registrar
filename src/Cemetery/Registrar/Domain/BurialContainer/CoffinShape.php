@@ -138,7 +138,7 @@ final class CoffinShape
         $supportedCoffinShapes = [
             self::TRAPEZOID,
             self::GREEK_WITH_HANDLES,
-            self::GREEK_WITH_HANDLES,
+            self::GREEK_WITHOUT_HANDLES,
             self::AMERICAN,
         ];
         if (!\in_array($value, $supportedCoffinShapes)) {
