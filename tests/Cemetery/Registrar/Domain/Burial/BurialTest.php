@@ -12,6 +12,9 @@ use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
@@ -49,7 +52,7 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertNull($this->burial->getBurialPlaceId());
         $this->assertNull($this->burial->getBurialPlaceOwnerId());
         $this->assertNull($this->burial->getFuneralCompanyId());
-        $this->assertNull($this->burial->getBurialContainerId());
+        $this->assertNull($this->burial->burialContainer());
         $this->assertNull($this->burial->getBuriedAt());
     }
 
@@ -118,13 +121,12 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertSame('SP001', $this->burial->getFuneralCompanyId()->getId()->getValue());
     }
 
-    public function testItSetsBurialContainerId(): void
+    public function testItSetsBurialContainer(): void
     {
-        $burialContainerId = new BurialContainerId('CT001', BurialContainerType::coffin());
-        $this->burial->setBurialContainerId($burialContainerId);
-        $this->assertInstanceOf(BurialContainerId::class, $this->burial->getBurialContainerId());
-        $this->assertSame('CT001', $this->burial->getBurialContainerId()->getValue());
-        $this->assertSame(BurialContainerType::COFFIN, (string) $this->burial->getBurialContainerId()->getType());
+        $burialContainer = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
+        $this->burial->setBurialContainer($burialContainer);
+        $this->assertInstanceOf(Coffin::class, $this->burial->burialContainer());
+        $this->assertTrue($this->burial->burialContainer()->isEqual($burialContainer));
     }
     
     public function testItSetsBuriedAt(): void

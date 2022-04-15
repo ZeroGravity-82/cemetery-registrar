@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\BurialContainer;
 
+use Cemetery\Registrar\Domain\ValueObject;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Coffin extends BurialContainer
+final class Coffin extends ValueObject implements BurialContainer
 {
     /**
      * @param CoffinSize  $size

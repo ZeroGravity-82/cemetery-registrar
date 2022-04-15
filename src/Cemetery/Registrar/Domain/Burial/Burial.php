@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\AbstractAggregateRoot;
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
@@ -34,9 +35,9 @@ final class Burial extends AbstractAggregateRoot
     private ?FuneralCompanyId $funeralCompanyId = null;
 
     /**
-     * @var BurialContainerId|null
+     * @var BurialContainer|null
      */
-    private ?BurialContainerId $burialContainerId = null;
+    private ?BurialContainer $burialContainer = null;
 
     /**
      * @var \DateTimeImmutable|null
@@ -161,21 +162,21 @@ final class Burial extends AbstractAggregateRoot
     }
 
     /**
-     * @return BurialContainerId|null
+     * @return BurialContainer|null
      */
-    public function getBurialContainerId(): ?BurialContainerId
+    public function burialContainer(): ?BurialContainer
     {
-        return $this->burialContainerId;
+        return $this->burialContainer;
     }
 
     /**
-     * @param BurialContainerId|null $burialContainerId
+     * @param BurialContainer|null $burialContainer
      *
      * @return $this
      */
-    public function setBurialContainerId(?BurialContainerId $burialContainerId): self
+    public function setBurialContainer(?BurialContainer $burialContainer): self
     {
-        $this->burialContainerId = $burialContainerId;
+        $this->burialContainer = $burialContainer;
 
         return $this;
     }

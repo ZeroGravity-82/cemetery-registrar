@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\BurialContainer;
 
+use Cemetery\Registrar\Domain\ValueObject;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CoffinSize
+final class CoffinSize extends ValueObject
 {
     private const MIN_SIZE = 165;
     private const MAX_SIZE = 225;
