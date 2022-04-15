@@ -24,29 +24,29 @@ class CoffinShapeTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $coffinShape = new CoffinShape(CoffinShape::TRAPEZOID);
-        $this->assertSame(self::TRAPEZOID_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::TRAPEZOID_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::TRAPEZOID_VALUE, $coffinShape->value());
+        $this->assertSame(self::TRAPEZOID_DISPLAY_NAME, $coffinShape->displayName());
         $coffinShape = CoffinShape::trapezoid();
-        $this->assertSame(self::TRAPEZOID_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::TRAPEZOID_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::TRAPEZOID_VALUE, $coffinShape->value());
+        $this->assertSame(self::TRAPEZOID_DISPLAY_NAME, $coffinShape->displayName());
 
         $coffinShape = new CoffinShape(CoffinShape::GREEK_WITH_HANDLES);
-        $this->assertSame(self::GREEK_WITH_HANDLES_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::GREEK_WITH_HANDLES_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::GREEK_WITH_HANDLES_VALUE, $coffinShape->value());
+        $this->assertSame(self::GREEK_WITH_HANDLES_DISPLAY_NAME, $coffinShape->displayName());
         $coffinShape = CoffinShape::greekWithHandles();
-        $this->assertSame(self::GREEK_WITH_HANDLES_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::GREEK_WITH_HANDLES_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::GREEK_WITH_HANDLES_VALUE, $coffinShape->value());
+        $this->assertSame(self::GREEK_WITH_HANDLES_DISPLAY_NAME, $coffinShape->displayName());
 
         $coffinShape = new CoffinShape(CoffinShape::GREEK_WITHOUT_HANDLES);
-        $this->assertSame(self::GREEK_WITHOUT_HANDLES_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::GREEK_WITHOUT_HANDLES_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::GREEK_WITHOUT_HANDLES_VALUE, $coffinShape->value());
+        $this->assertSame(self::GREEK_WITHOUT_HANDLES_DISPLAY_NAME, $coffinShape->displayName());
         $coffinShape = CoffinShape::greekWithoutHandles();
-        $this->assertSame(self::GREEK_WITHOUT_HANDLES_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::GREEK_WITHOUT_HANDLES_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::GREEK_WITHOUT_HANDLES_VALUE, $coffinShape->value());
+        $this->assertSame(self::GREEK_WITHOUT_HANDLES_DISPLAY_NAME, $coffinShape->displayName());
 
         $coffinShape = new CoffinShape(CoffinShape::AMERICAN);
-        $this->assertSame(self::AMERICAN_VALUE, $coffinShape->getValue());
-        $this->assertSame(self::AMERICAN_DISPLAY_NAME, $coffinShape->getDisplayName());
+        $this->assertSame(self::AMERICAN_VALUE, $coffinShape->value());
+        $this->assertSame(self::AMERICAN_DISPLAY_NAME, $coffinShape->displayName());
     }
 
     public function testItFailsWithNotSupportedValue(): void

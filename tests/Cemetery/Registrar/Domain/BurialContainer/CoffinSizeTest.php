@@ -18,14 +18,14 @@ class CoffinSizeTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $coffinSize = new CoffinSize(self::MIN_SIZE);
-        $this->assertSame(self::MIN_SIZE, $coffinSize->getValue());
+        $this->assertSame(self::MIN_SIZE, $coffinSize->value());
 
         $coffinSize = new CoffinSize(self::MAX_SIZE);
-        $this->assertSame(self::MAX_SIZE, $coffinSize->getValue());
+        $this->assertSame(self::MAX_SIZE, $coffinSize->value());
 
         $coffinAvgSize = (int) ((self::MIN_SIZE + self::MAX_SIZE) / 2);
-        $coffinSize        = new CoffinSize($coffinAvgSize);
-        $this->assertSame($coffinAvgSize, $coffinSize->getValue());
+        $coffinSize    = new CoffinSize($coffinAvgSize);
+        $this->assertSame($coffinAvgSize, $coffinSize->value());
     }
 
     public function testItFailsWithValueBelowAllowedRange(): void

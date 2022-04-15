@@ -26,13 +26,13 @@ final class CoffinSize
      */
     public function __toString(): string
     {
-        return (string) $this->getValue();
+        return (string) $this->value();
     }
 
     /**
      * @return int
      */
-    public function getValue(): int
+    public function value(): int
     {
         return $this->value;
     }
@@ -44,7 +44,7 @@ final class CoffinSize
      */
     public function isEqual(self $coffinSize): bool
     {
-        return $coffinSize->getValue() === $this->getValue();
+        return $coffinSize->value() === $this->value();
     }
 
     /**

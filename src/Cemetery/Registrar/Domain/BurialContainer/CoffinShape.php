@@ -67,13 +67,13 @@ final class CoffinShape
      */
     public function __toString(): string
     {
-        return $this->getDisplayName();
+        return $this->displayName();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -81,9 +81,9 @@ final class CoffinShape
     /**
      * @return string
      */
-    public function getDisplayName(): string
+    public function displayName(): string
     {
-        return self::DISPLAY_NAMES[$this->getValue()];
+        return self::DISPLAY_NAMES[$this->value()];
     }
 
     /**
@@ -93,7 +93,7 @@ final class CoffinShape
      */
     public function isEqual(self $coffinShape): bool
     {
-        return $coffinShape->getValue() === $this->getValue();
+        return $coffinShape->value() === $this->value();
     }
 
     /**
@@ -101,7 +101,7 @@ final class CoffinShape
      */
     public function isTrapezoid(): bool
     {
-        return $this->getValue() === self::TRAPEZOID;
+        return $this->value() === self::TRAPEZOID;
     }
 
     /**
@@ -109,7 +109,7 @@ final class CoffinShape
      */
     public function isGreekWithHandles(): bool
     {
-        return $this->getValue() === self::GREEK_WITH_HANDLES;
+        return $this->value() === self::GREEK_WITH_HANDLES;
     }
 
     /**
@@ -117,7 +117,7 @@ final class CoffinShape
      */
     public function isGreekWithoutHandles(): bool
     {
-        return $this->getValue() === self::GREEK_WITHOUT_HANDLES;
+        return $this->value() === self::GREEK_WITHOUT_HANDLES;
     }
 
     /**
@@ -125,7 +125,7 @@ final class CoffinShape
      */
     public function isAmerican(): bool
     {
-        return $this->getValue() === self::AMERICAN;
+        return $this->value() === self::AMERICAN;
     }
 
     /**

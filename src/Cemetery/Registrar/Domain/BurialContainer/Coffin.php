@@ -27,8 +27,8 @@ final class Coffin
     {
         return \sprintf(
             'Гроб: размер %d см, форма "%s", %s',
-            $this->size()->getValue(),
-            $this->shape()->getDisplayName(),
+            $this->size()->value(),
+            $this->shape()->displayName(),
             $this->isNonStandard() ? 'нестандартный' : 'стандартный'
         );
     }

@@ -26,13 +26,13 @@ class CoffinTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(CoffinSize::class, $this->coffinA->size());
-        $this->assertSame(180, $this->coffinA->size()->getValue());
+        $this->assertSame(180, $this->coffinA->size()->value());
         $this->assertInstanceOf(CoffinShape::class, $this->coffinA->shape());
         $this->assertTrue($this->coffinA->shape()->isTrapezoid());
         $this->assertTrue($this->coffinA->isNonStandard());
 
         $this->assertInstanceOf(CoffinSize::class, $this->coffinB->size());
-        $this->assertSame(165, $this->coffinB->size()->getValue());
+        $this->assertSame(165, $this->coffinB->size()->value());
         $this->assertInstanceOf(CoffinShape::class, $this->coffinB->shape());
         $this->assertTrue($this->coffinB->shape()->isGreekWithHandles());
         $this->assertFalse($this->coffinB->isNonStandard());
