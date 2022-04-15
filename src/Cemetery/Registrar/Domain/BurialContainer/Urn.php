@@ -9,4 +9,21 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
  */
 final class Urn extends BurialContainer
 {
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return 'урна с прахом';
+    }
+
+    /**
+     * @param Urn $urn
+     *
+     * @return bool
+     */
+    public function isEqual(self $urn): bool
+    {
+        return true;
+    }
 }
