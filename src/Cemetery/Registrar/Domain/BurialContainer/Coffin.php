@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Coffin
+final class Coffin extends BurialContainer
 {
     /**
      * @param CoffinSize  $size
