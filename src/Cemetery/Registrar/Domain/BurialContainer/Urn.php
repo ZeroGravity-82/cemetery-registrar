@@ -7,6 +7,6 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Urn extends AbstractBurialContainer
+final class Urn extends BurialContainer
 {
 }
