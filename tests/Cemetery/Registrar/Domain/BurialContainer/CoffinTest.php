@@ -40,8 +40,8 @@ class CoffinTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $this->assertSame('Гроб: размер 180 см, форма "трапеция", нестандартный', (string) $this->coffinA);
-        $this->assertSame('Гроб: размер 165 см, форма "грек (с ручками)", стандартный', (string) $this->coffinB);
+        $this->assertSame('гроб: размер 180 см, форма "трапеция", нестандартный', (string) $this->coffinA);
+        $this->assertSame('гроб: размер 165 см, форма "грек (с ручками)", стандартный', (string) $this->coffinB);
     }
 
     public function testItComparable(): void

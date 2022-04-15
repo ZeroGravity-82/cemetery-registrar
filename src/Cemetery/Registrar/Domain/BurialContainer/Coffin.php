@@ -26,7 +26,7 @@ final class Coffin extends BurialContainer
     public function __toString(): string
     {
         return \sprintf(
-            'Гроб: размер %d см, форма "%s", %s',
+            'гроб: размер %d см, форма "%s", %s',
             $this->size()->value(),
             $this->shape()->displayName(),
             $this->isNonStandard() ? 'нестандартный' : 'стандартный'
