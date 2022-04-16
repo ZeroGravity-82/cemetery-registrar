@@ -12,6 +12,8 @@ doctrine:
             burial_place_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceIdType
             customer_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType
             funeral_company_id:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyIdType
+            # BurialContainer
+            burial_container:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainer\BurialContainerType
             # Contact
             address:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
             email:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
