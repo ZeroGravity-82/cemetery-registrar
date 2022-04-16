@@ -7,7 +7,6 @@ doctrine:
         types:
             # Burial
             burial_code:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialCodeType
-            burial_container_type: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialContainerTypeType
             burial_id:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialIdType
             burial_place_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceIdType
             customer_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType

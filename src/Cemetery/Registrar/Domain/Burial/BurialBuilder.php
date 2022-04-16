@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
@@ -96,14 +97,14 @@ final class BurialBuilder
     }
 
     /**
-     * @param BurialContainerId $burialContainerId
+     * @param BurialContainer $burialContainer
      *
      * @return $this
      */
-    public function addBurialContainerId(BurialContainerId $burialContainerId): self
+    public function addBurialContainer(BurialContainer $burialContainer): self
     {
         $this->assertInitialized();
-        $this->burial->setBurialContainerId($burialContainerId);
+        $this->burial->setBurialContainer($burialContainer);
 
         return $this;
     }

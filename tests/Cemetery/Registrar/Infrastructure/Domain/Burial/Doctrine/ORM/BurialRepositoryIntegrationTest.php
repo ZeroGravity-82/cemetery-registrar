@@ -6,12 +6,14 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
-use Cemetery\Registrar\Domain\Burial\BurialContainerId;
-use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
+use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
@@ -73,6 +75,11 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertInstanceOf(ColumbariumNicheId::class, $persistedBurial->getBurialPlaceId()->getId());
         $this->assertSame('CN001', $persistedBurial->getBurialPlaceId()->getId()->getValue());
         $this->assertNull($persistedBurial->getBurialPlaceOwnerId());
+        $this->assertNull($persistedBurial->getFuneralCompanyId());
+        $this->assertInstanceOf(Urn::class, $persistedBurial->burialContainer());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $persistedBurial->getBuriedAt());
+        $this->assertSame('2022-01-15 13:10:00', $persistedBurial->getCreatedAt()->format('Y-m-d H:i:s'));
+
         $this->assertSame(1, $this->getRowCount(Burial::class));
         $this->assertSame(
             $this->burialA->getCreatedAt()->format(\DateTimeInterface::ATOM),
@@ -160,9 +167,13 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->getBurialPlaceId());
         $this->assertInstanceOf(GraveSiteId::class, $persistedBurial->getBurialPlaceId()->getId());
         $this->assertSame('GS001', $persistedBurial->getBurialPlaceId()->getId()->getValue());
+        $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->getBurialPlaceOwnerId());
         $this->assertSame('ID001', (string) $persistedBurial->getBurialPlaceOwnerId());
         $this->assertNull($persistedBurial->getFuneralCompanyId());
-        $this->assertSame(BurialContainerType::COFFIN . '.CT001', (string) $persistedBurial->getBurialContainerId());
+        $this->assertInstanceOf(Coffin::class, $persistedBurial->burialContainer());
+        $this->assertTrue($persistedBurial->burialContainer()->size()->isEqual(new CoffinSize(180)));
+        $this->assertTrue($persistedBurial->burialContainer()->shape()->isEqual(CoffinShape::trapezoid()));
+        $this->assertFalse($persistedBurial->burialContainer()->isNonStandard());
         $this->assertNull($persistedBurial->getBuriedAt());
 
         $persistedBurial = $this->repo->findById($this->burialC->getId());
@@ -183,22 +194,6 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertNull($persistedBurial->getBuriedAt());
 
         $this->assertSame(3, $this->getRowCount(Burial::class));
-    }
-
-    public function testItHydratesBurialContainerIdEmbeddable(): void
-    {
-        $this->repo->saveAll(new BurialCollection([$this->burialA, $this->burialB]));
-        $this->entityManager->clear();
-
-        $persistedBurial = $this->repo->findById($this->burialA->getId());
-        $this->assertInstanceOf(Burial::class, $persistedBurial);
-        $this->assertNull($persistedBurial->getBurialContainerId());
-
-        $persistedBurial = $this->repo->findById($this->burialB->getId());
-        $this->assertInstanceOf(Burial::class, $persistedBurial);
-        $this->assertInstanceOf(BurialContainerId::class, $persistedBurial->getBurialContainerId());
-        $this->assertSame('CT001', $persistedBurial->getBurialContainerId()->getValue());
-        $this->assertSame(BurialContainerType::COFFIN, (string) $persistedBurial->getBurialContainerId()->getType());
     }
 
     public function testItRemovesABurial(): void

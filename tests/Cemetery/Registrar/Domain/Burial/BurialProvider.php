@@ -6,12 +6,14 @@ namespace Cemetery\Tests\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
-use Cemetery\Registrar\Domain\Burial\BurialContainerId;
-use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
+use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
@@ -24,16 +26,18 @@ final class BurialProvider
 {
     public static function getBurialA(): Burial
     {
-        $id            = new BurialId('B001');
-        $burialCode    = new BurialCode('BC001');
-        $deceasedId    = new DeceasedId('D001');
-        $customerId    = new CustomerId(new NaturalPersonId('ID001'));
-        $burialPlaceId = new BurialPlaceId(new ColumbariumNicheId('CN001'));
-        $buriedAt      = new \DateTimeImmutable('2022-01-15 13:10:00');
+        $id              = new BurialId('B001');
+        $burialCode      = new BurialCode('BC001');
+        $deceasedId      = new DeceasedId('D001');
+        $customerId      = new CustomerId(new NaturalPersonId('ID001'));
+        $burialPlaceId   = new BurialPlaceId(new ColumbariumNicheId('CN001'));
+        $buriedAt        = new \DateTimeImmutable('2022-01-15 13:10:00');
+        $burialContainer = new Urn();
 
         return (new Burial($id, $burialCode, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
+            ->setBurialContainer($burialContainer)
             ->setBuriedAt($buriedAt);
     }
 
@@ -45,13 +49,13 @@ final class BurialProvider
         $customerId         = new CustomerId(new NaturalPersonId('ID001'));
         $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS001'));
         $burialPlaceOwnerId = new NaturalPersonId('ID001');
-        $burialContainerId  = new BurialContainerId('CT001', BurialContainerType::coffin());
+        $burialContainer    = new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), false);
 
         return (new Burial($id, $burialCode, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
             ->setBurialPlaceOwnerId($burialPlaceOwnerId)
-            ->setBurialContainerId($burialContainerId);
+            ->setBurialContainer($burialContainer);
     }
 
     public static function getBurialC(): Burial
@@ -63,14 +67,12 @@ final class BurialProvider
         $burialPlaceId      = new BurialPlaceId(new MemorialTreeId('MT001'));
         $burialPlaceOwnerId = new NaturalPersonId('ID003');
         $funeralCompanyId   = new FuneralCompanyId(new JuristicPersonId('ID001'));
-        $burialContainerId  = new BurialContainerId('CT002', BurialContainerType::coffin());
 
         return (new Burial($id, $burialCode, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
             ->setBurialPlaceOwnerId($burialPlaceOwnerId)
-            ->setFuneralCompanyId($funeralCompanyId)
-            ->setBurialContainerId($burialContainerId);
+            ->setFuneralCompanyId($funeralCompanyId);
     }
 
     public static function getBurialD(): Burial

@@ -8,12 +8,13 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialBuilder;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialCodeGeneratorInterface;
-use Cemetery\Registrar\Domain\Burial\BurialContainerId;
-use Cemetery\Registrar\Domain\Burial\BurialContainerType;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
@@ -57,7 +58,7 @@ class BurialBuilderTest extends TestCase
         $this->assertNull($burial->getBurialPlaceId());
         $this->assertNull($burial->getBurialPlaceOwnerId());
         $this->assertNull($burial->getFuneralCompanyId());
-        $this->assertNull($burial->getBurialContainerId());
+        $this->assertNull($burial->burialContainer());
         $this->assertNull($burial->getBuriedAt());
     }
 
@@ -105,13 +106,12 @@ class BurialBuilderTest extends TestCase
         $this->assertSame('SP001', $burial->getFuneralCompanyId()->getId()->getValue());
     }
 
-    public function testItAddsABurialContainerId(): void
+    public function testItAddsABurialContainer(): void
     {
-        $burialContainerId = new BurialContainerId('444', BurialContainerType::coffin());
-        $burial            = $this->burialBuilder->addBurialContainerId($burialContainerId)->build();
-        $this->assertInstanceOf(BurialContainerId::class, $burial->getBurialContainerId());
-        $this->assertSame('444', $burial->getBurialContainerId()->getValue());
-        $this->assertSame(BurialContainerType::COFFIN, (string) $burial->getBurialContainerId()->getType());
+        $burialContainer = new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), true);
+        $burial          = $this->burialBuilder->addBurialContainer($burialContainer)->build();
+        $this->assertInstanceOf(Coffin::class, $burial->burialContainer());
+        $this->assertTrue($burial->burialContainer()->isEqual($burialContainer));
     }
 
     public function testItAddsABuriedAt(): void
