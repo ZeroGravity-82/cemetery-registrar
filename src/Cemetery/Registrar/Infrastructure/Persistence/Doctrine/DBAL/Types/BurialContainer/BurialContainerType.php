@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainer;
 
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\BurialContainer\Urn;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;
@@ -82,7 +79,7 @@ final class BurialContainerType extends JsonType
 
         try {
             $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            $this->assertValid($decodedValue);
+            $this->assertValid($decodedValue, $value);
 
             return match ($decodedValue['type']) {
                 'Coffin' => new Coffin(
@@ -90,9 +87,9 @@ final class BurialContainerType extends JsonType
                     new CoffinShape($decodedValue['value']['shape']),
                     $decodedValue['value']['isNonStandard'],
                 ),
-                'Urn'    => new Urn(),
+                'Urn' => new Urn(),
             };
-        } catch (\JsonException|\RuntimeException $e) {
+        } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
     }
@@ -115,13 +112,26 @@ final class BurialContainerType extends JsonType
 
     /**
      * @param mixed $decodedValue
+     * @param mixed $value
      *
      * @throws \RuntimeException when the decoded value has invalid format.
      */
-    private function assertValid(mixed $decodedValue): void
+    private function assertValid(mixed $decodedValue, mixed $value): void
     {
-        if (!isset($decodedValue['type'], $decodedValue['value'])) {
-            throw new \RuntimeException(\sprintf('Неверный формат для ID похоронной фирмы: %s.', $decodedValue));
+        $isInvalidValue = false;
+        if (!isset($decodedValue['type'])) {
+            $isInvalidValue = true;
+        }
+        $isInvalidValue = $isInvalidValue || match ($decodedValue['type']) {
+            'Coffin' =>  !isset(
+                $decodedValue['value']['size'],
+                $decodedValue['value']['shape'],
+                $decodedValue['value']['isNonStandard']
+            ),
+            'Urn' => $decodedValue['value'] !== null,
+        };
+        if ($isInvalidValue) {
+            throw new \RuntimeException(\sprintf('Неверный формат для контейнера захоронения: "%s".', $value));
         }
     }
 }

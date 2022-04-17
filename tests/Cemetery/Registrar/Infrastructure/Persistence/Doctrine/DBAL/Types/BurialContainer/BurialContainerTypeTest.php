@@ -52,6 +52,7 @@ class BurialContainerTypeTest extends AbstractTypeTest
     public function testItFailsToConvertPhpValueOfInvalidTypeToDatabaseValue(): void
     {
         $this->expectException(ConversionException::class);
+        $this->expectExceptionMessage('Could not convert PHP value \'value of invalid type\' to type burial_container. Expected one of the following types: null, Cemetery\Registrar\Domain\BurialContainer\BurialContainer');
         $this->type->convertToDatabaseValue('value of invalid type', $this->mockPlatform);
     }
 
@@ -73,9 +74,17 @@ class BurialContainerTypeTest extends AbstractTypeTest
         $this->assertNull($phpValue);
     }
 
-    public function testItFailsToConvertInvalidDatabaseValueToPhpValue(): void
+    public function testItFailsToConvertDatabaseInvalidJsonValueToPhpValue(): void
     {
         $this->expectException(ConversionException::class);
+        $this->expectExceptionMessage('Could not convert database value "value of invalid type" to Doctrine Type burial_container');
         $this->type->convertToPHPValue('value of invalid type', $this->mockPlatform);
+    }
+
+    public function testItFailsToConvertDatabaseIncompleteValueToPhpValue(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Неверный формат для контейнера захоронения: "{}".');
+        $this->type->convertToPHPValue('{}', $this->mockPlatform);
     }
 }
