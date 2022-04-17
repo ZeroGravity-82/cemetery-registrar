@@ -78,7 +78,7 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertNull($persistedBurial->getFuneralCompanyId());
         $this->assertInstanceOf(Urn::class, $persistedBurial->burialContainer());
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedBurial->getBuriedAt());
-        $this->assertSame('2022-01-15 13:10:00', $persistedBurial->getCreatedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2022-01-15 13:10:00', $persistedBurial->getBuriedAt()->format('Y-m-d H:i:s'));
 
         $this->assertSame(1, $this->getRowCount(Burial::class));
         $this->assertSame(
@@ -190,7 +190,7 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('ID003', (string) $persistedBurial->getBurialPlaceOwnerId());
         $this->assertInstanceOf(JuristicPersonId::class, $persistedBurial->getFuneralCompanyId()->getId());
         $this->assertSame('ID001', (string) $persistedBurial->getFuneralCompanyId()->getId());
-        $this->assertSame(BurialContainerType::COFFIN . '.CT002', (string) $persistedBurial->getBurialContainerId());
+        $this->assertNull($persistedBurial->burialContainer());
         $this->assertNull($persistedBurial->getBuriedAt());
 
         $this->assertSame(3, $this->getRowCount(Burial::class));
