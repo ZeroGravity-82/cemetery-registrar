@@ -13,6 +13,6 @@ final class CreateJuristicPersonResponse
      * @param string $id
      */
     public function __construct(
-        public string $id,
+        public readonly string $id,
     ) {}
 }

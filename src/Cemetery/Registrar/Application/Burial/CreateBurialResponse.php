@@ -13,6 +13,6 @@ final class CreateBurialResponse
      * @param string $burialId
      */
     public function __construct(
-        public string $burialId,
+        public readonly string $burialId,
     ) {}
 }
