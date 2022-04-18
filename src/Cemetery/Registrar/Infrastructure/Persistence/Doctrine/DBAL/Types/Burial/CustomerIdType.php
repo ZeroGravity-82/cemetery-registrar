@@ -68,14 +68,14 @@ final class CustomerIdType extends JsonType
 
         try {
             $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            $this->assertValid($decodedValue);
+            $this->assertValid($decodedValue, $value);
 
             return match ($decodedValue['type']) {
                 'NaturalPersonId'  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
                 'JuristicPersonId' => new CustomerId(new JuristicPersonId($decodedValue['value'])),
                 'SoleProprietorId' => new CustomerId(new SoleProprietorId($decodedValue['value'])),
             };
-        } catch (\JsonException|\RuntimeException $e) {
+        } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
     }
@@ -98,13 +98,15 @@ final class CustomerIdType extends JsonType
 
     /**
      * @param mixed $decodedValue
+     * @param mixed $value
      *
      * @throws \RuntimeException when the decoded value has invalid format.
      */
-    private function assertValid(mixed $decodedValue): void
+    private function assertValid(mixed $decodedValue, mixed $value): void
     {
-        if (!isset($decodedValue['type'], $decodedValue['value'])) {
-            throw new \RuntimeException(\sprintf('Неверный формат для ID заказчика: %s.', $decodedValue));
+        $isInvalidValue = !isset($decodedValue['type'], $decodedValue['value']);
+        if ($isInvalidValue) {
+            throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
     }
 }

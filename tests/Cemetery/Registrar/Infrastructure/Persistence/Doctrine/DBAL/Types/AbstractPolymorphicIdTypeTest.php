@@ -27,8 +27,15 @@ abstract class AbstractPolymorphicIdTypeTest extends AbstractTypeTest
 
     public function testItFailsToConvertPhpValueOfInvalidTypeToDatabaseValue(): void
     {
+        $valueOfInvalidType = 'value of invalid type';
         $this->expectException(ConversionException::class);
-        $this->type->convertToDatabaseValue('some string', $this->mockPlatform);
+        $this->expectExceptionMessage(\sprintf(
+            'Could not convert PHP value \'%s\' to type %s. Expected one of the following types: null, %s',
+            $valueOfInvalidType,
+            $this->typeName,
+            $this->phpValue::class,
+        ));
+        $this->type->convertToDatabaseValue($valueOfInvalidType, $this->mockPlatform);
     }
 
     public function testItConvertsToPhpValue(): void
@@ -45,9 +52,22 @@ abstract class AbstractPolymorphicIdTypeTest extends AbstractTypeTest
         $this->assertNull($phpValue);
     }
 
-    public function testItFailsToConvertInvalidDatabaseValueToPhpValue(): void
+    public function testItFailsToConvertDatabaseInvalidJsonValueToPhpValue(): void
     {
+        $valueOfInvalidType = 'value of invalid type';
         $this->expectException(ConversionException::class);
-        $this->type->convertToPHPValue('some string', $this->mockPlatform);
+        $this->expectExceptionMessage(\sprintf(
+            'Could not convert database value "%s" to Doctrine Type %s',
+            $valueOfInvalidType,
+            $this->typeName,
+        ));
+        $this->type->convertToPHPValue($valueOfInvalidType, $this->mockPlatform);
+    }
+
+    public function testItFailsToConvertDatabaseIncompleteValueToPhpValue(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Неверный формат для полиморфного идентификатора: "{}".');
+        $this->type->convertToPHPValue('{}', $this->mockPlatform);
     }
 }

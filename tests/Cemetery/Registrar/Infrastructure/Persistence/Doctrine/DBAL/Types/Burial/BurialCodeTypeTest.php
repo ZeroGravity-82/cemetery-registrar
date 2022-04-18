@@ -20,7 +20,7 @@ class BurialCodeTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '001';
-        $this->phpValue = new BurialCode('001');
+        $this->dbValue  = '000001';
+        $this->phpValue = new BurialCode('000001');
     }
 }

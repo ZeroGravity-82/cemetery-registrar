@@ -20,7 +20,7 @@ class BurialIdTypeTest extends AbstractStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '28485684-6cf6-4bca-adfc-37a67c3ec4ec';
-        $this->phpValue = new BurialId('28485684-6cf6-4bca-adfc-37a67c3ec4ec');
+        $this->dbValue  = 'B001';
+        $this->phpValue = new BurialId('B001');
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainer;
 
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
@@ -51,9 +52,15 @@ class BurialContainerTypeTest extends AbstractTypeTest
 
     public function testItFailsToConvertPhpValueOfInvalidTypeToDatabaseValue(): void
     {
+        $valueOfInvalidType = 'value of invalid type';
         $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage('Could not convert PHP value \'value of invalid type\' to type burial_container. Expected one of the following types: null, Cemetery\Registrar\Domain\BurialContainer\BurialContainer');
-        $this->type->convertToDatabaseValue('value of invalid type', $this->mockPlatform);
+        $this->expectExceptionMessage(\sprintf(
+            'Could not convert PHP value \'%s\' to type %s. Expected one of the following types: null, %s',
+            $valueOfInvalidType,
+            $this->typeName,
+            BurialContainer::class,
+        ));
+        $this->type->convertToDatabaseValue($valueOfInvalidType, $this->mockPlatform);
     }
 
     public function testItConvertsToPhpValue(): void
@@ -76,9 +83,14 @@ class BurialContainerTypeTest extends AbstractTypeTest
 
     public function testItFailsToConvertDatabaseInvalidJsonValueToPhpValue(): void
     {
+        $valueOfInvalidType = 'value of invalid type';
         $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage('Could not convert database value "value of invalid type" to Doctrine Type burial_container');
-        $this->type->convertToPHPValue('value of invalid type', $this->mockPlatform);
+        $this->expectExceptionMessage(\sprintf(
+            'Could not convert database value "%s" to Doctrine Type %s',
+            $valueOfInvalidType,
+            $this->typeName,
+        ));
+        $this->type->convertToPHPValue($valueOfInvalidType, $this->mockPlatform);
     }
 
     public function testItFailsToConvertDatabaseIncompleteValueToPhpValue(): void
