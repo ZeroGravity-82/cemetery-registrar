@@ -11,12 +11,12 @@ use Cemetery\Registrar\Domain\ValueObject;
  */
 final class CoffinShape extends ValueObject
 {
-    public const TRAPEZOID             = 'trapezoid';
-    public const GREEK_WITH_HANDLES    = 'greek_with_handles';
-    public const GREEK_WITHOUT_HANDLES = 'greek_without_handles';
-    public const AMERICAN              = 'american';
+    public const TRAPEZOID             = 'TRAPEZOID';
+    public const GREEK_WITH_HANDLES    = 'GREEK_WITH_HANDLES';
+    public const GREEK_WITHOUT_HANDLES = 'GREEK_WITHOUT_HANDLES';
+    public const AMERICAN              = 'AMERICAN';
 
-    private const DISPLAY_NAMES = [
+    private const LABELS = [
         self::TRAPEZOID             => 'трапеция',
         self::GREEK_WITH_HANDLES    => 'грек (с ручками)',
         self::GREEK_WITHOUT_HANDLES => 'грек (без ручек)',
@@ -69,7 +69,7 @@ final class CoffinShape extends ValueObject
      */
     public function __toString(): string
     {
-        return $this->displayName();
+        return $this->label();
     }
 
     /**
@@ -83,9 +83,9 @@ final class CoffinShape extends ValueObject
     /**
      * @return string
      */
-    public function displayName(): string
+    public function label(): string
     {
-        return self::DISPLAY_NAMES[$this->value()];
+        return self::LABELS[$this->value()];
     }
 
     /**

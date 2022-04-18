@@ -65,7 +65,7 @@ class BurialContainerTypeTest extends AbstractTypeTest
 
     public function testItConvertsToPhpValue(): void
     {
-        $this->dbValue  = '{"type":"Coffin","value":{"size":180,"shape":"greek_with_handles","isNonStandard":true}}';
+        $this->dbValue  = '{"type":"Coffin","value":{"size":180,"shape":"GREEK_WITH_HANDLES","isNonStandard":true}}';
         $decodedDbValue = \json_decode($this->dbValue, true);
         $phpValue       = $this->type->convertToPHPValue($this->dbValue, $this->mockPlatform);
         $this->assertInstanceOf(Coffin::class, $phpValue);

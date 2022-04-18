@@ -30,7 +30,7 @@ final class Coffin extends ValueObject implements BurialContainer
         return \sprintf(
             'гроб: размер %d см, форма "%s", %s',
             $this->size()->value(),
-            $this->shape()->displayName(),
+            $this->shape()->label(),
             $this->isNonStandard() ? 'нестандартный' : 'стандартный'
         );
     }
