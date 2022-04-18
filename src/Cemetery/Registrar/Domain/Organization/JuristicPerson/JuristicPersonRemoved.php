@@ -23,7 +23,7 @@ final class JuristicPersonRemoved extends AbstractEvent
     /**
      * @return JuristicPersonId
      */
-    public function getJuristicPersonId(): JuristicPersonId
+    public function juristicPersonId(): JuristicPersonId
     {
         return $this->juristicPersonId;
     }

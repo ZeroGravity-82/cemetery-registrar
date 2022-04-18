@@ -15,7 +15,7 @@ class OgrnipTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $ogrnip = new Ogrnip('315547600024379');
-        $this->assertSame('315547600024379', $ogrnip->getValue());
+        $this->assertSame('315547600024379', $ogrnip->value());
     }
 
     public function testItFailsWithEmptyValue(): void

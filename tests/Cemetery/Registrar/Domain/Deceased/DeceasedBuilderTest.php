@@ -38,14 +38,14 @@ class DeceasedBuilderTest extends TestCase
         $deceased = $this->deceasedBuilder->build();
 
         $this->assertInstanceOf(Deceased::class, $deceased);
-        $this->assertInstanceOf(DeceasedId::class, $deceased->getId());
-        $this->assertSame('555', (string) $deceased->getId());
-        $this->assertInstanceOf(NaturalPersonId::class, $deceased->getNaturalPersonId());
-        $this->assertSame('777', (string) $deceased->getNaturalPersonId());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $deceased->getDiedAt());
-        $this->assertSame('2021-02-12', $deceased->getDiedAt()->format('Y-m-d'));
-        $this->assertNull($deceased->getDeathCertificateId());
-        $this->assertNull($deceased->getCauseOfDeath());
+        $this->assertInstanceOf(DeceasedId::class, $deceased->id());
+        $this->assertSame('555', (string) $deceased->id());
+        $this->assertInstanceOf(NaturalPersonId::class, $deceased->naturalPersonId());
+        $this->assertSame('777', (string) $deceased->naturalPersonId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $deceased->diedAt());
+        $this->assertSame('2021-02-12', $deceased->diedAt()->format('Y-m-d'));
+        $this->assertNull($deceased->deathCertificateId());
+        $this->assertNull($deceased->causeOfDeath());
     }
 
     public function testItFailsToBuildADeceasedBeforeInitialization(): void
@@ -60,15 +60,15 @@ class DeceasedBuilderTest extends TestCase
     public function testItAddsADeathCertificateId(): void
     {
         $deceased = $this->deceasedBuilder->addDeathCertificateId('888')->build();
-        $this->assertInstanceOf(DeathCertificateId::class, $deceased->getDeathCertificateId());
-        $this->assertSame('888', (string) $deceased->getDeathCertificateId());
+        $this->assertInstanceOf(DeathCertificateId::class, $deceased->deathCertificateId());
+        $this->assertSame('888', (string) $deceased->deathCertificateId());
     }
 
     public function testItAddsACauseOfDeath(): void
     {
         $deceased = $this->deceasedBuilder->addCauseOfDeath('Некоторая причина смерти')->build();
-        $this->assertInstanceOf(CauseOfDeath::class, $deceased->getCauseOfDeath());
-        $this->assertSame('Некоторая причина смерти', (string) $deceased->getCauseOfDeath());
+        $this->assertInstanceOf(CauseOfDeath::class, $deceased->causeOfDeath());
+        $this->assertSame('Некоторая причина смерти', (string) $deceased->causeOfDeath());
     }
 
     public function testItIgnoresNullValues(): void
@@ -77,7 +77,7 @@ class DeceasedBuilderTest extends TestCase
             ->addDeathCertificateId(null)
             ->addCauseOfDeath(null)
             ->build();
-        $this->assertNull($deceased->getDeathCertificateId());
-        $this->assertNull($deceased->getCauseOfDeath());
+        $this->assertNull($deceased->deathCertificateId());
+        $this->assertNull($deceased->causeOfDeath());
     }
 }

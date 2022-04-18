@@ -23,20 +23,20 @@ abstract class AbstractAccount
     /**
      * @return string
      */
-    abstract protected function getAccountType(): string;
+    abstract protected function accountType(): string;
 
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -48,7 +48,7 @@ abstract class AbstractAccount
      */
     public function isEqual(self $account): bool
     {
-        return $account->getValue() === $this->getValue();
+        return $account->value() === $this->value();
     }
 
     /**
@@ -69,7 +69,7 @@ abstract class AbstractAccount
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getAccountType()));
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->accountType()));
         }
     }
 
@@ -81,7 +81,7 @@ abstract class AbstractAccount
     private function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->getAccountType()));
+            throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->accountType()));
         }
     }
 
@@ -92,7 +92,7 @@ abstract class AbstractAccount
      */
     private function assertValidLength(string $value): void
     {
-        $accountName = $this->getAccountType();
+        $accountName = $this->accountType();
         if (\strlen($value) !== self::ACCOUNT_LENGTH) {
             throw new \InvalidArgumentException(
                 \sprintf('%s должен состоять из %d цифр.', $accountName, self::ACCOUNT_LENGTH)

@@ -31,7 +31,7 @@ final class WebsiteType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Website ? $value->getValue() : $value;
+        return $value instanceof Website ? $value->value() : $value;
     }
 
     /**

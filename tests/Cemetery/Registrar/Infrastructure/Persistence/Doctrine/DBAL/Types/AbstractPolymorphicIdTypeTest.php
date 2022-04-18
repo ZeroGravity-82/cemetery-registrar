@@ -18,8 +18,8 @@ abstract class AbstractPolymorphicIdTypeTest extends AbstractTypeTest
         $this->assertIsArray($decodedDbValue);
         $this->assertArrayHasKey('type', $decodedDbValue);
         $this->assertArrayHasKey('value', $decodedDbValue);
-        $this->assertSame($this->phpValue->getIdType(), $decodedDbValue['type']);
-        $this->assertSame($this->phpValue->getId()->getValue(), $decodedDbValue['value']);
+        $this->assertSame($this->phpValue->idType(), $decodedDbValue['type']);
+        $this->assertSame($this->phpValue->id()->value(), $decodedDbValue['value']);
 
         $dbValue = $this->type->convertToDatabaseValue(null, $this->mockPlatform);
         $this->assertNull($dbValue);
@@ -45,8 +45,8 @@ abstract class AbstractPolymorphicIdTypeTest extends AbstractTypeTest
         $this->assertArrayHasKey('type', $decodedDbValue);
         $this->assertArrayHasKey('value', $decodedDbValue);
         $this->assertInstanceOf(\get_class($this->phpValue), $phpValue);
-        $this->assertSame($decodedDbValue['type'], $phpValue->getIdType());
-        $this->assertSame($decodedDbValue['value'], $phpValue->getId()->getValue());
+        $this->assertSame($decodedDbValue['type'], $phpValue->idType());
+        $this->assertSame($decodedDbValue['value'], $phpValue->id()->value());
 
         $phpValue = $this->type->convertToPHPValue(null, $this->mockPlatform);
         $this->assertNull($phpValue);

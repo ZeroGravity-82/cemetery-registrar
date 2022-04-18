@@ -33,7 +33,7 @@ final class OkpoType extends StringType
     {
         $className = Okpo::class;
 
-        return $value instanceof $className ? $value->getValue() : $value;
+        return $value instanceof $className ? $value->value() : $value;
     }
 
     /**

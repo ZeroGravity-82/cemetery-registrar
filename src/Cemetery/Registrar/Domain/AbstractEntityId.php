@@ -23,13 +23,13 @@ abstract class AbstractEntityId
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -41,7 +41,7 @@ abstract class AbstractEntityId
      */
     public function isEqual(self $id): bool
     {
-        return $id->getValue() === $this->getValue();
+        return $id->value() === $this->value();
     }
 
     /**

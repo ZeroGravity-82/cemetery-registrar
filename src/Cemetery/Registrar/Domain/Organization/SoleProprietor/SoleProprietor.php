@@ -92,7 +92,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return SoleProprietorId
      */
-    public function getId(): SoleProprietorId
+    public function id(): SoleProprietorId
     {
         return $this->id;
     }
@@ -100,7 +100,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Name
      */
-    public function getName(): Name
+    public function name(): Name
     {
         return $this->name;
     }
@@ -120,7 +120,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Inn|null
      */
-    public function getInn(): ?Inn
+    public function inn(): ?Inn
     {
         return $this->inn;
     }
@@ -140,7 +140,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Ogrnip|null
      */
-    public function getOgrnip(): ?Ogrnip
+    public function ogrnip(): ?Ogrnip
     {
         return $this->ogrnip;
     }
@@ -160,7 +160,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Okpo|null
      */
-    public function getOkpo(): ?Okpo
+    public function okpo(): ?Okpo
     {
         return $this->okpo;
     }
@@ -180,7 +180,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Okved|null
      */
-    public function getOkved(): ?Okved
+    public function okved(): ?Okved
     {
         return $this->okved;
     }
@@ -200,7 +200,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Address|null
      */
-    public function getRegistrationAddress(): ?Address
+    public function registrationAddress(): ?Address
     {
         return $this->registrationAddress;
     }
@@ -220,7 +220,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Address|null
      */
-    public function getActualLocationAddress(): ?Address
+    public function actualLocationAddress(): ?Address
     {
         return $this->actualLocationAddress;
     }
@@ -240,7 +240,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return BankDetails|null
      */
-    public function getBankDetails(): ?BankDetails
+    public function bankDetails(): ?BankDetails
     {
         return $this->bankDetails;
     }
@@ -260,7 +260,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return PhoneNumber|null
      */
-    public function getPhone(): ?PhoneNumber
+    public function phone(): ?PhoneNumber
     {
         return $this->phone;
     }
@@ -280,7 +280,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return PhoneNumber|null
      */
-    public function getPhoneAdditional(): ?PhoneNumber
+    public function phoneAdditional(): ?PhoneNumber
     {
         return $this->phoneAdditional;
     }
@@ -300,7 +300,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return PhoneNumber|null
      */
-    public function getFax(): ?PhoneNumber
+    public function fax(): ?PhoneNumber
     {
         return $this->fax;
     }
@@ -320,7 +320,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Email|null
      */
-    public function getEmail(): ?Email
+    public function email(): ?Email
     {
         return $this->email;
     }
@@ -340,7 +340,7 @@ final class SoleProprietor extends AbstractAggregateRoot
     /**
      * @return Website|null
      */
-    public function getWebsite(): ?Website
+    public function website(): ?Website
     {
         return $this->website;
     }

@@ -18,16 +18,16 @@ class CustomerIdTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $customerId = new CustomerId(new NaturalPersonId('NP001'));
-        $this->assertInstanceOf(NaturalPersonId::class, $customerId->getId());
-        $this->assertSame('NP001', $customerId->getId()->getValue());
+        $this->assertInstanceOf(NaturalPersonId::class, $customerId->id());
+        $this->assertSame('NP001', $customerId->id()->value());
 
         $customerId = new CustomerId(new JuristicPersonId('JP001'));
-        $this->assertInstanceOf(JuristicPersonId::class, $customerId->getId());
-        $this->assertSame('JP001', $customerId->getId()->getValue());
+        $this->assertInstanceOf(JuristicPersonId::class, $customerId->id());
+        $this->assertSame('JP001', $customerId->id()->value());
 
         $customerId = new CustomerId(new SoleProprietorId('SP001'));
-        $this->assertInstanceOf(SoleProprietorId::class, $customerId->getId());
-        $this->assertSame('SP001', $customerId->getId()->getValue());
+        $this->assertInstanceOf(SoleProprietorId::class, $customerId->id());
+        $this->assertSame('SP001', $customerId->id()->value());
     }
 
     public function testItStringifyable(): void

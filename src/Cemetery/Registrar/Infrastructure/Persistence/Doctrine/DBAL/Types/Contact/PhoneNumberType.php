@@ -31,7 +31,7 @@ final class PhoneNumberType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof PhoneNumber ? $value->getValue() : $value;
+        return $value instanceof PhoneNumber ? $value->value() : $value;
     }
 
     /**

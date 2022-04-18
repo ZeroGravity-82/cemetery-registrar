@@ -40,13 +40,13 @@ final class Coordinates
      */
     public function __toString(): string
     {
-        return \sprintf('%s, %s', $this->getLatitude(), $this->getLongitude());
+        return \sprintf('%s, %s', $this->latitude(), $this->longitude());
     }
 
     /**
      * @return string
      */
-    public function getLatitude(): string
+    public function latitude(): string
     {
         return $this->latitude;
     }
@@ -54,7 +54,7 @@ final class Coordinates
     /**
      * @return string
      */
-    public function getLongitude(): string
+    public function longitude(): string
     {
         return $this->longitude;
     }
@@ -66,8 +66,8 @@ final class Coordinates
      */
     public function isEqual(self $coordinates): bool
     {
-        $isSameLatitude  = $coordinates->getLatitude()  === $this->getLatitude();
-        $isSameLongitude = $coordinates->getLongitude() === $this->getLongitude();
+        $isSameLatitude  = $coordinates->latitude()  === $this->latitude();
+        $isSameLongitude = $coordinates->longitude() === $this->longitude();
 
         return $isSameLatitude && $isSameLongitude;
     }

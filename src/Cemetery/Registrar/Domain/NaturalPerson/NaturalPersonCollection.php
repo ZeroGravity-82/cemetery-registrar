@@ -14,7 +14,7 @@ final class NaturalPersonCollection extends AbstractEntityCollection
     /**
      * {@inheritdoc}
      */
-    public function getSupportedEntityClass(): string
+    public function supportedEntityClassName(): string
     {
         return NaturalPerson::class;
     }

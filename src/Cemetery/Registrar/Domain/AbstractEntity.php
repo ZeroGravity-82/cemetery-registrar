@@ -36,12 +36,12 @@ abstract class AbstractEntity
      *
      * @return AbstractEntityId
      */
-    abstract public function getId(): AbstractEntityId;
+    abstract public function id(): AbstractEntityId;
 
     /**
      * @return \DateTimeImmutable
      */
-    public function getCreatedAt(): \DateTimeImmutable
+    public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -49,7 +49,7 @@ abstract class AbstractEntity
     /**
      * @return \DateTimeImmutable
      */
-    public function getUpdatedAt(): \DateTimeImmutable
+    public function updatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -57,7 +57,7 @@ abstract class AbstractEntity
     /**
      * @return \DateTimeImmutable|null
      */
-    public function getRemovedAt(): ?\DateTimeImmutable
+    public function removedAt(): ?\DateTimeImmutable
     {
         return $this->removedAt;
     }

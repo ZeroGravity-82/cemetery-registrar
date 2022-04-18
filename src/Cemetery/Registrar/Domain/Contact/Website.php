@@ -26,13 +26,13 @@ final class Website
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -44,7 +44,7 @@ final class Website
      */
     public function isEqual(self $website): bool
     {
-        return $website->getValue() === $this->getValue();
+        return $website->value() === $this->value();
     }
 
     /**

@@ -31,7 +31,7 @@ final class NaturalPersonIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof NaturalPersonId ? $value->getValue() : $value;
+        return $value instanceof NaturalPersonId ? $value->value() : $value;
     }
 
     /**

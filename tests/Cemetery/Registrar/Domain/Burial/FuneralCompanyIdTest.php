@@ -17,12 +17,12 @@ class FuneralCompanyIdTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $funeralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
-        $this->assertInstanceOf(JuristicPersonId::class, $funeralCompanyId->getId());
-        $this->assertSame('JP001', $funeralCompanyId->getId()->getValue());
+        $this->assertInstanceOf(JuristicPersonId::class, $funeralCompanyId->id());
+        $this->assertSame('JP001', $funeralCompanyId->id()->value());
 
         $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP001'));
-        $this->assertInstanceOf(SoleProprietorId::class, $funeralCompanyId->getId());
-        $this->assertSame('SP001', $funeralCompanyId->getId()->getValue());
+        $this->assertInstanceOf(SoleProprietorId::class, $funeralCompanyId->id());
+        $this->assertSame('SP001', $funeralCompanyId->id()->value());
     }
 
     public function testItStringifyable(): void

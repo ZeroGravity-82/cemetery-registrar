@@ -19,22 +19,22 @@ class JuristicPersonCollectionTest extends AbstractEntityCollectionTest
         $this->entityB    = JuristicPersonProvider::getJuristicPersonB();
         $this->entityC    = JuristicPersonProvider::getJuristicPersonC();
         $this->entityD    = JuristicPersonProvider::getJuristicPersonD();
-        $this->idA        = $this->entityA->getId();
-        $this->idB        = $this->entityB->getId();
-        $this->idC        = $this->entityC->getId();
-        $this->idD        = $this->entityD->getId();
+        $this->idA        = $this->entityA->id();
+        $this->idB        = $this->entityB->id();
+        $this->idC        = $this->entityC->id();
+        $this->idD        = $this->entityD->id();
         $this->collection = new JuristicPersonCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClass(): void
+    public function testItReturnsEntityClassName(): void
     {
-        $this->assertSame(JuristicPerson::class, $this->collection->getSupportedEntityClass());
+        $this->assertSame(JuristicPerson::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (JuristicPerson $juristicPerson) {
-            return $juristicPerson->getInn() !== null;
+            return $juristicPerson->inn() !== null;
         };
     }
 }

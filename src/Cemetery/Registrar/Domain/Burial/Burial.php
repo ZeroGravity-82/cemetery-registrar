@@ -60,7 +60,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return BurialId
      */
-    public function getId(): BurialId
+    public function id(): BurialId
     {
         return $this->id;
     }
@@ -68,7 +68,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return BurialCode
      */
-    public function getCode(): BurialCode
+    public function code(): BurialCode
     {
         return $this->code;
     }
@@ -76,7 +76,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return DeceasedId
      */
-    public function getDeceasedId(): DeceasedId
+    public function deceasedId(): DeceasedId
     {
         return $this->deceasedId;
     }
@@ -96,7 +96,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return CustomerId|null
      */
-    public function getCustomerId(): ?CustomerId
+    public function customerId(): ?CustomerId
     {
         return $this->customerId;
     }
@@ -116,7 +116,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return BurialPlaceId|null
      */
-    public function getBurialPlaceId(): ?BurialPlaceId
+    public function burialPlaceId(): ?BurialPlaceId
     {
         return $this->burialPlaceId;
     }
@@ -136,7 +136,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return NaturalPersonId|null
      */
-    public function getBurialPlaceOwnerId(): ?NaturalPersonId
+    public function burialPlaceOwnerId(): ?NaturalPersonId
     {
         return $this->burialPlaceOwnerId;
     }
@@ -156,7 +156,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return FuneralCompanyId|null
      */
-    public function getFuneralCompanyId(): ?FuneralCompanyId
+    public function funeralCompanyId(): ?FuneralCompanyId
     {
         return $this->funeralCompanyId;
     }
@@ -196,7 +196,7 @@ final class Burial extends AbstractAggregateRoot
     /**
      * @return \DateTimeImmutable|null
      */
-    public function getBuriedAt(): ?\DateTimeImmutable
+    public function buriedAt(): ?\DateTimeImmutable
     {
         return $this->buriedAt;
     }

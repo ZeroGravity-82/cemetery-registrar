@@ -56,14 +56,14 @@ class BankDetailsTest extends TestCase
             $this->correspondentAccountA,
             $this->currentAccountA1,
         );
-        $this->assertInstanceOf(Name::class, $bankDetails->getBankName());
-        $this->assertSame($this->bankNameA, (string) $bankDetails->getBankName());
-        $this->assertInstanceOf(Bik::class, $bankDetails->getBik());
-        $this->assertSame($this->bikA, (string) $bankDetails->getBik());
-        $this->assertInstanceOf(CorrespondentAccount::class, $bankDetails->getCorrespondentAccount());
-        $this->assertSame($this->correspondentAccountA, (string) $bankDetails->getCorrespondentAccount());
-        $this->assertInstanceOf(CurrentAccount::class, $bankDetails->getCurrentAccount());
-        $this->assertSame($this->currentAccountA1, (string) $bankDetails->getCurrentAccount());
+        $this->assertInstanceOf(Name::class, $bankDetails->bankName());
+        $this->assertSame($this->bankNameA, (string) $bankDetails->bankName());
+        $this->assertInstanceOf(Bik::class, $bankDetails->bik());
+        $this->assertSame($this->bikA, (string) $bankDetails->bik());
+        $this->assertInstanceOf(CorrespondentAccount::class, $bankDetails->correspondentAccount());
+        $this->assertSame($this->correspondentAccountA, (string) $bankDetails->correspondentAccount());
+        $this->assertInstanceOf(CurrentAccount::class, $bankDetails->currentAccount());
+        $this->assertSame($this->currentAccountA1, (string) $bankDetails->currentAccount());
 
         // Current account opened in the cash settlement center (belongs to Central Bank of Russia)
         $bankDetails = new BankDetails(
@@ -72,13 +72,13 @@ class BankDetailsTest extends TestCase
             $this->correspondentAccountC,
             $this->currentAccountC,
         );
-        $this->assertInstanceOf(Name::class, $bankDetails->getBankName());
-        $this->assertSame($this->bankNameC, (string) $bankDetails->getBankName());
-        $this->assertInstanceOf(Bik::class, $bankDetails->getBik());
-        $this->assertSame($this->bikC, (string) $bankDetails->getBik());
-        $this->assertNull($bankDetails->getCorrespondentAccount());
-        $this->assertInstanceOf(CurrentAccount::class, $bankDetails->getCurrentAccount());
-        $this->assertSame($this->currentAccountC, (string) $bankDetails->getCurrentAccount());
+        $this->assertInstanceOf(Name::class, $bankDetails->bankName());
+        $this->assertSame($this->bankNameC, (string) $bankDetails->bankName());
+        $this->assertInstanceOf(Bik::class, $bankDetails->bik());
+        $this->assertSame($this->bikC, (string) $bankDetails->bik());
+        $this->assertNull($bankDetails->correspondentAccount());
+        $this->assertInstanceOf(CurrentAccount::class, $bankDetails->currentAccount());
+        $this->assertSame($this->currentAccountC, (string) $bankDetails->currentAccount());
     }
 
     public function testItFailsWithEmptyBankNameValue(): void

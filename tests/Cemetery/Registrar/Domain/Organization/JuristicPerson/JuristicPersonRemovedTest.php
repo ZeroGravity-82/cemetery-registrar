@@ -23,6 +23,6 @@ class JuristicPersonRemovedTest extends AbstractEventTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertSame($this->juristicPersonId, $this->event->getJuristicPersonId());
+        $this->assertSame($this->juristicPersonId, $this->event->juristicPersonId());
     }
 }

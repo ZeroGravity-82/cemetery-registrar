@@ -130,20 +130,20 @@ class JuristicPersonFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
-        $this->assertNull($juristicPerson->getInn());
-        $this->assertNull($juristicPerson->getKpp());
-        $this->assertNull($juristicPerson->getOgrn());
-        $this->assertNull($juristicPerson->getOkpo());
-        $this->assertNull($juristicPerson->getOkved());
-        $this->assertNull($juristicPerson->getLegalAddress());
-        $this->assertNull($juristicPerson->getPostalAddress());
-        $this->assertNull($juristicPerson->getBankDetails());
-        $this->assertNull($juristicPerson->getPhone());
-        $this->assertNull($juristicPerson->getPhoneAdditional());
-        $this->assertNull($juristicPerson->getFax());
-        $this->assertNull($juristicPerson->getGeneralDirector());
-        $this->assertNull($juristicPerson->getEmail());
-        $this->assertNull($juristicPerson->getWebsite());
+        $this->assertNull($juristicPerson->inn());
+        $this->assertNull($juristicPerson->kpp());
+        $this->assertNull($juristicPerson->ogrn());
+        $this->assertNull($juristicPerson->okpo());
+        $this->assertNull($juristicPerson->okved());
+        $this->assertNull($juristicPerson->legalAddress());
+        $this->assertNull($juristicPerson->postalAddress());
+        $this->assertNull($juristicPerson->bankDetails());
+        $this->assertNull($juristicPerson->phone());
+        $this->assertNull($juristicPerson->phoneAdditional());
+        $this->assertNull($juristicPerson->fax());
+        $this->assertNull($juristicPerson->generalDirector());
+        $this->assertNull($juristicPerson->email());
+        $this->assertNull($juristicPerson->website());
     }
 
     public function testItFailsToCreateJuristicPersonWithoutName(): void

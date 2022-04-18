@@ -28,7 +28,7 @@ final class JuristicPersonCreated extends AbstractEvent
     /**
      * @return JuristicPersonId
      */
-    public function getJuristicPersonId(): JuristicPersonId
+    public function juristicPersonId(): JuristicPersonId
     {
         return $this->juristicPersonId;
     }
@@ -36,7 +36,7 @@ final class JuristicPersonCreated extends AbstractEvent
     /**
      * @return Name
      */
-    public function getJuristicPersonName(): Name
+    public function juristicPersonName(): Name
     {
         return $this->juristicPersonName;
     }
@@ -44,7 +44,7 @@ final class JuristicPersonCreated extends AbstractEvent
     /**
      * @return Inn
      */
-    public function getJuristicPersonInn(): Inn
+    public function juristicPersonInn(): Inn
     {
         return $this->juristicPersonInn;
     }

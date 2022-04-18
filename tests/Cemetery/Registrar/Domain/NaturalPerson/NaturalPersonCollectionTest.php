@@ -19,22 +19,22 @@ class NaturalPersonCollectionTest extends AbstractEntityCollectionTest
         $this->entityB    = NaturalPersonProvider::getNaturalPersonB();
         $this->entityC    = NaturalPersonProvider::getNaturalPersonC();
         $this->entityD    = NaturalPersonProvider::getNaturalPersonD();
-        $this->idA        = $this->entityA->getId();
-        $this->idB        = $this->entityB->getId();
-        $this->idC        = $this->entityC->getId();
-        $this->idD        = $this->entityD->getId();
+        $this->idA        = $this->entityA->id();
+        $this->idB        = $this->entityB->id();
+        $this->idC        = $this->entityC->id();
+        $this->idD        = $this->entityD->id();
         $this->collection = new NaturalPersonCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClass(): void
+    public function testItReturnsEntityClassName(): void
     {
-        $this->assertSame(NaturalPerson::class, $this->collection->getSupportedEntityClass());
+        $this->assertSame(NaturalPerson::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (NaturalPerson $naturalPerson) {
-            return $naturalPerson->getBornAt() !== null;
+            return $naturalPerson->bornAt() !== null;
         };
     }
 }

@@ -15,7 +15,7 @@ class OkpoTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $okpo = new Okpo('23584736');
-        $this->assertSame('23584736', $okpo->getValue());
+        $this->assertSame('23584736', $okpo->value());
     }
 
     public function testItFailsWithEmptyValue(): void

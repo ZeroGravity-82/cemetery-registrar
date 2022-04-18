@@ -18,16 +18,16 @@ class BurialPlaceIdTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $burialPlaceId = new BurialPlaceId(new GraveSiteId('GS001'));
-        $this->assertInstanceOf(GraveSiteId::class, $burialPlaceId->getId());
-        $this->assertSame('GS001', $burialPlaceId->getId()->getValue());
+        $this->assertInstanceOf(GraveSiteId::class, $burialPlaceId->id());
+        $this->assertSame('GS001', $burialPlaceId->id()->value());
 
         $burialPlaceId = new BurialPlaceId(new ColumbariumNicheId('CN001'));
-        $this->assertInstanceOf(ColumbariumNicheId::class, $burialPlaceId->getId());
-        $this->assertSame('CN001', $burialPlaceId->getId()->getValue());
+        $this->assertInstanceOf(ColumbariumNicheId::class, $burialPlaceId->id());
+        $this->assertSame('CN001', $burialPlaceId->id()->value());
 
         $burialPlaceId = new BurialPlaceId(new MemorialTreeId('MT001'));
-        $this->assertInstanceOf(MemorialTreeId::class, $burialPlaceId->getId());
-        $this->assertSame('MT001', $burialPlaceId->getId()->getValue());
+        $this->assertInstanceOf(MemorialTreeId::class, $burialPlaceId->id());
+        $this->assertSame('MT001', $burialPlaceId->id()->value());
     }
 
     public function testItStringifyable(): void

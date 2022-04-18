@@ -22,7 +22,7 @@ abstract class AbstractEvent implements EventInterface
     /**
      * {@inheritdoc}
      */
-    public function getCreatedAt(): \DateTimeImmutable
+    public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }

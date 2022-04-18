@@ -34,7 +34,7 @@ abstract class AbstractEntityCollectionTest extends TestCase
 
     protected AbstractEntityCollection $collection;
 
-    abstract public function testItReturnsEntityClass(): void;
+    abstract public function testItReturnsEntityClassName(): void;
 
     public function testItCountable(): void
     {
@@ -70,7 +70,7 @@ abstract class AbstractEntityCollectionTest extends TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(\sprintf(
             'Entity of type "%s" with ID "%s" is not found.',
-            $this->collection->getSupportedEntityClass(),
+            $this->collection->supportedEntityClassName(),
             $this->idC
         ));
         $this->collection->get($this->idC);
@@ -129,16 +129,16 @@ abstract class AbstractEntityCollectionTest extends TestCase
     {
         $this->collection->add($this->entityB);
 
-        $this->assertContains((string) $this->idA, $this->collection->getKeys());
-        $this->assertContains((string) $this->idB, $this->collection->getKeys());
+        $this->assertContains((string) $this->idA, $this->collection->keys());
+        $this->assertContains((string) $this->idB, $this->collection->keys());
     }
 
     public function testItReturnsACollectionValues(): void
     {
         $this->collection->add($this->entityB);
 
-        $this->assertContains($this->entityA, $this->collection->getValues());
-        $this->assertContains($this->entityB, $this->collection->getValues());
+        $this->assertContains($this->entityA, $this->collection->values());
+        $this->assertContains($this->entityB, $this->collection->values());
     }
 
     public function testItReturnsFirstEntity(): void
@@ -219,7 +219,7 @@ abstract class AbstractEntityCollectionTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
             'Invalid type for an entity: expected "%s", "%s" given',
-            $this->collection->getSupportedEntityClass(),
+            $this->collection->supportedEntityClassName(),
             $entityClass
         ));
         $collectionClass = \get_class($this->collection);
@@ -234,7 +234,7 @@ abstract class AbstractEntityCollectionTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
             'Invalid type for an entity: expected "%s", "%s" given',
-            $this->collection->getSupportedEntityClass(),
+            $this->collection->supportedEntityClassName(),
             $entityClass
         ));
         $this->collection->add($entity);
@@ -244,13 +244,13 @@ abstract class AbstractEntityCollectionTest extends TestCase
 
     private function getFakeEntity(): AbstractEntity
     {
-        return new class ($this->entityA->getId()) extends AbstractEntity {
+        return new class ($this->entityA->id()) extends AbstractEntity {
             public function __construct
             (
                 private AbstractEntityId $id,
             ) {}
 
-            public function getId(): AbstractEntityId
+            public function id(): AbstractEntityId
             {
                 return $this->id;
             }

@@ -23,22 +23,22 @@ class DeceasedCollectionTest extends AbstractEntityCollectionTest
         $this->entityB    = DeceasedProvider::getDeceasedB();
         $this->entityC    = DeceasedProvider::getDeceasedC();
         $this->entityD    = DeceasedProvider::getDeceasedD();
-        $this->idA        = $this->entityA->getId();
-        $this->idB        = $this->entityB->getId();
-        $this->idC        = $this->entityC->getId();
-        $this->idD        = $this->entityD->getId();
+        $this->idA        = $this->entityA->id();
+        $this->idB        = $this->entityB->id();
+        $this->idC        = $this->entityC->id();
+        $this->idD        = $this->entityD->id();
         $this->collection = new DeceasedCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClass(): void
+    public function testItReturnsEntityClassName(): void
     {
-        $this->assertSame(Deceased::class, $this->collection->getSupportedEntityClass());
+        $this->assertSame(Deceased::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (Deceased $deceased) {
-            return $deceased->getDeathCertificateId() !== null;
+            return $deceased->deathCertificateId() !== null;
         };
     }
 }

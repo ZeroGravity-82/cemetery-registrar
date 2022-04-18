@@ -19,22 +19,22 @@ class BurialCollectionTest extends AbstractEntityCollectionTest
         $this->entityB    = BurialProvider::getBurialB();
         $this->entityC    = BurialProvider::getBurialC();
         $this->entityD    = BurialProvider::getBurialD();
-        $this->idA        = $this->entityA->getId();
-        $this->idB        = $this->entityB->getId();
-        $this->idC        = $this->entityC->getId();
-        $this->idD        = $this->entityD->getId();
+        $this->idA        = $this->entityA->id();
+        $this->idB        = $this->entityB->id();
+        $this->idC        = $this->entityC->id();
+        $this->idD        = $this->entityD->id();
         $this->collection = new BurialCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClass(): void
+    public function testItReturnsEntityClassName(): void
     {
-        $this->assertSame(Burial::class, $this->collection->getSupportedEntityClass());
+        $this->assertSame(Burial::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (Burial $burial) {
-            return $burial->getBurialPlaceOwnerId() !== null;
+            return $burial->burialPlaceOwnerId() !== null;
         };
     }
 }

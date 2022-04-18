@@ -31,7 +31,7 @@ final class EmailType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Email ? $value->getValue() : $value;
+        return $value instanceof Email ? $value->value() : $value;
     }
 
     /**

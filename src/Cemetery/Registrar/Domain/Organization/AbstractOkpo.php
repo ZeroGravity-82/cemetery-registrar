@@ -21,30 +21,30 @@ abstract class AbstractOkpo
     /**
      * @return int
      */
-    abstract protected function getOkpoLength(): int;
+    abstract protected function okpoLength(): int;
 
     /**
      * @return array
      */
-    abstract protected function getCoefficientsForTheFirstCheck(): array;
+    abstract protected function coefficientsForTheFirstCheck(): array;
 
     /**
      * @return array
      */
-    abstract protected function getCoefficientsForTheSecondCheck(): array;
+    abstract protected function coefficientsForTheSecondCheck(): array;
 
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -56,7 +56,7 @@ abstract class AbstractOkpo
      */
     public function isEqual(self $okpo): bool
     {
-        return $okpo->getValue() === $this->getValue();
+        return $okpo->value() === $this->value();
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class AbstractOkpo
      */
     private function assertValidLength(string $value): void
     {
-        $okpoLength = $this->getOkpoLength();
+        $okpoLength = $this->okpoLength();
         if (\strlen($value) !== $okpoLength) {
             throw new \InvalidArgumentException(\sprintf('ОКПО должен состоять из %d цифр.', $okpoLength));
         }
@@ -112,10 +112,10 @@ abstract class AbstractOkpo
      */
     private function assertValidCheckDigit(string $value): void
     {
-        $checkDigit = (int) $value[$this->getOkpoLength() - 1];
-        $checkValue = $this->calculateCheckSum($value, $this->getCoefficientsForTheFirstCheck()) % 11;
+        $checkDigit = (int) $value[$this->okpoLength() - 1];
+        $checkValue = $this->calculateCheckSum($value, $this->coefficientsForTheFirstCheck()) % 11;
         if ($checkValue === 10) {
-            $checkValue = $this->calculateCheckSum($value, $this->getCoefficientsForTheSecondCheck()) % 11;
+            $checkValue = $this->calculateCheckSum($value, $this->coefficientsForTheSecondCheck()) % 11;
             if ($checkValue === 10) {
                 $checkValue = 0;
             }

@@ -31,7 +31,7 @@ final class SoleProprietorIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof SoleProprietorId ? $value->getValue() : $value;
+        return $value instanceof SoleProprietorId ? $value->value() : $value;
     }
 
     /**

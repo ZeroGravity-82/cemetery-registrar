@@ -103,7 +103,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return JuristicPersonId
      */
-    public function getId(): JuristicPersonId
+    public function id(): JuristicPersonId
     {
         return $this->id;
     }
@@ -111,7 +111,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Name
      */
-    public function getName(): Name
+    public function name(): Name
     {
         return $this->name;
     }
@@ -131,7 +131,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Inn|null
      */
-    public function getInn(): ?Inn
+    public function inn(): ?Inn
     {
         return $this->inn;
     }
@@ -151,7 +151,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Kpp|null
      */
-    public function getKpp(): ?Kpp
+    public function kpp(): ?Kpp
     {
         return $this->kpp;
     }
@@ -171,7 +171,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Ogrn|null
      */
-    public function getOgrn(): ?Ogrn
+    public function ogrn(): ?Ogrn
     {
         return $this->ogrn;
     }
@@ -191,7 +191,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Okpo|null
      */
-    public function getOkpo(): ?Okpo
+    public function okpo(): ?Okpo
     {
         return $this->okpo;
     }
@@ -211,7 +211,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Okved|null
      */
-    public function getOkved(): ?Okved
+    public function okved(): ?Okved
     {
         return $this->okved;
     }
@@ -231,7 +231,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Address|null
      */
-    public function getLegalAddress(): ?Address
+    public function legalAddress(): ?Address
     {
         return $this->legalAddress;
     }
@@ -251,7 +251,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Address|null
      */
-    public function getPostalAddress(): ?Address
+    public function postalAddress(): ?Address
     {
         return $this->postalAddress;
     }
@@ -271,7 +271,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return BankDetails|null
      */
-    public function getBankDetails(): ?BankDetails
+    public function bankDetails(): ?BankDetails
     {
         return $this->bankDetails;
     }
@@ -291,7 +291,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return PhoneNumber|null
      */
-    public function getPhone(): ?PhoneNumber
+    public function phone(): ?PhoneNumber
     {
         return $this->phone;
     }
@@ -311,7 +311,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return PhoneNumber|null
      */
-    public function getPhoneAdditional(): ?PhoneNumber
+    public function phoneAdditional(): ?PhoneNumber
     {
         return $this->phoneAdditional;
     }
@@ -331,7 +331,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return PhoneNumber|null
      */
-    public function getFax(): ?PhoneNumber
+    public function fax(): ?PhoneNumber
     {
         return $this->fax;
     }
@@ -351,7 +351,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return FullName|null
      */
-    public function getGeneralDirector(): ?FullName
+    public function generalDirector(): ?FullName
     {
         return $this->generalDirector;
     }
@@ -371,7 +371,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Email|null
      */
-    public function getEmail(): ?Email
+    public function email(): ?Email
     {
         return $this->email;
     }
@@ -391,7 +391,7 @@ final class JuristicPerson extends AbstractAggregateRoot
     /**
      * @return Website|null
      */
-    public function getWebsite(): ?Website
+    public function website(): ?Website
     {
         return $this->website;
     }

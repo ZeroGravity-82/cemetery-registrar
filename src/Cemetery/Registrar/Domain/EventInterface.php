@@ -12,5 +12,5 @@ interface EventInterface
     /**
      * @return \DateTimeImmutable
      */
-    public function getCreatedAt(): \DateTimeImmutable;
+    public function createdAt(): \DateTimeImmutable;
 }

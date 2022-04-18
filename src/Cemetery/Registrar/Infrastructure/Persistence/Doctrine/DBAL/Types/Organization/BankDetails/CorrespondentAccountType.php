@@ -31,7 +31,7 @@ final class CorrespondentAccountType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof CorrespondentAccount ? $value->getValue() : $value;
+        return $value instanceof CorrespondentAccount ? $value->value() : $value;
     }
 
     /**

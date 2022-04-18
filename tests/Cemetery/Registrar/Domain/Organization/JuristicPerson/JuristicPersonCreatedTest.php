@@ -33,8 +33,8 @@ class JuristicPersonCreatedTest extends AbstractEventTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertSame($this->juristicPersonId, $this->event->getJuristicPersonId());
-        $this->assertSame($this->juristicPersonName, $this->event->getJuristicPersonName());
-        $this->assertSame($this->juristicPersonInn, $this->event->getJuristicPersonInn());
+        $this->assertSame($this->juristicPersonId, $this->event->juristicPersonId());
+        $this->assertSame($this->juristicPersonName, $this->event->juristicPersonName());
+        $this->assertSame($this->juristicPersonInn, $this->event->juristicPersonInn());
     }
 }

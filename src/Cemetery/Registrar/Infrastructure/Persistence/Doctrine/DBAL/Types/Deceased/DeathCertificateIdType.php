@@ -31,7 +31,7 @@ final class DeathCertificateIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof DeathCertificateId ? $value->getValue() : $value;
+        return $value instanceof DeathCertificateId ? $value->value() : $value;
     }
 
     /**

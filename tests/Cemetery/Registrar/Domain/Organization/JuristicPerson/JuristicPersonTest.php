@@ -37,78 +37,78 @@ class JuristicPersonTest extends AbstractAggregateRootTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertInstanceOf(JuristicPersonId::class, $this->juristicPerson->getId());
-        $this->assertSame('777', (string) $this->juristicPerson->getId());
-        $this->assertInstanceOf(Name::class, $this->juristicPerson->getName());
-        $this->assertSame('ООО "Рога и копыта"', (string) $this->juristicPerson->getName());
-        $this->assertNull($this->juristicPerson->getInn());
-        $this->assertNull($this->juristicPerson->getKpp());
-        $this->assertNull($this->juristicPerson->getOgrn());
-        $this->assertNull($this->juristicPerson->getOkpo());
-        $this->assertNull($this->juristicPerson->getOkved());
-        $this->assertNull($this->juristicPerson->getLegalAddress());
-        $this->assertNull($this->juristicPerson->getPostalAddress());
-        $this->assertNull($this->juristicPerson->getBankDetails());
-        $this->assertNull($this->juristicPerson->getPhone());
-        $this->assertNull($this->juristicPerson->getPhoneAdditional());
-        $this->assertNull($this->juristicPerson->getFax());
-        $this->assertNull($this->juristicPerson->getGeneralDirector());
-        $this->assertNull($this->juristicPerson->getEmail());
-        $this->assertNull($this->juristicPerson->getWebsite());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->juristicPerson->getCreatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->juristicPerson->getCreatedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->juristicPerson->getUpdatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->juristicPerson->getUpdatedAt());
+        $this->assertInstanceOf(JuristicPersonId::class, $this->juristicPerson->id());
+        $this->assertSame('777', (string) $this->juristicPerson->id());
+        $this->assertInstanceOf(Name::class, $this->juristicPerson->name());
+        $this->assertSame('ООО "Рога и копыта"', (string) $this->juristicPerson->name());
+        $this->assertNull($this->juristicPerson->inn());
+        $this->assertNull($this->juristicPerson->kpp());
+        $this->assertNull($this->juristicPerson->ogrn());
+        $this->assertNull($this->juristicPerson->okpo());
+        $this->assertNull($this->juristicPerson->okved());
+        $this->assertNull($this->juristicPerson->legalAddress());
+        $this->assertNull($this->juristicPerson->postalAddress());
+        $this->assertNull($this->juristicPerson->bankDetails());
+        $this->assertNull($this->juristicPerson->phone());
+        $this->assertNull($this->juristicPerson->phoneAdditional());
+        $this->assertNull($this->juristicPerson->fax());
+        $this->assertNull($this->juristicPerson->generalDirector());
+        $this->assertNull($this->juristicPerson->email());
+        $this->assertNull($this->juristicPerson->website());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->juristicPerson->createdAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->juristicPerson->createdAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->juristicPerson->updatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->juristicPerson->updatedAt());
     }
 
     public function testItSetsInn(): void
     {
         $inn = new Inn('7728168971');
         $this->juristicPerson->setInn($inn);
-        $this->assertInstanceOf(Inn::class, $this->juristicPerson->getInn());
-        $this->assertSame('7728168971', (string) $this->juristicPerson->getInn());
+        $this->assertInstanceOf(Inn::class, $this->juristicPerson->inn());
+        $this->assertSame('7728168971', (string) $this->juristicPerson->inn());
     }
 
     public function testItSetsKpp(): void
     {
         $kpp = new Kpp('1234AB789');
         $this->juristicPerson->setKpp($kpp);
-        $this->assertInstanceOf(Kpp::class, $this->juristicPerson->getKpp());
-        $this->assertSame('1234AB789', (string) $this->juristicPerson->getKpp());
+        $this->assertInstanceOf(Kpp::class, $this->juristicPerson->kpp());
+        $this->assertSame('1234AB789', (string) $this->juristicPerson->kpp());
     }
 
     public function testItSetsOgrn(): void
     {
         $ogrn = new Ogrn('1027700132195');
         $this->juristicPerson->setOgrn($ogrn);
-        $this->assertInstanceOf(Ogrn::class, $this->juristicPerson->getOgrn());
-        $this->assertSame('1027700132195', (string) $this->juristicPerson->getOgrn());
+        $this->assertInstanceOf(Ogrn::class, $this->juristicPerson->ogrn());
+        $this->assertSame('1027700132195', (string) $this->juristicPerson->ogrn());
     }
 
     public function testItSetsOkpo(): void
     {
         $okpo = new Okpo('23584736');
         $this->juristicPerson->setOkpo($okpo);
-        $this->assertInstanceOf(Okpo::class, $this->juristicPerson->getOkpo());
-        $this->assertSame('23584736', (string) $this->juristicPerson->getOkpo());
+        $this->assertInstanceOf(Okpo::class, $this->juristicPerson->okpo());
+        $this->assertSame('23584736', (string) $this->juristicPerson->okpo());
     }
 
     public function testItSetsOkved(): void
     {
         $okved = new Okved('74.82');
         $this->juristicPerson->setOkved($okved);
-        $this->assertInstanceOf(Okved::class, $this->juristicPerson->getOkved());
-        $this->assertSame('74.82', (string) $this->juristicPerson->getOkved());
+        $this->assertInstanceOf(Okved::class, $this->juristicPerson->okved());
+        $this->assertSame('74.82', (string) $this->juristicPerson->okved());
     }
 
     public function testItSetsLegalAddress(): void
     {
         $legalAddress = new Address('г. Новосибирск, ул. 3 Интернационала, д. 127');
         $this->juristicPerson->setLegalAddress($legalAddress);
-        $this->assertInstanceOf(Address::class, $this->juristicPerson->getLegalAddress());
+        $this->assertInstanceOf(Address::class, $this->juristicPerson->legalAddress());
         $this->assertSame(
             'г. Новосибирск, ул. 3 Интернационала, д. 127',
-            (string) $this->juristicPerson->getLegalAddress()
+            (string) $this->juristicPerson->legalAddress()
         );
     }
 
@@ -116,10 +116,10 @@ class JuristicPersonTest extends AbstractAggregateRootTest
     {
         $postalAddress = new Address('г. Новосибирск, ул. 3 Интернационала, д. 127');
         $this->juristicPerson->setPostalAddress($postalAddress);
-        $this->assertInstanceOf(Address::class, $this->juristicPerson->getPostalAddress());
+        $this->assertInstanceOf(Address::class, $this->juristicPerson->postalAddress());
         $this->assertSame(
             'г. Новосибирск, ул. 3 Интернационала, д. 127',
-            (string) $this->juristicPerson->getPostalAddress()
+            (string) $this->juristicPerson->postalAddress()
         );
     }
 
@@ -132,61 +132,61 @@ class JuristicPersonTest extends AbstractAggregateRootTest
             '40702810904000040651',
         );
         $this->juristicPerson->setBankDetails($bankDetails);
-        $this->assertInstanceOf(BankDetails::class, $this->juristicPerson->getBankDetails());
+        $this->assertInstanceOf(BankDetails::class, $this->juristicPerson->bankDetails());
         $this->assertSame(
             'Сибирский филиал Публичного акционерного общества "Промсвязьбанк"',
-            (string) $this->juristicPerson->getBankDetails()->getBankName()
+            (string) $this->juristicPerson->bankDetails()->bankName()
         );
-        $this->assertSame('045004816', (string) $this->juristicPerson->getBankDetails()->getBik());
-        $this->assertSame('30101810500000000816', (string) $this->juristicPerson->getBankDetails()->getCorrespondentAccount());
-        $this->assertSame('40702810904000040651', (string) $this->juristicPerson->getBankDetails()->getCurrentAccount());
+        $this->assertSame('045004816', (string) $this->juristicPerson->bankDetails()->bik());
+        $this->assertSame('30101810500000000816', (string) $this->juristicPerson->bankDetails()->correspondentAccount());
+        $this->assertSame('40702810904000040651', (string) $this->juristicPerson->bankDetails()->currentAccount());
     }
 
     public function testItSetsPhone(): void
     {
         $phone = new PhoneNumber('+7-913-777-88-99');
         $this->juristicPerson->setPhone($phone);
-        $this->assertInstanceOf(PhoneNumber::class, $this->juristicPerson->getPhone());
-        $this->assertSame('+7-913-777-88-99', (string) $this->juristicPerson->getPhone());
+        $this->assertInstanceOf(PhoneNumber::class, $this->juristicPerson->phone());
+        $this->assertSame('+7-913-777-88-99', (string) $this->juristicPerson->phone());
     }
 
     public function testItSetsPhoneAdditional(): void
     {
         $phoneAdditional = new PhoneNumber('+7-913-777-88-99');
         $this->juristicPerson->setPhoneAdditional($phoneAdditional);
-        $this->assertInstanceOf(PhoneNumber::class, $this->juristicPerson->getPhoneAdditional());
-        $this->assertSame('+7-913-777-88-99', (string) $this->juristicPerson->getPhoneAdditional());
+        $this->assertInstanceOf(PhoneNumber::class, $this->juristicPerson->phoneAdditional());
+        $this->assertSame('+7-913-777-88-99', (string) $this->juristicPerson->phoneAdditional());
     }
 
     public function testItSetsFax(): void
     {
         $fax = new PhoneNumber('+7-913-777-88-99');
         $this->juristicPerson->setFax($fax);
-        $this->assertInstanceOf(PhoneNumber::class, $this->juristicPerson->getFax());
-        $this->assertSame('+7-913-777-88-99', (string) $this->juristicPerson->getFax());
+        $this->assertInstanceOf(PhoneNumber::class, $this->juristicPerson->fax());
+        $this->assertSame('+7-913-777-88-99', (string) $this->juristicPerson->fax());
     }
 
     public function testItSetsGeneralDirector(): void
     {
         $generalDirector = new FullName('Иванов Иван Иванович');
         $this->juristicPerson->setGeneralDirector($generalDirector);
-        $this->assertInstanceOf(FullName::class, $this->juristicPerson->getGeneralDirector());
-        $this->assertSame('Иванов Иван Иванович', (string) $this->juristicPerson->getGeneralDirector());
+        $this->assertInstanceOf(FullName::class, $this->juristicPerson->generalDirector());
+        $this->assertSame('Иванов Иван Иванович', (string) $this->juristicPerson->generalDirector());
     }
 
     public function testItSetsEmail(): void
     {
         $email = new Email('info@google.com');
         $this->juristicPerson->setEmail($email);
-        $this->assertInstanceOf(Email::class, $this->juristicPerson->getEmail());
-        $this->assertSame('info@google.com', (string) $this->juristicPerson->getEmail());
+        $this->assertInstanceOf(Email::class, $this->juristicPerson->email());
+        $this->assertSame('info@google.com', (string) $this->juristicPerson->email());
     }
 
     public function testItSetsWebsite(): void
     {
         $website = new Website('https://example.com');
         $this->juristicPerson->setWebsite($website);
-        $this->assertInstanceOf(Website::class, $this->juristicPerson->getWebsite());
-        $this->assertSame('https://example.com', (string) $this->juristicPerson->getWebsite());
+        $this->assertInstanceOf(Website::class, $this->juristicPerson->website());
+        $this->assertSame('https://example.com', (string) $this->juristicPerson->website());
     }
 }

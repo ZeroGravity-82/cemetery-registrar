@@ -36,14 +36,14 @@ class PositionTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $position = new Position($this->coordinatesA, $this->accuracyA);
-        $this->assertSame('54.950357', $position->getCoordinates()->getLatitude());
-        $this->assertSame('82.7972252', $position->getCoordinates()->getLongitude());
-        $this->assertSame('1.2', $position->getAccuracy()->getValue());
+        $this->assertSame('54.950357', $position->coordinates()->latitude());
+        $this->assertSame('82.7972252', $position->coordinates()->longitude());
+        $this->assertSame('1.2', $position->accuracy()->value());
 
         $position = new Position($this->coordinatesA);
-        $this->assertSame('54.950357', $position->getCoordinates()->getLatitude());
-        $this->assertSame('82.7972252', $position->getCoordinates()->getLongitude());
-        $this->assertNull($position->getAccuracy());
+        $this->assertSame('54.950357', $position->coordinates()->latitude());
+        $this->assertSame('82.7972252', $position->coordinates()->longitude());
+        $this->assertNull($position->accuracy());
     }
 
     public function testItStringifyable(): void

@@ -47,7 +47,7 @@ class JuristicPersonRemoverTest extends TestCase
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return $arg instanceof JuristicPersonRemoved &&
-                    $arg->getJuristicPersonId()->isEqual($this->juristicPersonId);
+                    $arg->juristicPersonId()->isEqual($this->juristicPersonId);
             }),
         );
         $this->juristicPersonRemover->remove($this->mockJuristicPerson);
@@ -79,7 +79,7 @@ class JuristicPersonRemoverTest extends TestCase
     {
         $this->juristicPersonId = new JuristicPersonId('777');
         $mockJuristicPerson     = $this->createMock(JuristicPerson::class);
-        $mockJuristicPerson->method('getId')->willReturn($this->juristicPersonId);
+        $mockJuristicPerson->method('id')->willReturn($this->juristicPersonId);
 
         return $mockJuristicPerson;
     }

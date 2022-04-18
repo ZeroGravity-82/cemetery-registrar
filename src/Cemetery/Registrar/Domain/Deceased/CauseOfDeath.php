@@ -25,13 +25,13 @@ final class CauseOfDeath
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -43,7 +43,7 @@ final class CauseOfDeath
      */
     public function isEqual(self $type): bool
     {
-        return $type->getValue() === $this->getValue();
+        return $type->value() === $this->value();
     }
 
     /**

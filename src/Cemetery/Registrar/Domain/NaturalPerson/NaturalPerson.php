@@ -60,7 +60,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return NaturalPersonId
      */
-    public function getId(): NaturalPersonId
+    public function id(): NaturalPersonId
     {
         return $this->id;
     }
@@ -68,7 +68,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return FullName
      */
-    public function getFullName(): FullName
+    public function fullName(): FullName
     {
         return $this->fullName;
     }
@@ -88,7 +88,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return string|null
      */
-    public function getPhone(): ?string
+    public function phone(): ?string
     {
         return $this->phone;
     }
@@ -108,7 +108,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return string|null
      */
-    public function getPhoneAdditional(): ?string
+    public function phoneAdditional(): ?string
     {
         return $this->phoneAdditional;
     }
@@ -128,7 +128,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return string|null
      */
-    public function getEmail(): ?string
+    public function email(): ?string
     {
         return $this->email;
     }
@@ -148,7 +148,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return string|null
      */
-    public function getAddress(): ?string
+    public function address(): ?string
     {
         return $this->address;
     }
@@ -168,7 +168,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return \DateTimeImmutable|null
      */
-    public function getBornAt(): ?\DateTimeImmutable
+    public function bornAt(): ?\DateTimeImmutable
     {
         return $this->bornAt;
     }
@@ -188,7 +188,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return Passport|null
      */
-    public function getPassport(): ?Passport
+    public function passport(): ?Passport
     {
         return $this->passport;
     }
@@ -208,7 +208,7 @@ final class NaturalPerson extends AbstractAggregateRoot
     /**
      * @return string|null
      */
-    public function getPlaceOfBirth(): ?string
+    public function placeOfBirth(): ?string
     {
         return $this->placeOfBirth;
     }

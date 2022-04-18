@@ -31,7 +31,7 @@ final class OgrnType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Ogrn ? $value->getValue() : $value;
+        return $value instanceof Ogrn ? $value->value() : $value;
     }
 
     /**

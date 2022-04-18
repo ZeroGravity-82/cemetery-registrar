@@ -31,7 +31,7 @@ final class AddressType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Address ? $value->getValue() : $value;
+        return $value instanceof Address ? $value->value() : $value;
     }
 
     /**

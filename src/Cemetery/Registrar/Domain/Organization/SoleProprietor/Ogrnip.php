@@ -18,7 +18,7 @@ final class Ogrnip extends AbstractOgrn
     /**
      * {@inheritdoc}
      */
-    protected function getOgrnName(): string
+    protected function ogrnName(): string
     {
         return self::OGRN_NAME;
     }
@@ -26,7 +26,7 @@ final class Ogrnip extends AbstractOgrn
     /**
      * {@inheritdoc}
      */
-    protected function getOgrnLength(): int
+    protected function ogrnLength(): int
     {
         return self::OGRN_LENGTH;
     }

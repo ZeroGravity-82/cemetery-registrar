@@ -31,7 +31,7 @@ final class CauseOfDeathType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof CauseOfDeath ? $value->getValue() : $value;
+        return $value instanceof CauseOfDeath ? $value->value() : $value;
     }
 
     /**

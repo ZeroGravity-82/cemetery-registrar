@@ -25,13 +25,13 @@ final class Kpp
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -43,7 +43,7 @@ final class Kpp
      */
     public function isEqual(self $kpp): bool
     {
-        return $kpp->getValue() === $this->getValue();
+        return $kpp->value() === $this->value();
     }
 
     /**

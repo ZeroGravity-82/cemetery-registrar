@@ -29,29 +29,29 @@ class DeceasedTest extends AbstractAggregateRootTest
     
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertInstanceOf(DeceasedId::class, $this->deceased->getId());
-        $this->assertSame('D001', (string) $this->deceased->getId());
-        $this->assertInstanceOf(NaturalPersonId::class, $this->deceased->getNaturalPersonId());
-        $this->assertSame('NP001', (string) $this->deceased->getNaturalPersonId());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->getDiedAt());
-        $this->assertSame('2022-01-10', $this->deceased->getDiedAt()->format('Y-m-d'));
-        $this->assertNull($this->deceased->getDeathCertificateId());
-        $this->assertNull($this->deceased->getCauseOfDeath());
+        $this->assertInstanceOf(DeceasedId::class, $this->deceased->id());
+        $this->assertSame('D001', (string) $this->deceased->id());
+        $this->assertInstanceOf(NaturalPersonId::class, $this->deceased->naturalPersonId());
+        $this->assertSame('NP001', (string) $this->deceased->naturalPersonId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->diedAt());
+        $this->assertSame('2022-01-10', $this->deceased->diedAt()->format('Y-m-d'));
+        $this->assertNull($this->deceased->deathCertificateId());
+        $this->assertNull($this->deceased->causeOfDeath());
     }
     
     public function testItSetsDeathCertificateId(): void
     {
         $deathCertificateId = new DeathCertificateId('DC001');
         $this->deceased->setDeathCertificateId($deathCertificateId);
-        $this->assertInstanceOf(DeathCertificateId::class, $this->deceased->getDeathCertificateId());
-        $this->assertSame('DC001', (string) $this->deceased->getDeathCertificateId());
+        $this->assertInstanceOf(DeathCertificateId::class, $this->deceased->deathCertificateId());
+        $this->assertSame('DC001', (string) $this->deceased->deathCertificateId());
     }
 
     public function testItSetsCauseOfDeath(): void
     {
         $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
         $this->deceased->setCauseOfDeath($causeOfDeath);
-        $this->assertInstanceOf(CauseOfDeath::class, $this->deceased->getCauseOfDeath());
-        $this->assertSame('Некоторая причина смерти', (string) $this->deceased->getCauseOfDeath());
+        $this->assertInstanceOf(CauseOfDeath::class, $this->deceased->causeOfDeath());
+        $this->assertSame('Некоторая причина смерти', (string) $this->deceased->causeOfDeath());
     }
 }

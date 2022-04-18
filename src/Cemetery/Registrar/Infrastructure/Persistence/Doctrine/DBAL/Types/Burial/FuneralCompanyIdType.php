@@ -48,7 +48,7 @@ final class FuneralCompanyIdType extends JsonType
 
         try {
             return \json_encode(
-                ['type' => $value->getIdType(), 'value' => $value->getId()->getValue()],
+                ['type' => $value->idType(), 'value' => $value->id()->value()],
                 JSON_THROW_ON_ERROR
             );
         } catch (\JsonException $e) {

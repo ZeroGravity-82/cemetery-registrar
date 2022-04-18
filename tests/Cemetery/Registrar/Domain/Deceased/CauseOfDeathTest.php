@@ -15,7 +15,7 @@ class CauseOfDeathTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
-        $this->assertSame('Некоторая причина смерти', $causeOfDeath->getValue());
+        $this->assertSame('Некоторая причина смерти', $causeOfDeath->value());
     }
 
     public function testItFailsWithEmptyValue(): void

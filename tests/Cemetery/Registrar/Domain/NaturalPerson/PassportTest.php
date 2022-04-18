@@ -46,14 +46,14 @@ class PassportTest extends TestCase
             $this->passportIssuedByA,
             $this->passportDivisionCodeA,
         );
-        $this->assertSame($this->passportSeriesA, $passport->getSeries());
-        $this->assertSame($this->passportNumberA, $passport->getNumber());
-        $this->assertSame($this->passportIssuedAtA->format('Y-m-d'), $passport->getIssuedAt()->format('Y-m-d'));
+        $this->assertSame($this->passportSeriesA, $passport->series());
+        $this->assertSame($this->passportNumberA, $passport->number());
+        $this->assertSame($this->passportIssuedAtA->format('Y-m-d'), $passport->issuedAt()->format('Y-m-d'));
         $this->assertSame(
             $this->passportIssuedByA,
-            $passport->getIssuedBy()
+            $passport->issuedBy()
         );
-        $this->assertSame($this->passportDivisionCodeA, $passport->getDivisionCode());
+        $this->assertSame($this->passportDivisionCodeA, $passport->divisionCode());
     }
 
     public function testItFailsWithEmptySeriesValue(): void

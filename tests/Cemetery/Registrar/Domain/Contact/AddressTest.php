@@ -15,7 +15,7 @@ class AddressTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $address = new Address('г. Новосибирск, ул. 3 Интернационала, д. 127');
-        $this->assertSame('г. Новосибирск, ул. 3 Интернационала, д. 127', $address->getValue());
+        $this->assertSame('г. Новосибирск, ул. 3 Интернационала, д. 127', $address->value());
     }
 
     public function testItFailsWithEmptyValue(): void

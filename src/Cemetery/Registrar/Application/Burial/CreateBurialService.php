@@ -77,10 +77,10 @@ final class CreateBurialService extends BurialService
         $isNaturalPersonCreationRequired = !$naturalPersonId;
         if ($isNaturalPersonCreationRequired) {
             $naturalPerson   = $this->createNaturalPersonForDeceased($request);
-            $naturalPersonId = (string) $naturalPerson->getId();
+            $naturalPersonId = (string) $naturalPerson->id();
         }
         $deceased = $this->createDeceased($naturalPersonId, $request);
-        $burialBuilder->initialize($deceased->getId());
+        $burialBuilder->initialize($deceased->id());
     }
 
     /**
@@ -94,7 +94,7 @@ final class CreateBurialService extends BurialService
         $isCustomerCreationRequired = !$customerId && $request->customerType;
         if ($isCustomerCreationRequired) {
             $customer   = $this->createCustomer($request);
-            $customerId = (string) $customer->getId();
+            $customerId = (string) $customer->id();
         }
         if ($customerId) {
             $customerType = new CustomerType($request->customerType);

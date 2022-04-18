@@ -31,7 +31,7 @@ final class DeceasedIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof DeceasedId ? $value->getValue() : $value;
+        return $value instanceof DeceasedId ? $value->value() : $value;
     }
 
     /**

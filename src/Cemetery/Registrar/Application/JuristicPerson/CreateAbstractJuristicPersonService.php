@@ -57,11 +57,11 @@ final class CreateAbstractJuristicPersonService extends AbstractJuristicPersonSe
         );
         $this->juristicPersonRepo->save($juristicPerson);
         $this->eventDispatcher->dispatch(new JuristicPersonCreated(
-            $juristicPerson->getId(),
-            $juristicPerson->getName(),
-            $juristicPerson->getInn(),
+            $juristicPerson->id(),
+            $juristicPerson->name(),
+            $juristicPerson->inn(),
         ));
 
-        return new CreateJuristicPersonResponse((string) $juristicPerson->getId());
+        return new CreateJuristicPersonResponse((string) $juristicPerson->id());
     }
 }

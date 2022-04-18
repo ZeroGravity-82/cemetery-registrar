@@ -31,7 +31,7 @@ final class InnType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Inn ? $value->getValue() : $value;
+        return $value instanceof Inn ? $value->value() : $value;
     }
 
     /**

@@ -15,7 +15,7 @@ class CurrentAccountTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $currentAccount = new CurrentAccount('40602810700000000025');
-        $this->assertSame('40602810700000000025', $currentAccount->getValue());
+        $this->assertSame('40602810700000000025', $currentAccount->value());
     }
 
     public function testItFailsWithEmptyValue(): void

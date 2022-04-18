@@ -15,7 +15,7 @@ class CorrespondentAccountTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $correspondentAccount = new CorrespondentAccount('30101810600000000774');
-        $this->assertSame('30101810600000000774', $correspondentAccount->getValue());
+        $this->assertSame('30101810600000000774', $correspondentAccount->value());
     }
 
     public function testItFailsWithEmptyValue(): void

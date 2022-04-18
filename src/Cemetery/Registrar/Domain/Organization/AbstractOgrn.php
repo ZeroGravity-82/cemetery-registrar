@@ -21,25 +21,25 @@ abstract class AbstractOgrn
     /**
      * @return string
      */
-    abstract protected function getOgrnName(): string;
+    abstract protected function ogrnName(): string;
 
     /**
      * @return int
      */
-    abstract protected function getOgrnLength(): int;
+    abstract protected function ogrnLength(): int;
 
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -51,7 +51,7 @@ abstract class AbstractOgrn
      */
     public function isEqual(self $ogrn): bool
     {
-        return $ogrn->getValue() === $this->getValue();
+        return $ogrn->value() === $this->value();
     }
 
     /**
@@ -73,7 +73,7 @@ abstract class AbstractOgrn
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->getOgrnName()));
+            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $this->ogrnName()));
         }
     }
 
@@ -85,7 +85,7 @@ abstract class AbstractOgrn
     private function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->getOgrnName()));
+            throw new \InvalidArgumentException(\sprintf('%s должен состоять только из цифр.', $this->ogrnName()));
         }
     }
 
@@ -96,8 +96,8 @@ abstract class AbstractOgrn
      */
     private function assertValidLength(string $value): void
     {
-        $ogrnName   = $this->getOgrnName();
-        $ogrnLength = $this->getOgrnLength();
+        $ogrnName   = $this->ogrnName();
+        $ogrnLength = $this->ogrnLength();
         if (\strlen($value) !== $ogrnLength) {
             throw new \InvalidArgumentException(\sprintf('%s должен состоять из %d цифр.', $ogrnName, $ogrnLength));
         }
@@ -110,10 +110,10 @@ abstract class AbstractOgrn
      */
     private function assertValidCheckDigit(string $value): void
     {
-        $checkDigit = (int) $value[$this->getOgrnLength() - 1];
+        $checkDigit = (int) $value[$this->ogrnLength() - 1];
         $checkValue = $this->calculateCheckDigit($value);
         if ($checkDigit !== $checkValue) {
-            throw new \InvalidArgumentException(\sprintf('%s недействителен.', $this->getOgrnName()));
+            throw new \InvalidArgumentException(\sprintf('%s недействителен.', $this->ogrnName()));
         }
     }
 
@@ -124,7 +124,7 @@ abstract class AbstractOgrn
      */
     private function calculateCheckDigit(string $value): int
     {
-        $divisorString = (string) ($this->getOgrnLength() - 2);
+        $divisorString = (string) ($this->ogrnLength() - 2);
 
         return (int) \substr(\bcsub(
             \substr($value, 0, -1),

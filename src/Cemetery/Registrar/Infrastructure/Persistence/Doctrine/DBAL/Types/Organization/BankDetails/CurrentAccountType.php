@@ -31,7 +31,7 @@ final class CurrentAccountType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof CurrentAccount ? $value->getValue() : $value;
+        return $value instanceof CurrentAccount ? $value->value() : $value;
     }
 
     /**

@@ -23,13 +23,13 @@ final class BurialCode
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -41,7 +41,7 @@ final class BurialCode
      */
     public function isEqual(self $code): bool
     {
-        return $code->getValue() === $this->getValue();
+        return $code->value() === $this->value();
     }
 
     /**

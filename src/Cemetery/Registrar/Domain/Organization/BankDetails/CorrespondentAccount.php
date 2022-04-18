@@ -14,7 +14,7 @@ final class CorrespondentAccount extends AbstractAccount
     /**
      * {@inheritdoc}
      */
-    protected function getAccountType(): string
+    protected function accountType(): string
     {
         return self::ACCOUNT_TYPE;
     }

@@ -16,7 +16,7 @@ class BurialCodeTest extends TestCase
     {
         $burialCode = new BurialCode('AAA');
 
-        $this->assertSame('AAA', $burialCode->getValue());
+        $this->assertSame('AAA', $burialCode->value());
     }
 
     public function testItFailsWithEmptyValue(): void

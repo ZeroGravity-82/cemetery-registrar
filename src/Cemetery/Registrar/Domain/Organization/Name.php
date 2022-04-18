@@ -23,13 +23,13 @@ final class Name
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -41,7 +41,7 @@ final class Name
      */
     public function isEqual(self $name): bool
     {
-        return $name->getValue() === $this->getValue();
+        return $name->value() === $this->value();
     }
 
     /**

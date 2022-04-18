@@ -15,13 +15,13 @@ class WebsiteTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $website = new Website('https://example.com');
-        $this->assertSame('https://example.com', $website->getValue());
+        $this->assertSame('https://example.com', $website->value());
 
         $website = new Website('www.youtube.com/');
-        $this->assertSame('www.youtube.com/', $website->getValue());
+        $this->assertSame('www.youtube.com/', $website->value());
 
         $website = new Website('http://новый.пример.рф');
-        $this->assertSame('http://новый.пример.рф', $website->getValue());
+        $this->assertSame('http://новый.пример.рф', $website->value());
     }
 
     public function testItFailsWithEmptyValue(): void

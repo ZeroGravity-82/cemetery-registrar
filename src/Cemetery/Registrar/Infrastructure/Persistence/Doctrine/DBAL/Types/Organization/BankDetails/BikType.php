@@ -31,7 +31,7 @@ final class BikType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Bik ? $value->getValue() : $value;
+        return $value instanceof Bik ? $value->value() : $value;
     }
 
     /**

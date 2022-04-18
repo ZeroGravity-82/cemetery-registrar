@@ -16,6 +16,6 @@ abstract class AbstractEventTest extends TestCase
 
     public function testItReturnsDateTimeOfOccurrence(): void
     {
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->event->getCreatedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->event->createdAt());
     }
 }

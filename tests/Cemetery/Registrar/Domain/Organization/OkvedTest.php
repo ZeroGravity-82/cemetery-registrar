@@ -15,7 +15,7 @@ class OkvedTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $okved = new Okved('74.82');
-        $this->assertSame('74.82', $okved->getValue());
+        $this->assertSame('74.82', $okved->value());
     }
 
     public function testItFailsWithEmptyValue(): void

@@ -31,7 +31,7 @@ final class JuristicPersonIdType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof JuristicPersonId ? $value->getValue() : $value;
+        return $value instanceof JuristicPersonId ? $value->value() : $value;
     }
 
     /**

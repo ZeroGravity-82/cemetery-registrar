@@ -30,14 +30,14 @@ final class JuristicPersonRemover
      */
     public function remove(JuristicPerson $juristicPerson): void
     {
-        $burialCount = $this->burialRepo->countByFuneralCompanyId(new FuneralCompanyId($juristicPerson->getId()));
+        $burialCount = $this->burialRepo->countByFuneralCompanyId(new FuneralCompanyId($juristicPerson->id()));
         if ($burialCount > 0) {
             throw new \RuntimeException(\sprintf(
                 'Юридическое лицо не может быть удалено, т.к. оно указано как похоронная фирма для %d захоронений.',
                 $burialCount,
             ));
         }
-        $burialCount = $this->burialRepo->countByCustomerId(new CustomerId($juristicPerson->getId()));
+        $burialCount = $this->burialRepo->countByCustomerId(new CustomerId($juristicPerson->id()));
         if ($burialCount > 0) {
             throw new \RuntimeException(\sprintf(
                 'Юридическое лицо не может быть удалено, т.к. оно указано как заказчик для %d захоронений.',
@@ -45,6 +45,6 @@ final class JuristicPersonRemover
             ));
         }
         $this->juristicPersonRepo->remove($juristicPerson);
-        $this->eventDispatcher->dispatch(new JuristicPersonRemoved($juristicPerson->getId()));
+        $this->eventDispatcher->dispatch(new JuristicPersonRemoved($juristicPerson->id()));
     }
 }

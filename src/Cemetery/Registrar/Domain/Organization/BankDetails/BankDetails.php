@@ -62,17 +62,17 @@ final class BankDetails
     {
         return \sprintf(
             '%s, р/счёт %s, к/счёт %s, БИК %s',
-            $this->getBankName(),
-            $this->getCurrentAccount(),
-            $this->getCorrespondentAccount(),
-            $this->getBik(),
+            $this->bankName(),
+            $this->currentAccount(),
+            $this->correspondentAccount(),
+            $this->bik(),
         );
     }
 
     /**
      * @return Name
      */
-    public function getBankName(): Name
+    public function bankName(): Name
     {
         return $this->bankName;
     }
@@ -80,7 +80,7 @@ final class BankDetails
     /**
      * @return Bik
      */
-    public function getBik(): Bik
+    public function bik(): Bik
     {
         return $this->bik;
     }
@@ -88,7 +88,7 @@ final class BankDetails
     /**
      * @return CorrespondentAccount|null
      */
-    public function getCorrespondentAccount(): ?CorrespondentAccount
+    public function correspondentAccount(): ?CorrespondentAccount
     {
         return $this->correspondentAccount;
     }
@@ -96,7 +96,7 @@ final class BankDetails
     /**
      * @return CurrentAccount
      */
-    public function getCurrentAccount(): CurrentAccount
+    public function currentAccount(): CurrentAccount
     {
         return $this->currentAccount;
     }
@@ -108,10 +108,10 @@ final class BankDetails
      */
     public function isEqual(self $bankDetails): bool
     {
-        $isSameBankName             = $bankDetails->getBankName()->isEqual($this->getBankName());
-        $isSameBik                  = $bankDetails->getBik()->isEqual($this->getBik());
-        $isSameCorrespondentAccount = $bankDetails->getCorrespondentAccount()->isEqual($this->getCorrespondentAccount());
-        $isSameCurrentAccount       = $bankDetails->getCurrentAccount()->isEqual($this->getCurrentAccount());
+        $isSameBankName             = $bankDetails->bankName()->isEqual($this->bankName());
+        $isSameBik                  = $bankDetails->bik()->isEqual($this->bik());
+        $isSameCorrespondentAccount = $bankDetails->correspondentAccount()->isEqual($this->correspondentAccount());
+        $isSameCurrentAccount       = $bankDetails->currentAccount()->isEqual($this->currentAccount());
 
         return $isSameBankName && $isSameBik && $isSameCorrespondentAccount && $isSameCurrentAccount;
     }
@@ -121,9 +121,9 @@ final class BankDetails
      */
     private function assertValidCorrespondentAccount(string $correspondentAccount): void
     {
-        $this->assertBikNotBelongsToCentralBankOfRussia($this->getBik());
+        $this->assertBikNotBelongsToCentralBankOfRussia($this->bik());
         $this->assertNotEmpty($correspondentAccount, CorrespondentAccount::ACCOUNT_TYPE);
-        $this->assertMatchesTheBik($correspondentAccount, CorrespondentAccount::ACCOUNT_TYPE, $this->getBik());
+        $this->assertMatchesTheBik($correspondentAccount, CorrespondentAccount::ACCOUNT_TYPE, $this->bik());
     }
 
     /**
@@ -132,7 +132,7 @@ final class BankDetails
     private function assertValidCurrentAccount(string $currentAccount): void
     {
         $this->assertNotEmpty($currentAccount, CurrentAccount::ACCOUNT_TYPE);
-        $this->assertMatchesTheBik($currentAccount, CurrentAccount::ACCOUNT_TYPE, $this->getBik());
+        $this->assertMatchesTheBik($currentAccount, CurrentAccount::ACCOUNT_TYPE, $this->bik());
     }
 
     /**
@@ -222,7 +222,7 @@ final class BankDetails
      */
     private function getStringForCurrentAccountCheckSum(string $value, Bik $bik): string
     {
-        return \substr($bik->getValue(), -3) . $value;
+        return \substr($bik->value(), -3) . $value;
     }
 
     /**
@@ -233,6 +233,6 @@ final class BankDetails
      */
     private function getStringForCorrespondentAccountCheckSum(string $value, Bik $bik): string
     {
-        return '0' . \substr($bik->getValue(), -5, 2) . $value;
+        return '0' . \substr($bik->value(), -5, 2) . $value;
     }
 }

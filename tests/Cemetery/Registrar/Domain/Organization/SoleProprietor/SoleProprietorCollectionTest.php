@@ -19,22 +19,22 @@ class SoleProprietorCollectionTest extends AbstractEntityCollectionTest
         $this->entityB    = SoleProprietorProvider::getSoleProprietorB();
         $this->entityC    = SoleProprietorProvider::getSoleProprietorC();
         $this->entityD    = SoleProprietorProvider::getSoleProprietorD();
-        $this->idA        = $this->entityA->getId();
-        $this->idB        = $this->entityB->getId();
-        $this->idC        = $this->entityC->getId();
-        $this->idD        = $this->entityD->getId();
+        $this->idA        = $this->entityA->id();
+        $this->idB        = $this->entityB->id();
+        $this->idC        = $this->entityC->id();
+        $this->idD        = $this->entityD->id();
         $this->collection = new SoleProprietorCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClass(): void
+    public function testItReturnsEntityClassName(): void
     {
-        $this->assertSame(SoleProprietor::class, $this->collection->getSupportedEntityClass());
+        $this->assertSame(SoleProprietor::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (SoleProprietor $soleProprietor) {
-            return $soleProprietor->getInn() !== null;
+            return $soleProprietor->inn() !== null;
         };
     }
 }

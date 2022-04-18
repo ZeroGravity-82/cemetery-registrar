@@ -31,7 +31,7 @@ final class BurialCodeType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof BurialCode ? $value->getValue() : $value;
+        return $value instanceof BurialCode ? $value->value() : $value;
     }
 
     /**

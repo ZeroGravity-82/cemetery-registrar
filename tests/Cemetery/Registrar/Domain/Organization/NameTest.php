@@ -15,7 +15,7 @@ class NameTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $name = new Name('ИП Иванов Иван Иванович');
-        $this->assertSame('ИП Иванов Иван Иванович', $name->getValue());
+        $this->assertSame('ИП Иванов Иван Иванович', $name->value());
     }
 
     public function testItFailsWithEmptyValue(): void

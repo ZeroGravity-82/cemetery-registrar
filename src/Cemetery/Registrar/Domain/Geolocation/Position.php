@@ -23,13 +23,13 @@ final class Position
      */
     public function __toString(): string
     {
-        return \sprintf('%s [&plusmn; %sm]', $this->getCoordinates(), $this->getAccuracy());
+        return \sprintf('%s [&plusmn; %sm]', $this->coordinates(), $this->accuracy());
     }
 
     /**
      * @return Coordinates
      */
-    public function getCoordinates(): Coordinates
+    public function coordinates(): Coordinates
     {
         return $this->coordinates;
     }
@@ -37,7 +37,7 @@ final class Position
     /**
      * @return Accuracy|null
      */
-    public function getAccuracy(): ?Accuracy
+    public function accuracy(): ?Accuracy
     {
         return $this->accuracy;
     }
@@ -49,8 +49,8 @@ final class Position
      */
     public function isEqual(self $position): bool
     {
-        $isSameCoordinates = $position->getCoordinates() === $this->getCoordinates();
-        $isSameAccuracy    = $position->getAccuracy()    === $this->getAccuracy();
+        $isSameCoordinates = $position->coordinates() === $this->coordinates();
+        $isSameAccuracy    = $position->accuracy()    === $this->accuracy();
 
         return $isSameCoordinates && $isSameAccuracy;
     }

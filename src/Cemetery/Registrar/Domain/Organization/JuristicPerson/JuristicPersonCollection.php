@@ -14,7 +14,7 @@ final class JuristicPersonCollection extends AbstractEntityCollection
     /**
      * {@inheritdoc}
      */
-    public function getSupportedEntityClass(): string
+    public function supportedEntityClassName(): string
     {
         return JuristicPerson::class;
     }

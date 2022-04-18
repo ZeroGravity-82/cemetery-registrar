@@ -21,7 +21,7 @@ abstract class AbstractInn
     /**
      * @return int
      */
-    abstract protected function getInnLength(): int;
+    abstract protected function innLength(): int;
 
     /**
      * @param string $value
@@ -33,13 +33,13 @@ abstract class AbstractInn
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -51,7 +51,7 @@ abstract class AbstractInn
      */
     public function isEqual(self $inn): bool
     {
-        return $inn->getValue() === $this->getValue();
+        return $inn->value() === $this->value();
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class AbstractInn
      */
     private function assertValidLength(string $value): void
     {
-        $innLength = $this->getInnLength();
+        $innLength = $this->innLength();
         if (\strlen($value) !== $innLength) {
             throw new \InvalidArgumentException(\sprintf('ИНН должен состоять из %d цифр.', $innLength));
         }

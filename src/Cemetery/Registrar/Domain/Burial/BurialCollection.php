@@ -14,7 +14,7 @@ final class BurialCollection extends AbstractEntityCollection
     /**
      * {@inheritdoc}
      */
-    public function getSupportedEntityClass(): string
+    public function supportedEntityClassName(): string
     {
         return Burial::class;
     }

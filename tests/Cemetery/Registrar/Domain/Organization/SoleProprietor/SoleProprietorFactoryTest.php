@@ -120,18 +120,18 @@ class SoleProprietorFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
-        $this->assertNull($soleProprietor->getInn());
-        $this->assertNull($soleProprietor->getOgrnip());
-        $this->assertNull($soleProprietor->getOkpo());
-        $this->assertNull($soleProprietor->getOkved());
-        $this->assertNull($soleProprietor->getRegistrationAddress());
-        $this->assertNull($soleProprietor->getActualLocationAddress());
-        $this->assertNull($soleProprietor->getBankDetails());
-        $this->assertNull($soleProprietor->getPhone());
-        $this->assertNull($soleProprietor->getPhoneAdditional());
-        $this->assertNull($soleProprietor->getFax());
-        $this->assertNull($soleProprietor->getEmail());
-        $this->assertNull($soleProprietor->getWebsite());
+        $this->assertNull($soleProprietor->inn());
+        $this->assertNull($soleProprietor->ogrnip());
+        $this->assertNull($soleProprietor->okpo());
+        $this->assertNull($soleProprietor->okved());
+        $this->assertNull($soleProprietor->registrationAddress());
+        $this->assertNull($soleProprietor->actualLocationAddress());
+        $this->assertNull($soleProprietor->bankDetails());
+        $this->assertNull($soleProprietor->phone());
+        $this->assertNull($soleProprietor->phoneAdditional());
+        $this->assertNull($soleProprietor->fax());
+        $this->assertNull($soleProprietor->email());
+        $this->assertNull($soleProprietor->website());
     }
 
     public function testItFailsToCreateSoleProprietorWithoutName(): void

@@ -15,7 +15,7 @@ class EmailTest extends TestCase
         public function testItSuccessfullyCreated(): void
     {
         $email = new Email('info@google.com');
-        $this->assertSame('info@google.com', $email->getValue());
+        $this->assertSame('info@google.com', $email->value());
     }
 
     public function testItFailsWithEmptyValue(): void

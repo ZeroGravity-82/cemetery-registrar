@@ -22,15 +22,15 @@ abstract class AbstractEntityTest extends TestCase
 
     public function testItReturnsAnId(): void
     {
-        $this->assertInstanceOf(AbstractEntityId::class, $this->entity->getId());
+        $this->assertInstanceOf(AbstractEntityId::class, $this->entity->id());
     }
 
     public function testItInitializesTimestamps(): void
     {
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->entity->getCreatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->entity->getCreatedAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->entity->getUpdatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->entity->getUpdatedAt());
-        $this->assertNull($this->entity->getRemovedAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->entity->createdAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->entity->createdAt());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->entity->updatedAt());
+        $this->assertLessThan(new \DateTimeImmutable(), $this->entity->updatedAt());
+        $this->assertNull($this->entity->removedAt());
     }
 }

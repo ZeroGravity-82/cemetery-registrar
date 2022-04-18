@@ -31,7 +31,7 @@ final class NameType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Name ? $value->getValue() : $value;
+        return $value instanceof Name ? $value->value() : $value;
     }
 
     /**

@@ -31,7 +31,7 @@ final class OkpoType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Okpo ? $value->getValue() : $value;
+        return $value instanceof Okpo ? $value->value() : $value;
     }
 
     /**

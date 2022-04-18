@@ -25,13 +25,13 @@ abstract class AbstractEntityPolymorphicId
      */
     public function __toString(): string
     {
-        return \json_encode(['type' => $this->getIdType(), 'value' => $this->getId()->getValue()]);
+        return \json_encode(['type' => $this->idType(), 'value' => $this->id()->value()]);
     }
 
     /**
      * @return AbstractEntityId
      */
-    public function getId(): AbstractEntityId
+    public function id(): AbstractEntityId
     {
         return $this->id;
     }
@@ -39,9 +39,9 @@ abstract class AbstractEntityPolymorphicId
     /**
      * @return string
      */
-    public function getIdType(): string
+    public function idType(): string
     {
-        $parts = \explode('\\', \get_class($this->getId()));
+        $parts = \explode('\\', \get_class($this->id()));
 
         return \end($parts);
     }
@@ -53,8 +53,8 @@ abstract class AbstractEntityPolymorphicId
      */
     public function isEqual(self $id): bool
     {
-        $isSameIdValue = $id->getId()->getValue() === $this->getId()->getValue();
-        $isSameIdType  = \get_class($id->getId()) === \get_class($this->getId());
+        $isSameIdValue = $id->id()->value() === $this->id()->value();
+        $isSameIdType  = \get_class($id->id()) === \get_class($this->id());
 
         return $isSameIdValue && $isSameIdType;
     }

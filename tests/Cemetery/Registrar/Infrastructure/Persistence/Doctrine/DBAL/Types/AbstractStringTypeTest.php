@@ -22,6 +22,6 @@ abstract class AbstractStringTypeTest extends AbstractTypeTest
         $phpValue = $this->type->convertToPHPValue($this->dbValue, $this->mockPlatform);
 
         $this->assertInstanceOf(\get_class($this->phpValue), $phpValue);
-        $this->assertSame($this->dbValue, $phpValue->getValue());
+        $this->assertSame($this->dbValue, $phpValue->value());
     }
 }

@@ -14,7 +14,7 @@ final class DeceasedCollection extends AbstractEntityCollection
     /**
      * {@inheritdoc}
      */
-    public function getSupportedEntityClass(): string
+    public function supportedEntityClassName(): string
     {
         return Deceased::class;
     }

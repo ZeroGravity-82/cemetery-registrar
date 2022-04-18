@@ -15,16 +15,16 @@ class CoordinatesTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $coordinates = new Coordinates('54.950357', '82.7972252');
-        $this->assertSame('54.950357', $coordinates->getLatitude());
-        $this->assertSame('82.7972252', $coordinates->getLongitude());
+        $this->assertSame('54.950357', $coordinates->latitude());
+        $this->assertSame('82.7972252', $coordinates->longitude());
 
         $coordinates = new Coordinates('+54.950357', '+82.7972252');
-        $this->assertSame('54.950357', $coordinates->getLatitude());
-        $this->assertSame('82.7972252', $coordinates->getLongitude());
+        $this->assertSame('54.950357', $coordinates->latitude());
+        $this->assertSame('82.7972252', $coordinates->longitude());
 
         $coordinates = new Coordinates('-54.950357', '-82.7972252');
-        $this->assertSame('-54.950357', $coordinates->getLatitude());
-        $this->assertSame('-82.7972252', $coordinates->getLongitude());
+        $this->assertSame('-54.950357', $coordinates->latitude());
+        $this->assertSame('-82.7972252', $coordinates->longitude());
     }
 
     public function testItFailsWithLatitudeValueOutOfRange(): void

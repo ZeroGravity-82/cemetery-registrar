@@ -25,13 +25,13 @@ final class Bik
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -43,7 +43,7 @@ final class Bik
      */
     public function isEqual(self $bik): bool
     {
-        return $bik->getValue() === $this->getValue();
+        return $bik->value() === $this->value();
     }
 
     /**
@@ -51,7 +51,7 @@ final class Bik
      */
     public function isBelongToCentralBankOfRussia(): bool
     {
-        return \substr($this->getValue(), -3, 2) === '00';
+        return \substr($this->value(), -3, 2) === '00';
     }
 
     /**

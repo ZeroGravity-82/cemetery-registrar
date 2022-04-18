@@ -39,7 +39,7 @@ final class Deceased extends AbstractAggregateRoot
     /**
      * @return DeceasedId
      */
-    public function getId(): DeceasedId
+    public function id(): DeceasedId
     {
         return $this->id;
     }
@@ -47,7 +47,7 @@ final class Deceased extends AbstractAggregateRoot
     /**
      * @return NaturalPersonId
      */
-    public function getNaturalPersonId(): NaturalPersonId
+    public function naturalPersonId(): NaturalPersonId
     {
         return $this->naturalPersonId;
     }
@@ -67,7 +67,7 @@ final class Deceased extends AbstractAggregateRoot
     /**
      * @return \DateTimeImmutable
      */
-    public function getDiedAt(): \DateTimeImmutable
+    public function diedAt(): \DateTimeImmutable
     {
         return $this->diedAt;
     }
@@ -87,7 +87,7 @@ final class Deceased extends AbstractAggregateRoot
     /**
      * @return DeathCertificateId|null
      */
-    public function getDeathCertificateId(): ?DeathCertificateId
+    public function deathCertificateId(): ?DeathCertificateId
     {
         return $this->deathCertificateId;
     }
@@ -107,7 +107,7 @@ final class Deceased extends AbstractAggregateRoot
     /**
      * @return CauseOfDeath|null
      */
-    public function getCauseOfDeath(): ?CauseOfDeath
+    public function causeOfDeath(): ?CauseOfDeath
     {
         return $this->causeOfDeath;
     }

@@ -40,90 +40,90 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertInstanceOf(BurialId::class, $this->burial->getId());
-        $this->assertSame('B001', (string) $this->burial->getId());
-        $this->assertInstanceOf(BurialCode::class, $this->burial->getCode());
-        $this->assertSame('BC001', (string) $this->burial->getCode());
-        $this->assertInstanceOf(DeceasedId::class, $this->burial->getDeceasedId());
-        $this->assertSame('D001', (string) $this->burial->getDeceasedId());
-        $this->assertNull($this->burial->getCustomerId());
-        $this->assertNull($this->burial->getBurialPlaceId());
-        $this->assertNull($this->burial->getBurialPlaceOwnerId());
-        $this->assertNull($this->burial->getFuneralCompanyId());
+        $this->assertInstanceOf(BurialId::class, $this->burial->id());
+        $this->assertSame('B001', (string) $this->burial->id());
+        $this->assertInstanceOf(BurialCode::class, $this->burial->code());
+        $this->assertSame('BC001', (string) $this->burial->code());
+        $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
+        $this->assertSame('D001', (string) $this->burial->deceasedId());
+        $this->assertNull($this->burial->customerId());
+        $this->assertNull($this->burial->burialPlaceId());
+        $this->assertNull($this->burial->burialPlaceOwnerId());
+        $this->assertNull($this->burial->funeralCompanyId());
         $this->assertNull($this->burial->burialContainer());
-        $this->assertNull($this->burial->getBuriedAt());
+        $this->assertNull($this->burial->buriedAt());
     }
 
     public function testItSetsDeceasedId(): void
     {
         $deceasedId = new DeceasedId('D001');
         $this->burial->setDeceasedId($deceasedId);
-        $this->assertTrue($this->burial->getDeceasedId()->isEqual($deceasedId));
+        $this->assertTrue($this->burial->deceasedId()->isEqual($deceasedId));
     }
 
     public function testItSetsCustomerId(): void
     {
         $customerId = new CustomerId(new NaturalPersonId('NP001'));
         $this->burial->setCustomerId($customerId);
-        $this->assertInstanceOf(CustomerId::class, $this->burial->getCustomerId());
-        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->getCustomerId()->getId());
-        $this->assertSame('NP001', $this->burial->getCustomerId()->getId()->getValue());
+        $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->customerId()->id());
+        $this->assertSame('NP001', $this->burial->customerId()->id()->value());
 
         $customerId = new CustomerId(new JuristicPersonId('JP001'));
         $this->burial->setCustomerId($customerId);
-        $this->assertInstanceOf(CustomerId::class, $this->burial->getCustomerId());
-        $this->assertInstanceOf(JuristicPersonId::class, $this->burial->getCustomerId()->getId());
-        $this->assertSame('JP001', $this->burial->getCustomerId()->getId()->getValue());
+        $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
+        $this->assertInstanceOf(JuristicPersonId::class, $this->burial->customerId()->id());
+        $this->assertSame('JP001', $this->burial->customerId()->id()->value());
 
         $customerId = new CustomerId(new SoleProprietorId('SP001'));
         $this->burial->setCustomerId($customerId);
-        $this->assertInstanceOf(CustomerId::class, $this->burial->getCustomerId());
-        $this->assertInstanceOf(SoleProprietorId::class, $this->burial->getCustomerId()->getId());
-        $this->assertSame('SP001', $this->burial->getCustomerId()->getId()->getValue());
+        $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
+        $this->assertInstanceOf(SoleProprietorId::class, $this->burial->customerId()->id());
+        $this->assertSame('SP001', $this->burial->customerId()->id()->value());
     }
 
     public function testItSetsBurialPlaceId(): void
     {
         $burialPlaceId = new BurialPlaceId(new GraveSiteId('GS001'));
         $this->burial->setBurialPlaceId($burialPlaceId);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
-        $this->assertInstanceOf(GraveSiteId::class, $this->burial->getBurialPlaceId()->getId());
-        $this->assertSame('GS001', $this->burial->getBurialPlaceId()->getId()->getValue());
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(GraveSiteId::class, $this->burial->burialPlaceId()->id());
+        $this->assertSame('GS001', $this->burial->burialPlaceId()->id()->value());
 
         $burialPlaceId = new BurialPlaceId(new ColumbariumNicheId('CN001'));
         $this->burial->setBurialPlaceId($burialPlaceId);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
-        $this->assertInstanceOf(ColumbariumNicheId::class, $this->burial->getBurialPlaceId()->getId());
-        $this->assertSame('CN001', $this->burial->getBurialPlaceId()->getId()->getValue());
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(ColumbariumNicheId::class, $this->burial->burialPlaceId()->id());
+        $this->assertSame('CN001', $this->burial->burialPlaceId()->id()->value());
 
         $burialPlaceId = new BurialPlaceId(new MemorialTreeId('MT001'));
         $this->burial->setBurialPlaceId($burialPlaceId);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->getBurialPlaceId());
-        $this->assertInstanceOf(MemorialTreeId::class, $this->burial->getBurialPlaceId()->getId());
-        $this->assertSame('MT001', $this->burial->getBurialPlaceId()->getId()->getValue());
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(MemorialTreeId::class, $this->burial->burialPlaceId()->id());
+        $this->assertSame('MT001', $this->burial->burialPlaceId()->id()->value());
     }
 
     public function testItSetsBurialPlaceOwnerId(): void
     {
         $burialPlaceOwnerId = new NaturalPersonId('NP002');
         $this->burial->setBurialPlaceOwnerId($burialPlaceOwnerId);
-        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->getBurialPlaceOwnerId());
-        $this->assertSame('NP002', (string) $this->burial->getBurialPlaceOwnerId());
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->burialPlaceOwnerId());
+        $this->assertSame('NP002', (string) $this->burial->burialPlaceOwnerId());
     }
     
     public function testItSetsFuneralCompanyId(): void
     {
         $funeralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
         $this->burial->setFuneralCompanyId($funeralCompanyId);
-        $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->getFuneralCompanyId());
-        $this->assertInstanceOf(JuristicPersonId::class, $this->burial->getFuneralCompanyId()->getId());
-        $this->assertSame('JP001', $this->burial->getFuneralCompanyId()->getId()->getValue());
+        $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->funeralCompanyId());
+        $this->assertInstanceOf(JuristicPersonId::class, $this->burial->funeralCompanyId()->id());
+        $this->assertSame('JP001', $this->burial->funeralCompanyId()->id()->value());
 
         $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP001'));
         $this->burial->setFuneralCompanyId($funeralCompanyId);
-        $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->getFuneralCompanyId());
-        $this->assertInstanceOf(SoleProprietorId::class, $this->burial->getFuneralCompanyId()->getId());
-        $this->assertSame('SP001', $this->burial->getFuneralCompanyId()->getId()->getValue());
+        $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->funeralCompanyId());
+        $this->assertInstanceOf(SoleProprietorId::class, $this->burial->funeralCompanyId()->id());
+        $this->assertSame('SP001', $this->burial->funeralCompanyId()->id()->value());
     }
 
     public function testItSetsBurialContainer(): void
@@ -138,6 +138,6 @@ class BurialTest extends AbstractAggregateRootTest
     {
         $buriedAt = new \DateTimeImmutable('2022-01-01 01:01:01');
         $this->burial->setBuriedAt($buriedAt);
-        $this->assertSame('2022-01-01 01:01:01', $this->burial->getBuriedAt()->format('Y-m-d H:i:s'));
+        $this->assertSame('2022-01-01 01:01:01', $this->burial->buriedAt()->format('Y-m-d H:i:s'));
     }
 }

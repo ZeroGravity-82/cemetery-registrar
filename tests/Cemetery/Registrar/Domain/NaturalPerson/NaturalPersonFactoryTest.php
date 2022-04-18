@@ -45,7 +45,7 @@ class NaturalPersonFactoryTest extends TestCase
         $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
         $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, null);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertNull($naturalPerson->getBornAt());
+        $this->assertNull($naturalPerson->bornAt());
     }
 
     public function testItFailsToCreateNaturalPersonForDeceasedWithoutFullName(): void
@@ -127,13 +127,13 @@ class NaturalPersonFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertNull($naturalPerson->getPhone());
-        $this->assertNull($naturalPerson->getPhoneAdditional());
-        $this->assertNull($naturalPerson->getEmail());
-        $this->assertNull($naturalPerson->getAddress());
-        $this->assertNull($naturalPerson->getBornAt());
-        $this->assertNull($naturalPerson->getPlaceOfBirth());
-        $this->assertNull($naturalPerson->getPassport());
+        $this->assertNull($naturalPerson->phone());
+        $this->assertNull($naturalPerson->phoneAdditional());
+        $this->assertNull($naturalPerson->email());
+        $this->assertNull($naturalPerson->address());
+        $this->assertNull($naturalPerson->bornAt());
+        $this->assertNull($naturalPerson->placeOfBirth());
+        $this->assertNull($naturalPerson->passport());
     }
 
     public function testItFailsToCreateNaturalPersonForCustomerWithoutFullName(): void

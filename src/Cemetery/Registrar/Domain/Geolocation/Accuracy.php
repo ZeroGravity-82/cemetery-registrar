@@ -25,13 +25,13 @@ final class Accuracy
      */
     public function __toString(): string
     {
-        return $this->getValue();
+        return $this->value();
     }
 
     /**
      * @return string
      */
-    public function getValue(): string
+    public function value(): string
     {
         return $this->value;
     }
@@ -43,7 +43,7 @@ final class Accuracy
      */
     public function isEqual(self $accuracy): bool
     {
-        return $accuracy->getValue() === $this->getValue();
+        return $accuracy->value() === $this->value();
     }
 
     /**

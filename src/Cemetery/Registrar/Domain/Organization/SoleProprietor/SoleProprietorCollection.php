@@ -14,7 +14,7 @@ final class SoleProprietorCollection extends AbstractEntityCollection
     /**
      * {@inheritdoc}
      */
-    public function getSupportedEntityClass(): string
+    public function supportedEntityClassName(): string
     {
         return SoleProprietor::class;
     }

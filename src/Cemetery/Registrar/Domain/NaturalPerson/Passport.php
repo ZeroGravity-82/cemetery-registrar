@@ -37,13 +37,13 @@ final class Passport
     {
         $string = \sprintf(
             'Паспорт серия %s номер %s, выдан %s %s',
-            $this->getSeries(),
-            $this->getNumber(),
-            $this->getIssuedBy(),
-            $this->getIssuedAt()->format('d.m.Y'),
+            $this->series(),
+            $this->number(),
+            $this->issuedBy(),
+            $this->issuedAt()->format('d.m.Y'),
         );
         if ($this->divisionCode) {
-            $string = \sprintf('%s (код подразделения %s)', $string, $this->getDivisionCode());
+            $string = \sprintf('%s (код подразделения %s)', $string, $this->divisionCode());
         }
 
         return $string;
@@ -52,7 +52,7 @@ final class Passport
     /**
      * @return string
      */
-    public function getSeries(): string
+    public function series(): string
     {
         return $this->series;
     }
@@ -60,7 +60,7 @@ final class Passport
     /**
      * @return string
      */
-    public function getNumber(): string
+    public function number(): string
     {
         return $this->number;
     }
@@ -68,7 +68,7 @@ final class Passport
     /**
      * @return \DateTimeImmutable
      */
-    public function getIssuedAt(): \DateTimeImmutable
+    public function issuedAt(): \DateTimeImmutable
     {
         return $this->issuedAt;
     }
@@ -76,7 +76,7 @@ final class Passport
     /**
      * @return string
      */
-    public function getIssuedBy(): string
+    public function issuedBy(): string
     {
         return $this->issuedBy;
     }
@@ -84,7 +84,7 @@ final class Passport
     /**
      * @return string|null
      */
-    public function getDivisionCode(): ?string
+    public function divisionCode(): ?string
     {
         return $this->divisionCode;
     }
@@ -96,11 +96,11 @@ final class Passport
      */
     public function isEqual(self $passport): bool
     {
-        $isSameSeries       = $passport->getSeries() === $this->getSeries();
-        $isSameNumber       = $passport->getNumber() === $this->getNumber();
-        $isSameIssuedAt     = $passport->getIssuedAt()->format('Y-m-d') === $this->getIssuedAt()->format('Y-m-d');
-        $isSameIssuedBy     = $passport->getIssuedBy() === $this->getIssuedBy();
-        $isSameDivisionCode = $passport->getDivisionCode() === $this->getDivisionCode();
+        $isSameSeries       = $passport->series() === $this->series();
+        $isSameNumber       = $passport->number() === $this->number();
+        $isSameIssuedAt     = $passport->issuedAt()->format('Y-m-d') === $this->issuedAt()->format('Y-m-d');
+        $isSameIssuedBy     = $passport->issuedBy() === $this->issuedBy();
+        $isSameDivisionCode = $passport->divisionCode() === $this->divisionCode();
 
         return $isSameSeries && $isSameNumber && $isSameIssuedAt && $isSameIssuedBy && $isSameDivisionCode;
     }

@@ -48,7 +48,7 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     public function add(AbstractEntity $entity): void
     {
         $this->assertValidType($entity);
-        $entityId                  = (string) $entity->getId();
+        $entityId                  = (string) $entity->id();
         $this->entities[$entityId] = $entity;
     }
 
@@ -67,7 +67,7 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
         if (!isset($this->entities[$entityId])) {
             throw new \LogicException(\sprintf(
                 'Entity of type "%s" with ID "%s" is not found.',
-                $this->getSupportedEntityClass(),
+                $this->supportedEntityClassName(),
                 $entityId
             ));
         }
@@ -94,7 +94,7 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
      */
     public function remove(AbstractEntity $entity): void
     {
-        $entityId = (string) $entity->getId();
+        $entityId = (string) $entity->id();
         unset($this->entities[$entityId]);
     }
 
@@ -133,7 +133,7 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
      *
      * @return array
      */
-    public function getKeys(): array
+    public function keys(): array
     {
         return \array_map(
             function ($entityId) { return (string) $entityId; },
@@ -146,7 +146,7 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
      *
      * @return array
      */
-    public function getValues(): array
+    public function values(): array
     {
         return \array_values($this->entities);
     }
@@ -204,7 +204,7 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
      *
      * @return string
      */
-    abstract public function getSupportedEntityClass(): string;
+    abstract public function supportedEntityClassName(): string;
 
     /**
      * Checks whether the entity is of a type supported by the collection.
@@ -215,11 +215,11 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
      */
     private function assertValidType(AbstractEntity $entity): void
     {
-        $supportedEntityClass = $this->getSupportedEntityClass();
+        $supportedEntityClass = $this->supportedEntityClassName();
         if (!$entity instanceof $supportedEntityClass) {
             throw new \InvalidArgumentException(\sprintf(
                 'Invalid type for an entity: expected "%s", "%s" given.',
-                $this->getSupportedEntityClass(),
+                $this->supportedEntityClassName(),
                 \get_class($entity)
             ));
         }

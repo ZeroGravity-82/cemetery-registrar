@@ -31,7 +31,7 @@ final class OkvedType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Okved ? $value->getValue() : $value;
+        return $value instanceof Okved ? $value->value() : $value;
     }
 
     /**

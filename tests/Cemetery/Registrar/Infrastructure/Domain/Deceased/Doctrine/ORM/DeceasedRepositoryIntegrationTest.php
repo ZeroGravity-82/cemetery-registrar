@@ -47,26 +47,26 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->repo->save($this->deceasedA);
         $this->entityManager->clear();
 
-        $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedA->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
-        $this->assertSame('D001', (string) $persistedDeceased->getId());
-        $this->assertSame('NP001', (string) $persistedDeceased->getNaturalPersonId());
+        $this->assertSame('D001', (string) $persistedDeceased->id());
+        $this->assertSame('NP001', (string) $persistedDeceased->naturalPersonId());
         $this->assertSame(
-            $this->deceasedA->getDiedAt()->format('Y-m-d'),
-            $persistedDeceased->getDiedAt()->format('Y-m-d')
+            $this->deceasedA->diedAt()->format('Y-m-d'),
+            $persistedDeceased->diedAt()->format('Y-m-d')
         );
-        $this->assertNull($persistedDeceased->getDeathCertificateId());
-        $this->assertNull($persistedDeceased->getCauseOfDeath());
+        $this->assertNull($persistedDeceased->deathCertificateId());
+        $this->assertNull($persistedDeceased->causeOfDeath());
         $this->assertSame(1, $this->getRowCount(Deceased::class));
         $this->assertSame(
-            $this->deceasedA->getCreatedAt()->format(\DateTimeInterface::ATOM),
-            $persistedDeceased->getCreatedAt()->format(\DateTimeInterface::ATOM)
+            $this->deceasedA->createdAt()->format(\DateTimeInterface::ATOM),
+            $persistedDeceased->createdAt()->format(\DateTimeInterface::ATOM)
         );
         $this->assertSame(
-            $this->deceasedA->getUpdatedAt()->format(\DateTimeInterface::ATOM),
-            $persistedDeceased->getUpdatedAt()->format(\DateTimeInterface::ATOM)
+            $this->deceasedA->updatedAt()->format(\DateTimeInterface::ATOM),
+            $persistedDeceased->updatedAt()->format(\DateTimeInterface::ATOM)
         );
-        $this->assertNull($persistedDeceased->getRemovedAt());
+        $this->assertNull($persistedDeceased->removedAt());
     }
 
     public function testItUpdatesAnExistingDeceased(): void
@@ -77,7 +77,7 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertSame(1, $this->getRowCount(Deceased::class));
 
         // Testing itself
-        $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedA->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
         $deathCertificateId = new DeathCertificateId('DC001');
         $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
@@ -87,19 +87,19 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->repo->save($persistedDeceased);
         $this->entityManager->clear();
 
-        $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedA->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
-        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
-        $this->assertSame('DC001', (string) $persistedDeceased->getDeathCertificateId());
-        $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->getCauseOfDeath());
-        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->getCauseOfDeath());
+        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->deathCertificateId());
+        $this->assertSame('DC001', (string) $persistedDeceased->deathCertificateId());
+        $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->causeOfDeath());
+        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->causeOfDeath());
         $this->assertSame(1, $this->getRowCount(Deceased::class));
         $this->assertSame(
-            $this->deceasedA->getCreatedAt()->format(\DateTimeInterface::ATOM),
-            $persistedDeceased->getCreatedAt()->format(\DateTimeInterface::ATOM)
+            $this->deceasedA->createdAt()->format(\DateTimeInterface::ATOM),
+            $persistedDeceased->createdAt()->format(\DateTimeInterface::ATOM)
         );
-        $this->assertTrue($this->deceasedA->getUpdatedAt() < $persistedDeceased->getUpdatedAt());
-        $this->assertNull($persistedDeceased->getRemovedAt());
+        $this->assertTrue($this->deceasedA->updatedAt() < $persistedDeceased->updatedAt());
+        $this->assertNull($persistedDeceased->removedAt());
     }
 
     public function testItSavesACollectionOfNewDeceaseds(): void
@@ -107,9 +107,9 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->repo->saveAll(new DeceasedCollection([$this->deceasedA, $this->deceasedB, $this->deceasedC]));
         $this->entityManager->clear();
 
-        $this->assertNotNull($this->repo->findById($this->deceasedA->getId()));
-        $this->assertNotNull($this->repo->findById($this->deceasedB->getId()));
-        $this->assertNotNull($this->repo->findById($this->deceasedC->getId()));
+        $this->assertNotNull($this->repo->findById($this->deceasedA->id()));
+        $this->assertNotNull($this->repo->findById($this->deceasedB->id()));
+        $this->assertNotNull($this->repo->findById($this->deceasedC->id()));
         $this->assertSame(3, $this->getRowCount(Deceased::class));
     }
 
@@ -121,7 +121,7 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertSame(2, $this->getRowCount(Deceased::class));
 
         // Testing itself
-        $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedA->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
         $deathCertificateId = new DeathCertificateId('DC001');
         $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
@@ -131,38 +131,38 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->repo->saveAll(new DeceasedCollection([$persistedDeceased, $this->deceasedC]));
         $this->entityManager->clear();
 
-        $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedA->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
-        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
-        $this->assertSame('DC001', (string) $persistedDeceased->getDeathCertificateId());
-        $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->getCauseOfDeath());
-        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->getCauseOfDeath());
-        $this->assertTrue($this->deceasedA->getUpdatedAt() < $persistedDeceased->getUpdatedAt());
+        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->deathCertificateId());
+        $this->assertSame('DC001', (string) $persistedDeceased->deathCertificateId());
+        $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->causeOfDeath());
+        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->causeOfDeath());
+        $this->assertTrue($this->deceasedA->updatedAt() < $persistedDeceased->updatedAt());
 
-        $persistedDeceased = $this->repo->findById($this->deceasedB->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedB->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
-        $this->assertInstanceOf(DeceasedId::class, $persistedDeceased->getId());
-        $this->assertSame('D002', (string) $persistedDeceased->getId());
-        $this->assertInstanceOf(NaturalPersonId::class, $persistedDeceased->getNaturalPersonId());
-        $this->assertSame('NP002', (string) $persistedDeceased->getNaturalPersonId());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $persistedDeceased->getDiedAt());
-        $this->assertSame('2001-02-11', $persistedDeceased->getDiedAt()->format('Y-m-d'));
-        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
-        $this->assertSame('DC001', (string) $persistedDeceased->getDeathCertificateId());
-        $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->getCauseOfDeath());
-        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->getCauseOfDeath());
+        $this->assertInstanceOf(DeceasedId::class, $persistedDeceased->id());
+        $this->assertSame('D002', (string) $persistedDeceased->id());
+        $this->assertInstanceOf(NaturalPersonId::class, $persistedDeceased->naturalPersonId());
+        $this->assertSame('NP002', (string) $persistedDeceased->naturalPersonId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $persistedDeceased->diedAt());
+        $this->assertSame('2001-02-11', $persistedDeceased->diedAt()->format('Y-m-d'));
+        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->deathCertificateId());
+        $this->assertSame('DC001', (string) $persistedDeceased->deathCertificateId());
+        $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->causeOfDeath());
+        $this->assertSame('Некоторая причина смерти 1', (string) $persistedDeceased->causeOfDeath());
 
-        $persistedDeceased = $this->repo->findById($this->deceasedC->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedC->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
-        $this->assertInstanceOf(DeceasedId::class, $persistedDeceased->getId());
-        $this->assertSame('D003', (string) $persistedDeceased->getId());
-        $this->assertInstanceOf(NaturalPersonId::class, $persistedDeceased->getNaturalPersonId());
-        $this->assertSame('NP003', (string) $persistedDeceased->getNaturalPersonId());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $persistedDeceased->getDiedAt());
-        $this->assertSame('2011-05-13', $persistedDeceased->getDiedAt()->format('Y-m-d'));
-        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->getDeathCertificateId());
-        $this->assertSame('DC002', (string) $persistedDeceased->getDeathCertificateId());
-        $this->assertNull($persistedDeceased->getCauseOfDeath());
+        $this->assertInstanceOf(DeceasedId::class, $persistedDeceased->id());
+        $this->assertSame('D003', (string) $persistedDeceased->id());
+        $this->assertInstanceOf(NaturalPersonId::class, $persistedDeceased->naturalPersonId());
+        $this->assertSame('NP003', (string) $persistedDeceased->naturalPersonId());
+        $this->assertInstanceOf(\DateTimeImmutable::class, $persistedDeceased->diedAt());
+        $this->assertSame('2011-05-13', $persistedDeceased->diedAt()->format('Y-m-d'));
+        $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->deathCertificateId());
+        $this->assertSame('DC002', (string) $persistedDeceased->deathCertificateId());
+        $this->assertNull($persistedDeceased->causeOfDeath());
 
         $this->assertSame(3, $this->getRowCount(Deceased::class));
     }
@@ -175,14 +175,14 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertSame(1, $this->getRowCount(Deceased::class));
 
         // Testing itself
-        $persistedDeceased = $this->repo->findById($this->deceasedA->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedA->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
         $this->repo->remove($persistedDeceased);
         $this->entityManager->clear();
 
-        $this->assertNull($this->repo->findById($this->deceasedA->getId()));
+        $this->assertNull($this->repo->findById($this->deceasedA->id()));
         $this->assertSame(1, $this->getRowCount(Deceased::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedA->getId()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedA->id()));
     }
 
     public function testItRemovesACollectionOfDeceaseds(): void
@@ -193,20 +193,20 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertSame(3, $this->getRowCount(Deceased::class));
 
         // Testing itself
-        $persistedDeceasedB = $this->repo->findById($this->deceasedB->getId());
-        $persistedDeceasedC = $this->repo->findById($this->deceasedC->getId());
+        $persistedDeceasedB = $this->repo->findById($this->deceasedB->id());
+        $persistedDeceasedC = $this->repo->findById($this->deceasedC->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceasedB);
         $this->assertInstanceOf(Deceased::class, $persistedDeceasedC);
         $this->repo->removeAll(new DeceasedCollection([$persistedDeceasedB, $persistedDeceasedC]));
         $this->entityManager->clear();
 
-        $this->assertNull($this->repo->findById($this->deceasedB->getId()));
-        $this->assertNull($this->repo->findById($this->deceasedC->getId()));
-        $this->assertNotNull($this->repo->findById($this->deceasedA->getId()));
+        $this->assertNull($this->repo->findById($this->deceasedB->id()));
+        $this->assertNull($this->repo->findById($this->deceasedC->id()));
+        $this->assertNotNull($this->repo->findById($this->deceasedA->id()));
         $this->assertSame(3, $this->getRowCount(Deceased::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedB->getId()));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedC->getId()));
-        $this->assertNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedA->getId()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedB->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedC->id()));
+        $this->assertNull($this->getRemovedAtTimestampById(Deceased::class, (string) $this->deceasedA->id()));
     }
 
     public function testItFindsADeceasedById(): void
@@ -216,9 +216,9 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->entityManager->clear();
 
         // Testing itself
-        $persistedDeceased = $this->repo->findById($this->deceasedB->getId());
+        $persistedDeceased = $this->repo->findById($this->deceasedB->id());
         $this->assertInstanceOf(Deceased::class, $persistedDeceased);
-        $this->assertSame('D002', (string) $persistedDeceased->getId());
+        $this->assertSame('D002', (string) $persistedDeceased->id());
     }
 
     public function testItReturnsNullIfADeceasedIsNotFoundById(): void

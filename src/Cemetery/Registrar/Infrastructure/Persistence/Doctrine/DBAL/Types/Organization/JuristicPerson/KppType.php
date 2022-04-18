@@ -31,7 +31,7 @@ final class KppType extends StringType
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
-        return $value instanceof Kpp ? $value->getValue() : $value;
+        return $value instanceof Kpp ? $value->value() : $value;
     }
 
     /**
