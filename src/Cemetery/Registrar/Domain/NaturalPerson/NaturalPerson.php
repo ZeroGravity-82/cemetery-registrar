@@ -51,8 +51,8 @@ final class NaturalPerson extends AbstractAggregateRoot
      * @param FullName        $fullName
      */
     public function __construct(
-        private NaturalPersonId $id,
-        private FullName        $fullName,
+        private readonly NaturalPersonId $id,
+        private FullName                 $fullName,
     ) {
         parent::__construct();
     }

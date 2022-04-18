@@ -28,9 +28,9 @@ final class Deceased extends AbstractAggregateRoot
      * @param \DateTimeImmutable $diedAt
      */
     public function __construct(
-        private DeceasedId         $id,
-        private NaturalPersonId    $naturalPersonId,
-        private \DateTimeImmutable $diedAt,
+        private readonly DeceasedId $id,
+        private NaturalPersonId     $naturalPersonId,
+        private \DateTimeImmutable  $diedAt,
 
     ) {
         parent::__construct();

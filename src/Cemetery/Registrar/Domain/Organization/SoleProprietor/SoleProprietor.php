@@ -83,8 +83,8 @@ final class SoleProprietor extends AbstractAggregateRoot
      * @param Name             $name
      */
     public function __construct(
-        private SoleProprietorId $id,
-        private Name             $name,
+        private readonly SoleProprietorId $id,
+        private Name                      $name,
     ) {
         parent::__construct();
     }

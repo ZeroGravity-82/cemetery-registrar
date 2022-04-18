@@ -50,9 +50,9 @@ final class Burial extends AbstractAggregateRoot
      * @param DeceasedId $deceasedId
      */
     public function __construct(
-        private BurialId   $id,
-        private BurialCode $code,
-        private DeceasedId $deceasedId,
+        private readonly BurialId   $id,
+        private readonly BurialCode $code,
+        private DeceasedId          $deceasedId,
     ) {
         parent::__construct();
     }

@@ -94,8 +94,8 @@ final class JuristicPerson extends AbstractAggregateRoot
      * @param Name             $name
      */
     public function __construct(
-        private JuristicPersonId $id,
-        private Name             $name,
+        private readonly JuristicPersonId $id,
+        private Name                      $name,
     ) {
         parent::__construct();
     }
