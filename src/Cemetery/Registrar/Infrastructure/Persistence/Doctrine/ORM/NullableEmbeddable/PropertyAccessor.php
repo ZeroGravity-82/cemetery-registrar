@@ -17,7 +17,7 @@ final class PropertyAccessor implements EvaluatorInterface, NullatorInterface
      * @param PropertyAccessorInterface $propertyAccessor
      */
     public function __construct(
-        private PropertyAccessorInterface $propertyAccessor,
+        private readonly PropertyAccessorInterface $propertyAccessor,
     ) {}
 
     /**

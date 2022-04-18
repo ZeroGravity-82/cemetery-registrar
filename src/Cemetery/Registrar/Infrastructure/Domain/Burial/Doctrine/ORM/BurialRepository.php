@@ -21,7 +21,7 @@ final class BurialRepository implements BurialRepositoryInterface
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     /**

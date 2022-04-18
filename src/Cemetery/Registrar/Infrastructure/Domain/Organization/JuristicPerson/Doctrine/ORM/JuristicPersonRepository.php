@@ -19,7 +19,7 @@ final class JuristicPersonRepository implements JuristicPersonRepositoryInterfac
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     /**

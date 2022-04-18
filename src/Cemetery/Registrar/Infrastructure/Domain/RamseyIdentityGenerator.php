@@ -16,7 +16,7 @@ final class RamseyIdentityGenerator implements IdentityGeneratorInterface
      * @param UuidFactory $uuidFactory
      */
     public function __construct(
-        private UuidFactory $uuidFactory,
+        private readonly UuidFactory $uuidFactory,
     ) {}
 
     /**

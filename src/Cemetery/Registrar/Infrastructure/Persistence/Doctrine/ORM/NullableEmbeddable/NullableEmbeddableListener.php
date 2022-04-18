@@ -20,8 +20,8 @@ final class NullableEmbeddableListener
      * @param NullatorInterface  $nullator
      */
     public function __construct(
-        private EvaluatorInterface $evaluator,
-        private NullatorInterface  $nullator,
+        private readonly EvaluatorInterface $evaluator,
+        private readonly NullatorInterface  $nullator,
     ) {}
 
     public function addMapping(string $entity, string $propertyPath)

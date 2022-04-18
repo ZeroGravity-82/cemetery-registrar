@@ -19,7 +19,7 @@ final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
      * @param EntityManagerInterface $entityManager
      */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     /**
