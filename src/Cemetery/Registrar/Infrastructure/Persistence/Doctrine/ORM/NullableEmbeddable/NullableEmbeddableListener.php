@@ -24,7 +24,7 @@ final class NullableEmbeddableListener
         private readonly NullatorInterface  $nullator,
     ) {}
 
-    public function addMapping(string $entity, string $propertyPath)
+    public function addMapping(string $entity, string $propertyPath): void
     {
         if (empty($this->propertyMap[$entity])) {
             $this->propertyMap[$entity] = [];
@@ -33,7 +33,7 @@ final class NullableEmbeddableListener
         $this->propertyMap[$entity][] = $propertyPath;
     }
 
-    public function postLoad($object)
+    public function postLoad($object): void
     {
         $entity = \get_class($object);
         if (empty($this->propertyMap[$entity])) {
