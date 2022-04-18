@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
-use Cemetery\Registrar\Domain\EventDispatcherInterface;
+use Cemetery\Registrar\Domain\EventDispatcher;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRemoved;
@@ -21,7 +21,7 @@ class JuristicPersonRemoverTest extends TestCase
 {
     private MockObject|BurialRepositoryInterface         $mockBurialRepo;
     private MockObject|JuristicPersonRepositoryInterface $mockJuristicPersonRepo;
-    private MockObject|EventDispatcherInterface          $mockEventDispatcher;
+    private MockObject|EventDispatcher                   $mockEventDispatcher;
     private JuristicPersonRemover                        $juristicPersonRemover;
     private MockObject|JuristicPerson                    $mockJuristicPerson;
     private JuristicPersonId                             $juristicPersonId;
@@ -30,7 +30,7 @@ class JuristicPersonRemoverTest extends TestCase
     {
         $this->mockBurialRepo         = $this->createMock(BurialRepositoryInterface::class);
         $this->mockJuristicPersonRepo = $this->createMock(JuristicPersonRepositoryInterface::class);
-        $this->mockEventDispatcher    = $this->createMock(EventDispatcherInterface::class);
+        $this->mockEventDispatcher    = $this->createMock(EventDispatcher::class);
         $this->juristicPersonRemover  = new JuristicPersonRemover(
             $this->mockBurialRepo,
             $this->mockJuristicPersonRepo,

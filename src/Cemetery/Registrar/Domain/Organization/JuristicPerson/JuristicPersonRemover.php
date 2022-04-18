@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
-use Cemetery\Registrar\Domain\EventDispatcherInterface;
+use Cemetery\Registrar\Domain\EventDispatcher;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -17,12 +17,12 @@ final class JuristicPersonRemover
     /**
      * @param BurialRepositoryInterface         $burialRepo
      * @param JuristicPersonRepositoryInterface $juristicPersonRepo
-     * @param EventDispatcherInterface          $eventDispatcher
+     * @param EventDispatcher                   $eventDispatcher
      */
     public function __construct(
         private readonly BurialRepositoryInterface         $burialRepo,
         private readonly JuristicPersonRepositoryInterface $juristicPersonRepo,
-        private readonly EventDispatcherInterface          $eventDispatcher,
+        private readonly EventDispatcher                   $eventDispatcher,
     ) {}
 
     /**

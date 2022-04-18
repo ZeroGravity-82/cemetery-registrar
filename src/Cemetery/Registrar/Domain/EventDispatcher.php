@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class EventDispatcher implements EventDispatcherInterface
+final class EventDispatcher
 {
     /**
      * @var callable[][]|array
@@ -15,7 +15,13 @@ final class EventDispatcher implements EventDispatcherInterface
     private array $listeners = [];
 
     /**
-     * {@inheritdoc}
+     * Adds the listener to the array of callables that listen for the event. The listener callable must be
+     * type-compatible with the event.
+     *
+     * @param string   $eventClass
+     * @param callable $listener
+     *
+     * @throws \LogicException when the event listener of the same type has already been added
      */
     public function addListener(string $eventClass, callable $listener): void
     {
@@ -35,7 +41,10 @@ final class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Removes the listener from the array of callables that listen for the event.
+     *
+     * @param string   $eventClass
+     * @param callable $listener
      */
     public function removeListener(string $eventClass, callable $listener): void
     {
@@ -50,7 +59,11 @@ final class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns listeners relevant to the event.
+     *
+     * @param object $event    An event for which to return the relevant listeners.
+     *
+     * @return array[callable]
      */
     public function getListenersForEvent(object $event): array
     {
@@ -68,7 +81,9 @@ final class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Provides all relevant listeners with the events to process.
+     *
+     * @param object ...$events The events to process.
      */
     public function dispatch(object ...$events): void
     {
