@@ -28,23 +28,23 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 final class CreateBurialService extends BurialService
 {
     public function __construct(
-        private BurialBuilder                     $burialBuilder,
-        private DeceasedBuilder                   $deceasedBuilder,
-        private NaturalPersonFactory              $naturalPersonFactory,
-        private SoleProprietorFactory             $soleProprietorFactory,
-        private JuristicPersonFactory             $juristicPersonFactory,
-        private GraveSiteFactory                  $graveSiteFactory,
-        private ColumbariumNicheFactory           $columbariumNicheFactory,
-        private MemorialTreeFactory               $memorialTreeFactory,
+        private readonly BurialBuilder                     $burialBuilder,
+        private readonly DeceasedBuilder                   $deceasedBuilder,
+        private readonly NaturalPersonFactory              $naturalPersonFactory,
+        private readonly SoleProprietorFactory             $soleProprietorFactory,
+        private readonly JuristicPersonFactory             $juristicPersonFactory,
+        private readonly GraveSiteFactory                  $graveSiteFactory,
+        private readonly ColumbariumNicheFactory           $columbariumNicheFactory,
+        private readonly MemorialTreeFactory               $memorialTreeFactory,
 
 
-        private DeceasedRepositoryInterface       $deceasedRepo,
-        private NaturalPersonRepositoryInterface  $naturalPersonRepo,
-        private SoleProprietorRepositoryInterface $soleProprietorRepo,
-        private JuristicPersonRepositoryInterface     $juristicPersonRepo,
-        private GraveSiteRepositoryInterface          $graveSiteRepo,
-        private ColumbariumNicheRepositoryInterface   $columbariumNicheRepo,
-        private MemorialTreeRepositoryInterface       $memorialTreeRepo,
+        private readonly DeceasedRepositoryInterface       $deceasedRepo,
+        private readonly NaturalPersonRepositoryInterface  $naturalPersonRepo,
+        private readonly SoleProprietorRepositoryInterface $soleProprietorRepo,
+        private readonly JuristicPersonRepositoryInterface     $juristicPersonRepo,
+        private readonly GraveSiteRepositoryInterface          $graveSiteRepo,
+        private readonly ColumbariumNicheRepositoryInterface   $columbariumNicheRepo,
+        private readonly MemorialTreeRepositoryInterface       $memorialTreeRepo,
 
 
     ) {}

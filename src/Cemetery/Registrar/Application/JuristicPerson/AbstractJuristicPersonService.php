@@ -17,7 +17,7 @@ abstract class AbstractJuristicPersonService
      * @param JuristicPersonRepositoryInterface $juristicPersonRepo
      */
     public function __construct(
-        protected JuristicPersonRepositoryInterface $juristicPersonRepo,
+        protected readonly JuristicPersonRepositoryInterface $juristicPersonRepo,
     ) {}
 
     /**

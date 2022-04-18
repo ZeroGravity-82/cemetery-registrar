@@ -17,8 +17,8 @@ final class RemoveJuristicPersonService extends AbstractJuristicPersonService
      * @param JuristicPersonRepositoryInterface $juristicPersonRepo
      */
     public function __construct(
-        private JuristicPersonRemover     $juristicPersonRemover,
-        JuristicPersonRepositoryInterface $juristicPersonRepo,
+        private readonly JuristicPersonRemover $juristicPersonRemover,
+        JuristicPersonRepositoryInterface      $juristicPersonRepo,
     ) {
         parent::__construct($juristicPersonRepo);
     }

@@ -20,9 +20,9 @@ final class CreateAbstractJuristicPersonService extends AbstractJuristicPersonSe
      * @param JuristicPersonRepositoryInterface $juristicPersonRepo
      */
     public function __construct(
-        private JuristicPersonFactory     $juristicPersonFactory,
-        private EventDispatcherInterface  $eventDispatcher,
-        JuristicPersonRepositoryInterface $juristicPersonRepo,
+        private readonly JuristicPersonFactory    $juristicPersonFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        JuristicPersonRepositoryInterface         $juristicPersonRepo,
     ) {
         parent::__construct($juristicPersonRepo);
     }

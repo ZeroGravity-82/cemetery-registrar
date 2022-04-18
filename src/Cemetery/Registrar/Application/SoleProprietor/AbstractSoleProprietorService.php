@@ -17,7 +17,7 @@ abstract class AbstractSoleProprietorService
      * @param SoleProprietorRepositoryInterface $soleProprietorRepo
      */
     public function __construct(
-        protected SoleProprietorRepositoryInterface $soleProprietorRepo,
+        protected readonly SoleProprietorRepositoryInterface $soleProprietorRepo,
     ) {}
 
     /**
