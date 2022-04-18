@@ -20,7 +20,7 @@ final class NaturalPersonBuilder
      * @param IdentityGeneratorInterface $identityGenerator
      */
     public function __construct(
-        private IdentityGeneratorInterface $identityGenerator,
+        private readonly IdentityGeneratorInterface $identityGenerator,
     ) {}
 
     /**

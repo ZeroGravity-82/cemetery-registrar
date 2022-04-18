@@ -13,6 +13,6 @@ abstract class AbstractEntityFactory
      * @param IdentityGeneratorInterface $identityGenerator
      */
     public function __construct(
-        protected IdentityGeneratorInterface $identityGenerator,
+        protected readonly IdentityGeneratorInterface $identityGenerator,
     ) {}
 }

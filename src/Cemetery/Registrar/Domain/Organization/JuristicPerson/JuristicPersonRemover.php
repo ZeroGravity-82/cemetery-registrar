@@ -20,9 +20,9 @@ final class JuristicPersonRemover
      * @param EventDispatcherInterface          $eventDispatcher
      */
     public function __construct(
-        private BurialRepositoryInterface         $burialRepo,
-        private JuristicPersonRepositoryInterface $juristicPersonRepo,
-        private EventDispatcherInterface          $eventDispatcher,
+        private readonly BurialRepositoryInterface         $burialRepo,
+        private readonly JuristicPersonRepositoryInterface $juristicPersonRepo,
+        private readonly EventDispatcherInterface          $eventDispatcher,
     ) {}
 
     /**

@@ -13,7 +13,7 @@ final class NaturalPersonFactory
      * @param NaturalPersonBuilder $builder
      */
     public function __construct(
-        private NaturalPersonBuilder $builder,
+        private readonly NaturalPersonBuilder $builder,
     ) {}
 
     /**

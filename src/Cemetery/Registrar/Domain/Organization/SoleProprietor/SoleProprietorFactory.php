@@ -13,7 +13,7 @@ final class SoleProprietorFactory
      * @param SoleProprietorBuilder $builder
      */
     public function __construct(
-        private SoleProprietorBuilder $builder,
+        private readonly SoleProprietorBuilder $builder,
     ) {}
 
     /**

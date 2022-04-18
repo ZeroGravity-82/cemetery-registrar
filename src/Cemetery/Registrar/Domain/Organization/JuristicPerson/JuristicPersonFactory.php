@@ -13,7 +13,7 @@ final class JuristicPersonFactory
      * @param JuristicPersonBuilder $builder
      */
     public function __construct(
-        private JuristicPersonBuilder $builder,
+        private readonly JuristicPersonBuilder $builder,
     ) {}
 
     /**
