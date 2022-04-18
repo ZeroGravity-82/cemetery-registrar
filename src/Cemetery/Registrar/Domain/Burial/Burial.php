@@ -82,6 +82,18 @@ final class Burial extends AbstractAggregateRoot
     }
 
     /**
+     * @param DeceasedId $deceasedId
+     *
+     * @return $this
+     */
+    public function setDeceasedId(DeceasedId $deceasedId): self
+    {
+        $this->deceasedId = $deceasedId;
+
+        return $this;
+    }
+
+    /**
      * @return CustomerId|null
      */
     public function getCustomerId(): ?CustomerId

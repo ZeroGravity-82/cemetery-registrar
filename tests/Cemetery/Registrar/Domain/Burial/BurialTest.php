@@ -54,6 +54,13 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertNull($this->burial->getBuriedAt());
     }
 
+    public function testItSetsDeceasedId(): void
+    {
+        $deceasedId = new DeceasedId('D001');
+        $this->burial->setDeceasedId($deceasedId);
+        $this->assertTrue($this->burial->getDeceasedId()->isEqual($deceasedId));
+    }
+
     public function testItSetsCustomerId(): void
     {
         $customerId = new CustomerId(new NaturalPersonId('NP001'));
