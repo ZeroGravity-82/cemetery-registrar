@@ -247,8 +247,10 @@ abstract class AbstractEntityCollectionTest extends TestCase
         return new class ($this->entityA->id()) extends AbstractEntity {
             public function __construct
             (
-                private AbstractEntityId $id,
-            ) {}
+                private readonly AbstractEntityId $id,
+            ) {
+                parent::__construct();
+            }
 
             public function id(): AbstractEntityId
             {
