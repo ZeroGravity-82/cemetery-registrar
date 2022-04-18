@@ -35,8 +35,10 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $this->soleProprietorA = SoleProprietorProvider::getSoleProprietorA();
         $this->soleProprietorB = SoleProprietorProvider::getSoleProprietorB();
         $this->soleProprietorC = SoleProprietorProvider::getSoleProprietorC();
-        $this->entityManager   = $container->get(EntityManagerInterface::class);
-        $this->repo            = new DoctrineORMSoleProprietorRepository(
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager       = $container->get(EntityManagerInterface::class);
+        $this->entityManager = $entityManager;
+        $this->repo          = new DoctrineORMSoleProprietorRepository(
             $this->entityManager,
         );
         $this->truncateEntities();

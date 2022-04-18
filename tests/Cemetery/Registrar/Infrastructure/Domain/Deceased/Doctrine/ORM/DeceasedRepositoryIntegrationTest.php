@@ -32,10 +32,12 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->deceasedA     = DeceasedProvider::getDeceasedA();
-        $this->deceasedB     = DeceasedProvider::getDeceasedB();
-        $this->deceasedC     = DeceasedProvider::getDeceasedC();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
+        $this->deceasedA = DeceasedProvider::getDeceasedA();
+        $this->deceasedB = DeceasedProvider::getDeceasedB();
+        $this->deceasedC = DeceasedProvider::getDeceasedC();
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager       = $container->get(EntityManagerInterface::class);
+        $this->entityManager = $entityManager;
         $this->repo          = new DoctrineOrmDeceasedRepository(
             $this->entityManager,
         );

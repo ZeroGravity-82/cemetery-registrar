@@ -35,8 +35,10 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $this->juristicPersonA = JuristicPersonProvider::getJuristicPersonA();
         $this->juristicPersonB = JuristicPersonProvider::getJuristicPersonB();
         $this->juristicPersonC = JuristicPersonProvider::getJuristicPersonC();
-        $this->entityManager   = $container->get(EntityManagerInterface::class);
-        $this->repo            = new DoctrineORMJuristicPersonRepository(
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager       = $container->get(EntityManagerInterface::class);
+        $this->entityManager = $entityManager;
+        $this->repo          = new DoctrineORMJuristicPersonRepository(
             $this->entityManager,
         );
         $this->truncateEntities();

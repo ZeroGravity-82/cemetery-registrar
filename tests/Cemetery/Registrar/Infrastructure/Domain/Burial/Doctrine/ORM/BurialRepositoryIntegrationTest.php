@@ -45,13 +45,15 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         self::bootKernel();
         $container = self::getContainer();
 
-        $this->burialA       = BurialProvider::getBurialA();
-        $this->burialB       = BurialProvider::getBurialB();
-        $this->burialC       = BurialProvider::getBurialC();
-        $this->burialD       = BurialProvider::getBurialD();
-        $this->burialE       = BurialProvider::getBurialE();
-        $this->burialF       = BurialProvider::getBurialF();
-        $this->entityManager = $container->get(EntityManagerInterface::class);
+        $this->burialA = BurialProvider::getBurialA();
+        $this->burialB = BurialProvider::getBurialB();
+        $this->burialC = BurialProvider::getBurialC();
+        $this->burialD = BurialProvider::getBurialD();
+        $this->burialE = BurialProvider::getBurialE();
+        $this->burialF = BurialProvider::getBurialF();
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager       = $container->get(EntityManagerInterface::class);
+        $this->entityManager = $entityManager;
         $this->repo          = new DoctrineOrmBurialRepository(
             $this->entityManager,
         );
