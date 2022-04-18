@@ -9,10 +9,17 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialType
 {
-    public const COFFIN_IN_GRAVE_SITE      = 'гробом в могилу';
-    public const URN_IN_GRAVE_SITE         = 'урной в могилу';
-    public const URN_IN_COLUMBARIUM_NICHE  = 'урной в колумбарную нишу';
-    public const ASHES_UNDER_MEMORIAL_TREE = 'прахом под деревом';
+    public const COFFIN_IN_GRAVE_SITE      = 'COFFIN_IN_GRAVE_SITE';
+    public const URN_IN_GRAVE_SITE         = 'URN_IN_GRAVE_SITE';
+    public const URN_IN_COLUMBARIUM_NICHE  = 'URN_IN_COLUMBARIUM_NICHE';
+    public const ASHES_UNDER_MEMORIAL_TREE = 'ASHES_UNDER_MEMORIAL_TREE';
+
+    private const LABELS = [
+        self::COFFIN_IN_GRAVE_SITE      => 'гробом в могилу',
+        self::URN_IN_GRAVE_SITE         => 'урной в могилу',
+        self::URN_IN_COLUMBARIUM_NICHE  => 'урной в колумбарную нишу',
+        self::ASHES_UNDER_MEMORIAL_TREE => 'прахом под деревом',
+    ];
 
     /**
      * @param string $value
@@ -60,7 +67,7 @@ final class BurialType
      */
     public function __toString(): string
     {
-        return $this->value();
+        return $this->label();
     }
 
     /**
@@ -70,6 +77,15 @@ final class BurialType
     {
         return $this->value;
     }
+
+    /**
+     * @return string
+     */
+    public function label(): string
+    {
+        return self::LABELS[$this->value()];
+    }
+
 
     /**
      * @param self $type
@@ -127,7 +143,7 @@ final class BurialType
             self::ASHES_UNDER_MEMORIAL_TREE,
         ];
         if (!\in_array($value, $supportedBurialTypes)) {
-            throw new \InvalidArgumentException(\sprintf(
+            throw new \RuntimeException(\sprintf(
                 'Неподдерживаемый тип захоронения "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedBurialTypes))
