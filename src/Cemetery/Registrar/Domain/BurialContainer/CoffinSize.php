@@ -18,7 +18,7 @@ final class CoffinSize extends ValueObject
      * @param int $value
      */
     public function __construct(
-        private int $value,
+        private readonly int $value,
     ) {
         $this->assertValidValue($value);
     }

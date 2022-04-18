@@ -14,22 +14,22 @@ final class BankDetails
     /**
      * @var Name
      */
-    private Name $bankName;
+    private readonly Name $bankName;
 
     /**
      * @var Bik
      */
-    private Bik $bik;
+    private readonly Bik $bik;
 
     /**
      * @var CorrespondentAccount|null
      */
-    private ?CorrespondentAccount $correspondentAccount = null;
+    private readonly ?CorrespondentAccount $correspondentAccount;
 
     /**
      * @var CurrentAccount
      */
-    private CurrentAccount $currentAccount;
+    private readonly CurrentAccount $currentAccount;
 
     /**
      * @param string      $bankName
@@ -48,6 +48,8 @@ final class BankDetails
         if ($correspondentAccount !== null) {
             $this->assertValidCorrespondentAccount($correspondentAccount);
             $this->correspondentAccount = new CorrespondentAccount($correspondentAccount);
+        } else {
+            $this->correspondentAccount = null;
         }
         $this->assertValidCurrentAccount($currentAccount);
         $this->currentAccount = new CurrentAccount($currentAccount);

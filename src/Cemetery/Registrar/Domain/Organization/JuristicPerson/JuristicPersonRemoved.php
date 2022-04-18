@@ -15,7 +15,7 @@ final class JuristicPersonRemoved extends AbstractEvent
      * @param JuristicPersonId $juristicPersonId
      */
     public function __construct(
-        private JuristicPersonId $juristicPersonId,
+        private readonly JuristicPersonId $juristicPersonId,
     ) {
         parent::__construct();
     }

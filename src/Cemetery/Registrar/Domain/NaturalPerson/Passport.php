@@ -17,11 +17,11 @@ final class Passport
      * @param string|null        $divisionCode
      */
     public function __construct(
-        private string             $series,
-        private string             $number,
-        private \DateTimeImmutable $issuedAt,
-        private string             $issuedBy,
-        private ?string            $divisionCode,
+        private readonly string             $series,
+        private readonly string             $number,
+        private readonly \DateTimeImmutable $issuedAt,
+        private readonly string             $issuedBy,
+        private readonly ?string            $divisionCode,
     ) {
         $this->assertValidSeries($series);
         $this->assertValidNumber($number);

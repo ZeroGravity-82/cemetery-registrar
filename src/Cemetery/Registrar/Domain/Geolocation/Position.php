@@ -14,8 +14,8 @@ final class Position
      * @param Accuracy|null $accuracy
      */
     public function __construct(
-        private Coordinates $coordinates,
-        private ?Accuracy   $accuracy = null,
+        private readonly Coordinates $coordinates,
+        private readonly ?Accuracy   $accuracy = null,
     ) {}
 
     /**

@@ -12,12 +12,22 @@ final class Coordinates
     private const VALUE_PATTERN = '~^[+/\-]?\d+\.?\d+$~';    // examples: 54.950357, -165.1282, etc.
 
     /**
+     * @var string
+     */
+    private readonly string $latitude;
+
+    /**
+     * @var string
+     */
+    private readonly string $longitude;
+
+    /**
      * @param string $latitude
      * @param string $longitude
      */
     public function __construct(
-        private string $latitude,
-        private string $longitude,
+        string $latitude,
+        string $longitude,
     ) {
         $this->assertValidLatitudeValue($latitude);
         $this->assertValidLongitudeValue($longitude);

@@ -13,7 +13,7 @@ abstract class AbstractEntityId
      * @param string $value
      */
     public function __construct(
-        protected string $value,
+        protected readonly string $value,
     ) {
         $this->assertValidValue($value);
     }

@@ -12,7 +12,7 @@ abstract class AbstractEntityPolymorphicId
     /**
      * @var AbstractEntityId
      */
-    protected AbstractEntityId $id;
+    protected readonly AbstractEntityId $id;
 
     public function __construct(
         AbstractEntityId $id,

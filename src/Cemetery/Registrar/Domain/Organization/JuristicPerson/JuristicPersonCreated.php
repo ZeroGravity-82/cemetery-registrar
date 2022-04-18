@@ -18,9 +18,9 @@ final class JuristicPersonCreated extends AbstractEvent
      * @param Inn              $juristicPersonInn
      */
     public function __construct(
-        private JuristicPersonId $juristicPersonId,
-        private Name             $juristicPersonName,
-        private Inn              $juristicPersonInn,
+        private readonly JuristicPersonId $juristicPersonId,
+        private readonly Name             $juristicPersonName,
+        private readonly Inn              $juristicPersonInn,
     ) {
         parent::__construct();
     }

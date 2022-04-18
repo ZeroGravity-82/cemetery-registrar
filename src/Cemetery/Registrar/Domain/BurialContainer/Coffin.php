@@ -17,9 +17,9 @@ final class Coffin extends ValueObject implements BurialContainer
      * @param bool        $isNonStandard
      */
     public function __construct(
-        private CoffinSize  $size,
-        private CoffinShape $shape,
-        private bool        $isNonStandard,
+        private readonly CoffinSize  $size,
+        private readonly CoffinShape $shape,
+        private readonly bool        $isNonStandard,
     ) {}
 
     /**

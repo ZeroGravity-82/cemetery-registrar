@@ -12,7 +12,7 @@ abstract class AbstractEvent implements EventInterface
     /**
      * @var \DateTimeImmutable
      */
-    protected \DateTimeImmutable $createdAt;
+    protected readonly \DateTimeImmutable $createdAt;
 
     public function __construct()
     {

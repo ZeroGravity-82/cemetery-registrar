@@ -15,7 +15,7 @@ abstract class AbstractAccount
      * @param string $value
      */
     public function __construct(
-        private string $value,
+        private readonly string $value,
     ) {
         $this->assertValidValue($value);
     }
