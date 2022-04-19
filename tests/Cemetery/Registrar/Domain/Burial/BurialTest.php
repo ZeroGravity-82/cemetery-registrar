@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
@@ -34,7 +35,8 @@ class BurialTest extends AbstractAggregateRootTest
         $id           = new BurialId('B001');
         $burialCode   = new BurialCode('BC001');
         $deceasedId   = new DeceasedId('D001');
-        $this->burial = new Burial($id, $burialCode, $deceasedId);
+        $burialType   = BurialType::coffinInGraveSite();
+        $this->burial = new Burial($id, $burialCode, $deceasedId, $burialType);
         $this->entity = $this->burial;
     }
 
@@ -46,6 +48,8 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertSame('BC001', (string) $this->burial->code());
         $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
         $this->assertSame('D001', (string) $this->burial->deceasedId());
+        $this->assertInstanceOf(BurialType::class, $this->burial->burialType());
+        $this->assertTrue($this->burial->burialType()->isCoffinInGraveSite());
         $this->assertNull($this->burial->customerId());
         $this->assertNull($this->burial->burialPlaceId());
         $this->assertNull($this->burial->burialPlaceOwnerId());
@@ -59,6 +63,13 @@ class BurialTest extends AbstractAggregateRootTest
         $deceasedId = new DeceasedId('D001');
         $this->burial->setDeceasedId($deceasedId);
         $this->assertTrue($this->burial->deceasedId()->isEqual($deceasedId));
+    }
+
+    public function testItSetsBurialType(): void
+    {
+        $burialType = BurialType::urnInColumbariumNiche();
+        $this->burial->setBurialType($burialType);
+        $this->assertTrue($this->burial->burialType()->isEqual($burialType));
     }
 
     public function testItSetsCustomerId(): void

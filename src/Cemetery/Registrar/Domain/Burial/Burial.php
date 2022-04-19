@@ -48,11 +48,13 @@ final class Burial extends AbstractAggregateRoot
      * @param BurialId   $id
      * @param BurialCode $code
      * @param DeceasedId $deceasedId
+     * @param BurialType $burialType
      */
     public function __construct(
         private readonly BurialId   $id,
         private readonly BurialCode $code,
         private DeceasedId          $deceasedId,
+        private BurialType          $burialType,
     ) {
         parent::__construct();
     }
@@ -89,6 +91,26 @@ final class Burial extends AbstractAggregateRoot
     public function setDeceasedId(DeceasedId $deceasedId): self
     {
         $this->deceasedId = $deceasedId;
+
+        return $this;
+    }
+
+    /**
+     * @return BurialType
+     */
+    public function burialType(): BurialType
+    {
+        return $this->burialType;
+    }
+
+    /**
+     * @param BurialType $burialType
+     *
+     * @return $this
+     */
+    public function setBurialType(BurialType $burialType): self
+    {
+        $this->burialType = $burialType;
 
         return $this;
     }
