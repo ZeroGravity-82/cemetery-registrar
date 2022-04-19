@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
@@ -70,6 +71,8 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('B001', $persistedBurial->id()->value());
         $this->assertSame('BC001', $persistedBurial->code()->value());
         $this->assertSame('D001', $persistedBurial->deceasedId()->value());
+        $this->assertInstanceOf(BurialType::class, $persistedBurial->burialType());
+        $this->assertTrue($persistedBurial->burialType()->isUrnInColumbariumNiche());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->customerId());
         $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->customerId()->id());
         $this->assertSame('ID001', $persistedBurial->customerId()->id()->value());
@@ -163,6 +166,8 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('B002', (string) $persistedBurial->id());
         $this->assertSame('BC002', (string) $persistedBurial->code());
         $this->assertSame('D002', (string) $persistedBurial->deceasedId());
+        $this->assertInstanceOf(BurialType::class, $persistedBurial->burialType());
+        $this->assertTrue($persistedBurial->burialType()->isCoffinInGraveSite());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->customerId());
         $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->customerId()->id());
         $this->assertSame('ID001', $persistedBurial->customerId()->id()->value());
@@ -183,6 +188,8 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('B003', (string) $persistedBurial->id());
         $this->assertSame('BC003', (string) $persistedBurial->code());
         $this->assertSame('D003', (string) $persistedBurial->deceasedId());
+        $this->assertInstanceOf(BurialType::class, $persistedBurial->burialType());
+        $this->assertTrue($persistedBurial->burialType()->isAshesUnderMemorialTree());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->customerId());
         $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->customerId()->id());
         $this->assertSame('ID001', $persistedBurial->customerId()->id()->value());
