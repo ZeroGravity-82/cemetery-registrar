@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialCodeGeneratorInterface;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
@@ -36,24 +37,26 @@ class BurialBuilderTest extends TestCase
     {
         $this->mockIdentityGenerator   = $this->createMock(IdentityGeneratorInterface::class);
         $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGeneratorInterface::class);
-        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
-        $this->mockBurialCodeGenerator->method('getNextCode')->willReturn('001');
+        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('B001');
+        $this->mockBurialCodeGenerator->method('getNextCode')->willReturn('000001');
 
         $this->burialBuilder = new BurialBuilder($this->mockIdentityGenerator, $this->mockBurialCodeGenerator);
-        $this->burialBuilder->initialize(new DeceasedId('777'));
+        $this->burialBuilder->initialize(new DeceasedId('D001'), BurialType::coffinInGraveSite());
     }
 
-    public function testItInitializesABurialWithADeceasedId(): void
+    public function testItInitializesABurialWithRequiredFields(): void
     {
         $burial = $this->burialBuilder->build();
 
         $this->assertInstanceOf(Burial::class, $burial);
         $this->assertInstanceOf(BurialId::class, $burial->id());
-        $this->assertSame('555', (string) $burial->id());
+        $this->assertSame('B001', (string) $burial->id());
         $this->assertInstanceOf(BurialCode::class, $burial->code());
-        $this->assertSame('001', (string) $burial->code());
+        $this->assertSame('000001', (string) $burial->code());
         $this->assertInstanceOf(DeceasedId::class, $burial->deceasedId());
-        $this->assertSame('777', (string) $burial->deceasedId());
+        $this->assertSame('D001', (string) $burial->deceasedId());
+        $this->assertInstanceOf(BurialType::class, $burial->burialType());
+        $this->assertTrue($burial->burialType()->isCoffinInGraveSite());
         $this->assertNull($burial->customerId());
         $this->assertNull($burial->burialPlaceId());
         $this->assertNull($burial->burialPlaceOwnerId());
@@ -62,7 +65,7 @@ class BurialBuilderTest extends TestCase
         $this->assertNull($burial->buriedAt());
     }
 
-    public function testItFailsToBuildABurialWithoutADeceasedId(): void
+    public function testItFailsToBuildABurialBeforeInitialization(): void
     {
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(\sprintf('Строитель для класса %s не инициализирован.', Burial::class));

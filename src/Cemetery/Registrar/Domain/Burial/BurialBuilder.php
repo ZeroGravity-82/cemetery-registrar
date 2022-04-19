@@ -30,15 +30,17 @@ final class BurialBuilder
 
     /**
      * @param DeceasedId $deceasedId
+     * @param BurialType $burialType
      *
      * @return $this
      */
-    public function initialize(DeceasedId $deceasedId): self
+    public function initialize(DeceasedId $deceasedId, BurialType $burialType): self
     {
         $this->burial = new Burial(
             new BurialId($this->identityGenerator->getNextIdentity()),
             new BurialCode($this->burialCodeGenerator->getNextCode()),
             $deceasedId,
+            $burialType,
         );
 
         return $this;
