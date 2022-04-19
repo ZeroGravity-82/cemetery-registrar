@@ -49,20 +49,7 @@ final class BurialContainerType extends JsonType
         }
 
         try {
-            return \json_encode(
-                [
-                    'type'  => $value->className(),
-                    'value' => match (true) {
-                        $value instanceof Coffin => [
-                            'size'          => $value->size()->value(),
-                            'shape'         => $value->shape()->value(),
-                            'isNonStandard' => $value->isNonStandard(),
-                        ],
-                        $value instanceof Urn => null,
-                    },
-                ],
-                JSON_THROW_ON_ERROR
-            );
+            return \json_encode($this->prepareBurialContainerData($value), JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage(), $e);
         }
@@ -81,14 +68,7 @@ final class BurialContainerType extends JsonType
             $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             $this->assertValid($decodedValue, $value);
 
-            return match ($decodedValue['type']) {
-                'Coffin' => new Coffin(
-                    new CoffinSize($decodedValue['value']['size']),
-                    new CoffinShape($decodedValue['value']['shape']),
-                    $decodedValue['value']['isNonStandard'],
-                ),
-                'Urn' => new Urn(),
-            };
+            return $this->buildBurialContainer($decodedValue);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
@@ -133,5 +113,42 @@ final class BurialContainerType extends JsonType
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для контейнера захоронения: "%s".', $value));
         }
+    }
+
+    /**
+     * @param BurialContainer $value
+     *
+     * @return array
+     */
+    private function prepareBurialContainerData(BurialContainer $value): array
+    {
+        return [
+            'type'  => $value->className(),
+            'value' => match (true) {
+                $value instanceof Coffin => [
+                    'size'          => $value->size()->value(),
+                    'shape'         => $value->shape()->value(),
+                    'isNonStandard' => $value->isNonStandard(),
+                ],
+                $value instanceof Urn => null,
+            },
+        ];
+    }
+
+    /**
+     * @param array $decodedValue
+     *
+     * @return BurialContainer
+     */
+    private function buildBurialContainer(array $decodedValue): BurialContainer
+    {
+        return match ($decodedValue['type']) {
+            'Coffin' => new Coffin(
+                new CoffinSize($decodedValue['value']['size']),
+                new CoffinShape($decodedValue['value']['shape']),
+                $decodedValue['value']['isNonStandard'],
+            ),
+            'Urn' => new Urn(),
+        };
     }
 }

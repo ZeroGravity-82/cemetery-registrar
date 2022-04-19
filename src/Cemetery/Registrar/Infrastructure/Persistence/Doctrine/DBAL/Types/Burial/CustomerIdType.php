@@ -48,10 +48,7 @@ final class CustomerIdType extends JsonType
         }
 
         try {
-            return \json_encode(
-                ['type' => $value->idType(), 'value' => $value->id()->value()],
-                JSON_THROW_ON_ERROR
-            );
+            return \json_encode($this->prepareCustomerIdData($value), JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage(), $e);
         }
@@ -70,11 +67,7 @@ final class CustomerIdType extends JsonType
             $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             $this->assertValid($decodedValue, $value);
 
-            return match ($decodedValue['type']) {
-                'NaturalPersonId'  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
-                'JuristicPersonId' => new CustomerId(new JuristicPersonId($decodedValue['value'])),
-                'SoleProprietorId' => new CustomerId(new SoleProprietorId($decodedValue['value'])),
-            };
+            return $this->buildCustomerId($decodedValue);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
@@ -108,5 +101,32 @@ final class CustomerIdType extends JsonType
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
+    }
+
+    /**
+     * @param CustomerId $value
+     *
+     * @return array
+     */
+    private function prepareCustomerIdData(CustomerId $value): array
+    {
+        return [
+            'type'  => $value->idType(),
+            'value' => $value->id()->value()
+        ];
+    }
+
+    /**
+     * @param array $decodedValue
+     *
+     * @return CustomerId
+     */
+    private function buildCustomerId(array $decodedValue): CustomerId
+    {
+        return match ($decodedValue['type']) {
+            'NaturalPersonId'  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
+            'JuristicPersonId' => new CustomerId(new JuristicPersonId($decodedValue['value'])),
+            'SoleProprietorId' => new CustomerId(new SoleProprietorId($decodedValue['value'])),
+        };
     }
 }

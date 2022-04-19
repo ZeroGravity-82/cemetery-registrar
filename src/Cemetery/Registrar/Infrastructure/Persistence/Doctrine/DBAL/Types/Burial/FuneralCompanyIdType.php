@@ -47,10 +47,7 @@ final class FuneralCompanyIdType extends JsonType
         }
 
         try {
-            return \json_encode(
-                ['type' => $value->idType(), 'value' => $value->id()->value()],
-                JSON_THROW_ON_ERROR
-            );
+            return \json_encode($this->prepareFuneralCompanyIdData($value), JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage(), $e);
         }
@@ -69,10 +66,7 @@ final class FuneralCompanyIdType extends JsonType
             $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             $this->assertValid($decodedValue, $value);
 
-            return match ($decodedValue['type']) {
-                'JuristicPersonId' => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
-                'SoleProprietorId' => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
-            };
+            return $this->buildFuneralCompanyId($decodedValue);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
@@ -106,5 +100,31 @@ final class FuneralCompanyIdType extends JsonType
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
+    }
+
+    /**
+     * @param FuneralCompanyId $value
+     *
+     * @return array
+     */
+    private function prepareFuneralCompanyIdData(FuneralCompanyId $value): array
+    {
+        return [
+            'type'  => $value->idType(),
+            'value' => $value->id()->value()
+        ];
+    }
+
+    /**
+     * @param array $decodedValue
+     *
+     * @return FuneralCompanyId
+     */
+    private function buildFuneralCompanyId(array $decodedValue): FuneralCompanyId
+    {
+        return match ($decodedValue['type']) {
+            'JuristicPersonId' => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
+            'SoleProprietorId' => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
+        };
     }
 }

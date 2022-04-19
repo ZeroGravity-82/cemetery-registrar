@@ -48,10 +48,7 @@ final class BurialPlaceIdType extends JsonType
         }
 
         try {
-            return \json_encode(
-                ['type' => $value->idType(), 'value' => $value->id()->value()],
-                JSON_THROW_ON_ERROR
-            );
+            return \json_encode($this->prepareBurialPlaceIdData($value), JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage(), $e);
         }
@@ -70,11 +67,7 @@ final class BurialPlaceIdType extends JsonType
             $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             $this->assertValid($decodedValue, $value);
 
-            return match ($decodedValue['type']) {
-                'GraveSiteId'        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
-                'ColumbariumNicheId' => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
-                'MemorialTreeId'     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
-            };
+            return $this->buildBurialPlaceId($decodedValue);
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
@@ -108,5 +101,32 @@ final class BurialPlaceIdType extends JsonType
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
+    }
+
+    /**
+     * @param BurialPlaceId $value
+     *
+     * @return array
+     */
+    private function prepareBurialPlaceIdData(BurialPlaceId $value): array
+    {
+        return [
+            'type'  => $value->idType(),
+            'value' => $value->id()->value()
+        ];
+    }
+
+    /**
+     * @param array $decodedValue
+     *
+     * @return BurialPlaceId
+     */
+    private function buildBurialPlaceId(array $decodedValue): BurialPlaceId
+    {
+        return match ($decodedValue['type']) {
+            'GraveSiteId'        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
+            'ColumbariumNicheId' => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
+            'MemorialTreeId'     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
+        };
     }
 }
