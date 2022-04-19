@@ -9,6 +9,7 @@ doctrine:
             burial_code:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialCodeType
             burial_id:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialIdType
             burial_place_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceIdType
+            burial_type:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialTypeType
             customer_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType
             funeral_company_id:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyIdType
             # BurialContainer
