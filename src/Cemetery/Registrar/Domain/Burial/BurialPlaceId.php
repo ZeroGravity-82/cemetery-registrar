@@ -10,6 +10,8 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
 
 /**
+ * Wrapper class for burial place ID value objects.
+ *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class BurialPlaceId extends AbstractEntityPolymorphicId
