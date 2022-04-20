@@ -9,6 +9,8 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
 /**
+ * Wrapper class for funeral company ID value objects.
+ *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class FuneralCompanyId extends AbstractEntityPolymorphicId
