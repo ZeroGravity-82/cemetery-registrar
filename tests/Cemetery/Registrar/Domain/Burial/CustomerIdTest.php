@@ -30,31 +30,6 @@ class CustomerIdTest extends TestCase
         $this->assertSame('SP001', $customerId->id()->value());
     }
 
-    public function testItStringifyable(): void
-    {
-        $customerId        = new CustomerId(new NaturalPersonId('NP001'));
-        $decodedCustomerId = \json_decode((string) $customerId, true);
-        $this->assertIsArray($decodedCustomerId);
-        $this->assertArrayHasKey('type', $decodedCustomerId);
-        $this->assertArrayHasKey('value', $decodedCustomerId);
-        $this->assertSame('NaturalPersonId', $decodedCustomerId['type']);
-        $this->assertSame('NP001', $decodedCustomerId['value']);
-
-        $customerId        = new CustomerId(new JuristicPersonId('JP001'));
-        $decodedCustomerId = \json_decode((string) $customerId, true);
-        $this->assertArrayHasKey('type', $decodedCustomerId);
-        $this->assertArrayHasKey('value', $decodedCustomerId);
-        $this->assertSame('JuristicPersonId', $decodedCustomerId['type']);
-        $this->assertSame('JP001', $decodedCustomerId['value']);
-
-        $customerId        = new CustomerId(new SoleProprietorId('SP001'));
-        $decodedCustomerId = \json_decode((string) $customerId, true);
-        $this->assertArrayHasKey('type', $decodedCustomerId);
-        $this->assertArrayHasKey('value', $decodedCustomerId);
-        $this->assertSame('SoleProprietorId', $decodedCustomerId['type']);
-        $this->assertSame('SP001', $decodedCustomerId['value']);
-    }
-    
     public function testItComparable(): void
     {
         $customerIdA = new CustomerId(new NaturalPersonId('ID001'));

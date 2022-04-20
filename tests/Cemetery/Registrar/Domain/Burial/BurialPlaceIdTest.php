@@ -30,33 +30,6 @@ class BurialPlaceIdTest extends TestCase
         $this->assertSame('MT001', $burialPlaceId->id()->value());
     }
 
-    public function testItStringifyable(): void
-    {
-        $burialPlaceId        = new BurialPlaceId(new GraveSiteId('GS001'));
-        $decodedBurialPlaceId = \json_decode((string) $burialPlaceId, true);
-        $this->assertIsArray($decodedBurialPlaceId);
-        $this->assertArrayHasKey('type', $decodedBurialPlaceId);
-        $this->assertArrayHasKey('value', $decodedBurialPlaceId);
-        $this->assertSame('GraveSiteId', $decodedBurialPlaceId['type']);
-        $this->assertSame('GS001', $decodedBurialPlaceId['value']);
-
-        $burialPlaceId        = new BurialPlaceId(new ColumbariumNicheId('CN001'));
-        $decodedBurialPlaceId = \json_decode((string) $burialPlaceId, true);
-        $this->assertIsArray($decodedBurialPlaceId);
-        $this->assertArrayHasKey('type', $decodedBurialPlaceId);
-        $this->assertArrayHasKey('value', $decodedBurialPlaceId);
-        $this->assertSame('ColumbariumNicheId', $decodedBurialPlaceId['type']);
-        $this->assertSame('CN001', $decodedBurialPlaceId['value']);
-
-        $burialPlaceId        = new BurialPlaceId(new MemorialTreeId('MT001'));
-        $decodedBurialPlaceId = \json_decode((string) $burialPlaceId, true);
-        $this->assertIsArray($decodedBurialPlaceId);
-        $this->assertArrayHasKey('type', $decodedBurialPlaceId);
-        $this->assertArrayHasKey('value', $decodedBurialPlaceId);
-        $this->assertSame('MemorialTreeId', $decodedBurialPlaceId['type']);
-        $this->assertSame('MT001', $decodedBurialPlaceId['value']);
-    }
-
     public function testItComparable(): void
     {
         $burialPlaceIdA = new BurialPlaceId(new GraveSiteId('ID001'));

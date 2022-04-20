@@ -21,14 +21,6 @@ abstract class AbstractEntityPolymorphicId
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return \json_encode(['type' => $this->idType(), 'value' => $this->id()->value()]);
-    }
-
-    /**
      * @return AbstractEntityId
      */
     public function id(): AbstractEntityId
