@@ -122,15 +122,16 @@ final class BurialContainerType extends JsonType
      */
     private function prepareBurialContainerData(BurialContainer $value): array
     {
+        $container = $value->container();
         return [
-            'type'  => $value->className(),
+            'type'  => $container->className(),
             'value' => match (true) {
-                $value instanceof Coffin => [
-                    'size'          => $value->size()->value(),
-                    'shape'         => $value->shape()->value(),
-                    'isNonStandard' => $value->isNonStandard(),
+                $container instanceof Coffin => [
+                    'size'          => $container->size()->value(),
+                    'shape'         => $container->shape()->value(),
+                    'isNonStandard' => $container->isNonStandard(),
                 ],
-                $value instanceof Urn => null,
+                $container instanceof Urn => null,
             },
         ];
     }
@@ -142,7 +143,7 @@ final class BurialContainerType extends JsonType
      */
     private function buildBurialContainer(array $decodedValue): BurialContainer
     {
-        return match ($decodedValue['type']) {
+        $container = match ($decodedValue['type']) {
             'Coffin' => new Coffin(
                 new CoffinSize($decodedValue['value']['size']),
                 new CoffinShape($decodedValue['value']['shape']),
@@ -150,5 +151,7 @@ final class BurialContainerType extends JsonType
             ),
             'Urn' => new Urn(),
         };
+
+        return new BurialContainer($container);
     }
 }

@@ -18,13 +18,14 @@ class BurialContainerTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $coffin          = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
-        $burialContainer = new BurialContainer($coffin);
-        $this->assertTrue($burialContainer->container()->isEqual($coffin));
+        $burialContainer = new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::american(), false));
+        $this->assertInstanceOf(Coffin::class, $burialContainer->container());
+        $this->assertSame(180, $burialContainer->container()->size()->value());
+        $this->assertTrue($burialContainer->container()->shape()->isAmerican());
+        $this->assertFalse($burialContainer->container()->isNonStandard());
 
-        $urn             = new Urn();
-        $burialContainer = new BurialContainer($urn);
-        $this->assertTrue($burialContainer->container()->isEqual($urn));
+        $burialContainer = new BurialContainer(new Urn());
+        $this->assertInstanceOf(Urn::class, $burialContainer->container());
     }
 
     public function testItComparable(): void

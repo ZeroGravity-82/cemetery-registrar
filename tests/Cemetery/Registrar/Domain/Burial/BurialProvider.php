@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
@@ -34,7 +35,7 @@ final class BurialProvider
         $customerId      = new CustomerId(new NaturalPersonId('ID001'));
         $burialPlaceId   = new BurialPlaceId(new ColumbariumNicheId('CN001'));
         $buriedAt        = new \DateTimeImmutable('2022-01-15 13:10:00');
-        $burialContainer = new Urn();
+        $burialContainer = new BurialContainer(new Urn());
 
         return (new Burial($id, $burialCode, $deceasedId,$burialType))
             ->setCustomerId($customerId)
@@ -52,7 +53,7 @@ final class BurialProvider
         $customerId         = new CustomerId(new NaturalPersonId('ID001'));
         $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS001'));
         $burialPlaceOwnerId = new NaturalPersonId('ID001');
-        $burialContainer    = new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), false);
+        $burialContainer    = new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), false));
 
         return (new Burial($id, $burialCode, $deceasedId, $burialType))
             ->setCustomerId($customerId)

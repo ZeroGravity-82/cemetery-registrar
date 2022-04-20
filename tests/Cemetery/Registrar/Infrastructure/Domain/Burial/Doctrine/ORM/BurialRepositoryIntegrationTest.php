@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
@@ -81,7 +82,8 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertSame('CN001', $persistedBurial->burialPlaceId()->id()->value());
         $this->assertNull($persistedBurial->burialPlaceOwnerId());
         $this->assertNull($persistedBurial->funeralCompanyId());
-        $this->assertInstanceOf(Urn::class, $persistedBurial->burialContainer());
+        $this->assertInstanceOf(BurialContainer::class, $persistedBurial->burialContainer());
+        $this->assertInstanceOf(Urn::class, $persistedBurial->burialContainer()->container());
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedBurial->buriedAt());
         $this->assertSame('2022-01-15 13:10:00', $persistedBurial->buriedAt()->format('Y-m-d H:i:s'));
 
@@ -177,10 +179,11 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->burialPlaceOwnerId());
         $this->assertSame('ID001', (string) $persistedBurial->burialPlaceOwnerId());
         $this->assertNull($persistedBurial->funeralCompanyId());
-        $this->assertInstanceOf(Coffin::class, $persistedBurial->burialContainer());
-        $this->assertTrue($persistedBurial->burialContainer()->size()->isEqual(new CoffinSize(180)));
-        $this->assertTrue($persistedBurial->burialContainer()->shape()->isEqual(CoffinShape::trapezoid()));
-        $this->assertFalse($persistedBurial->burialContainer()->isNonStandard());
+        $this->assertInstanceOf(BurialContainer::class, $persistedBurial->burialContainer());
+        $this->assertInstanceOf(Coffin::class, $persistedBurial->burialContainer()->container());
+        $this->assertTrue($persistedBurial->burialContainer()->container()->size()->isEqual(new CoffinSize(180)));
+        $this->assertTrue($persistedBurial->burialContainer()->container()->shape()->isEqual(CoffinShape::trapezoid()));
+        $this->assertFalse($persistedBurial->burialContainer()->container()->isNonStandard());
         $this->assertNull($persistedBurial->buriedAt());
 
         $persistedBurial = $this->repo->findById($this->burialC->id());

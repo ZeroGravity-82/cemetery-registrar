@@ -13,6 +13,7 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
@@ -79,8 +80,7 @@ class BurialBuilderTest extends TestCase
         $customerId = new CustomerId(new SoleProprietorId('SP001'));
         $burial     = $this->burialBuilder->addCustomerId($customerId)->build();
         $this->assertInstanceOf(CustomerId::class, $burial->customerId());
-        $this->assertInstanceOf(SoleProprietorId::class, $burial->customerId()->id());
-        $this->assertSame('SP001', $burial->customerId()->id()->value());
+        $this->assertTrue($burial->customerId()->isEqual($customerId));
     }
 
     public function testItAddsABurialPlaceId(): void
@@ -88,8 +88,7 @@ class BurialBuilderTest extends TestCase
         $burialPlaceId = new BurialPlaceId(new GraveSiteId('GS001'));
         $burial        = $this->burialBuilder->addBurialPlaceId($burialPlaceId)->build();
         $this->assertInstanceOf(BurialPlaceId::class, $burial->burialPlaceId());
-        $this->assertInstanceOf(GraveSiteId::class, $burial->burialPlaceId()->id());
-        $this->assertSame('GS001', $burial->burialPlaceId()->id()->value());
+        $this->assertTrue($burial->burialPlaceId()->isEqual($burialPlaceId));
     }
 
     public function testItAddsABurialPlaceOwnerId(): void
@@ -97,7 +96,7 @@ class BurialBuilderTest extends TestCase
         $burialPlaceOwnerId = new NaturalPersonId('999');
         $burial             = $this->burialBuilder->addBurialPlaceOwnerId($burialPlaceOwnerId)->build();
         $this->assertInstanceOf(NaturalPersonId::class, $burial->burialPlaceOwnerId());
-        $this->assertSame('999', (string) $burial->burialPlaceOwnerId());
+        $this->assertTrue($burial->burialPlaceOwnerId()->isEqual($burialPlaceOwnerId));
     }
 
     public function testItAddsAFuneralCompanyId(): void
@@ -105,15 +104,14 @@ class BurialBuilderTest extends TestCase
         $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP001'));
         $burial           = $this->burialBuilder->addFuneralCompanyId($funeralCompanyId)->build();
         $this->assertInstanceOf(FuneralCompanyId::class, $burial->funeralCompanyId());
-        $this->assertInstanceOf(SoleProprietorId::class, $burial->funeralCompanyId()->id());
-        $this->assertSame('SP001', $burial->funeralCompanyId()->id()->value());
+        $this->assertTrue($burial->funeralCompanyId()->isEqual($funeralCompanyId));
     }
 
     public function testItAddsABurialContainer(): void
     {
-        $burialContainer = new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), true);
+        $burialContainer = new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), true));
         $burial          = $this->burialBuilder->addBurialContainer($burialContainer)->build();
-        $this->assertInstanceOf(Coffin::class, $burial->burialContainer());
+        $this->assertInstanceOf(BurialContainer::class, $burial->burialContainer());
         $this->assertTrue($burial->burialContainer()->isEqual($burialContainer));
     }
 

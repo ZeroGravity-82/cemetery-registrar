@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\ValueObject;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Urn extends ValueObject implements BurialContainer
+final class Urn extends ValueObject
 {
     /**
      * @return string
