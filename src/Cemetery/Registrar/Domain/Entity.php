@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntity
+abstract class Entity
 {
     /**
      * @var \DateTimeImmutable
@@ -26,7 +26,7 @@ abstract class AbstractEntity
 
     public function __construct()
     {
-        $now = new \DateTimeImmutable();
+        $now             = new \DateTimeImmutable();
         $this->createdAt = $now;
         $this->updatedAt = $now;
     }

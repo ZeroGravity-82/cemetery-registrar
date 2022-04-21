@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain;
 
-use Cemetery\Registrar\Domain\AbstractEntity;
+use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Domain\EntityId;
 use PHPUnit\Framework\TestCase;
 
@@ -13,11 +13,11 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractEntityTest extends TestCase
 {
-    protected AbstractEntity $entity;
+    protected Entity $entity;
 
     public function testItIsAnEntity(): void
     {
-        $this->assertInstanceOf(AbstractEntity::class, $this->entity);
+        $this->assertInstanceOf(Entity::class, $this->entity);
     }
 
     public function testItReturnsAnId(): void

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain;
 
-use Cemetery\Registrar\Domain\AbstractEntity;
+use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Domain\AbstractEntityCollection;
 use Cemetery\Registrar\Domain\EntityId;
 use PHPUnit\Framework\TestCase;
@@ -24,13 +24,13 @@ abstract class AbstractEntityCollectionTest extends TestCase
 
     protected EntityId $idD;
 
-    protected AbstractEntity $entityA;
+    protected Entity $entityA;
 
-    protected AbstractEntity $entityB;
+    protected Entity $entityB;
 
-    protected AbstractEntity $entityC;
+    protected Entity $entityC;
 
-    protected AbstractEntity $entityD;
+    protected Entity $entityD;
 
     protected AbstractEntityCollection $collection;
 
@@ -242,9 +242,9 @@ abstract class AbstractEntityCollectionTest extends TestCase
 
     abstract protected function getClosureForCollectionFiltering(): \Closure;
 
-    private function getFakeEntity(): AbstractEntity
+    private function getFakeEntity(): Entity
     {
-        return new class ($this->entityA->id()) extends AbstractEntity {
+        return new class ($this->entityA->id()) extends Entity {
             public function __construct
             (
                 private readonly EntityId $id,

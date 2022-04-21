@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractAggregateRoot extends AbstractEntity
+abstract class AbstractAggregateRoot extends Entity
 {
     /**
      * @var EventInterface[]|array

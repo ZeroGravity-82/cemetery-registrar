@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain;
  */
 abstract class AbstractEntityCollection implements \Countable, \IteratorAggregate
 {
-    /** @var AbstractEntity[]|array */
+    /** @var Entity[]|array */
     private array $entities = [];
 
     /**
@@ -43,9 +43,9 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Adds the entity to the collection.
      *
-     * @param AbstractEntity $entity
+     * @param Entity $entity
      */
-    public function add(AbstractEntity $entity): void
+    public function add(Entity $entity): void
     {
         $this->assertValidType($entity);
         $entityId                  = (string) $entity->id();
@@ -57,11 +57,11 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
      *
      * @param EntityId $entityId
      *
-     * @return AbstractEntity
+     * @return Entity
      *
      * @throws \LogicException when the entity is not found by ID
      */
-    public function get(EntityId $entityId): AbstractEntity
+    public function get(EntityId $entityId): Entity
     {
         $entityId = (string) $entityId;
         if (!isset($this->entities[$entityId])) {
@@ -78,11 +78,11 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Checks whether the entity is contained in the collection.
      *
-     * @param AbstractEntity $entity
+     * @param Entity $entity
      *
      * @return bool
      */
-    public function contains(AbstractEntity $entity): bool
+    public function contains(Entity $entity): bool
     {
         return \in_array($entity, $this->entities, true);
     }
@@ -90,9 +90,9 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Removes the entity from the collection.
      *
-     * @param AbstractEntity $entity
+     * @param Entity $entity
      */
-    public function remove(AbstractEntity $entity): void
+    public function remove(Entity $entity): void
     {
         $entityId = (string) $entity->id();
         unset($this->entities[$entityId]);
@@ -154,9 +154,9 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Sets the internal iterator to the first entity in the collection and returns this entity.
      *
-     * @return AbstractEntity|null
+     * @return Entity|null
      */
-    public function first(): ?AbstractEntity
+    public function first(): ?Entity
     {
         $first = \reset($this->entities);
 
@@ -166,9 +166,9 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Moves the internal iterator position to the next entity and returns this entity.
      *
-     * @return AbstractEntity|null
+     * @return Entity|null
      */
-    public function next(): ?AbstractEntity
+    public function next(): ?Entity
     {
         $next = \next($this->entities);
 
@@ -178,9 +178,9 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Returns the entity of the collection at the current iterator position.
      *
-     * @return AbstractEntity|null
+     * @return Entity|null
      */
-    public function current(): ?AbstractEntity
+    public function current(): ?Entity
     {
         $current = \current($this->entities);
 
@@ -190,9 +190,9 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Sets the internal iterator to the last entity in the collection and returns this entity.
      *
-     * @return AbstractEntity|null
+     * @return Entity|null
      */
-    public function last(): ?AbstractEntity
+    public function last(): ?Entity
     {
         $last = \end($this->entities);
 
@@ -209,11 +209,11 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Checks whether the entity is of a type supported by the collection.
      *
-     * @param AbstractEntity $entity
+     * @param Entity $entity
      *
      * @throws \InvalidArgumentException when the entity type does not match the collection
      */
-    private function assertValidType(AbstractEntity $entity): void
+    private function assertValidType(Entity $entity): void
     {
         $supportedEntityClass = $this->supportedEntityClassName();
         if (!$entity instanceof $supportedEntityClass) {
