@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain;
 
-use Cemetery\Registrar\Domain\AbstractEvent;
-use Cemetery\Registrar\Domain\EventInterface;
+use Cemetery\Registrar\Domain\Event;
 use Cemetery\Registrar\Domain\EventDispatcher;
 use PHPUnit\Framework\TestCase;
 
@@ -111,14 +110,14 @@ class EventDispatcherTest extends TestCase
     public function testItInvokesListenerOnChildEvent(): void
     {
         $dispatcher = new EventDispatcher();
-        $childEvent = new class extends AbstractEvent {};
+        $childEvent = new class extends Event {};
 
         $mockWithListeners = $this->getMockBuilder(\stdClass::class)
             ->addMethods([
                 'onAnyDomainEvent',
             ])
             ->getMock();
-        $dispatcher->addListener(EventInterface::class, [$mockWithListeners, 'onAnyDomainEvent']);
+        $dispatcher->addListener(Event::class, [$mockWithListeners, 'onAnyDomainEvent']);
 
         $mockWithListeners->expects($this->once())->method('onAnyDomainEvent');
         $dispatcher->dispatch($childEvent);
@@ -127,8 +126,8 @@ class EventDispatcherTest extends TestCase
     public function testItReturnsListenersForParentEvent(): void
     {
         $dispatcher  = new EventDispatcher();
-        $childEventA = new class extends AbstractEvent {};
-        $childEventB = new class extends AbstractEvent {};
+        $childEventA = new class extends Event {};
+        $childEventB = new class extends Event {};
 
         $mockWithListeners = $this->getMockBuilder(\stdClass::class)
             ->addMethods([
@@ -139,7 +138,7 @@ class EventDispatcherTest extends TestCase
             ->getMock();
         $dispatcher->addListener($childEventA::class, [$mockWithListeners, 'onChildEventA']);
         $dispatcher->addListener($childEventB::class, [$mockWithListeners, 'onChildEventB']);
-        $dispatcher->addListener(EventInterface::class, [$mockWithListeners, 'onAnyDomainEvent']);
+        $dispatcher->addListener(Event::class, [$mockWithListeners, 'onAnyDomainEvent']);
 
         $this->assertCount(2, $dispatcher->getListenersForEvent($childEventA));
     }

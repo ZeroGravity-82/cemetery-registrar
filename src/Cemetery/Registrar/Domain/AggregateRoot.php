@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Domain;
 abstract class AggregateRoot extends Entity
 {
     /**
-     * @var EventInterface[]|array
+     * @var Event[]|array
      */
     private array $recordedEvents = [];
 
@@ -30,11 +30,11 @@ abstract class AggregateRoot extends Entity
     /**
      * Records the domain event of the aggregate root for subsequent release.
      *
-     * @param EventInterface $event
+     * @param Event $event
      *
      * @throws \LogicException when the same event has already been recorded
      */
-    protected function recordEvent(EventInterface $event): void
+    protected function recordEvent(Event $event): void
     {
         if (\in_array($event, $this->recordedEvents)) {
             throw new \LogicException(

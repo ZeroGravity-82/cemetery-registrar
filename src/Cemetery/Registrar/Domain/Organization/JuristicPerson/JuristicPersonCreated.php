@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
-use Cemetery\Registrar\Domain\AbstractEvent;
+use Cemetery\Registrar\Domain\Event;
 use Cemetery\Registrar\Domain\Organization\Name;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class JuristicPersonCreated extends AbstractEvent
+final class JuristicPersonCreated extends Event
 {
     /**
      * @param JuristicPersonId $juristicPersonId

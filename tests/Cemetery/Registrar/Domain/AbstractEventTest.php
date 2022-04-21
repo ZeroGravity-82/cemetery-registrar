@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain;
 
-use Cemetery\Registrar\Domain\AbstractEvent;
+use Cemetery\Registrar\Domain\Event;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractEventTest extends TestCase
 {
-    protected AbstractEvent $event;
+    protected Event $event;
 
     public function testItReturnsDateTimeOfOccurrence(): void
     {

@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEvent implements EventInterface
+abstract class Event
 {
     /**
      * @var \DateTimeImmutable
@@ -20,7 +20,7 @@ abstract class AbstractEvent implements EventInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @return \DateTimeImmutable
      */
     public function createdAt(): \DateTimeImmutable
     {
