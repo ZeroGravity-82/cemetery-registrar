@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
 /**
- * Wrapper class for funeral company ID value objects.
+ * Wrapper class for value objects identifying a funeral company.
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
