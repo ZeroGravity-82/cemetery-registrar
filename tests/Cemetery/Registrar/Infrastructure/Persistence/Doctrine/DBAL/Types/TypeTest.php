@@ -18,8 +18,6 @@ abstract class TypeTest extends TestCase
     protected string                      $className;
     protected string                      $typeName;
     protected Type                        $type;
-    protected mixed                       $dbValue;
-    protected mixed                       $phpValue;
 
     public function setUp(): void
     {

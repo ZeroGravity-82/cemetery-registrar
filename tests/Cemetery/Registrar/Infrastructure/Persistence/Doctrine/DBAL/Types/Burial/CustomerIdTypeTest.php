@@ -6,6 +6,8 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\MaskingIdTypeTest;
 
@@ -14,14 +16,17 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Mask
  */
 class CustomerIdTypeTest extends MaskingIdTypeTest
 {
-    protected string $className = CustomerIdType::class;
-    protected string $typeName  = 'customer_id';
+    protected string $className         = CustomerIdType::class;
+    protected string $typeName          = 'customer_id';
+    protected string $phpValueClassName = CustomerId::class;
 
-    public function setUp(): void
+    protected function getConversionTests(): array
     {
-        parent::setUp();
-
-        $this->dbValue  = '{"class":"NaturalPersonId","value":"NP001"}';
-        $this->phpValue = new CustomerId(new NaturalPersonId('NP001'));
+        return [
+            // database value, PHP value
+            ['{"class":"NaturalPersonId","value":"NP001"}',  new CustomerId(new NaturalPersonId('NP001'))],
+            ['{"class":"JuristicPersonId","value":"JP001"}', new CustomerId(new JuristicPersonId('JP001'))],
+            ['{"class":"SoleProprietorId","value":"SP001"}', new CustomerId(new SoleProprietorId('SP001'))],
+        ];
     }
 }

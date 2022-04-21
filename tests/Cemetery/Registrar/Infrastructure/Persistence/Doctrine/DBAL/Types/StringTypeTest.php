@@ -9,6 +9,9 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
  */
 abstract class StringTypeTest extends TypeTest
 {
+    protected string $dbValue;
+    protected object $phpValue;
+
     public function testItConvertsToDatabaseValue(): void
     {
         $dbValue = $this->type->convertToDatabaseValue($this->phpValue, $this->mockPlatform);
