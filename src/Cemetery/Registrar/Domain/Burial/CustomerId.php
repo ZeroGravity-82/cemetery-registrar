@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
-use Cemetery\Registrar\Domain\AbstractEntityPolymorphicId;
+use Cemetery\Registrar\Domain\EntityMaskingId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CustomerId extends AbstractEntityPolymorphicId
+final class CustomerId extends EntityMaskingId
 {
     /**
      * @param NaturalPersonId|JuristicPersonId|SoleProprietorId $id

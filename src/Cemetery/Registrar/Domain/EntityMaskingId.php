@@ -7,13 +7,16 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityPolymorphicId
+abstract class EntityMaskingId
 {
     /**
      * @var AbstractEntityId
      */
     protected readonly AbstractEntityId $id;
 
+    /**
+     * @param AbstractEntityId $id
+     */
     public function __construct(
         AbstractEntityId $id,
     ) {
