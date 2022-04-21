@@ -68,7 +68,7 @@ abstract class AbstractPolymorphicIdTypeTest extends AbstractTypeTest
     public function testItFailsToConvertDatabaseIncompleteValueToPhpValue(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Неверный формат для полиморфного идентификатора: "{}".');
+        $this->expectExceptionMessage('Неверный формат идентификатора: "{}".');
         $this->type->convertToPHPValue('{}', $this->mockPlatform);
     }
 

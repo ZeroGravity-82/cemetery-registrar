@@ -102,7 +102,7 @@ final class FuneralCompanyIdType extends JsonType
     {
         $isInvalidValue = !isset($decodedValue['class'], $decodedValue['value']);
         if ($isInvalidValue) {
-            throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
+            throw new \RuntimeException(\sprintf('Неверный формат идентификатора: "%s".', $value));
         }
     }
 
