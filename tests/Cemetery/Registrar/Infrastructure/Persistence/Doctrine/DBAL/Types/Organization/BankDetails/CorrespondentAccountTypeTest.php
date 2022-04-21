@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 
 use Cemetery\Registrar\Domain\Organization\BankDetails\CorrespondentAccount;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails\CorrespondentAccountType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\StringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CorrespondentAccountTypeTest extends AbstractStringTypeTest
+class CorrespondentAccountTypeTest extends StringTypeTest
 {
     protected string $className = CorrespondentAccountType::class;
 

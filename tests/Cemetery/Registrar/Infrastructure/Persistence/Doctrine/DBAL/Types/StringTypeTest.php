@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractStringTypeTest extends TypeTest
+abstract class StringTypeTest extends TypeTest
 {
     public function testItConvertsToDatabaseValue(): void
     {
