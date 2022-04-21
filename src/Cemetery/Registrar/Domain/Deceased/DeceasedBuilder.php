@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Deceased;
 
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
 /**
@@ -18,10 +18,10 @@ final class DeceasedBuilder
     private Deceased $deceased;
 
     /**
-     * @param IdentityGeneratorInterface $identityGenerator
+     * @param IdentityGenerator $identityGenerator
      */
     public function __construct(
-        private readonly IdentityGeneratorInterface $identityGenerator,
+        private readonly IdentityGenerator $identityGenerator,
     ) {}
 
     /**

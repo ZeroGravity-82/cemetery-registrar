@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
@@ -18,12 +18,12 @@ use PHPUnit\Framework\TestCase;
  */
 class NaturalPersonBuilderTest extends TestCase
 {
-    private MockObject|IdentityGeneratorInterface $mockIdentityGenerator;
-    private NaturalPersonBuilder                  $naturalPersonBuilder;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private NaturalPersonBuilder         $naturalPersonBuilder;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGeneratorInterface::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
 
         $this->naturalPersonBuilder = new NaturalPersonBuilder($this->mockIdentityGenerator);

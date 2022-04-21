@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
@@ -25,10 +25,10 @@ final class JuristicPersonBuilder
     private JuristicPerson $juristicPerson;
 
     /**
-     * @param IdentityGeneratorInterface $identityGenerator
+     * @param IdentityGenerator $identityGenerator
      */
     public function __construct(
-        private readonly IdentityGeneratorInterface $identityGenerator,
+        private readonly IdentityGenerator $identityGenerator,
     ) {}
 
     /**

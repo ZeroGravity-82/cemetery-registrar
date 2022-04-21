@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\Okved;
@@ -26,12 +26,12 @@ use PHPUnit\Framework\TestCase;
  */
 class SoleProprietorBuilderTest extends TestCase
 {
-    private MockObject|IdentityGeneratorInterface $mockIdentityGenerator;
-    private SoleProprietorBuilder                 $soleProprietorBuilder;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private SoleProprietorBuilder        $soleProprietorBuilder;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGeneratorInterface::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
 
         $this->soleProprietorBuilder = new SoleProprietorBuilder($this->mockIdentityGenerator);

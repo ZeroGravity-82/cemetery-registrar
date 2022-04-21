@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\NaturalPerson;
 
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -17,10 +17,10 @@ final class NaturalPersonBuilder
     private NaturalPerson $naturalPerson;
 
     /**
-     * @param IdentityGeneratorInterface $identityGenerator
+     * @param IdentityGenerator $identityGenerator
      */
     public function __construct(
-        private readonly IdentityGeneratorInterface $identityGenerator,
+        private readonly IdentityGenerator $identityGenerator,
     ) {}
 
     /**

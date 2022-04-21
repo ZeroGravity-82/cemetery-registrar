@@ -19,7 +19,7 @@ use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,13 +30,13 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialBuilderTest extends TestCase
 {
-    private MockObject|IdentityGeneratorInterface   $mockIdentityGenerator;
+    private MockObject|IdentityGenerator            $mockIdentityGenerator;
     private MockObject|BurialCodeGeneratorInterface $mockBurialCodeGenerator;
     private BurialBuilder                           $burialBuilder;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator   = $this->createMock(IdentityGeneratorInterface::class);
+        $this->mockIdentityGenerator   = $this->createMock(IdentityGenerator::class);
         $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGeneratorInterface::class);
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('B001');
         $this->mockBurialCodeGenerator->method('getNextCode')->willReturn('000001');

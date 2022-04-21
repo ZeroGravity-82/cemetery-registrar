@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
@@ -28,12 +28,12 @@ use PHPUnit\Framework\TestCase;
  */
 class JuristicPersonBuilderTest extends TestCase
 {
-    private MockObject|IdentityGeneratorInterface $mockIdentityGenerator;
-    private JuristicPersonBuilder                 $juristicPersonBuilder;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private JuristicPersonBuilder        $juristicPersonBuilder;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGeneratorInterface::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
 
         $this->juristicPersonBuilder = new JuristicPersonBuilder($this->mockIdentityGenerator);

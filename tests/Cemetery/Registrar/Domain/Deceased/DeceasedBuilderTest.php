@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Domain\Deceased;
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
 use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedBuilder;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
@@ -19,12 +19,12 @@ use PHPUnit\Framework\TestCase;
  */
 class DeceasedBuilderTest extends TestCase
 {
-    private MockObject|IdentityGeneratorInterface $mockIdentityGenerator;
-    private DeceasedBuilder                       $deceasedBuilder;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private DeceasedBuilder              $deceasedBuilder;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGeneratorInterface::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
 
         $naturalPersonId       = '777';

@@ -6,7 +6,7 @@ namespace Cemetery\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\IdentityGeneratorInterface;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
 /**
@@ -20,11 +20,11 @@ final class BurialBuilder
     private Burial $burial;
 
     /**
-     * @param IdentityGeneratorInterface   $identityGenerator
+     * @param IdentityGenerator            $identityGenerator
      * @param BurialCodeGeneratorInterface $burialCodeGenerator
      */
     public function __construct(
-        private readonly IdentityGeneratorInterface   $identityGenerator,
+        private readonly IdentityGenerator            $identityGenerator,
         private readonly BurialCodeGeneratorInterface $burialCodeGenerator,
     ) {}
 
