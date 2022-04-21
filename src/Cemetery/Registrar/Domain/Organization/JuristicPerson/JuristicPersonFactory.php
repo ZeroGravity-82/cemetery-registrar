@@ -32,6 +32,7 @@ final class JuristicPersonFactory
      * @param string|null $phone
      * @param string|null $phoneAdditional
      * @param string|null $fax
+     * @param string|null $generalDirector
      * @param string|null $email
      * @param string|null $website
      *
