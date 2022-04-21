@@ -17,6 +17,11 @@ use Doctrine\DBAL\Types\JsonType;
  */
 final class CustomerIdType extends JsonType
 {
+    public const ID_CLASS_NAMES = [
+        NaturalPersonId::class  => 'NaturalPersonId',
+        JuristicPersonId::class => 'JuristicPersonId',
+        SoleProprietorId::class => 'SoleProprietorId',
+    ];
     private const TYPE_NAME = 'customer_id';
 
     /**
@@ -97,7 +102,7 @@ final class CustomerIdType extends JsonType
      */
     private function assertValid(mixed $decodedValue, mixed $value): void
     {
-        $isInvalidValue = !isset($decodedValue['type'], $decodedValue['value']);
+        $isInvalidValue = !isset($decodedValue['class'], $decodedValue['value']);
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
@@ -110,9 +115,11 @@ final class CustomerIdType extends JsonType
      */
     private function prepareCustomerIdData(CustomerId $value): array
     {
+        $id = $value->id();
+
         return [
-            'type'  => $value->idType(),
-            'value' => $value->id()->value()
+            'class' => self::ID_CLASS_NAMES[$id::class],
+            'value' => $id->value(),
         ];
     }
 
@@ -123,10 +130,10 @@ final class CustomerIdType extends JsonType
      */
     private function buildCustomerId(array $decodedValue): CustomerId
     {
-        return match ($decodedValue['type']) {
-            'NaturalPersonId'  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
-            'JuristicPersonId' => new CustomerId(new JuristicPersonId($decodedValue['value'])),
-            'SoleProprietorId' => new CustomerId(new SoleProprietorId($decodedValue['value'])),
+        return match ($decodedValue['class']) {
+            self::ID_CLASS_NAMES[NaturalPersonId::class]  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
+            self::ID_CLASS_NAMES[JuristicPersonId::class] => new CustomerId(new JuristicPersonId($decodedValue['value'])),
+            self::ID_CLASS_NAMES[SoleProprietorId::class] => new CustomerId(new SoleProprietorId($decodedValue['value'])),
         };
     }
 }

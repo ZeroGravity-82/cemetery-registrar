@@ -99,10 +99,10 @@ final class BurialContainerType extends JsonType
     private function assertValid(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue = false;
-        if (!isset($decodedValue['type'])) {
+        if (!isset($decodedValue['class'])) {
             $isInvalidValue = true;
         }
-        $isInvalidValue = $isInvalidValue || match ($decodedValue['type']) {
+        $isInvalidValue = $isInvalidValue || match ($decodedValue['class']) {
             'Coffin' =>  !isset(
                 $decodedValue['value']['size'],
                 $decodedValue['value']['shape'],
@@ -126,7 +126,7 @@ final class BurialContainerType extends JsonType
 
         return match (true) {
             $container instanceof Coffin => [
-                'type'  => 'Coffin',
+                'class' => 'Coffin',
                 'value' => [
                     'size'          => $container->size()->value(),
                     'shape'         => $container->shape()->value(),
@@ -134,7 +134,7 @@ final class BurialContainerType extends JsonType
                 ],
             ],
             $container instanceof Urn => [
-                'type'  => 'Urn',
+                'class' => 'Urn',
                 'value' => null,
             ],
         };
@@ -147,7 +147,7 @@ final class BurialContainerType extends JsonType
      */
     private function buildBurialContainer(array $decodedValue): BurialContainer
     {
-        $container = match ($decodedValue['type']) {
+        $container = match ($decodedValue['class']) {
             'Coffin' => new Coffin(
                 new CoffinSize($decodedValue['value']['size']),
                 new CoffinShape($decodedValue['value']['shape']),

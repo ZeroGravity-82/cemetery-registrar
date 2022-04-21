@@ -10,6 +10,8 @@ use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyIdType;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -84,14 +86,16 @@ final class BurialRepository implements BurialRepositoryInterface
      */
     public function countByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): int
     {
+        $id = $funeralCompanyId->id();
+
         return (int) $this->entityManager
             ->getRepository(Burial::class)
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
+            ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.class') = :class")
             ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.value') = :value")
-            ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.type') = :type")
-            ->setParameter('value', $funeralCompanyId->id()->value())
-            ->setParameter('type', $funeralCompanyId->idType())
+            ->setParameter('class', FuneralCompanyIdType::ID_CLASS_NAMES[$id::class])
+            ->setParameter('value', $id->value())
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -101,14 +105,16 @@ final class BurialRepository implements BurialRepositoryInterface
      */
     public function countByCustomerId(CustomerId $customerId): int
     {
+        $id = $customerId->id();
+
         return (int) $this->entityManager
             ->getRepository(Burial::class)
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
+            ->andWhere("JSON_EXTRACT(b.customerId, '$.class') = :class")
             ->andWhere("JSON_EXTRACT(b.customerId, '$.value') = :value")
-            ->andWhere("JSON_EXTRACT(b.customerId, '$.type') = :type")
-            ->setParameter('value', $customerId->id()->value())
-            ->setParameter('type', $customerId->idType())
+            ->setParameter('class', CustomerIdType::ID_CLASS_NAMES[$id::class])
+            ->setParameter('value', $id->value())
             ->getQuery()
             ->getSingleScalarResult();
     }

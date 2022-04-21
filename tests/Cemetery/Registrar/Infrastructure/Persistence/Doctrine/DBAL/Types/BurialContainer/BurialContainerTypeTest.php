@@ -27,12 +27,12 @@ class BurialContainerTypeTest extends AbstractTypeTest
         $dbValue        = $this->type->convertToDatabaseValue($this->phpValue, $this->mockPlatform);
         $decodedDbValue = \json_decode($dbValue, true);
         $this->assertIsArray($decodedDbValue);
-        $this->assertArrayHasKey('type', $decodedDbValue);
+        $this->assertArrayHasKey('class', $decodedDbValue);
         $this->assertArrayHasKey('value', $decodedDbValue);
         $this->assertArrayHasKey('size', $decodedDbValue['value']);
         $this->assertArrayHasKey('shape', $decodedDbValue['value']);
         $this->assertArrayHasKey('isNonStandard', $decodedDbValue['value']);
-        $this->assertSame('Coffin', $decodedDbValue['type']);
+        $this->assertSame('Coffin', $decodedDbValue['class']);
         $this->assertSame($this->phpValue->container()->size()->value(), $decodedDbValue['value']['size']);
         $this->assertSame($this->phpValue->container()->shape()->value(), $decodedDbValue['value']['shape']);
         $this->assertSame($this->phpValue->container()->isNonStandard(), $decodedDbValue['value']['isNonStandard']);
@@ -41,9 +41,9 @@ class BurialContainerTypeTest extends AbstractTypeTest
         $dbValue        = $this->type->convertToDatabaseValue($this->phpValue, $this->mockPlatform);
         $decodedDbValue = \json_decode($dbValue, true);
         $this->assertIsArray($decodedDbValue);
-        $this->assertArrayHasKey('type', $decodedDbValue);
+        $this->assertArrayHasKey('class', $decodedDbValue);
         $this->assertArrayHasKey('value', $decodedDbValue);
-        $this->assertSame('Urn', $decodedDbValue['type']);
+        $this->assertSame('Urn', $decodedDbValue['class']);
         $this->assertNull($decodedDbValue['value']);
 
         $dbValue = $this->type->convertToDatabaseValue(null, $this->mockPlatform);
@@ -65,7 +65,7 @@ class BurialContainerTypeTest extends AbstractTypeTest
 
     public function testItConvertsToPhpValue(): void
     {
-        $this->dbValue  = '{"type":"Coffin","value":{"size":180,"shape":"GREEK_WITH_HANDLES","isNonStandard":true}}';
+        $this->dbValue  = '{"class":"Coffin","value":{"size":180,"shape":"GREEK_WITH_HANDLES","isNonStandard":true}}';
         $decodedDbValue = \json_decode($this->dbValue, true);
         $phpValue       = $this->type->convertToPHPValue($this->dbValue, $this->mockPlatform);
         $this->assertInstanceOf(BurialContainer::class, $phpValue);
@@ -74,7 +74,7 @@ class BurialContainerTypeTest extends AbstractTypeTest
         $this->assertSame($decodedDbValue['value']['shape'], $phpValue->container()->shape()->value());
         $this->assertSame($decodedDbValue['value']['isNonStandard'], $phpValue->container()->isNonStandard());
 
-        $this->dbValue = '{"type":"Urn","value":null}';
+        $this->dbValue = '{"class":"Urn","value":null}';
         $phpValue      = $this->type->convertToPHPValue($this->dbValue, $this->mockPlatform);
         $this->assertInstanceOf(BurialContainer::class, $phpValue);
         $this->assertInstanceOf(Urn::class, $phpValue->container());

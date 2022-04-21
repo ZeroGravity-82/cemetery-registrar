@@ -21,7 +21,7 @@ class BurialPlaceIdTypeTest extends AbstractPolymorphicIdTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '{"type":"GraveSiteId","value":"GS001"}';
+        $this->dbValue  = '{"class":"GraveSiteId","value":"GS001"}';
         $this->phpValue = new BurialPlaceId(new GraveSiteId('GS001'));
     }
 }

@@ -16,6 +16,10 @@ use Doctrine\DBAL\Types\JsonType;
  */
 final class FuneralCompanyIdType extends JsonType
 {
+    public const ID_CLASS_NAMES = [
+        JuristicPersonId::class => 'JuristicPersonId',
+        SoleProprietorId::class => 'SoleProprietorId',
+    ];
     private const TYPE_NAME = 'funeral_company_id';
 
     /**
@@ -96,7 +100,7 @@ final class FuneralCompanyIdType extends JsonType
      */
     private function assertValid(mixed $decodedValue, mixed $value): void
     {
-        $isInvalidValue = !isset($decodedValue['type'], $decodedValue['value']);
+        $isInvalidValue = !isset($decodedValue['class'], $decodedValue['value']);
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
@@ -109,9 +113,11 @@ final class FuneralCompanyIdType extends JsonType
      */
     private function prepareFuneralCompanyIdData(FuneralCompanyId $value): array
     {
+        $id = $value->id();
+
         return [
-            'type'  => $value->idType(),
-            'value' => $value->id()->value()
+            'class' => self::ID_CLASS_NAMES[$id::class],
+            'value' => $id->value()
         ];
     }
 
@@ -122,9 +128,9 @@ final class FuneralCompanyIdType extends JsonType
      */
     private function buildFuneralCompanyId(array $decodedValue): FuneralCompanyId
     {
-        return match ($decodedValue['type']) {
-            'JuristicPersonId' => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
-            'SoleProprietorId' => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
+        return match ($decodedValue['class']) {
+            self::ID_CLASS_NAMES[JuristicPersonId::class] => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
+            self::ID_CLASS_NAMES[SoleProprietorId::class] => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
         };
     }
 }

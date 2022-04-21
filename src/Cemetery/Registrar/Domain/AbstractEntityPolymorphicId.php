@@ -29,25 +29,15 @@ abstract class AbstractEntityPolymorphicId
     }
 
     /**
-     * @return string
-     */
-    public function idType(): string
-    {
-        $parts = \explode('\\', \get_class($this->id()));
-
-        return \end($parts);
-    }
-
-    /**
      * @param self $id
      *
      * @return bool
      */
     public function isEqual(self $id): bool
     {
+        $isSameIdClass = \get_class($id->id()) === \get_class($this->id());
         $isSameIdValue = $id->id()->value() === $this->id()->value();
-        $isSameIdType  = \get_class($id->id()) === \get_class($this->id());
 
-        return $isSameIdValue && $isSameIdType;
+        return $isSameIdClass && $isSameIdValue;
     }
 }

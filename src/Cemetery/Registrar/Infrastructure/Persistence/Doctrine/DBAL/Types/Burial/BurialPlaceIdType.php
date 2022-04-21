@@ -17,6 +17,11 @@ use Doctrine\DBAL\Types\JsonType;
  */
 final class BurialPlaceIdType extends JsonType
 {
+    public const ID_CLASS_NAMES = [
+        GraveSiteId::class        => 'GraveSiteId',
+        ColumbariumNicheId::class => 'ColumbariumNicheId',
+        MemorialTreeId::class     => 'MemorialTreeId',
+    ];
     private const TYPE_NAME = 'burial_place_id';
 
     /**
@@ -97,7 +102,7 @@ final class BurialPlaceIdType extends JsonType
      */
     private function assertValid(mixed $decodedValue, mixed $value): void
     {
-        $isInvalidValue = !isset($decodedValue['type'], $decodedValue['value']);
+        $isInvalidValue = !isset($decodedValue['class'], $decodedValue['value']);
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для полиморфного идентификатора: "%s".', $value));
         }
@@ -110,9 +115,11 @@ final class BurialPlaceIdType extends JsonType
      */
     private function prepareBurialPlaceIdData(BurialPlaceId $value): array
     {
+        $id = $value->id();
+
         return [
-            'type'  => $value->idType(),
-            'value' => $value->id()->value()
+            'class' => self::ID_CLASS_NAMES[$id::class],
+            'value' => $id->value(),
         ];
     }
 
@@ -123,10 +130,10 @@ final class BurialPlaceIdType extends JsonType
      */
     private function buildBurialPlaceId(array $decodedValue): BurialPlaceId
     {
-        return match ($decodedValue['type']) {
-            'GraveSiteId'        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
-            'ColumbariumNicheId' => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
-            'MemorialTreeId'     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
+        return match ($decodedValue['class']) {
+            self::ID_CLASS_NAMES[GraveSiteId::class]        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
+            self::ID_CLASS_NAMES[ColumbariumNicheId::class] => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
+            self::ID_CLASS_NAMES[MemorialTreeId::class]     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
         };
     }
 }

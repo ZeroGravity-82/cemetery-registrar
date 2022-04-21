@@ -21,7 +21,7 @@ class CustomerIdTypeTest extends AbstractPolymorphicIdTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '{"type":"NaturalPersonId","value":"NP001"}';
+        $this->dbValue  = '{"class":"NaturalPersonId","value":"NP001"}';
         $this->phpValue = new CustomerId(new NaturalPersonId('NP001'));
     }
 }

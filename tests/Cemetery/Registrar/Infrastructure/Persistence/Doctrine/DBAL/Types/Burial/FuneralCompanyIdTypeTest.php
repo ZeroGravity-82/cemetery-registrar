@@ -21,7 +21,7 @@ class FuneralCompanyIdTypeTest extends AbstractPolymorphicIdTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '{"type":"JuristicPersonId","value":"JP001"}';
+        $this->dbValue  = '{"class":"JuristicPersonId","value":"JP001"}';
         $this->phpValue = new FuneralCompanyId(new JuristicPersonId('JP001'));
     }
 }
