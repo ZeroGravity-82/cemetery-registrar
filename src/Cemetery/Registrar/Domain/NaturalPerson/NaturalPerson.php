@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\NaturalPerson;
 
-use Cemetery\Registrar\Domain\AbstractAggregateRoot;
+use Cemetery\Registrar\Domain\AggregateRoot;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class NaturalPerson extends AbstractAggregateRoot
+final class NaturalPerson extends AggregateRoot
 {
     /**
      * @var string|null

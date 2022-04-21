@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Deceased;
 
-use Cemetery\Registrar\Domain\AbstractAggregateRoot;
+use Cemetery\Registrar\Domain\AggregateRoot;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Deceased extends AbstractAggregateRoot
+final class Deceased extends AggregateRoot
 {
     /**
      * @var DeathCertificateId|null

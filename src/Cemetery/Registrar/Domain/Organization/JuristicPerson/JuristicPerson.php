@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
-use Cemetery\Registrar\Domain\AbstractAggregateRoot;
+use Cemetery\Registrar\Domain\AggregateRoot;
 use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class JuristicPerson extends AbstractAggregateRoot
+final class JuristicPerson extends AggregateRoot
 {
     /**
      * @var Inn|null

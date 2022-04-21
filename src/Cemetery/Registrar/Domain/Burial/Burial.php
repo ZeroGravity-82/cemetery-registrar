@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
-use Cemetery\Registrar\Domain\AbstractAggregateRoot;
+use Cemetery\Registrar\Domain\AggregateRoot;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Burial extends AbstractAggregateRoot
+final class Burial extends AggregateRoot
 {
     /**
      * @var CustomerId|null
