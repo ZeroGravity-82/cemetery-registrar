@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractPolymorphicIdTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\MaskingIdTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyIdTypeTest extends AbstractPolymorphicIdTypeTest
+class FuneralCompanyIdTypeTest extends MaskingIdTypeTest
 {
     protected string $className = FuneralCompanyIdType::class;
     protected string $typeName  = 'funeral_company_id';

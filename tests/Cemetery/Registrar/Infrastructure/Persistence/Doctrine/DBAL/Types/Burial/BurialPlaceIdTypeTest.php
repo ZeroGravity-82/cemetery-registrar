@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\AbstractPolymorphicIdTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\MaskingIdTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialPlaceIdTypeTest extends AbstractPolymorphicIdTypeTest
+class BurialPlaceIdTypeTest extends MaskingIdTypeTest
 {
     protected string $className = BurialPlaceIdType::class;
     protected string $typeName  = 'burial_place_id';
