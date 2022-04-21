@@ -123,17 +123,21 @@ final class BurialContainerType extends JsonType
     private function prepareBurialContainerData(BurialContainer $value): array
     {
         $container = $value->container();
-        return [
-            'type'  => $container->className(),
-            'value' => match (true) {
-                $container instanceof Coffin => [
+
+        return match (true) {
+            $container instanceof Coffin => [
+                'type'  => 'Coffin',
+                'value' => [
                     'size'          => $container->size()->value(),
                     'shape'         => $container->shape()->value(),
                     'isNonStandard' => $container->isNonStandard(),
                 ],
-                $container instanceof Urn => null,
-            },
-        ];
+            ],
+            $container instanceof Urn => [
+                'type'  => 'Urn',
+                'value' => null,
+            ],
+        };
     }
 
     /**

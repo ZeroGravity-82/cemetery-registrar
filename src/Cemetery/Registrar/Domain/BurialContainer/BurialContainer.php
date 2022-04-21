@@ -34,7 +34,7 @@ final class BurialContainer
      */
     public function isEqual(self $container): bool
     {
-        $isSameContainerClass = $container->container()->className() === $this->container()->className();
+        $isSameContainerClass = \get_class($container->container()) === \get_class($this->container());
         $isSameContainerValue = $isSameContainerClass && $container->container()->isEqual($this->container());
 
         return $isSameContainerClass && $isSameContainerValue;
