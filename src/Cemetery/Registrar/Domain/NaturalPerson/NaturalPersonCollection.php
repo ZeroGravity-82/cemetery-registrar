@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\NaturalPerson;
 
-use Cemetery\Registrar\Domain\AbstractEntityCollection;
+use Cemetery\Registrar\Domain\EntityCollection;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class NaturalPersonCollection extends AbstractEntityCollection
+final class NaturalPersonCollection extends EntityCollection
 {
     /**
      * {@inheritdoc}

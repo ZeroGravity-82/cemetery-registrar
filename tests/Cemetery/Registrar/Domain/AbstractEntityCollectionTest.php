@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain;
 
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\AbstractEntityCollection;
+use Cemetery\Registrar\Domain\EntityCollection;
 use Cemetery\Registrar\Domain\EntityId;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ abstract class AbstractEntityCollectionTest extends TestCase
 
     protected Entity $entityD;
 
-    protected AbstractEntityCollection $collection;
+    protected EntityCollection $collection;
 
     abstract public function testItReturnsEntityClassName(): void;
 

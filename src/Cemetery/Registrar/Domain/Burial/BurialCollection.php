@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
-use Cemetery\Registrar\Domain\AbstractEntityCollection;
+use Cemetery\Registrar\Domain\EntityCollection;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialCollection extends AbstractEntityCollection
+final class BurialCollection extends EntityCollection
 {
     /**
      * {@inheritdoc}

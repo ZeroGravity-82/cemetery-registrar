@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityCollection implements \Countable, \IteratorAggregate
+abstract class EntityCollection implements \Countable, \IteratorAggregate
 {
     /** @var Entity[]|array */
     private array $entities = [];
