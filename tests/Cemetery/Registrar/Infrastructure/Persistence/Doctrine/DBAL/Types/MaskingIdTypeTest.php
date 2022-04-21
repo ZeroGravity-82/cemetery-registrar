@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\ConversionException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class MaskingIdTypeTest extends AbstractTypeTest
+abstract class MaskingIdTypeTest extends TypeTest
 {
     public function testItConvertsToDatabaseValue(): void
     {
