@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\BurialPlace;
 
-use Cemetery\Registrar\Domain\AbstractEntityId;
+use Cemetery\Registrar\Domain\EntityId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class ColumbariumNicheId extends AbstractEntityId
+final class ColumbariumNicheId extends EntityId
 {
 }

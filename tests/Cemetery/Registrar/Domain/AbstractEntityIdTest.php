@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain;
 
-use Cemetery\Registrar\Domain\AbstractEntityId;
+use Cemetery\Registrar\Domain\EntityId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,7 +16,7 @@ abstract class AbstractEntityIdTest extends TestCase
 
     public function testItSuccessfullyCreated(): void
     {
-        /** @var AbstractEntityId $entityId */
+        /** @var EntityId $entityId */
         $entityId = new $this->className('777');
 
         $this->assertSame('777', $entityId->value());

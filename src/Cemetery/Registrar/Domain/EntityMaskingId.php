@@ -10,23 +10,23 @@ namespace Cemetery\Registrar\Domain;
 abstract class EntityMaskingId
 {
     /**
-     * @var AbstractEntityId
+     * @var EntityId
      */
-    protected readonly AbstractEntityId $id;
+    protected readonly EntityId $id;
 
     /**
-     * @param AbstractEntityId $id
+     * @param EntityId $id
      */
     public function __construct(
-        AbstractEntityId $id,
+        EntityId $id,
     ) {
         $this->id = $id;
     }
 
     /**
-     * @return AbstractEntityId
+     * @return EntityId
      */
-    public function id(): AbstractEntityId
+    public function id(): EntityId
     {
         return $this->id;
     }

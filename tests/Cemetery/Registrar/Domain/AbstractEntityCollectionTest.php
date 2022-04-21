@@ -6,7 +6,7 @@ namespace Cemetery\Tests\Registrar\Domain;
 
 use Cemetery\Registrar\Domain\AbstractEntity;
 use Cemetery\Registrar\Domain\AbstractEntityCollection;
-use Cemetery\Registrar\Domain\AbstractEntityId;
+use Cemetery\Registrar\Domain\EntityId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -16,13 +16,13 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractEntityCollectionTest extends TestCase
 {
-    protected AbstractEntityId $idA;
+    protected EntityId $idA;
 
-    protected AbstractEntityId $idB;
+    protected EntityId $idB;
 
-    protected AbstractEntityId $idC;
+    protected EntityId $idC;
 
-    protected AbstractEntityId $idD;
+    protected EntityId $idD;
 
     protected AbstractEntity $entityA;
 
@@ -247,12 +247,12 @@ abstract class AbstractEntityCollectionTest extends TestCase
         return new class ($this->entityA->id()) extends AbstractEntity {
             public function __construct
             (
-                private readonly AbstractEntityId $id,
+                private readonly EntityId $id,
             ) {
                 parent::__construct();
             }
 
-            public function id(): AbstractEntityId
+            public function id(): EntityId
             {
                 return $this->id;
             }

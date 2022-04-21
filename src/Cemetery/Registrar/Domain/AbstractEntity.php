@@ -34,9 +34,9 @@ abstract class AbstractEntity
     /**
      * Returns the identity of the domain entity.
      *
-     * @return AbstractEntityId
+     * @return EntityId
      */
-    abstract public function id(): AbstractEntityId;
+    abstract public function id(): EntityId;
 
     /**
      * @return \DateTimeImmutable

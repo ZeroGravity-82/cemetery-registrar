@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types;
 
-use Cemetery\Registrar\Domain\AbstractEntityId;
+use Cemetery\Registrar\Domain\EntityId;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
@@ -72,7 +72,7 @@ abstract class AbstractPolymorphicIdTypeTest extends AbstractTypeTest
         $this->type->convertToPHPValue('{}', $this->mockPlatform);
     }
 
-    private function getClass(AbstractEntityId $id): string
+    private function getClass(EntityId $id): string
     {
         $parts = \explode('\\', \get_class($id));
 

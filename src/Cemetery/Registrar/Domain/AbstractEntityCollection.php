@@ -55,13 +55,13 @@ abstract class AbstractEntityCollection implements \Countable, \IteratorAggregat
     /**
      * Returns the entity by ID. If no entity found, then a \LogicException will be thrown.
      *
-     * @param AbstractEntityId $entityId
+     * @param EntityId $entityId
      *
      * @return AbstractEntity
      *
      * @throws \LogicException when the entity is not found by ID
      */
-    public function get(AbstractEntityId $entityId): AbstractEntity
+    public function get(EntityId $entityId): AbstractEntity
     {
         $entityId = (string) $entityId;
         if (!isset($this->entities[$entityId])) {
