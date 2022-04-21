@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\BurialContainer;
 
 /**
- * Wrapper class for burial container value objects.
+ * Wrapper class for value objects that are burial containers.
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
