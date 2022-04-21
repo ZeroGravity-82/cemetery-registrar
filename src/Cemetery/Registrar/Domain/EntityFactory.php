@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityFactory
+abstract class EntityFactory
 {
     /**
      * @param IdentityGeneratorInterface $identityGenerator
