@@ -103,6 +103,9 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
         $this->assertInstanceOf(SoleProprietorId::class, $this->burial->customerId()->id());
         $this->assertSame('SP001', $this->burial->customerId()->id()->value());
+
+        $this->burial->setCustomerId(null);
+        $this->assertNull($this->burial->customerId());
     }
 
     public function testItSetsBurialPlaceId(): void
@@ -130,6 +133,9 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertInstanceOf(MemorialTreeId::class, $this->burial->burialPlaceId()->id());
         $this->assertSame('MT001', $this->burial->burialPlaceId()->id()->value());
+
+        $this->burial->setBurialPlaceId(null);
+        $this->assertNull($this->burial->burialPlaceId());
     }
 
     public function testItSetsBurialPlaceOwnerId(): void
@@ -138,6 +144,9 @@ class BurialTest extends AbstractAggregateRootTest
         $this->burial->setBurialPlaceOwnerId($burialPlaceOwnerId);
         $this->assertInstanceOf(NaturalPersonId::class, $this->burial->burialPlaceOwnerId());
         $this->assertSame('NP002', (string) $this->burial->burialPlaceOwnerId());
+
+        $this->burial->setBurialPlaceOwnerId(null);
+        $this->assertNull($this->burial->burialPlaceOwnerId());
     }
     
     public function testItSetsFuneralCompanyId(): void
@@ -155,6 +164,9 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->funeralCompanyId());
         $this->assertInstanceOf(SoleProprietorId::class, $this->burial->funeralCompanyId()->id());
         $this->assertSame('SP001', $this->burial->funeralCompanyId()->id()->value());
+
+        $this->burial->setFuneralCompanyId(null);
+        $this->assertNull($this->burial->funeralCompanyId());
     }
 
     public function testItSetsBurialContainer(): void
@@ -163,6 +175,9 @@ class BurialTest extends AbstractAggregateRootTest
         $this->burial->setBurialContainer($burialContainer);
         $this->assertInstanceOf(BurialContainer::class, $this->burial->burialContainer());
         $this->assertTrue($this->burial->burialContainer()->isEqual($burialContainer));
+
+        $this->burial->setBurialContainer(null);
+        $this->assertNull($this->burial->burialContainer());
     }
     
     public function testItSetsBuriedAt(): void
@@ -170,6 +185,9 @@ class BurialTest extends AbstractAggregateRootTest
         $buriedAt = new \DateTimeImmutable('2022-01-01 01:01:01');
         $this->burial->setBuriedAt($buriedAt);
         $this->assertSame('2022-01-01 01:01:01', $this->burial->buriedAt()->format('Y-m-d H:i:s'));
+
+        $this->burial->setBuriedAt(null);
+        $this->assertNull($this->burial->buriedAt());
     }
 
     // ------------------------------ "BurialType <-> BurialPlace" invariant testing ------------------------------
