@@ -46,8 +46,8 @@ class AccuracyTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $coordinates = new Accuracy('0.89');
-        $this->assertSame('0.89', (string) $coordinates);
+        $accuracy = new Accuracy('0.89');
+        $this->assertSame('0.89', (string) $accuracy);
     }
 
     public function testItComparable(): void
