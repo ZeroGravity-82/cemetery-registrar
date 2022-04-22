@@ -16,9 +16,9 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Mask
  */
 class BurialPlaceIdTypeTest extends MaskingIdTypeTest
 {
-    protected string $className          = BurialPlaceIdType::class;
-    protected string $typeName           = 'burial_place_id';
-    protected string $phpValueClassName  = BurialPlaceId::class;
+    protected string $className         = BurialPlaceIdType::class;
+    protected string $typeName          = 'burial_place_id';
+    protected string $phpValueClassName = BurialPlaceId::class;
 
     protected function getConversionTests(): array
     {
