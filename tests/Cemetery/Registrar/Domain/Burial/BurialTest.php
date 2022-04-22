@@ -15,6 +15,7 @@ use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
+use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
@@ -310,5 +311,82 @@ class BurialTest extends AbstractAggregateRootTest
         $columbariumNicheId = new ColumbariumNicheId('CN001');
         $burialPlaceId      = new BurialPlaceId($columbariumNicheId);
         $this->burial->setBurialPlaceId($burialPlaceId);
+    }
+
+    // ------------------------------ "BurialType <-> BurialContainer" invariant testing ------------------------------
+
+    public function testItFailsWhenSettingCoffinForUrnInGraveSiteBurialType(): void
+    {
+        $this->burial->setBurialType(BurialType::urnInGraveSite());
+
+        $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
+            $coffin,
+            self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
+        ));
+        $burialContainer = new BurialContainer($coffin);
+        $this->burial->setBurialContainer($burialContainer);
+    }
+
+    public function testItFailsWhenSettingCoffinForUrnInColumbariumNicheBurialType(): void
+    {
+        $this->burial->setBurialType(BurialType::urnInColumbariumNiche());
+
+        $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
+            $coffin,
+            self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
+        ));
+        $burialContainer = new BurialContainer($coffin);
+        $this->burial->setBurialContainer($burialContainer);
+    }
+
+    public function testItFailsWhenSettingCoffinForAshesUnderMemorialTreeBurialType(): void
+    {
+        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+
+        $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
+            $coffin,
+            self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
+        ));
+        $burialContainer = new BurialContainer($coffin);
+        $this->burial->setBurialContainer($burialContainer);
+    }
+
+    public function testItFailsWhenSettingUrnForCoffinInGraveSiteBurialType(): void
+    {
+        $this->burial->setBurialType(BurialType::coffinInGraveSite());
+
+        $urn = new Urn();
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
+            $urn,
+            self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
+        ));
+        $burialContainer = new BurialContainer($urn);
+        $this->burial->setBurialContainer($burialContainer);
+    }
+
+    public function testItFailsWhenSettingUrnForAshesUnderMemorialTreeBurialType(): void
+    {
+        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+
+        $urn = new Urn();
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
+            $urn,
+            self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
+        ));
+        $burialContainer = new BurialContainer($urn);
+        $this->burial->setBurialContainer($burialContainer);
     }
 }

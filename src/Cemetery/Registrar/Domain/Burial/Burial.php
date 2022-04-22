@@ -6,6 +6,8 @@ namespace Cemetery\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\AggregateRoot;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
@@ -153,7 +155,7 @@ final class Burial extends AggregateRoot
      */
     public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): self
     {
-        $this->assertMatchesBurialType($burialPlaceId);
+        $this->assertBurialPlaceMatchesBurialType($burialPlaceId);
         $this->burialPlaceId = $burialPlaceId;
 
         return $this;
@@ -214,6 +216,7 @@ final class Burial extends AggregateRoot
      */
     public function setBurialContainer(?BurialContainer $burialContainer): self
     {
+        $this->assertBurialContainerMatchesBurialType($burialContainer);
         $this->burialContainer = $burialContainer;
 
         return $this;
@@ -246,24 +249,46 @@ final class Burial extends AggregateRoot
      *
      * @throws \RuntimeException when the burial place does not match the burial type
      */
-    private function assertMatchesBurialType(?BurialPlaceId $burialPlaceId): void
+    private function assertBurialPlaceMatchesBurialType(?BurialPlaceId $burialPlaceId): void
     {
-        if ($burialPlaceId === null) {
-            return;
-        }
-
-        $id      = $burialPlaceId->id();
+        $id      = $burialPlaceId?->id();
         $matches = match (true) {
             $this->burialType()->isCoffinInGraveSite(),
-            $this->burialType()->isUrnInGraveSite()         => $id instanceof GraveSiteId,
-            $this->burialType()->isUrnInColumbariumNiche()  => $id instanceof ColumbariumNicheId,
-            $this->burialType()->isAshesUnderMemorialTree() => $id instanceof MemorialTreeId,
+            $this->burialType()->isUrnInGraveSite()         => !$id || $id instanceof GraveSiteId,
+            $this->burialType()->isUrnInColumbariumNiche()  => !$id || $id instanceof ColumbariumNicheId,
+            $this->burialType()->isAshesUnderMemorialTree() => !$id || $id instanceof MemorialTreeId,
             default => false,
         };
         if (!$matches) {
             throw new \RuntimeException(\sprintf(
                 'Место захоронения "%s" не соответствует типу захороненния "%s".',
                 $this->getBurialPlaceLabel($burialPlaceId),
+                $this->burialType()->label(),
+            ));
+        }
+    }
+
+    /**
+     * Checks that the burial container matches the burial type.
+     *
+     * @param BurialContainer|null $burialContainer
+     *
+     * @throws \RuntimeException when the burial container does not match the burial type
+     */
+    private function assertBurialContainerMatchesBurialType(?BurialContainer $burialContainer): void
+    {
+        $container = $burialContainer?->container();
+        $matches   = match (true) {
+            $this->burialType()->isCoffinInGraveSite()      => !$container || $container instanceof Coffin,
+            $this->burialType()->isUrnInGraveSite(),
+            $this->burialType()->isUrnInColumbariumNiche()  => !$container || $container instanceof Urn,
+            $this->burialType()->isAshesUnderMemorialTree() => !$container,
+            default => false,
+        };
+        if (!$matches) {
+            throw new \RuntimeException(\sprintf(
+                'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
+                $container,
                 $this->burialType()->label(),
             ));
         }
