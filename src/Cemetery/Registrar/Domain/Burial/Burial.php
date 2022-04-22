@@ -6,6 +6,9 @@ namespace Cemetery\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\AggregateRoot;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
@@ -150,6 +153,7 @@ final class Burial extends AggregateRoot
      */
     public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): self
     {
+        $this->assertMatchesBurialType($burialPlaceId);
         $this->burialPlaceId = $burialPlaceId;
 
         return $this;
@@ -233,5 +237,53 @@ final class Burial extends AggregateRoot
         $this->buriedAt = $buriedAt;
 
         return $this;
+    }
+
+    /**
+     * Checks that the burial place matches the burial type.
+     *
+     * @param BurialPlaceId|null $burialPlaceId
+     *
+     * @throws \RuntimeException when the burial place does not match the burial type
+     */
+    private function assertMatchesBurialType(?BurialPlaceId $burialPlaceId): void
+    {
+        if ($burialPlaceId === null) {
+            return;
+        }
+
+        $id      = $burialPlaceId->id();
+        $matches = match (true) {
+            $this->burialType()->isCoffinInGraveSite(),
+            $this->burialType()->isUrnInGraveSite()         => $id instanceof GraveSiteId,
+            $this->burialType()->isUrnInColumbariumNiche()  => $id instanceof ColumbariumNicheId,
+            $this->burialType()->isAshesUnderMemorialTree() => $id instanceof MemorialTreeId,
+            default => false,
+        };
+        if (!$matches) {
+            throw new \RuntimeException(\sprintf(
+                'Место захоронения "%s" не соответствует типу захороненния "%s".',
+                $this->getBurialPlaceLabel($burialPlaceId),
+                $this->burialType()->label(),
+            ));
+        }
+    }
+
+    /**
+     * Returns burial place label for the burial place ID.
+     *
+     * @param BurialPlaceId $burialPlaceId
+     *
+     * @return string
+     */
+    private function getBurialPlaceLabel(BurialPlaceId $burialPlaceId): string
+    {
+        $id = $burialPlaceId->id();
+
+        return match (true) {
+            $id instanceof GraveSiteId        => 'могила',
+            $id instanceof ColumbariumNicheId => 'колумбарная ниша',
+            $id instanceof MemorialTreeId     => 'памятное дерево',
+        };
     }
 }
