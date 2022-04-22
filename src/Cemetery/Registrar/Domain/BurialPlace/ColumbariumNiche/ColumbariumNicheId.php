@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\BurialPlace;
+namespace Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Domain\EntityId;
 

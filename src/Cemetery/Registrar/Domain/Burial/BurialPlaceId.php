@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\EntityMaskingId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
 
 /**
  * Wrapper class for burial place ID value objects.

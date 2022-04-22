@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\BurialPlace;
+namespace Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Tests\Registrar\Domain\AbstractEntityIdTest;
 
 /**

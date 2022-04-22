@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial;
 
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 use Doctrine\DBAL\Types\JsonType;

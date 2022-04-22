@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;

@@ -8,9 +8,9 @@ use Cemetery\Registrar\Domain\AggregateRoot;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\Urn;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTreeId;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
