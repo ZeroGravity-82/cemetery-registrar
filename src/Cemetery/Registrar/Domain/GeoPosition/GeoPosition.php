@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Geolocation;
+namespace Cemetery\Registrar\Domain\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Position
+final class GeoPosition
 {
     /**
      * @param Coordinates   $coordinates
@@ -43,14 +43,14 @@ final class Position
     }
 
     /**
-     * @param self $position
+     * @param self $geoPosition
      *
      * @return bool
      */
-    public function isEqual(self $position): bool
+    public function isEqual(self $geoPosition): bool
     {
-        $isSameCoordinates = $position->coordinates() === $this->coordinates();
-        $isSameAccuracy    = $position->accuracy()    === $this->accuracy();
+        $isSameCoordinates = $geoPosition->coordinates() === $this->coordinates();
+        $isSameAccuracy    = $geoPosition->accuracy()    === $this->accuracy();
 
         return $isSameCoordinates && $isSameAccuracy;
     }

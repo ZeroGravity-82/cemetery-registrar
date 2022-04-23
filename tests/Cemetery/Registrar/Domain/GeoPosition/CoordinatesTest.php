@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Geolocation;
+namespace Cemetery\Tests\Registrar\Domain\GeoPosition;
 
-use Cemetery\Registrar\Domain\Geolocation\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use PHPUnit\Framework\TestCase;
 
 /**
