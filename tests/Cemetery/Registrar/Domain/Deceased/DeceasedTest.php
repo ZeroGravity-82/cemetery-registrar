@@ -38,13 +38,32 @@ class DeceasedTest extends AbstractAggregateRootTest
         $this->assertNull($this->deceased->deathCertificateId());
         $this->assertNull($this->deceased->causeOfDeath());
     }
-    
+
+    public function testItSetsNaturalPersonId(): void
+    {
+        $naturalPersonId = new NaturalPersonId('NP002');
+        $this->deceased->setNaturalPersonId($naturalPersonId);
+        $this->assertInstanceOf(NaturalPersonId::class, $this->deceased->naturalPersonId());
+        $this->assertTrue($this->deceased->naturalPersonId()->isEqual($naturalPersonId));
+    }
+
+    public function testItSetsDiedAt(): void
+    {
+        $diedAt = new \DateTimeImmutable('2022-01-11');
+        $this->deceased->setDiedAt($diedAt);
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->diedAt());
+        $this->assertSame('2022-01-11', $this->deceased->diedAt()->format('Y-m-d'));
+    }
+
     public function testItSetsDeathCertificateId(): void
     {
         $deathCertificateId = new DeathCertificateId('DC001');
         $this->deceased->setDeathCertificateId($deathCertificateId);
         $this->assertInstanceOf(DeathCertificateId::class, $this->deceased->deathCertificateId());
-        $this->assertSame('DC001', (string) $this->deceased->deathCertificateId());
+        $this->assertTrue($this->deceased->deathCertificateId()->isEqual($deathCertificateId));
+
+        $this->deceased->setDeathCertificateId(null);
+        $this->assertNull($this->deceased->deathCertificateId());
     }
 
     public function testItSetsCauseOfDeath(): void
@@ -52,6 +71,9 @@ class DeceasedTest extends AbstractAggregateRootTest
         $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
         $this->deceased->setCauseOfDeath($causeOfDeath);
         $this->assertInstanceOf(CauseOfDeath::class, $this->deceased->causeOfDeath());
-        $this->assertSame('Некоторая причина смерти', (string) $this->deceased->causeOfDeath());
+        $this->assertTrue($this->deceased->causeOfDeath()->isEqual($causeOfDeath));
+
+        $this->deceased->setCauseOfDeath(null);
+        $this->assertNull($this->deceased->causeOfDeath());
     }
 }
