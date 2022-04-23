@@ -10,10 +10,10 @@ namespace Cemetery\Registrar\Domain\BurialPlace\GraveSite;
 final class RowInBlock
 {
     /**
-     * @param string $value
+     * @param int $value
      */
     public function __construct(
-        private readonly string $value,
+        private readonly int $value,
     ) {
         $this->assertValidValue($value);
     }
@@ -23,44 +23,57 @@ final class RowInBlock
      */
     public function __toString(): string
     {
-        return $this->value();
+        return (string) $this->value();
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function value(): string
+    public function value(): int
     {
         return $this->value;
     }
 
     /**
-     * @param self $accuracy
+     * @param self $rowInBlock
      *
      * @return bool
      */
-    public function isEqual(self $accuracy): bool
+    public function isEqual(self $rowInBlock): bool
     {
-        return $accuracy->value() === $this->value();
+        return $rowInBlock->value() === $this->value();
     }
 
     /**
-     * @param string $accuracy
+     * @param int $rowInBlock
      */
-    private function assertValidValue(string $accuracy): void
+    private function assertValidValue(int $rowInBlock): void
     {
-        $this->assertNotEmpty($accuracy);
+        $this->assertNotNegative($rowInBlock);
+        $this->assertNotZero($rowInBlock);
     }
 
     /**
-     * @param string $accuracy
+     * @param int $rowInBlock
      *
-     * @throws \InvalidArgumentException when the row in block value is empty
+     * @throws \InvalidArgumentException when the row in block value has negative value
      */
-    private function assertNotEmpty(string $accuracy): void
+    private function assertNotNegative(int $rowInBlock): void
     {
-        if (\trim($accuracy) === '') {
-            throw new \InvalidArgumentException('Ряд в квартале не может иметь пустое значение.');
+        if ($rowInBlock < 0) {
+            throw new \InvalidArgumentException('Ряд в квартале не может иметь отрицательное значение.');
+        }
+    }
+
+    /**
+     * @param int $rowInBlock
+     *
+     * @throws \InvalidArgumentException when the row in block value has zero value
+     */
+    private function assertNotZero(int $rowInBlock): void
+    {
+        if ($rowInBlock === 0) {
+            throw new \InvalidArgumentException('Ряд в квартале не может иметь нулевое значение.');
         }
     }
 }
