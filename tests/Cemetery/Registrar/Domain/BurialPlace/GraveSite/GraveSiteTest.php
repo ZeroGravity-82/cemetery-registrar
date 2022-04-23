@@ -53,6 +53,7 @@ class GraveSiteTest extends AbstractAggregateRootTest
     {
         $cemeteryBlockId = new CemeteryBlockId('CB002');
         $this->graveSite->setCemeteryBlockId($cemeteryBlockId);
+        $this->assertInstanceOf(CemeteryBlockId::class, $this->graveSite->cemeteryBlockId());
         $this->assertTrue($this->graveSite->cemeteryBlockId()->isEqual($cemeteryBlockId));
     }
 
@@ -60,6 +61,7 @@ class GraveSiteTest extends AbstractAggregateRootTest
     {
         $rowInBlock = new RowInBlock(6);
         $this->graveSite->setRowInBlock($rowInBlock);
+        $this->assertInstanceOf(RowInBlock::class, $this->graveSite->rowInBlock());
         $this->assertTrue($this->graveSite->rowInBlock()->isEqual($rowInBlock));
     }
 
@@ -67,6 +69,7 @@ class GraveSiteTest extends AbstractAggregateRootTest
     {
         $positionInRow = new PositionInRow(10);
         $this->graveSite->setPositionInRow($positionInRow);
+        $this->assertInstanceOf(PositionInRow::class, $this->graveSite->positionInRow());
         $this->assertTrue($this->graveSite->positionInRow()->isEqual($positionInRow));
     }
 
@@ -74,6 +77,7 @@ class GraveSiteTest extends AbstractAggregateRootTest
     {
         $geoPosition = new GeoPosition(new Coordinates('54.9472658', '82.8043771'), new Accuracy('0.25'));
         $this->graveSite->setGeoPosition($geoPosition);
+        $this->assertInstanceOf(GeoPosition::class, $this->graveSite->geoPosition());
         $this->assertTrue($this->graveSite->geoPosition()->isEqual($geoPosition));
     }
 
@@ -81,6 +85,7 @@ class GraveSiteTest extends AbstractAggregateRootTest
     {
         $size = new GraveSiteSize('2.5');
         $this->graveSite->setSize($size);
+        $this->assertInstanceOf(GraveSiteSize::class, $this->graveSite->size());
         $this->assertTrue($this->graveSite->size()->isEqual($size));
     }
 }
