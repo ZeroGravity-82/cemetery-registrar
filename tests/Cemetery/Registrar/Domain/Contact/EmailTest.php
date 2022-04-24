@@ -50,8 +50,8 @@ class EmailTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $coordinates = new Email('info@google.com');
-        $this->assertSame('info@google.com', (string) $coordinates);
+        $email = new Email('info@google.com');
+        $this->assertSame('info@google.com', (string) $email);
     }
 
     public function testItComparable(): void
