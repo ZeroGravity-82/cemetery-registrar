@@ -68,8 +68,8 @@ class WebsiteTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $coordinates = new Website('https://example.com');
-        $this->assertSame('https://example.com', (string) $coordinates);
+        $website = new Website('https://example.com');
+        $this->assertSame('https://example.com', (string) $website);
     }
 
     public function testItComparable(): void
