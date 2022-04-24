@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\NaturalPerson;
 
 use Cemetery\Registrar\Domain\AggregateRoot;
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -12,24 +15,24 @@ use Cemetery\Registrar\Domain\AggregateRoot;
 final class NaturalPerson extends AggregateRoot
 {
     /**
-     * @var string|null
+     * @var PhoneNumber|null
      */
-    private ?string $phone = null;
+    private ?PhoneNumber $phone = null;
 
     /**
-     * @var string|null
+     * @var PhoneNumber|null
      */
-    private ?string $phoneAdditional = null;
+    private ?PhoneNumber $phoneAdditional = null;
 
     /**
-     * @var string|null
+     * @var Email|null
      */
-    private ?string $email = null;
+    private ?Email $email = null;
 
     /**
-     * @var string|null
+     * @var Address|null
      */
-    private ?string $address = null;
+    private ?Address $address = null;
 
     /**
      * @var \DateTimeImmutable|null
@@ -37,9 +40,9 @@ final class NaturalPerson extends AggregateRoot
     private ?\DateTimeImmutable $bornAt = null;
 
     /**
-     * @var string|null
+     * @var PlaceOfBirth|null
      */
-    private ?string $placeOfBirth = null;
+    private ?PlaceOfBirth $placeOfBirth = null;
 
     /**
      * @var Passport|null
@@ -86,19 +89,19 @@ final class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @return string|null
+     * @return PhoneNumber|null
      */
-    public function phone(): ?string
+    public function phone(): ?PhoneNumber
     {
         return $this->phone;
     }
 
     /**
-     * @param string|null $phone
+     * @param PhoneNumber|null $phone
      *
      * @return $this
      */
-    public function setPhone(?string $phone): self
+    public function setPhone(?PhoneNumber $phone): self
     {
         $this->phone = $phone;
 
@@ -106,19 +109,19 @@ final class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @return string|null
+     * @return PhoneNumber|null
      */
-    public function phoneAdditional(): ?string
+    public function phoneAdditional(): ?PhoneNumber
     {
         return $this->phoneAdditional;
     }
 
     /**
-     * @param string|null $phoneAdditional
+     * @param PhoneNumber|null $phoneAdditional
      *
      * @return $this
      */
-    public function setPhoneAdditional(?string $phoneAdditional): self
+    public function setPhoneAdditional(?PhoneNumber $phoneAdditional): self
     {
         $this->phoneAdditional = $phoneAdditional;
 
@@ -126,19 +129,19 @@ final class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @return string|null
+     * @return Email|null
      */
-    public function email(): ?string
+    public function email(): ?Email
     {
         return $this->email;
     }
 
     /**
-     * @param string|null $email
+     * @param Email|null $email
      *
      * @return $this
      */
-    public function setEmail(?string $email): self
+    public function setEmail(?Email $email): self
     {
         $this->email = $email;
 
@@ -146,19 +149,19 @@ final class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @return string|null
+     * @return Address|null
      */
-    public function address(): ?string
+    public function address(): ?Address
     {
         return $this->address;
     }
 
     /**
-     * @param string|null $address
+     * @param Address|null $address
      *
      * @return $this
      */
-    public function setAddress(?string $address): self
+    public function setAddress(?Address $address): self
     {
         $this->address = $address;
 
@@ -206,19 +209,19 @@ final class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @return string|null
+     * @return PlaceOfBirth|null
      */
-    public function placeOfBirth(): ?string
+    public function placeOfBirth(): ?PlaceOfBirth
     {
         return $this->placeOfBirth;
     }
 
     /**
-     * @param string|null $placeOfBirth
+     * @param PlaceOfBirth|null $placeOfBirth
      *
      * @return $this
      */
-    public function setPlaceOfBirth(?string $placeOfBirth): self
+    public function setPlaceOfBirth(?PlaceOfBirth $placeOfBirth): self
     {
         $this->placeOfBirth = $placeOfBirth;
 

@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\NaturalPerson\Passport;
+use Cemetery\Registrar\Domain\NaturalPerson\PlaceOfBirth;
 use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**
@@ -37,38 +41,46 @@ class NaturalPersonTest extends AbstractAggregateRootTest
         $this->assertNull($this->naturalPerson->address());
         $this->assertNull($this->naturalPerson->bornAt());
         $this->assertNull($this->naturalPerson->placeOfBirth());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->createdAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->naturalPerson->createdAt());
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->updatedAt());
-        $this->assertLessThan(new \DateTimeImmutable(), $this->naturalPerson->updatedAt());
+    }
+
+    public function testItSetsFullName(): void
+    {
+        $fullName = new FullName('Петров Пётр Петрович');
+        $this->naturalPerson->setFullName($fullName);
+        $this->assertInstanceOf(FullName::class, $this->naturalPerson->fullName());
+        $this->assertTrue($this->naturalPerson->fullName()->isEqual($fullName));
     }
 
     public function testItSetsPhone(): void
     {
-        $phone = '+7-913-777-88-99';
+        $phone = new PhoneNumber('+7-913-777-88-99');
         $this->naturalPerson->setPhone($phone);
-        $this->assertSame('+7-913-777-88-99', $this->naturalPerson->phone());
+        $this->assertInstanceOf(PhoneNumber::class, $this->naturalPerson->phone());
+        $this->assertTrue($this->naturalPerson->phone()->isEqual($phone));
     }
 
     public function testItSetsPhoneAdditional(): void
     {
-        $phone = '+7-913-555-66-77';
-        $this->naturalPerson->setPhoneAdditional($phone);
-        $this->assertSame('+7-913-555-66-77', $this->naturalPerson->phoneAdditional());
+        $phoneAdditional = new PhoneNumber('+7-913-555-66-77');
+        $this->naturalPerson->setPhoneAdditional($phoneAdditional);
+        $this->assertInstanceOf(PhoneNumber::class, $this->naturalPerson->phoneAdditional());
+        $this->assertTrue($this->naturalPerson->phoneAdditional()->isEqual($phoneAdditional));
     }
 
     public function testItSetsEmail(): void
     {
-        $email = 'info@example.com';
+        $email = new Email('info@example.com');
         $this->naturalPerson->setEmail($email);
-        $this->assertSame('info@example.com', $this->naturalPerson->email());
+        $this->assertInstanceOf(Email::class, $this->naturalPerson->email());
+        $this->assertTrue($this->naturalPerson->email()->isEqual($email));
     }
 
     public function testItSetsAddress(): void
     {
-        $address = 'г. Новосибирск, ул. Дмитрия Шамшурина, д. 37';
+        $address = new Address('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37');
         $this->naturalPerson->setAddress($address);
-        $this->assertSame('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37', $this->naturalPerson->address());
+        $this->assertInstanceOf(Address::class, $this->naturalPerson->address());
+        $this->assertTrue($this->naturalPerson->address()->isEqual($address));
     }
 
     public function testItSetsBornAt(): void
@@ -81,9 +93,10 @@ class NaturalPersonTest extends AbstractAggregateRootTest
 
     public function testItSetsPlaceOfBirth(): void
     {
-        $placeOfBirth = 'город Новосибирск';
+        $placeOfBirth = new PlaceOfBirth('город Новосибирск');
         $this->naturalPerson->setPlaceOfBirth($placeOfBirth);
-        $this->assertSame('город Новосибирск', $this->naturalPerson->placeOfBirth());
+        $this->assertInstanceOf(PlaceOfBirth::class, $this->naturalPerson->placeOfBirth());
+        $this->assertTrue($this->naturalPerson->placeOfBirth()->isEqual($placeOfBirth));
     }
 
     public function testItSetsPassport(): void
@@ -97,10 +110,6 @@ class NaturalPersonTest extends AbstractAggregateRootTest
         );
         $this->naturalPerson->setPassport($passport);
         $this->assertInstanceOf(Passport::class, $this->naturalPerson->passport());
-        $this->assertSame('1234', $this->naturalPerson->passport()->series());
-        $this->assertSame('567890', $this->naturalPerson->passport()->number());
-        $this->assertSame('2001-01-01', $this->naturalPerson->passport()->issuedAt()->format('Y-m-d'));
-        $this->assertSame('УВД Кировского района города Новосибирска', $this->naturalPerson->passport()->issuedBy());
-        $this->assertSame('540-001', $this->naturalPerson->passport()->divisionCode());
+        $this->assertTrue($this->naturalPerson->passport()->isEqual($passport));
     }
 }
