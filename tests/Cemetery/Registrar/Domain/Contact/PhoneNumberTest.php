@@ -32,8 +32,8 @@ class PhoneNumberTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $coordinates = new PhoneNumber('+7-913-777-88-99');
-        $this->assertSame('+7-913-777-88-99', (string) $coordinates);
+        $phoneNumber = new PhoneNumber('+7-913-777-88-99');
+        $this->assertSame('+7-913-777-88-99', (string) $phoneNumber);
     }
 
     public function testItComparable(): void
