@@ -32,8 +32,8 @@ class AddressTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $coordinates = new Address('г. Новосибирск, ул. 3 Интернационала, д. 127');
-        $this->assertSame('г. Новосибирск, ул. 3 Интернационала, д. 127', (string) $coordinates);
+        $address = new Address('г. Новосибирск, ул. 3 Интернационала, д. 127');
+        $this->assertSame('г. Новосибирск, ул. 3 Интернационала, д. 127', (string) $address);
     }
 
     public function testItComparable(): void
