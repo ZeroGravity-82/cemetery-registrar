@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\IdentityGenerator;
 
 /**
@@ -40,11 +43,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string $phone
+     * @param PhoneNumber $phone
      *
      * @return $this
      */
-    public function addPhone(string $phone): self
+    public function addPhone(PhoneNumber $phone): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setPhone($phone);
@@ -53,11 +56,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string $phoneAdditional
+     * @param PhoneNumber $phoneAdditional
      *
      * @return $this
      */
-    public function addPhoneAdditional(string $phoneAdditional): self
+    public function addPhoneAdditional(PhoneNumber $phoneAdditional): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setPhoneAdditional($phoneAdditional);
@@ -66,11 +69,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string $email
+     * @param Email $email
      *
      * @return $this
      */
-    public function addEmail(string $email): self
+    public function addEmail(Email $email): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setEmail($email);
@@ -79,11 +82,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string $address
+     * @param Address $address
      *
      * @return $this
      */
-    public function addAddress(string $address): self
+    public function addAddress(Address $address): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setAddress($address);
@@ -105,11 +108,11 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param string $placeOfBirth
+     * @param PlaceOfBirth $placeOfBirth
      *
      * @return $this
      */
-    public function addPlaceOfBirth(string $placeOfBirth): self
+    public function addPlaceOfBirth(PlaceOfBirth $placeOfBirth): self
     {
         $this->assertInitialized();
         $this->naturalPerson->setPlaceOfBirth($placeOfBirth);

@@ -4,12 +4,16 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\NaturalPerson\Passport;
+use Cemetery\Registrar\Domain\NaturalPerson\PlaceOfBirth;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -59,30 +63,34 @@ class NaturalPersonBuilderTest extends TestCase
 
     public function testItAddsAPhone(): void
     {
-        $phone         = '+7-999-555-44-33';
+        $phone         = new PhoneNumber('+7-999-555-44-33');
         $naturalPerson = $this->naturalPersonBuilder->addPhone($phone)->build();
-        $this->assertSame('+7-999-555-44-33', $naturalPerson->phone());
+        $this->assertInstanceOf(PhoneNumber::class, $naturalPerson->phone());
+        $this->assertTrue($naturalPerson->phone()->isEqual($phone));
     }
 
     public function testItAddsAPhoneAdditional(): void
     {
-        $phoneAdditional = '+7-999-777-11-22';
+        $phoneAdditional = new PhoneNumber('+7-999-777-11-22');
         $naturalPerson   = $this->naturalPersonBuilder->addPhoneAdditional($phoneAdditional)->build();
-        $this->assertSame('+7-999-777-11-22', $naturalPerson->phoneAdditional());
+        $this->assertInstanceOf(PhoneNumber::class, $naturalPerson->phoneAdditional());
+        $this->assertTrue($naturalPerson->phoneAdditional()->isEqual($phoneAdditional));
     }
 
     public function testItAddsAnEmail(): void
     {
-        $email         = 'info@example.com';
+        $email         = new Email('info@example.com');
         $naturalPerson = $this->naturalPersonBuilder->addEmail($email)->build();
-        $this->assertSame('info@example.com', $naturalPerson->email());
+        $this->assertInstanceOf(Email::class, $naturalPerson->email());
+        $this->assertTrue($naturalPerson->email()->isEqual($email));
     }
 
     public function testItAddsAnAddress(): void
     {
-        $address       = 'г. Новосибирск, ул. Дмитрия Шамшурина, д. 37';
+        $address       = new Address('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37');
         $naturalPerson = $this->naturalPersonBuilder->addAddress($address)->build();
-        $this->assertSame('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37', $naturalPerson->address());
+        $this->assertInstanceOf(Address::class, $naturalPerson->address());
+        $this->assertTrue($naturalPerson->address()->isEqual($address));
     }
 
     public function testItAddsABornAt(): void
@@ -95,32 +103,31 @@ class NaturalPersonBuilderTest extends TestCase
 
     public function testItAddsAPlaceOfBirth(): void
     {
-        $placeOfBirth  = 'город Новосибирск';
+        $placeOfBirth  = new PlaceOfBirth('город Новосибирск');
         $naturalPerson = $this->naturalPersonBuilder->addPlaceOfBirth($placeOfBirth)->build();
-        $this->assertSame('город Новосибирск', $naturalPerson->placeOfBirth());
+        $this->assertInstanceOf(PlaceOfBirth::class, $naturalPerson->placeOfBirth());
+        $this->assertTrue($naturalPerson->placeOfBirth()->isEqual($placeOfBirth));
     }
 
     public function testItAddsPassport(): void
     {
-        $passportSeries       = '1234';
-        $passportNumber       = '567890';
-        $passportIssuedAt     = new \DateTimeImmutable('2001-01-01');
-        $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
-        $passportDivisionCode = '540-001';
-        $naturalPerson        = $this->naturalPersonBuilder
+        $passport = new Passport(
+            '1234',
+            '567890',
+            new \DateTimeImmutable('2001-01-01'),
+            'УВД Кировского района города Новосибирска',
+            '540-001',
+        );
+        $naturalPerson = $this->naturalPersonBuilder
             ->addPassport(
-                $passportSeries,
-                $passportNumber,
-                $passportIssuedAt,
-                $passportIssuedBy,
-                $passportDivisionCode,
+                $passport->series(),
+                $passport->number(),
+                $passport->issuedAt(),
+                $passport->issuedBy(),
+                $passport->divisionCode(),
             )
             ->build();
         $this->assertInstanceOf(Passport::class, $naturalPerson->passport());
-        $this->assertSame('1234', $naturalPerson->passport()->series());
-        $this->assertSame('567890', $naturalPerson->passport()->number());
-        $this->assertSame('2001-01-01', $naturalPerson->passport()->issuedAt()->format('Y-m-d'));
-        $this->assertSame('УВД Кировского района города Новосибирска', $naturalPerson->passport()->issuedBy());
-        $this->assertSame('540-001', $naturalPerson->passport()->divisionCode());
+        $this->assertTrue($naturalPerson->passport()->isEqual($passport));
     }
 }
