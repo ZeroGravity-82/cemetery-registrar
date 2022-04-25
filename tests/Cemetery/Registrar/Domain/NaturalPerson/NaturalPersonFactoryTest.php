@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
+use Cemetery\Registrar\Domain\NaturalPerson\PlaceOfBirth;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -69,12 +73,12 @@ class NaturalPersonFactoryTest extends TestCase
         $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
         $passportDivisionCode = '540-001';
         $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPhone')->with($phone);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPhoneAdditional')->with($phoneAdditional);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addEmail')->with($email);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addAddress')->with($address);
+        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPhone')->with(new PhoneNumber($phone));
+        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPhoneAdditional')->with(new PhoneNumber($phoneAdditional));
+        $this->mockNaturalPersonBuilder->expects($this->once())->method('addEmail')->with(new Email($email));
+        $this->mockNaturalPersonBuilder->expects($this->once())->method('addAddress')->with(new Address($address));
         $this->mockNaturalPersonBuilder->expects($this->once())->method('addBornAt')->with($bornAt);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPlaceOfBirth')->with($placeOfBirth);
+        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPlaceOfBirth')->with(new PlaceOfBirth($placeOfBirth));
         $this->mockNaturalPersonBuilder->expects($this->once())->method('addPassport')->with(
             $passportSeries,
             $passportNumber,
