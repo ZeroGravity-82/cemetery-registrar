@@ -33,8 +33,8 @@ class MemorialTreeCollectionTest extends AbstractEntityCollectionTest
 
     protected function getClosureForCollectionFiltering(): \Closure
     {
-        return function (MemorialTree $deceased) {
-            return $deceased->geoPosition() !== null;
+        return function (MemorialTree $memorialTree) {
+            return $memorialTree->geoPosition() !== null;
         };
     }
 }
