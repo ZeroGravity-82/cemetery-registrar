@@ -63,34 +63,34 @@ class NaturalPersonBuilderTest extends TestCase
 
     public function testItAddsAPhone(): void
     {
-        $phone         = new PhoneNumber('+7-999-555-44-33');
+        $phone         = '+7-999-555-44-33';
         $naturalPerson = $this->naturalPersonBuilder->addPhone($phone)->build();
         $this->assertInstanceOf(PhoneNumber::class, $naturalPerson->phone());
-        $this->assertTrue($naturalPerson->phone()->isEqual($phone));
+        $this->assertTrue($naturalPerson->phone()->isEqual(new PhoneNumber($phone)));
     }
 
     public function testItAddsAPhoneAdditional(): void
     {
-        $phoneAdditional = new PhoneNumber('+7-999-777-11-22');
+        $phoneAdditional = '+7-999-777-11-22';
         $naturalPerson   = $this->naturalPersonBuilder->addPhoneAdditional($phoneAdditional)->build();
         $this->assertInstanceOf(PhoneNumber::class, $naturalPerson->phoneAdditional());
-        $this->assertTrue($naturalPerson->phoneAdditional()->isEqual($phoneAdditional));
+        $this->assertTrue($naturalPerson->phoneAdditional()->isEqual(new PhoneNumber($phoneAdditional)));
     }
 
     public function testItAddsAnEmail(): void
     {
-        $email         = new Email('info@example.com');
+        $email         = 'info@example.com';
         $naturalPerson = $this->naturalPersonBuilder->addEmail($email)->build();
         $this->assertInstanceOf(Email::class, $naturalPerson->email());
-        $this->assertTrue($naturalPerson->email()->isEqual($email));
+        $this->assertTrue($naturalPerson->email()->isEqual(new Email($email)));
     }
 
     public function testItAddsAnAddress(): void
     {
-        $address       = new Address('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37');
+        $address       = 'г. Новосибирск, ул. Дмитрия Шамшурина, д. 37';
         $naturalPerson = $this->naturalPersonBuilder->addAddress($address)->build();
         $this->assertInstanceOf(Address::class, $naturalPerson->address());
-        $this->assertTrue($naturalPerson->address()->isEqual($address));
+        $this->assertTrue($naturalPerson->address()->isEqual(new Address($address)));
     }
 
     public function testItAddsABornAt(): void
@@ -103,31 +103,35 @@ class NaturalPersonBuilderTest extends TestCase
 
     public function testItAddsAPlaceOfBirth(): void
     {
-        $placeOfBirth  = new PlaceOfBirth('город Новосибирск');
+        $placeOfBirth  = 'город Новосибирск';
         $naturalPerson = $this->naturalPersonBuilder->addPlaceOfBirth($placeOfBirth)->build();
         $this->assertInstanceOf(PlaceOfBirth::class, $naturalPerson->placeOfBirth());
-        $this->assertTrue($naturalPerson->placeOfBirth()->isEqual($placeOfBirth));
+        $this->assertTrue($naturalPerson->placeOfBirth()->isEqual(new PlaceOfBirth($placeOfBirth)));
     }
 
     public function testItAddsPassport(): void
     {
-        $passport = new Passport(
-            '1234',
-            '567890',
-            new \DateTimeImmutable('2001-01-01'),
-            'УВД Кировского района города Новосибирска',
-            '540-001',
-        );
+        $passportSeries       = '1234';
+        $passportNumber       = '567890';
+        $passportIssuedAt     = new \DateTimeImmutable('2001-01-01');
+        $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
+        $passportDivisionCode = '540-001';
         $naturalPerson = $this->naturalPersonBuilder
             ->addPassport(
-                $passport->series(),
-                $passport->number(),
-                $passport->issuedAt(),
-                $passport->issuedBy(),
-                $passport->divisionCode(),
+                $passportSeries,
+                $passportNumber,
+                $passportIssuedAt,
+                $passportIssuedBy,
+                $passportDivisionCode,
             )
             ->build();
         $this->assertInstanceOf(Passport::class, $naturalPerson->passport());
-        $this->assertTrue($naturalPerson->passport()->isEqual($passport));
+        $this->assertTrue($naturalPerson->passport()->isEqual(new Passport(
+            $passportSeries,
+            $passportNumber,
+            $passportIssuedAt,
+            $passportIssuedBy,
+            $passportDivisionCode,
+        )));
     }
 }

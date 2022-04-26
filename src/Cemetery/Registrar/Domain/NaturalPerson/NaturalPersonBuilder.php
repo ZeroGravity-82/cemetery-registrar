@@ -43,52 +43,56 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param PhoneNumber $phone
+     * @param string $phone
      *
      * @return $this
      */
-    public function addPhone(PhoneNumber $phone): self
+    public function addPhone(string $phone): self
     {
         $this->assertInitialized();
+        $phone = new PhoneNumber($phone);
         $this->naturalPerson->setPhone($phone);
 
         return $this;
     }
 
     /**
-     * @param PhoneNumber $phoneAdditional
+     * @param string $phoneAdditional
      *
      * @return $this
      */
-    public function addPhoneAdditional(PhoneNumber $phoneAdditional): self
+    public function addPhoneAdditional(string $phoneAdditional): self
     {
         $this->assertInitialized();
+        $phoneAdditional = new PhoneNumber($phoneAdditional);
         $this->naturalPerson->setPhoneAdditional($phoneAdditional);
 
         return $this;
     }
 
     /**
-     * @param Email $email
+     * @param string $email
      *
      * @return $this
      */
-    public function addEmail(Email $email): self
+    public function addEmail(string $email): self
     {
         $this->assertInitialized();
+        $email = new Email($email);
         $this->naturalPerson->setEmail($email);
 
         return $this;
     }
 
     /**
-     * @param Address $address
+     * @param string $address
      *
      * @return $this
      */
-    public function addAddress(Address $address): self
+    public function addAddress(string $address): self
     {
         $this->assertInitialized();
+        $address = new Address($address);
         $this->naturalPerson->setAddress($address);
 
         return $this;
@@ -108,13 +112,14 @@ final class NaturalPersonBuilder
     }
 
     /**
-     * @param PlaceOfBirth $placeOfBirth
+     * @param string $placeOfBirth
      *
      * @return $this
      */
-    public function addPlaceOfBirth(PlaceOfBirth $placeOfBirth): self
+    public function addPlaceOfBirth(string $placeOfBirth): self
     {
         $this->assertInitialized();
+        $placeOfBirth = new PlaceOfBirth($placeOfBirth);
         $this->naturalPerson->setPlaceOfBirth($placeOfBirth);
 
         return $this;
