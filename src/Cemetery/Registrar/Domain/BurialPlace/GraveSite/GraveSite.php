@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\AggregateRoot;
-use Cemetery\Registrar\Domain\BurialPlace\CemeteryBlockId;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**

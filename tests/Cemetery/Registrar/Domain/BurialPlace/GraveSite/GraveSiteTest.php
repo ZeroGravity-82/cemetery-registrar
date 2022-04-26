@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\BurialPlace\CemeteryBlockId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
