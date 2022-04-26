@@ -20,15 +20,18 @@ use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
  */
 class GraveSiteTest extends AbstractAggregateRootTest
 {
-    private GraveSite $graveSite;
+    private GraveSiteId     $id;
+    private CemeteryBlockId $cemeteryBlockId;
+    private RowInBlock      $rowInBlock;
+    private GraveSite       $graveSite;
 
     public function setUp(): void
     {
-        $id               = new GraveSiteId('GS001');
-        $cemeteryBlockId  = new CemeteryBlockId('CB001');
-        $rowInBlock       = new RowInBlock(5);
-        $this->graveSite  = new GraveSite($id, $cemeteryBlockId, $rowInBlock);
-        $this->entity     = $this->graveSite;
+        $this->id              = new GraveSiteId('GS001');
+        $this->cemeteryBlockId = new CemeteryBlockId('CB001');
+        $this->rowInBlock      = new RowInBlock(5);
+        $this->graveSite       = new GraveSite($this->id, $this->cemeteryBlockId, $this->rowInBlock);
+        $this->entity          = $this->graveSite;
     }
 
     public function testItHasValidLabelConstant(): void
@@ -39,11 +42,11 @@ class GraveSiteTest extends AbstractAggregateRootTest
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(GraveSiteId::class, $this->graveSite->id());
-        $this->assertSame('GS001', $this->graveSite->id()->value());
+        $this->assertTrue($this->graveSite->id()->isEqual($this->id));
         $this->assertInstanceOf(CemeteryBlockId::class, $this->graveSite->cemeteryBlockId());
-        $this->assertSame('CB001', $this->graveSite->cemeteryBlockId()->value());
+        $this->assertTrue($this->graveSite->cemeteryBlockId()->isEqual($this->cemeteryBlockId));
         $this->assertInstanceOf(RowInBlock::class, $this->graveSite->rowInBlock());
-        $this->assertSame(5, $this->graveSite->rowInBlock()->value());
+        $this->assertTrue($this->graveSite->rowInBlock()->isEqual($this->rowInBlock));
         $this->assertNull($this->graveSite->positionInRow());
         $this->assertNull($this->graveSite->geoPosition());
         $this->assertNull($this->graveSite->size());
