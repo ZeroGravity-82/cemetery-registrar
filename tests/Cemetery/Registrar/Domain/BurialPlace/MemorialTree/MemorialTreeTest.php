@@ -29,6 +29,11 @@ class MemorialTreeTest extends AbstractAggregateRootTest
         $this->entity       = $this->memorialTree;
     }
 
+    public function testItHasValidLabelConstant(): void
+    {
+        $this->assertSame('памятное дерево', MemorialTree::LABEL);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(MemorialTreeId::class, $this->memorialTree->id());

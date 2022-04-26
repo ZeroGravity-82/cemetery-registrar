@@ -12,6 +12,8 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
  */
 final class MemorialTree extends AggregateRoot
 {
+    public const LABEL = 'памятное дерево';
+
     /**
      * @var GeoPosition|null
      */
