@@ -15,6 +15,7 @@ doctrine:
             # BurialContainer
             burial_container:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainer\BurialContainerType
             # BurialPlace/ColumbariumNiche
+            columbarium_id:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\ColumbariumNiche\ColumbariumIdType
             columbarium_name:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\ColumbariumNiche\ColumbariumNameType
             # Contact
             address:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
