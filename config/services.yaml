@@ -46,5 +46,6 @@ services:
                 entity: 'Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor'
                 event:  'postLoad'
         calls:
+            - ['addMapping', ['Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium',   'geoPosition']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson', 'bankDetails']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor', 'bankDetails']]

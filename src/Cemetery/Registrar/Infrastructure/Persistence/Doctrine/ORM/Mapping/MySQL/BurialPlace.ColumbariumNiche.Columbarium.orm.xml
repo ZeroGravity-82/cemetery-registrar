@@ -1,0 +1,19 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <entity name="Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium" table="columbarium">
+        <id name="id" column="id" type="columbarium_id">
+        </id>
+
+        <unique-constraints>
+            <unique-constraint columns="name" name="columbarium_name_uq" />
+        </unique-constraints>
+
+        <field name="name"      column="name"       type="columbarium_name"                   />
+        <field name="createdAt" column="created_at" type="datetime_immutable"                 />
+        <field name="updatedAt" column="updated_at" type="datetime_immutable"                 />
+        <field name="removedAt" column="removed_at" type="datetime_immutable" nullable="true" />
+
+        <embedded name="geoPosition" class="Cemetery\Registrar\Domain\GeoPosition\GeoPosition" use-column-prefix="false" />
+    </entity>
+
+</doctrine-mapping>
