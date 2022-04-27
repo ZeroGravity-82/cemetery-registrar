@@ -6,12 +6,12 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\GeoP
 
 use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
+use Doctrine\DBAL\Types\DecimalType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class AccuracyType extends StringType
+final class AccuracyType extends DecimalType
 {
     private const TYPE_NAME = 'geo_accuracy';
 
@@ -29,6 +29,17 @@ final class AccuracyType extends StringType
     /**
      * {@inheritdoc}
      */
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        $column['precision'] = 5;
+        $column['scale']     = 3;
+
+        return $platform->getDecimalTypeDeclarationSQL($column);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return $value instanceof Accuracy ? $value->value() : $value;
@@ -39,6 +50,8 @@ final class AccuracyType extends StringType
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): ?Accuracy
     {
+        $value = parent::convertToPHPValue($value, $platform);
+
         return !empty($value) ? new Accuracy($value) : null;
     }
 

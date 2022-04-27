@@ -49,8 +49,8 @@ final class GeoPosition
      */
     public function isEqual(self $geoPosition): bool
     {
-        $isSameCoordinates = $geoPosition->coordinates() === $this->coordinates();
-        $isSameAccuracy    = $geoPosition->accuracy()    === $this->accuracy();
+        $isSameCoordinates = $geoPosition->coordinates()->isEqual($this->coordinates());
+        $isSameAccuracy    = $geoPosition->accuracy()->isEqual($this->accuracy());
 
         return $isSameCoordinates && $isSameAccuracy;
     }
