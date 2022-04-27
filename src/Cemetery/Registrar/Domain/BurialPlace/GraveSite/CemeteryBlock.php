@@ -11,8 +11,6 @@ use Cemetery\Registrar\Domain\AggregateRoot;
  */
 final class CemeteryBlock extends AggregateRoot
 {
-    // TODO add geometry property
-
     /**
      * @param CemeteryBlockId   $id
      * @param CemeteryBlockName $name
