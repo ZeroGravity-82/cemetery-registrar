@@ -1,0 +1,8 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <embeddable name="Cemetery\Registrar\Domain\GeoPosition\Coordinates">
+        <field name="latitude"  column="geo_latitude"  type="string" nullable="true" />
+        <field name="longitude" column="geo_longitude" type="string" nullable="true" />
+    </embeddable>
+
+</doctrine-mapping>
