@@ -28,7 +28,7 @@ final class ColumbariumProvider
     {
         $id          = new ColumbariumId('C002');
         $name        = new ColumbariumName('южный колумбарий');
-        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Accuracy('0.5'));
+        $geoPosition = new GeoPosition(new Coordinates('+54.95035712', '082.7925200'), new Accuracy('0.5'));
 
         return (new Columbarium($id, $name))
             ->setGeoPosition($geoPosition);
@@ -38,7 +38,7 @@ final class ColumbariumProvider
     {
         $id          = new ColumbariumId('C003');
         $name        = new ColumbariumName('восточный колумбарий');
-        $geoPosition = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
+        $geoPosition = new GeoPosition(new Coordinates('-050.9500', '-179.7972252'), null);
 
         return (new Columbarium($id, $name))
             ->setGeoPosition($geoPosition);
