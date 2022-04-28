@@ -50,8 +50,26 @@ final class GeoPosition
     public function isEqual(self $geoPosition): bool
     {
         $isSameCoordinates = $geoPosition->coordinates()->isEqual($this->coordinates());
-        $isSameAccuracy    = $geoPosition->accuracy()->isEqual($this->accuracy());
+        $isSameAccuracy    = $this->checkSameAccuracy($geoPosition);
 
         return $isSameCoordinates && $isSameAccuracy;
+    }
+
+    /**
+     * @param self $geoPosition
+     *
+     * @return bool
+     */
+    private function checkSameAccuracy(self $geoPosition): bool
+    {
+        $isSame = false;
+
+        if ($geoPosition->accuracy() !== null && $this->accuracy() !== null) {
+            $isSame = $geoPosition->accuracy()->isEqual($this->accuracy());
+        } elseif ($geoPosition->accuracy() === null && $this->accuracy() === null) {
+            $isSame = true;
+        }
+
+        return $isSame;
     }
 }
