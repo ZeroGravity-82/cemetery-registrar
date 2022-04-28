@@ -48,5 +48,6 @@ services:
         calls:
             - ['addMapping', ['Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium',   'geoPosition']]
             - ['addMapping', ['Cemetery\Registrar\Domain\GeoPosition\GeoPosition',                    'coordinates']]
+            - ['addMapping', ['Cemetery\Registrar\Domain\GeoPosition\GeoPosition',                    'accuracy'   ]]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson', 'bankDetails']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor', 'bankDetails']]
