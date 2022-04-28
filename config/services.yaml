@@ -31,11 +31,7 @@ services:
         tags:
             -
                 name:   'doctrine.orm.entity_listener'
-                entity: 'Cemetery\Registrar\Domain\Burial\Burial'
-                event:  'postLoad'
-            -
-                name:   'doctrine.orm.entity_listener'
-                entity: 'Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany'
+                entity: 'Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium'
                 event:  'postLoad'
             -
                 name:   'doctrine.orm.entity_listener'
