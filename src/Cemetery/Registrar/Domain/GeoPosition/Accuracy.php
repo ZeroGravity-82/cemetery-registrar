@@ -12,12 +12,18 @@ final class Accuracy
     private const VALUE_PATTERN = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
 
     /**
+     * @var string
+     */
+    private readonly string $value;
+
+    /**
      * @param string $value
      */
     public function __construct(
-        private readonly string $value,
+        string $value,
     ) {
         $this->assertValidValue($value);
+        $this->value = $this->format($value);
     }
 
     /**
@@ -33,7 +39,7 @@ final class Accuracy
      */
     public function value(): string
     {
-        return $this->value;
+        return $this->format($this->value);
     }
 
     /**
@@ -43,7 +49,7 @@ final class Accuracy
      */
     public function isEqual(self $accuracy): bool
     {
-        return $accuracy->value() === $this->value();
+        return $this->format($accuracy->value()) === $this->value();
     }
 
     /**
@@ -90,5 +96,46 @@ final class Accuracy
         if (!\preg_match(self::VALUE_PATTERN, $accuracy)) {
             throw new \InvalidArgumentException(\sprintf('Погрешность "%s" имеет неверный формат.', $accuracy));
         }
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function format(string $value): string
+    {
+        $value = $this->trimPrecedingZeros($value);
+        return $this->trimTrailingZeros($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function trimPrecedingZeros(string $value): string
+    {
+        $value = \ltrim($value, '0');
+        if (\str_starts_with($value, '.')) {
+            $value = '0' . $value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function trimTrailingZeros(string $value): string
+    {
+        $value = \rtrim($value, '0');
+        if (\str_ends_with($value, '.')) {
+            $value = $value . '0';
+        }
+
+        return $value;
     }
 }

@@ -54,7 +54,7 @@ class AccuracyTest extends TestCase
     {
         $accuracyA = new Accuracy('0.89');
         $accuracyB = new Accuracy('1.9');
-        $accuracyC = new Accuracy('0.89');
+        $accuracyC = new Accuracy('00.890');
 
         $this->assertFalse($accuracyA->isEqual($accuracyB));
         $this->assertTrue($accuracyA->isEqual($accuracyC));
