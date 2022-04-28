@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
  */
 final class Coordinates
 {
-    private const VALUE_PATTERN = '~^[+/\-]?\d+\.?\d+$~';    // examples: 54.950357, -165.1282, etc.
+    private const VALUE_PATTERN = '~^[+/\-]?\d+\.\d+$~';    // examples: 54.950357, -165.1282, etc.
 
     /**
      * @var string
@@ -31,8 +31,8 @@ final class Coordinates
     ) {
         $this->assertValidLatitudeValue($latitude);
         $this->assertValidLongitudeValue($longitude);
-        $this->latitude  = \ltrim($latitude, '+');
-        $this->longitude = \ltrim($longitude, '+');
+        $this->latitude  = $this->format($latitude);
+        $this->longitude = $this->format($longitude);
     }
 
     /**
@@ -48,7 +48,7 @@ final class Coordinates
      */
     public function latitude(): string
     {
-        return $this->latitude;
+        return $this->format($this->latitude);
     }
 
     /**
@@ -56,7 +56,7 @@ final class Coordinates
      */
     public function longitude(): string
     {
-        return $this->longitude;
+        return $this->format($this->longitude);
     }
 
     /**
@@ -66,8 +66,8 @@ final class Coordinates
      */
     public function isEqual(self $coordinates): bool
     {
-        $isSameLatitude  = $coordinates->latitude()  === $this->latitude();
-        $isSameLongitude = $coordinates->longitude() === $this->longitude();
+        $isSameLatitude  = $this->format($coordinates->latitude())  === $this->latitude();
+        $isSameLongitude = $this->format($coordinates->longitude()) === $this->longitude();
 
         return $isSameLatitude && $isSameLongitude;
     }
@@ -139,5 +139,74 @@ final class Coordinates
                 $max,
             ));
         }
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function format(string $value): string
+    {
+        $value = $this->trimPrecedingZeros($value);
+        $value = $this->trimTrailingZeros($value);
+
+        return $this->removePlusSign($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function trimPrecedingZeros(string $value): string
+    {
+        $plusSignFound  = false;
+        $minusSignFound = false;
+        if (\str_starts_with($value, '+')) {
+            $plusSignFound = true;
+            $value         = \ltrim($value, '+');
+        }
+        if (\str_starts_with($value, '-')) {
+            $minusSignFound = true;
+            $value          = \ltrim($value, '-');
+        }
+        $value = \ltrim($value, '0');
+        if (\str_starts_with($value, '.')) {
+            $value = '0' . $value;
+        }
+        if ($plusSignFound) {
+            $value = '+' . $value;
+        }
+        if ($minusSignFound) {
+            $value = '-' . $value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function trimTrailingZeros(string $value): string
+    {
+        $value = \rtrim($value, '0');
+        if (\str_ends_with($value, '.')) {
+            $value = $value . '0';
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function removePlusSign(string $value): string
+    {
+        return \ltrim($value, '+');
     }
 }

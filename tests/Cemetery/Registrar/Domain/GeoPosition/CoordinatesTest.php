@@ -84,16 +84,16 @@ class CoordinatesTest extends TestCase
         $coordinates = new Coordinates('54.950357', '82.7972252');
         $this->assertSame('54.950357, 82.7972252', (string) $coordinates);
 
-        $coordinates = new Coordinates('54.950357', '82.7972252');
-        $this->assertSame('54.950357, 82.7972252', (string) $coordinates);
+        $coordinates = new Coordinates('-054.9503570', '+82.7972252');
+        $this->assertSame('-54.950357, 82.7972252', (string) $coordinates);
     }
 
     public function testItComparable(): void
     {
-        $coordinatesA = new Coordinates('54.950357', '82.7972252');
+        $coordinatesA = new Coordinates('-54.950357', '82.7972252');
         $coordinatesB = new Coordinates('44.950357', '82.7972252');
         $coordinatesC = new Coordinates('54.950357', '72.7972252');
-        $coordinatesD = new Coordinates('54.950357', '82.7972252');
+        $coordinatesD = new Coordinates('-054.950357', '+82.79722520');
 
         $this->assertFalse($coordinatesA->isEqual($coordinatesB));
         $this->assertFalse($coordinatesA->isEqual($coordinatesC));
