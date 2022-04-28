@@ -10,9 +10,6 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumName;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
-use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\ORM\ColumbariumRepository as DoctrineOrmColumbariumRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
@@ -189,10 +186,10 @@ class ColumbariumRepositoryIntegrationTest extends AbstractRepositoryIntegration
         $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
         $this->assertNull($persistedColumbarium->geoPosition());
 
-//        $persistedColumbarium = $this->repo->findById($this->columbariumB->id());
-//        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-//        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
-//        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($this->columbariumB->geoPosition()));
+        $persistedColumbarium = $this->repo->findById($this->columbariumB->id());
+        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
+        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
+        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($this->columbariumB->geoPosition()));
     }
 
     public function testItRemovesACollectionOfColumbariums(): void
