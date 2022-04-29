@@ -15,7 +15,7 @@ final class GeoPosition
      */
     public function __construct(
         private readonly Coordinates $coordinates,
-        private readonly ?Accuracy   $accuracy = null,
+        private readonly ?Accuracy   $accuracy,
     ) {}
 
     /**

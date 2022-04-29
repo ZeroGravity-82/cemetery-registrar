@@ -40,7 +40,7 @@ class GeoPositionTest extends TestCase
         $this->assertSame('82.7972252', $geoPosition->coordinates()->longitude());
         $this->assertSame('1.2', $geoPosition->accuracy()->value());
 
-        $geoPosition = new GeoPosition($this->coordinatesA);
+        $geoPosition = new GeoPosition($this->coordinatesA, null);
         $this->assertSame('54.950357', $geoPosition->coordinates()->latitude());
         $this->assertSame('82.7972252', $geoPosition->coordinates()->longitude());
         $this->assertNull($geoPosition->accuracy());
@@ -56,7 +56,7 @@ class GeoPositionTest extends TestCase
     {
         $geoPositionA = new GeoPosition($this->coordinatesA, $this->accuracyA);
         $geoPositionB = new GeoPosition($this->coordinatesA, $this->accuracyB);
-        $geoPositionC = new GeoPosition($this->coordinatesB);
+        $geoPositionC = new GeoPosition($this->coordinatesB, null);
         $geoPositionD = new GeoPosition($this->coordinatesC, $this->accuracyA);
         $geoPositionE = new GeoPosition($this->coordinatesA, $this->accuracyA);
 
