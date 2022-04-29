@@ -179,7 +179,7 @@ class ColumbariumRepositoryIntegrationTest extends AbstractRepositoryIntegration
 
     public function testItHydratesGeoPositionEmbeddable(): void
     {
-        $this->repo->saveAll(new ColumbariumCollection([$this->columbariumA, $this->columbariumB]));
+        $this->repo->saveAll(new ColumbariumCollection([$this->columbariumA, $this->columbariumB, $this->columbariumC]));
         $this->entityManager->clear();
 
         $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
@@ -190,6 +190,11 @@ class ColumbariumRepositoryIntegrationTest extends AbstractRepositoryIntegration
         $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
         $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
         $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($this->columbariumB->geoPosition()));
+
+        $persistedColumbarium = $this->repo->findById($this->columbariumC->id());
+        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
+        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
+        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($this->columbariumC->geoPosition()));
     }
 
     public function testItRemovesACollectionOfColumbariums(): void
