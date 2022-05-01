@@ -99,16 +99,18 @@ final class BurialContainerType extends JsonType
     private function assertValid(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue = false;
-        if (!isset($decodedValue['class'])) {
+        if (!\array_key_exists('class', $decodedValue)) {
             $isInvalidValue = true;
         }
         $isInvalidValue = $isInvalidValue || match ($decodedValue['class']) {
-            'Coffin' =>  !isset(
-                $decodedValue['value']['size'],
-                $decodedValue['value']['shape'],
-                $decodedValue['value']['isNonStandard']
-            ),
-            'Urn' => $decodedValue['value'] !== null,
+            'Coffin' =>
+                !\array_key_exists('value',         $decodedValue)          ||
+                !\array_key_exists('size',          $decodedValue['value']) ||
+                !\array_key_exists('shape',         $decodedValue['value']) ||
+                !\array_key_exists('isNonStandard', $decodedValue['value']),
+            'Urn' =>
+                !\array_key_exists('value', $decodedValue) ||
+                $decodedValue['value'] !== null,
         };
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат для контейнера захоронения: "%s".', $value));

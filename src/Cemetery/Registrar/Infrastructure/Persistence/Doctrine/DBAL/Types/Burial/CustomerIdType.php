@@ -102,7 +102,9 @@ final class CustomerIdType extends JsonType
      */
     private function assertValid(mixed $decodedValue, mixed $value): void
     {
-        $isInvalidValue = !isset($decodedValue['class'], $decodedValue['value']);
+        $isInvalidValue =
+            !\array_key_exists('class', $decodedValue) ||
+            !\array_key_exists('value', $decodedValue);
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат идентификатора: "%s".', $value));
         }
