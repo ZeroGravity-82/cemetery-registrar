@@ -8,12 +8,11 @@
             <unique-constraint columns="name" name="columbarium_name_uq" />
         </unique-constraints>
 
-        <field name="name"      column="name"       type="columbarium_name"                   />
-        <field name="createdAt" column="created_at" type="datetime_immutable"                 />
-        <field name="updatedAt" column="updated_at" type="datetime_immutable"                 />
-        <field name="removedAt" column="removed_at" type="datetime_immutable" nullable="true" />
-
-        <embedded name="geoPosition" class="Cemetery\Registrar\Domain\GeoPosition\GeoPosition" use-column-prefix="false" />
+        <field name="name"        column="name"         type="columbarium_name"                   />
+        <field name="geoPosition" column="geo_position" type="geo_position"       nullable="true" />
+        <field name="createdAt"   column="created_at"   type="datetime_immutable"                 />
+        <field name="updatedAt"   column="updated_at"   type="datetime_immutable"                 />
+        <field name="removedAt"   column="removed_at"   type="datetime_immutable" nullable="true" />
     </entity>
 
 </doctrine-mapping>
