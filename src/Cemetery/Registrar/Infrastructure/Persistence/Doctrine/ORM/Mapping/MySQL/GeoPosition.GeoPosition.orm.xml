@@ -1,8 +1,0 @@
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-
-    <embeddable name="Cemetery\Registrar\Domain\GeoPosition\GeoPosition">
-        <embedded name="coordinates" class="Cemetery\Registrar\Domain\GeoPosition\Coordinates" use-column-prefix="false" />
-        <embedded name="accuracy"    class="Cemetery\Registrar\Domain\GeoPosition\Accuracy"    use-column-prefix="false" />
-    </embeddable>
-
-</doctrine-mapping>

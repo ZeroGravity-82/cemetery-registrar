@@ -1,7 +1,0 @@
-<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
-
-    <embeddable name="Cemetery\Registrar\Domain\GeoPosition\Accuracy">
-        <field name="value"  column="geo_accuracy"  type="decimal" precision="5" scale="3" nullable="true" />
-    </embeddable>
-
-</doctrine-mapping>

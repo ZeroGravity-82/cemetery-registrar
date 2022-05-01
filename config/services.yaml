@@ -31,10 +31,6 @@ services:
         tags:
             -
                 name:   'doctrine.orm.entity_listener'
-                entity: 'Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium'
-                event:  'postLoad'
-            -
-                name:   'doctrine.orm.entity_listener'
                 entity: 'Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson'
                 event:  'postLoad'
             -
@@ -42,6 +38,5 @@ services:
                 entity: 'Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor'
                 event:  'postLoad'
         calls:
-            - ['addMapping', ['Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium',   'geoPosition']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson', 'bankDetails']]
             - ['addMapping', ['Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor', 'bankDetails']]
