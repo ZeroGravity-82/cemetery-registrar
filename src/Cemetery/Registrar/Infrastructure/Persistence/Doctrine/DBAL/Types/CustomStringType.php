@@ -27,7 +27,7 @@ abstract class CustomStringType extends CustomType
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform)
+    public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return !empty($value) ? new $this->className($value) : null;
     }
