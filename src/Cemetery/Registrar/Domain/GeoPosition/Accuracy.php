@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
  */
 final class Accuracy
 {
-    private const VALUE_PATTERN = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
+    private const VALUE_PATTERN = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 0, 12.5, 1, etc.
 
     /**
      * @var string
@@ -105,8 +105,24 @@ final class Accuracy
      */
     private function format(string $value): string
     {
+        $value = $this->addDecimalPoint($value);
         $value = $this->trimPrecedingZeros($value);
+
         return $this->trimTrailingZeros($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function addDecimalPoint(string $value): string
+    {
+        if (!\str_contains($value, '.')) {
+            $value .= '.0';
+        }
+
+        return $value;
     }
 
     /**
