@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class WebsiteTypeTest extends StringTypeTest
 {
     protected string $className = WebsiteType::class;
-
-    protected string $typeName = 'website';
+    protected string $typeName  = 'website';
 
     public function setUp(): void
     {

@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class OgrnipTypeTest extends StringTypeTest
 {
     protected string $className = OgrnipType::class;
-
-    protected string $typeName = 'ogrnip';
+    protected string $typeName  = 'ogrnip';
 
     public function setUp(): void
     {

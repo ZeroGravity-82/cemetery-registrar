@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class NameTypeTest extends StringTypeTest
 {
     protected string $className = NameType::class;
-
-    protected string $typeName = 'organization_name';
+    protected string $typeName  = 'organization_name';
 
     public function setUp(): void
     {

@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class KppTypeTest extends StringTypeTest
 {
     protected string $className = KppType::class;
-
-    protected string $typeName = 'kpp';
+    protected string $typeName  = 'kpp';
 
     public function setUp(): void
     {

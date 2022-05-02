@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class CorrespondentAccountTypeTest extends StringTypeTest
 {
     protected string $className = CorrespondentAccountType::class;
-
-    protected string $typeName = 'correspondent_account';
+    protected string $typeName  = 'correspondent_account';
 
     public function setUp(): void
     {

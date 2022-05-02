@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class CurrentAccountTypeTest extends StringTypeTest
 {
     protected string $className = CurrentAccountType::class;
-
-    protected string $typeName = 'current_account';
+    protected string $typeName  = 'current_account';
 
     public function setUp(): void
     {

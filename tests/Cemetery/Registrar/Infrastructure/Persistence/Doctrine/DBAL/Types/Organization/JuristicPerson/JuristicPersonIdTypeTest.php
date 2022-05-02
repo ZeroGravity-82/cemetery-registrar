@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class JuristicPersonIdTypeTest extends StringTypeTest
 {
     protected string $className = JuristicPersonIdType::class;
-
-    protected string $typeName = 'juristic_person_id';
+    protected string $typeName  = 'juristic_person_id';
 
     public function setUp(): void
     {

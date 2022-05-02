@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class OkvedTypeTest extends StringTypeTest
 {
     protected string $className = OkvedType::class;
-
-    protected string $typeName = 'okved';
+    protected string $typeName  = 'okved';
 
     public function setUp(): void
     {

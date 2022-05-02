@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class AddressTypeTest extends StringTypeTest
 {
     protected string $className = AddressType::class;
-
-    protected string $typeName = 'address';
+    protected string $typeName  = 'address';
 
     public function setUp(): void
     {

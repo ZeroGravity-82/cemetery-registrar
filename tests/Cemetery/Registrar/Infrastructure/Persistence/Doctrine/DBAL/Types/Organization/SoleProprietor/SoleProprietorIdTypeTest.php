@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class SoleProprietorIdTypeTest extends StringTypeTest
 {
     protected string $className = SoleProprietorIdType::class;
-
-    protected string $typeName = 'sole_proprietor_id';
+    protected string $typeName  = 'sole_proprietor_id';
 
     public function setUp(): void
     {

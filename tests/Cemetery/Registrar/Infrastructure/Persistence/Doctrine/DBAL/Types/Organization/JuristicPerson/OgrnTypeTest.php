@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class OgrnTypeTest extends StringTypeTest
 {
     protected string $className = OgrnType::class;
-
-    protected string $typeName = 'ogrn';
+    protected string $typeName  = 'ogrn';
 
     public function setUp(): void
     {

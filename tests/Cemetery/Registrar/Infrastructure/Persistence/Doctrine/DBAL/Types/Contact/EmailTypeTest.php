@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class EmailTypeTest extends StringTypeTest
 {
     protected string $className = EmailType::class;
-
-    protected string $typeName = 'email';
+    protected string $typeName  = 'email';
 
     public function setUp(): void
     {

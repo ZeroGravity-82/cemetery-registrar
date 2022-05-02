@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class PhoneNumberTypeTest extends StringTypeTest
 {
     protected string $className = PhoneNumberType::class;
-
-    protected string $typeName = 'phone_number';
+    protected string $typeName  = 'phone_number';
 
     public function setUp(): void
     {

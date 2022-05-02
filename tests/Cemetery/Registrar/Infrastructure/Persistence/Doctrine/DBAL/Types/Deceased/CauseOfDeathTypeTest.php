@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class CauseOfDeathTypeTest extends StringTypeTest
 {
     protected string $className = CauseOfDeathType::class;
-
-    protected string $typeName = 'cause_of_death';
+    protected string $typeName  = 'cause_of_death';
 
     public function setUp(): void
     {

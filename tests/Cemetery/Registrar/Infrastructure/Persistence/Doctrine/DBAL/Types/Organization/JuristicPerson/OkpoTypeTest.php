@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class OkpoTypeTest extends StringTypeTest
 {
     protected string $className = OkpoType::class;
-
-    protected string $typeName = 'juristic_person_okpo';
+    protected string $typeName  = 'juristic_person_okpo';
 
     public function setUp(): void
     {

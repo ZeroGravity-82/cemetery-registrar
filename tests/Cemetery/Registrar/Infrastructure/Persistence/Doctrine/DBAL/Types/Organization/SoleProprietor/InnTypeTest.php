@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class InnTypeTest extends StringTypeTest
 {
     protected string $className = InnType::class;
-
-    protected string $typeName = 'sole_proprietor_inn';
+    protected string $typeName  = 'sole_proprietor_inn';
 
     public function setUp(): void
     {

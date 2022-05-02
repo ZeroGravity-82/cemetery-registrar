@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class DeathCertificateIdTypeTest extends StringTypeTest
 {
     protected string $className = DeathCertificateIdType::class;
-
-    protected string $typeName = 'death_certificate_id';
+    protected string $typeName  = 'death_certificate_id';
 
     public function setUp(): void
     {

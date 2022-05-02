@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class BikTypeTest extends StringTypeTest
 {
     protected string $className = BikType::class;
-
-    protected string $typeName = 'bik';
+    protected string $typeName  = 'bik';
 
     public function setUp(): void
     {

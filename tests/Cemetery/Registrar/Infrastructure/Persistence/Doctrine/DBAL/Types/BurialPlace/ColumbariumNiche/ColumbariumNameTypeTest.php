@@ -14,8 +14,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Stri
 class ColumbariumNameTypeTest extends StringTypeTest
 {
     protected string $className = ColumbariumNameType::class;
-
-    protected string $typeName = 'columbarium_name';
+    protected string $typeName  = 'columbarium_name';
 
     public function setUp(): void
     {
