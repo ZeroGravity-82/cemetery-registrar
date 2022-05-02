@@ -15,6 +15,11 @@ abstract class CustomType extends Type
     /**
      * @var string
      */
+    protected string $className;
+
+    /**
+     * @var string
+     */
     protected string $typeName;
 
     /**

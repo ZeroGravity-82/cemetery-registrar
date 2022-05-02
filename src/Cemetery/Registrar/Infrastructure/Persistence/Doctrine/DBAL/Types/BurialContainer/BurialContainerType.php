@@ -9,94 +9,27 @@ use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\BurialContainer\Urn;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\JsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialContainerType extends JsonType
+final class BurialContainerType extends CustomJsonType
 {
-    private const TYPE_NAME = 'burial_container';
-
     /**
-     * Registers type to the type map.
+     * {@inheritdoc}
      */
-    public static function registerType(): void
-    {
-        if (self::hasType(self::TYPE_NAME)) {
-            return;
-        }
-        self::addType(self::TYPE_NAME, self::class);
-    }
+    protected string $className = BurialContainer::class;
 
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
-    {
-        if ($value === null) {
-            return $value;
-        }
-
-        if (!$value instanceof BurialContainer) {
-            throw ConversionException::conversionFailedInvalidType(
-                $value,
-                $this->getName(),
-                ['null', BurialContainer::class]
-            );
-        }
-
-        try {
-            return \json_encode($this->prepareBurialContainerData($value), JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage(), $e);
-        }
-    }
+    protected string $typeName = 'burial_container';
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?BurialContainer
-    {
-        if ($value === null || $value instanceof BurialContainer) {
-            return $value;
-        }
-
-        try {
-            $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            $this->assertValid($decodedValue, $value);
-
-            return $this->buildBurialContainer($decodedValue);
-        } catch (\JsonException $e) {
-            throw ConversionException::conversionFailed($value, $this->getName(), $e);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return self::TYPE_NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
-
-    /**
-     * @param mixed $decodedValue
-     * @param mixed $value
-     *
-     * @throws \RuntimeException when the decoded value has invalid format.
-     */
-    private function assertValid(mixed $decodedValue, mixed $value): void
+    protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue = false;
         if (!\array_key_exists('class', $decodedValue)) {
@@ -118,11 +51,9 @@ final class BurialContainerType extends JsonType
     }
 
     /**
-     * @param BurialContainer $value
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    private function prepareBurialContainerData(BurialContainer $value): array
+    protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
         $container = $value->container();
 
@@ -143,11 +74,9 @@ final class BurialContainerType extends JsonType
     }
 
     /**
-     * @param array $decodedValue
-     *
-     * @return BurialContainer
+     * {@inheritdoc}
      */
-    private function buildBurialContainer(array $decodedValue): BurialContainer
+    protected function buildPhpValue(array $decodedValue): BurialContainer
     {
         $container = match ($decodedValue['class']) {
             'Coffin' => new Coffin(

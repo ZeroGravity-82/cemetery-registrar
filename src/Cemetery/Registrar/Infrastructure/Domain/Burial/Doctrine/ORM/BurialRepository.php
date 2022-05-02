@@ -94,7 +94,7 @@ final class BurialRepository implements BurialRepositoryInterface
             ->select('COUNT(b.id)')
             ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.class') = :class")
             ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.value') = :value")
-            ->setParameter('class', FuneralCompanyIdType::ID_CLASS_NAMES[$id::class])
+            ->setParameter('class', FuneralCompanyIdType::getClassShortcut($id::class))
             ->setParameter('value', $id->value())
             ->getQuery()
             ->getSingleScalarResult();
@@ -113,7 +113,7 @@ final class BurialRepository implements BurialRepositoryInterface
             ->select('COUNT(b.id)')
             ->andWhere("JSON_EXTRACT(b.customerId, '$.class') = :class")
             ->andWhere("JSON_EXTRACT(b.customerId, '$.value') = :value")
-            ->setParameter('class', CustomerIdType::ID_CLASS_NAMES[$id::class])
+            ->setParameter('class', CustomerIdType::getClassShortcut($id::class))
             ->setParameter('value', $id->value())
             ->getQuery()
             ->getSingleScalarResult();

@@ -9,12 +9,12 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\MaskingIdTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\EntityMaskingIdTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CustomerIdTypeTest extends MaskingIdTypeTest
+class CustomerIdTypeTest extends EntityMaskingIdTypeTest
 {
     protected string $className         = CustomerIdType::class;
     protected string $typeName          = 'customer_id';

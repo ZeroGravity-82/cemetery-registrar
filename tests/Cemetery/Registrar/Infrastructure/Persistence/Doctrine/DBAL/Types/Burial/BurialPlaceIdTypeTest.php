@@ -9,12 +9,12 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\BurialPlaceIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\MaskingIdTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\EntityMaskingIdTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialPlaceIdTypeTest extends MaskingIdTypeTest
+class BurialPlaceIdTypeTest extends EntityMaskingIdTypeTest
 {
     protected string $className         = BurialPlaceIdType::class;
     protected string $typeName          = 'burial_place_id';

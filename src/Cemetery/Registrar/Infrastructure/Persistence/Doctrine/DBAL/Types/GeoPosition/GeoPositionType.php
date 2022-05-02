@@ -7,94 +7,27 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\GeoP
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\ConversionException;
-use Doctrine\DBAL\Types\JsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class GeoPositionType extends JsonType
+final class GeoPositionType extends CustomJsonType
 {
-    private const TYPE_NAME = 'geo_position';
-
     /**
-     * Registers type to the type map.
+     * {@inheritdoc}
      */
-    public static function registerType(): void
-    {
-        if (self::hasType(self::TYPE_NAME)) {
-            return;
-        }
-        self::addType(self::TYPE_NAME, self::class);
-    }
+    protected string $className = GeoPosition::class;
 
     /**
      * {@inheritdoc}
      */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
-    {
-        if ($value === null) {
-            return $value;
-        }
-
-        if (!$value instanceof GeoPosition) {
-            throw ConversionException::conversionFailedInvalidType(
-                $value,
-                $this->getName(),
-                ['null', GeoPosition::class]
-            );
-        }
-
-        try {
-            return \json_encode($this->prepareGeoPositionForEncoding($value), JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw ConversionException::conversionFailedSerialization($value, 'json', $e->getMessage(), $e);
-        }
-    }
+    protected string $typeName = 'geo_position';
 
     /**
      * {@inheritdoc}
      */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?GeoPosition
-    {
-        if ($value === null || $value instanceof GeoPosition) {
-            return $value;
-        }
-
-        try {
-            $decodedValue = \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
-            $this->assertValid($decodedValue, $value);
-
-            return $this->buildGeoPosition($decodedValue);
-        } catch (\JsonException $e) {
-            throw ConversionException::conversionFailed($value, $this->getName(), $e);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return self::TYPE_NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
-
-    /**
-     * @param mixed $decodedValue
-     * @param mixed $value
-     *
-     * @throws \RuntimeException when the decoded value has invalid format.
-     */
-    private function assertValid(mixed $decodedValue, mixed $value): void
+    protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue =
             !\array_key_exists('coordinates', $decodedValue)                ||
@@ -107,29 +40,25 @@ final class GeoPositionType extends JsonType
     }
 
     /**
-     * @param GeoPosition $geoPosition
-     *
-     * @return array
+     * {@inheritdoc}
      */
-    private function prepareGeoPositionForEncoding(GeoPosition $geoPosition): array
+    protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
         return [
             'coordinates' => [
-                'latitude'  => (float) $geoPosition->coordinates()->latitude(),
-                'longitude' => (float) $geoPosition->coordinates()->longitude(),
+                'latitude'  => (float) $value->coordinates()->latitude(),
+                'longitude' => (float) $value->coordinates()->longitude(),
             ],
-            'error' => !\is_null($geoPosition->error())
-                ? (float) $geoPosition->error()->value()
+            'error' => !\is_null($value->error())
+                ? (float) $value->error()->value()
                 : null
         ];
     }
 
     /**
-     * @param array $decodedValue
-     *
-     * @return GeoPosition
+     * {@inheritdoc}
      */
-    private function buildGeoPosition(array $decodedValue): GeoPosition
+    protected function buildPhpValue(array $decodedValue): GeoPosition
     {
         return new GeoPosition(
             new Coordinates(

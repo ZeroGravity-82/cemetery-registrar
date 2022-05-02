@@ -12,11 +12,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 abstract class CustomStringType extends CustomType
 {
     /**
-     * @var string
-     */
-    protected string $className;
-
-    /**
      * {@inheritdoc}
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
