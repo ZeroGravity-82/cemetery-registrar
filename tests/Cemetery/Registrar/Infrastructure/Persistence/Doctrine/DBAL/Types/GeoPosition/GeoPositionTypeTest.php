@@ -8,17 +8,17 @@ use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\GeoPosition\GeoPositionType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\TypeTest;
-use Doctrine\DBAL\Types\ConversionException;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\JsonTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GeoPositionTypeTest extends TypeTest
+class GeoPositionTypeTest extends JsonTypeTest
 {
-    protected string $className         = GeoPositionType::class;
-    protected string $typeName          = 'geo_position';
-    protected string $phpValueClassName = GeoPosition::class;
+    protected string $className                                  = GeoPositionType::class;
+    protected string $typeName                                   = 'geo_position';
+    protected string $phpValueClassName                          = GeoPosition::class;
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат геопозиции';
 
     /**
      * @dataProvider getConversionTests
@@ -47,25 +47,6 @@ class GeoPositionTypeTest extends TypeTest
         );
     }
 
-    public function testItConvertsToDatabaseNullValue(): void
-    {
-        $resultingDbValue = $this->type->convertToDatabaseValue(null, $this->mockPlatform);
-        $this->assertNull($resultingDbValue);
-    }
-
-    public function testItFailsToConvertPhpValueOfInvalidTypeToDatabaseValue(): void
-    {
-        $valueOfInvalidType = new \stdClass();
-        $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Could not convert PHP value of type %s to type %s. Expected one of the following types: null, %s',
-            \get_class($valueOfInvalidType),
-            $this->typeName,
-            $this->phpValueClassName,
-        ));
-        $this->type->convertToDatabaseValue($valueOfInvalidType, $this->mockPlatform);
-    }
-
     /**
      * @dataProvider getConversionTests
      */
@@ -76,32 +57,7 @@ class GeoPositionTypeTest extends TypeTest
         $this->assertTrue($resultingPhpValue->isEqual($phpValue));
     }
 
-    public function testItConvertsToPhpNullValue(): void
-    {
-        $resultingPhpValue = $this->type->convertToPHPValue(null, $this->mockPlatform);
-        $this->assertNull($resultingPhpValue);
-    }
-
-    public function testItFailsToConvertDatabaseInvalidJsonValueToPhpValue(): void
-    {
-        $valueOfInvalidType = 'value of invalid type';
-        $this->expectException(ConversionException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Could not convert database value "%s" to Doctrine Type %s',
-            $valueOfInvalidType,
-            $this->typeName,
-        ));
-        $this->type->convertToPHPValue($valueOfInvalidType, $this->mockPlatform);
-    }
-
-    public function testItFailsToConvertDatabaseIncompleteValueToPhpValue(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Неверный формат геопозиции: "{}".');
-        $this->type->convertToPHPValue('{}', $this->mockPlatform);
-    }
-
-    private function getConversionTests(): array
+    protected function getConversionTests(): array
     {
         return [
             // database value,
