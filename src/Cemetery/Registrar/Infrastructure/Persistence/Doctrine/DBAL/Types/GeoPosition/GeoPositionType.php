@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\GeoPosition;
 
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
@@ -100,7 +100,7 @@ final class GeoPositionType extends JsonType
             !\array_key_exists('coordinates', $decodedValue)                ||
             !\array_key_exists('latitude',    $decodedValue['coordinates']) ||
             !\array_key_exists('longitude',   $decodedValue['coordinates']) ||
-            !\array_key_exists('accuracy',    $decodedValue);
+            !\array_key_exists('error',       $decodedValue);
         if ($isInvalidValue) {
             throw new \RuntimeException(\sprintf('Неверный формат геопозиции: "%s".', $value));
         }
@@ -118,8 +118,8 @@ final class GeoPositionType extends JsonType
                 'latitude'  => (float) $geoPosition->coordinates()->latitude(),
                 'longitude' => (float) $geoPosition->coordinates()->longitude(),
             ],
-            'accuracy' => !\is_null($geoPosition->accuracy())
-                ? (float) $geoPosition->accuracy()->value()
+            'error' => !\is_null($geoPosition->error())
+                ? (float) $geoPosition->error()->value()
                 : null
         ];
     }
@@ -136,7 +136,7 @@ final class GeoPositionType extends JsonType
                 (string) $decodedValue['coordinates']['latitude'],
                 (string) $decodedValue['coordinates']['longitude']
             ),
-            !\is_null($decodedValue['accuracy']) ? new Accuracy((string) $decodedValue['accuracy']) : null
+            !\is_null($decodedValue['error']) ? new Error((string) $decodedValue['error']) : null
         );
     }
 }

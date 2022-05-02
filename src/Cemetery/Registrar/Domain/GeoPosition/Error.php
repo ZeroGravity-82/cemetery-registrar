@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Accuracy
+final class Error
 {
     private const VALUE_PATTERN = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 0, 12.5, 1, etc.
 
@@ -43,58 +43,58 @@ final class Accuracy
     }
 
     /**
-     * @param self $accuracy
+     * @param self $error
      *
      * @return bool
      */
-    public function isEqual(self $accuracy): bool
+    public function isEqual(self $error): bool
     {
-        return $this->format($accuracy->value()) === $this->value();
+        return $this->format($error->value()) === $this->value();
     }
 
     /**
-     * @param string $accuracy
+     * @param string $error
      */
-    private function assertValidValue(string $accuracy): void
+    private function assertValidValue(string $error): void
     {
-        $this->assertNotEmpty($accuracy);
-        $this->assertNotNegative($accuracy);
-        $this->assertValidFormat($accuracy);
+        $this->assertNotEmpty($error);
+        $this->assertNotNegative($error);
+        $this->assertValidFormat($error);
     }
 
     /**
-     * @param string $accuracy
+     * @param string $error
      *
-     * @throws \InvalidArgumentException when the accuracy value is empty
+     * @throws \InvalidArgumentException when the error value is empty
      */
-    private function assertNotEmpty(string $accuracy): void
+    private function assertNotEmpty(string $error): void
     {
-        if (\trim($accuracy) === '') {
+        if (\trim($error) === '') {
             throw new \InvalidArgumentException('Погрешность не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $accuracy
+     * @param string $error
      *
-     * @throws \InvalidArgumentException when the accuracy value is negative
+     * @throws \InvalidArgumentException when the error value is negative
      */
-    private function assertNotNegative(string $accuracy): void
+    private function assertNotNegative(string $error): void
     {
-        if (\is_numeric($accuracy) && (float) $accuracy < 0.0) {
+        if (\is_numeric($error) && (float) $error < 0.0) {
             throw new \InvalidArgumentException('Погрешность не может иметь отрицательное значение.');
         }
     }
 
     /**
-     * @param string $accuracy
+     * @param string $error
      *
-     * @throws \InvalidArgumentException when the accuracy value has an invalid format
+     * @throws \InvalidArgumentException when the error value has an invalid format
      */
-    private function assertValidFormat(string $accuracy): void
+    private function assertValidFormat(string $error): void
     {
-        if (!\preg_match(self::VALUE_PATTERN, $accuracy)) {
-            throw new \InvalidArgumentException(\sprintf('Погрешность "%s" имеет неверный формат.', $accuracy));
+        if (!\preg_match(self::VALUE_PATTERN, $error)) {
+            throw new \InvalidArgumentException(\sprintf('Погрешность "%s" имеет неверный формат.', $error));
         }
     }
 

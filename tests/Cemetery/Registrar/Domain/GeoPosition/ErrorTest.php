@@ -4,70 +4,70 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\GeoPosition;
 
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AccuracyTest extends TestCase
+class ErrorTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $accuracy = new Accuracy('0.25');
-        $this->assertSame('0.25', $accuracy->value());
+        $error = new Error('0.25');
+        $this->assertSame('0.25', $error->value());
 
-        $accuracy = new Accuracy('0');
-        $this->assertSame('0.0', $accuracy->value());
+        $error = new Error('0');
+        $this->assertSame('0.0', $error->value());
 
-        $accuracy = new Accuracy('012.50');
-        $this->assertSame('12.5', $accuracy->value());
+        $error = new Error('012.50');
+        $this->assertSame('12.5', $error->value());
 
-        $accuracy = new Accuracy('1');
-        $this->assertSame('1.0', $accuracy->value());
+        $error = new Error('1');
+        $this->assertSame('1.0', $error->value());
     }
 
     public function testItFailsWithNegativeValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Погрешность не может иметь отрицательное значение.');
-        new Accuracy('-1.2');
+        new Error('-1.2');
     }
 
     public function testItFailsWithInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Погрешность "1.7A" имеет неверный формат.');
-        new Accuracy('1.7A');
+        new Error('1.7A');
     }
 
     public function testItFailsWithEmptyValue(): void
     {
         $this->expectExceptionForEmptyValue();
-        new Accuracy('');
+        new Error('');
     }
 
     public function testItFailsWithSpacesOnly(): void
     {
         $this->expectExceptionForEmptyValue();
-        new Accuracy('   ');
+        new Error('   ');
     }
 
     public function testItStringifyable(): void
     {
-        $accuracy = new Accuracy('0.89');
-        $this->assertSame('0.89', (string) $accuracy);
+        $error = new Error('0.89');
+        $this->assertSame('0.89', (string) $error);
     }
 
     public function testItComparable(): void
     {
-        $accuracyA = new Accuracy('0.89');
-        $accuracyB = new Accuracy('1.9');
-        $accuracyC = new Accuracy('00.890');
+        $errorA = new Error('0.89');
+        $errorB = new Error('1.9');
+        $errorC = new Error('00.890');
 
-        $this->assertFalse($accuracyA->isEqual($accuracyB));
-        $this->assertTrue($accuracyA->isEqual($accuracyC));
-        $this->assertFalse($accuracyB->isEqual($accuracyC));
+        $this->assertFalse($errorA->isEqual($errorB));
+        $this->assertTrue($errorA->isEqual($errorC));
+        $this->assertFalse($errorB->isEqual($errorC));
     }
 
     private function expectExceptionForEmptyValue(): void

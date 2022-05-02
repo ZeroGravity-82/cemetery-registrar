@@ -11,11 +11,11 @@ final class GeoPosition
 {
     /**
      * @param Coordinates   $coordinates
-     * @param Accuracy|null $accuracy
+     * @param Error|null    $error
      */
     public function __construct(
         private readonly Coordinates $coordinates,
-        private readonly ?Accuracy   $accuracy,
+        private readonly ?Error      $error,
     ) {}
 
     /**
@@ -23,7 +23,7 @@ final class GeoPosition
      */
     public function __toString(): string
     {
-        return \sprintf('%s [&plusmn; %sm]', $this->coordinates(), $this->accuracy());
+        return \sprintf('%s [&plusmn; %sm]', $this->coordinates(), $this->error());
     }
 
     /**
@@ -35,11 +35,11 @@ final class GeoPosition
     }
 
     /**
-     * @return Accuracy|null
+     * @return Error|null
      */
-    public function accuracy(): ?Accuracy
+    public function error(): ?Error
     {
-        return $this->accuracy;
+        return $this->error;
     }
 
     /**
@@ -50,9 +50,9 @@ final class GeoPosition
     public function isEqual(self $geoPosition): bool
     {
         $isSameCoordinates = $geoPosition->coordinates()->isEqual($this->coordinates());
-        $isSameAccuracy    = $this->checkSameAccuracy($geoPosition);
+        $isSameError       = $this->checkSameError($geoPosition);
 
-        return $isSameCoordinates && $isSameAccuracy;
+        return $isSameCoordinates && $isSameError;
     }
 
     /**
@@ -60,13 +60,13 @@ final class GeoPosition
      *
      * @return bool
      */
-    private function checkSameAccuracy(self $geoPosition): bool
+    private function checkSameError(self $geoPosition): bool
     {
         $isSame = false;
 
-        if ($geoPosition->accuracy() !== null && $this->accuracy() !== null) {
-            $isSame = $geoPosition->accuracy()->isEqual($this->accuracy());
-        } elseif ($geoPosition->accuracy() === null && $this->accuracy() === null) {
+        if ($geoPosition->error() !== null && $this->error() !== null) {
+            $isSame = $geoPosition->error()->isEqual($this->error());
+        } elseif ($geoPosition->error() === null && $this->error() === null) {
             $isSame = true;
         }
 

@@ -7,8 +7,8 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumName;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
@@ -28,7 +28,7 @@ final class ColumbariumProvider
     {
         $id          = new ColumbariumId('C002');
         $name        = new ColumbariumName('южный колумбарий');
-        $geoPosition = new GeoPosition(new Coordinates('+54.95035712', '082.7925200'), new Accuracy('0.5'));
+        $geoPosition = new GeoPosition(new Coordinates('+54.95035712', '082.7925200'), new Error('0.5'));
 
         return (new Columbarium($id, $name))
             ->setGeoPosition($geoPosition);

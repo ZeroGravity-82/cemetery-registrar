@@ -9,8 +9,8 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheNumber;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\RowInColumbarium;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
@@ -84,7 +84,7 @@ class ColumbariumNicheTest extends AbstractAggregateRootTest
 
     public function testItSetsGeoPosition(): void
     {
-        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Accuracy('0.5'));
+        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Error('0.5'));
         $this->columbariumNiche->setGeoPosition($geoPosition);
         $this->assertInstanceOf(GeoPosition::class, $this->columbariumNiche->geoPosition());
         $this->assertTrue($this->columbariumNiche->geoPosition()->isEqual($geoPosition));

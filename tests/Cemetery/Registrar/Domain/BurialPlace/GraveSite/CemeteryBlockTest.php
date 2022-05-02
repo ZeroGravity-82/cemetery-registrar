@@ -7,9 +7,6 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
 /**

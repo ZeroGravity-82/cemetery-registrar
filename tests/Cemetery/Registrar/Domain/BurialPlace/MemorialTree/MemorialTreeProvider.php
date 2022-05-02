@@ -7,8 +7,8 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
@@ -28,7 +28,7 @@ final class MemorialTreeProvider
     {
         $id          = new MemorialTreeId('MT002');
         $treeNumber  = new MemorialTreeNumber('002');
-        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Accuracy('0.5'));
+        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Error('0.5'));
 
         return (new MemorialTree($id, $treeNumber))
             ->setGeoPosition($geoPosition);

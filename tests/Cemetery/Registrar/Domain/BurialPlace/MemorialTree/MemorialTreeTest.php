@@ -7,8 +7,8 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
@@ -53,7 +53,7 @@ class MemorialTreeTest extends AbstractAggregateRootTest
 
     public function testItSetsGeoPosition(): void
     {
-        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Accuracy('0.5'));
+        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Error('0.5'));
         $this->memorialTree->setGeoPosition($geoPosition);
         $this->assertInstanceOf(GeoPosition::class, $this->memorialTree->geoPosition());
         $this->assertTrue($this->memorialTree->geoPosition()->isEqual($geoPosition));

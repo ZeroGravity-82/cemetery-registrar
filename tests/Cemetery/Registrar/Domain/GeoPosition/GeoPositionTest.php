@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\GeoPosition;
 
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use PHPUnit\Framework\TestCase;
 
@@ -20,45 +20,45 @@ class GeoPositionTest extends TestCase
 
     private Coordinates $coordinatesC;
 
-    private Accuracy $accuracyA;
+    private Error $errorA;
 
-    private Accuracy $accuracyB;
+    private Error $errorB;
 
     public function setUp(): void
     {
         $this->coordinatesA = new Coordinates('54.950357', '82.7972252');
         $this->coordinatesB = new Coordinates('44.950357', '82.7972252');
         $this->coordinatesC = new Coordinates('54.950357', '72.7972252');
-        $this->accuracyA    = new Accuracy('1.2');
-        $this->accuracyB    = new Accuracy('0.2');
+        $this->errorA       = new Error('1.2');
+        $this->errorB       = new Error('0.2');
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $geoPosition = new GeoPosition($this->coordinatesA, $this->accuracyA);
+        $geoPosition = new GeoPosition($this->coordinatesA, $this->errorA);
         $this->assertSame('54.950357', $geoPosition->coordinates()->latitude());
         $this->assertSame('82.7972252', $geoPosition->coordinates()->longitude());
-        $this->assertSame('1.2', $geoPosition->accuracy()->value());
+        $this->assertSame('1.2', $geoPosition->error()->value());
 
         $geoPosition = new GeoPosition($this->coordinatesA, null);
         $this->assertSame('54.950357', $geoPosition->coordinates()->latitude());
         $this->assertSame('82.7972252', $geoPosition->coordinates()->longitude());
-        $this->assertNull($geoPosition->accuracy());
+        $this->assertNull($geoPosition->error());
     }
 
     public function testItStringifyable(): void
     {
-        $geoPosition = new GeoPosition($this->coordinatesA, $this->accuracyA);
+        $geoPosition = new GeoPosition($this->coordinatesA, $this->errorA);
         $this->assertSame('54.950357, 82.7972252 [&plusmn; 1.2m]', (string) $geoPosition);
     }
 
     public function testItComparable(): void
     {
-        $geoPositionA = new GeoPosition($this->coordinatesA, $this->accuracyA);
-        $geoPositionB = new GeoPosition($this->coordinatesA, $this->accuracyB);
+        $geoPositionA = new GeoPosition($this->coordinatesA, $this->errorA);
+        $geoPositionB = new GeoPosition($this->coordinatesA, $this->errorB);
         $geoPositionC = new GeoPosition($this->coordinatesB, null);
-        $geoPositionD = new GeoPosition($this->coordinatesC, $this->accuracyA);
-        $geoPositionE = new GeoPosition($this->coordinatesA, $this->accuracyA);
+        $geoPositionD = new GeoPosition($this->coordinatesC, $this->errorA);
+        $geoPositionE = new GeoPosition($this->coordinatesA, $this->errorA);
 
         $this->assertFalse($geoPositionA->isEqual($geoPositionB));
         $this->assertFalse($geoPositionA->isEqual($geoPositionC));

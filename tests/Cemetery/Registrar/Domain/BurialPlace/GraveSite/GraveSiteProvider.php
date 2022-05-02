@@ -10,8 +10,8 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\RowInBlock;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
@@ -34,7 +34,7 @@ final class GraveSiteProvider
         $cemeteryBlockId = new CemeteryBlockId('CB002');
         $rowInBlock      = new RowInBlock(3);
         $positionInRow   = new PositionInRow(4);
-        $geoPosition     = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Accuracy('0.5'));
+        $geoPosition     = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Error('0.5'));
 
         return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
             ->setPositionInRow($positionInRow)

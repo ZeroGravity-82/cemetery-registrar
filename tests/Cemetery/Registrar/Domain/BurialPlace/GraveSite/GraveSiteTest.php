@@ -10,8 +10,8 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\RowInBlock;
-use Cemetery\Registrar\Domain\GeoPosition\Accuracy;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
 
@@ -78,7 +78,7 @@ class GraveSiteTest extends AbstractAggregateRootTest
 
     public function testItSetsGeoPosition(): void
     {
-        $geoPosition = new GeoPosition(new Coordinates('54.9472658', '82.8043771'), new Accuracy('0.25'));
+        $geoPosition = new GeoPosition(new Coordinates('54.9472658', '82.8043771'), new Error('0.25'));
         $this->graveSite->setGeoPosition($geoPosition);
         $this->assertInstanceOf(GeoPosition::class, $this->graveSite->geoPosition());
         $this->assertTrue($this->graveSite->geoPosition()->isEqual($geoPosition));
