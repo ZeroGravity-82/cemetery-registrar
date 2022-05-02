@@ -10,13 +10,13 @@ use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialContainer\BurialContainerType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\TypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomTypeTest;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialContainerTypeTest extends TypeTest
+class BurialContainerTypeTest extends CustomTypeTest
 {
     protected string $className = BurialContainerType::class;
     protected string $typeName  = 'burial_container';

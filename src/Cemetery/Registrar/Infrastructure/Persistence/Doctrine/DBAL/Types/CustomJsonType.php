@@ -15,14 +15,6 @@ abstract class CustomJsonType extends CustomType
     /**
      * {@inheritdoc}
      */
-    public function getSQLDeclaration(array $column, AbstractPlatform $platform)
-    {
-        return $platform->getJsonTypeDeclarationSQL($column);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         if ($value === null) {
@@ -61,6 +53,14 @@ abstract class CustomJsonType extends CustomType
         } catch (\JsonException $e) {
             throw ConversionException::conversionFailed($value, $this->getName(), $e);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
+    {
+        return $platform->getJsonTypeDeclarationSQL($column);
     }
 
     /**

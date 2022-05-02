@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\ConversionException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class JsonTypeTest extends TypeTest
+abstract class CustomJsonTypeTest extends CustomTypeTest
 {
     protected string $phpValueClassName;
     protected string $exceptionMessageForDatabaseIncompleteValue;

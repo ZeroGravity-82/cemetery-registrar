@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Type
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class StringTypeTest extends TypeTest
+abstract class CustomStringTypeTest extends CustomTypeTest
 {
     protected string $dbValue;
     protected object $phpValue;

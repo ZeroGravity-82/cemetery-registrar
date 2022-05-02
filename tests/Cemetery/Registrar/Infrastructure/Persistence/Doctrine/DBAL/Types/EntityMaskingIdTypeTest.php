@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\EntityMaskingId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityMaskingIdTypeTest extends JsonTypeTest
+abstract class EntityMaskingIdTypeTest extends CustomJsonTypeTest
 {
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат идентификатора';
 
