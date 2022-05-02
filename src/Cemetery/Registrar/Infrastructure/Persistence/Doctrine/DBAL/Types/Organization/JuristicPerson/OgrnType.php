@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class OgrnType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Ogrn::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'ogrn';
 }

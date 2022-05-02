@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class CorrespondentAccountType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = CorrespondentAccount::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'correspondent_account';
 }

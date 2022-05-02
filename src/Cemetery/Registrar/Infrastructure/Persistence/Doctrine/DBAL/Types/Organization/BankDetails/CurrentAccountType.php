@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class CurrentAccountType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = CurrentAccount::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'current_account';
 }

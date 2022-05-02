@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class OgrnipType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Ogrnip::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'ogrnip';
 }

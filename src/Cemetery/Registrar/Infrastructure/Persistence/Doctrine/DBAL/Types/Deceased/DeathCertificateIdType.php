@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class DeathCertificateIdType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = DeathCertificateId::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'death_certificate_id';
 }

@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class BikType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Bik::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'bik';
 }

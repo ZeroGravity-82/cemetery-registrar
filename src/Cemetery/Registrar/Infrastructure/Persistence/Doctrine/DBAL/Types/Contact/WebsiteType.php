@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class WebsiteType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Website::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'website';
 }

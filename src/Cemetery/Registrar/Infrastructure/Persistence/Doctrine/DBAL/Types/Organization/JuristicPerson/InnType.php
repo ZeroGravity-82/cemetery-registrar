@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class InnType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Inn::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'juristic_person_inn';
 }

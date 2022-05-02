@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class OkpoType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Okpo::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'sole_proprietor_okpo';
 }

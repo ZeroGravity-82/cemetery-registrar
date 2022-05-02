@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class PhoneNumberType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = PhoneNumber::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'phone_number';
 }

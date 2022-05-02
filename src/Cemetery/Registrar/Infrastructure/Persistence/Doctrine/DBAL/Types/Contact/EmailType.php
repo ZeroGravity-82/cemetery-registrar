@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class EmailType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = Email::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'email';
 }

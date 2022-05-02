@@ -12,6 +12,13 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStri
  */
 final class FullNameType extends CustomStringType
 {
+    /**
+     * {@inheritdoc}
+     */
     protected string $className = FullName::class;
+
+    /**
+     * {@inheritdoc}
+     */
     protected string $typeName  = 'full_name';
 }
