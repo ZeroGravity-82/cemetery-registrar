@@ -115,10 +115,12 @@ final class GeoPositionType extends JsonType
     {
         return [
             'coordinates' => [
-                'latitude'  => $geoPosition->coordinates()->latitude(),
-                'longitude' => $geoPosition->coordinates()->longitude(),
+                'latitude'  => (float) $geoPosition->coordinates()->latitude(),
+                'longitude' => (float) $geoPosition->coordinates()->longitude(),
             ],
-            'accuracy'    => $geoPosition->accuracy()?->value(),
+            'accuracy' => !\is_null($geoPosition->accuracy())
+                ? (float) $geoPosition->accuracy()->value()
+                : null
         ];
     }
 

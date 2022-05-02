@@ -33,9 +33,18 @@ class GeoPositionTypeTest extends TypeTest
         $this->assertIsArray($decodedResultDbValue['coordinates']);
         $this->assertArrayHasKey('latitude', $decodedResultDbValue['coordinates']);
         $this->assertArrayHasKey('longitude', $decodedResultDbValue['coordinates']);
-        $this->assertSame($phpValue->coordinates()->latitude(), (string) $decodedResultDbValue['coordinates']['latitude']);
-        $this->assertSame($phpValue->coordinates()->longitude(), (string) $decodedResultDbValue['coordinates']['longitude']);
-        $this->assertSame($phpValue->accuracy()?->value(), $decodedResultDbValue['accuracy']);
+        $this->assertSame(
+            (float) $phpValue->coordinates()->latitude(),
+            (float) $decodedResultDbValue['coordinates']['latitude']
+        );
+        $this->assertSame(
+            (float) $phpValue->coordinates()->longitude(),
+            (float) $decodedResultDbValue['coordinates']['longitude']
+        );
+        $this->assertSame(
+            !\is_null($phpValue->accuracy()) ? (float) $phpValue->accuracy()->value() : null,
+            !\is_null($decodedResultDbValue['accuracy']) ? (float) $decodedResultDbValue['accuracy'] : null
+        );
     }
 
     public function testItConvertsToDatabaseNullValue(): void
@@ -104,6 +113,10 @@ class GeoPositionTypeTest extends TypeTest
             [
                 '{"coordinates":{"latitude":-10.950357,"longitude":72.7972252},"accuracy":null}',
                 new GeoPosition(new Coordinates('-10.950357','72.7972252'), null)
+            ],
+            [
+                '{"coordinates":{"latitude":54.950357,"longitude":72.0},"accuracy":1.0}',
+                new GeoPosition(new Coordinates('54.950357','72.0'), new Accuracy('1.0'))
             ],
         ];
     }
