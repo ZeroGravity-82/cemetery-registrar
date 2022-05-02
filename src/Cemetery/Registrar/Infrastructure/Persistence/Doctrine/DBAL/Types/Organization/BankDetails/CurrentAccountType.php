@@ -5,56 +5,13 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Organization\BankDetails;
 
 use Cemetery\Registrar\Domain\Organization\BankDetails\CurrentAccount;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CurrentAccountType extends StringType
+final class CurrentAccountType extends CustomStringType
 {
-    private const TYPE_NAME = 'current_account';
-
-    /**
-     * Registers type to the type map.
-     */
-    public static function registerType(): void
-    {
-        if (self::hasType(self::TYPE_NAME)) {
-            return;
-        }
-        self::addType(self::TYPE_NAME, self::class);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
-    {
-        return $value instanceof CurrentAccount ? $value->value() : $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?CurrentAccount
-    {
-        return !empty($value) ? new CurrentAccount($value) : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return self::TYPE_NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
+    protected string $className = CurrentAccount::class;
+    protected string $typeName  = 'current_account';
 }

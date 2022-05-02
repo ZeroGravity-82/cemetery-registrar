@@ -5,56 +5,13 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact;
 
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
-use Doctrine\DBAL\Types\StringType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\CustomStringType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class PhoneNumberType extends StringType
+final class PhoneNumberType extends CustomStringType
 {
-    private const TYPE_NAME = 'phone_number';
-
-    /**
-     * Registers type to the type map.
-     */
-    public static function registerType(): void
-    {
-        if (self::hasType(self::TYPE_NAME)) {
-            return;
-        }
-        self::addType(self::TYPE_NAME, self::class);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
-    {
-        return $value instanceof PhoneNumber ? $value->value() : $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function convertToPHPValue($value, AbstractPlatform $platform): ?PhoneNumber
-    {
-        return !empty($value) ? new PhoneNumber($value) : null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return self::TYPE_NAME;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
-    {
-        return true;
-    }
+    protected string $className = PhoneNumber::class;
+    protected string $typeName  = 'phone_number';
 }

@@ -30,14 +30,6 @@ abstract class TypeTest extends TestCase
         $this->assertSame($this->typeName, $this->type->getName());
     }
 
-    public function testItRegistersType(): void
-    {
-        \call_user_func([$this->className, 'registerType']);
-        $isTypeRegistered = \call_user_func_array([$this->className, 'hasType'], [$this->typeName]);
-
-        $this->assertTrue($isTypeRegistered);
-    }
-
     public function testItRequiresSqlCommentHint(): void
     {
         $this->assertTrue($this->type->requiresSQLCommentHint($this->mockPlatform));
