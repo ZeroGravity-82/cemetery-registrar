@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
  */
 final class Coordinates
 {
-    private const VALUE_PATTERN = '~^[+/\-]?\d+\.\d+$~';    // examples: 54.950357, -165.1282, etc.
+    private const VALUE_PATTERN = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
 
     /**
      * @var string
@@ -148,10 +148,25 @@ final class Coordinates
      */
     private function format(string $value): string
     {
+        $value = $this->addDecimalPoint($value);
         $value = $this->trimPrecedingZeros($value);
         $value = $this->trimTrailingZeros($value);
 
         return $this->removePlusSign($value);
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return string
+     */
+    private function addDecimalPoint(string $value): string
+    {
+        if (!\str_contains($value, '.')) {
+            $value .= '.0';
+        }
+
+        return $value;
     }
 
     /**

@@ -18,13 +18,21 @@ class CoordinatesTest extends TestCase
         $this->assertSame('54.950357', $coordinates->latitude());
         $this->assertSame('82.7972252', $coordinates->longitude());
 
-        $coordinates = new Coordinates('+54.950357', '+82.7972252');
+        $coordinates = new Coordinates('+54.9503570', '+082.7972252');
         $this->assertSame('54.950357', $coordinates->latitude());
         $this->assertSame('82.7972252', $coordinates->longitude());
 
         $coordinates = new Coordinates('-54.950357', '-82.7972252');
         $this->assertSame('-54.950357', $coordinates->latitude());
         $this->assertSame('-82.7972252', $coordinates->longitude());
+
+        $coordinates = new Coordinates('000', '082');
+        $this->assertSame('0.0', $coordinates->latitude());
+        $this->assertSame('82.0', $coordinates->longitude());
+
+        $coordinates = new Coordinates('-054', '0');
+        $this->assertSame('-54.0', $coordinates->latitude());
+        $this->assertSame('0.0', $coordinates->longitude());
     }
 
     public function testItFailsWithLatitudeValueOutOfRange(): void
