@@ -51,8 +51,8 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
 
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
-        $this->assertSame('JP001', (string) $persistedJuristicPerson->id());
-        $this->assertSame('ООО "Рога и копыта"', (string) $persistedJuristicPerson->name());
+        $this->assertTrue($persistedJuristicPerson->id()->isEqual($this->juristicPersonA->id()));
+        $this->assertTrue($persistedJuristicPerson->name()->isEqual($this->juristicPersonA->name()));
         $this->assertNull($persistedJuristicPerson->inn());
         $this->assertSame(1, $this->getRowCount(JuristicPerson::class));
         $this->assertSame(
@@ -76,8 +76,8 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         // Testing itself
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
-        $inn                     = new Inn('7728168971');
-        $persistedJuristicPerson->setInn($inn);
+        $newInn = new Inn('7728168971');
+        $persistedJuristicPerson->setInn($newInn);
         sleep(1);   // for correct updatedAt timestamp
         $this->repo->save($persistedJuristicPerson);
         $this->entityManager->clear();
@@ -85,7 +85,7 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
         $this->assertInstanceOf(Inn::class, $persistedJuristicPerson->inn());
-        $this->assertSame('7728168971', (string) $persistedJuristicPerson->inn());
+        $this->assertTrue($persistedJuristicPerson->inn()->isEqual($newInn));
         $this->assertSame(1, $this->getRowCount(JuristicPerson::class));
         $this->assertSame(
             $this->juristicPersonA->createdAt()->format(\DateTimeInterface::ATOM),
@@ -118,8 +118,8 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         // Testing itself
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
-        $inn                     = new Inn('7728168971');
-        $persistedJuristicPerson->setInn($inn);
+        $newInn = new Inn('7728168971');
+        $persistedJuristicPerson->setInn($newInn);
         sleep(1);   // for correct updatedAt timestamp
         $this->repo->saveAll(new JuristicPersonCollection([$persistedJuristicPerson, $this->juristicPersonC]));
         $this->entityManager->clear();
@@ -127,17 +127,17 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonA->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
         $this->assertInstanceOf(Inn::class, $persistedJuristicPerson->inn());
-        $this->assertSame('7728168971', (string) $persistedJuristicPerson->inn());
+        $this->assertTrue($persistedJuristicPerson->inn()->isEqual($newInn));
         $this->assertTrue($this->juristicPersonA->updatedAt() < $persistedJuristicPerson->updatedAt());
 
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonC->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
         $this->assertInstanceOf(JuristicPersonId::class, $persistedJuristicPerson->id());
-        $this->assertSame('JP003', (string) $persistedJuristicPerson->id());
+        $this->assertTrue($persistedJuristicPerson->id()->isEqual($this->juristicPersonC->id()));
         $this->assertInstanceOf(Name::class, $persistedJuristicPerson->name());
-        $this->assertSame('ПАО "ГАЗПРОМ"', (string) $persistedJuristicPerson->name());
+        $this->assertTrue($persistedJuristicPerson->name()->isEqual($this->juristicPersonC->name()));
         $this->assertInstanceOf(Inn::class, $persistedJuristicPerson->inn());
-        $this->assertSame('7736050003', (string) $persistedJuristicPerson->inn());
+        $this->assertTrue($persistedJuristicPerson->inn()->isEqual($this->juristicPersonC->inn()));
 
         $this->assertSame(2, $this->getRowCount(JuristicPerson::class));
     }
@@ -154,10 +154,7 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonB->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
         $this->assertInstanceOf(BankDetails::class, $persistedJuristicPerson->bankDetails());
-        $this->assertSame('АО "АЛЬФА-БАНК"', (string) $persistedJuristicPerson->bankDetails()->bankName());
-        $this->assertSame('044525593', (string) $persistedJuristicPerson->bankDetails()->bik());
-        $this->assertSame('30101810200000000593', (string) $persistedJuristicPerson->bankDetails()->correspondentAccount());
-        $this->assertSame('40701810401400000014', (string) $persistedJuristicPerson->bankDetails()->currentAccount());
+        $this->assertTrue($persistedJuristicPerson->bankDetails()->isEqual($this->juristicPersonB->bankDetails()));
     }
 
     public function testItRemovesAJuristicPerson(): void
@@ -175,7 +172,7 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
 
         $this->assertNull($this->repo->findById($this->juristicPersonA->id()));
         $this->assertSame(1, $this->getRowCount(JuristicPerson::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(JuristicPerson::class, (string) $this->juristicPersonA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(JuristicPerson::class, $this->juristicPersonA->id()->value()));
     }
 
     public function testItRemovesACollectionOfJuristicPersons(): void
@@ -199,9 +196,9 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $this->assertNull($this->repo->findById($this->juristicPersonC->id()));
         $this->assertNotNull($this->repo->findById($this->juristicPersonA->id()));
         $this->assertSame(3, $this->getRowCount(JuristicPerson::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(JuristicPerson::class, (string) $this->juristicPersonB->id()));
-        $this->assertNotNull($this->getRemovedAtTimestampById(JuristicPerson::class, (string) $this->juristicPersonC->id()));
-        $this->assertNull($this->getRemovedAtTimestampById(JuristicPerson::class, (string) $this->juristicPersonA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(JuristicPerson::class, $this->juristicPersonB->id()->value()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(JuristicPerson::class, $this->juristicPersonC->id()->value()));
+        $this->assertNull($this->getRemovedAtTimestampById(JuristicPerson::class, $this->juristicPersonA->id()->value()));
     }
 
     public function testItFindsAJuristicPersonById(): void
@@ -215,7 +212,7 @@ class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         // Testing itself
         $persistedJuristicPerson = $this->repo->findById($this->juristicPersonB->id());
         $this->assertInstanceOf(JuristicPerson::class, $persistedJuristicPerson);
-        $this->assertSame('JP002', (string) $persistedJuristicPerson->id());
+        $this->assertTrue($persistedJuristicPerson->id()->isEqual($this->juristicPersonB->id()));
     }
 
     public function testItReturnsNullIfAJuristicPersonIsNotFoundById(): void
