@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 interface NaturalPersonRepositoryInterface
 {
     /**
-     * Adds the natural person to the repository. If the natural person already exists, it will be updated.
+     * Adds the natural person to the repository. If the natural person is already persisted, it will be updated.
      *
      * @param NaturalPerson $naturalPerson
      */
     public function save(NaturalPerson $naturalPerson): void;
 
     /**
-     * Adds the collection of natural persons to the repository. If any of the natural persons already exist, they will
-     * be updated.
+     * Adds the collection of natural persons to the repository. If any of the natural persons are already persisted,
+     * they will be updated.
      *
      * @param NaturalPersonCollection $naturalPersons
      */

@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Domain\BurialPlace\MemorialTree;
 interface MemorialTreeRepository
 {
     /**
-     * Adds the memorial tree to the repository. If the memorial tree already exists, it will be updated.
+     * Adds the memorial tree to the repository. If the memorial tree is already persisted, it will be updated.
      *
      * @param MemorialTree $memorialTree
      */
     public function save(MemorialTree $memorialTree): void;
 
     /**
-     * Adds the collection of memorial trees to the repository. If any of the memorial trees already exist, they will
-     * be updated.
+     * Adds the collection of memorial trees to the repository. If any of the memorial trees are already persisted,
+     * they will be updated.
      *
      * @param MemorialTreeCollection $memorialTrees
      */

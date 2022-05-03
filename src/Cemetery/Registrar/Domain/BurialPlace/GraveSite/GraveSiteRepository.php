@@ -10,14 +10,14 @@ namespace Cemetery\Registrar\Domain\BurialPlace\GraveSite;
 interface GraveSiteRepository
 {
     /**
-     * Adds the grave site to the repository. If the grave site already exists, it will be updated.
+     * Adds the grave site to the repository. If the grave site is already persisted, it will be updated.
      *
      * @param GraveSite $graveSite
      */
     public function save(GraveSite $graveSite): void;
 
     /**
-     * Adds the collection of grave sites to the repository. If any of the grave sites already exist, they will
+     * Adds the collection of grave sites to the repository. If any of the grave sites are already persisted, they will
      * be updated.
      *
      * @param GraveSiteCollection $graveSites

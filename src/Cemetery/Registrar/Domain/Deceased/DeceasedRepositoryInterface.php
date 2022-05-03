@@ -10,14 +10,15 @@ namespace Cemetery\Registrar\Domain\Deceased;
 interface DeceasedRepositoryInterface
 {
     /**
-     * Adds the deceased to the repository. If the deceased already exists, it will be updated.
+     * Adds the deceased to the repository. If the deceased is already persisted, it will be updated.
      *
      * @param Deceased $deceased
      */
     public function save(Deceased $deceased): void;
 
     /**
-     * Adds the collection of deceaseds to the repository. If any of the deceaseds already exist, they will be updated.
+     * Adds the collection of deceaseds to the repository. If any of the deceaseds are already persisted, they will be
+     * updated.
      *
      * @param DeceasedCollection $deceaseds
      */

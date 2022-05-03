@@ -10,14 +10,15 @@ namespace Cemetery\Registrar\Domain\Burial;
 interface BurialRepositoryInterface
 {
     /**
-     * Adds the burial to the repository. If the burial already exists, it will be updated.
+     * Adds the burial to the repository. If the burial is already persisted, it will be updated.
      *
      * @param Burial $burial
      */
     public function save(Burial $burial): void;
 
     /**
-     * Adds the collection of burials to the repository. If any of the burials already exist, they will be updated.
+     * Adds the collection of burials to the repository. If any of the burials are already persisted, they will be
+     * updated.
      *
      * @param BurialCollection $burials
      */

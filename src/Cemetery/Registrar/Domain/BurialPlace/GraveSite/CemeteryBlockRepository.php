@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Domain\BurialPlace\GraveSite;
 interface CemeteryBlockRepository
 {
     /**
-     * Adds the cemetery block to the repository. If the cemetery block already exists, it will be updated.
+     * Adds the cemetery block to the repository. If the cemetery block ia already persisted, it will be updated.
      *
      * @param CemeteryBlock $cemeteryBlock
      */
     public function save(CemeteryBlock $cemeteryBlock): void;
 
     /**
-     * Adds the collection of cemetery blocks to the repository. If any of the cemetery blocks already exist, they will
-     * be updated.
+     * Adds the collection of cemetery blocks to the repository. If any of the cemetery blocks are already persisted,
+     * they will be updated.
      *
      * @param CemeteryBlockCollection $cemeteryBlocks
      */

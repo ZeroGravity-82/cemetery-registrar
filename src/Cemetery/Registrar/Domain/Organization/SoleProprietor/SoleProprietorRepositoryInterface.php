@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Domain\Organization\SoleProprietor;
 interface SoleProprietorRepositoryInterface
 {
     /**
-     * Adds the sole proprietor to the repository. If the sole proprietor already exists, it will be updated.
+     * Adds the sole proprietor to the repository. If the sole proprietor is already persisted, it will be updated.
      *
      * @param SoleProprietor $soleProprietor
      */
     public function save(SoleProprietor $soleProprietor): void;
 
     /**
-     * Adds the collection of sole proprietors to the repository. If any of the sole proprietors already exist, they
-     * will be updated.
+     * Adds the collection of sole proprietors to the repository. If any of the sole proprietors are already persisted,
+     * they will be updated.
      *
      * @param SoleProprietorCollection $soleProprietors
      */

@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 interface JuristicPersonRepositoryInterface
 {
     /**
-     * Adds the juristic person to the repository. If the juristic person already exists, it will be updated.
+     * Adds the juristic person to the repository. If the juristic person is already persisted, it will be updated.
      *
      * @param JuristicPerson $juristicPerson
      */
     public function save(JuristicPerson $juristicPerson): void;
 
     /**
-     * Adds the collection of juristic persons to the repository. If any of the juristic persons already exist, they
-     * will be updated.
+     * Adds the collection of juristic persons to the repository. If any of the juristic persons are already persisted,
+     * they will be updated.
      *
      * @param JuristicPersonCollection $juristicPersons
      */

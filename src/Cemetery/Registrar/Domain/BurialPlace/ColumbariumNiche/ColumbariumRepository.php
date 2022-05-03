@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche;
 interface ColumbariumRepository
 {
     /**
-     * Adds the columbarium to the repository. If the columbarium already exists, it will be updated.
+     * Adds the columbarium to the repository. If the columbarium is already persisted, it will be updated.
      *
      * @param Columbarium $columbarium
      */
     public function save(Columbarium $columbarium): void;
 
     /**
-     * Adds the collection of columbariums  to the repository. If any of the columbariums already exist, they will
-     * be updated.
+     * Adds the collection of columbariums  to the repository. If any of the columbariums are already persisted, they
+     * will be updated.
      *
      * @param ColumbariumCollection $columbariums
      */
