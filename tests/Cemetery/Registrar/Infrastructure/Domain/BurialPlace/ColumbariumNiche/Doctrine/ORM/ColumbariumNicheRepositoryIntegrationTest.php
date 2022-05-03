@@ -206,7 +206,7 @@ class ColumbariumNicheRepositoryIntegrationTest extends AbstractRepositoryIntegr
 
         $this->assertNull($this->repo->findById($this->columbariumNicheA->id()));
         $this->assertSame(1, $this->getRowCount(ColumbariumNiche::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(ColumbariumNiche::class, (string) $this->columbariumNicheA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(ColumbariumNiche::class, $this->columbariumNicheA->id()->value()));
     }
 
     public function testItRemovesACollectionOfColumbariumNiches(): void
