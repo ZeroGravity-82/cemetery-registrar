@@ -49,8 +49,8 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
 
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonA->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
-        $this->assertSame('NP001', (string) $persistedNaturalPerson->id());
-        $this->assertSame('Иванов Иван Иванович', (string) $persistedNaturalPerson->fullName());
+        $this->assertTrue($persistedNaturalPerson->id()->isEqual($this->naturalPersonA->id()));
+        $this->assertTrue($persistedNaturalPerson->fullName()->isEqual($this->naturalPersonA->fullName()));
         $this->assertNull($persistedNaturalPerson->bornAt());
         $this->assertSame(1, $this->getRowCount(NaturalPerson::class));
         $this->assertSame(
@@ -74,8 +74,8 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         // Testing itself
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonA->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
-        $bornAt                 = new \DateTimeImmutable('2003-03-01');
-        $persistedNaturalPerson->setBornAt($bornAt);
+        $newBornAt = new \DateTimeImmutable('2003-03-01');
+        $persistedNaturalPerson->setBornAt($newBornAt);
         sleep(1);   // for correct updatedAt timestamp
         $this->repo->save($persistedNaturalPerson);
         $this->entityManager->clear();
@@ -83,7 +83,11 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonA->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedNaturalPerson->bornAt());
-        $this->assertSame('2003-03-01', $persistedNaturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame(
+            $newBornAt->format(\DateTimeInterface::ATOM),
+            $persistedNaturalPerson->bornAt()->format(\DateTimeInterface::ATOM)
+        );
+
         $this->assertSame(1, $this->getRowCount(NaturalPerson::class));
         $this->assertSame(
             $this->naturalPersonA->createdAt()->format(\DateTimeInterface::ATOM),
@@ -114,8 +118,8 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         // Testing itself
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonA->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
-        $bornAt                 = new \DateTimeImmutable('2003-03-01');
-        $persistedNaturalPerson->setBornAt($bornAt);
+        $newBornAt = new \DateTimeImmutable('2003-03-01');
+        $persistedNaturalPerson->setBornAt($newBornAt);
         sleep(1);   // for correct updatedAt timestamp
         $this->repo->saveAll(new NaturalPersonCollection([$persistedNaturalPerson, $this->naturalPersonC]));
         $this->entityManager->clear();
@@ -123,26 +127,35 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonA->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedNaturalPerson->bornAt());
-        $this->assertSame('2003-03-01', $persistedNaturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame(
+            $newBornAt->format(\DateTimeInterface::ATOM),
+            $persistedNaturalPerson->bornAt()->format(\DateTimeInterface::ATOM)
+        );
         $this->assertTrue($this->naturalPersonA->updatedAt() < $persistedNaturalPerson->updatedAt());
 
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonB->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
         $this->assertInstanceOf(NaturalPersonId::class, $persistedNaturalPerson->id());
-        $this->assertSame('NP002', (string) $persistedNaturalPerson->id());
+        $this->assertTrue($persistedNaturalPerson->id()->isEqual($this->naturalPersonB->id()));
         $this->assertInstanceOf(FullName::class, $persistedNaturalPerson->fullName());
-        $this->assertSame('Петров Пётр Петрович', (string) $persistedNaturalPerson->fullName());
+        $this->assertTrue($persistedNaturalPerson->fullName()->isEqual($this->naturalPersonB->fullName()));
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedNaturalPerson->bornAt());
-        $this->assertSame('1998-12-30', $persistedNaturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame(
+            $this->naturalPersonB->bornAt()->format(\DateTimeInterface::ATOM),
+            $persistedNaturalPerson->bornAt()->format(\DateTimeInterface::ATOM)
+        );
 
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonC->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
         $this->assertInstanceOf(NaturalPersonId::class, $persistedNaturalPerson->id());
-        $this->assertSame('NP003', (string) $persistedNaturalPerson->id());
+        $this->assertTrue($persistedNaturalPerson->id()->isEqual($this->naturalPersonC->id()));
         $this->assertInstanceOf(FullName::class, $persistedNaturalPerson->fullName());
-        $this->assertSame('Сидоров Сидр Сидорович', (string) $persistedNaturalPerson->fullName());
+        $this->assertTrue($persistedNaturalPerson->fullName()->isEqual($this->naturalPersonC->fullName()));
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedNaturalPerson->bornAt());
-        $this->assertSame('2005-05-20', $persistedNaturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame(
+            $this->naturalPersonC->bornAt()->format(\DateTimeInterface::ATOM),
+            $persistedNaturalPerson->bornAt()->format(\DateTimeInterface::ATOM)
+        );
 
         $this->assertSame(3, $this->getRowCount(NaturalPerson::class));
     }
@@ -162,7 +175,7 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
 
         $this->assertNull($this->repo->findById($this->naturalPersonA->id()));
         $this->assertSame(1, $this->getRowCount(NaturalPerson::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(NaturalPerson::class, (string) $this->naturalPersonA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(NaturalPerson::class, $this->naturalPersonA->id()->value()));
     }
 
     public function testItRemovesACollectionOfNaturalPersons(): void
@@ -184,9 +197,9 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         $this->assertNull($this->repo->findById($this->naturalPersonC->id()));
         $this->assertNotNull($this->repo->findById($this->naturalPersonA->id()));
         $this->assertSame(3, $this->getRowCount(NaturalPerson::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(NaturalPerson::class, (string) $this->naturalPersonB->id()));
-        $this->assertNotNull($this->getRemovedAtTimestampById(NaturalPerson::class, (string) $this->naturalPersonC->id()));
-        $this->assertNull($this->getRemovedAtTimestampById(NaturalPerson::class, (string) $this->naturalPersonA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(NaturalPerson::class, $this->naturalPersonB->id()->value()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(NaturalPerson::class, $this->naturalPersonC->id()->value()));
+        $this->assertNull($this->getRemovedAtTimestampById(NaturalPerson::class, $this->naturalPersonA->id()->value()));
     }
 
     public function testItFindsANaturalPersonById(): void
@@ -198,7 +211,7 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         // Testing itself
         $persistedNaturalPerson = $this->repo->findById($this->naturalPersonB->id());
         $this->assertInstanceOf(NaturalPerson::class, $persistedNaturalPerson);
-        $this->assertSame('NP002', (string) $persistedNaturalPerson->id());
+        $this->assertTrue($persistedNaturalPerson->id()->isEqual($this->naturalPersonB->id()));
     }
 
     public function testItReturnsNullIfANaturalPersonIsNotFoundById(): void
