@@ -174,7 +174,7 @@ class ColumbariumRepositoryIntegrationTest extends AbstractRepositoryIntegration
 
         $this->assertNull($this->repo->findById($this->columbariumA->id()));
         $this->assertSame(1, $this->getRowCount(Columbarium::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Columbarium::class, (string) $this->columbariumA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(Columbarium::class, $this->columbariumA->id()->value()));
     }
 
     public function testItRemovesACollectionOfColumbariums(): void
