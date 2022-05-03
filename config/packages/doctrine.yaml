@@ -22,6 +22,7 @@ doctrine:
             row_in_columbarium:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\ColumbariumNiche\RowInColumbariumType
             # BurialPlace/GraveSite
             cemetery_block_id:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\CemeteryBlockIdType
+            cemetery_block_name:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\CemeteryBlockNameType
             # Contact
             address:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
             email:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
