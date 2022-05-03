@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
+use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
@@ -19,6 +20,7 @@ use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
@@ -69,24 +71,29 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
 
         $persistedBurial = $this->repo->findById($this->burialA->id());
         $this->assertInstanceOf(Burial::class, $persistedBurial);
-        $this->assertSame('B001', $persistedBurial->id()->value());
-        $this->assertSame('BC001', $persistedBurial->code()->value());
-        $this->assertSame('D001', $persistedBurial->deceasedId()->value());
+        $this->assertInstanceOf(BurialId::class, $this->burialA->id());
+        $this->assertTrue($persistedBurial->id()->isEqual($this->burialA->id()));
+        $this->assertInstanceOf(BurialCode::class, $this->burialA->code());
+        $this->assertTrue($persistedBurial->code()->isEqual($this->burialA->code()));
+        $this->assertInstanceOf(DeceasedId::class, $this->burialA->deceasedId());
+        $this->assertTrue($persistedBurial->deceasedId()->isEqual($this->burialA->deceasedId()));
         $this->assertInstanceOf(BurialType::class, $persistedBurial->burialType());
         $this->assertTrue($persistedBurial->burialType()->isUrnInColumbariumNiche());
         $this->assertInstanceOf(CustomerId::class, $persistedBurial->customerId());
         $this->assertInstanceOf(NaturalPersonId::class, $persistedBurial->customerId()->id());
-        $this->assertSame('ID001', $persistedBurial->customerId()->id()->value());
+        $this->assertTrue($persistedBurial->customerId()->id()->isEqual($this->burialA->customerId()->id()));
         $this->assertInstanceOf(BurialPlaceId::class, $persistedBurial->burialPlaceId());
         $this->assertInstanceOf(ColumbariumNicheId::class, $persistedBurial->burialPlaceId()->id());
-        $this->assertSame('CN001', $persistedBurial->burialPlaceId()->id()->value());
+        $this->assertTrue($persistedBurial->burialPlaceId()->id()->isEqual($this->burialA->burialPlaceId()->id()));
         $this->assertNull($persistedBurial->burialPlaceOwnerId());
         $this->assertNull($persistedBurial->funeralCompanyId());
         $this->assertInstanceOf(BurialContainer::class, $persistedBurial->burialContainer());
         $this->assertInstanceOf(Urn::class, $persistedBurial->burialContainer()->container());
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedBurial->buriedAt());
-        $this->assertSame('2022-01-15 13:10:00', $persistedBurial->buriedAt()->format('Y-m-d H:i:s'));
-
+        $this->assertSame(
+            $this->burialA->buriedAt()->format(\DateTimeInterface::ATOM),
+            $persistedBurial->buriedAt()->format(\DateTimeInterface::ATOM)
+        );
         $this->assertSame(1, $this->getRowCount(Burial::class));
         $this->assertSame(
             $this->burialA->createdAt()->format(\DateTimeInterface::ATOM),
