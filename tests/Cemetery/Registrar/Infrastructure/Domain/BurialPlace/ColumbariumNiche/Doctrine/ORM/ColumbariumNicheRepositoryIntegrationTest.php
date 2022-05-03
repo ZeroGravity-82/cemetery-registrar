@@ -40,9 +40,7 @@ class ColumbariumNicheRepositoryIntegrationTest extends AbstractRepositoryIntegr
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
-        $this->repo          = new DoctrineOrmColumbariumNicheRepository(
-            $this->entityManager,
-        );
+        $this->repo          = new DoctrineOrmColumbariumNicheRepository($this->entityManager);
         $this->truncateEntities();
     }
 

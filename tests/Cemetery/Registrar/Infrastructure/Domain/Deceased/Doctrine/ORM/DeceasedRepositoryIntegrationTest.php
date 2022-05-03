@@ -38,9 +38,7 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
-        $this->repo          = new DoctrineOrmDeceasedRepository(
-            $this->entityManager,
-        );
+        $this->repo          = new DoctrineOrmDeceasedRepository($this->entityManager);
         $this->truncateEntities();
     }
 

@@ -36,9 +36,7 @@ class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrati
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
-        $this->repo          = new DoctrineORMNaturalPersonRepository(
-            $this->entityManager,
-        );
+        $this->repo          = new DoctrineORMNaturalPersonRepository($this->entityManager);
         $this->truncateEntities();
     }
 

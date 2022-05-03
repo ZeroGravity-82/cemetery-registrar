@@ -38,9 +38,7 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
-        $this->repo          = new DoctrineORMSoleProprietorRepository(
-            $this->entityManager,
-        );
+        $this->repo          = new DoctrineORMSoleProprietorRepository($this->entityManager);
         $this->truncateEntities();
     }
 

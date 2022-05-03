@@ -58,9 +58,7 @@ class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
-        $this->repo          = new DoctrineOrmBurialRepository(
-            $this->entityManager,
-        );
+        $this->repo          = new DoctrineOrmBurialRepository($this->entityManager);
         $this->truncateEntities();
     }
 
