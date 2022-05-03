@@ -54,8 +54,8 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertTrue($persistedDeceased->id()->isEqual($this->deceasedA->id()));
         $this->assertTrue($persistedDeceased->naturalPersonId()->isEqual($this->deceasedA->naturalPersonId()));
         $this->assertSame(
-            $this->deceasedA->diedAt()->format('Y-m-d'),
-            $persistedDeceased->diedAt()->format('Y-m-d')
+            $this->deceasedA->diedAt()->format(\DateTimeInterface::ATOM),
+            $persistedDeceased->diedAt()->format(\DateTimeInterface::ATOM)
         );
         $this->assertNull($persistedDeceased->deathCertificateId());
         $this->assertNull($persistedDeceased->causeOfDeath());
@@ -148,7 +148,10 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertInstanceOf(NaturalPersonId::class, $persistedDeceased->naturalPersonId());
         $this->assertTrue($persistedDeceased->naturalPersonId()->isEqual($this->deceasedB->naturalPersonId()));
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedDeceased->diedAt());
-        $this->assertSame('2001-02-11', $persistedDeceased->diedAt()->format('Y-m-d'));
+        $this->assertSame(
+            $this->deceasedB->diedAt()->format(\DateTimeInterface::ATOM),
+            $persistedDeceased->diedAt()->format(\DateTimeInterface::ATOM)
+        );
         $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->deathCertificateId());
         $this->assertTrue($persistedDeceased->deathCertificateId()->isEqual($this->deceasedB->deathCertificateId()));
         $this->assertInstanceOf(CauseOfDeath::class, $persistedDeceased->causeOfDeath());
@@ -161,7 +164,10 @@ class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTes
         $this->assertInstanceOf(NaturalPersonId::class, $persistedDeceased->naturalPersonId());
         $this->assertTrue($persistedDeceased->naturalPersonId()->isEqual($this->deceasedC->naturalPersonId()));
         $this->assertInstanceOf(\DateTimeImmutable::class, $persistedDeceased->diedAt());
-        $this->assertSame('2011-05-13', $persistedDeceased->diedAt()->format('Y-m-d'));
+        $this->assertSame(
+            $this->deceasedC->diedAt()->format(\DateTimeInterface::ATOM),
+            $persistedDeceased->diedAt()->format(\DateTimeInterface::ATOM)
+        );
         $this->assertInstanceOf(DeathCertificateId::class, $persistedDeceased->deathCertificateId());
         $this->assertTrue($persistedDeceased->deathCertificateId()->isEqual($this->deceasedC->deathCertificateId()));
         $this->assertNull($persistedDeceased->causeOfDeath());
