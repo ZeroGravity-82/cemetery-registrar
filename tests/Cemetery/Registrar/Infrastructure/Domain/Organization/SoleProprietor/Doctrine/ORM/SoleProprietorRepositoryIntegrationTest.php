@@ -51,8 +51,8 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
 
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorA->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
-        $this->assertSame('SP001', (string) $persistedSoleProprietor->id());
-        $this->assertSame('ИП Иванов Иван Иванович', (string) $persistedSoleProprietor->name());
+        $this->assertTrue($persistedSoleProprietor->id()->isEqual($this->soleProprietorA->id()));
+        $this->assertTrue($persistedSoleProprietor->name()->isEqual($this->soleProprietorA->name()));
         $this->assertNull($persistedSoleProprietor->inn());
         $this->assertSame(1, $this->getRowCount(SoleProprietor::class));
         $this->assertSame(
@@ -76,8 +76,8 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         // Testing itself
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorA->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
-        $inn                     = new Inn('772208786091');
-        $persistedSoleProprietor->setInn($inn);
+        $newInn = new Inn('772208786091');
+        $persistedSoleProprietor->setInn($newInn);
         sleep(1);   // for correct updatedAt timestamp
         $this->repo->save($persistedSoleProprietor);
         $this->entityManager->clear();
@@ -85,7 +85,7 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorA->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
         $this->assertInstanceOf(Inn::class, $persistedSoleProprietor->inn());
-        $this->assertSame('772208786091', (string) $persistedSoleProprietor->inn());
+        $this->assertTrue($persistedSoleProprietor->inn()->isEqual($newInn));
         $this->assertSame(1, $this->getRowCount(SoleProprietor::class));
         $this->assertSame(
             $this->soleProprietorA->createdAt()->format(\DateTimeInterface::ATOM),
@@ -118,8 +118,8 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         // Testing itself
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorA->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
-        $inn                     = new Inn('540701117479');
-        $persistedSoleProprietor->setInn($inn);
+        $newInn = new Inn('540701117479');
+        $persistedSoleProprietor->setInn($newInn);
         sleep(1);   // for correct updatedAt timestamp
         $this->repo->saveAll(new SoleProprietorCollection([$persistedSoleProprietor, $this->soleProprietorC]));
         $this->entityManager->clear();
@@ -127,17 +127,17 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorA->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
         $this->assertInstanceOf(Inn::class, $persistedSoleProprietor->inn());
-        $this->assertSame('540701117479', (string) $persistedSoleProprietor->inn());
+        $this->assertTrue($persistedSoleProprietor->inn()->isEqual($newInn));
         $this->assertTrue($this->soleProprietorA->updatedAt() < $persistedSoleProprietor->updatedAt());
 
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorC->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
         $this->assertInstanceOf(SoleProprietorId::class, $persistedSoleProprietor->id());
-        $this->assertSame('SP003', (string) $persistedSoleProprietor->id());
+        $this->assertTrue($persistedSoleProprietor->id()->isEqual($this->soleProprietorC->id()));
         $this->assertInstanceOf(Name::class, $persistedSoleProprietor->name());
-        $this->assertSame('ИП Сидоров Сидр Сидорович', (string) $persistedSoleProprietor->name());
+        $this->assertTrue($persistedSoleProprietor->name()->isEqual($this->soleProprietorC->name()));
         $this->assertInstanceOf(Inn::class, $persistedSoleProprietor->inn());
-        $this->assertSame('391600743661', (string) $persistedSoleProprietor->inn());
+        $this->assertTrue($persistedSoleProprietor->inn()->isEqual($this->soleProprietorC->inn()));
 
         $this->assertSame(2, $this->getRowCount(SoleProprietor::class));
     }
@@ -154,10 +154,7 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorB->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
         $this->assertInstanceOf(BankDetails::class, $persistedSoleProprietor->bankDetails());
-        $this->assertSame('АО "АЛЬФА-БАНК"', (string) $persistedSoleProprietor->bankDetails()->bankName());
-        $this->assertSame('044525593', (string) $persistedSoleProprietor->bankDetails()->bik());
-        $this->assertSame('30101810200000000593', (string) $persistedSoleProprietor->bankDetails()->correspondentAccount());
-        $this->assertSame('40701810401400000014', (string) $persistedSoleProprietor->bankDetails()->currentAccount());
+        $this->assertTrue($persistedSoleProprietor->bankDetails()->isEqual($this->soleProprietorB->bankDetails()));
     }
 
     public function testItRemovesASoleProprietor(): void
@@ -175,7 +172,7 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
 
         $this->assertNull($this->repo->findById($this->soleProprietorA->id()));
         $this->assertSame(1, $this->getRowCount(SoleProprietor::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(SoleProprietor::class, (string) $this->soleProprietorA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(SoleProprietor::class, $this->soleProprietorA->id()->value()));
     }
 
     public function testItRemovesACollectionOfSoleProprietors(): void
@@ -199,9 +196,9 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         $this->assertNull($this->repo->findById($this->soleProprietorC->id()));
         $this->assertNotNull($this->repo->findById($this->soleProprietorA->id()));
         $this->assertSame(3, $this->getRowCount(SoleProprietor::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(SoleProprietor::class, (string) $this->soleProprietorB->id()));
-        $this->assertNotNull($this->getRemovedAtTimestampById(SoleProprietor::class, (string) $this->soleProprietorC->id()));
-        $this->assertNull($this->getRemovedAtTimestampById(SoleProprietor::class, (string) $this->soleProprietorA->id()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(SoleProprietor::class, $this->soleProprietorB->id()->value()));
+        $this->assertNotNull($this->getRemovedAtTimestampById(SoleProprietor::class, $this->soleProprietorC->id()->value()));
+        $this->assertNull($this->getRemovedAtTimestampById(SoleProprietor::class, $this->soleProprietorA->id()->value()));
     }
 
     public function testItFindsASoleProprietorById(): void
@@ -215,7 +212,7 @@ class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrat
         // Testing itself
         $persistedSoleProprietor = $this->repo->findById($this->soleProprietorB->id());
         $this->assertInstanceOf(SoleProprietor::class, $persistedSoleProprietor);
-        $this->assertSame('SP002', (string) $persistedSoleProprietor->id());
+        $this->assertTrue($persistedSoleProprietor->id()->isEqual($this->soleProprietorB->id()));
     }
 
     public function testItReturnsNullIfASoleProprietorIsNotFoundById(): void
