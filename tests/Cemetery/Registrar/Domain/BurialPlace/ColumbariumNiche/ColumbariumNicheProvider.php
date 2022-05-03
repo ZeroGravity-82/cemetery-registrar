@@ -22,7 +22,7 @@ final class ColumbariumNicheProvider
     {
         $id               = new ColumbariumNicheId('CN001');
         $columbariumId    = new ColumbariumId('C001');
-        $rowInColumbarium = new RowInColumbarium(4);
+        $rowInColumbarium = new RowInColumbarium(1);
         $nicheNumber      = new ColumbariumNicheNumber('001');
 
         return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
@@ -32,9 +32,9 @@ final class ColumbariumNicheProvider
     {
         $id               = new ColumbariumNicheId('CN002');
         $columbariumId    = new ColumbariumId('C002');
-        $rowInColumbarium = new RowInColumbarium(5);
+        $rowInColumbarium = new RowInColumbarium(2);
         $nicheNumber      = new ColumbariumNicheNumber('002');
-        $geoPosition      = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Error('0.5'));
+        $geoPosition      = new GeoPosition(new Coordinates('+54.95035712', '082.7925200'), new Error('0.5'));
 
         return (new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber))
             ->setGeoPosition($geoPosition);
@@ -46,7 +46,7 @@ final class ColumbariumNicheProvider
         $columbariumId    = new ColumbariumId('C003');
         $rowInColumbarium = new RowInColumbarium(3);
         $nicheNumber      = new ColumbariumNicheNumber('003');
-        $geoPosition      = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
+        $geoPosition      = new GeoPosition(new Coordinates('-050.9500', '-179.7972252'), null);
 
         return (new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber))
             ->setGeoPosition($geoPosition);
@@ -56,7 +56,7 @@ final class ColumbariumNicheProvider
     {
         $id               = new ColumbariumNicheId('CN004');
         $columbariumId    = new ColumbariumId('C004');
-        $rowInColumbarium = new RowInColumbarium(2);
+        $rowInColumbarium = new RowInColumbarium(4);
         $nicheNumber      = new ColumbariumNicheNumber('004');
 
         return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
