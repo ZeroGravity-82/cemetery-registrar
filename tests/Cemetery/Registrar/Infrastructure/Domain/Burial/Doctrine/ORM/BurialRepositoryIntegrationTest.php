@@ -15,14 +15,14 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM\BurialRepository as DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class BurialRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = Burial::class;
     protected string $entityIdClassName         = BurialId::class;

@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractRepositoryIntegrationTest extends KernelTestCase
+abstract class RepositoryIntegrationTest extends KernelTestCase
 {
     protected Entity                 $entityA;
     protected Entity                 $entityB;

@@ -12,14 +12,14 @@ use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\ORM\DeceasedRepository as DoctrineOrmDeceasedRepository;
 use Cemetery\Tests\Registrar\Domain\Deceased\DeceasedProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class DeceasedRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = Deceased::class;
     protected string $entityIdClassName         = DeceasedId::class;

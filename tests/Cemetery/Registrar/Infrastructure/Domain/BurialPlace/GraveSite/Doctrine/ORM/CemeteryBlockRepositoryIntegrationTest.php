@@ -11,14 +11,14 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockName;
 use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\ORM\CemeteryBlockRepository as DoctrineOrmCemeteryBlockRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class CemeteryBlockRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = CemeteryBlock::class;
     protected string $entityIdClassName         = CemeteryBlockId::class;

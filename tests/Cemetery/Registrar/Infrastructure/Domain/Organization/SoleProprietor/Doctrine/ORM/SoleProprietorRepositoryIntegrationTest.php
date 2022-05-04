@@ -12,14 +12,14 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollecti
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\Doctrine\ORM\SoleProprietorRepository as DoctrineORMSoleProprietorRepository;
 use Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor\SoleProprietorProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class SoleProprietorRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = SoleProprietor::class;
     protected string $entityIdClassName         = SoleProprietorId::class;

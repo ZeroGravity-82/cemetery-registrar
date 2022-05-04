@@ -15,14 +15,14 @@ use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\ORM\ColumbariumNicheRepository as DoctrineOrmColumbariumNicheRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class ColumbariumNicheRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = ColumbariumNiche::class;
     protected string $entityIdClassName         = ColumbariumNicheId::class;

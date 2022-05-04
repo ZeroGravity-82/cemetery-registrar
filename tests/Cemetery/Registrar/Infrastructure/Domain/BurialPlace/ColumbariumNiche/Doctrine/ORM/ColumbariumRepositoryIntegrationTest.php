@@ -13,14 +13,14 @@ use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\ORM\ColumbariumRepository as DoctrineOrmColumbariumRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class ColumbariumRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = Columbarium::class;
     protected string $entityIdClassName         = ColumbariumId::class;

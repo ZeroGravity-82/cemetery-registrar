@@ -12,14 +12,14 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollecti
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\ORM\JuristicPersonRepository as DoctrineORMJuristicPersonRepository;
 use Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson\JuristicPersonProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class JuristicPersonRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = JuristicPerson::class;
     protected string $entityIdClassName         = JuristicPersonId::class;

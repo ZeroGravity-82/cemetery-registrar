@@ -10,14 +10,14 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\ORM\NaturalPersonRepository as DoctrineORMNaturalPersonRepository;
 use Cemetery\Tests\Registrar\Domain\NaturalPerson\NaturalPersonProvider;
-use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
+use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
  * @group database
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
+class NaturalPersonRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = NaturalPerson::class;
     protected string $entityIdClassName         = NaturalPersonId::class;
