@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumCollection;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumName;
+use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\ORM\ColumbariumRepository as DoctrineOrmColumbariumRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\AbstractRepositoryIntegrationTest;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @group database
@@ -22,198 +22,47 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class ColumbariumRepositoryIntegrationTest extends AbstractRepositoryIntegrationTest
 {
-    private Columbarium                      $columbariumA;
-    private Columbarium                      $columbariumB;
-    private Columbarium                      $columbariumC;
-    private DoctrineOrmColumbariumRepository $repo;
+    protected string $entityClassName           = Columbarium::class;
+    protected string $entityIdClassName         = ColumbariumId::class;
+    protected string $entityCollectionClassName = ColumbariumCollection::class;
 
     public function setUp(): void
     {
-        self::bootKernel();
-        $container = self::getContainer();
+        parent::setUp();
 
-        $this->columbariumA = ColumbariumProvider::getColumbariumA();
-        $this->columbariumB = ColumbariumProvider::getColumbariumB();
-        $this->columbariumC = ColumbariumProvider::getColumbariumC();
-        /** @var EntityManagerInterface $entityManager */
-        $entityManager       = $container->get(EntityManagerInterface::class);
-        $this->entityManager = $entityManager;
-        $this->repo          = new DoctrineOrmColumbariumRepository($this->entityManager);
-        $this->truncateEntities();
+        $this->repo    = new DoctrineOrmColumbariumRepository($this->entityManager);
+        $this->entityA = ColumbariumProvider::getColumbariumA();
+        $this->entityB = ColumbariumProvider::getColumbariumB();
+        $this->entityC = ColumbariumProvider::getColumbariumC();
     }
 
-    public function testItSavesANewColumbarium(): void
+    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
-        $this->repo->save($this->columbariumA);
-        $this->entityManager->clear();
+        /** @var Columbarium $entityOne */
+        /** @var Columbarium $entityTwo */
+        $isSameClass = $entityOne instanceof Columbarium && $entityTwo instanceof Columbarium;
 
-        $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->assertInstanceOf(ColumbariumId::class, $persistedColumbarium->id());
-        $this->assertTrue($persistedColumbarium->id()->isEqual($this->columbariumA->id()));
-        $this->assertInstanceOf(ColumbariumName::class, $persistedColumbarium->name());
-        $this->assertTrue($persistedColumbarium->name()->isEqual($this->columbariumA->name()));
-        $this->assertNull($persistedColumbarium->geoPosition());
-        $this->assertSame(1, $this->getRowCount(Columbarium::class));
-        $this->assertSame(
-            $this->columbariumA->createdAt()->format(\DateTimeInterface::ATOM),
-            $persistedColumbarium->createdAt()->format(\DateTimeInterface::ATOM)
-        );
-        $this->assertSame(
-            $this->columbariumA->updatedAt()->format(\DateTimeInterface::ATOM),
-            $persistedColumbarium->updatedAt()->format(\DateTimeInterface::ATOM)
-        );
-        $this->assertNull($persistedColumbarium->removedAt());
+
+        // Mandatory properties
+        $isSameId   = $entityOne->id()->isEqual($entityTwo->id());
+        $isSameName = $entityOne->name()->isEqual($entityTwo->name());
+
+        // Optional properties
+        $isSameGeoPosition = $entityOne->geoPosition() !== null && $entityTwo->geoPosition() !== null
+            ? $entityOne->geoPosition()->isEqual($entityTwo->geoPosition())
+            : $entityOne->geoPosition() === null && $entityTwo->geoPosition() === null;
+
+        return
+            $isSameClass && $isSameId && $isSameName && $isSameGeoPosition;
     }
 
-    public function testItUpdatesAnExistingColumbarium(): void
+    protected function updateEntityA(Entity $entityA): void
     {
-        // Prepare the repo for testing
-        $this->repo->save($this->columbariumA);
-        $this->entityManager->clear();
-        $this->assertSame(1, $this->getRowCount(Columbarium::class));
-
-        // Testing itself
-        $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
         $newName        = new ColumbariumName('западный колумбарий 2');
         $newGeoPosition = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
-        $persistedColumbarium->setName($newName);
-        $persistedColumbarium->setGeoPosition($newGeoPosition);
-        sleep(1);   // for correct updatedAt timestamp
-        $this->repo->save($persistedColumbarium);
-        $this->entityManager->clear();
 
-        $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->assertInstanceOf(ColumbariumName::class, $persistedColumbarium->name());
-        $this->assertTrue($persistedColumbarium->name()->isEqual($newName));
-        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
-        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($newGeoPosition));
-        $this->assertSame(1, $this->getRowCount(Columbarium::class));
-        $this->assertSame(
-            $this->columbariumA->createdAt()->format(\DateTimeInterface::ATOM),
-            $persistedColumbarium->createdAt()->format(\DateTimeInterface::ATOM)
-        );
-        $this->assertTrue($this->columbariumA->updatedAt() < $persistedColumbarium->updatedAt());
-        $this->assertNull($persistedColumbarium->removedAt());
-    }
-
-    public function testItSavesACollectionOfNewColumbariums(): void
-    {
-        $this->repo->saveAll(new ColumbariumCollection([$this->columbariumA, $this->columbariumB, $this->columbariumC]));
-        $this->entityManager->clear();
-
-        $this->assertNotNull($this->repo->findById($this->columbariumA->id()));
-        $this->assertNotNull($this->repo->findById($this->columbariumB->id()));
-        $this->assertNotNull($this->repo->findById($this->columbariumC->id()));
-        $this->assertSame(3, $this->getRowCount(Columbarium::class));
-    }
-
-    public function testItUpdatesExistingColumbariumWhenSavesACollection(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumCollection([$this->columbariumA, $this->columbariumB]));
-        $this->entityManager->clear();
-        $this->assertSame(2, $this->getRowCount(Columbarium::class));
-
-        // Testing itself
-        $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $newName        = new ColumbariumName('западный колумбарий 2');
-        $newGeoPosition = new GeoPosition(new Coordinates('-50.950357', '-170.7972252'), null);
-        $persistedColumbarium->setName($newName);
-        $persistedColumbarium->setGeoPosition($newGeoPosition);
-        sleep(1);   // for correct updatedAt timestamp
-        $this->repo->saveAll(new ColumbariumCollection([$persistedColumbarium, $this->columbariumC]));
-        $this->entityManager->clear();
-
-        $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->assertInstanceOf(ColumbariumName::class, $persistedColumbarium->name());
-        $this->assertTrue($persistedColumbarium->name()->isEqual($newName));
-        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
-        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($newGeoPosition));
-        $this->assertTrue($this->columbariumA->updatedAt() < $persistedColumbarium->updatedAt());
-
-        $persistedColumbarium = $this->repo->findById($this->columbariumB->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->assertInstanceOf(ColumbariumId::class, $persistedColumbarium->id());
-        $this->assertTrue($persistedColumbarium->id()->isEqual($this->columbariumB->id()));
-        $this->assertInstanceOf(ColumbariumName::class, $persistedColumbarium->name());
-        $this->assertTrue($persistedColumbarium->name()->isEqual($this->columbariumB->name()));
-        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
-        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($this->columbariumB->geoPosition()));
-
-        $persistedColumbarium = $this->repo->findById($this->columbariumC->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->assertInstanceOf(ColumbariumId::class, $persistedColumbarium->id());
-        $this->assertTrue($persistedColumbarium->id()->isEqual($this->columbariumC->id()));
-        $this->assertInstanceOf(ColumbariumName::class, $persistedColumbarium->name());
-        $this->assertTrue($persistedColumbarium->name()->isEqual($this->columbariumC->name()));
-        $this->assertInstanceOf(GeoPosition::class, $persistedColumbarium->geoPosition());
-        $this->assertTrue($persistedColumbarium->geoPosition()->isEqual($this->columbariumC->geoPosition()));
-
-        $this->assertSame(3, $this->getRowCount(Columbarium::class));
-    }
-
-    public function testItRemovesAColumbarium(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->save($this->columbariumA);
-        $this->entityManager->clear();
-        $this->assertSame(1, $this->getRowCount(Columbarium::class));
-
-        // Testing itself
-        $persistedColumbarium = $this->repo->findById($this->columbariumA->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->repo->remove($persistedColumbarium);
-        $this->entityManager->clear();
-
-        $this->assertNull($this->repo->findById($this->columbariumA->id()));
-        $this->assertSame(1, $this->getRowCount(Columbarium::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Columbarium::class, $this->columbariumA->id()->value()));
-    }
-
-    public function testItRemovesACollectionOfColumbariums(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumCollection([$this->columbariumA, $this->columbariumB, $this->columbariumC]));
-        $this->entityManager->clear();
-        $this->assertSame(3, $this->getRowCount(Columbarium::class));
-
-        // Testing itself
-        $persistedColumbariumB = $this->repo->findById($this->columbariumB->id());
-        $persistedColumbariumC = $this->repo->findById($this->columbariumC->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbariumB);
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbariumC);
-        $this->repo->removeAll(new ColumbariumCollection([$persistedColumbariumB, $persistedColumbariumC]));
-        $this->entityManager->clear();
-
-        $this->assertNull($this->repo->findById($this->columbariumB->id()));
-        $this->assertNull($this->repo->findById($this->columbariumC->id()));
-        $this->assertNotNull($this->repo->findById($this->columbariumA->id()));
-        $this->assertSame(3, $this->getRowCount(Columbarium::class));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Columbarium::class, $this->columbariumB->id()->value()));
-        $this->assertNotNull($this->getRemovedAtTimestampById(Columbarium::class, $this->columbariumC->id()->value()));
-        $this->assertNull($this->getRemovedAtTimestampById(Columbarium::class, $this->columbariumA->id()->value()));
-    }
-
-    public function testItFindsAColumbariumById(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumCollection([$this->columbariumA, $this->columbariumB, $this->columbariumC]));
-        $this->entityManager->clear();
-
-        // Testing itself
-        $persistedColumbarium = $this->repo->findById($this->columbariumB->id());
-        $this->assertInstanceOf(Columbarium::class, $persistedColumbarium);
-        $this->assertTrue($persistedColumbarium->id()->isEqual($this->columbariumB->id()));
-    }
-
-    public function testItReturnsNullIfAColumbariumIsNotFoundById(): void
-    {
-        $columbarium = $this->repo->findById(new ColumbariumId('unknown_id'));
-        $this->assertNull($columbarium);
+        /** @var Columbarium $entityA */
+        $entityA->setName($newName);
+        $entityA->setGeoPosition($newGeoPosition);
     }
 }
