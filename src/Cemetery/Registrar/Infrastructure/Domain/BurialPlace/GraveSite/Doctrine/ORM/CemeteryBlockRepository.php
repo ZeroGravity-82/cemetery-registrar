@@ -8,20 +8,13 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockRepository as CemeteryBlockRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CemeteryBlockRepository implements CemeteryBlockRepositoryInterface
+final class CemeteryBlockRepository extends Repository implements CemeteryBlockRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      *

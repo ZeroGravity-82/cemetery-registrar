@@ -10,22 +10,15 @@ use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyIdType;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialRepository implements BurialRepositoryInterface
+final class BurialRepository extends Repository implements BurialRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      */

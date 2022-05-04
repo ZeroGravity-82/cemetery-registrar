@@ -8,20 +8,13 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheRepository as ColumbariumNicheRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class ColumbariumNicheRepository implements ColumbariumNicheRepositoryInterface
+final class ColumbariumNicheRepository extends Repository implements ColumbariumNicheRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      *

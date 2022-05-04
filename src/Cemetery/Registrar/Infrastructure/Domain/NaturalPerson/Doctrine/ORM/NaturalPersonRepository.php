@@ -8,20 +8,13 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class NaturalPersonRepository implements NaturalPersonRepositoryInterface
+final class NaturalPersonRepository extends Repository implements NaturalPersonRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      */

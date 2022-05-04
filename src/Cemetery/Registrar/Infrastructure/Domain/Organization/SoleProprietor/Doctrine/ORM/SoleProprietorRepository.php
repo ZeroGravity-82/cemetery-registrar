@@ -8,20 +8,13 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class SoleProprietorRepository implements SoleProprietorRepositoryInterface
+final class SoleProprietorRepository extends Repository implements SoleProprietorRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      */

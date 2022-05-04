@@ -8,20 +8,13 @@ use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DeceasedRepository implements DeceasedRepositoryInterface
+final class DeceasedRepository extends Repository implements DeceasedRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      */

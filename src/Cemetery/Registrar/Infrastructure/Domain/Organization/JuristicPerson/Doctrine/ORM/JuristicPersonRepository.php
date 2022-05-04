@@ -8,20 +8,13 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class JuristicPersonRepository implements JuristicPersonRepositoryInterface
+final class JuristicPersonRepository extends Repository implements JuristicPersonRepositoryInterface
 {
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-    ) {}
-
     /**
      * {@inheritdoc}
      */
