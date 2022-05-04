@@ -1,0 +1,21 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <entity name="Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite" table="grave_site">
+        <id name="id" column="id" type="grave_site_id">
+        </id>
+
+        <unique-constraints>
+            <unique-constraint columns="cemetery_block_id,row_in_block" name="grave_site_cemetery_block_id_row_in_block_uq" />
+        </unique-constraints>
+
+        <field name="cemeteryBlockId" column="cemetery_block_id" type="cemetery_block_id"                   />
+        <field name="rowInBlock"      column="row_in_block"      type="row_in_block"                        />
+        <field name="positionInRow"   column="position_in_row"   type="position_in_row"     nullable="true" />
+        <field name="geoPosition"     column="geo_position"      type="geo_position"        nullable="true" />
+        <field name="size"            column="size"              type="grave_site_size"     nullable="true" />
+        <field name="createdAt"       column="created_at"        type="datetime_immutable"                  />
+        <field name="updatedAt"       column="updated_at"        type="datetime_immutable"                  />
+        <field name="removedAt"       column="removed_at"        type="datetime_immutable"  nullable="true" />
+    </entity>
+
+</doctrine-mapping>
