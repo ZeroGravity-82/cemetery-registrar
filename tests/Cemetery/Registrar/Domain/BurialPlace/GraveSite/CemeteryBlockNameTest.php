@@ -40,9 +40,9 @@ class CemeteryBlockNameTest extends TestCase
 
     public function testItComparable(): void
     {
-        $cemeteryBlockNameA = new CemeteryBlockName('западный колумбарий');
-        $cemeteryBlockNameB = new CemeteryBlockName('восточный колумбарий');
-        $cemeteryBlockNameC = new CemeteryBlockName('западный колумбарий');
+        $cemeteryBlockNameA = new CemeteryBlockName('воинский квартал');
+        $cemeteryBlockNameB = new CemeteryBlockName('мусульманский квартал');
+        $cemeteryBlockNameC = new CemeteryBlockName('воинский квартал');
 
         $this->assertFalse($cemeteryBlockNameA->isEqual($cemeteryBlockNameB));
         $this->assertTrue($cemeteryBlockNameA->isEqual($cemeteryBlockNameC));
