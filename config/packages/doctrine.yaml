@@ -28,8 +28,8 @@ doctrine:
             position_in_row:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\PositionInRowType
             row_in_block:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\RowInBlockType
             # BurialPlace/MemorialTree
-            memorial_tree_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\MemorialTreeIdType
-            memorial_tree_number:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\MemorialTreeNumberType
+            memorial_tree_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\MemorialTree\MemorialTreeIdType
+            memorial_tree_number:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\MemorialTree\MemorialTreeNumberType
             # Contact
             address:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
             email:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
