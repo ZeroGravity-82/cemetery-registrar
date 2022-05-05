@@ -9,8 +9,6 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumCollection
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumName;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\ORM\ColumbariumRepository as DoctrineOrmColumbariumRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;

@@ -4,17 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\ORM;
 
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\PositionInRow;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\Error;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\ORM\GraveSiteRepository as DoctrineOrmGraveSiteRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\GraveSiteProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;

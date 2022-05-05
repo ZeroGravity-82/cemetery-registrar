@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Deceased\Doctrine\ORM;
 
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
-use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
