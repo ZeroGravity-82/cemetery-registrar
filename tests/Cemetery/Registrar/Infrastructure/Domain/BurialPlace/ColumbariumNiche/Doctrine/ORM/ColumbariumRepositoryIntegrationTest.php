@@ -36,15 +36,15 @@ class ColumbariumRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = ColumbariumProvider::getColumbariumC();
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Columbarium $entityOne */
         /** @var Columbarium $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
-            $this->checkAreEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
+            $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
     protected function updateEntityA(Entity $entityA): void

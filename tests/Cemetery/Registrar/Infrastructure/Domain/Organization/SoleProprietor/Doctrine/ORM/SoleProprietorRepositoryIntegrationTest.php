@@ -50,26 +50,26 @@ class SoleProprietorRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->assertTrue($persistedEntityB->bankDetails()->isEqual($this->entityB->bankDetails()));
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var SoleProprietor $entityOne */
         /** @var SoleProprietor $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
-            $this->checkAreEqualValueObjects($entityOne->inn(), $entityTwo->inn()) &&
-            $this->checkAreEqualValueObjects($entityOne->ogrnip(), $entityTwo->ogrnip()) &&
-            $this->checkAreEqualValueObjects($entityOne->okpo(), $entityTwo->okpo()) &&
-            $this->checkAreEqualValueObjects($entityOne->okved(), $entityTwo->okved()) &&
-            $this->checkAreEqualValueObjects($entityOne->registrationAddress(), $entityTwo->registrationAddress()) &&
-            $this->checkAreEqualValueObjects($entityOne->actualLocationAddress(), $entityTwo->actualLocationAddress()) &&
-            $this->checkAreEqualValueObjects($entityOne->bankDetails(), $entityTwo->bankDetails()) &&
-            $this->checkAreEqualValueObjects($entityOne->phone(), $entityTwo->phone()) &&
-            $this->checkAreEqualValueObjects($entityOne->phoneAdditional(), $entityTwo->phoneAdditional()) &&
-            $this->checkAreEqualValueObjects($entityOne->fax(), $entityTwo->fax()) &&
-            $this->checkAreEqualValueObjects($entityOne->email(), $entityTwo->email()) &&
-            $this->checkAreEqualValueObjects($entityOne->website(), $entityTwo->website());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
+            $this->areEqualValueObjects($entityOne->inn(), $entityTwo->inn()) &&
+            $this->areEqualValueObjects($entityOne->ogrnip(), $entityTwo->ogrnip()) &&
+            $this->areEqualValueObjects($entityOne->okpo(), $entityTwo->okpo()) &&
+            $this->areEqualValueObjects($entityOne->okved(), $entityTwo->okved()) &&
+            $this->areEqualValueObjects($entityOne->registrationAddress(), $entityTwo->registrationAddress()) &&
+            $this->areEqualValueObjects($entityOne->actualLocationAddress(), $entityTwo->actualLocationAddress()) &&
+            $this->areEqualValueObjects($entityOne->bankDetails(), $entityTwo->bankDetails()) &&
+            $this->areEqualValueObjects($entityOne->phone(), $entityTwo->phone()) &&
+            $this->areEqualValueObjects($entityOne->phoneAdditional(), $entityTwo->phoneAdditional()) &&
+            $this->areEqualValueObjects($entityOne->fax(), $entityTwo->fax()) &&
+            $this->areEqualValueObjects($entityOne->email(), $entityTwo->email()) &&
+            $this->areEqualValueObjects($entityOne->website(), $entityTwo->website());
     }
 
     protected function updateEntityA(Entity $entityA): void

@@ -83,22 +83,22 @@ class BurialRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->assertSame(0, $burialCount);
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Burial $entityOne */
         /** @var Burial $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->code(), $entityTwo->code()) &&
-            $this->checkAreEqualValueObjects($entityOne->deceasedId(), $entityTwo->deceasedId()) &&
-            $this->checkAreEqualValueObjects($entityOne->burialType(), $entityTwo->burialType()) &&
-            $this->checkAreEqualValueObjects($entityOne->customerId(), $entityTwo->customerId()) &&
-            $this->checkAreEqualValueObjects($entityOne->burialPlaceId(), $entityTwo->burialPlaceId()) &&
-            $this->checkAreEqualValueObjects($entityOne->burialPlaceOwnerId(), $entityTwo->burialPlaceOwnerId()) &&
-            $this->checkAreEqualValueObjects($entityOne->funeralCompanyId(), $entityTwo->funeralCompanyId()) &&
-            $this->checkAreEqualValueObjects($entityOne->burialContainer(), $entityTwo->burialContainer()) &&
-            $this->checkAreEqualDateTimeValues($entityOne->buriedAt(), $entityTwo->buriedAt());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->code(), $entityTwo->code()) &&
+            $this->areEqualValueObjects($entityOne->deceasedId(), $entityTwo->deceasedId()) &&
+            $this->areEqualValueObjects($entityOne->burialType(), $entityTwo->burialType()) &&
+            $this->areEqualValueObjects($entityOne->customerId(), $entityTwo->customerId()) &&
+            $this->areEqualValueObjects($entityOne->burialPlaceId(), $entityTwo->burialPlaceId()) &&
+            $this->areEqualValueObjects($entityOne->burialPlaceOwnerId(), $entityTwo->burialPlaceOwnerId()) &&
+            $this->areEqualValueObjects($entityOne->funeralCompanyId(), $entityTwo->funeralCompanyId()) &&
+            $this->areEqualValueObjects($entityOne->burialContainer(), $entityTwo->burialContainer()) &&
+            $this->areEqualDateTimeValues($entityOne->buriedAt(), $entityTwo->buriedAt());
     }
 
     protected function updateEntityA(Entity $entityA): void

@@ -35,17 +35,17 @@ class DeceasedRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = DeceasedProvider::getDeceasedC();
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Deceased $entityOne */
         /** @var Deceased $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->naturalPersonId(), $entityTwo->naturalPersonId()) &&
-            $this->checkAreEqualDateTimeValues($entityOne->diedAt(), $entityTwo->diedAt()) &&
-            $this->checkAreEqualValueObjects($entityOne->deathCertificateId(), $entityTwo->deathCertificateId()) &&
-            $this->checkAreEqualValueObjects($entityOne->causeOfDeath(), $entityTwo->causeOfDeath());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->naturalPersonId(), $entityTwo->naturalPersonId()) &&
+            $this->areEqualDateTimeValues($entityOne->diedAt(), $entityTwo->diedAt()) &&
+            $this->areEqualValueObjects($entityOne->deathCertificateId(), $entityTwo->deathCertificateId()) &&
+            $this->areEqualValueObjects($entityOne->causeOfDeath(), $entityTwo->causeOfDeath());
     }
 
     protected function updateEntityA(Entity $entityA): void

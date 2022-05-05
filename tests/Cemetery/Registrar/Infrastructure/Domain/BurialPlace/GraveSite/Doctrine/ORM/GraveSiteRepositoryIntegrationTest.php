@@ -40,18 +40,18 @@ class GraveSiteRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = GraveSiteProvider::getGraveSiteC();
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var GraveSite $entityOne */
         /** @var GraveSite $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->cemeteryBlockId(), $entityTwo->cemeteryBlockId()) &&
-            $this->checkAreEqualValueObjects($entityOne->rowInBlock(), $entityTwo->rowInBlock()) &&
-            $this->checkAreEqualValueObjects($entityOne->positionInRow(), $entityTwo->positionInRow()) &&
-            $this->checkAreEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition()) &&
-            $this->checkAreEqualValueObjects($entityOne->size(), $entityTwo->size());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->cemeteryBlockId(), $entityTwo->cemeteryBlockId()) &&
+            $this->areEqualValueObjects($entityOne->rowInBlock(), $entityTwo->rowInBlock()) &&
+            $this->areEqualValueObjects($entityOne->positionInRow(), $entityTwo->positionInRow()) &&
+            $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition()) &&
+            $this->areEqualValueObjects($entityOne->size(), $entityTwo->size());
     }
 
     protected function updateEntityA(Entity $entityA): void

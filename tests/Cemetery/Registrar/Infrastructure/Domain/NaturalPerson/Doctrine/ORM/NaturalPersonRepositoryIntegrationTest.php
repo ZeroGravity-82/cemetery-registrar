@@ -33,21 +33,21 @@ class NaturalPersonRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = NaturalPersonProvider::getNaturalPersonC();
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var NaturalPerson $entityOne */
         /** @var NaturalPerson $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->fullName(), $entityTwo->fullName()) &&
-            $this->checkAreEqualValueObjects($entityOne->phone(), $entityTwo->phone()) &&
-            $this->checkAreEqualValueObjects($entityOne->phoneAdditional(), $entityTwo->phoneAdditional()) &&
-            $this->checkAreEqualValueObjects($entityOne->email(), $entityTwo->email()) &&
-            $this->checkAreEqualValueObjects($entityOne->address(), $entityTwo->address()) &&
-            $this->checkAreEqualDateTimeValues($entityOne->bornAt(), $entityTwo->bornAt()) &&
-            $this->checkAreEqualValueObjects($entityOne->placeOfBirth(), $entityTwo->placeOfBirth()) &&
-            $this->checkAreEqualValueObjects($entityOne->passport(), $entityTwo->passport());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->fullName(), $entityTwo->fullName()) &&
+            $this->areEqualValueObjects($entityOne->phone(), $entityTwo->phone()) &&
+            $this->areEqualValueObjects($entityOne->phoneAdditional(), $entityTwo->phoneAdditional()) &&
+            $this->areEqualValueObjects($entityOne->email(), $entityTwo->email()) &&
+            $this->areEqualValueObjects($entityOne->address(), $entityTwo->address()) &&
+            $this->areEqualDateTimeValues($entityOne->bornAt(), $entityTwo->bornAt()) &&
+            $this->areEqualValueObjects($entityOne->placeOfBirth(), $entityTwo->placeOfBirth()) &&
+            $this->areEqualValueObjects($entityOne->passport(), $entityTwo->passport());
     }
 
     protected function updateEntityA(Entity $entityA): void

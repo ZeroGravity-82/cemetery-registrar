@@ -38,17 +38,17 @@ class ColumbariumNicheRepositoryIntegrationTest extends RepositoryIntegrationTes
         $this->entityC = ColumbariumNicheProvider::getColumbariumNicheC();
     }
 
-    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var ColumbariumNiche $entityOne */
         /** @var ColumbariumNiche $entityTwo */
         return
-            $this->checkAreSameClasses($entityOne, $entityTwo) &&
-            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->checkAreEqualValueObjects($entityOne->columbariumId(), $entityTwo->columbariumId()) &&
-            $this->checkAreEqualValueObjects($entityOne->rowInColumbarium(), $entityTwo->rowInColumbarium()) &&
-            $this->checkAreEqualValueObjects($entityOne->nicheNumber(), $entityTwo->nicheNumber()) &&
-            $this->checkAreEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
+            $this->areSameClasses($entityOne, $entityTwo) &&
+            $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->areEqualValueObjects($entityOne->columbariumId(), $entityTwo->columbariumId()) &&
+            $this->areEqualValueObjects($entityOne->rowInColumbarium(), $entityTwo->rowInColumbarium()) &&
+            $this->areEqualValueObjects($entityOne->nicheNumber(), $entityTwo->nicheNumber()) &&
+            $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
     protected function updateEntityA(Entity $entityA): void

@@ -31,7 +31,7 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
      *
      * @return bool
      */
-    abstract protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool;
+    abstract protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool;
 
     /**
      * Updates some properties of the entity A.
@@ -61,9 +61,9 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
         // Testing itself
         $persistedEntity = $this->repo->findById($this->entityA->id());
         $this->assertNotNull($persistedEntity);
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntity, $this->entityA));
-        $this->assertTrue($this->checkAreEqualDateTimeValues($this->entityA->createdAt(), $persistedEntity->createdAt()));
-        $this->assertTrue($this->checkAreEqualDateTimeValues($this->entityA->updatedAt(), $persistedEntity->updatedAt()));
+        $this->assertTrue($this->areEqualEntities($persistedEntity, $this->entityA));
+        $this->assertTrue($this->areEqualDateTimeValues($this->entityA->createdAt(), $persistedEntity->createdAt()));
+        $this->assertTrue($this->areEqualDateTimeValues($this->entityA->updatedAt(), $persistedEntity->updatedAt()));
         $this->assertNull($persistedEntity->removedAt());
 
         $this->assertSame(1, $this->getRowCount($this->entityClassName));
@@ -85,15 +85,15 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
         // Testing itself
         $persistedEntity = $this->repo->findById($this->entityA->id());
         $this->assertNotNull($persistedEntity);
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntity, $this->entityA));
+        $this->assertTrue($this->areEqualEntities($persistedEntity, $this->entityA));
 
         $persistedEntity = $this->repo->findById($this->entityB->id());
         $this->assertNotNull($persistedEntity);
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntity, $this->entityB));
+        $this->assertTrue($this->areEqualEntities($persistedEntity, $this->entityB));
 
         $persistedEntity = $this->repo->findById($this->entityC->id());
         $this->assertNotNull($persistedEntity);
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntity, $this->entityC));
+        $this->assertTrue($this->areEqualEntities($persistedEntity, $this->entityC));
 
         $this->assertSame(3, $this->getRowCount($this->entityClassName));
     }
@@ -114,8 +114,8 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
         $this->entityManager->clear();
 
         $persistedEntityA = $this->repo->findById($this->entityA->id());
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntityA, $updatedEntity));
-        $this->assertTrue($this->checkAreEqualDateTimeValues($this->entityA->createdAt(), $persistedEntityA->createdAt()));
+        $this->assertTrue($this->areEqualEntities($persistedEntityA, $updatedEntity));
+        $this->assertTrue($this->areEqualDateTimeValues($this->entityA->createdAt(), $persistedEntityA->createdAt()));
         $this->assertTrue($this->entityA->updatedAt() < $persistedEntityA->updatedAt());
         $this->assertNull($persistedEntityA->removedAt());
 
@@ -138,16 +138,16 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
         $this->entityManager->clear();
 
         $persistedEntityA = $this->repo->findById($this->entityA->id());
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntityA, $updatedEntityA));
-        $this->assertTrue($this->checkAreEqualDateTimeValues($this->entityA->createdAt(), $persistedEntityA->createdAt()));
+        $this->assertTrue($this->areEqualEntities($persistedEntityA, $updatedEntityA));
+        $this->assertTrue($this->areEqualDateTimeValues($this->entityA->createdAt(), $persistedEntityA->createdAt()));
         $this->assertTrue($this->entityA->updatedAt() < $persistedEntityA->updatedAt());
         $this->assertNull($persistedEntityA->removedAt());
 
         $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntityB, $this->entityB));
+        $this->assertTrue($this->areEqualEntities($persistedEntityB, $this->entityB));
 
         $persistedEntityC = $this->repo->findById($this->entityC->id());
-        $this->assertTrue($this->checkAreEqualEntities($persistedEntityC, $this->entityC));
+        $this->assertTrue($this->areEqualEntities($persistedEntityC, $this->entityC));
 
         $this->assertSame(3, $this->getRowCount($this->entityClassName));
     }
@@ -198,19 +198,19 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
         (new ORMPurger($this->entityManager))->purge();
     }
 
-    protected function checkAreSameClasses(Entity $entityOne, Entity $entityTwo): bool
+    protected function areSameClasses(Entity $entityOne, Entity $entityTwo): bool
     {
         return $entityOne instanceof $this->entityClassName && $entityTwo instanceof $this->entityClassName;
     }
 
-    protected function checkAreEqualValueObjects(?object $propertyOne, ?object $propertyTwo): bool
+    protected function areEqualValueObjects(?object $propertyOne, ?object $propertyTwo): bool
     {
         return $propertyOne !== null && $propertyTwo !== null
             ? $propertyOne->isEqual($propertyTwo)
             : $propertyOne === null && $propertyTwo === null;
     }
 
-    protected function checkAreEqualDateTimeValues(?\DateTimeImmutable $dtOne, ?\DateTimeImmutable $dtTwo): bool
+    protected function areEqualDateTimeValues(?\DateTimeImmutable $dtOne, ?\DateTimeImmutable $dtTwo): bool
     {
         return $dtOne !== null && $dtTwo !== null
             ? $dtOne->format(\DateTimeInterface::ATOM) === $dtTwo->format(\DateTimeInterface::ATOM)
