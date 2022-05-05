@@ -6,9 +6,7 @@ namespace Cemetery\Registrar\Application\Burial;
 
 use Cemetery\Registrar\Domain\Burial\BurialBuilder;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\Burial\BurialPlaceType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\CustomerType;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedBuilder;
 use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
@@ -28,25 +26,21 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 final class CreateBurialService extends BurialService
 {
     public function __construct(
-        private readonly BurialBuilder                     $burialBuilder,
-        private readonly DeceasedBuilder                   $deceasedBuilder,
-        private readonly NaturalPersonFactory              $naturalPersonFactory,
-        private readonly SoleProprietorFactory             $soleProprietorFactory,
-        private readonly JuristicPersonFactory             $juristicPersonFactory,
-        private readonly GraveSiteFactory                  $graveSiteFactory,
-        private readonly ColumbariumNicheFactory           $columbariumNicheFactory,
-        private readonly MemorialTreeFactory               $memorialTreeFactory,
-
-
-        private readonly DeceasedRepositoryInterface       $deceasedRepo,
-        private readonly NaturalPersonRepositoryInterface  $naturalPersonRepo,
-        private readonly SoleProprietorRepositoryInterface $soleProprietorRepo,
-        private readonly JuristicPersonRepositoryInterface     $juristicPersonRepo,
-        private readonly GraveSiteRepositoryInterface          $graveSiteRepo,
-        private readonly ColumbariumNicheRepositoryInterface   $columbariumNicheRepo,
-        private readonly MemorialTreeRepositoryInterface       $memorialTreeRepo,
-
-
+        private readonly BurialBuilder                       $burialBuilder,
+        private readonly DeceasedBuilder                     $deceasedBuilder,
+        private readonly NaturalPersonFactory                $naturalPersonFactory,
+        private readonly SoleProprietorFactory               $soleProprietorFactory,
+        private readonly JuristicPersonFactory               $juristicPersonFactory,
+        private readonly GraveSiteFactory                    $graveSiteFactory,
+        private readonly ColumbariumNicheFactory             $columbariumNicheFactory,
+        private readonly MemorialTreeFactory                 $memorialTreeFactory,
+        private readonly DeceasedRepositoryInterface         $deceasedRepo,
+        private readonly NaturalPersonRepositoryInterface    $naturalPersonRepo,
+        private readonly SoleProprietorRepositoryInterface   $soleProprietorRepo,
+        private readonly JuristicPersonRepositoryInterface   $juristicPersonRepo,
+        private readonly GraveSiteRepositoryInterface        $graveSiteRepo,
+        private readonly ColumbariumNicheRepositoryInterface $columbariumNicheRepo,
+        private readonly MemorialTreeRepositoryInterface     $memorialTreeRepo,
     ) {}
 
     public function execute(CreateBurialRequest $request): CreateBurialResponse
@@ -64,7 +58,6 @@ final class CreateBurialService extends BurialService
 
         return new CreateBurialResponse((string) $burial->getId());
     }
-
 
     /**
      * @param CreateBurialRequest $request
