@@ -50,7 +50,7 @@ final class GeoPosition
     public function isEqual(self $geoPosition): bool
     {
         $isSameCoordinates = $geoPosition->coordinates()->isEqual($this->coordinates());
-        $isSameError       = $this->checkSameError($geoPosition);
+        $isSameError       = $this->hasSameError($geoPosition);
 
         return $isSameCoordinates && $isSameError;
     }
@@ -60,7 +60,7 @@ final class GeoPosition
      *
      * @return bool
      */
-    private function checkSameError(self $geoPosition): bool
+    private function hasSameError(self $geoPosition): bool
     {
         $isSame = false;
 
