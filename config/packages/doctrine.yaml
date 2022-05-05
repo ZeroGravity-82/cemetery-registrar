@@ -23,6 +23,7 @@ doctrine:
             # BurialPlace/GraveSite
             cemetery_block_id:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\CemeteryBlockIdType
             cemetery_block_name:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\CemeteryBlockNameType
+            grave_site_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\BurialPlace\GraveSite\GraveSiteIdType
             # Contact
             address:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\AddressType
             email:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Contact\EmailType
