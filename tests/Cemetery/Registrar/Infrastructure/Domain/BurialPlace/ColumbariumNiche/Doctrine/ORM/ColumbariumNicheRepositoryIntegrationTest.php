@@ -53,15 +53,9 @@ class ColumbariumNicheRepositoryIntegrationTest extends RepositoryIntegrationTes
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newColumbariumId    = new ColumbariumId('C020');
         $newRowInColumbarium = new RowInColumbarium(20);
-        $newNicheNumber      = new ColumbariumNicheNumber('020');
-        $newGeoPosition      = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
 
         /** @var ColumbariumNiche $entityA */
-        $entityA->setColumbariumId($newColumbariumId);
         $entityA->setRowInColumbarium($newRowInColumbarium);
-        $entityA->setNicheNumber($newNicheNumber);
-        $entityA->setGeoPosition($newGeoPosition);
     }
 }

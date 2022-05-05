@@ -56,17 +56,9 @@ class GraveSiteRepositoryIntegrationTest extends RepositoryIntegrationTest
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newCemeteryBlockId = new CemeteryBlockId('CB005');
-        $newRowInBlock      = new RowInBlock(15);
-        $newPositionInRow   = new PositionInRow(3);
-        $newGeoPosition     = new GeoPosition(new Coordinates('54.850357', '81.7972252'), new Error('0.25'));
-        $newSize            = new GraveSiteSize('2.0');
+        $newSize = new GraveSiteSize('2.0');
 
         /** @var GraveSite $entityA */
-        $entityA->setCemeteryBlockId($newCemeteryBlockId);
-        $entityA->setRowInBlock($newRowInBlock);
-        $entityA->setPositionInRow($newPositionInRow);
-        $entityA->setGeoPosition($newGeoPosition);
         $entityA->setSize($newSize);
     }
 }

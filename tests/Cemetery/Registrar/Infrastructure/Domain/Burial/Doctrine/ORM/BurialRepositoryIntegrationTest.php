@@ -103,11 +103,9 @@ class BurialRepositoryIntegrationTest extends RepositoryIntegrationTest
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newBuriedAt           = null;
-        $newBurialPlaceOwnerId = new NaturalPersonId('NP030');
+        $newCustomerId = new CustomerId(new SoleProprietorId('SP001'));
 
         /** @var Burial $entityA */
-        $entityA->setBuriedAt($newBuriedAt);
-        $entityA->setBurialPlaceOwnerId($newBurialPlaceOwnerId);
+        $entityA->setCustomerId($newCustomerId);
     }
 }

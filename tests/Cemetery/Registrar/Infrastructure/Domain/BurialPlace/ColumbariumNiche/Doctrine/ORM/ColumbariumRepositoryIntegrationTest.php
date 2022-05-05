@@ -49,11 +49,9 @@ class ColumbariumRepositoryIntegrationTest extends RepositoryIntegrationTest
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newName        = new ColumbariumName('западный колумбарий 2');
-        $newGeoPosition = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
+        $newName = new ColumbariumName('западный колумбарий 2');
 
         /** @var Columbarium $entityA */
         $entityA->setName($newName);
-        $entityA->setGeoPosition($newGeoPosition);
     }
 }

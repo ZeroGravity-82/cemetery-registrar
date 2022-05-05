@@ -50,11 +50,9 @@ class DeceasedRepositoryIntegrationTest extends RepositoryIntegrationTest
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newDeathCertificateId = new DeathCertificateId('DC001');
-        $newCauseOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
+        $newCauseOfDeath = new CauseOfDeath('Некоторая причина смерти 1');
 
         /** @var Deceased $entityA */
-        $entityA->setDeathCertificateId($newDeathCertificateId);
         $entityA->setCauseOfDeath($newCauseOfDeath);
     }
 }
