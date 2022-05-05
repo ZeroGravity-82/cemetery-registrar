@@ -36,24 +36,15 @@ class ColumbariumRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = ColumbariumProvider::getColumbariumC();
     }
 
-    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Columbarium $entityOne */
         /** @var Columbarium $entityTwo */
-        $isSameClass = $entityOne instanceof Columbarium && $entityTwo instanceof Columbarium;
-
-
-        // Mandatory properties
-        $isSameId   = $entityOne->id()->isEqual($entityTwo->id());
-        $isSameName = $entityOne->name()->isEqual($entityTwo->name());
-
-        // Optional properties
-        $isSameGeoPosition = $entityOne->geoPosition() !== null && $entityTwo->geoPosition() !== null
-            ? $entityOne->geoPosition()->isEqual($entityTwo->geoPosition())
-            : $entityOne->geoPosition() === null && $entityTwo->geoPosition() === null;
-
         return
-            $isSameClass && $isSameId && $isSameName && $isSameGeoPosition;
+            $this->checkAreSameClasses($entityOne, $entityTwo) &&
+            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->checkAreEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
+            $this->checkAreEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
     protected function updateEntityA(Entity $entityA): void

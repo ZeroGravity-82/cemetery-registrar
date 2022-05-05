@@ -34,18 +34,14 @@ class CemeteryBlockRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = CemeteryBlockProvider::getCemeteryBlockC();
     }
 
-    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var CemeteryBlock $entityOne */
         /** @var CemeteryBlock $entityTwo */
-        $isSameClass = $entityOne instanceof CemeteryBlock && $entityTwo instanceof CemeteryBlock;
-
-        // Mandatory properties
-        $isSameId   = $entityOne->id()->isEqual($entityTwo->id());
-        $isSameName = $entityOne->name()->isEqual($entityTwo->name());
-
         return
-            $isSameClass && $isSameId && $isSameName;
+            $this->checkAreSameClasses($entityOne, $entityTwo) &&
+            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->checkAreEqualValueObjects($entityOne->name(), $entityTwo->name());
     }
 
     protected function updateEntityA(Entity $entityA): void

@@ -38,26 +38,17 @@ class ColumbariumNicheRepositoryIntegrationTest extends RepositoryIntegrationTes
         $this->entityC = ColumbariumNicheProvider::getColumbariumNicheC();
     }
 
-    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var ColumbariumNiche $entityOne */
         /** @var ColumbariumNiche $entityTwo */
-        $isSameClass = $entityOne instanceof ColumbariumNiche && $entityTwo instanceof ColumbariumNiche;
-
-        // Mandatory properties
-        $isSameId               = $entityOne->id()->isEqual($entityTwo->id());
-        $isSameColumbariumId    = $entityOne->columbariumId()->isEqual($entityTwo->columbariumId());
-        $isSameRowInColumbarium = $entityOne->rowInColumbarium()->isEqual($entityTwo->rowInColumbarium());
-        $isSameNicheNumber      = $entityOne->nicheNumber()->isEqual($entityTwo->nicheNumber());
-
-        // Optional properties
-        $isSameGeoPosition = $entityOne->geoPosition() !== null && $entityTwo->geoPosition() !== null
-            ? $entityOne->geoPosition()->isEqual($entityTwo->geoPosition())
-            : $entityOne->geoPosition() === null && $entityTwo->geoPosition() === null;
-
         return
-            $isSameClass && $isSameId && $isSameColumbariumId && $isSameRowInColumbarium && $isSameNicheNumber &&
-            $isSameGeoPosition;
+            $this->checkAreSameClasses($entityOne, $entityTwo) &&
+            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->checkAreEqualValueObjects($entityOne->columbariumId(), $entityTwo->columbariumId()) &&
+            $this->checkAreEqualValueObjects($entityOne->rowInColumbarium(), $entityTwo->rowInColumbarium()) &&
+            $this->checkAreEqualValueObjects($entityOne->nicheNumber(), $entityTwo->nicheNumber()) &&
+            $this->checkAreEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
     protected function updateEntityA(Entity $entityA): void

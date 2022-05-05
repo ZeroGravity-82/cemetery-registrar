@@ -50,58 +50,26 @@ class SoleProprietorRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->assertTrue($persistedEntityB->bankDetails()->isEqual($this->entityB->bankDetails()));
     }
 
-    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var SoleProprietor $entityOne */
         /** @var SoleProprietor $entityTwo */
-        $isSameClass = $entityOne instanceof SoleProprietor && $entityTwo instanceof SoleProprietor;
-
-        // Mandatory properties
-        $isSameId   = $entityOne->id()->isEqual($entityTwo->id());
-        $isSameName = $entityOne->name()->isEqual($entityTwo->name());
-
-        // Optional properties
-        $isSameInn = $entityOne->inn() !== null && $entityTwo->inn() !== null
-            ? $entityOne->inn()->isEqual($entityTwo->inn())
-            : $entityOne->inn() === null && $entityTwo->inn() === null;
-        $isSameOgrnip = $entityOne->ogrnip() !== null && $entityTwo->ogrnip() !== null
-            ? $entityOne->ogrnip()->isEqual($entityTwo->ogrnip())
-            : $entityOne->ogrnip() === null && $entityTwo->ogrnip() === null;
-        $isSameOkpo = $entityOne->okpo() !== null && $entityTwo->okpo() !== null
-            ? $entityOne->okpo()->isEqual($entityTwo->okpo())
-            : $entityOne->okpo() === null && $entityTwo->okpo() === null;
-        $isSameOkved = $entityOne->okved() !== null && $entityTwo->okved() !== null
-            ? $entityOne->okved()->isEqual($entityTwo->okved())
-            : $entityOne->okved() === null && $entityTwo->okved() === null;
-        $isSameRegistrationAddress = $entityOne->registrationAddress() !== null && $entityTwo->registrationAddress() !== null
-            ? $entityOne->registrationAddress()->isEqual($entityTwo->registrationAddress())
-            : $entityOne->registrationAddress() === null && $entityTwo->registrationAddress() === null;
-        $isSameActualLocationAddress = $entityOne->actualLocationAddress() !== null && $entityTwo->actualLocationAddress() !== null
-            ? $entityOne->actualLocationAddress()->isEqual($entityTwo->actualLocationAddress())
-            : $entityOne->actualLocationAddress() === null && $entityTwo->actualLocationAddress() === null;
-        $isSameBankDetails = $entityOne->bankDetails() !== null && $entityTwo->bankDetails() !== null
-            ? $entityOne->bankDetails()->isEqual($entityTwo->bankDetails())
-            : $entityOne->bankDetails() === null && $entityTwo->bankDetails() === null;
-        $isSamePhone = $entityOne->phone() !== null && $entityTwo->phone() !== null
-            ? $entityOne->phone()->isEqual($entityTwo->phone())
-            : $entityOne->phone() === null && $entityTwo->phone() === null;
-        $isSamePhoneAdditional = $entityOne->phoneAdditional() !== null && $entityTwo->phoneAdditional() !== null
-            ? $entityOne->phoneAdditional()->isEqual($entityTwo->phoneAdditional())
-            : $entityOne->phoneAdditional() === null && $entityTwo->phoneAdditional() === null;
-        $isSameFax = $entityOne->fax() !== null && $entityTwo->fax() !== null
-            ? $entityOne->fax()->isEqual($entityTwo->fax())
-            : $entityOne->fax() === null && $entityTwo->fax() === null;
-        $isSameEmail = $entityOne->email() !== null && $entityTwo->email() !== null
-            ? $entityOne->email()->isEqual($entityTwo->email())
-            : $entityOne->email() === null && $entityTwo->email() === null;
-        $isSameWebsite= $entityOne->website() !== null && $entityTwo->website() !== null
-            ? $entityOne->website()->isEqual($entityTwo->website())
-            : $entityOne->website() === null && $entityTwo->website() === null;
-
         return
-            $isSameClass && $isSameId && $isSameName && $isSameInn && $isSameOgrnip && $isSameOkpo && $isSameOkved &&
-            $isSameRegistrationAddress && $isSameActualLocationAddress && $isSameBankDetails && $isSamePhone &&
-            $isSamePhoneAdditional && $isSameFax && $isSameEmail && $isSameWebsite;
+            $this->checkAreSameClasses($entityOne, $entityTwo) &&
+            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->checkAreEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
+            $this->checkAreEqualValueObjects($entityOne->inn(), $entityTwo->inn()) &&
+            $this->checkAreEqualValueObjects($entityOne->ogrnip(), $entityTwo->ogrnip()) &&
+            $this->checkAreEqualValueObjects($entityOne->okpo(), $entityTwo->okpo()) &&
+            $this->checkAreEqualValueObjects($entityOne->okved(), $entityTwo->okved()) &&
+            $this->checkAreEqualValueObjects($entityOne->registrationAddress(), $entityTwo->registrationAddress()) &&
+            $this->checkAreEqualValueObjects($entityOne->actualLocationAddress(), $entityTwo->actualLocationAddress()) &&
+            $this->checkAreEqualValueObjects($entityOne->bankDetails(), $entityTwo->bankDetails()) &&
+            $this->checkAreEqualValueObjects($entityOne->phone(), $entityTwo->phone()) &&
+            $this->checkAreEqualValueObjects($entityOne->phoneAdditional(), $entityTwo->phoneAdditional()) &&
+            $this->checkAreEqualValueObjects($entityOne->fax(), $entityTwo->fax()) &&
+            $this->checkAreEqualValueObjects($entityOne->email(), $entityTwo->email()) &&
+            $this->checkAreEqualValueObjects($entityOne->website(), $entityTwo->website());
     }
 
     protected function updateEntityA(Entity $entityA): void

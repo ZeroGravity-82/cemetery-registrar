@@ -35,28 +35,17 @@ class DeceasedRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->entityC = DeceasedProvider::getDeceasedC();
     }
 
-    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Deceased $entityOne */
         /** @var Deceased $entityTwo */
-        $isSameClass = $entityOne instanceof Deceased && $entityTwo instanceof Deceased;
-
-        // Mandatory properties
-        $isSameId              = $entityOne->id()->isEqual($entityTwo->id());
-        $isSameNaturalPersonId = $entityOne->naturalPersonId()->isEqual($entityTwo->naturalPersonId());
-        $isSameDiedAt          = $this->isEqualDateTimeValues($entityOne->diedAt(), $entityTwo->diedAt());
-
-        // Optional properties
-        $isSameDeathCertificateId = $entityOne->deathCertificateId() !== null && $entityTwo->deathCertificateId() !== null
-            ? $entityOne->deathCertificateId()->isEqual($entityTwo->deathCertificateId())
-            : $entityOne->deathCertificateId() === null && $entityTwo->deathCertificateId() === null;
-        $isSameCauseOfDeath = $entityOne->causeOfDeath() !== null && $entityTwo->causeOfDeath() !== null
-            ? $entityOne->causeOfDeath()->isEqual($entityTwo->causeOfDeath())
-            : $entityOne->causeOfDeath() === null && $entityTwo->causeOfDeath() === null;
-
         return
-            $isSameClass && $isSameId && $isSameNaturalPersonId && $isSameDiedAt && $isSameDeathCertificateId &&
-            $isSameCauseOfDeath;
+            $this->checkAreSameClasses($entityOne, $entityTwo) &&
+            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->checkAreEqualValueObjects($entityOne->naturalPersonId(), $entityTwo->naturalPersonId()) &&
+            $this->checkAreEqualDateTimeValues($entityOne->diedAt(), $entityTwo->diedAt()) &&
+            $this->checkAreEqualValueObjects($entityOne->deathCertificateId(), $entityTwo->deathCertificateId()) &&
+            $this->checkAreEqualValueObjects($entityOne->causeOfDeath(), $entityTwo->causeOfDeath());
     }
 
     protected function updateEntityA(Entity $entityA): void

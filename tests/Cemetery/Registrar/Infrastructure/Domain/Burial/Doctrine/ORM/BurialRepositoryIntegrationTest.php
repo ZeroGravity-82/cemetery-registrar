@@ -83,42 +83,22 @@ class BurialRepositoryIntegrationTest extends RepositoryIntegrationTest
         $this->assertSame(0, $burialCount);
     }
 
-    protected function isEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function checkAreEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Burial $entityOne */
         /** @var Burial $entityTwo */
-        $isSameClass = $entityOne instanceof Burial && $entityTwo instanceof Burial;
-
-        // Mandatory properties
-        $isSameId         = $entityOne->id()->isEqual($entityTwo->id());
-        $isSameCode       = $entityOne->code()->isEqual($entityTwo->code());
-        $isSameDeceasedId = $entityOne->deceasedId()->isEqual($entityTwo->deceasedId());
-        $isSameBurialType = $entityOne->burialType()->isEqual($entityTwo->burialType());
-
-        // Optional properties
-        $isSameCustomerId = $entityOne->customerId() !== null && $entityTwo->customerId() !== null
-            ? $entityOne->customerId()->isEqual($entityTwo->customerId())
-            : $entityOne->customerId() === null && $entityTwo->customerId() === null;
-        $isSameBurialPlaceId = $entityOne->burialPlaceId() !== null && $entityTwo->burialPlaceId() !== null
-            ? $entityOne->burialPlaceId()->isEqual($entityTwo->burialPlaceId())
-            : $entityOne->burialPlaceId() === null && $entityTwo->burialPlaceId() === null;
-        $isSameBurialPlaceOwnerId = $entityOne->burialPlaceOwnerId() !== null && $entityTwo->burialPlaceOwnerId() !== null
-            ? $entityOne->burialPlaceOwnerId()->isEqual($entityTwo->burialPlaceOwnerId())
-            : $entityOne->burialPlaceOwnerId() === null && $entityTwo->burialPlaceOwnerId() === null;
-        $isSameFuneralCompanyId = $entityOne->funeralCompanyId() !== null && $entityTwo->funeralCompanyId() !== null
-            ? $entityOne->funeralCompanyId()->isEqual($entityTwo->funeralCompanyId())
-            : $entityOne->funeralCompanyId() === null && $entityTwo->funeralCompanyId() === null;
-        $isSameBurialContainer = $entityOne->burialContainer() !== null && $entityTwo->burialContainer() !== null
-            ? $entityOne->burialContainer()->isEqual($entityTwo->burialContainer())
-            : $entityOne->burialContainer() === null && $entityTwo->burialContainer() === null;
-        $isSameBuriedAt = $entityOne->buriedAt() !== null && $entityTwo->buriedAt() !== null
-            ? $this->isEqualDateTimeValues($entityOne->buriedAt(), $entityTwo->buriedAt())
-            : $entityOne->buriedAt() === null && $entityTwo->buriedAt() === null;
-
         return
-            $isSameClass && $isSameId && $isSameCode && $isSameDeceasedId && $isSameBurialType && $isSameCustomerId &&
-            $isSameBurialPlaceId && $isSameBurialPlaceOwnerId && $isSameFuneralCompanyId && $isSameBurialContainer &&
-            $isSameBuriedAt;
+            $this->checkAreSameClasses($entityOne, $entityTwo) &&
+            $this->checkAreEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
+            $this->checkAreEqualValueObjects($entityOne->code(), $entityTwo->code()) &&
+            $this->checkAreEqualValueObjects($entityOne->deceasedId(), $entityTwo->deceasedId()) &&
+            $this->checkAreEqualValueObjects($entityOne->burialType(), $entityTwo->burialType()) &&
+            $this->checkAreEqualValueObjects($entityOne->customerId(), $entityTwo->customerId()) &&
+            $this->checkAreEqualValueObjects($entityOne->burialPlaceId(), $entityTwo->burialPlaceId()) &&
+            $this->checkAreEqualValueObjects($entityOne->burialPlaceOwnerId(), $entityTwo->burialPlaceOwnerId()) &&
+            $this->checkAreEqualValueObjects($entityOne->funeralCompanyId(), $entityTwo->funeralCompanyId()) &&
+            $this->checkAreEqualValueObjects($entityOne->burialContainer(), $entityTwo->burialContainer()) &&
+            $this->checkAreEqualDateTimeValues($entityOne->buriedAt(), $entityTwo->buriedAt());
     }
 
     protected function updateEntityA(Entity $entityA): void
