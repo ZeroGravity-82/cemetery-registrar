@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface NaturalPersonRepositoryInterface
+interface NaturalPersonRepository
 {
     /**
      * Adds the natural person to the repository. If the natural person is already persisted, it will be updated.

@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\Orm;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineOrmNaturalPersonRepository extends Repository implements NaturalPersonRepositoryInterface
+final class DoctrineOrmNaturalPersonRepository extends Repository implements NaturalPersonRepository
 {
     /**
      * {@inheritdoc}
