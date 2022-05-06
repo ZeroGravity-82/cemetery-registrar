@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
-use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\EventDispatcher;
@@ -15,12 +15,12 @@ use Cemetery\Registrar\Domain\EventDispatcher;
 final class JuristicPersonRemover
 {
     /**
-     * @param BurialRepositoryInterface         $burialRepo
+     * @param BurialRepository                  $burialRepo
      * @param JuristicPersonRepositoryInterface $juristicPersonRepo
      * @param EventDispatcher                   $eventDispatcher
      */
     public function __construct(
-        private readonly BurialRepositoryInterface         $burialRepo,
+        private readonly BurialRepository                  $burialRepo,
         private readonly JuristicPersonRepositoryInterface $juristicPersonRepo,
         private readonly EventDispatcher                   $eventDispatcher,
     ) {}

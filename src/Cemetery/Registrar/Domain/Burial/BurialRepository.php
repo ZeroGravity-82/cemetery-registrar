@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Burial;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface BurialRepositoryInterface
+interface BurialRepository
 {
     /**
      * Adds the burial to the repository. If the burial is already persisted, it will be updated.

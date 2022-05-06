@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\ORM;
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
-use Cemetery\Registrar\Domain\Burial\BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\Burial\BurialRepository as BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
