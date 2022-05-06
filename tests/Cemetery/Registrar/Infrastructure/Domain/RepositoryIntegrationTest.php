@@ -195,7 +195,7 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
 
     protected function truncateEntities(): void
     {
-        (new ORMPurger($this->entityManager))->purge();
+        (new OrmPurger($this->entityManager))->purge();
     }
 
     protected function areSameClasses(Entity $entityOne, Entity $entityTwo): bool

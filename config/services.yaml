@@ -20,14 +20,14 @@ services:
             - '../tests/Cemetery/'
 
     # third-party services
-    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\PropertyAccessor:
+    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\NullableEmbeddable\PropertyAccessor:
         arguments:
             - '@property_accessor'
-    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\ClosureNullator: ~
-    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\NullableEmbeddableListener:
+    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\NullableEmbeddable\ClosureNullator: ~
+    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\NullableEmbeddable\NullableEmbeddableListener:
         arguments:
-            - '@Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\PropertyAccessor'
-            - '@Cemetery\Registrar\Infrastructure\Persistence\Doctrine\ORM\NullableEmbeddable\ClosureNullator'
+            - '@Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\NullableEmbeddable\PropertyAccessor'
+            - '@Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\NullableEmbeddable\ClosureNullator'
         tags:
             -
                 name:   'doctrine.orm.entity_listener'
