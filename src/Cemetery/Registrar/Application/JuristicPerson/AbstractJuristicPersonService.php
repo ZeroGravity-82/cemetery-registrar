@@ -6,7 +6,7 @@ namespace Cemetery\Registrar\Application\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -14,10 +14,10 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 abstract class AbstractJuristicPersonService
 {
     /**
-     * @param JuristicPersonRepositoryInterface $juristicPersonRepo
+     * @param JuristicPersonRepository $juristicPersonRepo
      */
     public function __construct(
-        protected readonly JuristicPersonRepositoryInterface $juristicPersonRepo,
+        protected readonly JuristicPersonRepository $juristicPersonRepo,
     ) {}
 
     /**

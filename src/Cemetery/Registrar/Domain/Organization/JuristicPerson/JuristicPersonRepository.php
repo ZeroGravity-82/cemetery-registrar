@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface JuristicPersonRepositoryInterface
+interface JuristicPersonRepository
 {
     /**
      * Adds the juristic person to the repository. If the juristic person is already persisted, it will be updated.

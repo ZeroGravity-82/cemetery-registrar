@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRemoved;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRemover;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 class JuristicPersonRemoverTest extends TestCase
 {
     private MockObject|BurialRepository                  $mockBurialRepo;
-    private MockObject|JuristicPersonRepositoryInterface $mockJuristicPersonRepo;
+    private MockObject|JuristicPersonRepository $mockJuristicPersonRepo;
     private MockObject|EventDispatcher                   $mockEventDispatcher;
     private JuristicPersonRemover                        $juristicPersonRemover;
     private MockObject|JuristicPerson                    $mockJuristicPerson;
@@ -29,7 +29,7 @@ class JuristicPersonRemoverTest extends TestCase
     public function setUp(): void
     {
         $this->mockBurialRepo         = $this->createMock(BurialRepository::class);
-        $this->mockJuristicPersonRepo = $this->createMock(JuristicPersonRepositoryInterface::class);
+        $this->mockJuristicPersonRepo = $this->createMock(JuristicPersonRepository::class);
         $this->mockEventDispatcher    = $this->createMock(EventDispatcher::class);
         $this->juristicPersonRemover  = new JuristicPersonRemover(
             $this->mockBurialRepo,

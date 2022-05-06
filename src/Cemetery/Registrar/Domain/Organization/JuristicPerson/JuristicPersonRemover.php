@@ -15,14 +15,14 @@ use Cemetery\Registrar\Domain\EventDispatcher;
 final class JuristicPersonRemover
 {
     /**
-     * @param BurialRepository                  $burialRepo
-     * @param JuristicPersonRepositoryInterface $juristicPersonRepo
-     * @param EventDispatcher                   $eventDispatcher
+     * @param BurialRepository         $burialRepo
+     * @param JuristicPersonRepository $juristicPersonRepo
+     * @param EventDispatcher          $eventDispatcher
      */
     public function __construct(
-        private readonly BurialRepository                  $burialRepo,
-        private readonly JuristicPersonRepositoryInterface $juristicPersonRepo,
-        private readonly EventDispatcher                   $eventDispatcher,
+        private readonly BurialRepository         $burialRepo,
+        private readonly JuristicPersonRepository $juristicPersonRepo,
+        private readonly EventDispatcher          $eventDispatcher,
     ) {}
 
     /**

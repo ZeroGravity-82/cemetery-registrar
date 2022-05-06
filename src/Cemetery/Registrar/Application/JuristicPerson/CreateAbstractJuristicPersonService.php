@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\JuristicPerson;
 use Cemetery\Registrar\Domain\EventDispatcher;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCreated;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,14 +15,14 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 final class CreateAbstractJuristicPersonService extends AbstractJuristicPersonService
 {
     /**
-     * @param JuristicPersonFactory             $juristicPersonFactory
-     * @param EventDispatcher                   $eventDispatcher
-     * @param JuristicPersonRepositoryInterface $juristicPersonRepo
+     * @param JuristicPersonFactory    $juristicPersonFactory
+     * @param EventDispatcher          $eventDispatcher
+     * @param JuristicPersonRepository $juristicPersonRepo
      */
     public function __construct(
         private readonly JuristicPersonFactory $juristicPersonFactory,
         private readonly EventDispatcher       $eventDispatcher,
-        JuristicPersonRepositoryInterface      $juristicPersonRepo,
+        JuristicPersonRepository               $juristicPersonRepo,
     ) {
         parent::__construct($juristicPersonRepo);
     }

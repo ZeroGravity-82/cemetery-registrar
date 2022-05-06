@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRemover;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -13,12 +13,12 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 final class RemoveJuristicPersonService extends AbstractJuristicPersonService
 {
     /**
-     * @param JuristicPersonRemover             $juristicPersonRemover
-     * @param JuristicPersonRepositoryInterface $juristicPersonRepo
+     * @param JuristicPersonRemover    $juristicPersonRemover
+     * @param JuristicPersonRepository $juristicPersonRepo
      */
     public function __construct(
         private readonly JuristicPersonRemover $juristicPersonRemover,
-        JuristicPersonRepositoryInterface      $juristicPersonRepo,
+        JuristicPersonRepository               $juristicPersonRepo,
     ) {
         parent::__construct($juristicPersonRepo);
     }

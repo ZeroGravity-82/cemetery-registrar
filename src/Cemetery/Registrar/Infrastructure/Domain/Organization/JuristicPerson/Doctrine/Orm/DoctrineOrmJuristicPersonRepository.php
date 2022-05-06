@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\D
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineOrmJuristicPersonRepository extends Repository implements JuristicPersonRepositoryInterface
+final class DoctrineOrmJuristicPersonRepository extends Repository implements JuristicPersonRepository
 {
     /**
      * {@inheritdoc}
