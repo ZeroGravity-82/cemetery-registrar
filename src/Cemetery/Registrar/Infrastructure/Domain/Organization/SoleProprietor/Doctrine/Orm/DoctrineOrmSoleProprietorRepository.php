@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\D
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineOrmSoleProprietorRepository extends Repository implements SoleProprietorRepositoryInterface
+final class DoctrineOrmSoleProprietorRepository extends Repository implements SoleProprietorRepository
 {
     /**
      * {@inheritdoc}

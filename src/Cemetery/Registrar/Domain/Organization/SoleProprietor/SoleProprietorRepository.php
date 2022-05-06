@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization\SoleProprietor;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface SoleProprietorRepositoryInterface
+interface SoleProprietorRepository
 {
     /**
      * Adds the sole proprietor to the repository. If the sole proprietor is already persisted, it will be updated.

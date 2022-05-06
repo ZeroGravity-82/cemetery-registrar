@@ -6,7 +6,7 @@ namespace Cemetery\Registrar\Application\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -14,10 +14,10 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 abstract class AbstractSoleProprietorService
 {
     /**
-     * @param SoleProprietorRepositoryInterface $soleProprietorRepo
+     * @param SoleProprietorRepository $soleProprietorRepo
      */
     public function __construct(
-        protected readonly SoleProprietorRepositoryInterface $soleProprietorRepo,
+        protected readonly SoleProprietorRepository $soleProprietorRepo,
     ) {}
 
     /**
