@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Deceased;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface DeceasedRepositoryInterface
+interface DeceasedRepository
 {
     /**
      * Adds the deceased to the repository. If the deceased is already persisted, it will be updated.

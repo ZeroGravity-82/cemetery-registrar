@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\Orm;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
+use Cemetery\Registrar\Domain\Deceased\DeceasedRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineOrmDeceasedRepository extends Repository implements DeceasedRepositoryInterface
+final class DoctrineOrmDeceasedRepository extends Repository implements DeceasedRepository
 {
     /**
      * {@inheritdoc}
