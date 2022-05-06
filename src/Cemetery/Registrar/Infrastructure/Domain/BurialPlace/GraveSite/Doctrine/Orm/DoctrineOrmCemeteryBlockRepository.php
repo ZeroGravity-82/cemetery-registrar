@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrin
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockRepository as CemeteryBlockRepositoryInterface;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CemeteryBlockRepository extends Repository implements CemeteryBlockRepositoryInterface
+final class DoctrineOrmCemeteryBlockRepository extends Repository implements CemeteryBlockRepository
 {
     /**
      * {@inheritdoc}

@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm;
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
-use Cemetery\Registrar\Domain\Burial\BurialRepository as BurialRepositoryInterface;
+use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\Fun
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialRepository extends Repository implements BurialRepositoryInterface
+final class DoctrineOrmBurialRepository extends Repository implements BurialRepository
 {
     /**
      * {@inheritdoc}

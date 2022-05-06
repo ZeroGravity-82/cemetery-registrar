@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\MemorialTree\Doctrine\Orm\MemorialTreeRepository as DoctrineOrmMemorialTreeRepository;
+use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\MemorialTree\Doctrine\Orm\DoctrineOrmMemorialTreeRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -18,7 +18,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTreeRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = MemorialTree::class;
     protected string $entityIdClassName         = MemorialTreeId::class;

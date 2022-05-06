@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheRepository as ColumbariumNicheRepositoryInterface;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class ColumbariumNicheRepository extends Repository implements ColumbariumNicheRepositoryInterface
+final class DoctrineOrmColumbariumNicheRepository extends Repository implements ColumbariumNicheRepository
 {
     /**
      * {@inheritdoc}

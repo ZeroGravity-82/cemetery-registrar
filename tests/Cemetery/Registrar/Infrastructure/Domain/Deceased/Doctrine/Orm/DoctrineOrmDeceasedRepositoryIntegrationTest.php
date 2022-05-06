@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\Orm\DeceasedRepository as DoctrineOrmDeceasedRepository;
+use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\Orm\DoctrineOrmDeceasedRepository;
 use Cemetery\Tests\Registrar\Domain\Deceased\DeceasedProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -18,7 +18,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmDeceasedRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = Deceased::class;
     protected string $entityIdClassName         = DeceasedId::class;

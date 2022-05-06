@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockName;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\CemeteryBlockRepository as DoctrineOrmCemeteryBlockRepository;
+use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\DoctrineOrmCemeteryBlockRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -18,7 +18,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = CemeteryBlock::class;
     protected string $entityIdClassName         = CemeteryBlockId::class;

@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\BurialRepository as DoctrineOrmBurialRepository;
+use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -22,7 +22,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = Burial::class;
     protected string $entityIdClassName         = BurialId::class;

@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheColle
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\RowInColumbarium;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\Orm\ColumbariumNicheRepository as DoctrineOrmColumbariumNicheRepository;
+use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\Orm\DoctrineOrmColumbariumNicheRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -18,7 +18,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = ColumbariumNiche::class;
     protected string $entityIdClassName         = ColumbariumNicheId::class;

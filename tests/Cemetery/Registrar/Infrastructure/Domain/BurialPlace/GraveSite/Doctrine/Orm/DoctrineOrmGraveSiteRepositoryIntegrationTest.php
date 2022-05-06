@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\GraveSiteRepository as DoctrineOrmGraveSiteRepository;
+use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\DoctrineOrmGraveSiteRepository;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\GraveSiteProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -18,7 +18,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmGraveSiteRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = GraveSite::class;
     protected string $entityIdClassName         = GraveSiteId::class;

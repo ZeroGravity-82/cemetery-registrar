@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\Orm\NaturalPersonRepository as DoctrineOrmNaturalPersonRepository;
+use Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\Orm\DoctrineOrmNaturalPersonRepository;
 use Cemetery\Tests\Registrar\Domain\NaturalPerson\NaturalPersonProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
@@ -17,7 +17,7 @@ use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonRepositoryIntegrationTest extends RepositoryIntegrationTest
+class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends RepositoryIntegrationTest
 {
     protected string $entityClassName           = NaturalPerson::class;
     protected string $entityIdClassName         = NaturalPersonId::class;

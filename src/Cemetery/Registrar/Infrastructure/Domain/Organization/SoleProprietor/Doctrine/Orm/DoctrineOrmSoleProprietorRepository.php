@@ -13,7 +13,7 @@ use Cemetery\Registrar\Infrastructure\Domain\Repository;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class SoleProprietorRepository extends Repository implements SoleProprietorRepositoryInterface
+final class DoctrineOrmSoleProprietorRepository extends Repository implements SoleProprietorRepositoryInterface
 {
     /**
      * {@inheritdoc}

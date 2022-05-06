@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\BurialPlace\MemorialTree\Doct
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeRepository as MemorialTreeRepositoryInterface;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class MemorialTreeRepository extends Repository implements MemorialTreeRepositoryInterface
+final class DoctrineOrmMemorialTreeRepository extends Repository implements MemorialTreeRepository
 {
     /**
      * {@inheritdoc}

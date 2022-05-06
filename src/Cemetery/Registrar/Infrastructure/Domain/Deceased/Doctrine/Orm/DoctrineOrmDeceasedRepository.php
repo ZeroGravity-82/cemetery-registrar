@@ -13,7 +13,7 @@ use Cemetery\Registrar\Infrastructure\Domain\Repository;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DeceasedRepository extends Repository implements DeceasedRepositoryInterface
+final class DoctrineOrmDeceasedRepository extends Repository implements DeceasedRepositoryInterface
 {
     /**
      * {@inheritdoc}

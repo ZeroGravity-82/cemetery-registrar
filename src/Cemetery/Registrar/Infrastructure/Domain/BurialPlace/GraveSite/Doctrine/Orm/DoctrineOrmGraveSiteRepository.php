@@ -7,13 +7,13 @@ namespace Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrin
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteRepository as GraveSiteRepositoryInterface;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class GraveSiteRepository extends Repository implements GraveSiteRepositoryInterface
+final class DoctrineOrmGraveSiteRepository extends Repository implements GraveSiteRepository
 {
     /**
      * {@inheritdoc}
