@@ -4,21 +4,23 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial;
 
+use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialBuilder;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedBuilder;
-use Cemetery\Registrar\Domain\Deceased\DeceasedRepositoryInterface;
+use Cemetery\Registrar\Domain\Deceased\DeceasedRepository;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorFactory;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -26,37 +28,48 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 final class CreateBurialService extends BurialService
 {
     public function __construct(
-        private readonly BurialBuilder                       $burialBuilder,
-        private readonly DeceasedBuilder                     $deceasedBuilder,
-        private readonly NaturalPersonFactory                $naturalPersonFactory,
-        private readonly SoleProprietorFactory               $soleProprietorFactory,
-        private readonly JuristicPersonFactory               $juristicPersonFactory,
-        private readonly GraveSiteFactory                    $graveSiteFactory,
-        private readonly ColumbariumNicheFactory             $columbariumNicheFactory,
-        private readonly MemorialTreeFactory                 $memorialTreeFactory,
-        private readonly DeceasedRepositoryInterface         $deceasedRepo,
-        private readonly NaturalPersonRepositoryInterface    $naturalPersonRepo,
-        private readonly SoleProprietorRepositoryInterface   $soleProprietorRepo,
-        private readonly JuristicPersonRepositoryInterface   $juristicPersonRepo,
-        private readonly GraveSiteRepositoryInterface        $graveSiteRepo,
-        private readonly ColumbariumNicheRepositoryInterface $columbariumNicheRepo,
-        private readonly MemorialTreeRepositoryInterface     $memorialTreeRepo,
+        private readonly BurialRepository           $burialRepo,
+
+
+        private readonly BurialBuilder              $burialBuilder,
+        private readonly DeceasedBuilder            $deceasedBuilder,
+        private readonly NaturalPersonFactory       $naturalPersonFactory,
+        private readonly SoleProprietorFactory      $soleProprietorFactory,
+        private readonly JuristicPersonFactory      $juristicPersonFactory,
+        private readonly GraveSiteFactory           $graveSiteFactory,
+        private readonly ColumbariumNicheFactory    $columbariumNicheFactory,
+        private readonly MemorialTreeFactory        $memorialTreeFactory,
+        private readonly DeceasedRepository         $deceasedRepo,
+        private readonly NaturalPersonRepository    $naturalPersonRepo,
+        private readonly SoleProprietorRepository   $soleProprietorRepo,
+        private readonly JuristicPersonRepository   $juristicPersonRepo,
+        private readonly GraveSiteRepository        $graveSiteRepo,
+        private readonly ColumbariumNicheRepository $columbariumNicheRepo,
+        private readonly MemorialTreeRepository     $memorialTreeRepo,
     ) {}
 
     public function execute(CreateBurialRequest $request): CreateBurialResponse
     {
-        $this->processDeceasedData($request, $this->burialBuilder);
-        $this->processCustomerData($request, $this->burialBuilder);
-        $this->processBurialPlaceData($request, $this->burialBuilder);
-        $this->processBurialPlaceOwnerData($request, $this->burialBuilder);
-        $this->processFuneralCompanyData($request, $this->burialBuilder);
-        $this->processBurialContainerData($request, $this->burialBuilder);
-        $this->processBuriedAtData($request, $this->burialBuilder);
+        $burial = (new Burial(
 
-        $burial = $this->burialBuilder->getResult();
-        $this->burailRepo->save($burial);
+            ))
+            ->setCustomerId()
+            ->setBurialPlaceId()
+            ->setBurialPlaceOwnerId()
+            ->setFuneralCompanyId()
+            ->setBurialContainer()
+            ->setBuriedAt();
+//        $this->processDeceasedData($request, $this->burialBuilder);
+//        $this->processCustomerData($request, $this->burialBuilder);
+//        $this->processBurialPlaceData($request, $this->burialBuilder);
+//        $this->processBurialPlaceOwnerData($request, $this->burialBuilder);
+//        $this->processFuneralCompanyData($request, $this->burialBuilder);
+//        $this->processBurialContainerData($request, $this->burialBuilder);
+//        $this->processBuriedAtData($request, $this->burialBuilder);
+//        $burial = $this->burialBuilder->getResult();
+        $this->burialRepo->save($burial);
 
-        return new CreateBurialResponse((string) $burial->getId());
+        return new CreateBurialResponse($burial->id()->value());
     }
 
     /**
@@ -70,7 +83,7 @@ final class CreateBurialService extends BurialService
         $isNaturalPersonCreationRequired = !$naturalPersonId;
         if ($isNaturalPersonCreationRequired) {
             $naturalPerson   = $this->createNaturalPersonForDeceased($request);
-            $naturalPersonId = (string) $naturalPerson->id();
+            $naturalPersonId = $naturalPerson->id()->value();
         }
         $deceased = $this->createDeceased($naturalPersonId, $request);
         $burialBuilder->initialize($deceased->id());
@@ -87,11 +100,10 @@ final class CreateBurialService extends BurialService
         $isCustomerCreationRequired = !$customerId && $request->customerType;
         if ($isCustomerCreationRequired) {
             $customer   = $this->createCustomer($request);
-            $customerId = (string) $customer->id();
+            $customerId = $customer->id()->value();
         }
         if ($customerId) {
-            $customerType = new CustomerType($request->customerType);
-            $customerId   = new CustomerId($customerId, $customerType);
+            $customerId = new CustomerId($customerId, $customerType);
             $burialBuilder->addCustomerId($customerId);
         }
     }
@@ -104,7 +116,7 @@ final class CreateBurialService extends BurialService
         $isBurialPlaceCreationRequired = !$burialPlaceId && $burialPlaceType;
         if ($isBurialPlaceCreationRequired) {
             $burialPlace   = $this->createBurialPlace($request);
-            $burialPlaceId = (string) $burialPlace->getId();
+            $burialPlaceId = $burialPlace->getId()->value();
         }
         if ($burialPlaceId) {
             $burialPlaceType = new BurialPlaceType($burialPlaceType);
