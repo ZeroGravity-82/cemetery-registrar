@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Domain\Burial;
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialBuilder;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
-use Cemetery\Registrar\Domain\Burial\BurialCodeGeneratorInterface;
+use Cemetery\Registrar\Domain\Burial\BurialCodeGenerator;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialType;
@@ -30,14 +30,14 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialBuilderTest extends TestCase
 {
-    private MockObject|IdentityGenerator            $mockIdentityGenerator;
-    private MockObject|BurialCodeGeneratorInterface $mockBurialCodeGenerator;
-    private BurialBuilder                           $burialBuilder;
+    private MockObject|IdentityGenerator   $mockIdentityGenerator;
+    private MockObject|BurialCodeGenerator $mockBurialCodeGenerator;
+    private BurialBuilder                  $burialBuilder;
 
     public function setUp(): void
     {
         $this->mockIdentityGenerator   = $this->createMock(IdentityGenerator::class);
-        $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGeneratorInterface::class);
+        $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGenerator::class);
         $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('B001');
         $this->mockBurialCodeGenerator->method('getNextCode')->willReturn('000001');
 

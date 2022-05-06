@@ -20,12 +20,12 @@ final class BurialBuilder
     private Burial $burial;
 
     /**
-     * @param IdentityGenerator            $identityGenerator
-     * @param BurialCodeGeneratorInterface $burialCodeGenerator
+     * @param IdentityGenerator   $identityGenerator
+     * @param BurialCodeGenerator $burialCodeGenerator
      */
     public function __construct(
-        private readonly IdentityGenerator            $identityGenerator,
-        private readonly BurialCodeGeneratorInterface $burialCodeGenerator,
+        private readonly IdentityGenerator   $identityGenerator,
+        private readonly BurialCodeGenerator $burialCodeGenerator,
     ) {}
 
     /**
