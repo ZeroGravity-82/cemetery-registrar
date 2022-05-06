@@ -8,7 +8,7 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\NullableEmb
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  * @see    https://github.com/tarifhaus/doctrine-nullable-embeddable
  */
-final class ClosureNullator implements NullatorInterface
+final class ClosureNullator implements Nullator
 {
     public function setNull($object, $property)
     {

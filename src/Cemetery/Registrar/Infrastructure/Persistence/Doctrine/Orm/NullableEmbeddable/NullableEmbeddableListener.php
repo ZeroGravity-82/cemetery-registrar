@@ -17,11 +17,11 @@ final class NullableEmbeddableListener
 
     /**
      * @param Evaluator $evaluator
-     * @param NullatorInterface  $nullator
+     * @param Nullator  $nullator
      */
     public function __construct(
         private readonly Evaluator $evaluator,
-        private readonly NullatorInterface  $nullator,
+        private readonly Nullator  $nullator,
     ) {}
 
     public function addMapping(string $entity, string $propertyPath): void
