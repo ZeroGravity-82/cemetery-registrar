@@ -11,8 +11,8 @@ use Cemetery\Registrar\Domain\Burial\BurialRepository as BurialRepositoryInterfa
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\CustomerIdType;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\DBAL\Types\Burial\FuneralCompanyIdType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\FuneralCompanyIdType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
