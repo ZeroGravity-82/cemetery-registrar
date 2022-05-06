@@ -11,7 +11,7 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  * @see    https://github.com/tarifhaus/doctrine-nullable-embeddable
  */
-final class PropertyAccessor implements EvaluatorInterface, NullatorInterface
+final class PropertyAccessor implements Evaluator, NullatorInterface
 {
     /**
      * @param PropertyAccessorInterface $propertyAccessor

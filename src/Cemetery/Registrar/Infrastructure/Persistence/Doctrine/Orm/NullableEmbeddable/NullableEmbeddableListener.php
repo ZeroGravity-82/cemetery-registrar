@@ -16,11 +16,11 @@ final class NullableEmbeddableListener
     private array $propertyMap = [];
 
     /**
-     * @param EvaluatorInterface $evaluator
+     * @param Evaluator $evaluator
      * @param NullatorInterface  $nullator
      */
     public function __construct(
-        private readonly EvaluatorInterface $evaluator,
+        private readonly Evaluator $evaluator,
         private readonly NullatorInterface  $nullator,
     ) {}
 
