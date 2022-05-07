@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CreateAbstractJuristicPersonService extends AbstractJuristicPersonService
+final class CreateJuristicPersonService extends JuristicPersonService
 {
     /**
      * @param JuristicPersonFactory    $juristicPersonFactory

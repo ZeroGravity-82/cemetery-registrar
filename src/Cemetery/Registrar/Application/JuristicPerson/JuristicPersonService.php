@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractJuristicPersonService
+abstract class JuristicPersonService
 {
     /**
      * @param JuristicPersonRepository $juristicPersonRepo
