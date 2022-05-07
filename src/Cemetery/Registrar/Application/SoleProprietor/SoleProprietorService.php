@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractSoleProprietorService
+abstract class SoleProprietorService
 {
     /**
      * @param SoleProprietorRepository $soleProprietorRepo
