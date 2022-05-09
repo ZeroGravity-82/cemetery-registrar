@@ -70,22 +70,22 @@ final class JuristicPersonFactory
     ): JuristicPerson {
         $this->assertNameIsProvided($name);
         $name          = new Name($name);
-        $inn           = $inn           ? new Inn($inn)               : null;
-        $kpp           = $kpp           ? new Kpp($kpp)               : null;
-        $ogrn          = $ogrn          ? new Ogrn($ogrn)             : null;
-        $okpo          = $okpo          ? new Okpo($okpo)             : null;
-        $okved         = $okved         ? new Okved($okved)           : null;
-        $legalAddress  = $legalAddress  ? new Address($legalAddress)  : null;
-        $postalAddress = $postalAddress ? new Address($postalAddress) : null;
-        $bankDetails   = $bankDetailsBankName && $bankDetailsBik && $bankDetailsCurrentAccount
+        $inn           = $inn !== null           ? new Inn($inn)               : null;
+        $kpp           = $kpp !== null           ? new Kpp($kpp)               : null;
+        $ogrn          = $ogrn !== null          ? new Ogrn($ogrn)             : null;
+        $okpo          = $okpo !== null          ? new Okpo($okpo)             : null;
+        $okved         = $okved !== null         ? new Okved($okved)           : null;
+        $legalAddress  = $legalAddress !== null  ? new Address($legalAddress)  : null;
+        $postalAddress = $postalAddress !== null ? new Address($postalAddress) : null;
+        $bankDetails   = $bankDetailsBankName !== null && $bankDetailsBik !== null && $bankDetailsCurrentAccount !== null
             ? new BankDetails($bankDetailsBankName, $bankDetailsBik, $bankDetailsCorrespondentAccount, $bankDetailsCurrentAccount)
             : null;
-        $phone           = $phone           ? new PhoneNumber($phone)           : null;
-        $phoneAdditional = $phoneAdditional ? new PhoneNumber($phoneAdditional) : null;
-        $fax             = $fax             ? new PhoneNumber($fax)             : null;
-        $generalDirector = $generalDirector ? new FullName($generalDirector)    : null;
-        $email           = $email           ? new Email($email)                 : null;
-        $website         = $website         ? new Website($website)             : null;
+        $phone           = $phone !== null           ? new PhoneNumber($phone)           : null;
+        $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional) : null;
+        $fax             = $fax !== null             ? new PhoneNumber($fax)             : null;
+        $generalDirector = $generalDirector !== null ? new FullName($generalDirector)    : null;
+        $email           = $email !== null           ? new Email($email)                 : null;
+        $website         = $website !== null         ? new Website($website)             : null;
 
         return (new JuristicPerson(
                 new JuristicPersonId($this->identityGenerator->getNextIdentity()),
