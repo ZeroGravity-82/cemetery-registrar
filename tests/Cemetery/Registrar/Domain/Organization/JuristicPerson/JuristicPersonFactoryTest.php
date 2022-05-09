@@ -91,7 +91,8 @@ class JuristicPersonFactoryTest extends TestCase
 
     public function testItCreatesJuristicPersonWithoutOptionalFields(): void
     {
-        $name           = 'ООО "Рога и копыта"';
+        $name = 'ООО "Рога и копыта"';
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $juristicPerson = $this->juristicPersonFactory->create(
             $name,
             null,
