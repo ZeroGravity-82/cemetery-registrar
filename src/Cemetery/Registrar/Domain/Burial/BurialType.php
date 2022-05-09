@@ -14,7 +14,7 @@ final class BurialType
     public const URN_IN_COLUMBARIUM_NICHE  = 'URN_IN_COLUMBARIUM_NICHE';
     public const ASHES_UNDER_MEMORIAL_TREE = 'ASHES_UNDER_MEMORIAL_TREE';
 
-    private const LABELS = [
+    public const TYPE_LABELS = [
         self::COFFIN_IN_GRAVE_SITE      => 'гробом в могилу',
         self::URN_IN_GRAVE_SITE         => 'урной в могилу',
         self::URN_IN_COLUMBARIUM_NICHE  => 'урной в колумбарную нишу',
@@ -83,7 +83,7 @@ final class BurialType
      */
     public function label(): string
     {
-        return self::LABELS[$this->value()];
+        return self::TYPE_LABELS[$this->value()];
     }
 
 
