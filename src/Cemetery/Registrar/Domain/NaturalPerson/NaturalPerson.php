@@ -14,6 +14,9 @@ use Cemetery\Registrar\Domain\Contact\PhoneNumber;
  */
 final class NaturalPerson extends AggregateRoot
 {
+    public const TYPE  = 'NATURAL_PERSON';
+    public const LABEL = 'физическое лицо';
+
     /**
      * @var PhoneNumber|null
      */
