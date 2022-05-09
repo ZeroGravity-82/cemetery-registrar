@@ -85,7 +85,8 @@ class SoleProprietorFactoryTest extends TestCase
 
     public function testItCreatesSoleProprietorWithoutOptionalFields(): void
     {
-        $name           = 'ИП Иванов Иван Иванович';
+        $name = 'ИП Иванов Иван Иванович';
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $soleProprietor = $this->soleProprietorFactory->create(
             $name,
             null,
