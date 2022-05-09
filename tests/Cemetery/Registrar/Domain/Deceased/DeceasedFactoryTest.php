@@ -65,38 +65,4 @@ class DeceasedFactoryTest extends TestCase
         $this->assertNull($deceased->deathCertificateId());
         $this->assertNull($deceased->causeOfDeath());
     }
-
-    public function testItFailsToDeceasedWithoutNaturalPersonId(): void
-    {
-        $this->expectExceptionForNotProvidedNaturalPersonId();
-        $this->deceasedFactory->create(
-            null,
-            '2021-04-23',
-            null,
-            null,
-        );
-    }
-
-    public function testItFailsToDeceasedWithoutDiedAt(): void
-    {
-        $this->expectExceptionForNotProvidedDiedAt();
-        $this->deceasedFactory->create(
-            'NP001',
-            null,
-            null,
-            null,
-        );
-    }
-
-    private function expectExceptionForNotProvidedNaturalPersonId(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Идентификатор физического лица не указан.');
-    }
-
-    private function expectExceptionForNotProvidedDiedAt(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Дата смерти не указана.');
-    }
 }
