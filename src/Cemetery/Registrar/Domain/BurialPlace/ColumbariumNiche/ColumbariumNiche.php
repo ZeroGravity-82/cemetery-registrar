@@ -12,7 +12,8 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
  */
 final class ColumbariumNiche extends AggregateRoot
 {
-    public const LABEL = 'колумбарная ниша';
+    public const CLASS_SHORTCUT = 'COLUMBARIUM_NICHE';
+    public const CLASS_LABEL    = 'колумбарная ниша';
 
     /**
      * @var GeoPosition|null

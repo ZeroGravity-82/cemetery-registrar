@@ -12,7 +12,8 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
  */
 final class GraveSite extends AggregateRoot
 {
-    public const LABEL = 'участок на кладбище';
+    public const CLASS_SHORTCUT = 'GRAVE_SITE';
+    public const CLASS_LABEL    = 'участок на кладбище';
 
     /**
      * @var PositionInRow|null

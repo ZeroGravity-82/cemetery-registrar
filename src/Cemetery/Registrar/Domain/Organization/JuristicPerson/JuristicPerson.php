@@ -19,8 +19,8 @@ use Cemetery\Registrar\Domain\Organization\Okved;
  */
 final class JuristicPerson extends AggregateRoot
 {
-    public const TYPE  = 'JURISTIC_PERSON';
-    public const LABEL = 'юридическое лицо';
+    public const CLASS_SHORTCUT = 'JURISTIC_PERSON';
+    public const CLASS_LABEL    = 'юридическое лицо';
 
     /**
      * @var Inn|null

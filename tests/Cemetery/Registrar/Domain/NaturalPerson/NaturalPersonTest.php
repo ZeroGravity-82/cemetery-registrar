@@ -29,14 +29,14 @@ class NaturalPersonTest extends AbstractAggregateRootTest
         $this->entity        = $this->naturalPerson;
     }
 
-    public function testItHasValidTypeConstant(): void
+    public function testItHasValidClassShortcutConstant(): void
     {
-        $this->assertSame('NATURAL_PERSON', NaturalPerson::TYPE);
+        $this->assertSame('NATURAL_PERSON', NaturalPerson::CLASS_SHORTCUT);
     }
 
-    public function testItHasValidLabelConstant(): void
+    public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('физическое лицо', NaturalPerson::LABEL);
+        $this->assertSame('физическое лицо', NaturalPerson::CLASS_LABEL);
     }
     
     public function testItSuccessfullyCreated(): void

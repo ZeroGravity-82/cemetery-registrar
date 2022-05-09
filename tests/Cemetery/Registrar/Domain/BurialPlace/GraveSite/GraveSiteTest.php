@@ -34,9 +34,14 @@ class GraveSiteTest extends AbstractAggregateRootTest
         $this->entity          = $this->graveSite;
     }
 
-    public function testItHasValidLabelConstant(): void
+    public function testItHasValidClassShortcutConstant(): void
     {
-        $this->assertSame('участок на кладбище', GraveSite::LABEL);
+        $this->assertSame('GRAVE_SITE', GraveSite::CLASS_SHORTCUT);
+    }
+
+    public function testItHasValidClassLabelConstant(): void
+    {
+        $this->assertSame('участок на кладбище', GraveSite::CLASS_LABEL);
     }
 
     public function testItSuccessfullyCreated(): void

@@ -40,9 +40,14 @@ class ColumbariumNicheTest extends AbstractAggregateRootTest
         $this->entity = $this->columbariumNiche;
     }
 
-    public function testItHasValidLabelConstant(): void
+    public function testItHasValidClassShortcutConstant(): void
     {
-        $this->assertSame('колумбарная ниша', ColumbariumNiche::LABEL);
+        $this->assertSame('COLUMBARIUM_NICHE', ColumbariumNiche::CLASS_SHORTCUT);
+    }
+
+    public function testItHasValidClassLabelConstant(): void
+    {
+        $this->assertSame('колумбарная ниша', ColumbariumNiche::CLASS_LABEL);
     }
 
     public function testItSuccessfullyCreated(): void

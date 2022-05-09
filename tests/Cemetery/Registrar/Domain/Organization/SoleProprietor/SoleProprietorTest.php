@@ -34,14 +34,14 @@ class SoleProprietorTest extends AbstractAggregateRootTest
         $this->entity           = $this->soleProprietor;
     }
 
-    public function testItHasValidTypeConstant(): void
+    public function testItHasValidClassShortcutConstant(): void
     {
-        $this->assertSame('SOLE_PROPRIETOR', SoleProprietor::TYPE);
+        $this->assertSame('SOLE_PROPRIETOR', SoleProprietor::CLASS_SHORTCUT);
     }
 
-    public function testItHasValidLabelConstant(): void
+    public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('индивидуальный предприниматель', SoleProprietor::LABEL);
+        $this->assertSame('индивидуальный предприниматель', SoleProprietor::CLASS_LABEL);
     }
 
 

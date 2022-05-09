@@ -36,14 +36,14 @@ class JuristicPersonTest extends AbstractAggregateRootTest
         $this->entity         = $this->juristicPerson;
     }
 
-    public function testItHasValidTypeConstant(): void
+    public function testItHasValidClassShortcutConstant(): void
     {
-        $this->assertSame('JURISTIC_PERSON', JuristicPerson::TYPE);
+        $this->assertSame('JURISTIC_PERSON', JuristicPerson::CLASS_SHORTCUT);
     }
 
-    public function testItHasValidLabelConstant(): void
+    public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('юридическое лицо', JuristicPerson::LABEL);
+        $this->assertSame('юридическое лицо', JuristicPerson::CLASS_LABEL);
     }
 
     public function testItSuccessfullyCreated(): void
