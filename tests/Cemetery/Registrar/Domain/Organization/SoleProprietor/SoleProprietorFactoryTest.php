@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorBuilder;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,15 +15,15 @@ use PHPUnit\Framework\TestCase;
  */
 class SoleProprietorFactoryTest extends TestCase
 {
-    private MockObject|SoleProprietorBuilder $mockSoleProprietorBuilder;
-    private SoleProprietorFactory            $soleProprietorFactory;
-    private MockObject|SoleProprietor        $mockSoleProprietor;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private SoleProprietorFactory        $soleProprietorFactory;
 
     public function setUp(): void
     {
-        $this->mockSoleProprietorBuilder = $this->createMock(SoleProprietorBuilder::class);
-        $this->soleProprietorFactory     = new SoleProprietorFactory($this->mockSoleProprietorBuilder);
-        $this->mockSoleProprietor        = $this->createMock(SoleProprietor::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
+        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+
+        $this->soleProprietorFactory = new SoleProprietorFactory($this->mockIdentityGenerator);
     }
 
     public function testItCreatesSoleProprietor(): void
@@ -44,25 +44,7 @@ class SoleProprietorFactoryTest extends TestCase
         $fax                             = '8(383)123-46-89';
         $email                           = 'info@google.com';
         $website                         = 'https://example.com';
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('initialize')->with($name);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addInn')->with($inn);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addOgrnip')->with($ogrnip);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkpo')->with($okpo);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addOkved')->with($okved);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addRegistrationAddress')->with($registrationAddress);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addActualLocationAddress')->with($actualLocationAddress);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addBankDetails')->with(
-            $bankDetailsBankName,
-            $bankDetailsBik,
-            $bankDetailsCorrespondentAccount,
-            $bankDetailsCurrentAccount,
-        );
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addPhone')->with($phone);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addPhoneAdditional')->with($phoneAdditional);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addFax')->with($fax);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addEmail')->with($email);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('addWebsite')->with($website);
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('build')->willReturn($this->mockSoleProprietor);
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $soleProprietor = $this->soleProprietorFactory->create(
             $name,
             $inn,
@@ -82,25 +64,28 @@ class SoleProprietorFactoryTest extends TestCase
             $website,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
+        $this->assertSame('555', $soleProprietor->id()->value());
+        $this->assertSame($name, $soleProprietor->name()->value());
+        $this->assertSame($inn, $soleProprietor->inn()->value());
+        $this->assertSame($ogrnip, $soleProprietor->ogrnip()->value());
+        $this->assertSame($okpo, $soleProprietor->okpo()->value());
+        $this->assertSame($okved, $soleProprietor->okved()->value());
+        $this->assertSame($registrationAddress, $soleProprietor->registrationAddress()->value());
+        $this->assertSame($actualLocationAddress, $soleProprietor->actualLocationAddress()->value());
+        $this->assertSame($bankDetailsBankName, $soleProprietor->bankDetails()->bankName()->value());
+        $this->assertSame($bankDetailsBik, $soleProprietor->bankDetails()->bik()->value());
+        $this->assertSame($bankDetailsCorrespondentAccount, $soleProprietor->bankDetails()->correspondentAccount()->value());
+        $this->assertSame($bankDetailsCurrentAccount, $soleProprietor->bankDetails()->currentAccount()->value());
+        $this->assertSame($phone, $soleProprietor->phone()->value());
+        $this->assertSame($phoneAdditional, $soleProprietor->phoneAdditional()->value());
+        $this->assertSame($fax, $soleProprietor->fax()->value());
+        $this->assertSame($email, $soleProprietor->email()->value());
+        $this->assertSame($website, $soleProprietor->website()->value());
     }
 
     public function testItCreatesSoleProprietorWithoutOptionalFields(): void
     {
-        $name = 'ИП Иванов Иван Иванович';
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('initialize')->with($name);
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addInn');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addOgrnip');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addOkpo');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addOkved');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addRegistrationAddress');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addActualLocationAddress');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addBankDetails');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addPhone');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addPhoneAdditional');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addFax');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addEmail');
-        $this->mockSoleProprietorBuilder->expects($this->never())->method('addWebsite');
-        $this->mockSoleProprietorBuilder->expects($this->once())->method('build')->willReturn($this->mockSoleProprietor);
+        $name           = 'ИП Иванов Иван Иванович';
         $soleProprietor = $this->soleProprietorFactory->create(
             $name,
             null,
@@ -120,6 +105,8 @@ class SoleProprietorFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
+        $this->assertSame('555', $soleProprietor->id()->value());
+        $this->assertSame($name, $soleProprietor->name()->value());
         $this->assertNull($soleProprietor->inn());
         $this->assertNull($soleProprietor->ogrnip());
         $this->assertNull($soleProprietor->okpo());

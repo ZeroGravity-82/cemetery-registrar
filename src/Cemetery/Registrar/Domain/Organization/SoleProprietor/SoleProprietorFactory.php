@@ -4,16 +4,25 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\Contact\Website;
+use Cemetery\Registrar\Domain\IdentityGenerator;
+use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Organization\Name;
+use Cemetery\Registrar\Domain\Organization\Okved;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class SoleProprietorFactory
 {
     /**
-     * @param SoleProprietorBuilder $builder
+     * @param IdentityGenerator $identityGenerator
      */
     public function __construct(
-        private readonly SoleProprietorBuilder $builder,
+        private readonly IdentityGenerator $identityGenerator,
     ) {}
 
     /**
@@ -55,55 +64,38 @@ final class SoleProprietorFactory
         ?string $website,
     ): SoleProprietor {
         $this->assertNameIsProvided($name);
-        $this->builder->initialize($name);
+        $name                  = new Name($name);
+        $inn                   = $inn                   ? new Inn($inn)                       : null;
+        $ogrnip                = $ogrnip                ? new Ogrnip($ogrnip)                 : null;
+        $okpo                  = $okpo                  ? new Okpo($okpo)                     : null;
+        $okved                 = $okved                 ? new Okved($okved)                   : null;
+        $registrationAddress   = $registrationAddress   ? new Address($registrationAddress)   : null;
+        $actualLocationAddress = $actualLocationAddress ? new Address($actualLocationAddress) : null;
+        $bankDetails   = $bankDetailsBankName && $bankDetailsBik && $bankDetailsCurrentAccount
+            ? new BankDetails($bankDetailsBankName, $bankDetailsBik, $bankDetailsCorrespondentAccount, $bankDetailsCurrentAccount)
+            : null;
+        $phone           = $phone           ? new PhoneNumber($phone)           : null;
+        $phoneAdditional = $phoneAdditional ? new PhoneNumber($phoneAdditional) : null;
+        $fax             = $fax             ? new PhoneNumber($fax)             : null;
+        $email           = $email           ? new Email($email)                 : null;
+        $website         = $website         ? new Website($website)             : null;
 
-        if ($inn !== null) {
-            $this->builder->addInn($inn);
-        }
-        if ($ogrnip !== null) {
-            $this->builder->addOgrnip($ogrnip);
-        }
-        if ($okpo !== null) {
-            $this->builder->addOkpo($okpo);
-        }
-        if ($okved !== null) {
-            $this->builder->addOkved($okved);
-        }
-        if ($registrationAddress !== null) {
-            $this->builder->addRegistrationAddress($registrationAddress);
-        }
-        if ($actualLocationAddress !== null) {
-            $this->builder->addActualLocationAddress($actualLocationAddress);
-        }
-        if (
-            $bankDetailsBankName !== null &&
-            $bankDetailsBik !== null &&
-            $bankDetailsCurrentAccount !== null
-        ) {
-            $this->builder->addBankDetails(
-                $bankDetailsBankName,
-                $bankDetailsBik,
-                $bankDetailsCorrespondentAccount,
-                $bankDetailsCurrentAccount,
-            );
-        }
-        if ($phone !== null) {
-            $this->builder->addPhone($phone);
-        }
-        if ($phoneAdditional !== null) {
-            $this->builder->addPhoneAdditional($phoneAdditional);
-        }
-        if ($fax !== null) {
-            $this->builder->addFax($fax);
-        }
-        if ($email !== null) {
-            $this->builder->addEmail($email);
-        }
-        if ($website !== null) {
-            $this->builder->addWebsite($website);
-        }
-
-        return $this->builder->build();
+        return (new SoleProprietor(
+            new SoleProprietorId($this->identityGenerator->getNextIdentity()),
+            $name,
+        ))
+            ->setInn($inn)
+            ->setOgrnip($ogrnip)
+            ->setOkpo($okpo)
+            ->setOkved($okved)
+            ->setRegistrationAddress($registrationAddress)
+            ->setActualLocationAddress($actualLocationAddress)
+            ->setBankDetails($bankDetails)
+            ->setPhone($phone)
+            ->setPhoneAdditional($phoneAdditional)
+            ->setFax($fax)
+            ->setEmail($email)
+            ->setWebsite($website);
     }
 
     /**
