@@ -51,7 +51,8 @@ class DeceasedFactoryTest extends TestCase
     {
         $naturalPersonId = 'NP001';
         $diedAt          = '2021-04-23';
-        $deceased        = $this->deceasedFactory->create(
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
+        $deceased = $this->deceasedFactory->create(
             $naturalPersonId,
             $diedAt,
             null,
