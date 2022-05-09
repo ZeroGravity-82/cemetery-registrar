@@ -4,105 +4,103 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\IdentityGenerator;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class NaturalPersonFactory
 {
     /**
-     * @param NaturalPersonBuilder $builder
+     * @param IdentityGenerator $identityGenerator
      */
     public function __construct(
-        private readonly NaturalPersonBuilder $builder,
+        private readonly IdentityGenerator $identityGenerator,
     ) {}
 
     /**
-     * @param string|null             $fullName
-     * @param string|null             $phone
-     * @param string|null             $phoneAdditional
-     * @param string|null             $email
-     * @param string|null             $address
-     * @param \DateTimeImmutable|null $bornAt
-     * @param string|null             $placeOfBirth
-     * @param string|null             $passportSeries
-     * @param string|null             $passportNumber
-     * @param \DateTimeImmutable|null $passportIssuedAt
-     * @param string|null             $passportIssuedBy
-     * @param string|null             $passportDivisionCode
+     * @param string|null $fullName
+     * @param string|null $phone
+     * @param string|null $phoneAdditional
+     * @param string|null $email
+     * @param string|null $address
+     * @param string|null $bornAt
+     * @param string|null $placeOfBirth
+     * @param string|null $passportSeries
+     * @param string|null $passportNumber
+     * @param string|null $passportIssuedAt
+     * @param string|null $passportIssuedBy
+     * @param string|null $passportDivisionCode
      *
      * @return NaturalPerson
      */
     public function createForBurialCustomer(
-        ?string             $fullName,
-        ?string             $phone,
-        ?string             $phoneAdditional,
-        ?string             $email,
-        ?string             $address,
-        ?\DateTimeImmutable $bornAt,
-        ?string             $placeOfBirth,
-        ?string             $passportSeries,
-        ?string             $passportNumber,
-        ?\DateTimeImmutable $passportIssuedAt,
-        ?string             $passportIssuedBy,
-        ?string             $passportDivisionCode,
+        ?string $fullName,
+        ?string $phone,
+        ?string $phoneAdditional,
+        ?string $email,
+        ?string $address,
+        ?string $bornAt,
+        ?string $placeOfBirth,
+        ?string $passportSeries,
+        ?string $passportNumber,
+        ?string $passportIssuedAt,
+        ?string $passportIssuedBy,
+        ?string $passportDivisionCode,
     ): NaturalPerson {
         $this->assertFullNameIsProvided($fullName);
-        $this->builder->initialize($fullName);
-
-        if ($phone !== null) {
-            $this->builder->addPhone($phone);
-        }
-        if ($phoneAdditional !== null) {
-            $this->builder->addPhoneAdditional($phoneAdditional);
-        }
-        if ($email !== null) {
-            $this->builder->addEmail($email);
-        }
-        if ($address !== null) {
-            $this->builder->addAddress($address);
-        }
-        if ($bornAt !== null) {
-            $this->builder->addBornAt($bornAt);
-        }
-        if ($placeOfBirth !== null) {
-            $this->builder->addPlaceOfBirth($placeOfBirth);
-        }
-        if (
-            $passportSeries !== null &&
-            $passportNumber !== null &&
-            $passportIssuedAt !== null &&
-            $passportIssuedBy !== null
-        ) {
-            $this->builder->addPassport(
+        $fullName        = new FullName($fullName);
+        $phone           = $phone !== null           ? new PhoneNumber($phone)                                : null;
+        $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional)                      : null;
+        $email           = $email !== null           ? new Email($email)                                      : null;
+        $address         = $address !== null         ? new Address($address)                                  : null;
+        $bornAt          = $bornAt !== null          ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
+        $placeOfBirth    = $placeOfBirth !== null    ? new PlaceOfBirth($placeOfBirth)                        : null;
+        $passport        = $passportSeries !== null && $passportNumber !== null && $passportIssuedAt !== null && $passportIssuedBy !== null
+            ? new Passport(
                 $passportSeries,
                 $passportNumber,
-                $passportIssuedAt,
+                \DateTimeImmutable::createFromFormat('Y-m-d', $passportIssuedAt),
                 $passportIssuedBy,
-                $passportDivisionCode,
-            );
-        }
+                $passportDivisionCode
+            )
+            : null;
 
-        return $this->builder->build();
+        return (new NaturalPerson(
+                new NaturalPersonId($this->identityGenerator->getNextIdentity()),
+                $fullName,
+            ))
+            ->setPhone($phone)
+            ->setPhoneAdditional($phoneAdditional)
+            ->setEmail($email)
+            ->setAddress($address)
+            ->setBornAt($bornAt)
+            ->setPlaceOfBirth($placeOfBirth)
+            ->setPassport($passport);
     }
 
     /**
-     * @param string|null             $fullName
-     * @param \DateTimeImmutable|null $bornAt
+     * @param string|null $fullName
+     * @param string|null $bornAt
      *
      * @return NaturalPerson
      */
     public function createForDeceased(
-        ?string             $fullName,
-        ?\DateTimeImmutable $bornAt,
+        ?string $fullName,
+        ?string $bornAt,
     ): NaturalPerson {
         $this->assertFullNameIsProvided($fullName);
-        $this->builder->initialize($fullName);
+        $fullName = new FullName($fullName);
+        $bornAt   = $bornAt !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
 
-        if ($bornAt !== null) {
-            $this->builder->addBornAt($bornAt);
-        }
-
-        return $this->builder->build();
+        return (new NaturalPerson(
+                new NaturalPersonId($this->identityGenerator->getNextIdentity()),
+                $fullName,
+            ))
+            ->setBornAt($bornAt);
     }
 
     /**

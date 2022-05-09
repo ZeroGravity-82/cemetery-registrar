@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
-use Cemetery\Registrar\Domain\Contact\Address;
-use Cemetery\Registrar\Domain\Contact\Email;
-use Cemetery\Registrar\Domain\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonBuilder;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
-use Cemetery\Registrar\Domain\NaturalPerson\PlaceOfBirth;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -19,36 +15,37 @@ use PHPUnit\Framework\TestCase;
  */
 class NaturalPersonFactoryTest extends TestCase
 {
-    private MockObject|NaturalPersonBuilder $mockNaturalPersonBuilder;
-    private NaturalPersonFactory            $naturalPersonFactory;
-    private MockObject|NaturalPerson        $mockNaturalPerson;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private NaturalPersonFactory         $naturalPersonFactory;
 
     public function setUp(): void
     {
-        $this->mockNaturalPersonBuilder = $this->createMock(NaturalPersonBuilder::class);
-        $this->naturalPersonFactory     = new NaturalPersonFactory($this->mockNaturalPersonBuilder);
-        $this->mockNaturalPerson        = $this->createMock(NaturalPerson::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
+        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+
+        $this->naturalPersonFactory = new NaturalPersonFactory($this->mockIdentityGenerator);
     }
 
     public function testItCreatesNaturalPersonForDeceased(): void
     {
         $fullName = 'Иванов Иван Иванович';
-        $bornAt   = new \DateTimeImmutable('1940-05-10');
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addBornAt')->with($bornAt);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
+        $bornAt   = '1940-05-10';
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, $bornAt);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
+        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame($fullName, $naturalPerson->fullName()->value());
+        $this->assertSame($bornAt, $naturalPerson->bornAt()->format('Y-m-d'));
     }
 
     public function testItCreatesNaturalPersonForDeceasedWithoutOptionalFields(): void
     {
         $fullName = 'Иванов Иван Иванович';
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addBornAt');
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, null);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
+        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame($fullName, $naturalPerson->fullName()->value());
         $this->assertNull($naturalPerson->bornAt());
     }
 
@@ -65,28 +62,14 @@ class NaturalPersonFactoryTest extends TestCase
         $phoneAdditional      = '8(383)123-45-67';
         $email                = 'info@google.com';
         $address              = 'г. Новосибирск, ул. 3 Интернационала, д. 127';
-        $bornAt               = new \DateTimeImmutable('1940-05-10');
+        $bornAt               = '1940-05-10';
         $placeOfBirth         = 'г. Новосибирск';
         $passportSeries       = '1234';
         $passportNumber       = '567890';
-        $passportIssuedAt     = new \DateTimeImmutable('2002-10-28');
+        $passportIssuedAt     = '2002-10-28';
         $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
         $passportDivisionCode = '540-001';
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPhone')->with(new PhoneNumber($phone));
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPhoneAdditional')->with(new PhoneNumber($phoneAdditional));
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addEmail')->with(new Email($email));
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addAddress')->with(new Address($address));
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addBornAt')->with($bornAt);
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPlaceOfBirth')->with(new PlaceOfBirth($placeOfBirth));
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('addPassport')->with(
-            $passportSeries,
-            $passportNumber,
-            $passportIssuedAt,
-            $passportIssuedBy,
-            $passportDivisionCode,
-        );
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
             $fullName,
             $phone,
@@ -102,20 +85,25 @@ class NaturalPersonFactoryTest extends TestCase
             $passportDivisionCode,
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
+        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame($fullName, $naturalPerson->fullName()->value());
+        $this->assertSame($phone, $naturalPerson->phone()->value());
+        $this->assertSame($phoneAdditional, $naturalPerson->phoneAdditional()->value());
+        $this->assertSame($email, $naturalPerson->email()->value());
+        $this->assertSame($address, $naturalPerson->address()->value());
+        $this->assertSame($bornAt, $naturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame($placeOfBirth, $naturalPerson->placeOfBirth()->value());
+        $this->assertSame($passportSeries, $naturalPerson->passport()->series());
+        $this->assertSame($passportNumber, $naturalPerson->passport()->number());
+        $this->assertSame($passportIssuedAt, $naturalPerson->passport()->issuedAt()->format('Y-m-d'));
+        $this->assertSame($passportIssuedBy, $naturalPerson->passport()->issuedBy());
+        $this->assertSame($passportDivisionCode, $naturalPerson->passport()->divisionCode());
     }
 
     public function testItCreatesNaturalPersonForCustomerWithoutOptionalFields(): void
     {
         $fullName = 'Иванов Иван Иванович';
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('initialize')->with($fullName);
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addPhone');
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addPhoneAdditional');
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addEmail');
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addAddress');
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addBornAt');
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addPlaceOfBirth');
-        $this->mockNaturalPersonBuilder->expects($this->never())->method('addPassport');
-        $this->mockNaturalPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockNaturalPerson);
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
             $fullName,
             null,
@@ -131,6 +119,8 @@ class NaturalPersonFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
+        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame($fullName, $naturalPerson->fullName()->value());
         $this->assertNull($naturalPerson->phone());
         $this->assertNull($naturalPerson->phoneAdditional());
         $this->assertNull($naturalPerson->email());
