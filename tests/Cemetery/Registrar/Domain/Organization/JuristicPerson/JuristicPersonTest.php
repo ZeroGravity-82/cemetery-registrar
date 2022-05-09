@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
@@ -33,6 +34,16 @@ class JuristicPersonTest extends AbstractAggregateRootTest
         $juristicPersonName   = new Name('ООО "Рога и копыта"');
         $this->juristicPerson = new JuristicPerson($juristicPersonId, $juristicPersonName);
         $this->entity         = $this->juristicPerson;
+    }
+
+    public function testItHasValidTypeConstant(): void
+    {
+        $this->assertSame('JURISTIC_PERSON', JuristicPerson::TYPE);
+    }
+
+    public function testItHasValidLabelConstant(): void
+    {
+        $this->assertSame('юридическое лицо', JuristicPerson::LABEL);
     }
 
     public function testItSuccessfullyCreated(): void
