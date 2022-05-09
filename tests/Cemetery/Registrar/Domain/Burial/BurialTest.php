@@ -58,8 +58,8 @@ class BurialTest extends AbstractAggregateRootTest
         $this->assertSame('BC001', (string) $this->burial->code());
         $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
         $this->assertSame('D001', (string) $this->burial->deceasedId());
-        $this->assertInstanceOf(BurialType::class, $this->burial->burialType());
-        $this->assertTrue($this->burial->burialType()->isCoffinInGraveSite());
+        $this->assertInstanceOf(BurialType::class, $this->burial->type());
+        $this->assertTrue($this->burial->type()->isCoffinInGraveSite());
         $this->assertNull($this->burial->customerId());
         $this->assertNull($this->burial->burialPlaceId());
         $this->assertNull($this->burial->burialPlaceOwnerId());
@@ -79,9 +79,9 @@ class BurialTest extends AbstractAggregateRootTest
     public function testItSetsBurialType(): void
     {
         $burialType = BurialType::urnInColumbariumNiche();
-        $this->burial->setBurialType($burialType);
-        $this->assertInstanceOf(BurialType::class, $this->burial->burialType());
-        $this->assertTrue($this->burial->burialType()->isEqual($burialType));
+        $this->burial->setType($burialType);
+        $this->assertInstanceOf(BurialType::class, $this->burial->type());
+        $this->assertTrue($this->burial->type()->isEqual($burialType));
     }
 
     public function testItSetsCustomerId(): void
@@ -110,21 +110,21 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItSetsBurialPlaceId(): void
     {
-        $this->burial->setBurialType(BurialType::coffinInGraveSite());
+        $this->burial->setType(BurialType::coffinInGraveSite());
         $graveSiteId   = new GraveSiteId('GS001');
         $burialPlaceId = new BurialPlaceId($graveSiteId);
         $this->burial->setBurialPlaceId($burialPlaceId);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlaceId));
 
-        $this->burial->setBurialType(BurialType::urnInColumbariumNiche());
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
         $columbariumNicheId = new ColumbariumNicheId('CN001');
         $burialPlaceId      = new BurialPlaceId($columbariumNicheId);
         $this->burial->setBurialPlaceId($burialPlaceId);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlaceId));
 
-        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
         $memorialTreeId = new MemorialTreeId('MT001');
         $burialPlaceId  = new BurialPlaceId($memorialTreeId);
         $this->burial->setBurialPlaceId($burialPlaceId);
@@ -189,7 +189,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingColumbariumNicheForCoffinInGraveSiteBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::coffinInGraveSite());
+        $this->burial->setType(BurialType::coffinInGraveSite());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
@@ -202,7 +202,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingMemorialTreeForCoffinInGraveSiteBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::coffinInGraveSite());
+        $this->burial->setType(BurialType::coffinInGraveSite());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
@@ -215,7 +215,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingColumbariumNicheForUrnInGraveSiteBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::urnInGraveSite());
+        $this->burial->setType(BurialType::urnInGraveSite());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
@@ -228,7 +228,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingMemorialTreeForUrnInGraveSiteBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::urnInGraveSite());
+        $this->burial->setType(BurialType::urnInGraveSite());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
@@ -241,7 +241,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingGraveSiteForUrnInColumbariumNicheBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::urnInColumbariumNiche());
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_GRAVE_SITE_LABEL,
@@ -254,7 +254,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingMemorialTreeForUrnInColumbariumNicheBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::urnInColumbariumNiche());
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
@@ -267,7 +267,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingGraveSiteForAshesUnderMemorialTreeBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_GRAVE_SITE_LABEL,
@@ -280,7 +280,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingColumbariumNicheForAshesUnderMemorialTreeBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
@@ -295,7 +295,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingCoffinForUrnInGraveSiteBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::urnInGraveSite());
+        $this->burial->setType(BurialType::urnInGraveSite());
 
         $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
@@ -308,7 +308,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingCoffinForUrnInColumbariumNicheBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::urnInColumbariumNiche());
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
 
         $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
@@ -321,7 +321,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingCoffinForAshesUnderMemorialTreeBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
@@ -334,7 +334,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingUrnForCoffinInGraveSiteBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::coffinInGraveSite());
+        $this->burial->setType(BurialType::coffinInGraveSite());
 
         $urn = new Urn();
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
@@ -347,7 +347,7 @@ class BurialTest extends AbstractAggregateRootTest
 
     public function testItFailsWhenSettingUrnForAshesUnderMemorialTreeBurialType(): void
     {
-        $this->burial->setBurialType(BurialType::ashesUnderMemorialTree());
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         $urn = new Urn();
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(

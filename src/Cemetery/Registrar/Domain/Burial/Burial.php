@@ -53,13 +53,13 @@ final class Burial extends AggregateRoot
      * @param BurialId   $id
      * @param BurialCode $code
      * @param DeceasedId $deceasedId
-     * @param BurialType $burialType
+     * @param BurialType $type
      */
     public function __construct(
         private readonly BurialId   $id,
         private readonly BurialCode $code,
         private DeceasedId          $deceasedId,
-        private BurialType          $burialType,
+        private BurialType          $type,
     ) {
         parent::__construct();
     }
@@ -103,19 +103,19 @@ final class Burial extends AggregateRoot
     /**
      * @return BurialType
      */
-    public function burialType(): BurialType
+    public function type(): BurialType
     {
-        return $this->burialType;
+        return $this->type;
     }
 
     /**
-     * @param BurialType $burialType
+     * @param BurialType $yype
      *
      * @return $this
      */
-    public function setBurialType(BurialType $burialType): self
+    public function setType(BurialType $yype): self
     {
-        $this->burialType = $burialType;
+        $this->type = $yype;
 
         return $this;
     }
@@ -253,17 +253,17 @@ final class Burial extends AggregateRoot
     {
         $id      = $burialPlaceId?->id();
         $matches = match (true) {
-            $this->burialType()->isCoffinInGraveSite(),
-            $this->burialType()->isUrnInGraveSite()         => !$id || $id instanceof GraveSiteId,
-            $this->burialType()->isUrnInColumbariumNiche()  => !$id || $id instanceof ColumbariumNicheId,
-            $this->burialType()->isAshesUnderMemorialTree() => !$id || $id instanceof MemorialTreeId,
+            $this->type()->isCoffinInGraveSite(),
+            $this->type()->isUrnInGraveSite()         => $id === null || $id instanceof GraveSiteId,
+            $this->type()->isUrnInColumbariumNiche()  => $id === null || $id instanceof ColumbariumNicheId,
+            $this->type()->isAshesUnderMemorialTree() => $id === null || $id instanceof MemorialTreeId,
             default => false,
         };
         if (!$matches) {
             throw new \RuntimeException(\sprintf(
                 'Место захоронения "%s" не соответствует типу захороненния "%s".',
                 $this->getBurialPlaceLabel($burialPlaceId),
-                $this->burialType()->label(),
+                $this->type()->label(),
             ));
         }
     }
@@ -279,17 +279,17 @@ final class Burial extends AggregateRoot
     {
         $container = $burialContainer?->container();
         $matches   = match (true) {
-            $this->burialType()->isCoffinInGraveSite()      => !$container || $container instanceof Coffin,
-            $this->burialType()->isUrnInGraveSite(),
-            $this->burialType()->isUrnInColumbariumNiche()  => !$container || $container instanceof Urn,
-            $this->burialType()->isAshesUnderMemorialTree() => !$container,
+            $this->type()->isCoffinInGraveSite()      => $container === null || $container instanceof Coffin,
+            $this->type()->isUrnInGraveSite(),
+            $this->type()->isUrnInColumbariumNiche()  => $container === null || $container instanceof Urn,
+            $this->type()->isAshesUnderMemorialTree() => $container === null,
             default => false,
         };
         if (!$matches) {
             throw new \RuntimeException(\sprintf(
                 'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
                 $container,
-                $this->burialType()->label(),
+                $this->type()->label(),
             ));
         }
     }
