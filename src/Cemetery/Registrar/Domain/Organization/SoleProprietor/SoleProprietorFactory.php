@@ -65,20 +65,20 @@ final class SoleProprietorFactory
     ): SoleProprietor {
         $this->assertNameIsProvided($name);
         $name                  = new Name($name);
-        $inn                   = $inn                   ? new Inn($inn)                       : null;
-        $ogrnip                = $ogrnip                ? new Ogrnip($ogrnip)                 : null;
-        $okpo                  = $okpo                  ? new Okpo($okpo)                     : null;
-        $okved                 = $okved                 ? new Okved($okved)                   : null;
-        $registrationAddress   = $registrationAddress   ? new Address($registrationAddress)   : null;
-        $actualLocationAddress = $actualLocationAddress ? new Address($actualLocationAddress) : null;
-        $bankDetails   = $bankDetailsBankName && $bankDetailsBik && $bankDetailsCurrentAccount
+        $inn                   = $inn !== null                   ? new Inn($inn)                       : null;
+        $ogrnip                = $ogrnip !== null                ? new Ogrnip($ogrnip)                 : null;
+        $okpo                  = $okpo !== null                  ? new Okpo($okpo)                     : null;
+        $okved                 = $okved !== null                 ? new Okved($okved)                   : null;
+        $registrationAddress   = $registrationAddress !== null   ? new Address($registrationAddress)   : null;
+        $actualLocationAddress = $actualLocationAddress !== null ? new Address($actualLocationAddress) : null;
+        $bankDetails   = $bankDetailsBankName !== null && $bankDetailsBik !== null && $bankDetailsCurrentAccount !== null
             ? new BankDetails($bankDetailsBankName, $bankDetailsBik, $bankDetailsCorrespondentAccount, $bankDetailsCurrentAccount)
             : null;
-        $phone           = $phone           ? new PhoneNumber($phone)           : null;
-        $phoneAdditional = $phoneAdditional ? new PhoneNumber($phoneAdditional) : null;
-        $fax             = $fax             ? new PhoneNumber($fax)             : null;
-        $email           = $email           ? new Email($email)                 : null;
-        $website         = $website         ? new Website($website)             : null;
+        $phone           = $phone !== null           ? new PhoneNumber($phone)           : null;
+        $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional) : null;
+        $fax             = $fax !== null             ? new PhoneNumber($fax)             : null;
+        $email           = $email !== null           ? new Email($email)                 : null;
+        $website         = $website !== null         ? new Website($website)             : null;
 
         return (new SoleProprietor(
             new SoleProprietorId($this->identityGenerator->getNextIdentity()),
