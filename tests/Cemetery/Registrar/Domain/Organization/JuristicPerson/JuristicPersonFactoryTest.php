@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonBuilder;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -15,15 +15,15 @@ use PHPUnit\Framework\TestCase;
  */
 class JuristicPersonFactoryTest extends TestCase
 {
-    private MockObject|JuristicPersonBuilder $mockJuristicPersonBuilder;
-    private JuristicPersonFactory            $juristicPersonFactory;
-    private MockObject|JuristicPerson        $mockJuristicPerson;
+    private MockObject|IdentityGenerator $mockIdentityGenerator;
+    private JuristicPersonFactory        $juristicPersonFactory;
 
     public function setUp(): void
     {
-        $this->mockJuristicPersonBuilder = $this->createMock(JuristicPersonBuilder::class);
-        $this->juristicPersonFactory     = new JuristicPersonFactory($this->mockJuristicPersonBuilder);
-        $this->mockJuristicPerson        = $this->createMock(JuristicPerson::class);
+        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
+        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+
+        $this->juristicPersonFactory = new JuristicPersonFactory($this->mockIdentityGenerator);
     }
 
     public function testItCreatesJuristicPerson(): void
@@ -46,27 +46,7 @@ class JuristicPersonFactoryTest extends TestCase
         $generalDirector                 = 'Иванов Иван Иванович';
         $email                           = 'info@google.com';
         $website                         = 'https://example.com';
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('initialize')->with($name);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addInn')->with($inn);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addKpp')->with($kpp);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addOgrn')->with($ogrn);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addOkpo')->with($okpo);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addOkved')->with($okved);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addLegalAddress')->with($legalAddress);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addPostalAddress')->with($postalAddress);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addBankDetails')->with(
-            $bankDetailsBankName,
-            $bankDetailsBik,
-            $bankDetailsCorrespondentAccount,
-            $bankDetailsCurrentAccount,
-        );
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addPhone')->with($phone);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addPhoneAdditional')->with($phoneAdditional);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addFax')->with($fax);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addGeneralDirector')->with($generalDirector);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addEmail')->with($email);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('addWebsite')->with($website);
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockJuristicPerson);
+        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $juristicPerson = $this->juristicPersonFactory->create(
             $name,
             $inn,
@@ -88,27 +68,30 @@ class JuristicPersonFactoryTest extends TestCase
             $website,
         );
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
+        $this->assertSame('555', $juristicPerson->id()->value());
+        $this->assertSame($name, $juristicPerson->name()->value());
+        $this->assertSame($inn, $juristicPerson->inn()->value());
+        $this->assertSame($kpp, $juristicPerson->kpp()->value());
+        $this->assertSame($ogrn, $juristicPerson->ogrn()->value());
+        $this->assertSame($okpo, $juristicPerson->okpo()->value());
+        $this->assertSame($okved, $juristicPerson->okved()->value());
+        $this->assertSame($legalAddress, $juristicPerson->legalAddress()->value());
+        $this->assertSame($postalAddress, $juristicPerson->postalAddress()->value());
+        $this->assertSame($bankDetailsBankName, $juristicPerson->bankDetails()->bankName()->value());
+        $this->assertSame($bankDetailsBik, $juristicPerson->bankDetails()->bik()->value());
+        $this->assertSame($bankDetailsCorrespondentAccount, $juristicPerson->bankDetails()->correspondentAccount()->value());
+        $this->assertSame($bankDetailsCurrentAccount, $juristicPerson->bankDetails()->currentAccount()->value());
+        $this->assertSame($phone, $juristicPerson->phone()->value());
+        $this->assertSame($phoneAdditional, $juristicPerson->phoneAdditional()->value());
+        $this->assertSame($fax, $juristicPerson->fax()->value());
+        $this->assertSame($generalDirector, $juristicPerson->generalDirector()->value());
+        $this->assertSame($email, $juristicPerson->email()->value());
+        $this->assertSame($website, $juristicPerson->website()->value());
     }
 
     public function testItCreatesJuristicPersonWithoutOptionalFields(): void
     {
-        $name = 'ООО "Рога и копыта"';
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('initialize')->with($name);
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addInn');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addKpp');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addOgrn');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addOkpo');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addOkved');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addLegalAddress');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addPostalAddress');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addBankDetails');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addPhone');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addPhoneAdditional');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addFax');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addGeneralDirector');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addEmail');
-        $this->mockJuristicPersonBuilder->expects($this->never())->method('addWebsite');
-        $this->mockJuristicPersonBuilder->expects($this->once())->method('build')->willReturn($this->mockJuristicPerson);
+        $name           = 'ООО "Рога и копыта"';
         $juristicPerson = $this->juristicPersonFactory->create(
             $name,
             null,
@@ -130,6 +113,8 @@ class JuristicPersonFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
+        $this->assertSame('555', $juristicPerson->id()->value());
+        $this->assertSame($name, $juristicPerson->name()->value());
         $this->assertNull($juristicPerson->inn());
         $this->assertNull($juristicPerson->kpp());
         $this->assertNull($juristicPerson->ogrn());

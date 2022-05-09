@@ -4,16 +4,26 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\Contact\Website;
+use Cemetery\Registrar\Domain\IdentityGenerator;
+use Cemetery\Registrar\Domain\NaturalPerson\FullName;
+use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Organization\Name;
+use Cemetery\Registrar\Domain\Organization\Okved;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 final class JuristicPersonFactory
 {
     /**
-     * @param JuristicPersonBuilder $builder
+     * @param IdentityGenerator $identityGenerator
      */
     public function __construct(
-        private readonly JuristicPersonBuilder $builder,
+        private readonly IdentityGenerator $identityGenerator,
     ) {}
 
     /**
@@ -59,61 +69,42 @@ final class JuristicPersonFactory
         ?string $website,
     ): JuristicPerson {
         $this->assertNameIsProvided($name);
-        $this->builder->initialize($name);
+        $name          = new Name($name);
+        $inn           = $inn           ? new Inn($inn)               : null;
+        $kpp           = $kpp           ? new Kpp($kpp)               : null;
+        $ogrn          = $ogrn          ? new Ogrn($ogrn)             : null;
+        $okpo          = $okpo          ? new Okpo($okpo)             : null;
+        $okved         = $okved         ? new Okved($okved)           : null;
+        $legalAddress  = $legalAddress  ? new Address($legalAddress)  : null;
+        $postalAddress = $postalAddress ? new Address($postalAddress) : null;
+        $bankDetails   = $bankDetailsBankName && $bankDetailsBik && $bankDetailsCurrentAccount
+            ? new BankDetails($bankDetailsBankName, $bankDetailsBik, $bankDetailsCorrespondentAccount, $bankDetailsCurrentAccount)
+            : null;
+        $phone           = $phone           ? new PhoneNumber($phone)           : null;
+        $phoneAdditional = $phoneAdditional ? new PhoneNumber($phoneAdditional) : null;
+        $fax             = $fax             ? new PhoneNumber($fax)             : null;
+        $generalDirector = $generalDirector ? new FullName($generalDirector)    : null;
+        $email           = $email           ? new Email($email)                 : null;
+        $website         = $website         ? new Website($website)             : null;
 
-        if ($inn !== null) {
-            $this->builder->addInn($inn);
-        }
-        if ($kpp !== null) {
-            $this->builder->addKpp($kpp);
-        }
-        if ($ogrn !== null) {
-            $this->builder->addOgrn($ogrn);
-        }
-        if ($okpo !== null) {
-            $this->builder->addOkpo($okpo);
-        }
-        if ($okved !== null) {
-            $this->builder->addOkved($okved);
-        }
-        if ($legalAddress !== null) {
-            $this->builder->addLegalAddress($legalAddress);
-        }
-        if ($postalAddress !== null) {
-            $this->builder->addPostalAddress($postalAddress);
-        }
-        if (
-            $bankDetailsBankName !== null &&
-            $bankDetailsBik !== null &&
-            $bankDetailsCurrentAccount !== null
-        ) {
-            $this->builder->addBankDetails(
-                $bankDetailsBankName,
-                $bankDetailsBik,
-                $bankDetailsCorrespondentAccount,
-                $bankDetailsCurrentAccount,
-            );
-        }
-        if ($phone !== null) {
-            $this->builder->addPhone($phone);
-        }
-        if ($phoneAdditional !== null) {
-            $this->builder->addPhoneAdditional($phoneAdditional);
-        }
-        if ($fax !== null) {
-            $this->builder->addFax($fax);
-        }
-        if ($generalDirector !== null) {
-            $this->builder->addGeneralDirector($generalDirector);
-        }
-        if ($email !== null) {
-            $this->builder->addEmail($email);
-        }
-        if ($website !== null) {
-            $this->builder->addWebsite($website);
-        }
-
-        return $this->builder->build();
+        return (new JuristicPerson(
+                new JuristicPersonId($this->identityGenerator->getNextIdentity()),
+                $name,
+            ))
+            ->setInn($inn)
+            ->setKpp($kpp)
+            ->setOgrn($ogrn)
+            ->setOkpo($okpo)
+            ->setOkved($okved)
+            ->setLegalAddress($legalAddress)
+            ->setPostalAddress($postalAddress)
+            ->setBankDetails($bankDetails)
+            ->setPhone($phone)
+            ->setPhoneAdditional($phoneAdditional)
+            ->setFax($fax)
+            ->setGeneralDirector($generalDirector)
+            ->setEmail($email)
+            ->setWebsite($website);
     }
 
     /**
