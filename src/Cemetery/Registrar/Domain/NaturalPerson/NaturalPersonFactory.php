@@ -7,20 +7,13 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
-use Cemetery\Registrar\Domain\IdentityGenerator;
+use Cemetery\Registrar\Domain\EntityFactory;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class NaturalPersonFactory
+final class NaturalPersonFactory extends EntityFactory
 {
-    /**
-     * @param IdentityGenerator $identityGenerator
-     */
-    public function __construct(
-        private readonly IdentityGenerator $identityGenerator,
-    ) {}
-
     /**
      * @param string|null $fullName
      * @param string|null $phone

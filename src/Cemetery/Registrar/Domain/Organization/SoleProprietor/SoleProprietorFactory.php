@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
-use Cemetery\Registrar\Domain\IdentityGenerator;
+use Cemetery\Registrar\Domain\EntityFactory;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\Okved;
@@ -16,15 +16,8 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class SoleProprietorFactory
+final class SoleProprietorFactory extends EntityFactory
 {
-    /**
-     * @param IdentityGenerator $identityGenerator
-     */
-    public function __construct(
-        private readonly IdentityGenerator $identityGenerator,
-    ) {}
-
     /**
      * @param string|null $name
      * @param string|null $inn

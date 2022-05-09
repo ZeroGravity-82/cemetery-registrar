@@ -4,21 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Deceased;
 
-use Cemetery\Registrar\Domain\IdentityGenerator;
+use Cemetery\Registrar\Domain\EntityFactory;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DeceasedFactory
+final class DeceasedFactory extends EntityFactory
 {
-    /**
-     * @param IdentityGenerator $identityGenerator
-     */
-    public function __construct(
-        private readonly IdentityGenerator $identityGenerator,
-    ) {}
-
     /**
      * @param string|null $naturalPersonId
      * @param string|null $diedAt
