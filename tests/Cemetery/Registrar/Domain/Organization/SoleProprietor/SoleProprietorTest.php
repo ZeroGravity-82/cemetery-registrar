@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\Okved;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Inn;
@@ -32,6 +33,17 @@ class SoleProprietorTest extends AbstractAggregateRootTest
         $this->soleProprietor   = new SoleProprietor($soleProprietorId, $soleProprietorFullName);
         $this->entity           = $this->soleProprietor;
     }
+
+    public function testItHasValidTypeConstant(): void
+    {
+        $this->assertSame('SOLE_PROPRIETOR', SoleProprietor::TYPE);
+    }
+
+    public function testItHasValidLabelConstant(): void
+    {
+        $this->assertSame('индивидуальный предприниматель', SoleProprietor::LABEL);
+    }
+
 
     public function testItSuccessfullyCreated(): void
     {
