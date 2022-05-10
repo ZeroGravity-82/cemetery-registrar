@@ -12,12 +12,12 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\NaturalPerson\Passport;
 use Cemetery\Registrar\Domain\NaturalPerson\PlaceOfBirth;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonTest extends AbstractAggregateRootTest
+class NaturalPersonTest extends AggregateRootTest
 {
     private NaturalPerson $naturalPerson;
     

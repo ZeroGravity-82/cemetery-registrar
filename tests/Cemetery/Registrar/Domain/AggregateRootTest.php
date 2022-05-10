@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\AggregateRoot;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractAggregateRootTest extends AbstractEntityTest
+abstract class AggregateRootTest extends EntityTest
 {
     public function testItIsAnAggregateRoot(): void
     {

@@ -19,12 +19,12 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\Okved;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonTest extends AbstractAggregateRootTest
+class JuristicPersonTest extends AggregateRootTest
 {
     private JuristicPerson $juristicPerson;
 

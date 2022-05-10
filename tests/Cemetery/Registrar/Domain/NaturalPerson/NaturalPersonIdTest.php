@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Tests\Registrar\Domain\AbstractEntityIdTest;
+use Cemetery\Tests\Registrar\Domain\EntityIdTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonIdTest extends AbstractEntityIdTest
+class NaturalPersonIdTest extends EntityIdTest
 {
     protected string $className = NaturalPersonId::class;
 }

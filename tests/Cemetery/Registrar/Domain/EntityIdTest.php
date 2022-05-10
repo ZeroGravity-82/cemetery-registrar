@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityIdTest extends TestCase
+abstract class EntityIdTest extends TestCase
 {
     protected string $className;
 

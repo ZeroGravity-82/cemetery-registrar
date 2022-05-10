@@ -10,12 +10,12 @@ use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTreeTest extends AbstractAggregateRootTest
+class MemorialTreeTest extends AggregateRootTest
 {
     private MemorialTreeId     $id;
     private MemorialTreeNumber $treeNumber;

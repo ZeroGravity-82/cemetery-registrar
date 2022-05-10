@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree;
 
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
-use Cemetery\Tests\Registrar\Domain\AbstractEntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTreeCollectionTest extends AbstractEntityCollectionTest
+class MemorialTreeCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {

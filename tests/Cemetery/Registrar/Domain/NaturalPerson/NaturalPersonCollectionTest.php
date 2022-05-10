@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
-use Cemetery\Tests\Registrar\Domain\AbstractEntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonCollectionTest extends AbstractEntityCollectionTest
+class NaturalPersonCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {

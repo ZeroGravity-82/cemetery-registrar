@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
-use Cemetery\Tests\Registrar\Domain\AbstractEntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockCollectionTest extends AbstractEntityCollectionTest
+class CemeteryBlockCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {

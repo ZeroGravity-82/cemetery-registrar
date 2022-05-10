@@ -13,12 +13,12 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteTest extends AbstractAggregateRootTest
+class GraveSiteTest extends AggregateRootTest
 {
     private GraveSiteId     $id;
     private CemeteryBlockId $cemeteryBlockId;

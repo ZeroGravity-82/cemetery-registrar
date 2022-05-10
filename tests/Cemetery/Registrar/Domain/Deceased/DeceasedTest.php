@@ -9,12 +9,12 @@ use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedTest extends AbstractAggregateRootTest
+class DeceasedTest extends AggregateRootTest
 {
     private Deceased $deceased;
     

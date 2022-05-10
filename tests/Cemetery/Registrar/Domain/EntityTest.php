@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEntityTest extends TestCase
+abstract class EntityTest extends TestCase
 {
     protected Entity $entity;
 

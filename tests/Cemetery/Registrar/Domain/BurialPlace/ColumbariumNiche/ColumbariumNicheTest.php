@@ -12,12 +12,12 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\RowInColumbarium;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\GeoPosition\Error;
 use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheTest extends AbstractAggregateRootTest
+class ColumbariumNicheTest extends AggregateRootTest
 {
     private ColumbariumNicheId     $id;
     private ColumbariumId          $columbariumId;

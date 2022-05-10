@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractEventTest extends TestCase
+abstract class EventTest extends TestCase
 {
     protected Event $event;
 

@@ -17,12 +17,12 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\Ogrnip;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\Okpo;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Tests\Registrar\Domain\AbstractAggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorTest extends AbstractAggregateRootTest
+class SoleProprietorTest extends AggregateRootTest
 {
     private SoleProprietor $soleProprietor;
 
