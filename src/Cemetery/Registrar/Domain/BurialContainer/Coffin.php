@@ -9,6 +9,9 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
  */
 final class Coffin
 {
+    public const CLASS_SHORTCUT = 'COFFIN';
+    public const CLASS_LABEL    = 'гроб';
+
     /**
      * @param CoffinSize  $size
      * @param CoffinShape $shape
@@ -26,7 +29,8 @@ final class Coffin
     public function __toString(): string
     {
         return \sprintf(
-            'гроб: размер %d см, форма "%s", %s',
+            '%s: размер %d см, форма "%s", %s',
+            self::CLASS_LABEL,
             $this->size()->value(),
             $this->shape()->label(),
             $this->isNonStandard() ? 'нестандартный' : 'стандартный'

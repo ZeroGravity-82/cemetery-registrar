@@ -23,6 +23,16 @@ class CoffinTest extends TestCase
         $this->coffinB = new Coffin(new CoffinSize(165), CoffinShape::greekWithHandles(), false);
     }
 
+    public function testItHasValidClassShortcutConstant(): void
+    {
+        $this->assertSame('COFFIN', Coffin::CLASS_SHORTCUT);
+    }
+
+    public function testItHasValidClassLabelConstant(): void
+    {
+        $this->assertSame('гроб', Coffin::CLASS_LABEL);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(CoffinSize::class, $this->coffinA->size());
