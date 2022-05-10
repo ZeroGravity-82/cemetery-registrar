@@ -12,6 +12,11 @@ use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\BurialContainer\BurialContainerFactory;
+use Cemetery\Registrar\Domain\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheFactory;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
@@ -21,6 +26,7 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteFactory;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeFactory;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeRepository;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
@@ -56,6 +62,7 @@ final class CreateBurialService extends BurialService
         private readonly GraveSiteFactory           $graveSiteFactory,
         private readonly ColumbariumNicheFactory    $columbariumNicheFactory,
         private readonly MemorialTreeFactory        $memorialTreeFactory,
+        private readonly BurialContainerFactory     $burialContainerFactory,
         private readonly DeceasedRepository         $deceasedRepo,
         private readonly NaturalPersonRepository    $naturalPersonRepo,
         private readonly SoleProprietorRepository   $soleProprietorRepo,
@@ -223,6 +230,66 @@ final class CreateBurialService extends BurialService
 
         return $burialPlaceOwnerId;
     }
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return FuneralCompanyId|null
+     */
+    private function processFuneralCompanyData(CreateBurialRequest $request): ?FuneralCompanyId
+    {
+        $funeralCompanyId = null;
+
+        $this->assertSupportedFuneralCompanyType($request);
+        $this->assertFuneralCompanyTypeProvidedForId($request);
+        if ($request->funeralCompanyId !== null && $request->funeralCompanyType !== null) {
+            $funeralCompanyId = match ($request->funeralCompanyType) {
+                SoleProprietor::CLASS_SHORTCUT => new FuneralCompanyId(new SoleProprietorId((string) $request->funeralCompanyId)),
+                JuristicPerson::CLASS_SHORTCUT => new FuneralCompanyId(new JuristicPersonId((string) $request->funeralCompanyId)),
+            };
+        }
+        if ($request->funeralCompanyId === null && $request->funeralCompanyType !== null) {
+            switch ($request->funeralCompanyType) {
+                case SoleProprietor::CLASS_SHORTCUT:
+                    $funeralCompany = $this->createSoleProprietorForFuneralCompany($request);
+                    $this->soleProprietorRepo->save($funeralCompany);
+                    break;
+                case JuristicPerson::CLASS_SHORTCUT:
+                    $funeralCompany = $this->createJuristicPersonForFuneralCompany($request);
+                    $this->juristicPersonRepo->save($funeralCompany);
+                    break;
+            }
+            $funeralCompanyId = new FuneralCompanyId($funeralCompany->id());
+        }
+
+        return $funeralCompanyId;
+    }
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return BurialContainer|null
+     */
+    private function processBurialContainerData(CreateBurialRequest $request): ?BurialContainer
+    {
+        $burialContainer = null;
+
+        $this->assertSupportedBurialContainerType($request);
+        if ($request->burialContainerType !== null) {
+            $burialContainer = match ($request->burialContainerType) {
+                Coffin::CLASS_SHORTCUT => $this->burialContainerFactory->createForCoffin(
+                    $request->burialContainerCoffinSize,
+                    $request->burialContainerCoffinShape,
+                    $request->burialContainerCoffinIsNonStandard,
+                ),
+                Urn::CLASS_SHORTCUT => $this->burialContainerFactory->createForUrn(),
+            };
+        }
+
+        return $burialContainer;
+    }
+
+
 
 
 
@@ -417,6 +484,61 @@ final class CreateBurialService extends BurialService
         );
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return SoleProprietor
+     */
+    private function createSoleProprietorForFuneralCompany(CreateBurialRequest $request): SoleProprietor
+    {
+        return $this->soleProprietorFactory->create(
+            $request->funeralCompanySoleProprietorName,
+            $request->funeralCompanySoleProprietorInn,
+            $request->funeralCompanySoleProprietorOgrnip,
+            $request->funeralCompanySoleProprietorOkpo,
+            $request->funeralCompanySoleProprietorOkved,
+            $request->funeralCompanySoleProprietorRegistrationAddress,
+            $request->funeralCompanySoleProprietorActualLocationAddress,
+            $request->funeralCompanySoleProprietorBankName,
+            $request->funeralCompanySoleProprietorBik,
+            $request->funeralCompanySoleProprietorCorrespondentAccount,
+            $request->funeralCompanySoleProprietorCurrentAccount,
+            $request->funeralCompanySoleProprietorPhone,
+            $request->funeralCompanySoleProprietorPhoneAdditional,
+            $request->funeralCompanySoleProprietorFax,
+            $request->funeralCompanySoleProprietorEmail,
+            $request->funeralCompanySoleProprietorWebsite,
+        );
+    }
+
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return JuristicPerson
+     */
+    private function createJuristicPersonForFuneralCompany(CreateBurialRequest $request): JuristicPerson
+    {
+        return $this->juristicPersonFactory->create(
+            $request->funeralCompanyJuristicPersonName,
+            $request->funeralCompanyJuristicPersonInn,
+            $request->funeralCompanyJuristicPersonKpp,
+            $request->funeralCompanyJuristicPersonOgrn,
+            $request->funeralCompanyJuristicPersonOkpo,
+            $request->funeralCompanyJuristicPersonOkved,
+            $request->funeralCompanyJuristicPersonLegalAddress,
+            $request->funeralCompanyJuristicPersonPostalAddress,
+            $request->funeralCompanyJuristicPersonBankName,
+            $request->funeralCompanyJuristicPersonBik,
+            $request->funeralCompanyJuristicPersonCorrespondentAccount,
+            $request->funeralCompanyJuristicPersonCurrentAccount,
+            $request->funeralCompanyJuristicPersonPhone,
+            $request->funeralCompanyJuristicPersonPhoneAdditional,
+            $request->funeralCompanyJuristicPersonFax,
+            $request->funeralCompanyJuristicPersonGeneralDirector,
+            $request->funeralCompanyJuristicPersonEmail,
+            $request->funeralCompanyJuristicPersonWebsite,
+        );
+    }
 
 
 
@@ -446,6 +568,32 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    private function assertSupportedFuneralCompanyType(CreateBurialRequest $request): void
+    {
+        if ($request->funeralCompanyType === null) {
+            return;
+        }
+        if (!\in_array(
+            $request->funeralCompanyType,
+            [SoleProprietor::CLASS_SHORTCUT, JuristicPerson::CLASS_SHORTCUT]
+        )) {
+            throw new \RuntimeException(\sprintf('Неподдерживаемый тип похоронной фирмы "%s".', $request->funeralCompanyType));
+        }
+    }
+
+    private function assertSupportedBurialContainerType(CreateBurialRequest $request): void
+    {
+        if ($request->burialContainerType === null) {
+            return;
+        }
+        if (!\in_array(
+            $request->burialContainerType,
+            [Coffin::CLASS_SHORTCUT, Urn::CLASS_SHORTCUT]
+        )) {
+            throw new \RuntimeException(\sprintf('Неподдерживаемый тип контейнера захоронения "%s".', $request->burialContainerType));
+        }
+    }
+
     private function assertCustomerTypeProvidedForId(CreateBurialRequest $request): void
     {
         if ($request->customerId !== null && $request->customerType === null) {
@@ -460,6 +608,15 @@ final class CreateBurialService extends BurialService
         if ($request->burialPlaceId !== null && $request->burialPlaceType === null) {
             throw new \RuntimeException(
                 \sprintf('Не указан тип места захоронения для идентификатора "%s".', $request->burialPlaceId)
+            );
+        }
+    }
+
+    private function assertFuneralCompanyTypeProvidedForId(CreateBurialRequest $request): void
+    {
+        if ($request->funeralCompanyId !== null && $request->funeralCompanyType === null) {
+            throw new \RuntimeException(
+                \sprintf('Не указан тип похоронной фирмы для идентификатора "%s".', $request->funeralCompanyId)
             );
         }
     }
