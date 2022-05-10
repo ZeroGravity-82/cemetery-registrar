@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
-use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\EntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonFactoryTest extends TestCase
+class JuristicPersonFactoryTest extends EntityFactoryTest
 {
-    private MockObject|IdentityGenerator $mockIdentityGenerator;
-    private JuristicPersonFactory        $juristicPersonFactory;
+    private JuristicPersonFactory $juristicPersonFactory;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
-        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+        parent::setUp();
 
         $this->juristicPersonFactory = new JuristicPersonFactory($this->mockIdentityGenerator);
     }
@@ -68,7 +64,7 @@ class JuristicPersonFactoryTest extends TestCase
             $website,
         );
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
-        $this->assertSame('555', $juristicPerson->id()->value());
+        $this->assertSame(self::ENTITY_ID, $juristicPerson->id()->value());
         $this->assertSame($name, $juristicPerson->name()->value());
         $this->assertSame($inn, $juristicPerson->inn()->value());
         $this->assertSame($kpp, $juristicPerson->kpp()->value());
@@ -114,7 +110,7 @@ class JuristicPersonFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(JuristicPerson::class, $juristicPerson);
-        $this->assertSame('555', $juristicPerson->id()->value());
+        $this->assertSame(self::ENTITY_ID, $juristicPerson->id()->value());
         $this->assertSame($name, $juristicPerson->name()->value());
         $this->assertNull($juristicPerson->inn());
         $this->assertNull($juristicPerson->kpp());

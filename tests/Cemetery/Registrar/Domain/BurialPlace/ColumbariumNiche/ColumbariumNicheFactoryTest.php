@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche;
 
-use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheFactory;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\EntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheFactoryTest extends TestCase
+class ColumbariumNicheFactoryTest extends EntityFactoryTest
 {
-    private MockObject|IdentityGenerator $mockIdentityGenerator;
-    private ColumbariumNicheFactory      $columbariumNicheFactory;
+    private ColumbariumNicheFactory $columbariumNicheFactory;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
-        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+        parent::setUp();
 
         $this->columbariumNicheFactory = new ColumbariumNicheFactory($this->mockIdentityGenerator);
     }
@@ -44,7 +40,7 @@ class ColumbariumNicheFactoryTest extends TestCase
             $geoPositionError
         );
         $this->assertInstanceOf(ColumbariumNiche::class, $columbariumNiche);
-        $this->assertSame('555', $columbariumNiche->id()->value());
+        $this->assertSame(self::ENTITY_ID, $columbariumNiche->id()->value());
         $this->assertSame($columbariumId, $columbariumNiche->columbariumId()->value());
         $this->assertSame($rowInColumbarium, $columbariumNiche->rowInColumbarium()->value());
         $this->assertSame($nicheNumber, $columbariumNiche->nicheNumber()->value());
@@ -68,7 +64,7 @@ class ColumbariumNicheFactoryTest extends TestCase
             null
         );
         $this->assertInstanceOf(ColumbariumNiche::class, $columbariumNiche);
-        $this->assertSame('555', $columbariumNiche->id()->value());
+        $this->assertSame(self::ENTITY_ID, $columbariumNiche->id()->value());
         $this->assertSame($columbariumId, $columbariumNiche->columbariumId()->value());
         $this->assertSame($rowInColumbarium, $columbariumNiche->rowInColumbarium()->value());
         $this->assertSame($nicheNumber, $columbariumNiche->nicheNumber()->value());

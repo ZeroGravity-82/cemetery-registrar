@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
-use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\EntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonFactoryTest extends TestCase
+class NaturalPersonFactoryTest extends EntityFactoryTest
 {
-    private MockObject|IdentityGenerator $mockIdentityGenerator;
-    private NaturalPersonFactory         $naturalPersonFactory;
+    private NaturalPersonFactory $naturalPersonFactory;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
-        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+        parent::setUp();
 
         $this->naturalPersonFactory = new NaturalPersonFactory($this->mockIdentityGenerator);
     }
@@ -33,7 +29,7 @@ class NaturalPersonFactoryTest extends TestCase
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, $bornAt);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
         $this->assertSame($fullName, $naturalPerson->fullName()->value());
         $this->assertSame($bornAt, $naturalPerson->bornAt()->format('Y-m-d'));
     }
@@ -44,7 +40,7 @@ class NaturalPersonFactoryTest extends TestCase
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, null);
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
         $this->assertSame($fullName, $naturalPerson->fullName()->value());
         $this->assertNull($naturalPerson->bornAt());
     }
@@ -79,7 +75,7 @@ class NaturalPersonFactoryTest extends TestCase
             $passportDivisionCode,
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
         $this->assertSame($fullName, $naturalPerson->fullName()->value());
         $this->assertSame($phone, $naturalPerson->phone()->value());
         $this->assertSame($phoneAdditional, $naturalPerson->phoneAdditional()->value());
@@ -113,7 +109,7 @@ class NaturalPersonFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertSame('555', $naturalPerson->id()->value());
+        $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
         $this->assertSame($fullName, $naturalPerson->fullName()->value());
         $this->assertNull($naturalPerson->phone());
         $this->assertNull($naturalPerson->phoneAdditional());

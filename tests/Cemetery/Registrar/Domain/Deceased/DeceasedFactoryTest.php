@@ -6,22 +6,18 @@ namespace Cemetery\Tests\Registrar\Domain\Deceased;
 
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedFactory;
-use Cemetery\Registrar\Domain\IdentityGenerator;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\EntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedFactoryTest extends TestCase
+class DeceasedFactoryTest extends EntityFactoryTest
 {
-    private MockObject|IdentityGenerator $mockIdentityGenerator;
-    private DeceasedFactory              $deceasedFactory;
+    private DeceasedFactory $deceasedFactory;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
-        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+        parent::setUp();
 
         $this->deceasedFactory = new DeceasedFactory($this->mockIdentityGenerator);
     }
@@ -40,7 +36,7 @@ class DeceasedFactoryTest extends TestCase
             $causeOfDeath,
         );
         $this->assertInstanceOf(Deceased::class, $deceased);
-        $this->assertSame('555', $deceased->id()->value());
+        $this->assertSame(self::ENTITY_ID, $deceased->id()->value());
         $this->assertSame($naturalPersonId, $deceased->naturalPersonId()->value());
         $this->assertSame($diedAt, $deceased->diedAt()->format('Y-m-d'));
         $this->assertSame($deathCertificateId, $deceased->deathCertificateId()->value());
@@ -59,7 +55,7 @@ class DeceasedFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(Deceased::class, $deceased);
-        $this->assertSame('555', $deceased->id()->value());
+        $this->assertSame(self::ENTITY_ID, $deceased->id()->value());
         $this->assertSame($naturalPersonId, $deceased->naturalPersonId()->value());
         $this->assertSame($diedAt, $deceased->diedAt()->format('Y-m-d'));
         $this->assertNull($deceased->deathCertificateId());

@@ -4,24 +4,20 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
 
-use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorFactory;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
+use Cemetery\Tests\Registrar\Domain\EntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorFactoryTest extends TestCase
+class SoleProprietorFactoryTest extends EntityFactoryTest
 {
-    private MockObject|IdentityGenerator $mockIdentityGenerator;
-    private SoleProprietorFactory        $soleProprietorFactory;
+    private SoleProprietorFactory $soleProprietorFactory;
 
     public function setUp(): void
     {
-        $this->mockIdentityGenerator = $this->createMock(IdentityGenerator::class);
-        $this->mockIdentityGenerator->method('getNextIdentity')->willReturn('555');
+        parent::setUp();
 
         $this->soleProprietorFactory = new SoleProprietorFactory($this->mockIdentityGenerator);
     }
@@ -64,7 +60,7 @@ class SoleProprietorFactoryTest extends TestCase
             $website,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
-        $this->assertSame('555', $soleProprietor->id()->value());
+        $this->assertSame(self::ENTITY_ID, $soleProprietor->id()->value());
         $this->assertSame($name, $soleProprietor->name()->value());
         $this->assertSame($inn, $soleProprietor->inn()->value());
         $this->assertSame($ogrnip, $soleProprietor->ogrnip()->value());
@@ -106,7 +102,7 @@ class SoleProprietorFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(SoleProprietor::class, $soleProprietor);
-        $this->assertSame('555', $soleProprietor->id()->value());
+        $this->assertSame(self::ENTITY_ID, $soleProprietor->id()->value());
         $this->assertSame($name, $soleProprietor->name()->value());
         $this->assertNull($soleProprietor->inn());
         $this->assertNull($soleProprietor->ogrnip());
