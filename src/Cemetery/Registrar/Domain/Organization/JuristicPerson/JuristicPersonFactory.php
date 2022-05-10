@@ -61,8 +61,7 @@ final class JuristicPersonFactory extends EntityFactory
         ?string $email,
         ?string $website,
     ): JuristicPerson {
-        $this->assertNameIsProvided($name);
-        $name          = new Name($name);
+        $name          = new Name((string) $name);
         $inn           = $inn !== null           ? new Inn($inn)               : null;
         $kpp           = $kpp !== null           ? new Kpp($kpp)               : null;
         $ogrn          = $ogrn !== null          ? new Ogrn($ogrn)             : null;
@@ -98,17 +97,5 @@ final class JuristicPersonFactory extends EntityFactory
             ->setGeneralDirector($generalDirector)
             ->setEmail($email)
             ->setWebsite($website);
-    }
-
-    /**
-     * @param string|null $name
-     *
-     * @throws \RuntimeException when the name is not provided
-     */
-    private function assertNameIsProvided(?string $name): void
-    {
-        if ($name === null) {
-            throw new \RuntimeException('Наименование не указано.');
-        }
     }
 }
