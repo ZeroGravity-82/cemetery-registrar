@@ -151,7 +151,7 @@ class NaturalPersonFactoryTest extends TestCase
 
     private function expectExceptionForNotProvidedFullName(): void
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('ФИО не указано.');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('ФИО не может иметь пустое значение.');
     }
 }

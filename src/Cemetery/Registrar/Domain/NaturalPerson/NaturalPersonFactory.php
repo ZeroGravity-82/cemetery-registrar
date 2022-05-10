@@ -44,8 +44,7 @@ final class NaturalPersonFactory extends EntityFactory
         ?string $passportIssuedBy,
         ?string $passportDivisionCode,
     ): NaturalPerson {
-        $this->assertFullNameIsProvided($fullName);
-        $fullName        = new FullName($fullName);
+        $fullName        = new FullName((string) $fullName);
         $phone           = $phone !== null           ? new PhoneNumber($phone)                                : null;
         $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional)                      : null;
         $email           = $email !== null           ? new Email($email)                                      : null;
@@ -85,8 +84,7 @@ final class NaturalPersonFactory extends EntityFactory
         ?string $fullName,
         ?string $bornAt,
     ): NaturalPerson {
-        $this->assertFullNameIsProvided($fullName);
-        $fullName = new FullName($fullName);
+        $fullName = new FullName((string) $fullName);
         $bornAt   = $bornAt !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
 
         return (new NaturalPerson(
@@ -94,17 +92,5 @@ final class NaturalPersonFactory extends EntityFactory
                 $fullName,
             ))
             ->setBornAt($bornAt);
-    }
-
-    /**
-     * @param string|null $fullName
-     *
-     * @throws \RuntimeException when the full name is not provided
-     */
-    private function assertFullNameIsProvided(?string $fullName): void
-    {
-        if ($fullName === null) {
-            throw new \RuntimeException('ФИО не указано.');
-        }
     }
 }
