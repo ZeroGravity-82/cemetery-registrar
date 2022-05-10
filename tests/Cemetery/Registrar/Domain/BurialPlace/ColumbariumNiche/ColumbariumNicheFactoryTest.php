@@ -37,7 +37,7 @@ class ColumbariumNicheFactoryTest extends EntityFactoryTest
             $nicheNumber,
             $geoPositionLatitude,
             $geoPositionLongitude,
-            $geoPositionError
+            $geoPositionError,
         );
         $this->assertInstanceOf(ColumbariumNiche::class, $columbariumNiche);
         $this->assertSame(self::ENTITY_ID, $columbariumNiche->id()->value());
@@ -61,7 +61,7 @@ class ColumbariumNicheFactoryTest extends EntityFactoryTest
             $nicheNumber,
             null,
             null,
-            null
+            null,
         );
         $this->assertInstanceOf(ColumbariumNiche::class, $columbariumNiche);
         $this->assertSame(self::ENTITY_ID, $columbariumNiche->id()->value());
