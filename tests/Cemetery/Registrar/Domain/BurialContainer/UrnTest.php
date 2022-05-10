@@ -12,6 +12,16 @@ use PHPUnit\Framework\TestCase;
  */
 class UrnTest extends TestCase
 {
+    public function testItHasValidClassShortcutConstant(): void
+    {
+        $this->assertSame('URN', Urn::CLASS_SHORTCUT);
+    }
+
+    public function testItHasValidClassLabelConstant(): void
+    {
+        $this->assertSame('урна с прахом', Urn::CLASS_LABEL);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(Urn::class, new Urn());

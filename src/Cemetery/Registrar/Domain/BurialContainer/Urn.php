@@ -9,12 +9,15 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
  */
 final class Urn
 {
+    public const CLASS_SHORTCUT = 'URN';
+    public const CLASS_LABEL    = 'урна с прахом';
+
     /**
      * @return string
      */
     public function __toString(): string
     {
-        return 'урна с прахом';
+        return self::CLASS_LABEL;
     }
 
     /**
