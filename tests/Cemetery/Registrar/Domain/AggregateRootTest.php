@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\AggregateRoot;
  */
 abstract class AggregateRootTest extends EntityTest
 {
-    public function testItIsAnAggregateRoot(): void
+    public function testItIsAggregateRoot(): void
     {
         $this->assertInstanceOf(AggregateRoot::class, $this->entity);
     }

@@ -15,12 +15,12 @@ abstract class EntityTest extends TestCase
 {
     protected Entity $entity;
 
-    public function testItIsAnEntity(): void
+    public function testItIsEntity(): void
     {
         $this->assertInstanceOf(Entity::class, $this->entity);
     }
 
-    public function testItReturnsAnId(): void
+    public function testItReturnsId(): void
     {
         $this->assertInstanceOf(EntityId::class, $this->entity->id());
     }

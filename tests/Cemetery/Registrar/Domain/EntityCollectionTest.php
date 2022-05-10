@@ -55,7 +55,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->assertContains($this->entityC, $this->collection);
     }
 
-    public function testItReturnsAnEntityById(): void
+    public function testItReturnsEntityById(): void
     {
         $this->collection->add($this->entityB);
 
@@ -63,7 +63,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->assertSame($this->entityB, $this->collection->get($this->idB));
     }
 
-    public function testItFailsWhenAnEntityIsNotFound(): void
+    public function testItFailsWhenEntityIsNotFound(): void
     {
         $this->collection->add($this->entityB);
 
@@ -76,7 +76,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->collection->get($this->idC);
     }
 
-    public function testItChecksThatAnEntityIsContained(): void
+    public function testItChecksThatEntityIsContained(): void
     {
         $this->collection->add($this->entityB);
 
@@ -84,7 +84,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->assertFalse($this->collection->contains($this->entityC));
     }
 
-    public function testItRemovesAnEntity(): void
+    public function testItRemovesEntity(): void
     {
         $this->collection->add($this->entityA);
         $this->collection->remove($this->entityA);
@@ -125,7 +125,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->assertTrue($this->collection->isEmpty());
     }
 
-    public function testItReturnsACollectionKeys(): void
+    public function testItReturnsCollectionKeys(): void
     {
         $this->collection->add($this->entityB);
 
@@ -133,7 +133,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->assertContains((string) $this->idB, $this->collection->keys());
     }
 
-    public function testItReturnsACollectionValues(): void
+    public function testItReturnsCollectionValues(): void
     {
         $this->collection->add($this->entityB);
 
@@ -226,7 +226,7 @@ abstract class EntityCollectionTest extends TestCase
         new $collectionClass([$entity]);
     }
 
-    public function testItFailsWhenAddsAnEntityOfInvalidType(): void
+    public function testItFailsWhenAddsEntityOfInvalidType(): void
     {
         $entity      = $this->getFakeEntity();
         $entityClass = \get_class($entity);
