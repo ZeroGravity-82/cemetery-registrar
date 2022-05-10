@@ -16,22 +16,14 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class EntityCollectionTest extends TestCase
 {
-    protected EntityId $idA;
-
-    protected EntityId $idB;
-
-    protected EntityId $idC;
-
-    protected EntityId $idD;
-
-    protected Entity $entityA;
-
-    protected Entity $entityB;
-
-    protected Entity $entityC;
-
-    protected Entity $entityD;
-
+    protected EntityId         $idA;
+    protected EntityId         $idB;
+    protected EntityId         $idC;
+    protected EntityId         $idD;
+    protected Entity           $entityA;
+    protected Entity           $entityB;
+    protected Entity           $entityC;
+    protected Entity           $entityD;
     protected EntityCollection $collection;
 
     abstract public function testItReturnsEntityClassName(): void;
