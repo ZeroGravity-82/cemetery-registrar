@@ -56,8 +56,7 @@ final class SoleProprietorFactory extends EntityFactory
         ?string $email,
         ?string $website,
     ): SoleProprietor {
-        $this->assertNameIsProvided($name);
-        $name                  = new Name($name);
+        $name                  = new Name((string) $name);
         $inn                   = $inn !== null                   ? new Inn($inn)                       : null;
         $ogrnip                = $ogrnip !== null                ? new Ogrnip($ogrnip)                 : null;
         $okpo                  = $okpo !== null                  ? new Okpo($okpo)                     : null;
@@ -89,17 +88,5 @@ final class SoleProprietorFactory extends EntityFactory
             ->setFax($fax)
             ->setEmail($email)
             ->setWebsite($website);
-    }
-
-    /**
-     * @param string|null $name
-     *
-     * @throws \RuntimeException when the name is not provided
-     */
-    private function assertNameIsProvided(?string $name): void
-    {
-        if ($name === null) {
-            throw new \RuntimeException('Наименование не указано.');
-        }
     }
 }
