@@ -13,20 +13,20 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class DeceasedFactory extends EntityFactory
 {
     /**
-     * @param string      $naturalPersonId
-     * @param string      $diedAt
+     * @param string|null $naturalPersonId
+     * @param string|null $diedAt
      * @param string|null $deathCertificateId
      * @param string|null $causeOfDeath
      *
      * @return Deceased
      */
     public function create(
-        string  $naturalPersonId,
-        string  $diedAt,
+        ?string $naturalPersonId,
+        ?string $diedAt,
         ?string $deathCertificateId,
         ?string $causeOfDeath,
     ): Deceased {
-        $naturalPersonId    = new NaturalPersonId($naturalPersonId);
+        $naturalPersonId    = new NaturalPersonId((string) $naturalPersonId);
         $diedAt             = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
         $deathCertificateId = $deathCertificateId !== null ? new DeathCertificateId($deathCertificateId) : null;
         $causeOfDeath       = $causeOfDeath !== null       ? new CauseOfDeath($causeOfDeath)             : null;
