@@ -30,7 +30,7 @@ final class NaturalPersonFactory extends EntityFactory
      *
      * @return NaturalPerson
      */
-    public function createForBurialCustomer(
+    public function create(
         ?string $fullName,
         ?string $phone,
         ?string $phoneAdditional,
@@ -72,25 +72,5 @@ final class NaturalPersonFactory extends EntityFactory
             ->setBornAt($bornAt)
             ->setPlaceOfBirth($placeOfBirth)
             ->setPassport($passport);
-    }
-
-    /**
-     * @param string|null $fullName
-     * @param string|null $bornAt
-     *
-     * @return NaturalPerson
-     */
-    public function createForDeceased(
-        ?string $fullName,
-        ?string $bornAt,
-    ): NaturalPerson {
-        $fullName = new FullName((string) $fullName);
-        $bornAt   = $bornAt !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
-
-        return (new NaturalPerson(
-                new NaturalPersonId($this->identityGenerator->getNextIdentity()),
-                $fullName,
-            ))
-            ->setBornAt($bornAt);
     }
 }

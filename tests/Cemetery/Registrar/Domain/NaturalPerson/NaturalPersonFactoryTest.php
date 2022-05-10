@@ -22,30 +22,7 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $this->naturalPersonFactory = new NaturalPersonFactory($this->mockIdentityGenerator);
     }
 
-    public function testItCreatesNaturalPersonForDeceased(): void
-    {
-        $fullName = 'Иванов Иван Иванович';
-        $bornAt   = '1940-05-10';
-        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
-        $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, $bornAt);
-        $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
-        $this->assertSame($fullName, $naturalPerson->fullName()->value());
-        $this->assertSame($bornAt, $naturalPerson->bornAt()->format('Y-m-d'));
-    }
-
-    public function testItCreatesNaturalPersonForDeceasedWithoutOptionalFields(): void
-    {
-        $fullName = 'Иванов Иван Иванович';
-        $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
-        $naturalPerson = $this->naturalPersonFactory->createForDeceased($fullName, null);
-        $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
-        $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
-        $this->assertSame($fullName, $naturalPerson->fullName()->value());
-        $this->assertNull($naturalPerson->bornAt());
-    }
-
-    public function testItCreatesNaturalPersonForCustomer(): void
+    public function testItCreatesNaturalPerson(): void
     {
         $fullName             = 'Иванов Иван Иванович';
         $phone                = '+7-913-777-88-99';
@@ -60,7 +37,7 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
         $passportDivisionCode = '540-001';
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
-        $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
+        $naturalPerson = $this->naturalPersonFactory->create(
             $fullName,
             $phone,
             $phoneAdditional,
@@ -90,11 +67,11 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $this->assertSame($passportDivisionCode, $naturalPerson->passport()->divisionCode());
     }
 
-    public function testItCreatesNaturalPersonForCustomerWithoutOptionalFields(): void
+    public function testItCreatesNaturalPersonWithoutOptionalFields(): void
     {
         $fullName = 'Иванов Иван Иванович';
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
-        $naturalPerson = $this->naturalPersonFactory->createForBurialCustomer(
+        $naturalPerson = $this->naturalPersonFactory->create(
             $fullName,
             null,
             null,
