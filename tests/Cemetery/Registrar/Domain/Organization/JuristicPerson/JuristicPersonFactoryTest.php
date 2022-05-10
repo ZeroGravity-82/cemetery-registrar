@@ -131,35 +131,4 @@ class JuristicPersonFactoryTest extends TestCase
         $this->assertNull($juristicPerson->email());
         $this->assertNull($juristicPerson->website());
     }
-
-    public function testItFailsToCreateJuristicPersonWithoutName(): void
-    {
-        $this->expectExceptionForNotProvidedName();
-        $this->juristicPersonFactory->create(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-        );
-    }
-
-    private function expectExceptionForNotProvidedName(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Наименование не указано.');
-    }
 }

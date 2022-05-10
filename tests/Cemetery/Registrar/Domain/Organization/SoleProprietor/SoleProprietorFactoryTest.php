@@ -121,33 +121,4 @@ class SoleProprietorFactoryTest extends TestCase
         $this->assertNull($soleProprietor->email());
         $this->assertNull($soleProprietor->website());
     }
-
-    public function testItFailsToCreateSoleProprietorWithoutName(): void
-    {
-        $this->expectExceptionForNotProvidedName();
-        $this->soleProprietorFactory->create(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-        );
-    }
-
-    private function expectExceptionForNotProvidedName(): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Наименование не указано.');
-    }
 }

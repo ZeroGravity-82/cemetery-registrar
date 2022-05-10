@@ -49,12 +49,6 @@ class NaturalPersonFactoryTest extends TestCase
         $this->assertNull($naturalPerson->bornAt());
     }
 
-    public function testItFailsToCreateNaturalPersonForDeceasedWithoutFullName(): void
-    {
-        $this->expectExceptionForNotProvidedFullName();
-        $this->naturalPersonFactory->createForDeceased(null, null);
-    }
-
     public function testItCreatesNaturalPersonForCustomer(): void
     {
         $fullName             = 'Иванов Иван Иванович';
@@ -128,30 +122,5 @@ class NaturalPersonFactoryTest extends TestCase
         $this->assertNull($naturalPerson->bornAt());
         $this->assertNull($naturalPerson->placeOfBirth());
         $this->assertNull($naturalPerson->passport());
-    }
-
-    public function testItFailsToCreateNaturalPersonForCustomerWithoutFullName(): void
-    {
-        $this->expectExceptionForNotProvidedFullName();
-        $this->naturalPersonFactory->createForBurialCustomer(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-        );
-    }
-
-    private function expectExceptionForNotProvidedFullName(): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('ФИО не может иметь пустое значение.');
     }
 }
