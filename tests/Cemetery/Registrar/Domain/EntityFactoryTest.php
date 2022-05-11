@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class EntityFactoryTest extends TestCase
 {
-    public const ENTITY_ID = '555';
+    protected const ENTITY_ID = '555';
 
     protected MockObject|IdentityGenerator $mockIdentityGenerator;
 
