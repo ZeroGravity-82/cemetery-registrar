@@ -71,6 +71,11 @@ final class CreateBurialService extends BurialService
         parent::__construct($burialRepo);
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return CreateBurialResponse
+     */
     public function execute(CreateBurialRequest $request): CreateBurialResponse
     {
         $deceasedId         = $this->processDeceasedData($request);
@@ -478,6 +483,11 @@ final class CreateBurialService extends BurialService
         );
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @return NaturalPerson
+     */
     private function createNaturalPersonForBurialPlaceOwner(CreateBurialRequest $request): NaturalPerson
     {
         return $this->naturalPersonFactory->create(
@@ -552,6 +562,11 @@ final class CreateBurialService extends BurialService
         );
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the customer type is not supported
+     */
     private function assertSupportedCustomerType(CreateBurialRequest $request): void
     {
         if ($request->customerType === null) {
@@ -567,6 +582,11 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the burial place type is not supported
+     */
     private function assertSupportedBurialPlaceType(CreateBurialRequest $request): void
     {
         if ($request->burialPlaceType === null) {
@@ -582,6 +602,11 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the funeral company type is not supported
+     */
     private function assertSupportedFuneralCompanyType(CreateBurialRequest $request): void
     {
         if ($request->funeralCompanyType === null) {
@@ -597,6 +622,11 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the burial container type is not supported
+     */
     private function assertSupportedBurialContainerType(CreateBurialRequest $request): void
     {
         if ($request->burialContainerType === null) {
@@ -612,6 +642,11 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the customer type is not provided for the customer ID
+     */
     private function assertCustomerTypeProvidedForId(CreateBurialRequest $request): void
     {
         if ($request->customerId !== null && $request->customerType === null) {
@@ -621,6 +656,11 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the burial place type is not provided for the burial place ID
+     */
     private function assertBurialPlaceTypeProvidedForId(CreateBurialRequest $request): void
     {
         if ($request->burialPlaceId !== null && $request->burialPlaceType === null) {
@@ -630,6 +670,11 @@ final class CreateBurialService extends BurialService
         }
     }
 
+    /**
+     * @param CreateBurialRequest $request
+     *
+     * @throws \RuntimeException when the funeral company type is not provided for the funeral company ID
+     */
     private function assertFuneralCompanyTypeProvidedForId(CreateBurialRequest $request): void
     {
         if ($request->funeralCompanyId !== null && $request->funeralCompanyType === null) {
