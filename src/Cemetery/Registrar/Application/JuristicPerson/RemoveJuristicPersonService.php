@@ -26,7 +26,7 @@ final class RemoveJuristicPersonService extends JuristicPersonService
     /**
      * @param RemoveJuristicPersonRequest $request
      */
-    public function execute(RemoveJuristicPersonRequest $request): void
+    public function execute($request): void
     {
         $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRemover->remove($juristicPerson);

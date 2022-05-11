@@ -32,7 +32,7 @@ final class CreateJuristicPersonService extends JuristicPersonService
      *
      * @return CreateJuristicPersonResponse
      */
-    public function execute(CreateJuristicPersonRequest $request): CreateJuristicPersonResponse
+    public function execute($request): CreateJuristicPersonResponse
     {
         // TODO add uniqueness check
         $juristicPerson = $this->juristicPersonFactory->create(

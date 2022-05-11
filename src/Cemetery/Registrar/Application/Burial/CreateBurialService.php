@@ -76,7 +76,7 @@ final class CreateBurialService extends BurialService
      *
      * @return CreateBurialResponse
      */
-    public function execute(CreateBurialRequest $request): CreateBurialResponse
+    public function execute($request): CreateBurialResponse
     {
         $deceasedId         = $this->processDeceasedData($request);
         $burialType         = $this->processBurialTypeData($request);

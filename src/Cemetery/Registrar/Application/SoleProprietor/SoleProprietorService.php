@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\SoleProprietor;
 
+use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepository;
@@ -11,7 +12,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class SoleProprietorService
+abstract class SoleProprietorService implements ApplicationService
 {
     /**
      * @param SoleProprietorRepository $soleProprietorRepo

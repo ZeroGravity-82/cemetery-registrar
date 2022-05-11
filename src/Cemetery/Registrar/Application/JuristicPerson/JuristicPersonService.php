@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\JuristicPerson;
 
+use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
@@ -11,7 +12,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class JuristicPersonService
+abstract class JuristicPersonService implements ApplicationService
 {
     /**
      * @param JuristicPersonRepository $juristicPersonRepo
