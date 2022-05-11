@@ -14,6 +14,16 @@ use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 final class BurialPlaceIdFactory
 {
     /**
+     * @param GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
+     *
+     * @return BurialPlaceId
+     */
+    public function create(GraveSiteId|ColumbariumNicheId|MemorialTreeId $id): BurialPlaceId
+    {
+        return new BurialPlaceId($id);
+    }
+
+    /**
      * @param string|null $id
      *
      * @return BurialPlaceId

@@ -16,33 +16,52 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialPlaceIdFactoryTest extends TestCase
 {
-    public function testItCreatesBurialPlaceIdForGraveSite(): void
-    {
-        $burialPlaceIdFactory = new BurialPlaceIdFactory();
+    private BurialPlaceIdFactory $burialPlaceIdFactory;
 
-        $burialPlaceId = $burialPlaceIdFactory->createForGraveSite('ID001');
+    public function setUp(): void
+    {
+        $this->burialPlaceIdFactory = new BurialPlaceIdFactory();
+    }
+
+    public function testItCreatesBurialPlaceId(): void
+    {
+        $burialPlaceId = $this->burialPlaceIdFactory->create(new GraveSiteId('ID001'));
         $this->assertInstanceOf(BurialPlaceId::class, $burialPlaceId);
         $this->assertInstanceOf(GraveSiteId::class, $burialPlaceId->id());
         $this->assertSame('ID001', $burialPlaceId->id()->value());
+
+        $burialPlaceId = $this->burialPlaceIdFactory->create(new ColumbariumNicheId('ID002'));
+        $this->assertInstanceOf(BurialPlaceId::class, $burialPlaceId);
+        $this->assertInstanceOf(ColumbariumNicheId::class, $burialPlaceId->id());
+        $this->assertSame('ID002', $burialPlaceId->id()->value());
+
+        $burialPlaceId = $this->burialPlaceIdFactory->create(new MemorialTreeId('ID003'));
+        $this->assertInstanceOf(BurialPlaceId::class, $burialPlaceId);
+        $this->assertInstanceOf(MemorialTreeId::class, $burialPlaceId->id());
+        $this->assertSame('ID003', $burialPlaceId->id()->value());
+    }
+
+    public function testItCreatesBurialPlaceIdForGraveSite(): void
+    {
+        $burialPlaceId = $this->burialPlaceIdFactory->createForGraveSite('ID004');
+        $this->assertInstanceOf(BurialPlaceId::class, $burialPlaceId);
+        $this->assertInstanceOf(GraveSiteId::class, $burialPlaceId->id());
+        $this->assertSame('ID004', $burialPlaceId->id()->value());
     }
 
     public function testItCreatesBurialPlaceIdForColumbariumNiche(): void
     {
-        $burialPlaceIdFactory = new BurialPlaceIdFactory();
-
-        $burialPlaceId = $burialPlaceIdFactory->createForColumbariumNiche('ID002');
+        $burialPlaceId = $this->burialPlaceIdFactory->createForColumbariumNiche('ID005');
         $this->assertInstanceOf(BurialPlaceId::class, $burialPlaceId);
         $this->assertInstanceOf(ColumbariumNicheId::class, $burialPlaceId->id());
-        $this->assertSame('ID002', $burialPlaceId->id()->value());
+        $this->assertSame('ID005', $burialPlaceId->id()->value());
     }
 
     public function testItCreatesBurialPlaceIdForMemorialTree(): void
     {
-        $burialPlaceIdFactory = new BurialPlaceIdFactory();
-
-        $burialPlaceId = $burialPlaceIdFactory->createForMemorialTree('ID003');
+        $burialPlaceId = $this->burialPlaceIdFactory->createForMemorialTree('ID006');
         $this->assertInstanceOf(BurialPlaceId::class, $burialPlaceId);
         $this->assertInstanceOf(MemorialTreeId::class, $burialPlaceId->id());
-        $this->assertSame('ID003', $burialPlaceId->id()->value());
+        $this->assertSame('ID006', $burialPlaceId->id()->value());
     }
 }
