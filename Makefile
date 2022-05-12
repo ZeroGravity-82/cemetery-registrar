@@ -61,7 +61,7 @@ cli:
 	$(CLI) $(CLI_ARGS) $(-*-command-variables-*-)
 
 ##
-## Run Symfony CLI ("make sf server:start" or "make -- sf console doctrine:migrations:migrate --em=mysql_main2")
+## Run Symfony CLI ("make sf security:check" or "make -- sf console doctrine:migrations:migrate --em=mysql_main2")
 ## -----------------------------------------------
 ifeq (sf,$(firstword $(MAKECMDGOALS)))
     SYMFONY_ARGS         := $(call getargs)
