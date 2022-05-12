@@ -8,15 +8,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class LuckyController extends AbstractController
+class BurialController extends AbstractController
 {
-    #[Route('/lucky/number', name: 'lucky_num')]
-    public function number(): Response
+    #[Route('/burial', name: 'burial_index', methods: 'GET')]
+    public function index(): Response
     {
-        $number = random_int(0, 100);
-
-        return $this->render('lucky/number.html.twig', [
-            'number' => $number,
+        return $this->render('burial/index.html.twig', [
         ]);
     }
 }

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+  <link href="/css/signin.css" rel="stylesheet">
+{% endblock %}
+
+{% block title %}Добро пожаловать{% endblock %}
+
+{% block body %}
+  <main class="form-signin">
+    <form>
+      <h1 class="h3 mb-4 fw-normal text-center">Вход в систему</h1>
+
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="Email">
+        <label for="floatingInput">Email</label>
+      </div>
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Пароль">
+        <label for="floatingPassword">Пароль</label>
+      </div>
+
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Запомнить меня
+        </label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Войти</button>
+      <p class="mt-5 mb-3 text-center text-muted">© 2022-...</p>
+    </form>
+  </main>
+
+  <div class="mt-2 text-muted">
+    <p>Здесь может быть красивая картинка, а также могут выводиться какие-то статистическме данные.</p>
+  </div>
+{% endblock %}
