@@ -17,6 +17,7 @@
         "doctrine/orm": "^2.11",
         "ramsey/uuid": "^4.2",
         "scienta/doctrine-json-functions": "^5.0",
+        "sensio/framework-extra-bundle": "^6.2",
         "symfony/console": "6.0.*",
         "symfony/dotenv": "6.0.*",
         "symfony/flex": "^2",
