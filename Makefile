@@ -1,6 +1,6 @@
 DOCKER_COMPOSE = docker-compose
 CLI            = $(DOCKER_COMPOSE) run --rm registrar-php-cli
-SYMFONY        = $(CLI) ./bin/console
+SYMFONY        = $(CLI) symfony
 
 getargs    = $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 escapeagrs = $(subst :,\:,$(1))
@@ -29,9 +29,9 @@ composer-install:
 composer-update:
 	$(CLI) composer update
 migrations:
-	$(SYMFONY) doctrine:migrations:migrate --no-interaction
+	$(SYMFONY) console doctrine:migrations:migrate --no-interaction
 fixtures:
-	$(SYMFONY) doctrine:fixtures:load --no-interaction
+	$(SYMFONY) console doctrine:fixtures:load --no-interaction
 
 ##
 ## Code quality tests ("make tests")
@@ -61,7 +61,7 @@ cli:
 	$(CLI) $(CLI_ARGS) $(-*-command-variables-*-)
 
 ##
-## Run Symfony console command ("make sf debug:container log" or "make -- sf doctrine:migrations:migrate --em=mysql_main2")
+## Run Symfony CLI ("make sf server:start" or "make -- sf console doctrine:migrations:migrate --em=mysql_main2")
 ## -----------------------------------------------
 ifeq (sf,$(firstword $(MAKECMDGOALS)))
     SYMFONY_ARGS         := $(call getargs)
