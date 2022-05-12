@@ -2,9 +2,9 @@ PhpStorm + Docker + Xdebug: https://blog.denisbondar.com/post/phpstorm_docker_xd
 
 dev:
     make init
-    make -- sf doctrine:migrations:migrate
+    make -- sf console doctrine:migrations:migrate
 
 test:
     make init
-    make -- sf doctrine:schema:create --env=test            (for the first time after init)
-    make -- sf doctrine:schema:update --env=test --force    (after adding migrations)
+    make -- sf console doctrine:schema:create --env=test            (for the first time after init)
+    make -- sf console doctrine:schema:update --env=test --force    (after adding migrations)
