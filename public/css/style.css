@@ -1,0 +1,20 @@
+.burial-search {
+    position: relative
+}
+
+.burial-search::after {
+    position: absolute;
+    top: .4rem;
+    right: .4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    padding-right: .25rem;
+    padding-left: .25rem;
+    font-size: .75rem;
+    color: #6c757d;
+    content: "Ctrl+F";
+    border: 1px solid #dee2e6;
+    border-radius: .125rem
+}
