@@ -15,6 +15,7 @@ final class DeceasedFactory extends EntityFactory
     /**
      * @param string|null $naturalPersonId
      * @param string|null $diedAt
+     * @param int|null    $age
      * @param string|null $deathCertificateId
      * @param string|null $causeOfDeath
      *
@@ -23,11 +24,13 @@ final class DeceasedFactory extends EntityFactory
     public function create(
         ?string $naturalPersonId,
         ?string $diedAt,
+        ?int    $age,
         ?string $deathCertificateId,
         ?string $causeOfDeath,
     ): Deceased {
         $naturalPersonId    = new NaturalPersonId((string) $naturalPersonId);
         $diedAt             = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
+        $age                = $age !== null                ? new Age($age)                               : null;
         $deathCertificateId = $deathCertificateId !== null ? new DeathCertificateId($deathCertificateId) : null;
         $causeOfDeath       = $causeOfDeath !== null       ? new CauseOfDeath($causeOfDeath)             : null;
 
@@ -36,6 +39,7 @@ final class DeceasedFactory extends EntityFactory
                 $naturalPersonId,
                 $diedAt,
             ))
+            ->setAge($age)
             ->setDeathCertificateId($deathCertificateId)
             ->setCauseOfDeath($causeOfDeath);
     }

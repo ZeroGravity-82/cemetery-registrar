@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Deceased;
 
+use Cemetery\Registrar\Domain\Deceased\Age;
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
 use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
@@ -35,6 +36,7 @@ class DeceasedTest extends AggregateRootTest
         $this->assertSame('NP001', (string) $this->deceased->naturalPersonId());
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->diedAt());
         $this->assertSame('2022-01-10', $this->deceased->diedAt()->format('Y-m-d'));
+        $this->assertNull($this->deceased->age());
         $this->assertNull($this->deceased->deathCertificateId());
         $this->assertNull($this->deceased->causeOfDeath());
     }
@@ -53,6 +55,17 @@ class DeceasedTest extends AggregateRootTest
         $this->deceased->setDiedAt($diedAt);
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->deceased->diedAt());
         $this->assertSame('2022-01-11', $this->deceased->diedAt()->format('Y-m-d'));
+    }
+
+    public function testItSetsAge(): void
+    {
+        $age = new Age(82);
+        $this->deceased->setAge($age);
+        $this->assertInstanceOf(Age::class, $this->deceased->age());
+        $this->assertTrue($this->deceased->age()->isEqual($age));
+
+        $this->deceased->setAge(null);
+        $this->assertNull($this->deceased->age());
     }
 
     public function testItSetsDeathCertificateId(): void

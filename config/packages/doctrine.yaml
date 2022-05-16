@@ -36,6 +36,7 @@ doctrine:
             phone_number:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\PhoneNumberType
             website:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType
             # Deceased
+            age:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\AgeType
             cause_of_death:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeathType
             death_certificate_id:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
             deceased_id:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType

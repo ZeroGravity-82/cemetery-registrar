@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Deceased;
 
+use Cemetery\Registrar\Domain\Deceased\Age;
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
 use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
@@ -29,10 +30,12 @@ final class DeceasedProvider
         $id                 = new DeceasedId('D002');
         $naturalPersonId    = new NaturalPersonId('NP002');
         $diedAt             = new \DateTimeImmutable('2001-02-11');
+        $age                = new Age(82);
         $deathCertificateId = new DeathCertificateId('DC001');
         $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
 
         return (new Deceased($id, $naturalPersonId, $diedAt))
+            ->setAge($age)
             ->setDeathCertificateId($deathCertificateId)
             ->setCauseOfDeath($causeOfDeath);
     }

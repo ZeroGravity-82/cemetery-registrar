@@ -13,6 +13,11 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 final class Deceased extends AggregateRoot
 {
     /**
+     * @var Age|null
+     */
+    private ?Age $age = null;
+
+    /**
      * @var DeathCertificateId|null
      */
     private ?DeathCertificateId $deathCertificateId = null;
@@ -80,6 +85,26 @@ final class Deceased extends AggregateRoot
     public function setDiedAt(\DateTimeImmutable $diedAt): self
     {
         $this->diedAt = $diedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Age|null
+     */
+    public function age(): ?Age
+    {
+        return $this->age;
+    }
+
+    /**
+     * @param Age|null $age
+     *
+     * @return $this
+     */
+    public function setAge(?Age $age): self
+    {
+        $this->age = $age;
 
         return $this;
     }
