@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\Burial;
+namespace Cemetery\Registrar\Application\Burial\CreateBurial;
 
+use Cemetery\Registrar\Application\Burial\BurialService;
 use Cemetery\Registrar\Domain\Burial\BurialFactory;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceIdFactory;
