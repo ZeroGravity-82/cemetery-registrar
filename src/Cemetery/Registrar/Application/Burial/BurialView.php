@@ -12,6 +12,7 @@ final class BurialView
     public function __construct(
         public readonly string  $id,
         public readonly string  $code,
+        public readonly string  $type,
         public readonly string  $deceasedFullName,
         public readonly string  $deceasedDiedAt,
         public readonly ?string $deceasedBornAt,

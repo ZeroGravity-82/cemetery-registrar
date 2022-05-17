@@ -32,7 +32,7 @@ final class DeceasedProvider
         $diedAt             = new \DateTimeImmutable('2001-02-11');
         $age                = new Age(82);
         $deathCertificateId = new DeathCertificateId('DC001');
-        $causeOfDeath       = new CauseOfDeath('Некоторая причина смерти 1');
+        $causeOfDeath       = new CauseOfDeath('Болезнь сердечно-легочная хроническая');
 
         return (new Deceased($id, $naturalPersonId, $diedAt))
             ->setAge($age)
@@ -46,16 +46,36 @@ final class DeceasedProvider
         $naturalPersonId    = new NaturalPersonId('NP003');
         $diedAt             = new \DateTimeImmutable('2011-05-13');
         $deathCertificateId = new DeathCertificateId('DC002');
+        $causeOfDeath       = new CauseOfDeath('Онкология');
 
         return (new Deceased($id, $naturalPersonId, $diedAt))
-            ->setDeathCertificateId($deathCertificateId);
+            ->setDeathCertificateId($deathCertificateId)
+            ->setCauseOfDeath($causeOfDeath);
     }
 
     public static function getDeceasedD(): Deceased
     {
         $id              = new DeceasedId('D004');
-        $naturalPersonId = new NaturalPersonId('NP004');
+        $naturalPersonId = new NaturalPersonId('NP005');
         $diedAt          = new \DateTimeImmutable('2015-03-10');
+
+        return new Deceased($id, $naturalPersonId, $diedAt);
+    }
+
+    public static function getDeceasedE(): Deceased
+    {
+        $id              = new DeceasedId('D005');
+        $naturalPersonId = new NaturalPersonId('NP004');
+        $diedAt          = new \DateTimeImmutable('2010-01-26');
+
+        return new Deceased($id, $naturalPersonId, $diedAt);
+    }
+
+    public static function getDeceasedF(): Deceased
+    {
+        $id              = new DeceasedId('D006');
+        $naturalPersonId = new NaturalPersonId('NP006');
+        $diedAt          = new \DateTimeImmutable('2021-12-03');
 
         return new Deceased($id, $naturalPersonId, $diedAt);
     }

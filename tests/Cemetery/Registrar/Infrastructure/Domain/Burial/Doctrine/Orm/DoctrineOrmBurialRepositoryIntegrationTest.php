@@ -55,7 +55,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $this->assertSame(6, $this->getRowCount(Burial::class));
 
         // Testing itself
-        $knownFuneralCompanyId = new FuneralCompanyId(new JuristicPersonId('ID001'));
+        $knownFuneralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
         $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
         $this->assertSame(2, $burialCount);
 
@@ -74,9 +74,9 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $this->assertSame(6, $this->getRowCount(Burial::class));
 
         // Testing itself
-        $knownCustomerId = new CustomerId(new NaturalPersonId('ID001'));
+        $knownCustomerId = new CustomerId(new NaturalPersonId('NP005'));
         $burialCount     = $this->repo->countByCustomerId($knownCustomerId);
-        $this->assertSame(3, $burialCount);
+        $this->assertSame(2, $burialCount);
 
         $unknownCustomerId = new CustomerId(new SoleProprietorId('unknown_id'));
         $burialCount       = $this->repo->countByCustomerId($unknownCustomerId);

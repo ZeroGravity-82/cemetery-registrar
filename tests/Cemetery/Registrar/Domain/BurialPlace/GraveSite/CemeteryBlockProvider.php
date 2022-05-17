@@ -15,7 +15,7 @@ final class CemeteryBlockProvider
 {
     public static function getCemeteryBlockA(): CemeteryBlock
     {
-        $id   = new CemeteryBlockId('GB001');
+        $id   = new CemeteryBlockId('CB001');
         $name = new CemeteryBlockName('воинский квартал');
 
         return new CemeteryBlock($id, $name);
@@ -23,7 +23,7 @@ final class CemeteryBlockProvider
 
     public static function getCemeteryBlockB(): CemeteryBlock
     {
-        $id   = new CemeteryBlockId('GB002');
+        $id   = new CemeteryBlockId('CB002');
         $name = new CemeteryBlockName('общий квартал А');
 
         return new CemeteryBlock($id, $name);
@@ -31,7 +31,7 @@ final class CemeteryBlockProvider
 
     public static function getCemeteryBlockC(): CemeteryBlock
     {
-        $id   = new CemeteryBlockId('GB003');
+        $id   = new CemeteryBlockId('CB003');
         $name = new CemeteryBlockName('общий квартал Б');
 
         return new CemeteryBlock($id, $name);
@@ -39,7 +39,7 @@ final class CemeteryBlockProvider
 
     public static function getCemeteryBlockD(): CemeteryBlock
     {
-        $id   = new CemeteryBlockId('GB004');
+        $id   = new CemeteryBlockId('CB004');
         $name = new CemeteryBlockName('мусульманский квартал');
 
         return new CemeteryBlock($id, $name);
