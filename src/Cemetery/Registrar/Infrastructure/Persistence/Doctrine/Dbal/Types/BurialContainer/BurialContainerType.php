@@ -55,6 +55,7 @@ final class BurialContainerType extends CustomJsonType
      */
     protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
+        /** @var BurialContainer $value */
         $container = $value->container();
 
         return match (true) {

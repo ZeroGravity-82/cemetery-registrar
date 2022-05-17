@@ -44,6 +44,7 @@ final class GeoPositionType extends CustomJsonType
      */
     protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
+        /** @var GeoPosition $value */
         return [
             'coordinates' => [
                 'latitude'  => (float) $value->coordinates()->latitude(),
@@ -51,7 +52,7 @@ final class GeoPositionType extends CustomJsonType
             ],
             'error' => !\is_null($value->error())
                 ? (float) $value->error()->value()
-                : null
+                : null,
         ];
     }
 
@@ -65,7 +66,7 @@ final class GeoPositionType extends CustomJsonType
                 (string) $decodedValue['coordinates']['latitude'],
                 (string) $decodedValue['coordinates']['longitude']
             ),
-            !\is_null($decodedValue['error']) ? new Error((string) $decodedValue['error']) : null
+            !\is_null($decodedValue['error']) ? new Error((string) $decodedValue['error']) : null,
         );
     }
 }
