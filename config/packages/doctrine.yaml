@@ -45,6 +45,7 @@ doctrine:
             # NaturalPerson
             full_name:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\FullNameType
             natural_person_id:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\NaturalPersonIdType
+            passport:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PassportType
             place_of_birth:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PlaceOfBirthType
             # Organization
             okved:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
