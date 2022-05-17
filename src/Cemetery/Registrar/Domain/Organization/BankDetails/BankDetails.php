@@ -110,7 +110,9 @@ final class BankDetails
     {
         $isSameBankName             = $bankDetails->bankName()->isEqual($this->bankName());
         $isSameBik                  = $bankDetails->bik()->isEqual($this->bik());
-        $isSameCorrespondentAccount = $bankDetails->correspondentAccount()->isEqual($this->correspondentAccount());
+        $isSameCorrespondentAccount = $bankDetails->correspondentAccount() !== null && $this->correspondentAccount() !== null
+            ? $bankDetails->correspondentAccount()->isEqual($this->correspondentAccount())
+            : $bankDetails->correspondentAccount() === null && $this->correspondentAccount() === null;
         $isSameCurrentAccount       = $bankDetails->currentAccount()->isEqual($this->currentAccount());
 
         return $isSameBankName && $isSameBik && $isSameCorrespondentAccount && $isSameCurrentAccount;
