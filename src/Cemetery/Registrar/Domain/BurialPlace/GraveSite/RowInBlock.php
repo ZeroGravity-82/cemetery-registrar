@@ -45,34 +45,34 @@ final class RowInBlock
     }
 
     /**
-     * @param int $rowInBlock
+     * @param int $value
      */
-    private function assertValidValue(int $rowInBlock): void
+    private function assertValidValue(int $value): void
     {
-        $this->assertNotNegative($rowInBlock);
-        $this->assertNotZero($rowInBlock);
+        $this->assertNotNegative($value);
+        $this->assertNotZero($value);
     }
 
     /**
-     * @param int $rowInBlock
+     * @param int $value
      *
      * @throws \InvalidArgumentException when the row in block value has negative value
      */
-    private function assertNotNegative(int $rowInBlock): void
+    private function assertNotNegative(int $value): void
     {
-        if ($rowInBlock < 0) {
+        if ($value < 0) {
             throw new \InvalidArgumentException('Ряд в квартале не может иметь отрицательное значение.');
         }
     }
 
     /**
-     * @param int $rowInBlock
+     * @param int $value
      *
      * @throws \InvalidArgumentException when the row in block value has zero value
      */
-    private function assertNotZero(int $rowInBlock): void
+    private function assertNotZero(int $value): void
     {
-        if ($rowInBlock === 0) {
+        if ($value === 0) {
             throw new \InvalidArgumentException('Ряд в квартале не может иметь нулевое значение.');
         }
     }

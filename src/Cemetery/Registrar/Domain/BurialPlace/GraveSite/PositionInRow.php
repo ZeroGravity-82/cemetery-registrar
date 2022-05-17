@@ -45,22 +45,22 @@ final class PositionInRow
     }
 
     /**
-     * @param int $positionInRow
+     * @param int $value
      */
-    private function assertValidValue(int $positionInRow): void
+    private function assertValidValue(int $value): void
     {
-        $this->assertNotNegative($positionInRow);
-        $this->assertNotZero($positionInRow);
+        $this->assertNotNegative($value);
+        $this->assertNotZero($value);
     }
 
     /**
-     * @param int $positionInRow
+     * @param int $value
      *
      * @throws \InvalidArgumentException when the position in row value has negative value
      */
-    private function assertNotNegative(int $positionInRow): void
+    private function assertNotNegative(int $value): void
     {
-        if ($positionInRow < 0) {
+        if ($value < 0) {
             throw new \InvalidArgumentException('Место в ряду не может иметь отрицательное значение.');
         }
     }

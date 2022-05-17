@@ -47,48 +47,48 @@ final class GraveSiteSize
     }
 
     /**
-     * @param string $graveSiteSize
+     * @param string $value
      */
-    private function assertValidValue(string $graveSiteSize): void
+    private function assertValidValue(string $value): void
     {
-        $this->assertNotEmpty($graveSiteSize);
-        $this->assertNotNegative($graveSiteSize);
-        $this->assertValidFormat($graveSiteSize);
+        $this->assertNotEmpty($value);
+        $this->assertNotNegative($value);
+        $this->assertValidFormat($value);
     }
 
     /**
-     * @param string $graveSiteSize
+     * @param string $value
      *
      * @throws \InvalidArgumentException when the grave site size value is empty
      */
-    private function assertNotEmpty(string $graveSiteSize): void
+    private function assertNotEmpty(string $value): void
     {
-        if (\trim($graveSiteSize) === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('Размер участка не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $graveSiteSize
+     * @param string $value
      *
      * @throws \InvalidArgumentException when the grave site size value is negative
      */
-    private function assertNotNegative(string $graveSiteSize): void
+    private function assertNotNegative(string $value): void
     {
-        if (\is_numeric($graveSiteSize) && (float) $graveSiteSize < 0.0) {
+        if (\is_numeric($value) && (float) $value < 0.0) {
             throw new \InvalidArgumentException('Размер участка не может иметь отрицательное значение.');
         }
     }
 
     /**
-     * @param string $graveSiteSize
+     * @param string $value
      *
      * @throws \InvalidArgumentException when the grave site size value has an invalid format
      */
-    private function assertValidFormat(string $graveSiteSize): void
+    private function assertValidFormat(string $value): void
     {
-        if (!\preg_match(self::VALUE_PATTERN, $graveSiteSize)) {
-            throw new \InvalidArgumentException(\sprintf('Размер участка "%s" имеет неверный формат.', $graveSiteSize));
+        if (!\preg_match(self::VALUE_PATTERN, $value)) {
+            throw new \InvalidArgumentException(\sprintf('Размер участка "%s" имеет неверный формат.', $value));
         }
     }
 }

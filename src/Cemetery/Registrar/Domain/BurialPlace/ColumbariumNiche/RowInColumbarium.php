@@ -45,34 +45,34 @@ final class RowInColumbarium
     }
 
     /**
-     * @param int $rowInColumbarium
+     * @param int $value
      */
-    private function assertValidValue(int $rowInColumbarium): void
+    private function assertValidValue(int $value): void
     {
-        $this->assertNotNegative($rowInColumbarium);
-        $this->assertNotZero($rowInColumbarium);
+        $this->assertNotNegative($value);
+        $this->assertNotZero($value);
     }
 
     /**
-     * @param int $rowInBlock
+     * @param int $value
      *
      * @throws \InvalidArgumentException when the row in columbarium value has negative value
      */
-    private function assertNotNegative(int $rowInBlock): void
+    private function assertNotNegative(int $value): void
     {
-        if ($rowInBlock < 0) {
+        if ($value < 0) {
             throw new \InvalidArgumentException('Ряд в колумбарии не может иметь отрицательное значение.');
         }
     }
 
     /**
-     * @param int $rowInBlock
+     * @param int $value
      *
      * @throws \InvalidArgumentException when the row in columbarium value has zero value
      */
-    private function assertNotZero(int $rowInBlock): void
+    private function assertNotZero(int $value): void
     {
-        if ($rowInBlock === 0) {
+        if ($value === 0) {
             throw new \InvalidArgumentException('Ряд в колумбарии не может иметь нулевое значение.');
         }
     }

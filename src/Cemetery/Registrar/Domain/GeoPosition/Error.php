@@ -53,48 +53,48 @@ final class Error
     }
 
     /**
-     * @param string $error
+     * @param string $value
      */
-    private function assertValidValue(string $error): void
+    private function assertValidValue(string $value): void
     {
-        $this->assertNotEmpty($error);
-        $this->assertNotNegative($error);
-        $this->assertValidFormat($error);
+        $this->assertNotEmpty($value);
+        $this->assertNotNegative($value);
+        $this->assertValidFormat($value);
     }
 
     /**
-     * @param string $error
+     * @param string $value
      *
      * @throws \InvalidArgumentException when the error value is empty
      */
-    private function assertNotEmpty(string $error): void
+    private function assertNotEmpty(string $value): void
     {
-        if (\trim($error) === '') {
+        if (\trim($value) === '') {
             throw new \InvalidArgumentException('Погрешность не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $error
+     * @param string $value
      *
      * @throws \InvalidArgumentException when the error value is negative
      */
-    private function assertNotNegative(string $error): void
+    private function assertNotNegative(string $value): void
     {
-        if (\is_numeric($error) && (float) $error < 0.0) {
+        if (\is_numeric($value) && (float) $value < 0.0) {
             throw new \InvalidArgumentException('Погрешность не может иметь отрицательное значение.');
         }
     }
 
     /**
-     * @param string $error
+     * @param string $value
      *
      * @throws \InvalidArgumentException when the error value has an invalid format
      */
-    private function assertValidFormat(string $error): void
+    private function assertValidFormat(string $value): void
     {
-        if (!\preg_match(self::VALUE_PATTERN, $error)) {
-            throw new \InvalidArgumentException(\sprintf('Погрешность "%s" имеет неверный формат.', $error));
+        if (!\preg_match(self::VALUE_PATTERN, $value)) {
+            throw new \InvalidArgumentException(\sprintf('Погрешность "%s" имеет неверный формат.', $value));
         }
     }
 
