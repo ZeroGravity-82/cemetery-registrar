@@ -51,6 +51,7 @@ doctrine:
             okved:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
             organization_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\NameType
             # Organization/BankDetails
+            bank_details:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\BankDetailsType
             bik:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\BikType
             correspondent_account:    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\CorrespondentAccountType
             current_account:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\CurrentAccountType
