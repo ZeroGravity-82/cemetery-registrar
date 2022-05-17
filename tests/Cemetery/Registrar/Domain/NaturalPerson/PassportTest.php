@@ -21,7 +21,7 @@ class PassportTest extends TestCase
     private string             $passportIssuedByA;
     private string             $passportIssuedByB;
     private string             $passportDivisionCodeA;
-    private string             $passportDivisionCodeB;
+    private string|null        $passportDivisionCodeB;
 
     public function setUp(): void
     {
@@ -34,7 +34,7 @@ class PassportTest extends TestCase
         $this->passportIssuedByA     = 'УВД Кировского района города Новосибирска';
         $this->passportIssuedByB     = 'Отделом УФМС России по Новосибирской области в Заельцовском районе';
         $this->passportDivisionCodeA = '540-001';
-        $this->passportDivisionCodeB = '541-001';
+        $this->passportDivisionCodeB = null;
     }
 
     public function testItSuccessfullyCreated(): void
