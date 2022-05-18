@@ -461,7 +461,7 @@ final class CreateBurialService extends BurialService
     {
         return $this->columbariumNicheFactory->create(
             $request->burialPlaceColumbariumNicheColumbariumId,
-            $request->burialPlaceColumbariumNicheRowNumber,
+            $request->burialPlaceColumbariumNicheRowInColumbarium,
             $request->burialPlaceColumbariumNicheNicheNumber,
             $request->burialPlaceGeoPositionLatitude,
             $request->burialPlaceGeoPositionLongitude,

@@ -117,13 +117,12 @@ final class CreateBurialRequest
      * @param string|null $burialChainId
      * @param string|null $burialPlaceId
      * @param string|null $burialPlaceType
-     * @param string|null $burialPlaceGeoPosition
      * @param string|null $burialPlaceGraveSiteCemeteryBlockId
      * @param int|null    $burialPlaceGraveSiteRowInBlock
      * @param int|null    $burialPlaceGraveSitePositionInRow
      * @param string|null $burialPlaceGraveSiteSize
      * @param string|null $burialPlaceColumbariumNicheColumbariumId
-     * @param int|null    $burialPlaceColumbariumNicheRowNumber
+     * @param int|null    $burialPlaceColumbariumNicheRowInColumbarium
      * @param string|null $burialPlaceColumbariumNicheNicheNumber
      * @param string|null $burialPlaceMemorialTreeNumber
      * @param string|null $burialPlaceGeoPositionLatitude
@@ -243,13 +242,12 @@ final class CreateBurialRequest
         public readonly ?string $burialChainId,
         public readonly ?string $burialPlaceId,
         public readonly ?string $burialPlaceType,
-        public readonly ?string $burialPlaceGeoPosition,
         public readonly ?string $burialPlaceGraveSiteCemeteryBlockId,
         public readonly ?int    $burialPlaceGraveSiteRowInBlock,
         public readonly ?int    $burialPlaceGraveSitePositionInRow,
         public readonly ?string $burialPlaceGraveSiteSize,
         public readonly ?string $burialPlaceColumbariumNicheColumbariumId,
-        public readonly ?int    $burialPlaceColumbariumNicheRowNumber,
+        public readonly ?int    $burialPlaceColumbariumNicheRowInColumbarium,
         public readonly ?string $burialPlaceColumbariumNicheNicheNumber,
         public readonly ?string $burialPlaceMemorialTreeNumber,
         public readonly ?string $burialPlaceGeoPositionLatitude,

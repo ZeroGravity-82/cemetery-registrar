@@ -9,15 +9,133 @@ namespace Cemetery\Registrar\Application\Burial;
  */
 final class BurialFormView
 {
+    /**
+     * @param string      $id
+     * @param string      $code
+     * @param string|null $type
+     * @param string|null $deceasedId
+     * @param string|null $deceasedNaturalPersonId
+     * @param string|null $deceasedNaturalPersonFullName
+     * @param string|null $deceasedNaturalPersonBornAt
+     * @param string|null $deceasedDiedAt
+     * @param string|null $deceasedDeathCertificateId
+     * @param string|null $deceasedCauseOfDeath
+     * @param string|null $customerId
+     * @param string|null $customerType
+     * @param string|null $customerNaturalPersonFullName
+     * @param string|null $customerNaturalPersonPhone
+     * @param string|null $customerNaturalPersonPhoneAdditional
+     * @param string|null $customerNaturalPersonEmail
+     * @param string|null $customerNaturalPersonAddress
+     * @param string|null $customerNaturalPersonBornAt
+     * @param string|null $customerNaturalPersonPlaceOfBirth
+     * @param string|null $customerNaturalPersonPassport
+     * @param string|null $customerSoleProprietorName
+     * @param string|null $customerSoleProprietorInn
+     * @param string|null $customerSoleProprietorOgrnip
+     * @param string|null $customerSoleProprietorOkpo
+     * @param string|null $customerSoleProprietorOkved
+     * @param string|null $customerSoleProprietorRegistrationAddress
+     * @param string|null $customerSoleProprietorActualLocationAddress
+     * @param string|null $customerSoleProprietorBankDetails
+     * @param string|null $customerSoleProprietorPhone
+     * @param string|null $customerSoleProprietorPhoneAdditional
+     * @param string|null $customerSoleProprietorFax
+     * @param string|null $customerSoleProprietorEmail
+     * @param string|null $customerSoleProprietorWebsite
+     * @param string|null $customerJuristicPersonName
+     * @param string|null $customerJuristicPersonInn
+     * @param string|null $customerJuristicPersonKpp
+     * @param string|null $customerJuristicPersonOgrn
+     * @param string|null $customerJuristicPersonOkpo
+     * @param string|null $customerJuristicPersonOkved
+     * @param string|null $customerJuristicPersonLegalAddress
+     * @param string|null $customerJuristicPersonPostalAddress
+     * @param string|null $customerJuristicPersonBankDetails
+     * @param string|null $customerJuristicPersonPhone
+     * @param string|null $customerJuristicPersonPhoneAdditional
+     * @param string|null $customerJuristicPersonFax
+     * @param string|null $customerJuristicPersonGeneralDirector
+     * @param string|null $customerJuristicPersonEmail
+     * @param string|null $customerJuristicPersonWebsite
+     * @param string|null $burialPlaceOwnerId
+     * @param string|null $burialPlaceOwnerFullName
+     * @param string|null $burialPlaceOwnerPhone
+     * @param string|null $burialPlaceOwnerPhoneAdditional
+     * @param string|null $burialPlaceOwnerEmail
+     * @param string|null $burialPlaceOwnerAddress
+     * @param string|null $burialPlaceOwnerBornAt
+     * @param string|null $burialPlaceOwnerPlaceOfBirth
+     * @param string|null $burialPlaceOwnerPassportSeries
+     * @param string|null $burialPlaceOwnerPassportNumber
+     * @param string|null $burialPlaceOwnerPassportIssuedAt
+     * @param string|null $burialPlaceOwnerPassportIssuedBy
+     * @param string|null $burialPlaceOwnerPassportDivisionCode
+     * @param string|null $funeralCompanyId
+     * @param string|null $funeralCompanyType
+     * @param string|null $funeralCompanySoleProprietorName
+     * @param string|null $funeralCompanySoleProprietorInn
+     * @param string|null $funeralCompanySoleProprietorOgrnip
+     * @param string|null $funeralCompanySoleProprietorOkpo
+     * @param string|null $funeralCompanySoleProprietorOkved
+     * @param string|null $funeralCompanySoleProprietorRegistrationAddress
+     * @param string|null $funeralCompanySoleProprietorActualLocationAddress
+     * @param string|null $funeralCompanySoleProprietorBankName
+     * @param string|null $funeralCompanySoleProprietorBik
+     * @param string|null $funeralCompanySoleProprietorCorrespondentAccount
+     * @param string|null $funeralCompanySoleProprietorCurrentAccount
+     * @param string|null $funeralCompanySoleProprietorPhone
+     * @param string|null $funeralCompanySoleProprietorPhoneAdditional
+     * @param string|null $funeralCompanySoleProprietorFax
+     * @param string|null $funeralCompanySoleProprietorEmail
+     * @param string|null $funeralCompanySoleProprietorWebsite
+     * @param string|null $funeralCompanyJuristicPersonName
+     * @param string|null $funeralCompanyJuristicPersonInn
+     * @param string|null $funeralCompanyJuristicPersonKpp
+     * @param string|null $funeralCompanyJuristicPersonOgrn
+     * @param string|null $funeralCompanyJuristicPersonOkpo
+     * @param string|null $funeralCompanyJuristicPersonOkved
+     * @param string|null $funeralCompanyJuristicPersonLegalAddress
+     * @param string|null $funeralCompanyJuristicPersonPostalAddress
+     * @param string|null $funeralCompanyJuristicPersonBankName
+     * @param string|null $funeralCompanyJuristicPersonBik
+     * @param string|null $funeralCompanyJuristicPersonCorrespondentAccount
+     * @param string|null $funeralCompanyJuristicPersonCurrentAccount
+     * @param string|null $funeralCompanyJuristicPersonPhone
+     * @param string|null $funeralCompanyJuristicPersonPhoneAdditional
+     * @param string|null $funeralCompanyJuristicPersonFax
+     * @param string|null $funeralCompanyJuristicPersonGeneralDirector
+     * @param string|null $funeralCompanyJuristicPersonEmail
+     * @param string|null $funeralCompanyJuristicPersonWebsite
+     * @param string|null $burialChainId
+     * @param string|null $burialPlaceId
+     * @param string|null $burialPlaceType
+     * @param string|null $burialPlaceGraveSiteCemeteryBlockId
+     * @param int|null    $burialPlaceGraveSiteRowInBlock
+     * @param int|null    $burialPlaceGraveSitePositionInRow
+     * @param string|null $burialPlaceGraveSiteSize
+     * @param string|null $burialPlaceColumbariumNicheColumbariumId
+     * @param int|null    $burialPlaceColumbariumNicheRowInColumbarium
+     * @param string|null $burialPlaceColumbariumNicheNicheNumber
+     * @param string|null $burialPlaceMemorialTreeNumber
+     * @param string|null $burialPlaceGeoPositionLatitude
+     * @param string|null $burialPlaceGeoPositionLongitude
+     * @param string|null $burialPlaceGeoPositionError
+     * @param string|null $burialContainerType
+     * @param int|null    $burialContainerCoffinSize
+     * @param string|null $burialContainerCoffinShape
+     * @param bool|null   $burialContainerCoffinIsNonStandard
+     * @param string|null $buriedAt
+     */
     public function __construct(
         public readonly string  $id,
         public readonly string  $code,
-        public readonly string  $type,
-        public readonly string  $deceasedId,
-        public readonly string  $deceasedNaturalPersonId,
-        public readonly string  $deceasedNaturalPersonFullName,
+        public readonly ?string $type,
+        public readonly ?string $deceasedId,
+        public readonly ?string $deceasedNaturalPersonId,
+        public readonly ?string $deceasedNaturalPersonFullName,
         public readonly ?string $deceasedNaturalPersonBornAt,
-        public readonly string  $deceasedDiedAt,
+        public readonly ?string $deceasedDiedAt,
         public readonly ?string $deceasedDeathCertificateId,
         public readonly ?string $deceasedCauseOfDeath,
         public readonly ?string $customerId,
@@ -58,30 +176,75 @@ final class BurialFormView
         public readonly ?string $customerJuristicPersonGeneralDirector,
         public readonly ?string $customerJuristicPersonEmail,
         public readonly ?string $customerJuristicPersonWebsite,
+        public readonly ?string $burialPlaceOwnerId,
+        public readonly ?string $burialPlaceOwnerFullName,
+        public readonly ?string $burialPlaceOwnerPhone,
+        public readonly ?string $burialPlaceOwnerPhoneAdditional,
+        public readonly ?string $burialPlaceOwnerEmail,
+        public readonly ?string $burialPlaceOwnerAddress,
+        public readonly ?string $burialPlaceOwnerBornAt,
+        public readonly ?string $burialPlaceOwnerPlaceOfBirth,
+        public readonly ?string $burialPlaceOwnerPassportSeries,
+        public readonly ?string $burialPlaceOwnerPassportNumber,
+        public readonly ?string $burialPlaceOwnerPassportIssuedAt,
+        public readonly ?string $burialPlaceOwnerPassportIssuedBy,
+        public readonly ?string $burialPlaceOwnerPassportDivisionCode,
+        public readonly ?string $funeralCompanyId,
+        public readonly ?string $funeralCompanyType,
+        public readonly ?string $funeralCompanySoleProprietorName,
+        public readonly ?string $funeralCompanySoleProprietorInn,
+        public readonly ?string $funeralCompanySoleProprietorOgrnip,
+        public readonly ?string $funeralCompanySoleProprietorOkpo,
+        public readonly ?string $funeralCompanySoleProprietorOkved,
+        public readonly ?string $funeralCompanySoleProprietorRegistrationAddress,
+        public readonly ?string $funeralCompanySoleProprietorActualLocationAddress,
+        public readonly ?string $funeralCompanySoleProprietorBankName,
+        public readonly ?string $funeralCompanySoleProprietorBik,
+        public readonly ?string $funeralCompanySoleProprietorCorrespondentAccount,
+        public readonly ?string $funeralCompanySoleProprietorCurrentAccount,
+        public readonly ?string $funeralCompanySoleProprietorPhone,
+        public readonly ?string $funeralCompanySoleProprietorPhoneAdditional,
+        public readonly ?string $funeralCompanySoleProprietorFax,
+        public readonly ?string $funeralCompanySoleProprietorEmail,
+        public readonly ?string $funeralCompanySoleProprietorWebsite,
+        public readonly ?string $funeralCompanyJuristicPersonName,
+        public readonly ?string $funeralCompanyJuristicPersonInn,
+        public readonly ?string $funeralCompanyJuristicPersonKpp,
+        public readonly ?string $funeralCompanyJuristicPersonOgrn,
+        public readonly ?string $funeralCompanyJuristicPersonOkpo,
+        public readonly ?string $funeralCompanyJuristicPersonOkved,
+        public readonly ?string $funeralCompanyJuristicPersonLegalAddress,
+        public readonly ?string $funeralCompanyJuristicPersonPostalAddress,
+        public readonly ?string $funeralCompanyJuristicPersonBankName,
+        public readonly ?string $funeralCompanyJuristicPersonBik,
+        public readonly ?string $funeralCompanyJuristicPersonCorrespondentAccount,
+        public readonly ?string $funeralCompanyJuristicPersonCurrentAccount,
+        public readonly ?string $funeralCompanyJuristicPersonPhone,
+        public readonly ?string $funeralCompanyJuristicPersonPhoneAdditional,
+        public readonly ?string $funeralCompanyJuristicPersonFax,
+        public readonly ?string $funeralCompanyJuristicPersonGeneralDirector,
+        public readonly ?string $funeralCompanyJuristicPersonEmail,
+        public readonly ?string $funeralCompanyJuristicPersonWebsite,
         public readonly ?string $burialChainId,
         public readonly ?string $burialPlaceId,
         public readonly ?string $burialPlaceType,
-        public readonly ?string $burialPlaceGeoPosition,
         public readonly ?string $burialPlaceGraveSiteCemeteryBlockId,
+        public readonly ?string $burialPlaceGraveSiteCemeteryBlockName,
         public readonly ?int    $burialPlaceGraveSiteRowInBlock,
         public readonly ?int    $burialPlaceGraveSitePositionInRow,
         public readonly ?string $burialPlaceGraveSiteSize,
         public readonly ?string $burialPlaceColumbariumNicheColumbariumId,
-        public readonly ?int    $burialPlaceColumbariumNicheRowNumber,
+        public readonly ?string $burialPlaceColumbariumNicheColumbariumName,
+        public readonly ?int    $burialPlaceColumbariumNicheRowInColumbarium,
         public readonly ?string $burialPlaceColumbariumNicheNicheNumber,
         public readonly ?string $burialPlaceMemorialTreeNumber,
         public readonly ?string $burialPlaceGeoPositionLatitude,
         public readonly ?string $burialPlaceGeoPositionLongitude,
         public readonly ?string $burialPlaceGeoPositionError,
-
-
-
-        public readonly ?string $burialPlaceId,
-        public readonly ?string $burialPlaceType,
-        public readonly ?string $burialPlaceOwnerId,
-        public readonly ?string $funeralCompanyId,
-        public readonly ?string $funeralCompanyType,
-        public readonly ?string $burialContainer,
+        public readonly ?string $burialContainerType,
+        public readonly ?int    $burialContainerCoffinSize,
+        public readonly ?string $burialContainerCoffinShape,
+        public readonly ?bool   $burialContainerCoffinIsNonStandard,
         public readonly ?string $buriedAt,
     ) {}
 }
