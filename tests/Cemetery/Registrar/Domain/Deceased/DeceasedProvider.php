@@ -57,7 +57,7 @@ final class DeceasedProvider
     {
         $id              = new DeceasedId('D004');
         $naturalPersonId = new NaturalPersonId('NP005');
-        $diedAt          = new \DateTimeImmutable('2015-03-10');
+        $diedAt          = new \DateTimeImmutable('2022-03-10');
 
         return new Deceased($id, $naturalPersonId, $diedAt);
     }

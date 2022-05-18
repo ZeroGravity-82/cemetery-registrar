@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Application\Burial\CreateBurial;
 final class CreateBurialRequest
 {
     /**
-     * @param string|null $burialType
+     * @param string|null $type
      * @param string|null $deceasedNaturalPersonId
      * @param string|null $deceasedNaturalPersonFullName
      * @param string|null $deceasedNaturalPersonBornAt
@@ -117,7 +117,7 @@ final class CreateBurialRequest
      * @param string|null $burialChainId
      * @param string|null $burialPlaceId
      * @param string|null $burialPlaceType
-     * @param string|null $burialPlaceGeolocationPosition
+     * @param string|null $burialPlaceGeoPosition
      * @param string|null $burialPlaceGraveSiteCemeteryBlockId
      * @param int|null    $burialPlaceGraveSiteRowInBlock
      * @param int|null    $burialPlaceGraveSitePositionInRow
@@ -136,7 +136,7 @@ final class CreateBurialRequest
      * @param string|null $buriedAt
      */
     public function __construct(
-        public readonly ?string $burialType,
+        public readonly ?string $type,
         public readonly ?string $deceasedNaturalPersonId,
         public readonly ?string $deceasedNaturalPersonFullName,
         public readonly ?string $deceasedNaturalPersonBornAt,
@@ -243,7 +243,7 @@ final class CreateBurialRequest
         public readonly ?string $burialChainId,
         public readonly ?string $burialPlaceId,
         public readonly ?string $burialPlaceType,
-        public readonly ?string $burialPlaceGeolocationPosition,
+        public readonly ?string $burialPlaceGeoPosition,
         public readonly ?string $burialPlaceGraveSiteCemeteryBlockId,
         public readonly ?int    $burialPlaceGraveSiteRowInBlock,
         public readonly ?int    $burialPlaceGraveSitePositionInRow,

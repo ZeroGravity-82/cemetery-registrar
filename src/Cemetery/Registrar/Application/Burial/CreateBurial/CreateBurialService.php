@@ -80,7 +80,7 @@ final class CreateBurialService extends BurialService
     public function execute($request): CreateBurialResponse
     {
         $deceasedId         = $this->processDeceasedData($request);
-        $burialType         = $this->processBurialTypeData($request);
+        $type               = $this->processTypeData($request);
         $customerId         = $this->processCustomerData($request);
         $burialPlaceId      = $this->processBurialPlaceData($request);
         $burialPlaceOwnerId = $this->processBurialPlaceOwnerData($request);
@@ -90,7 +90,7 @@ final class CreateBurialService extends BurialService
 
         $burial = $this->burialFactory->create(
             $deceasedId,
-            $burialType,
+            $type,
             $customerId,
             $burialPlaceId,
             $burialPlaceOwnerId,
@@ -127,9 +127,9 @@ final class CreateBurialService extends BurialService
      *
      * @return BurialType
      */
-    private function processBurialTypeData(CreateBurialRequest $request): BurialType
+    private function processTypeData(CreateBurialRequest $request): BurialType
     {
-        return new BurialType((string) $request->burialType);
+        return new BurialType((string) $request->type);
     }
 
     /**

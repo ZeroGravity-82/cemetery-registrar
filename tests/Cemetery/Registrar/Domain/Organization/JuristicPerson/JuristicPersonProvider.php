@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
@@ -14,10 +15,12 @@ final class JuristicPersonProvider
 {
     public static function getJuristicPersonA(): JuristicPerson
     {
-        $id   = new JuristicPersonId('JP001');
-        $name = new Name('ООО "Рога и копыта"');
+        $id            = new JuristicPersonId('JP001');
+        $name          = new Name('ООО "Рога и копыта"');
+        $postalAddress = new Address('г. Кемерово, пр. Строителей, д. 5, офис 102');
 
-        return new JuristicPerson($id, $name);
+        return (new JuristicPerson($id, $name))
+            ->setPostalAddress($postalAddress);
     }
 
     public static function getJuristicPersonB(): JuristicPerson

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
 use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
@@ -68,7 +69,9 @@ final class NaturalPersonProvider
     {
         $id       = new NaturalPersonId('NP005');
         $fullName = new FullName('Жданова Инга Григорьевна');
+        $phone    = new PhoneNumber('+7-913-111-22-33');
         $address  = new Address('Новосибирск, ул. Ленина, д. 1');
+        $bornAt   = new \DateTimeImmutable('1979-02-12');
         $passport = new Passport(
             '1234',
             '567890',
@@ -78,7 +81,9 @@ final class NaturalPersonProvider
         );
 
         return (new NaturalPerson($id, $fullName))
+            ->setPhone($phone)
             ->setAddress($address)
+            ->setBornAt($bornAt)
             ->setPassport($passport);
     }
 
