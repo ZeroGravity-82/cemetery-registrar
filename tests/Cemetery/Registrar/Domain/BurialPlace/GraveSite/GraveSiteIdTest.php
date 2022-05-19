@@ -13,4 +13,9 @@ use Cemetery\Tests\Registrar\Domain\EntityIdTest;
 class GraveSiteIdTest extends EntityIdTest
 {
     protected string $className = GraveSiteId::class;
+
+    public function testItHasValidClassShortcutConstant(): void
+    {
+        $this->assertSame('GRAVE_SITE_ID', GraveSiteId::CLASS_SHORTCUT);
+    }
 }
