@@ -9,26 +9,6 @@ namespace Cemetery\Registrar\Application\JuristicPerson;
  */
 final class CreateJuristicPersonRequest
 {
-    /**
-     * @param string      $name
-     * @param string|null $inn
-     * @param string|null $kpp
-     * @param string|null $ogrn
-     * @param string|null $okpo
-     * @param string|null $okved
-     * @param string|null $legalAddress
-     * @param string|null $postalAddress
-     * @param string|null $bankName
-     * @param string|null $bik
-     * @param string|null $correspondentAccount
-     * @param string|null $currentAccount
-     * @param string|null $phone
-     * @param string|null $phoneAdditional
-     * @param string|null $fax
-     * @param string|null $generalDirector
-     * @param string|null $email
-     * @param string|null $website
-     */
     public function __construct(
         public readonly string  $name,
         public readonly ?string $inn,

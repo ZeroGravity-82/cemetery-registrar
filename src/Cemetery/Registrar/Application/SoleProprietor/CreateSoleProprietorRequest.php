@@ -9,24 +9,6 @@ namespace Cemetery\Registrar\Application\SoleProprietor;
  */
 final class CreateSoleProprietorRequest
 {
-    /**
-     * @param string      $name
-     * @param string|null $inn
-     * @param string|null $ognip
-     * @param string|null $okpo
-     * @param string|null $okved
-     * @param string|null $registrationAddress
-     * @param string|null $actualLocationAddress
-     * @param string|null $bankName
-     * @param string|null $bik
-     * @param string|null $correspondentAccount
-     * @param string|null $currentAccount
-     * @param string|null $phone
-     * @param string|null $phoneAdditional
-     * @param string|null $fax
-     * @param string|null $email
-     * @param string|null $website
-     */
     public function __construct(
         public readonly string  $name,
         public readonly ?string $inn,

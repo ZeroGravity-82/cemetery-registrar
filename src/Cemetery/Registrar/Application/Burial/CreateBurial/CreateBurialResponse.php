@@ -9,9 +9,6 @@ namespace Cemetery\Registrar\Application\Burial\CreateBurial;
  */
 final class CreateBurialResponse
 {
-    /**
-     * @param string $burialId
-     */
     public function __construct(
         public readonly string $burialId,
     ) {}

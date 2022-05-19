@@ -9,9 +9,6 @@ namespace Cemetery\Registrar\Application\SoleProprietor;
  */
 final class CreateSoleProprietorResponse
 {
-    /**
-     * @param string $id
-     */
     public function __construct(
         public readonly string $id,
     ) {}

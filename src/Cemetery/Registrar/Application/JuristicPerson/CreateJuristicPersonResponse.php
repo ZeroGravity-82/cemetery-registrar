@@ -9,9 +9,6 @@ namespace Cemetery\Registrar\Application\JuristicPerson;
  */
 final class CreateJuristicPersonResponse
 {
-    /**
-     * @param string $id
-     */
     public function __construct(
         public readonly string $id,
     ) {}
