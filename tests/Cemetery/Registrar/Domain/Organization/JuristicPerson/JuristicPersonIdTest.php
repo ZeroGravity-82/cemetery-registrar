@@ -13,4 +13,9 @@ use Cemetery\Tests\Registrar\Domain\EntityIdTest;
 class JuristicPersonIdTest extends EntityIdTest
 {
     protected string $className = JuristicPersonId::class;
+
+    public function testItHasValidClassShortcutConstant(): void
+    {
+        $this->assertSame('JURISTIC_PERSON_ID', JuristicPersonId::CLASS_SHORTCUT);
+    }
 }
