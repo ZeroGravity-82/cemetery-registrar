@@ -13,4 +13,9 @@ use Cemetery\Tests\Registrar\Domain\EntityIdTest;
 class ColumbariumNicheIdTest extends EntityIdTest
 {
     protected string $className = ColumbariumNicheId::class;
+
+    public function testItHasValidClassShortcutConstant(): void
+    {
+        $this->assertSame('COLUMBARIUM_NICHE_ID', ColumbariumNicheId::CLASS_SHORTCUT);
+    }
 }
