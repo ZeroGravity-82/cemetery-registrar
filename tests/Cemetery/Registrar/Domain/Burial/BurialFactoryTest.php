@@ -56,8 +56,8 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');
         $burial = $this->burialFactory->create(
-            $deceasedId,
             $type,
+            $deceasedId,
             $customerId,
             $burialPlaceId,
             $burialPlaceOwnerId,
@@ -89,8 +89,8 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');
         $burial = $this->burialFactory->create(
-            $deceasedId,
             $type,
+            $deceasedId,
             null,
             null,
             null,

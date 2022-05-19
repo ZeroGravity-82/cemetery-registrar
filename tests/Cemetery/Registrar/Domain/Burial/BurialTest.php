@@ -43,10 +43,10 @@ class BurialTest extends AggregateRootTest
     public function setUp(): void
     {
         $id           = new BurialId('B001');
-        $burialCode   = new BurialCode('BC001');
+        $code         = new BurialCode('BC001');
+        $type         = BurialType::coffinInGraveSite();
         $deceasedId   = new DeceasedId('D001');
-        $burialType   = BurialType::coffinInGraveSite();
-        $this->burial = new Burial($id, $burialCode, $deceasedId, $burialType);
+        $this->burial = new Burial($id, $code, $type, $deceasedId);
         $this->entity = $this->burial;
     }
 
@@ -56,9 +56,9 @@ class BurialTest extends AggregateRootTest
         $this->assertSame('B001', (string) $this->burial->id());
         $this->assertInstanceOf(BurialCode::class, $this->burial->code());
         $this->assertSame('BC001', (string) $this->burial->code());
+        $this->assertInstanceOf(BurialType::class, $this->burial->type());
         $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
         $this->assertSame('D001', (string) $this->burial->deceasedId());
-        $this->assertInstanceOf(BurialType::class, $this->burial->type());
         $this->assertTrue($this->burial->type()->isCoffinInGraveSite());
         $this->assertNull($this->burial->customerId());
         $this->assertNull($this->burial->burialPlaceId());
@@ -68,20 +68,20 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->buriedAt());
     }
 
-    public function testItSetsDeceasedId(): void
-    {
-        $deceasedId = new DeceasedId('D001');
-        $this->burial->setDeceasedId($deceasedId);
-        $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
-        $this->assertTrue($this->burial->deceasedId()->isEqual($deceasedId));
-    }
-
     public function testItSetsBurialType(): void
     {
         $burialType = BurialType::urnInColumbariumNiche();
         $this->burial->setType($burialType);
         $this->assertInstanceOf(BurialType::class, $this->burial->type());
         $this->assertTrue($this->burial->type()->isEqual($burialType));
+    }
+
+    public function testItSetsDeceasedId(): void
+    {
+        $deceasedId = new DeceasedId('D001');
+        $this->burial->setDeceasedId($deceasedId);
+        $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
+        $this->assertTrue($this->burial->deceasedId()->isEqual($deceasedId));
     }
 
     public function testItSetsCustomerId(): void
