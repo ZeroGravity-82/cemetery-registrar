@@ -28,24 +28,12 @@ final class CustomerIdType extends EntityMaskingIdType
     /**
      * {@inheritdoc}
      */
-    public static function getClassShortcut(string $className): string
-    {
-        return match ($className) {
-            NaturalPersonId::class  => 'NaturalPersonId',
-            JuristicPersonId::class => 'JuristicPersonId',
-            SoleProprietorId::class => 'SoleProprietorId',
-        };
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function buildPhpValue(array $decodedValue): CustomerId
     {
-        return match ($decodedValue['class']) {
-            self::getClassShortcut(NaturalPersonId::class)  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
-            self::getClassShortcut(JuristicPersonId::class) => new CustomerId(new JuristicPersonId($decodedValue['value'])),
-            self::getClassShortcut(SoleProprietorId::class) => new CustomerId(new SoleProprietorId($decodedValue['value'])),
+        return match ($decodedValue['classShortcut']) {
+            NaturalPersonId::CLASS_SHORTCUT  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
+            JuristicPersonId::CLASS_SHORTCUT => new CustomerId(new JuristicPersonId($decodedValue['value'])),
+            SoleProprietorId::CLASS_SHORTCUT => new CustomerId(new SoleProprietorId($decodedValue['value'])),
         };
     }
 }

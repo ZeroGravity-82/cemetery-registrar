@@ -28,24 +28,12 @@ final class BurialPlaceIdType extends EntityMaskingIdType
     /**
      * {@inheritdoc}
      */
-    public static function getClassShortcut(string $className): string
-    {
-        return match ($className) {
-            GraveSiteId::class        => 'GraveSiteId',
-            ColumbariumNicheId::class => 'ColumbariumNicheId',
-            MemorialTreeId::class     => 'MemorialTreeId',
-        };
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function buildPhpValue(array $decodedValue): BurialPlaceId
     {
-        return match ($decodedValue['class']) {
-            self::getClassShortcut(GraveSiteId::class)        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
-            self::getClassShortcut(ColumbariumNicheId::class) => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
-            self::getClassShortcut(MemorialTreeId::class)     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
+        return match ($decodedValue['classShortcut']) {
+            GraveSiteId::CLASS_SHORTCUT        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
+            ColumbariumNicheId::CLASS_SHORTCUT => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
+            MemorialTreeId::CLASS_SHORTCUT     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
         };
     }
 }

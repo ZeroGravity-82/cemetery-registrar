@@ -27,22 +27,11 @@ final class FuneralCompanyIdType extends EntityMaskingIdType
     /**
      * {@inheritdoc}
      */
-    public static function getClassShortcut(string $className): string
-    {
-        return match ($className) {
-            JuristicPersonId::class => 'JuristicPersonId',
-            SoleProprietorId::class => 'SoleProprietorId',
-        };
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function buildPhpValue(array $decodedValue): FuneralCompanyId
     {
-        return match ($decodedValue['class']) {
-            self::getClassShortcut(JuristicPersonId::class) => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
-            self::getClassShortcut(SoleProprietorId::class) => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
+        return match ($decodedValue['classShortcut']) {
+            JuristicPersonId::CLASS_SHORTCUT => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
+            SoleProprietorId::CLASS_SHORTCUT => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
         };
     }
 }
