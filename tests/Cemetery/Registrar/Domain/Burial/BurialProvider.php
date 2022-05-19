@@ -34,7 +34,7 @@ final class BurialProvider
         $burialType      = BurialType::urnInColumbariumNiche();
         $customerId      = new CustomerId(new NaturalPersonId('NP005'));
         $burialPlaceId   = new BurialPlaceId(new ColumbariumNicheId('CN002'));
-        $buriedAt        = new \DateTimeImmutable('2022-01-15 13:10:00');
+        $buriedAt        = new \DateTimeImmutable('2021-12-03 13:10:00');
         $burialContainer = new BurialContainer(new Urn());
 
         return (new Burial($id, $burialCode, $deceasedId,$burialType))
@@ -98,14 +98,16 @@ final class BurialProvider
         $burialCode         = new BurialCode('000000005');
         $deceasedId         = new DeceasedId('D005');
         $burialType         = BurialType::coffinInGraveSite();
-        $customerId         = new CustomerId(new SoleProprietorId('SP001'));
+        $customerId         = new CustomerId(new SoleProprietorId('SP003'));
         $burialPlaceOwnerId = new NaturalPersonId('NP008');
         $funeralCompanyId   = new FuneralCompanyId(new JuristicPersonId('JP002'));
+        $buriedAt           = new \DateTimeImmutable('2010-01-28 12:55:00');
 
         return (new Burial($id, $burialCode, $deceasedId, $burialType))
             ->setCustomerId($customerId)
             ->setBurialPlaceOwnerId($burialPlaceOwnerId)
-            ->setFuneralCompanyId($funeralCompanyId);
+            ->setFuneralCompanyId($funeralCompanyId)
+            ->setBuriedAt($buriedAt);
     }
 
     public static function getBurialF(): Burial
@@ -115,7 +117,7 @@ final class BurialProvider
         $deceasedId       = new DeceasedId('D006');
         $burialType       = BurialType::coffinInGraveSite();
         $customerId       = new CustomerId(new NaturalPersonId('NP007'));
-        $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP001'));
+        $funeralCompanyId = new FuneralCompanyId(new SoleProprietorId('SP002'));
 
         return (new Burial($id, $burialCode, $deceasedId, $burialType))
             ->setCustomerId($customerId)

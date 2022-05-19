@@ -18,6 +18,7 @@ final class BurialFormView
         public readonly ?string $deceasedNaturalPersonFullName,
         public readonly ?string $deceasedNaturalPersonBornAt,
         public readonly ?string $deceasedDiedAt,
+        public readonly ?int    $deceasedAge,
         public readonly ?string $deceasedDeathCertificateId,
         public readonly ?string $deceasedCauseOfDeath,
         public readonly ?string $customerId,

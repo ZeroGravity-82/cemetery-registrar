@@ -28,7 +28,7 @@ final class MemorialTreeProvider
     {
         $id          = new MemorialTreeId('MT002');
         $treeNumber  = new MemorialTreeNumber('002');
-        $geoPosition = new GeoPosition(new Coordinates('54.950357', '82.7972252'), new Error('0.5'));
+        $geoPosition = new GeoPosition(new Coordinates('54.950457', '82.7972252'), new Error('0.5'));
 
         return (new MemorialTree($id, $treeNumber))
             ->setGeoPosition($geoPosition);

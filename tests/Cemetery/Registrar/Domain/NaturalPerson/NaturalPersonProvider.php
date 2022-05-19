@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
 use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
@@ -109,7 +110,9 @@ final class NaturalPersonProvider
     {
         $id       = new NaturalPersonId('NP008');
         $fullName = new FullName('Беляев Мечеслав Федорович');
+        $email    = new Email('mecheslav.belyaev@gmail.com');
 
-        return new NaturalPerson($id, $fullName);
+        return (new NaturalPerson($id, $fullName))
+            ->setEmail($email);
     }
 }
