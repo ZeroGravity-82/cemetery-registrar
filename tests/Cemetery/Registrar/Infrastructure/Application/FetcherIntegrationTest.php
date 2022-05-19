@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Application;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -13,12 +14,17 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 abstract class FetcherIntegrationTest extends KernelTestCase
 {
+    protected Connection             $connection;
     protected EntityManagerInterface $entityManager;
 
     public function setUp(): void
     {
         self::bootKernel();
         $container = self::getContainer();
+
+        /** @var Connection $connection */
+        $connection       = $container->get(Connection::class);
+        $this->connection = $connection;
 
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);

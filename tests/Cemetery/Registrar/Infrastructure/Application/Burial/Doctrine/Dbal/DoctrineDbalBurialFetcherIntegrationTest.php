@@ -66,7 +66,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         parent::setUp();
 
         $this->fillDatabase();
-        $this->fetcher = new DoctrineDbalBurialFetcher();
+        $this->fetcher = new DoctrineDbalBurialFetcher($this->connection);
     }
 
     public function testItHasValidPageSizeConstant(): void

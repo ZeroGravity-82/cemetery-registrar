@@ -14,11 +14,11 @@ interface BurialFetcher
     /**
      * @param string $id
      *
-     * @return BurialView
+     * @return BurialFormView
      *
      * @throws \RuntimeException when the burial is not found by ID
      */
-    public function getById(string $id): BurialView;
+    public function getById(string $id): BurialFormView;
 
     /**
      * @param int         $page
