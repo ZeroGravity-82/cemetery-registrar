@@ -27,8 +27,8 @@ final class BurialFactory extends EntityFactory
     }
 
     /**
-     * @param DeceasedId              $deceasedId
      * @param BurialType              $type
+     * @param DeceasedId              $deceasedId
      * @param CustomerId|null         $customerId
      * @param BurialPlaceId|null      $burialPlaceId
      * @param NaturalPersonId|null    $burialPlaceOwnerId
@@ -39,8 +39,8 @@ final class BurialFactory extends EntityFactory
      * @return Burial
      */
     public function create(
-        DeceasedId          $deceasedId,
         BurialType          $type,
+        DeceasedId          $deceasedId,
         ?CustomerId         $customerId,
         ?BurialPlaceId      $burialPlaceId,
         ?NaturalPersonId    $burialPlaceOwnerId,
@@ -51,9 +51,9 @@ final class BurialFactory extends EntityFactory
         return (new Burial(
                 new BurialId($this->identityGenerator->getNextIdentity()),
                 new BurialCode($this->burialCodeGenerator->getNextCode()),
-                $deceasedId,
                 $type,
-            ))
+                $deceasedId,
+        ))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
             ->setBurialPlaceOwnerId($burialPlaceOwnerId)
