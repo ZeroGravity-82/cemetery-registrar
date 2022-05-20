@@ -20,10 +20,10 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 final class CustomerId extends EntityMaskingId
 {
     /**
-     * @param NaturalPersonId|JuristicPersonId|SoleProprietorId $id
+     * @param NaturalPersonId|SoleProprietorId|JuristicPersonId $id
      */
     public function __construct(
-        NaturalPersonId|JuristicPersonId|SoleProprietorId $id,
+        NaturalPersonId|SoleProprietorId|JuristicPersonId $id,
     ) {
         parent::__construct($id);
     }
