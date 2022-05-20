@@ -111,8 +111,16 @@ final class NaturalPersonProvider
         $id       = new NaturalPersonId('NP008');
         $fullName = new FullName('Беляев Мечеслав Федорович');
         $email    = new Email('mecheslav.belyaev@gmail.com');
+        $passport = new Passport(
+            '2345',
+            '162354',
+            new \DateTimeImmutable('1981-11-20'),
+            'Отделом МВД Ленинского района г. Пензы',
+            null,
+        );
 
         return (new NaturalPerson($id, $fullName))
-            ->setEmail($email);
+            ->setEmail($email)
+            ->setPassport($passport);
     }
 }
