@@ -35,8 +35,8 @@ final class CustomerIdType extends EntityMaskingIdType
     {
         return match ($decodedValue['type']) {
             NaturalPerson::CLASS_SHORTCUT  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
-            JuristicPerson::CLASS_SHORTCUT => new CustomerId(new JuristicPersonId($decodedValue['value'])),
             SoleProprietor::CLASS_SHORTCUT => new CustomerId(new SoleProprietorId($decodedValue['value'])),
+            JuristicPerson::CLASS_SHORTCUT => new CustomerId(new JuristicPersonId($decodedValue['value'])),
         };
     }
 }
