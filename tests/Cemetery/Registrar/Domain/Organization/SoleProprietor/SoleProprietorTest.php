@@ -44,7 +44,6 @@ class SoleProprietorTest extends AggregateRootTest
         $this->assertSame('индивидуальный предприниматель', SoleProprietor::CLASS_LABEL);
     }
 
-
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(SoleProprietorId::class, $this->soleProprietor->id());
