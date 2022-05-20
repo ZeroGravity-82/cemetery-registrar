@@ -35,8 +35,8 @@ final class CustomerId extends EntityMaskingId
     {
         return match (\get_class($this->id())) {
             NaturalPersonId::class  => NaturalPerson::CLASS_SHORTCUT,
-            JuristicPersonId::class => JuristicPerson::CLASS_SHORTCUT,
             SoleProprietorId::class => SoleProprietor::CLASS_SHORTCUT,
+            JuristicPersonId::class => JuristicPerson::CLASS_SHORTCUT,
         };
     }
 }
