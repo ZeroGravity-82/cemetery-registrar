@@ -133,5 +133,6 @@ final class BurialFormView
         public readonly ?string $burialContainerCoffinShape,
         public readonly ?bool   $burialContainerCoffinIsNonStandard,
         public readonly ?string $buriedAt,
+        public readonly string  $updatedAt,
     ) {}
 }
