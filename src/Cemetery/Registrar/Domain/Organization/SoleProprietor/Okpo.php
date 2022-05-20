@@ -24,7 +24,7 @@ final class Okpo extends AbstractOkpo
     /**
      * {@inheritdoc}
      */
-    protected function coefficientsForTheFirstCheck(): array
+    protected function coefficientsForFirstCheck(): array
     {
         return [1, 2, 3, 4, 5, 6, 7, 8, 9];
     }
@@ -32,7 +32,7 @@ final class Okpo extends AbstractOkpo
     /**
      * {@inheritdoc}
      */
-    protected function coefficientsForTheSecondCheck(): array
+    protected function coefficientsForSecondCheck(): array
     {
         return [3, 4, 5, 6, 7, 8, 9, 10, 1];
     }
