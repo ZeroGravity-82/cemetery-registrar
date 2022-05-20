@@ -26,12 +26,12 @@ abstract class AbstractOkpo
     /**
      * @return array
      */
-    abstract protected function coefficientsForTheFirstCheck(): array;
+    abstract protected function coefficientsForFirstCheck(): array;
 
     /**
      * @return array
      */
-    abstract protected function coefficientsForTheSecondCheck(): array;
+    abstract protected function coefficientsForSecondCheck(): array;
 
     /**
      * @return string
@@ -113,9 +113,9 @@ abstract class AbstractOkpo
     private function assertValidCheckDigit(string $value): void
     {
         $checkDigit = (int) $value[$this->okpoLength() - 1];
-        $checkValue = $this->calculateCheckSum($value, $this->coefficientsForTheFirstCheck()) % 11;
+        $checkValue = $this->calculateCheckSum($value, $this->coefficientsForFirstCheck()) % 11;
         if ($checkValue === 10) {
-            $checkValue = $this->calculateCheckSum($value, $this->coefficientsForTheSecondCheck()) % 11;
+            $checkValue = $this->calculateCheckSum($value, $this->coefficientsForSecondCheck()) % 11;
             if ($checkValue === 10) {
                 $checkValue = 0;
             }
