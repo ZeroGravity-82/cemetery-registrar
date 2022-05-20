@@ -39,7 +39,7 @@ fixtures:
 tests: phpunit
 
 ##
-## Run unit tests ("make -- phpunit --filter testOne UnitTest.php")
+## Run unit tests ("make -- phpunit --filter testOne UnitTest.php" or "make -- phpunit --exclude-group database")
 ## ----------------------------------------------------------------
 ifeq (phpunit,$(firstword $(MAKECMDGOALS)))
     PHPUNIT_ARGS         := $(call getargs)
