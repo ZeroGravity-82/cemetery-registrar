@@ -23,8 +23,8 @@ class FuneralCompanyIdTypeTest extends EntityMaskingIdTypeTest
     {
         return [
             // database value, PHP value
-            ['{"classShortcut":"JURISTIC_PERSON_ID","value":"JP001"}', new FuneralCompanyId(new JuristicPersonId('JP001'))],
-            ['{"classShortcut":"SOLE_PROPRIETOR_ID","value":"SP001"}', new FuneralCompanyId(new SoleProprietorId('SP001'))],
+            ['{"type":"JURISTIC_PERSON","value":"JP001"}', new FuneralCompanyId(new JuristicPersonId('JP001'))],
+            ['{"type":"SOLE_PROPRIETOR","value":"SP001"}', new FuneralCompanyId(new SoleProprietorId('SP001'))],
         ];
     }
 }

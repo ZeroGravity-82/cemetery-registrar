@@ -85,9 +85,9 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
             ->getRepository(Burial::class)
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
-            ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.classShortcut') = :classShortcut")
+            ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.type') = :type")
             ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.value') = :value")
-            ->setParameter('classShortcut', $id::CLASS_SHORTCUT)
+            ->setParameter('type', $funeralCompanyId->idType())
             ->setParameter('value', $id->value())
             ->getQuery()
             ->getSingleScalarResult();
@@ -104,9 +104,9 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
             ->getRepository(Burial::class)
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
-            ->andWhere("JSON_EXTRACT(b.customerId, '$.classShortcut') = :classShortcut")
+            ->andWhere("JSON_EXTRACT(b.customerId, '$.type') = :type")
             ->andWhere("JSON_EXTRACT(b.customerId, '$.value') = :value")
-            ->setParameter('classShortcut', $id::CLASS_SHORTCUT)
+            ->setParameter('type', $customerId->idType())
             ->setParameter('value', $id->value())
             ->getQuery()
             ->getSingleScalarResult();

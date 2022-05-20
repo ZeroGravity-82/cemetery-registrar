@@ -24,9 +24,9 @@ class BurialPlaceIdTypeTest extends EntityMaskingIdTypeTest
     {
         return [
             // database value, PHP value
-            ['{"classShortcut":"GRAVE_SITE_ID","value":"GS001"}',        new BurialPlaceId(new GraveSiteId('GS001'))],
-            ['{"classShortcut":"COLUMBARIUM_NICHE_ID","value":"CN001"}', new BurialPlaceId(new ColumbariumNicheId('CN001'))],
-            ['{"classShortcut":"MEMORIAL_TREE_ID","value":"MT001"}',     new BurialPlaceId(new MemorialTreeId('MT001'))],
+            ['{"type":"GRAVE_SITE","value":"GS001"}',        new BurialPlaceId(new GraveSiteId('GS001'))],
+            ['{"type":"COLUMBARIUM_NICHE","value":"CN001"}', new BurialPlaceId(new ColumbariumNicheId('CN001'))],
+            ['{"type":"MEMORIAL_TREE","value":"MT001"}',     new BurialPlaceId(new MemorialTreeId('MT001'))],
         ];
     }
 }

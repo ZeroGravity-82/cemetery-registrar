@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Burial;
 
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\EntityMaskingId;
 
@@ -23,5 +26,17 @@ final class BurialPlaceId extends EntityMaskingId
         GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
     ) {
         parent::__construct($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function idType(): string
+    {
+        return match (\get_class($this->id())) {
+            GraveSiteId::class        => GraveSite::CLASS_SHORTCUT,
+            ColumbariumNicheId::class => ColumbariumNiche::CLASS_SHORTCUT,
+            MemorialTreeId::class     => MemorialTree::CLASS_SHORTCUT,
+        };
     }
 }

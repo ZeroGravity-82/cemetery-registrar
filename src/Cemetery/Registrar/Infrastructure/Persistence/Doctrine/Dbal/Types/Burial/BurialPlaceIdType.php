@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial;
 
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMaskingIdType;
 
@@ -30,10 +33,10 @@ final class BurialPlaceIdType extends EntityMaskingIdType
      */
     protected function buildPhpValue(array $decodedValue): BurialPlaceId
     {
-        return match ($decodedValue['classShortcut']) {
-            GraveSiteId::CLASS_SHORTCUT        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
-            ColumbariumNicheId::CLASS_SHORTCUT => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
-            MemorialTreeId::CLASS_SHORTCUT     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
+        return match ($decodedValue['type']) {
+            GraveSite::CLASS_SHORTCUT        => new BurialPlaceId(new GraveSiteId($decodedValue['value'])),
+            ColumbariumNiche::CLASS_SHORTCUT => new BurialPlaceId(new ColumbariumNicheId($decodedValue['value'])),
+            MemorialTree::CLASS_SHORTCUT     => new BurialPlaceId(new MemorialTreeId($decodedValue['value'])),
         };
     }
 }

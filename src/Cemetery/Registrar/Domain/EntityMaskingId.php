@@ -24,6 +24,11 @@ abstract class EntityMaskingId
     }
 
     /**
+     * @return string
+     */
+    abstract public function idType(): string;
+
+    /**
      * @return EntityId
      */
     public function id(): EntityId

@@ -24,9 +24,9 @@ class CustomerIdTypeTest extends EntityMaskingIdTypeTest
     {
         return [
             // database value, PHP value
-            ['{"classShortcut":"NATURAL_PERSON_ID","value":"NP001"}',  new CustomerId(new NaturalPersonId('NP001'))],
-            ['{"classShortcut":"JURISTIC_PERSON_ID","value":"JP001"}', new CustomerId(new JuristicPersonId('JP001'))],
-            ['{"classShortcut":"SOLE_PROPRIETOR_ID","value":"SP001"}', new CustomerId(new SoleProprietorId('SP001'))],
+            ['{"type":"NATURAL_PERSON","value":"NP001"}',  new CustomerId(new NaturalPersonId('NP001'))],
+            ['{"type":"JURISTIC_PERSON","value":"JP001"}', new CustomerId(new JuristicPersonId('JP001'))],
+            ['{"type":"SOLE_PROPRIETOR","value":"SP001"}', new CustomerId(new SoleProprietorId('SP001'))],
         ];
     }
 }

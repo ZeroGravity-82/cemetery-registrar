@@ -13,9 +13,4 @@ use Cemetery\Tests\Registrar\Domain\EntityIdTest;
 class SoleProprietorIdTest extends EntityIdTest
 {
     protected string $className = SoleProprietorId::class;
-
-    public function testItHasValidClassShortcutConstant(): void
-    {
-        $this->assertSame('SOLE_PROPRIETOR_ID', SoleProprietorId::CLASS_SHORTCUT);
-    }
 }

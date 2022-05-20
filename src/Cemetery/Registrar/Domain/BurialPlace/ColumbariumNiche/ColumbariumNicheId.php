@@ -11,5 +11,4 @@ use Cemetery\Registrar\Domain\EntityId;
  */
 final class ColumbariumNicheId extends EntityId
 {
-    public const CLASS_SHORTCUT = 'COLUMBARIUM_NICHE_ID';
 }

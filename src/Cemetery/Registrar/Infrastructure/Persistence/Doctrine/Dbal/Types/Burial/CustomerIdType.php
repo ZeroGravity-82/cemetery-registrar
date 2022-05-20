@@ -5,8 +5,11 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial;
 
 use Cemetery\Registrar\Domain\Burial\CustomerId;
+use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMaskingIdType;
 
@@ -30,10 +33,10 @@ final class CustomerIdType extends EntityMaskingIdType
      */
     protected function buildPhpValue(array $decodedValue): CustomerId
     {
-        return match ($decodedValue['classShortcut']) {
-            NaturalPersonId::CLASS_SHORTCUT  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
-            JuristicPersonId::CLASS_SHORTCUT => new CustomerId(new JuristicPersonId($decodedValue['value'])),
-            SoleProprietorId::CLASS_SHORTCUT => new CustomerId(new SoleProprietorId($decodedValue['value'])),
+        return match ($decodedValue['type']) {
+            NaturalPerson::CLASS_SHORTCUT  => new CustomerId(new NaturalPersonId($decodedValue['value'])),
+            JuristicPerson::CLASS_SHORTCUT => new CustomerId(new JuristicPersonId($decodedValue['value'])),
+            SoleProprietor::CLASS_SHORTCUT => new CustomerId(new SoleProprietorId($decodedValue['value'])),
         };
     }
 }

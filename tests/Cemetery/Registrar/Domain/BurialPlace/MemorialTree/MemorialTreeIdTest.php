@@ -13,9 +13,4 @@ use Cemetery\Tests\Registrar\Domain\EntityIdTest;
 class MemorialTreeIdTest extends EntityIdTest
 {
     protected string $className = MemorialTreeId::class;
-
-    public function testItHasValidClassShortcutConstant(): void
-    {
-        $this->assertSame('MEMORIAL_TREE_ID', MemorialTreeId::CLASS_SHORTCUT);
-    }
 }

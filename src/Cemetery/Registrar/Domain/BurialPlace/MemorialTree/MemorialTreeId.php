@@ -11,5 +11,4 @@ use Cemetery\Registrar\Domain\EntityId;
  */
 final class MemorialTreeId extends EntityId
 {
-    public const CLASS_SHORTCUT = 'MEMORIAL_TREE_ID';
 }

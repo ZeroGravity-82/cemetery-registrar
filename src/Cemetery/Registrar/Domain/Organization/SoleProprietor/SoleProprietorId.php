@@ -11,5 +11,4 @@ use Cemetery\Registrar\Domain\EntityId;
  */
 final class SoleProprietorId extends EntityId
 {
-    public const CLASS_SHORTCUT = 'SOLE_PROPRIETOR_ID';
 }

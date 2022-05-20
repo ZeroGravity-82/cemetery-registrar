@@ -11,5 +11,4 @@ use Cemetery\Registrar\Domain\EntityId;
  */
 final class NaturalPersonId extends EntityId
 {
-    public const CLASS_SHORTCUT = 'NATURAL_PERSON_ID';
 }
