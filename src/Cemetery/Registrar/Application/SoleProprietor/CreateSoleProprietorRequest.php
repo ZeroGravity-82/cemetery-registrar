@@ -12,7 +12,7 @@ final class CreateSoleProprietorRequest
     public function __construct(
         public readonly string  $name,
         public readonly ?string $inn,
-        public readonly ?string $ognip,
+        public readonly ?string $ogrnip,
         public readonly ?string $okpo,
         public readonly ?string $okved,
         public readonly ?string $registrationAddress,
