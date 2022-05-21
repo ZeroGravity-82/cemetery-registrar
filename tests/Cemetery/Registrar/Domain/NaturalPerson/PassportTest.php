@@ -12,48 +12,48 @@ use PHPUnit\Framework\TestCase;
  */
 class PassportTest extends TestCase
 {
-    private string             $passportSeriesA;
-    private string             $passportSeriesB;
-    private string             $passportNumberA;
-    private string             $passportNumberB;
-    private \DateTimeImmutable $passportIssuedAtA;
-    private \DateTimeImmutable $passportIssuedAtB;
-    private string             $passportIssuedByA;
-    private string             $passportIssuedByB;
-    private string             $passportDivisionCodeA;
-    private string|null        $passportDivisionCodeB;
+    private string             $seriesA;
+    private string             $seriesB;
+    private string             $numberA;
+    private string             $numberB;
+    private \DateTimeImmutable $issuedAtA;
+    private \DateTimeImmutable $issuedAtB;
+    private string             $issuedByA;
+    private string             $issuedByB;
+    private string             $divisionCodeA;
+    private string|null        $divisionCodeB;
 
     public function setUp(): void
     {
-        $this->passportSeriesA       = '1234';
-        $this->passportSeriesB       = '1235';
-        $this->passportNumberA       = '567890';
-        $this->passportNumberB       = '567891';
-        $this->passportIssuedAtA     = new \DateTimeImmutable('2002-10-28');
-        $this->passportIssuedAtB     = new \DateTimeImmutable('2011-03-23');
-        $this->passportIssuedByA     = 'УВД Кировского района города Новосибирска';
-        $this->passportIssuedByB     = 'Отделом УФМС России по Новосибирской области в Заельцовском районе';
-        $this->passportDivisionCodeA = '540-001';
-        $this->passportDivisionCodeB = null;
+        $this->seriesA       = '1234';
+        $this->seriesB       = '1235';
+        $this->numberA       = '567890';
+        $this->numberB       = '567891';
+        $this->issuedAtA     = new \DateTimeImmutable('2002-10-28');
+        $this->issuedAtB     = new \DateTimeImmutable('2011-03-23');
+        $this->issuedByA     = 'УВД Кировского района города Новосибирска';
+        $this->issuedByB     = 'Отделом УФМС России по Новосибирской области в Заельцовском районе';
+        $this->divisionCodeA = '540-001';
+        $this->divisionCodeB = null;
     }
 
     public function testItSuccessfullyCreated(): void
     {
         $passport = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
-        $this->assertSame($this->passportSeriesA, $passport->series());
-        $this->assertSame($this->passportNumberA, $passport->number());
-        $this->assertSame($this->passportIssuedAtA->format('Y-m-d'), $passport->issuedAt()->format('Y-m-d'));
+        $this->assertSame($this->seriesA, $passport->series());
+        $this->assertSame($this->numberA, $passport->number());
+        $this->assertSame($this->issuedAtA->format('Y-m-d'), $passport->issuedAt()->format('Y-m-d'));
         $this->assertSame(
-            $this->passportIssuedByA,
+            $this->issuedByA,
             $passport->issuedBy()
         );
-        $this->assertSame($this->passportDivisionCodeA, $passport->divisionCode());
+        $this->assertSame($this->divisionCodeA, $passport->divisionCode());
     }
 
     public function testItFailsWithEmptySeriesValue(): void
@@ -61,9 +61,9 @@ class PassportTest extends TestCase
         $this->expectExceptionForEmptyValue('Серия паспорта');
         new Passport(
             '',
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
             null,
         );
     }
@@ -73,9 +73,9 @@ class PassportTest extends TestCase
         $this->expectExceptionForEmptyValue('Серия паспорта');
         new Passport(
             '   ',
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
             null,
         );
     }
@@ -84,10 +84,10 @@ class PassportTest extends TestCase
     {
         $this->expectExceptionForEmptyValue('Номер паспорта');
         new Passport(
-            $this->passportSeriesA,
+            $this->seriesA,
             '',
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->issuedAtA,
+            $this->issuedByA,
             null,
         );
     }
@@ -96,10 +96,10 @@ class PassportTest extends TestCase
     {
         $this->expectExceptionForEmptyValue('Номер паспорта');
         new Passport(
-            $this->passportSeriesA,
+            $this->seriesA,
             '   ',
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->issuedAtA,
+            $this->issuedByA,
             null,
         );
     }
@@ -109,10 +109,10 @@ class PassportTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Дата выдачи паспорта не может иметь значение из будущего.');
         new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
+            $this->seriesA,
+            $this->numberA,
             (new \DateTimeImmutable())->modify('+1 day'),
-            $this->passportIssuedByA,
+            $this->issuedByA,
             null,
         );
     }
@@ -121,9 +121,9 @@ class PassportTest extends TestCase
     {
         $this->expectExceptionForEmptyValue('Наименование органа, выдавшего паспорт,');
         new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
             '',
             null,
         );
@@ -133,9 +133,9 @@ class PassportTest extends TestCase
     {
         $this->expectExceptionForEmptyValue('Наименование органа, выдавшего паспорт,');
         new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
             '   ',
             null,
         );
@@ -145,10 +145,10 @@ class PassportTest extends TestCase
     {
         $this->expectExceptionForEmptyValue('Код подразделения');
         new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
             '',
         );
     }
@@ -157,10 +157,10 @@ class PassportTest extends TestCase
     {
         $this->expectExceptionForEmptyValue('Код подразделения');
         new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
             '   ',
         );
     }
@@ -168,20 +168,20 @@ class PassportTest extends TestCase
     public function testItStringifyable(): void
     {
         $passport = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
         $this->assertSame(
             \sprintf(
                 'Паспорт серия %s номер %s, выдан %s %s (код подразделения %s)',
-                $this->passportSeriesA,
-                $this->passportNumberA,
-                $this->passportIssuedByA,
-                $this->passportIssuedAtA->format('d.m.Y'),
-                $this->passportDivisionCodeA,
+                $this->seriesA,
+                $this->numberA,
+                $this->issuedByA,
+                $this->issuedAtA->format('d.m.Y'),
+                $this->divisionCodeA,
             ),
             (string) $passport
         );
@@ -190,19 +190,19 @@ class PassportTest extends TestCase
     public function testItStringifyableWithoutDivisionCode(): void
     {
         $passport = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
             null,
         );
         $this->assertSame(
             \sprintf(
                 'Паспорт серия %s номер %s, выдан %s %s',
-                $this->passportSeriesA,
-                $this->passportNumberA,
-                $this->passportIssuedByA,
-                $this->passportIssuedAtA->format('d.m.Y'),
+                $this->seriesA,
+                $this->numberA,
+                $this->issuedByA,
+                $this->issuedAtA->format('d.m.Y'),
             ),
             (string) $passport
         );
@@ -211,53 +211,53 @@ class PassportTest extends TestCase
     public function testItComparable(): void
     {
         $passportA = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
         $passportB = new Passport(
-            $this->passportSeriesB,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesB,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
         $passportC = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberB,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberB,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
         $passportD = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtB,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtB,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
         $passportE = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByB,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByB,
+            $this->divisionCodeA,
         );
         $passportF = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeA,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeA,
         );
         $passportG = new Passport(
-            $this->passportSeriesA,
-            $this->passportNumberA,
-            $this->passportIssuedAtA,
-            $this->passportIssuedByA,
-            $this->passportDivisionCodeB,
+            $this->seriesA,
+            $this->numberA,
+            $this->issuedAtA,
+            $this->issuedByA,
+            $this->divisionCodeB,
         );
 
         $this->assertFalse($passportA->isEqual($passportB));
