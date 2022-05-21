@@ -6,6 +6,7 @@ doctrine:
         charset: utf8mb4
         types:
             # Burial
+            burial_chain_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialChainIdType
             burial_code:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialCodeType
             burial_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialIdType
             burial_place_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialPlaceIdType
