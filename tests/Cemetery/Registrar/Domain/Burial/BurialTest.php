@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
+use Cemetery\Registrar\Domain\Burial\BurialChainId;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
@@ -66,6 +67,7 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->funeralCompanyId());
         $this->assertNull($this->burial->burialContainer());
         $this->assertNull($this->burial->buriedAt());
+        $this->assertNull($this->burial->burialChainId());
     }
 
     public function testItSetsBurialType(): void
@@ -183,6 +185,17 @@ class BurialTest extends AggregateRootTest
 
         $this->burial->setBuriedAt(null);
         $this->assertNull($this->burial->buriedAt());
+    }
+
+    public function testItSetsBurialChainId(): void
+    {
+        $burialChainId = new BurialChainId('BCH001');
+        $this->burial->setBurialChainId($burialChainId);
+        $this->assertInstanceOf(BurialChainId::class, $this->burial->burialChainId());
+        $this->assertTrue($this->burial->burialChainId()->isEqual($burialChainId));
+
+        $this->burial->setBurialChainId(null);
+        $this->assertNull($this->burial->burialChainId());
     }
 
     // ------------------------------ "BurialType <-> BurialPlace" invariant testing ------------------------------

@@ -50,6 +50,11 @@ final class Burial extends AggregateRoot
     private ?\DateTimeImmutable $buriedAt = null;
 
     /**
+     * @var BurialChainId|null
+     */
+    private ?BurialChainId $burialChainId = null;
+
+    /**
      * @param BurialId   $id
      * @param BurialCode $code
      * @param BurialType $type
@@ -238,6 +243,26 @@ final class Burial extends AggregateRoot
     public function setBuriedAt(?\DateTimeImmutable $buriedAt): self
     {
         $this->buriedAt = $buriedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return BurialChainId|null
+     */
+    public function burialChainId(): ?BurialChainId
+    {
+        return $this->burialChainId;
+    }
+
+    /**
+     * @param BurialChainId|null $burialChainId
+     *
+     * @return $this
+     */
+    public function setBurialChainId(?BurialChainId $burialChainId): self
+    {
+        $this->burialChainId = $burialChainId;
 
         return $this;
     }
