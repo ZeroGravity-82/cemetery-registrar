@@ -77,11 +77,11 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     public function testItReturnsBurialFormViewById(): void
     {
-        $this->testItReturnsBurialViewFormForB001();
-        $this->testItReturnsBurialViewFormForB002();
-        $this->testItReturnsBurialViewFormForB003();
-        $this->testItReturnsBurialViewFormForB004();
-        $this->testItReturnsBurialViewFormForB005();
+//        $this->testItReturnsBurialViewFormForB001();
+//        $this->testItReturnsBurialViewFormForB002();
+//        $this->testItReturnsBurialViewFormForB003();
+//        $this->testItReturnsBurialViewFormForB004();
+//        $this->testItReturnsBurialViewFormForB005();
         $this->testItReturnsBurialViewFormForB006();
     }
 

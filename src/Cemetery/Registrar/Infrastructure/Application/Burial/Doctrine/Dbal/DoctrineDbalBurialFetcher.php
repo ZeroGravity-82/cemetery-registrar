@@ -41,7 +41,26 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
      */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): array
     {
-        // TODO
+//        $result = $this->connection->createQueryBuilder()
+//            ->select(
+//                'b.id              AS id',
+//                'b.code            AS code',
+//                'dnp.full_name     AS deceasedNaturalPersonFullName',
+//                'dnp.born_at       AS deceasedNaturalPersonBornAt',
+//                'd.died_at         AS deceasedDiedAt',
+//                'd.age             AS deceasedAge',
+//                'b.buried_at       AS buriedAt',
+//                'b.burial_place_id AS burialPlaceIdJson',
+//                'b.customer_id     AS customerIdJson',
+//            )
+//            ->from('burial', 'b')
+//            ->leftJoin('b', 'deceased', 'd', 'b.deceased_id = d.id')
+//            ->leftJoin('d', 'natural_person', 'dnp', 'd.natural_person_id = dnp.id')
+//            ->andWhere()
+//            ->setFirstResult()
+//            ->setMaxResults()
+//            ->executeQuery();
+        return [];
     }
 
     /**
@@ -58,38 +77,165 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
     {
         $result = $this->connection->createQueryBuilder()
             ->select(
-                'b.id                    AS id',
-                'b.code                  AS code',
-                'b.type                  AS type',
-                'd.id                    AS deceasedId',
-                'dnp.id                  AS deceasedNaturalPersonId',
-                'dnp.full_name           AS deceasedNaturalPersonFullName',
-                'dnp.born_at             AS deceasedNaturalPersonBornAt',
-                'd.died_at               AS deceasedDiedAt',
-                'd.age                   AS deceasedAge',
-                'd.death_certificate_id  AS deceasedDeathCertificateId',
-                'd.cause_of_death        AS deceasedCauseOfDeath',
-                'b.customer_id           AS customerIdJson',
-                'bponp.id                AS burialPlaceOwnerId',
-                'bponp.full_name         AS burialPlaceOwnerFullName',
-                'bponp.phone             AS burialPlaceOwnerPhone',
-                'bponp.phone_additional  AS burialPlaceOwnerPhoneAdditional',
-                'bponp.email             AS burialPlaceOwnerEmail',
-                'bponp.address           AS burialPlaceOwnerAddress',
-                'bponp.born_at           AS burialPlaceOwnerBornAt',
-                'bponp.place_of_birth    AS burialPlaceOwnerPlaceOfBirth',
-                'bponp.passport          AS burialPlaceOwnerPassportJson',
-                'b.funeral_company_id    AS funeralCompanyIdJson',
-                'b.burial_chain_id       AS burialChainId',
-                'b.burial_place_id       AS burialPlaceIdJson',
+                'b.id                                         AS id',
+                'b.code                                       AS code',
+                'b.type                                       AS type',
+                'd.id                                         AS deceasedId',
+                'dnp.id                                       AS deceasedNaturalPersonId',
+                'dnp.full_name                                AS deceasedNaturalPersonFullName',
+                'dnp.born_at                                  AS deceasedNaturalPersonBornAt',
+                'd.died_at                                    AS deceasedDiedAt',
+                'd.age                                        AS deceasedAge',
+                'd.death_certificate_id                       AS deceasedDeathCertificateId',
+                'd.cause_of_death                             AS deceasedCauseOfDeath',
+                'b.customer_id->>"$.value"                    AS customerId',
+                'b.customer_id->>"$.type"                     AS customerType',
+                'cnp.full_name                                AS customerNaturalPersonFullName',
+                'cnp.phone                                    AS customerNaturalPersonPhone',
+                'cnp.phone_additional                         AS customerNaturalPersonPhoneAdditional',
+                'cnp.email                                    AS customerNaturalPersonEmail',
+                'cnp.address                                  AS customerNaturalPersonAddress',
+                'cnp.born_at                                  AS customerNaturalPersonBornAt',
+                'cnp.place_of_birth                           AS customerNaturalPersonPlaceOfBirth',
+                'cnp.passport->>"$.series"                    AS customerNaturalPersonPassportSeries',
+                'cnp.passport->>"$.number"                    AS customerNaturalPersonPassportNumber',
+                'cnp.passport->>"$.issuedAt"                  AS customerNaturalPersonPassportIssuedAt',
+                'cnp.passport->>"$.issuedBy"                  AS customerNaturalPersonPassportIssuedBy',
+                'cnp.passport->>"$.divisionCode"              AS customerNaturalPersonPassportDivisionCode',
+                'csp.name                                     AS customerSoleProprietorName',
+                'csp.inn                                      AS customerSoleProprietorInn',
+                'csp.ogrnip                                   AS customerSoleProprietorOgrnip',
+                'csp.okpo                                     AS customerSoleProprietorOkpo',
+                'csp.okved                                    AS customerSoleProprietorOkved',
+                'csp.registration_address                     AS customerSoleProprietorRegistrationAddress',
+                'csp.actual_location_address                  AS customerSoleProprietorActualLocationAddress',
+                'csp.bank_details->>"$.bankName"              AS customerSoleProprietorBankDetailsBankName',
+                'csp.bank_details->>"$.bik"                   AS customerSoleProprietorBankDetailsBik',
+                'csp.bank_details->>"$.correspondentAccount"  AS customerSoleProprietorBankDetailsCorrespondentAccount',
+                'csp.bank_details->>"$.currentAccount"        AS customerSoleProprietorBankDetailsCurrentAccount',
+                'csp.phone                                    AS customerSoleProprietorPhone',
+                'csp.phone_additional                         AS customerSoleProprietorPhoneAdditional',
+                'csp.fax                                      AS customerSoleProprietorFax',
+                'csp.email                                    AS customerSoleProprietorEmail',
+                'csp.website                                  AS customerSoleProprietorWebsite',
+                'cjp.name                                     AS customerJuristicPersonName',
+                'cjp.inn                                      AS customerJuristicPersonInn',
+                'cjp.kpp                                      AS customerJuristicPersonKpp',
+                'cjp.ogrn                                     AS customerJuristicPersonOgrn',
+                'cjp.okpo                                     AS customerJuristicPersonOkpo',
+                'cjp.okved                                    AS customerJuristicPersonOkved',
+                'cjp.legal_address                            AS customerJuristicPersonLegalAddress',
+                'cjp.postal_address                           AS customerJuristicPersonPostalAddress',
+                'cjp.bank_details->>"$.bankName"              AS customerSoleProprietorBankDetailsBankName',
+                'cjp.bank_details->>"$.bik"                   AS customerSoleProprietorBankDetailsBik',
+                'cjp.bank_details->>"$.correspondentAccount"  AS customerSoleProprietorBankDetailsCorrespondentAccount',
+                'cjp.bank_details->>"$.currentAccount"        AS customerSoleProprietorBankDetailsCurrentAccount',
+                'cjp.phone                                    AS customerJuristicPersonPhone',
+                'cjp.phone_additional                         AS customerJuristicPersonPhoneAdditional',
+                'cjp.fax                                      AS customerJuristicPersonFax',
+                'cjp.general_director                         AS customerJuristicPersonGeneralDirector',
+                'cjp.email                                    AS customerJuristicPersonEmail',
+                'cjp.website                                  AS customerJuristicPersonWebsite',
+                'bponp.id                                     AS burialPlaceOwnerId',
+                'bponp.full_name                              AS burialPlaceOwnerFullName',
+                'bponp.phone                                  AS burialPlaceOwnerPhone',
+                'bponp.phone_additional                       AS burialPlaceOwnerPhoneAdditional',
+                'bponp.email                                  AS burialPlaceOwnerEmail',
+                'bponp.address                                AS burialPlaceOwnerAddress',
+                'bponp.born_at                                AS burialPlaceOwnerBornAt',
+                'bponp.place_of_birth                         AS burialPlaceOwnerPlaceOfBirth',
+                'bponp.passport->>"$.series"                  AS burialPlaceOwnerPassportSeries',
+                'bponp.passport->>"$.number"                  AS burialPlaceOwnerPassportNumber',
+                'bponp.passport->>"$.issuedAt"                AS burialPlaceOwnerPassportIssuedAt',
+                'bponp.passport->>"$.issuedBy"                AS burialPlaceOwnerPassportIssuedBy',
+                'bponp.passport->>"$.divisionCode"            AS burialPlaceOwnerPassportDivisionCode',
+                'b.funeral_company_id->>"$.value"             AS funeralCompanyId',
+                'b.funeral_company_id->>"$.type"              AS funeralCompanyType',
+                'fcsp.name                                    AS funeralCompanySoleProprietorName',
+                'fcsp.inn                                     AS funeralCompanySoleProprietorInn',
+                'fcsp.ogrnip                                  AS funeralCompanySoleProprietorOgrnip',
+                'fcsp.okpo                                    AS funeralCompanySoleProprietorOkpo',
+                'fcsp.okved                                   AS funeralCompanySoleProprietorOkved',
+                'fcsp.registration_address                    AS funeralCompanySoleProprietorRegistrationAddress',
+                'fcsp.actual_location_address                 AS funeralCompanySoleProprietorActualLocationAddress',
+                'fcsp.bank_details->>"$.bankName"             AS funeralCompanySoleProprietorBankDetailsBankName',
+                'fcsp.bank_details->>"$.bik"                  AS funeralCompanySoleProprietorBankDetailsBik',
+                'fcsp.bank_details->>"$.correspondentAccount" AS funeralCompanySoleProprietorBankDetailsCorrespondentAccount',
+                'fcsp.bank_details->>"$.currentAccount"       AS funeralCompanySoleProprietorBankDetailsCurrentAccount',
+                'fcsp.phone                                   AS funeralCompanySoleProprietorPhone',
+                'fcsp.phone_additional                        AS funeralCompanySoleProprietorPhoneAdditional',
+                'fcsp.fax                                     AS funeralCompanySoleProprietorFax',
+                'fcsp.email                                   AS funeralCompanySoleProprietorEmail',
+                'fcsp.website                                 AS funeralCompanySoleProprietorWebsite',
+                'fcjp.name                                    AS funeralCompanyJuristicPersonName',
+                'fcjp.inn                                     AS funeralCompanyJuristicPersonInn',
+                'fcjp.kpp                                     AS funeralCompanyJuristicPersonKpp',
+                'fcjp.ogrn                                    AS funeralCompanyJuristicPersonOgrn',
+                'fcjp.okpo                                    AS funeralCompanyJuristicPersonOkpo',
+                'fcjp.okved                                   AS funeralCompanyJuristicPersonOkved',
+                'fcjp.legal_address                           AS funeralCompanyJuristicPersonLegalAddress',
+                'fcjp.postal_address                          AS funeralCompanyJuristicPersonPostalAddress',
+                'fcjp.bank_details->>"$.bankName"             AS funeralCompanyJuristicPersonBankDetailsBankName',
+                'fcjp.bank_details->>"$.bik"                  AS funeralCompanyJuristicPersonBankDetailsBik',
+                'fcjp.bank_details->>"$.correspondentAccount" AS funeralCompanyJuristicPersonBankDetailsCorrespondentAccount',
+                'fcjp.bank_details->>"$.currentAccount"       AS funeralCompanyJuristicPersonBankDetailsCurrentAccount',
+                'fcjp.phone                                   AS funeralCompanyJuristicPersonPhone',
+                'fcjp.phone_additional                        AS funeralCompanyJuristicPersonPhoneAdditional',
+                'fcjp.fax                                     AS funeralCompanyJuristicPersonFax',
+                'fcjp.general_director                        AS funeralCompanyJuristicPersonGeneralDirector',
+                'fcjp.email                                   AS funeralCompanyJuristicPersonEmail',
+                'fcjp.website                                 AS funeralCompanyJuristicPersonWebsite',
+                'b.burial_chain_id                            AS burialChainId',
+                'b.burial_place_id->>"$.value"                AS burialPlaceId',
+                'b.burial_place_id->>"$.type"                 AS burialPlaceType',
+
+
+
+
+                'cb.id              AS burialPlaceGraveSiteCemeteryBlockId',
+                'cb.name            AS burialPlaceGraveSiteCemeteryBlockName',
+                'gs.row_in_block    AS burialPlaceGraveSiteRowInBlock',
+                'gs.position_in_row AS burialPlaceGraveSitePositionInRow',
+                'gs.size            AS burialPlaceGraveSiteSize',
+                'gs.geo_position    AS burialPlaceGraveSiteGeoPositionJson',
+
+
+
+
+                'cl.id                       AS burialPlaceColumbariumNicheColumbariumId',
+                'cl.name                     AS burialPlaceColumbariumNicheColumbariumName',
+                'cn.row_in_columbarium       AS burialPlaceColumbariumNicheRowInColumbarium',
+                'cn.columbarium_niche_number AS burialPlaceColumbariumNicheNicheNumber',
+                'cn.geo_position             AS burialPlaceColumbariumNicheGeoPositionJson',
+
+
+                'mt.tree_number  AS burialPlaceMemorialTreeNumber',
+                'mt.geo_position AS burialPlaceMemorialTreeGeoPositionJson',
+
+
+
+
+
+
+
                 'b.burial_container      AS burialContainerJson',
                 'b.buried_at             AS buriedAt',
                 'b.updated_at            AS updatedAt',
             )
             ->from('burial', 'b')
-            ->leftJoin('b', 'deceased', 'd', 'b.deceased_id = d.id')
-            ->leftJoin('d', 'natural_person', 'dnp', 'd.natural_person_id = dnp.id')
-            ->leftJoin('b', 'natural_person', 'bponp', 'b.burial_place_owner_id = bponp.id')
+            ->leftJoin('b',    'deceased',          'd',      'b.deceased_id = d.id')
+            ->leftJoin('d',    'natural_person',    'dnp',    'd.natural_person_id = dnp.id')
+            ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value" = cnp.id')
+            ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value" = csp.id')
+            ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value" = cjp.id')
+            ->leftJoin('b',    'natural_person',    'bponp',  'b.burial_place_owner_id = bponp.id')
+            ->leftJoin('b',    'sole_proprietor',   'fcsp',   'b.funeral_company_id->>"$.value" = fcsp.id')
+            ->leftJoin('b',    'juristic_person',   'fcjp',   'b.funeral_company_id->>"$.value" = fcjp.id')
+            ->leftJoin('b',    'grave_site',        'bpgs',   'b.burial_place_id->>"$.value" = bpgs.id')
+            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb', 'bpgs.cemetery_block_id = bpgscb.id')
+            ->leftJoin('b',    'columbarium_niche', 'bpcn',   'b.burial_place_id->>"$.value" = bpcn.id')
+            ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id = bpcnc.id')
+            ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value" = bpmt.id')
             ->andWhere('b.id = :id')
             ->setParameter('id', $id)
             ->executeQuery();
