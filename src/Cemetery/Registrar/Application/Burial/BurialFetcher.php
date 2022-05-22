@@ -18,7 +18,7 @@ interface BurialFetcher
      *
      * @throws \RuntimeException when the burial is not found by ID
      */
-    public function getById(string $id): BurialFormView;
+    public function getFormViewById(string $id): BurialFormView;
 
     /**
      * @param int         $page
