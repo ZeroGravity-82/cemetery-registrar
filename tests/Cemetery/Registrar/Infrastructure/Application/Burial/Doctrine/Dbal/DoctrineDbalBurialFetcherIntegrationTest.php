@@ -77,10 +77,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     public function testItReturnsBurialFormViewById(): void
     {
-//        $this->testItReturnsBurialViewFormForB001();
-//        $this->testItReturnsBurialViewFormForB002();
-//        $this->testItReturnsBurialViewFormForB003();
-//        $this->testItReturnsBurialViewFormForB004();
+        $this->testItReturnsBurialViewFormForB001();
+        $this->testItReturnsBurialViewFormForB002();
+        $this->testItReturnsBurialViewFormForB003();
+        $this->testItReturnsBurialViewFormForB004();
         $this->testItReturnsBurialViewFormForB005();
         $this->testItReturnsBurialViewFormForB006();
     }
@@ -89,7 +89,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Захоронение с ID "unknown_id" не найдено.');
-        $this->fetcher->getById('unknown_id');
+        $this->fetcher->getFormViewById('unknown_id');
     }
 
     public function testItReturnsBurialViewListItemsByPage(): void
@@ -373,7 +373,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     private function testItReturnsBurialViewFormForB001(): void
     {
-        $burialFormView = $this->fetcher->getById('B001');
+        $burialFormView = $this->fetcher->getFormViewById('B001');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B001',                                      $burialFormView->id);
         $this->assertSame('000000001',                                 $burialFormView->code);
@@ -407,7 +407,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorOkved);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorRegistrationAddress);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetails);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorPhone);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorFax);
@@ -421,7 +424,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonOkved);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonLegalAddress);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetails);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonPhone);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonFax);
@@ -450,10 +456,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorOkved);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankName);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBik);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorCorrespondentAccount);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorCurrentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorPhone);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorFax);
@@ -467,10 +473,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonOkved);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonLegalAddress);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonPostalAddress);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankName);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBik);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonCorrespondentAccount);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonCurrentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonPhone);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonFax);
@@ -497,12 +503,12 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->burialContainerCoffinSize);
         $this->assertSame(null,                                        $burialFormView->burialContainerCoffinShape);
         $this->assertSame(null,                                        $burialFormView->burialContainerCoffinIsNonStandard);
-        $this->assertSame('2022-12-03 13:10:00',                       $burialFormView->buriedAt);
+        $this->assertSame('2021-12-03 13:10:00',                       $burialFormView->buriedAt);
     }
 
     private function testItReturnsBurialViewFormForB002(): void
     {
-        $burialFormView = $this->fetcher->getById('B002');
+        $burialFormView = $this->fetcher->getFormViewById('B002');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B002',                                      $burialFormView->id);
         $this->assertSame('000000002',                                 $burialFormView->code);
@@ -536,7 +542,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorOkved);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorRegistrationAddress);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetails);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorPhone);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->customerSoleProprietorFax);
@@ -550,7 +559,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonOkved);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonLegalAddress);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetails);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonPhone);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->customerJuristicPersonFax);
@@ -579,10 +591,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorOkved);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankName);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBik);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorCorrespondentAccount);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorCurrentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorPhone);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->funeralCompanySoleProprietorFax);
@@ -596,10 +608,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonOkved);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonLegalAddress);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonPostalAddress);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankName);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBik);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonCorrespondentAccount);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonCurrentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonPhone);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyJuristicPersonFax);
@@ -631,7 +643,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     private function testItReturnsBurialViewFormForB003(): void
     {
-        $burialFormView = $this->fetcher->getById('B003');
+        $burialFormView = $this->fetcher->getFormViewById('B003');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B003',                                        $burialFormView->id);
         $this->assertSame('000000003',                                   $burialFormView->code);
@@ -665,7 +677,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorFax);
@@ -679,7 +694,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonLegalAddress);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonFax);
@@ -708,10 +726,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankName);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBik);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorCorrespondentAccount);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorFax);
@@ -725,10 +743,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonLegalAddress);
         $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $burialFormView->funeralCompanyJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankName);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBik);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonCorrespondentAccount);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonFax);
@@ -760,7 +778,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     private function testItReturnsBurialViewFormForB004(): void
     {
-        $burialFormView = $this->fetcher->getById('B004');
+        $burialFormView = $this->fetcher->getFormViewById('B004');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B004',                                        $burialFormView->id);
         $this->assertSame('000000004',                                   $burialFormView->code);
@@ -794,7 +812,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorFax);
@@ -808,7 +829,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonLegalAddress);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonFax);
@@ -837,10 +861,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankName);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBik);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorCorrespondentAccount);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorFax);
@@ -854,10 +878,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonLegalAddress);
         $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $burialFormView->funeralCompanyJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankName);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBik);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonCorrespondentAccount);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonFax);
@@ -889,7 +913,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     private function testItReturnsBurialViewFormForB005(): void
     {
-        $burialFormView = $this->fetcher->getById('B005');
+        $burialFormView = $this->fetcher->getFormViewById('B005');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B005',                                        $burialFormView->id);
         $this->assertSame('000000005',                                   $burialFormView->code);
@@ -923,7 +947,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorFax);
@@ -937,7 +964,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonLegalAddress);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonFax);
@@ -966,10 +996,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankName);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBik);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorCorrespondentAccount);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorFax);
@@ -983,10 +1013,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonLegalAddress);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPostalAddress);
-        $this->assertSame('АО "АЛЬФА-БАНК"',                             $burialFormView->funeralCompanyJuristicPersonBankName);
-        $this->assertSame('044525593',                                   $burialFormView->funeralCompanyJuristicPersonBik);
-        $this->assertSame('30101810200000000593',                        $burialFormView->funeralCompanyJuristicPersonCorrespondentAccount);
-        $this->assertSame('40701810401400000014',                        $burialFormView->funeralCompanyJuristicPersonCurrentAccount);
+        $this->assertSame('АО "АЛЬФА-БАНК"',                             $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame('044525593',                                   $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame('30101810200000000593',                        $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame('40701810401400000014',                        $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonFax);
@@ -1018,7 +1048,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     private function testItReturnsBurialViewFormForB006(): void
     {
-        $burialFormView = $this->fetcher->getById('B006');
+        $burialFormView = $this->fetcher->getFormViewById('B006');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B006',                                        $burialFormView->id);
         $this->assertSame('000000006',                                   $burialFormView->code);
@@ -1052,7 +1082,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhone);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerSoleProprietorFax);
@@ -1066,7 +1099,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonLegalAddress);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetails);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->customerJuristicPersonFax);
@@ -1095,10 +1131,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
         $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
-        $this->assertSame('АО "АЛЬФА-БАНК"',                             $burialFormView->funeralCompanySoleProprietorBankName);
-        $this->assertSame('044525593',                                   $burialFormView->funeralCompanySoleProprietorBik);
-        $this->assertSame('30101810200000000593',                        $burialFormView->funeralCompanySoleProprietorCorrespondentAccount);
-        $this->assertSame('40701810401400000014',                        $burialFormView->funeralCompanySoleProprietorCurrentAccount);
+        $this->assertSame('АО "АЛЬФА-БАНК"',                             $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame('044525593',                                   $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame('30101810200000000593',                        $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame('40701810401400000014',                        $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
         $this->assertSame('8(383)111-22-33',                             $burialFormView->funeralCompanySoleProprietorPhone);
         $this->assertSame('8(383)111-22-44',                             $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
         $this->assertSame('8(383)111-22-55',                             $burialFormView->funeralCompanySoleProprietorFax);
@@ -1112,10 +1148,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOkved);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonLegalAddress);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankName);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBik);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonCorrespondentAccount);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhone);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonFax);
