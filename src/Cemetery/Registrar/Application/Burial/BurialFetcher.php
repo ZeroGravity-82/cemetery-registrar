@@ -25,7 +25,7 @@ interface BurialFetcher
      * @param string|null $term
      * @param int         $pageSize
      *
-     * @return BurialViewListItem[]|array
+     * @return BurialViewList
      */
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): array;
+    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialViewList;
 }

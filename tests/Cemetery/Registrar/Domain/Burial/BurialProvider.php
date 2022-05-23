@@ -86,9 +86,11 @@ final class BurialProvider
         $burialCode       = new BurialCode('000000004');
         $burialType       = BurialType::coffinInGraveSite();
         $deceasedId       = new DeceasedId('D004');
+        $customerId       = new CustomerId(new JuristicPersonId('JP004'));
         $funeralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
+            ->setCustomerId($customerId)
             ->setFuneralCompanyId($funeralCompanyId);
     }
 
