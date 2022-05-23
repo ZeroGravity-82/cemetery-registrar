@@ -20,4 +20,4 @@ services:
             - '../tests/Cemetery/'
 
     # third-party services
-    #...
+    Ramsey\Uuid\UuidFactory: ~
