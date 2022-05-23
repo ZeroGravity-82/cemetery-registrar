@@ -462,7 +462,9 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
                 )
                 ->setParameter('term', "%$term%");
         }
-        $result = $queryBuilder->executeQuery();
+        $result = $queryBuilder
+            ->orderBy('b.code')
+            ->executeQuery();
 
         return $result->fetchAllAssociative();
     }

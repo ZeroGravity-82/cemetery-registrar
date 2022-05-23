@@ -79,8 +79,8 @@ final class CreateBurialService extends BurialService
      */
     public function execute($request): CreateBurialResponse
     {
-        $deceasedId         = $this->processDeceasedData($request);
         $type               = $this->processTypeData($request);
+        $deceasedId         = $this->processDeceasedData($request);
         $customerId         = $this->processCustomerData($request);
         $burialPlaceId      = $this->processBurialPlaceData($request);
         $burialPlaceOwnerId = $this->processBurialPlaceOwnerData($request);
@@ -89,8 +89,8 @@ final class CreateBurialService extends BurialService
         $buriedAt           = $this->processBuriedAtData($request);
 
         $burial = $this->burialFactory->create(
-            $deceasedId,
             $type,
+            $deceasedId,
             $customerId,
             $burialPlaceId,
             $burialPlaceOwnerId,
@@ -230,11 +230,11 @@ final class CreateBurialService extends BurialService
         if ($request->burialPlaceOwnerId !== null) {
             $burialPlaceOwnerId = new NaturalPersonId((string) $request->burialPlaceOwnerId);
         }
-        if ($request->burialPlaceOwnerId === null) {
-            $burialPlaceOwner = $this->createNaturalPersonForBurialPlaceOwner($request);
-            $this->naturalPersonRepo->save($burialPlaceOwner);
-            $burialPlaceOwnerId = $burialPlaceOwner->id();
-        }
+//        if ($request->burialPlaceOwnerId === null) {
+//            $burialPlaceOwner = $this->createNaturalPersonForBurialPlaceOwner($request);
+//            $this->naturalPersonRepo->save($burialPlaceOwner);
+//            $burialPlaceOwnerId = $burialPlaceOwner->id();
+//        }
 
         return $burialPlaceOwnerId;
     }
@@ -258,20 +258,20 @@ final class CreateBurialService extends BurialService
                     $this->funeralCompanyIdFactory->createForJuristicPerson($request->funeralCompanyId),
             };
         }
-        if ($request->funeralCompanyId === null && $request->funeralCompanyType !== null) {
-            switch ($request->funeralCompanyType) {
-                case SoleProprietor::CLASS_SHORTCUT:
-                    $funeralCompany = $this->createSoleProprietorForFuneralCompany($request);
-                    $this->soleProprietorRepo->save($funeralCompany);
-                    break;
-                case JuristicPerson::CLASS_SHORTCUT:
-                    $funeralCompany = $this->createJuristicPersonForFuneralCompany($request);
-                    $this->juristicPersonRepo->save($funeralCompany);
-                    break;
-            }
-            /** @var SoleProprietor|JuristicPerson $funeralCompany */
-            $funeralCompanyId = $this->funeralCompanyIdFactory->create($funeralCompany->id());
-        }
+//        if ($request->funeralCompanyId === null && $request->funeralCompanyType !== null) {
+//            switch ($request->funeralCompanyType) {
+//                case SoleProprietor::CLASS_SHORTCUT:
+//                    $funeralCompany = $this->createSoleProprietorForFuneralCompany($request);
+//                    $this->soleProprietorRepo->save($funeralCompany);
+//                    break;
+//                case JuristicPerson::CLASS_SHORTCUT:
+//                    $funeralCompany = $this->createJuristicPersonForFuneralCompany($request);
+//                    $this->juristicPersonRepo->save($funeralCompany);
+//                    break;
+//            }
+//            /** @var SoleProprietor|JuristicPerson $funeralCompany */
+//            $funeralCompanyId = $this->funeralCompanyIdFactory->create($funeralCompany->id());
+//        }
 
         return $funeralCompanyId;
     }
@@ -309,7 +309,7 @@ final class CreateBurialService extends BurialService
     {
         $buriedAt = null;
 
-        if ($request->buriedAt !== null) {
+        if (!empty($request->buriedAt)) {
             $buriedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $request->buriedAt);
         }
 
@@ -329,7 +329,7 @@ final class CreateBurialService extends BurialService
             null,
             null,
             null,
-            $request->deceasedNaturalPersonBornAt,
+            $request->deceasedNaturalPersonBornAt ?: null,
             null,
             null,
             null,
@@ -350,8 +350,9 @@ final class CreateBurialService extends BurialService
         return $this->deceasedFactory->create(
             $naturalPersonId,
             $request->deceasedDiedAt,
-            $request->deceasedDeathCertificateId,
-            $request->deceasedCauseOfDeath,
+            $request->deceasedAge                ?: null,
+            $request->deceasedDeathCertificateId ?: null,
+            $request->deceasedCauseOfDeath       ?: null,
         );
     }
 
@@ -364,17 +365,17 @@ final class CreateBurialService extends BurialService
     {
         return $this->naturalPersonFactory->create(
             $request->customerNaturalPersonFullName,
-            $request->customerNaturalPersonPhone,
-            $request->customerNaturalPersonPhoneAdditional,
-            $request->customerNaturalPersonEmail,
-            $request->customerNaturalPersonAddress,
-            $request->customerNaturalPersonBornAt,
-            $request->customerNaturalPersonPlaceOfBirth,
-            $request->customerNaturalPersonPassportSeries,
-            $request->customerNaturalPersonPassportNumber,
-            $request->customerNaturalPersonPassportIssuedAt,
-            $request->customerNaturalPersonPassportIssuedBy,
-            $request->customerNaturalPersonPassportDivisionCode,
+            $request->customerNaturalPersonPhone                ?: null,
+            $request->customerNaturalPersonPhoneAdditional      ?: null,
+            $request->customerNaturalPersonEmail                ?: null,
+            $request->customerNaturalPersonAddress              ?: null,
+            $request->customerNaturalPersonBornAt               ?: null,
+            $request->customerNaturalPersonPlaceOfBirth         ?: null,
+            $request->customerNaturalPersonPassportSeries       ?: null,
+            $request->customerNaturalPersonPassportNumber       ?: null,
+            $request->customerNaturalPersonPassportIssuedAt     ?: null,
+            $request->customerNaturalPersonPassportIssuedBy     ?: null,
+            $request->customerNaturalPersonPassportDivisionCode ?: null,
         );
     }
 
@@ -441,14 +442,24 @@ final class CreateBurialService extends BurialService
      */
     private function createGraveSite(CreateBurialRequest $request): GraveSite
     {
+        $burialPlaceGeoPositionLatitude  = null;
+        $burialPlaceGeoPositionLongitude = null;
+        $burialPlaceGeoPositionError     = null;
+        $burialPlaceGeoPosition          = $request->burialPlaceGeoPosition ?: null;
+        if ($burialPlaceGeoPosition && \str_contains($burialPlaceGeoPosition, ',')) {
+            $burialPlaceGeoPositionParts     = \explode(',', $burialPlaceGeoPosition);
+            $burialPlaceGeoPositionLatitude  = \trim($burialPlaceGeoPositionParts[0]);
+            $burialPlaceGeoPositionLongitude = \trim($burialPlaceGeoPositionParts[1]);
+        }
+
         return $this->graveSiteFactory->create(
-            $request->burialPlaceGraveSiteCemeteryBlockId,
-            $request->burialPlaceGraveSiteRowInBlock,
-            $request->burialPlaceGraveSitePositionInRow,
-            $request->burialPlaceGeoPositionLatitude,
-            $request->burialPlaceGeoPositionLongitude,
-            $request->burialPlaceGeoPositionError,
-            $request->burialPlaceGraveSiteSize,
+            $request->burialPlaceGraveSiteCemeteryBlockId ?: null,
+            $request->burialPlaceGraveSiteRowInBlock      ?: null,
+            $request->burialPlaceGraveSitePositionInRow   ?: null,
+            $burialPlaceGeoPositionLatitude,
+            $burialPlaceGeoPositionLongitude,
+            $burialPlaceGeoPositionError,
+            $request->burialPlaceGraveSiteSize            ?: null,
         );
     }
 
