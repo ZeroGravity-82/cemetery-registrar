@@ -63,13 +63,7 @@ $('body').on('click', 'tr', function(e) {
             } else {
                 $editBurialModal.find('input#burialContainerCoffinIsNonStandard').prop('checked', false);
             }
-
-
-
-
             editBurialModal.show();
         }
     });
-
-
 });

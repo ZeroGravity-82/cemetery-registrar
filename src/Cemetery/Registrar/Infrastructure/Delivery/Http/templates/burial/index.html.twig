@@ -355,16 +355,20 @@
           <form class="tab-content" id="editBurialTabContent" method="post" name="edit-burial">
             <div class="container tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
               <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <div class="col-md-3"><label for="code" class="form-label">Код</label></div>
+                    <div class="col-md-9"><input type="text" class="form-control" id="code" name="code" required></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-6 card">
                   <div class="card-body">
                     <h5 class="card-title text-success">Информация об умершем</h5>
                     <div class="row d-none">
                       <div class="col-md-3"><label for="type" class="form-label">Тип захоронения</label></div>
                       <div class="col-md-9"><input type="text" class="form-control" id="type" name="type" value="COFFIN_IN_GRAVE_SITE"></div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-3"><label for="code" class="form-label">Код</label></div>
-                      <div class="col-md-9"><input type="text" class="form-control" id="code" name="code" required></div>
                     </div>
                     <div class="row">
                       <div class="col-md-3"><label for="deceasedNaturalPersonFullName" class="form-label">Ф.И.О.</label></div>
