@@ -310,7 +310,7 @@ final class CreateBurialService extends BurialService
         $buriedAt = null;
 
         if (!empty($request->buriedAt)) {
-            $buriedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $request->buriedAt);
+            $buriedAt = new \DateTimeImmutable($request->buriedAt);
         }
 
         return $buriedAt;
