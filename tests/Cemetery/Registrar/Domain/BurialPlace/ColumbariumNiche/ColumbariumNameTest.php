@@ -14,9 +14,9 @@ class ColumbariumNameTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $columbariumName = new ColumbariumName('западный колумбарий');
+        $columbariumName = new ColumbariumName('западный');
 
-        $this->assertSame('западный колумбарий', $columbariumName->value());
+        $this->assertSame('западный', $columbariumName->value());
     }
 
     public function testItFailsWithEmptyValue(): void
@@ -33,16 +33,16 @@ class ColumbariumNameTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $columbariumName = new ColumbariumName('восточный колумбарий');
+        $columbariumName = new ColumbariumName('восточный');
 
-        $this->assertSame('восточный колумбарий', (string) $columbariumName);
+        $this->assertSame('восточный', (string) $columbariumName);
     }
 
     public function testItComparable(): void
     {
-        $columbariumNameA = new ColumbariumName('западный колумбарий');
-        $columbariumNameB = new ColumbariumName('восточный колумбарий');
-        $columbariumNameC = new ColumbariumName('западный колумбарий');
+        $columbariumNameA = new ColumbariumName('западный');
+        $columbariumNameB = new ColumbariumName('восточный');
+        $columbariumNameC = new ColumbariumName('западный');
 
         $this->assertFalse($columbariumNameA->isEqual($columbariumNameB));
         $this->assertTrue($columbariumNameA->isEqual($columbariumNameC));

@@ -47,7 +47,7 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends RepositoryIntegrat
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newName = new ColumbariumName('западный колумбарий 2');
+        $newName = new ColumbariumName('западный 2');
 
         /** @var Columbarium $entityA */
         $entityA->setName($newName);

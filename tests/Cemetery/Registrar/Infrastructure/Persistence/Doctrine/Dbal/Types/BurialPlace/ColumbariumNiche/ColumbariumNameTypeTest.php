@@ -20,7 +20,7 @@ class ColumbariumNameTypeTest extends CustomStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'западный колумбарий';
-        $this->phpValue = new ColumbariumName('западный колумбарий');
+        $this->dbValue  = 'западный';
+        $this->phpValue = new ColumbariumName('западный');
     }
 }

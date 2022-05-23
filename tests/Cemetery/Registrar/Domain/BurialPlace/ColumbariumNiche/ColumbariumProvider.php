@@ -19,7 +19,7 @@ final class ColumbariumProvider
     public static function getColumbariumA(): Columbarium
     {
         $id   = new ColumbariumId('C001');
-        $name = new ColumbariumName('западный колумбарий');
+        $name = new ColumbariumName('западный');
 
         return new Columbarium($id, $name);
     }
@@ -27,7 +27,7 @@ final class ColumbariumProvider
     public static function getColumbariumB(): Columbarium
     {
         $id          = new ColumbariumId('C002');
-        $name        = new ColumbariumName('южный колумбарий');
+        $name        = new ColumbariumName('южный');
         $geoPosition = new GeoPosition(new Coordinates('+54.95035712', '082.7925200'), new Error('0.5'));
 
         return (new Columbarium($id, $name))
@@ -37,7 +37,7 @@ final class ColumbariumProvider
     public static function getColumbariumC(): Columbarium
     {
         $id          = new ColumbariumId('C003');
-        $name        = new ColumbariumName('восточный колумбарий');
+        $name        = new ColumbariumName('восточный');
         $geoPosition = new GeoPosition(new Coordinates('-050.9500', '-179.7972252'), null);
 
         return (new Columbarium($id, $name))
@@ -47,7 +47,7 @@ final class ColumbariumProvider
     public static function getColumbariumD(): Columbarium
     {
         $id   = new ColumbariumId('C004');
-        $name = new ColumbariumName('северный колумбарий');
+        $name = new ColumbariumName('северный');
 
         return new Columbarium($id, $name);
     }

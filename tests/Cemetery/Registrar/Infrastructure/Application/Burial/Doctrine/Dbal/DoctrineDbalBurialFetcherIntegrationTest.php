@@ -307,7 +307,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                $item->burialPlaceGraveSiteCemeteryBlockName);
         $this->assertSame(null,                                $item->burialPlaceGraveSiteRowInBlock);
         $this->assertSame(null,                                $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame('южный колумбарий',                  $item->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame('южный',                  $item->burialPlaceColumbariumNicheColumbariumName);
         $this->assertSame(2,                                   $item->burialPlaceColumbariumNicheRowInColumbarium);
         $this->assertSame('002',                               $item->burialPlaceColumbariumNicheNumber);
         $this->assertSame(null,                                $item->burialPlaceMemorialTreeNumber);
@@ -604,7 +604,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->burialPlaceGraveSiteGeoPositionLongitude);
         $this->assertSame(null,                                        $burialFormView->burialPlaceGraveSiteGeoPositionError);
         $this->assertSame('C002',                                      $burialFormView->burialPlaceColumbariumNicheColumbariumId);
-        $this->assertSame('южный колумбарий',                          $burialFormView->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame('южный',                          $burialFormView->burialPlaceColumbariumNicheColumbariumName);
         $this->assertSame(2,                                           $burialFormView->burialPlaceColumbariumNicheRowInColumbarium);
         $this->assertSame('002',                                       $burialFormView->burialPlaceColumbariumNicheNumber);
         $this->assertSame('54.95035712',                               $burialFormView->burialPlaceColumbariumNicheGeoPositionLatitude);

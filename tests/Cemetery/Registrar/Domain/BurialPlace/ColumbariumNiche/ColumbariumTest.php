@@ -24,7 +24,7 @@ class ColumbariumTest extends AggregateRootTest
     public function setUp(): void
     {
         $this->id          = new ColumbariumId('C001');
-        $this->name        = new ColumbariumName('западный колумбарий');
+        $this->name        = new ColumbariumName('западный');
         $this->columbarium = new Columbarium($this->id, $this->name);
         $this->entity      = $this->columbarium;
     }
@@ -40,7 +40,7 @@ class ColumbariumTest extends AggregateRootTest
 
     public function testItSetsName(): void
     {
-        $name = new ColumbariumName('восточный колумбарий');
+        $name = new ColumbariumName('восточный');
         $this->columbarium->setName($name);
         $this->assertInstanceOf(ColumbariumName::class, $this->columbarium->name());
         $this->assertTrue($this->columbarium->name()->isEqual($name));
