@@ -21,7 +21,7 @@ class CemeteryBlockTest extends AggregateRootTest
     public function setUp(): void
     {
         $this->id            = new CemeteryBlockId('CB001');
-        $this->name          = new CemeteryBlockName('воинский квартал');
+        $this->name          = new CemeteryBlockName('воинский');
         $this->cemeteryBlock = new CemeteryBlock($this->id, $this->name);
         $this->entity        = $this->cemeteryBlock;
     }
@@ -36,7 +36,7 @@ class CemeteryBlockTest extends AggregateRootTest
 
     public function testItSetsName(): void
     {
-        $name = new CemeteryBlockName('мусульманский квартал');
+        $name = new CemeteryBlockName('мусульманский');
         $this->cemeteryBlock->setName($name);
         $this->assertInstanceOf(CemeteryBlockName::class, $this->cemeteryBlock->name());
         $this->assertTrue($this->cemeteryBlock->name()->isEqual($name));

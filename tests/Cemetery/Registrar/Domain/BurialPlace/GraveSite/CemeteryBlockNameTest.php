@@ -14,9 +14,9 @@ class CemeteryBlockNameTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $columbariumName = new CemeteryBlockName('воинский квартал');
+        $columbariumName = new CemeteryBlockName('воинский');
 
-        $this->assertSame('воинский квартал', $columbariumName->value());
+        $this->assertSame('воинский', $columbariumName->value());
     }
 
     public function testItFailsWithEmptyValue(): void
@@ -33,16 +33,16 @@ class CemeteryBlockNameTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $cemeteryBlockName = new CemeteryBlockName('воинский квартал');
+        $cemeteryBlockName = new CemeteryBlockName('воинский');
 
-        $this->assertSame('воинский квартал', (string) $cemeteryBlockName);
+        $this->assertSame('воинский', (string) $cemeteryBlockName);
     }
 
     public function testItComparable(): void
     {
-        $cemeteryBlockNameA = new CemeteryBlockName('воинский квартал');
-        $cemeteryBlockNameB = new CemeteryBlockName('мусульманский квартал');
-        $cemeteryBlockNameC = new CemeteryBlockName('воинский квартал');
+        $cemeteryBlockNameA = new CemeteryBlockName('воинский');
+        $cemeteryBlockNameB = new CemeteryBlockName('мусульманский');
+        $cemeteryBlockNameC = new CemeteryBlockName('воинский');
 
         $this->assertFalse($cemeteryBlockNameA->isEqual($cemeteryBlockNameB));
         $this->assertTrue($cemeteryBlockNameA->isEqual($cemeteryBlockNameC));

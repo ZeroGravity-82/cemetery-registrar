@@ -20,7 +20,7 @@ class CemeteryBlockNameTypeTest extends CustomStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = 'воинский квартал';
-        $this->phpValue = new CemeteryBlockName('воинский квартал');
+        $this->dbValue  = 'воинский';
+        $this->phpValue = new CemeteryBlockName('воинский');
     }
 }

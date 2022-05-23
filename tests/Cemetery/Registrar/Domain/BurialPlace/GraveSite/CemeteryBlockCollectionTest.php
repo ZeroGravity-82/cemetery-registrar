@@ -34,7 +34,7 @@ class CemeteryBlockCollectionTest extends EntityCollectionTest
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (CemeteryBlock $cemeteryBlock) {
-            return \str_contains($cemeteryBlock->name()->value(), 'общий квартал');
+            return \str_contains($cemeteryBlock->name()->value(), 'общий');
         };
     }
 }
