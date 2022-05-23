@@ -100,9 +100,11 @@ final class NaturalPersonProvider
     {
         $id       = new NaturalPersonId('NP007');
         $fullName = new FullName('Громов Никифор Рудольфович');
+        $address  = new Address('Новосибирск, ул. Н.-Данченко, д. 18, кв. 17');
         $bornAt   = new \DateTimeImmutable('1915-11-24');
 
         return (new NaturalPerson($id, $fullName))
+            ->setAddress($address)
             ->setBornAt($bornAt);
     }
 

@@ -45,7 +45,7 @@ final class GraveSiteProvider
     {
         $id              = new GraveSiteId('GS003');
         $cemeteryBlockId = new CemeteryBlockId('CB003');
-        $rowInBlock      = new RowInBlock(1);
+        $rowInBlock      = new RowInBlock(7);
         $geoPosition     = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
         $size            = new GraveSiteSize('2.5');
 

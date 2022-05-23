@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;
 use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Contact\Website;
@@ -47,12 +48,16 @@ final class SoleProprietorProvider
 
     public static function getSoleProprietorC(): SoleProprietor
     {
-        $id   = new SoleProprietorId('SP003');
-        $name = new Name('ИП Сидоров Сидр Сидорович');
-        $inn  = new Inn('391600743661');
+        $id                    = new SoleProprietorId('SP003');
+        $name                  = new Name('ИП Сидоров Сидр Сидорович');
+        $inn                   = new Inn('391600743661');
+        $actualLocationAddress = new Address('с. Каменка, д. 14');
+        $phone                 = new PhoneNumber('8(383)111-22-33');
 
         return (new SoleProprietor($id, $name))
-            ->setInn($inn);
+            ->setInn($inn)
+            ->setActualLocationAddress($actualLocationAddress)
+            ->setPhone($phone);
     }
 
     public static function getSoleProprietorD(): SoleProprietor
