@@ -44,7 +44,7 @@ class BurialTest extends AggregateRootTest
     public function setUp(): void
     {
         $id           = new BurialId('B001');
-        $code         = new BurialCode('BC001');
+        $code         = new BurialCode('10001');
         $type         = BurialType::coffinInGraveSite();
         $deceasedId   = new DeceasedId('D001');
         $this->burial = new Burial($id, $code, $type, $deceasedId);
@@ -56,7 +56,7 @@ class BurialTest extends AggregateRootTest
         $this->assertInstanceOf(BurialId::class, $this->burial->id());
         $this->assertSame('B001', (string) $this->burial->id());
         $this->assertInstanceOf(BurialCode::class, $this->burial->code());
-        $this->assertSame('BC001', (string) $this->burial->code());
+        $this->assertSame('10001', (string) $this->burial->code());
         $this->assertInstanceOf(BurialType::class, $this->burial->type());
         $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
         $this->assertSame('D001', (string) $this->burial->deceasedId());
