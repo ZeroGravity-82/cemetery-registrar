@@ -114,13 +114,13 @@ final class Burial extends AggregateRoot
     }
 
     /**
-     * @param BurialType $yype
+     * @param BurialType $type
      *
      * @return $this
      */
-    public function setType(BurialType $yype): self
+    public function setType(BurialType $type): self
     {
-        $this->type = $yype;
+        $this->type = $type;
 
         return $this;
     }
