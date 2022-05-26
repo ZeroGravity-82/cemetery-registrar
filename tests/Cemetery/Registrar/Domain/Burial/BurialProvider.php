@@ -129,4 +129,16 @@ final class BurialProvider
             ->setCustomerId($customerId)
             ->setFuneralCompanyId($funeralCompanyId);
     }
+
+    public static function getBurialG(): Burial
+    {
+        $id              = new BurialId('B007');
+        $burialCode      = new BurialCode('1');
+        $burialType      = BurialType::coffinInGraveSite();
+        $deceasedId      = new DeceasedId('D007');
+        $burialPlaceId   = new BurialPlaceId(new GraveSiteId('GS005'));
+
+        return (new Burial($id, $burialCode, $burialType, $deceasedId))
+            ->setBurialPlaceId($burialPlaceId);
+    }
 }

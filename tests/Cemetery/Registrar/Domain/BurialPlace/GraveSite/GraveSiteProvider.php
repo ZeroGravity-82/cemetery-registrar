@@ -62,4 +62,13 @@ final class GraveSiteProvider
 
         return new GraveSite($id, $cemeteryBlockId, $rowInBlock);
     }
+
+    public static function getGraveSiteE(): GraveSite
+    {
+        $id              = new GraveSiteId('GS005');
+        $cemeteryBlockId = new CemeteryBlockId('CB004');
+        $rowInBlock      = new RowInBlock(3);
+
+        return new GraveSite($id, $cemeteryBlockId, $rowInBlock);
+    }
 }

@@ -83,6 +83,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->testItReturnsBurialFormViewForB004();
         $this->testItReturnsBurialFormViewForB005();
         $this->testItReturnsBurialFormViewForB006();
+        $this->testItReturnsBurialFormViewForB007();
     }
 
     public function testItFailsToReturnBurialFormViewByUnknownId(): void
@@ -102,20 +103,22 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(4, $burialViewListForFirstPage->totalCount);
         $this->assertCount(4, $burialViewListForFirstPage->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForFirstPage->burialViewListItems);
-        $this->assertItemForFirstPageEqualsB001($burialViewListForFirstPage->burialViewListItems[0]);
-        $this->assertItemForFirstPageEqualsB002($burialViewListForFirstPage->burialViewListItems[1]);
-        $this->assertItemForFirstPageEqualsB003($burialViewListForFirstPage->burialViewListItems[2]);
-        $this->assertItemForFirstPageEqualsB005($burialViewListForFirstPage->burialViewListItems[3]);
+        $this->assertItemForFirstPageEqualsB007($burialViewListForFirstPage->burialViewListItems[0]);  // This item has minimum code value
+        $this->assertItemForFirstPageEqualsB001($burialViewListForFirstPage->burialViewListItems[1]);
+        $this->assertItemForFirstPageEqualsB002($burialViewListForFirstPage->burialViewListItems[2]);
+        $this->assertItemForFirstPageEqualsB003($burialViewListForFirstPage->burialViewListItems[3]);
+
 
         // Second page
         $burialViewListForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewListForSecondPage);
-        $this->assertSame(2, $burialViewListForSecondPage->totalCount);
-        $this->assertCount(2, $burialViewListForSecondPage->burialViewListItems);
+        $this->assertSame(3, $burialViewListForSecondPage->totalCount);
+        $this->assertCount(3, $burialViewListForSecondPage->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForSecondPage->burialViewListItems);
 
-        $this->assertItemForSecondPageEqualsB006($burialViewListForSecondPage->burialViewListItems[0]);
-        $this->assertItemForSecondPageEqualsB004($burialViewListForSecondPage->burialViewListItems[1]);  // This item has maximum code value
+        $this->assertItemForSecondPageEqualsB005($burialViewListForSecondPage->burialViewListItems[0]);
+        $this->assertItemForSecondPageEqualsB006($burialViewListForSecondPage->burialViewListItems[1]);
+        $this->assertItemForSecondPageEqualsB004($burialViewListForSecondPage->burialViewListItems[2]);  // This item has maximum code value
 
         // Third page
         $burialViewListForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
@@ -126,8 +129,8 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         // All at once
         $burialViewListForDefaultPageSize = $this->fetcher->findAll(1);
         $this->assertInstanceOf(BurialViewList::class, $burialViewListForDefaultPageSize);
-        $this->assertSame(6, $burialViewListForDefaultPageSize->totalCount);
-        $this->assertCount(6, $burialViewListForDefaultPageSize->burialViewListItems);
+        $this->assertSame(7, $burialViewListForDefaultPageSize->totalCount);
+        $this->assertCount(7, $burialViewListForDefaultPageSize->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForDefaultPageSize->burialViewListItems);
     }
 
@@ -187,6 +190,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
                 BurialProvider::getBurialD(),
                 BurialProvider::getBurialE(),
                 BurialProvider::getBurialF(),
+                BurialProvider::getBurialG(),
             ]));
     }
 
@@ -200,6 +204,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
                 DeceasedProvider::getDeceasedD(),
                 DeceasedProvider::getDeceasedE(),
                 DeceasedProvider::getDeceasedF(),
+                DeceasedProvider::getDeceasedG(),
             ]));
     }
 
@@ -215,6 +220,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
                 NaturalPersonProvider::getNaturalPersonF(),
                 NaturalPersonProvider::getNaturalPersonG(),
                 NaturalPersonProvider::getNaturalPersonH(),
+                NaturalPersonProvider::getNaturalPersonI(),
             ]));
     }
 
@@ -281,6 +287,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
                 GraveSiteProvider::getGraveSiteB(),
                 GraveSiteProvider::getGraveSiteC(),
                 GraveSiteProvider::getGraveSiteD(),
+                GraveSiteProvider::getGraveSiteE(),
             ]));
     }
 
@@ -293,6 +300,37 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
                 MemorialTreeProvider::getMemorialTreeC(),
                 MemorialTreeProvider::getMemorialTreeD(),
             ]));
+    }
+
+    private function assertItemForFirstPageEqualsB007(BurialViewListItem $item): void
+    {
+        $this->assertSame('B007',                              $item->id);
+        $this->assertSame('1',                                 $item->code);
+        $this->assertSame('Никонов Родион Митрофанович',       $item->deceasedNaturalPersonFullName);
+        $this->assertSame(null,                                $item->deceasedNaturalPersonBornAt);
+        $this->assertSame('1980-05-26',                        $item->deceasedDiedAt);
+        $this->assertSame(null,                                $item->deceasedAge);
+        $this->assertSame(null,                                $item->buriedAt);
+        $this->assertSame(GraveSite::CLASS_SHORTCUT,           $item->burialPlaceType);
+        $this->assertSame('мусульманский',                     $item->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(3,                                   $item->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                                $item->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                                $item->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                                $item->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                                $item->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                                $item->burialPlaceMemorialTreeNumber);
+        $this->assertSame(null,                                $item->customerType);
+        $this->assertSame(null,                                $item->customerNaturalPersonFullName);
+        $this->assertSame(null,                                $item->customerNaturalPersonAddress);
+        $this->assertSame(null,                                $item->customerNaturalPersonPhone);
+        $this->assertSame(null,                                $item->customerSoleProprietorName);
+        $this->assertSame(null,                                $item->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                $item->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                $item->customerSoleProprietorPhone);
+        $this->assertSame(null,                                $item->customerJuristicPersonName);
+        $this->assertSame(null,                                $item->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                                $item->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                                $item->customerJuristicPersonPhone);
     }
 
     private function assertItemForFirstPageEqualsB001(BurialViewListItem $item): void
@@ -388,7 +426,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                          $item->customerJuristicPersonPhone);
     }
 
-    private function assertItemForFirstPageEqualsB005(BurialViewListItem $item): void
+    private function assertItemForSecondPageEqualsB005(BurialViewListItem $item): void
     {
         $this->assertSame('B005',                         $item->id);
         $this->assertSame('11005',                        $item->code);
@@ -1309,6 +1347,148 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteCemeteryBlockId);
         $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteCemeteryBlockName);
         $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteSize);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteGeoPositionLatitude);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteGeoPositionLongitude);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteGeoPositionError);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheColumbariumId);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheGeoPositionLatitude);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheGeoPositionLongitude);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceColumbariumNicheGeoPositionError);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceMemorialTreeNumber);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceMemorialTreeGeoPositionLatitude);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceMemorialTreeGeoPositionLongitude);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceMemorialTreeGeoPositionError);
+        $this->assertSame(null,                                          $burialFormView->burialContainerType);
+        $this->assertSame(null,                                          $burialFormView->burialContainerCoffinSize);
+        $this->assertSame(null,                                          $burialFormView->burialContainerCoffinShape);
+        $this->assertSame(null,                                          $burialFormView->burialContainerCoffinIsNonStandard);
+        $this->assertSame(null,                                          $burialFormView->buriedAt);
+        $this->assertValidUpdateAtValue($burialFormView->updatedAt);
+    }
+
+    private function testItReturnsBurialFormViewForB007(): void
+    {
+        $burialFormView = $this->fetcher->getFormViewById('B007');
+        $this->assertInstanceOf(BurialFormView::class, $burialFormView);
+        $this->assertSame('B007',                                        $burialFormView->id);
+        $this->assertSame('1',                                           $burialFormView->code);
+        $this->assertSame(BurialType::COFFIN_IN_GRAVE_SITE,              $burialFormView->type);
+        $this->assertSame('D007',                                        $burialFormView->deceasedId);
+        $this->assertSame('NP009',                                       $burialFormView->deceasedNaturalPersonId);
+        $this->assertSame('Никонов Родион Митрофанович',                 $burialFormView->deceasedNaturalPersonFullName);
+        $this->assertSame(null,                                          $burialFormView->deceasedNaturalPersonBornAt);
+        $this->assertSame('1980-05-26',                                  $burialFormView->deceasedDiedAt);
+        $this->assertSame(null,                                          $burialFormView->deceasedAge);
+        $this->assertSame(null,                                          $burialFormView->deceasedDeathCertificateId);
+        $this->assertSame(null,                                          $burialFormView->deceasedCauseOfDeath);
+        $this->assertSame(null,                                          $burialFormView->customerId);
+        $this->assertSame(null,                                          $burialFormView->customerType);
+        $this->assertSame(null ,                                         $burialFormView->customerNaturalPersonFullName);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPhone);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPhoneAdditional);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonEmail);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonAddress);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonBornAt);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPlaceOfBirth);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPassportSeries);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPassportNumber);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPassportIssuedAt);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPassportIssuedBy);
+        $this->assertSame(null,                                          $burialFormView->customerNaturalPersonPassportDivisionCode);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorName);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorInn);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOgrnip);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOkpo);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorOkved);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorBankDetailsCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhone);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorPhoneAdditional);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorFax);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorEmail);
+        $this->assertSame(null,                                          $burialFormView->customerSoleProprietorWebsite);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonName);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonInn);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonKpp);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOgrn);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOkpo);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonOkved);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonBankDetailsCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhone);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonPhoneAdditional);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonFax);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonGeneralDirector);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonEmail);
+        $this->assertSame(null,                                          $burialFormView->customerJuristicPersonWebsite);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerId);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerFullName);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPhone);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPhoneAdditional);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerEmail);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerAddress);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerBornAt);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPlaceOfBirth);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportSeries);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportNumber);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedAt);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedBy);
+        $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportDivisionCode);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyId);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyType);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorInn);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOgrnip);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOkpo);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorOkved);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorBankDetailsCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhone);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorPhoneAdditional);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorFax);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorEmail);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanySoleProprietorWebsite);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonInn);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonKpp);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOgrn);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOkpo);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonOkved);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonLegalAddress);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPostalAddress);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBankName);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsBik);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonBankDetailsCurrentAccount);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhone);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonPhoneAdditional);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonFax);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonGeneralDirector);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonEmail);
+        $this->assertSame(null,                                          $burialFormView->funeralCompanyJuristicPersonWebsite);
+        $this->assertSame(null,                                          $burialFormView->burialChainId);
+        $this->assertSame('GS005',                                       $burialFormView->burialPlaceId);
+        $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $burialFormView->burialPlaceType);
+        $this->assertSame('CB004',                                       $burialFormView->burialPlaceGraveSiteCemeteryBlockId);
+        $this->assertSame('мусульманский',                               $burialFormView->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(3,                                             $burialFormView->burialPlaceGraveSiteRowInBlock);
         $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSitePositionInRow);
         $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteSize);
         $this->assertSame(null,                                          $burialFormView->burialPlaceGraveSiteGeoPositionLatitude);

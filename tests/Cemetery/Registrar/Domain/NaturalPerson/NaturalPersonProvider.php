@@ -125,4 +125,12 @@ final class NaturalPersonProvider
             ->setEmail($email)
             ->setPassport($passport);
     }
+
+    public static function getNaturalPersonI(): NaturalPerson
+    {
+        $id       = new NaturalPersonId('NP009');
+        $fullName = new FullName('Никонов Родион Митрофанович');
+
+        return new NaturalPerson($id, $fullName);
+    }
 }

@@ -79,4 +79,13 @@ final class DeceasedProvider
 
         return new Deceased($id, $naturalPersonId, $diedAt);
     }
+
+    public static function getDeceasedG(): Deceased
+    {
+        $id              = new DeceasedId('D007');
+        $naturalPersonId = new NaturalPersonId('NP009');
+        $diedAt          = new \DateTimeImmutable('1980-05-26');
+
+        return new Deceased($id, $naturalPersonId, $diedAt);
+    }
 }
