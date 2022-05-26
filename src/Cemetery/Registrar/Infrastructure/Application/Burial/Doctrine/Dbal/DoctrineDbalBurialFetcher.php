@@ -214,7 +214,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
     {
         return new BurialFormView(
             $burialFormViewData['id'],
-            $burialFormViewData['code'],
+            $this->formatCode($burialFormViewData['code']),
             $burialFormViewData['type'],
             $burialFormViewData['deceasedId'],
             $burialFormViewData['deceasedNaturalPersonId'],
@@ -480,7 +480,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
         foreach ($burialViewListData as $burialViewListItemData) {
             $burialViewListItems[] = new BurialViewListItem(
                 $burialViewListItemData['id'],
-                $burialViewListItemData['code'],
+                $this->formatCode($burialViewListItemData['code']),
                 $burialViewListItemData['deceasedNaturalPersonFullName'],
                 $burialViewListItemData['deceasedNaturalPersonBornAt'],
                 $burialViewListItemData['deceasedDiedAt'],
@@ -510,5 +510,15 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
         }
 
         return new BurialViewList(\count($burialViewListData), $burialViewListItems);
+    }
+
+    /**
+     * @param $code
+     *
+     * @return string
+     */
+    private function formatCode($code): string
+    {
+        return \sprintf('%02d', $code);
     }
 }
