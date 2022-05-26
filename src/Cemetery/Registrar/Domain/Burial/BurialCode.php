@@ -9,7 +9,6 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialCode
 {
-    private const CODE_MIN_LENGTH = 2;
     private const CODE_MAX_LENGTH = 9;
 
     /**
@@ -26,7 +25,7 @@ final class BurialCode
      */
     public function __toString(): string
     {
-        return $this->value();
+        return \sprintf('%02d', $this->value());
     }
 
     /**
@@ -55,6 +54,7 @@ final class BurialCode
         $this->assertNotEmpty($value);
         $this->assertNumeric($value);
         $this->assertValidLength($value);
+        $this->assertHasNoLeadingZeros($value);
     }
 
     /**
@@ -76,7 +76,7 @@ final class BurialCode
      */
     private function assertNumeric(string $value): void
     {
-        if (!\is_numeric($value)) {
+        if (!\preg_match('~^\d+$~', $value)) {
             throw new \RuntimeException('Код захоронения должен состоять только из цифр.');
         }
     }
@@ -88,12 +88,24 @@ final class BurialCode
      */
     private function assertValidLength(string $value): void
     {
-        if (\strlen($value) < self::CODE_MIN_LENGTH || \strlen($value) > self::CODE_MAX_LENGTH) {
+        if (\strlen($value) > self::CODE_MAX_LENGTH) {
             throw new \RuntimeException(\sprintf(
-                'Код захоронения должен иметь длину от %d до %d цифр.',
-                self::CODE_MIN_LENGTH,
+                'Код захоронения должен состоять не более, чем из %d цифр.',
                 self::CODE_MAX_LENGTH
             ));
+        }
+    }
+
+    /**
+     * @param string $value
+     *
+     * @throws \RuntimeException when the code has leading zeros
+     */
+    private function assertHasNoLeadingZeros(string $value): void
+    {
+        $significantDigitCount = \strlen((string) \abs((int) $value));
+        if (\strlen($value) !== $significantDigitCount) {
+            throw new \RuntimeException('Код захоронения не должен содержать ведущие нули.');
         }
     }
 }

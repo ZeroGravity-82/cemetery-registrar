@@ -14,8 +14,8 @@ class BurialCodeTest extends TestCase
 {
     public function testItSuccessfullyCreated(): void
     {
-        $burialCode = new BurialCode('01');
-        $this->assertSame('01', $burialCode->value());
+        $burialCode = new BurialCode('1');
+        $this->assertSame('1', $burialCode->value());
 
         $burialCode = new BurialCode('10');
         $this->assertSame('10', $burialCode->value());
@@ -45,7 +45,7 @@ class BurialCodeTest extends TestCase
     public function testItFailsWithNonNumericValueB(): void
     {
         $this->expectExceptionForNonNumericValue();
-        new BurialCode('1027-0011');
+        new BurialCode('1027.0011');
     }
 
     public function testItFailsWithNonNumericValueC(): void
@@ -54,30 +54,38 @@ class BurialCodeTest extends TestCase
         new BurialCode('1027 0011');
     }
 
-    public function testItFailsWithTooShortValue(): void
-    {
-        $this->expectExceptionForInvalidLength();
-        new BurialCode('1');
-    }
-
     public function testItFailsWithTooLongValue(): void
     {
         $this->expectExceptionForInvalidLength();
         new BurialCode('1027700112');
     }
 
+    public function testItFailsWithLeadingZerosA(): void
+    {
+        $this->expectExceptionForLeadingZeros();
+        new BurialCode('010');
+    }
+
     public function testItStringifyable(): void
     {
-        $burialCode = new BurialCode('1001');
+        $burialCode = new BurialCode('1');
+        $this->assertSame('01', (string) $burialCode);
 
+        $burialCode = new BurialCode('8');
+        $this->assertSame('08', (string) $burialCode);
+
+        $burialCode = new BurialCode('11');
+        $this->assertSame('11', (string) $burialCode);
+
+        $burialCode = new BurialCode('1001');
         $this->assertSame('1001', (string) $burialCode);
     }
 
     public function testItComparable(): void
     {
-        $burialCodeA = new BurialCode('01');
+        $burialCodeA = new BurialCode('1');
         $burialCodeB = new BurialCode('1002');
-        $burialCodeC = new BurialCode('01');
+        $burialCodeC = new BurialCode('1');
 
         $this->assertFalse($burialCodeA->isEqual($burialCodeB));
         $this->assertTrue($burialCodeA->isEqual($burialCodeC));
@@ -99,6 +107,12 @@ class BurialCodeTest extends TestCase
     private function expectExceptionForInvalidLength(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Код захоронения должен иметь длину от 2 до 9 цифр.');
+        $this->expectExceptionMessage('Код захоронения должен состоять не более, чем из 9 цифр.');
+    }
+
+    private function expectExceptionForLeadingZeros(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Код захоронения не должен содержать ведущие нули.');
     }
 }

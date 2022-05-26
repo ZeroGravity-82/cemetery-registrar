@@ -70,7 +70,7 @@ final class NaturalPersonProvider
     {
         $id       = new NaturalPersonId('NP005');
         $fullName = new FullName('Жданова Инга Григорьевна');
-        $phone    = new PhoneNumber('+7-913-111-22-33');
+        $phone    = new PhoneNumber('+7-913-771-22-33');
         $address  = new Address('Новосибирск, ул. Ленина, д. 1');
         $bornAt   = new \DateTimeImmutable('1979-02-12');
         $passport = new Passport(
@@ -101,7 +101,7 @@ final class NaturalPersonProvider
         $id       = new NaturalPersonId('NP007');
         $fullName = new FullName('Громов Никифор Рудольфович');
         $address  = new Address('Новосибирск, ул. Н.-Данченко, д. 18, кв. 17');
-        $bornAt   = new \DateTimeImmutable('1915-11-24');
+        $bornAt   = new \DateTimeImmutable('1915-09-24');
 
         return (new NaturalPerson($id, $fullName))
             ->setAddress($address)
@@ -116,7 +116,7 @@ final class NaturalPersonProvider
         $passport = new Passport(
             '2345',
             '162354',
-            new \DateTimeImmutable('1981-11-20'),
+            new \DateTimeImmutable('1981-10-20'),
             'Отделом МВД Ленинского района г. Пензы',
             null,
         );

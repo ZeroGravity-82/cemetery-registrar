@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class BurialFactoryTest extends EntityFactoryTest
 {
-    private const BURIAL_CODE = '000001';
+    private const BURIAL_CODE = '10001';
 
     private MockObject|BurialCodeGenerator $mockBurialCodeGenerator;
     private BurialFactory                  $burialFactory;

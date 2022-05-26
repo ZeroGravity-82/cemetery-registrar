@@ -59,7 +59,9 @@
           {% for burialViewListItem in burialViewList.burialViewListItems %}
             <tr data-id="{{ burialViewListItem.id }}">
             <td>{{- burialViewListItem.deceasedNaturalPersonFullName -}}</td>
-            <td>{{- burialViewListItem.code -}}</td>
+            <td class="text-end">
+              {{- burialViewListItem.code -}}
+            </td>
             <td>{{- burialViewListItem.deceasedNaturalPersonBornAt is empty ? '' : burialViewListItem.deceasedNaturalPersonBornAt|date('d.m.Y') -}}</td>
             <td>{{- burialViewListItem.deceasedDiedAt              is empty ? '' : burialViewListItem.deceasedDiedAt|date('d.m.Y') -}}</td>
             <td>{{- burialViewListItem.buriedAt                    is empty ? '' : burialViewListItem.buriedAt|date('d.m.Y H:i') -}}</td>

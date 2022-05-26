@@ -20,7 +20,7 @@ class BurialCodeTypeTest extends CustomStringTypeTest
     {
         parent::setUp();
 
-        $this->dbValue  = '000001';
-        $this->phpValue = new BurialCode('000001');
+        $this->dbValue  = '10001';
+        $this->phpValue = new BurialCode('10001');
     }
 }

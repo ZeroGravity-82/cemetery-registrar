@@ -29,7 +29,7 @@ final class DeceasedProvider
     {
         $id                 = new DeceasedId('D002');
         $naturalPersonId    = new NaturalPersonId('NP002');
-        $diedAt             = new \DateTimeImmutable('2001-02-11');
+        $diedAt             = new \DateTimeImmutable('2001-02-12');
         $age                = new Age(82);
         $deathCertificateId = new DeathCertificateId('DC001');
         $causeOfDeath       = new CauseOfDeath('Болезнь сердечно-легочная хроническая');
@@ -44,7 +44,7 @@ final class DeceasedProvider
     {
         $id                 = new DeceasedId('D003');
         $naturalPersonId    = new NaturalPersonId('NP003');
-        $diedAt             = new \DateTimeImmutable('2011-05-13');
+        $diedAt             = new \DateTimeImmutable('2012-05-13');
         $deathCertificateId = new DeathCertificateId('DC002');
         $causeOfDeath       = new CauseOfDeath('Онкология');
 
