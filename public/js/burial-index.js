@@ -10,7 +10,7 @@ $('body').on('click', 'tr', function(e) {
 
             // Информация об умершем
             $editBurialModal.find('span#deceasedNameStub').text(burialFormView.deceasedNaturalPersonFullName);
-            $editBurialModal.find('input#code').val(burialFormView.code);
+            $editBurialModal.find('.js-burial-code').text(burialFormView.code);
             $editBurialModal.find('input#deceasedNaturalPersonFullName').val(burialFormView.deceasedNaturalPersonFullName);
             $editBurialModal.find('input#deceasedNaturalPersonBornAt').val(burialFormView.deceasedNaturalPersonBornAt);
             $editBurialModal.find('input#deceasedDiedAt').val(burialFormView.deceasedDiedAt);
