@@ -4,11 +4,6 @@
         <id name="id" column="id" type="burial_id">
         </id>
 
-        <unique-constraints>
-            <unique-constraint columns="code"        name="burial_code_uq"        />
-            <unique-constraint columns="deceased_id" name="burial_deceased_id_uq" />
-        </unique-constraints>
-
         <field name="code"               column="code"                  type="burial_code"                        />
         <field name="type"               column="type"                  type="burial_type"                        />
         <field name="deceasedId"         column="deceased_id"           type="deceased_id"                        />
