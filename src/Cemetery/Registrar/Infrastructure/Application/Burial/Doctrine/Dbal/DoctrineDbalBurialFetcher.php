@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\BurialFormView;
 use Cemetery\Registrar\Application\Burial\BurialViewList;
 use Cemetery\Registrar\Application\Burial\BurialViewListItem;
+use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Infrastructure\Application\Fetcher;
 
 /**
@@ -519,6 +520,6 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
      */
     private function formatCode($code): string
     {
-        return \sprintf('%02d', $code);
+        return \sprintf(BurialCode::CODE_FORMAT, $code);
     }
 }
