@@ -31,9 +31,6 @@ final class DoctrineDbalBurialCodeGenerator implements BurialCodeGenerator
             ->from('burial', 'b')
             ->executeQuery();
 
-
-        $codeMax = $result->fetchAssociative()['code_max'];
-
-        return \sprintf('%09d', $codeMax + 1);
+        return (string) ($result->fetchAssociative()['code_max'] + 1);
     }
 }
