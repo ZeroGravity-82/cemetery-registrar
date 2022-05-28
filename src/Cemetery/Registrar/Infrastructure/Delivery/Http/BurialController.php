@@ -47,8 +47,7 @@ class BurialController extends AbstractController
 
         return $this->redirectToRoute('burial_index');
     }
-
-
+    
     #[Route('/burial/edit-get/{id}', name: 'burial_edit_get', methods: 'GET')]
     public function editGet(string $id): JsonResponse
     {
