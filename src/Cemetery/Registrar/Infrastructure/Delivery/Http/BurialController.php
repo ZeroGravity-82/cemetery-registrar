@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Http;
 use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\CreateBurial\CreateBurialRequest;
 use Cemetery\Registrar\Application\Burial\CreateBurial\CreateBurialService;
+use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +43,6 @@ class BurialController extends AbstractController
     {
         $createBurialRequest = new CreateBurialRequest(...$this->getCreateBurialRequestArgs($request));
         dump($createBurialRequest);
-
         $this->createBurialService->execute($createBurialRequest);
 
         return $this->redirectToRoute('burial_index');
@@ -189,17 +189,76 @@ class BurialController extends AbstractController
                 : null,
             $request->request->get('burialPlaceColumbariumNicheNicheNumber'),
             $request->request->get('burialPlaceMemorialTreeNumber'),
-            $request->request->get('burialPlaceGeoPosition'),
-//            $request->request->get('burialPlaceGeoPositionLatitude'),
-//            $request->request->get('burialPlaceGeoPositionLongitude'),
-//            $request->request->get('burialPlaceGeoPositionError'),
+            $this->extractLatitudeFromGeoPosition($request->request->get('burialPlaceGeoPosition')),
+            $this->extractLongitudeFromGeoPosition($request->request->get('burialPlaceGeoPosition')),
+            null,                               // HTML form does not have the ability to specify a geo position error
             $request->request->get('burialContainerType'),
             $request->request->get('burialContainerCoffinSize') !== null
                 ? (int) $request->request->get('burialContainerCoffinSize')
                 : null,
             $request->request->get('burialContainerCoffinShape'),
-            $request->request->get('burialPlaceGraveSitePositionInRow') !== null,
+            $request->request->get('burialContainerCoffinIsNonStandard') !== null
+                ? $request->request->filter('burialContainerCoffinIsNonStandard', null, \FILTER_VALIDATE_BOOL)
+                : null,
             $request->request->get('buriedAt'),
         ];
     }
+
+    /**
+     * @param string|null $geoPosition
+     *
+     * @return string|null
+     */
+    private function extractLatitudeFromGeoPosition(?string $geoPosition): ?string
+    {
+        $latitude = null;
+
+        if ($geoPosition !== null) {
+            $this->assertValidGeoPositionFormat($geoPosition);
+            [$latitude,] = \explode(',', $geoPosition);
+            $latitude    = \trim($latitude);
+        }
+
+        return $latitude;
+    }
+
+    /**
+     * @param string|null $geoPosition
+     *
+     * @return string|null
+     */
+    private function extractLongitudeFromGeoPosition(?string $geoPosition): ?string
+    {
+        $longitude = null;
+
+        if ($geoPosition !== null) {
+            $this->assertValidGeoPositionFormat($geoPosition);
+            [,$longitude] = \explode(',', $geoPosition);
+            $longitude    = \trim($longitude);
+        }
+
+        return $longitude;
+    }
+
+    /**
+     * @param string $geoPosition
+     *
+     * @throws \RuntimeException when the geo position string has invalid format
+     */
+    private function assertValidGeoPositionFormat(string $geoPosition): void
+    {
+        $hasComma = \str_contains($geoPosition, ',');
+        if ($hasComma) {
+            [$latitudeRaw, $longitudeRaw] = \explode(',', $geoPosition);
+            $latitude                     = \trim($latitudeRaw);
+            $longitude                    = \trim($longitudeRaw);
+            $coordinateValuePattern       = Coordinates::VALUE_PATTERN;
+            $isLatitudeHasValidFormat     = \preg_match($coordinateValuePattern, $latitude)  === 1;
+            $isLongitudeHasValidFormat    = \preg_match($coordinateValuePattern, $longitude) === 1;
+        }
+        if (!$hasComma || !$isLatitudeHasValidFormat || !$isLongitudeHasValidFormat) {
+            throw new \RuntimeException(\sprintf('Неверный формат геопозиции "%s".', $geoPosition));
+        }
+    }
+
 }

@@ -12,6 +12,11 @@ use PHPUnit\Framework\TestCase;
  */
 class CoordinatesTest extends TestCase
 {
+    public function testItHasValuePatternConstant(): void
+    {
+        $this->assertIsString(Coordinates::VALUE_PATTERN);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $coordinates = new Coordinates('54.950357', '82.7972252');

@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
  */
 final class Coordinates
 {
-    private const VALUE_PATTERN = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
+    public const VALUE_PATTERN = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
 
     /**
      * @var string

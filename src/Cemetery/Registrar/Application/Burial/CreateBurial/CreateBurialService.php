@@ -442,24 +442,14 @@ final class CreateBurialService extends BurialService
      */
     private function createGraveSite(CreateBurialRequest $request): GraveSite
     {
-        $burialPlaceGeoPositionLatitude  = null;
-        $burialPlaceGeoPositionLongitude = null;
-        $burialPlaceGeoPositionError     = null;
-        $burialPlaceGeoPosition          = $request->burialPlaceGeoPosition ?: null;
-        if ($burialPlaceGeoPosition && \str_contains($burialPlaceGeoPosition, ',')) {
-            $burialPlaceGeoPositionParts     = \explode(',', $burialPlaceGeoPosition);
-            $burialPlaceGeoPositionLatitude  = \trim($burialPlaceGeoPositionParts[0]);
-            $burialPlaceGeoPositionLongitude = \trim($burialPlaceGeoPositionParts[1]);
-        }
-
         return $this->graveSiteFactory->create(
-            $request->burialPlaceGraveSiteCemeteryBlockId ?: null,
-            $request->burialPlaceGraveSiteRowInBlock      ?: null,
-            $request->burialPlaceGraveSitePositionInRow   ?: null,
-            $burialPlaceGeoPositionLatitude,
-            $burialPlaceGeoPositionLongitude,
-            $burialPlaceGeoPositionError,
-            $request->burialPlaceGraveSiteSize ?: null,
+            $request->burialPlaceGraveSiteCemeteryBlockId,
+            $request->burialPlaceGraveSiteRowInBlock,
+            $request->burialPlaceGraveSitePositionInRow,
+            $request->burialPlaceGeoPositionLatitude,
+            $request->burialPlaceGeoPositionLongitude,
+            $request->burialPlaceGeoPositionError,
+            $request->burialPlaceGraveSiteSize,
         );
     }
 
