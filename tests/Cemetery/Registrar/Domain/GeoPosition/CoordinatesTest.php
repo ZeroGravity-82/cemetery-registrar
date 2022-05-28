@@ -12,9 +12,9 @@ use PHPUnit\Framework\TestCase;
  */
 class CoordinatesTest extends TestCase
 {
-    public function testItHasValuePatternConstant(): void
+    public function testItHasValidValuePatternConstant(): void
     {
-        $this->assertIsString(Coordinates::VALUE_PATTERN);
+        $this->assertSame('~^[+|\-]?\d+(?:\.\d+)?$~', Coordinates::VALUE_PATTERN);
     }
 
     public function testItSuccessfullyCreated(): void
