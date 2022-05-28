@@ -41,7 +41,7 @@ class BurialController extends AbstractController
     #[Route('/burial/new', name: 'burial_new', methods: 'POST')]
     public function new(Request $request): Response
     {
-        $createBurialRequest = new CreateBurialRequest(...$this->getCreateBurialRequestArgs($request));
+        $createBurialRequest = new CreateBurialRequest(...$this->getRequestArgs($request));
         dump($createBurialRequest);
         $this->createBurialService->execute($createBurialRequest);
 
@@ -62,7 +62,7 @@ class BurialController extends AbstractController
         // TODO
     }
 
-    private function getCreateBurialRequestArgs(Request $request): array
+    private function getRequestArgs(Request $request): array
     {
         return [
             $request->request->get('type'),
