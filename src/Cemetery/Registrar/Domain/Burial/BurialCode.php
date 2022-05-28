@@ -9,6 +9,7 @@ namespace Cemetery\Registrar\Domain\Burial;
  */
 final class BurialCode
 {
+    public  const CODE_FORMAT     = '%02d';
     private const CODE_MAX_LENGTH = 9;
 
     /**
@@ -25,7 +26,7 @@ final class BurialCode
      */
     public function __toString(): string
     {
-        return \sprintf('%02d', $this->value());
+        return \sprintf(self::CODE_FORMAT, $this->value());
     }
 
     /**

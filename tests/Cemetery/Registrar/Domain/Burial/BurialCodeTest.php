@@ -12,6 +12,11 @@ use PHPUnit\Framework\TestCase;
  */
 class BurialCodeTest extends TestCase
 {
+    public function testItHasValidCodeFormatConstant(): void
+    {
+        $this->assertSame('%02d', BurialCode::CODE_FORMAT);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $burialCode = new BurialCode('1');
