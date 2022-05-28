@@ -459,7 +459,7 @@ final class CreateBurialService extends BurialService
             $burialPlaceGeoPositionLatitude,
             $burialPlaceGeoPositionLongitude,
             $burialPlaceGeoPositionError,
-            $request->burialPlaceGraveSiteSize            ?: null,
+            $request->burialPlaceGraveSiteSize ?: null,
         );
     }
 
