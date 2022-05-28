@@ -305,7 +305,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
     private function assertItemForFirstPageEqualsB007(BurialViewListItem $item): void
     {
         $this->assertSame('B007',                              $item->id);
-        $this->assertSame('1',                                 $item->code);
+        $this->assertSame('01',                                $item->code);
         $this->assertSame('Никонов Родион Митрофанович',       $item->deceasedNaturalPersonFullName);
         $this->assertSame(null,                                $item->deceasedNaturalPersonBornAt);
         $this->assertSame('1980-05-26',                        $item->deceasedDiedAt);
@@ -1376,7 +1376,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $burialFormView = $this->fetcher->getFormViewById('B007');
         $this->assertInstanceOf(BurialFormView::class, $burialFormView);
         $this->assertSame('B007',                                        $burialFormView->id);
-        $this->assertSame('1',                                           $burialFormView->code);
+        $this->assertSame('01',                                          $burialFormView->code);
         $this->assertSame(BurialType::COFFIN_IN_GRAVE_SITE,              $burialFormView->type);
         $this->assertSame('D007',                                        $burialFormView->deceasedId);
         $this->assertSame('NP009',                                       $burialFormView->deceasedNaturalPersonId);
