@@ -43,7 +43,7 @@ class JuristicPersonTest extends AggregateRootTest
 
     public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('юридическое лицо', JuristicPerson::CLASS_LABEL);
+        $this->assertSame('юрлицо', JuristicPerson::CLASS_LABEL);
     }
 
     public function testItSuccessfullyCreated(): void

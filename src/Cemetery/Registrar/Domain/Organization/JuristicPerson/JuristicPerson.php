@@ -20,7 +20,7 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 final class JuristicPerson extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'JURISTIC_PERSON';
-    public const CLASS_LABEL    = 'юридическое лицо';
+    public const CLASS_LABEL    = 'юрлицо';
 
     /**
      * @var Inn|null
