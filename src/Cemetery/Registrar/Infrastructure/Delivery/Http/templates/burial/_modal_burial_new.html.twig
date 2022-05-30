@@ -23,15 +23,15 @@
               <div class="col-md-6 card">
                 <div class="card-body">
                   <h5 class="card-title text-success">Информация об умершем</h5>
-                  {% include 'burial/_deceased_subform.html.twig' %}
+                  {% include 'deceased/_deceased_subform.html.twig' %}
                 </div>
               </div>
               <div class="col-md-6 card">
                 <div class="card-body">
                   <h5 class="card-title text-success">Заказчик</h5>
                   {% include 'burial/_customer_type_selector.html.twig' %}
-{#                  {% include 'burial/_natural_person_subform.html.twig' with {'context': 'customer'} %}#}
-                  {% include 'burial/_juristic_person_subform.html.twig' with {'context': 'customer'} %}
+{#                  {% include 'natural_person/_natural_person_subform.html.twig' with {'context': 'customer'} %}#}
+                  {% include 'organization/juristic_person/_juristic_person_subform.html.twig' with {'context': 'customer'} %}
                 </div>
               </div>
             </div>
