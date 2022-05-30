@@ -19,7 +19,7 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 final class SoleProprietor extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'SOLE_PROPRIETOR';
-    public const CLASS_LABEL    = 'индивидуальный предприниматель';
+    public const CLASS_LABEL    = 'ИП';
 
     /**
      * @var Inn|null

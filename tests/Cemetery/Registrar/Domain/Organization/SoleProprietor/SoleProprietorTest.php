@@ -41,7 +41,7 @@ class SoleProprietorTest extends AggregateRootTest
 
     public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('индивидуальный предприниматель', SoleProprietor::CLASS_LABEL);
+        $this->assertSame('ИП', SoleProprietor::CLASS_LABEL);
     }
 
     public function testItSuccessfullyCreated(): void
