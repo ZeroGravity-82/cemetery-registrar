@@ -36,7 +36,7 @@ class NaturalPersonTest extends AggregateRootTest
 
     public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('физическое лицо', NaturalPerson::CLASS_LABEL);
+        $this->assertSame('физлицо', NaturalPerson::CLASS_LABEL);
     }
     
     public function testItSuccessfullyCreated(): void
