@@ -47,8 +47,15 @@
     <div class="col-md-3"><label for="{{- context -}}SoleProprietorWebsite" class="form-label">Веб-сайт</label></div>
     <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="{{- context -}}SoleProprietorWebsite" name="{{- context -}}SoleProprietorWebsite"></div>
   </div>
-  <div class="card-body">
-    <h5 class="card-title text-success">Банковские реквизиты</h5>
-    {% include 'organization/bank_details/_bank_details_subform.html.twig' with {'organizationType': 'soleProprietor'} %}
+  <p class="mt-1 mb-0">
+    <a class="fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#{{- context -}}SoleProprietorBankDetails" aria-expanded="false" aria-controls="{{- context -}}SoleProprietorBankDetails">
+      Банковские реквизиты
+    </a>
+  </p>
+  <div class="collapse" id="{{- context -}}SoleProprietorBankDetails">
+    {% include 'organization/bank_details/_bank_details_subform.html.twig' with {
+      'context'         : context,
+      'organizationType': 'soleProprietor'
+    } %}
   </div>
 </div>
