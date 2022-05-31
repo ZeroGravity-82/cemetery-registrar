@@ -1,9 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-  <link href="/css/sign-in.css" rel="stylesheet">
-{% endblock %}
-
 {% block title %}Добро пожаловать{% endblock %}
 
 {% block body %}
@@ -33,4 +29,8 @@
   <div class="mt-2 text-muted">
     <p>Здесь может быть красивая картинка, а также могут выводиться какие-то статистическме данные.</p>
   </div>
+{% endblock %}
+
+{% block stylesheets %}
+  <link href="/css/sign-in.css" rel="stylesheet">
 {% endblock %}

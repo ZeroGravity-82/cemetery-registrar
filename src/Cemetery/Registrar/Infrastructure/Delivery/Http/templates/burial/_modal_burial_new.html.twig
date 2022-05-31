@@ -20,14 +20,14 @@
         <form class="tab-content" id="createBurialTabContent" action="{{ path('burial_new') }}" method="post" name="create-burial">
           <div class="container tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="row">
-              <div class="col-md-6 card">
-                <div class="card-body">
+              <div class="col-md-6 px-0 card">
+                <div class="card-body pb-0">
                   <h5 class="card-title text-success">Информация об умершем</h5>
                   {% include 'deceased/_deceased_subform.html.twig' %}
                 </div>
               </div>
-              <div class="col-md-6 card">
-                <div class="card-body">
+              <div class="col-md-6 px-0 card">
+                <div class="card-body pb-0">
                   <h5 class="card-title text-success">Заказчик</h5>
                   {% include 'burial/_customer_type_selector.html.twig' %}
                   {% include 'natural_person/_natural_person_subform.html.twig' with {'context': 'customer'} %}
@@ -37,14 +37,14 @@
               </div>
             </div>
             <div class="row card">
-              <div class="card-body">
+              <div class="card-body pb-0">
                 <h5 class="card-title text-success">Захоронение</h5>
                 <div class="row">
                   <div class="col-md-6">
                     <div class="row">
                       <div class="col-md-3"><label for="funeralCompanyJuristicPersonName" class="form-label">Похоронная фирма</label></div>
                       <div class="col-md-9">
-                        <select class="form-select" id="funeralCompanyJuristicPersonName" name="funeralCompanyJuristicPersonName" aria-label="Похоронная фирма">
+                        <select class="form-select form-select-sm" id="funeralCompanyJuristicPersonName" name="funeralCompanyJuristicPersonName" aria-label="Похоронная фирма">
                           <option selected></option>
                           <option value="JP005">МАНО СПС "Ритуал"</option>
                           <option value="JP006">ИМИ</option>
@@ -54,17 +54,17 @@
                     </div>
                     <div class="row">
                       <div class="col-md-3"><label for="buriedAt" class="form-label">Дата захоронения</label></div>
-                      <div class="col-md-9"><input type="datetime-local" class="form-control" id="buriedAt" name="buriedAt"></div>
+                      <div class="col-md-9"><input type="datetime-local" class="form-control form-control-sm" id="buriedAt" name="buriedAt"></div>
                     </div>
                     <div class="row d-none">
                       <div class="col-md-3"><label for="burialPlaceType" class="form-label">Тип места захоронения</label></div>
-                      <div class="col-md-9"><input type="text" class="form-control" id="burialPlaceType" name="burialPlaceType" value="GRAVE_SITE"></div>
+                      <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialPlaceType" name="burialPlaceType" value="GRAVE_SITE"></div>
                     </div>
                     <div class="row">
                       <div class="col-md-6 row">
                         <div class="col-md-3"><label for="burialPlaceGraveSiteCemeteryBlockId" class="form-label">Квартал</label></div>
                         <div class="col-md-9">
-                          <select class="form-select" id="burialPlaceGraveSiteCemeteryBlockId" name="burialPlaceGraveSiteCemeteryBlockId" aria-label="Квартал">
+                          <select class="form-select form-select-sm" id="burialPlaceGraveSiteCemeteryBlockId" name="burialPlaceGraveSiteCemeteryBlockId" aria-label="Квартал">
                             <option selected></option>
                             <option value="CB001">воинский</option>
                             <option value="CB002">общий А</option>
@@ -75,23 +75,23 @@
                       </div>
                       <div class="col-md-6 row">
                         <div class="col-md-3"><label for="burialPlaceGraveSiteRowInBlock" class="form-label">Ряд</label></div>
-                        <div class="col-md-9"><input type="number" min="1" class="form-control" id="burialPlaceGraveSiteRowInBlock" name="burialPlaceGraveSiteRowInBlock"></div>
+                        <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="burialPlaceGraveSiteRowInBlock" name="burialPlaceGraveSiteRowInBlock"></div>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col-md-3"><label for="burialPlaceGeoPosition" class="form-label">Геопозиция</label></div>
-                      <div class="col-md-9"><input type="text" class="form-control" id="burialPlaceGeoPosition" name="burialPlaceGeoPosition"></div>
+                      <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialPlaceGeoPosition" name="burialPlaceGeoPosition"></div>
                     </div>
                   </div>
                   <div class="col-md-6">
                     <div class="row d-none">
                       <div class="col-md-3"><label for="burialContainerType" class="form-label">Тип контейнера захоронения</label></div>
-                      <div class="col-md-9"><input type="text" class="form-control" id="burialContainerType" name="burialContainerType" value="COFFIN"></div>
+                      <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialContainerType" name="burialContainerType" value="COFFIN"></div>
                     </div>
                     <div class="row">
                       <div class="col-md-3"><label for="burialContainerCoffinShape" class="form-label">Форма гроба</label></div>
                       <div class="col-md-9">
-                        <select class="form-select" id="burialContainerCoffinShape" name="burialContainerCoffinShape" aria-label="Форма гроба">
+                        <select class="form-select form-select-sm" id="burialContainerCoffinShape" name="burialContainerCoffinShape" aria-label="Форма гроба">
                           <option selected></option>
                           <option value="TRAPEZOID">Трапеция</option>
                           <option value="GREEK_WITH_HANDLES">Грек (с ручками)</option>
@@ -102,7 +102,7 @@
                     </div>
                     <div class="row">
                       <div class="col-md-3"><label for="burialContainerCoffinSize" class="form-label">Размер гроба</label></div>
-                      <div class="col-md-9"><input type="number" min="165" max="225" class="form-control" id="burialContainerCoffinSize" name="burialContainerCoffinSize"></div>
+                      <div class="col-md-9"><input type="number" min="165" max="225" class="form-control form-control-sm" id="burialContainerCoffinSize" name="burialContainerCoffinSize"></div>
                     </div>
                     <div class="row">
                       <div class="col-12">

@@ -40,6 +40,12 @@
 
 {% endblock %}
 
+{% block stylesheets %}
+  {{ parent() }}
+
+  <link href="/css/burial-form.css" rel="stylesheet">
+{% endblock %}
+
 {% block javascripts %}
   {{ parent() }}
 
