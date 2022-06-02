@@ -19,14 +19,16 @@ use Cemetery\Tests\Registrar\Domain\AggregateRootTest;
  */
 class NaturalPersonTest extends AggregateRootTest
 {
-    private NaturalPerson $naturalPerson;
+    private NaturalPersonId $naturalPersonId;
+    private FullName        $fullName;
+    private NaturalPerson   $naturalPerson;
     
     public function setUp(): void
     {
-        $naturalPersonId     = new NaturalPersonId('777');
-        $fullName            = new FullName('Иванов Иван Иванович');
-        $this->naturalPerson = new NaturalPerson($naturalPersonId, $fullName);
-        $this->entity        = $this->naturalPerson;
+        $this->naturalPersonId = new NaturalPersonId('777');
+        $this->fullName        = new FullName('Иванов Иван Иванович');
+        $this->naturalPerson   = new NaturalPerson($this->naturalPersonId, $this->fullName);
+        $this->entity          = $this->naturalPerson;
     }
 
     public function testItHasValidClassShortcutConstant(): void
@@ -42,9 +44,9 @@ class NaturalPersonTest extends AggregateRootTest
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(NaturalPersonId::class, $this->naturalPerson->id());
-        $this->assertSame('777', (string) $this->naturalPerson->id());
+        $this->assertTrue($this->naturalPerson->id()->isEqual($this->naturalPersonId));
         $this->assertInstanceOf(FullName::class, $this->naturalPerson->fullName());
-        $this->assertSame('Иванов Иван Иванович', (string) $this->naturalPerson->fullName());
+        $this->assertTrue($this->naturalPerson->fullName()->isEqual($this->fullName));
         $this->assertNull($this->naturalPerson->phone());
         $this->assertNull($this->naturalPerson->phoneAdditional());
         $this->assertNull($this->naturalPerson->email());
@@ -67,6 +69,9 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setPhone($phone);
         $this->assertInstanceOf(PhoneNumber::class, $this->naturalPerson->phone());
         $this->assertTrue($this->naturalPerson->phone()->isEqual($phone));
+
+        $this->naturalPerson->setPhone(null);
+        $this->assertNull($this->naturalPerson->phone());
     }
 
     public function testItSetsPhoneAdditional(): void
@@ -75,6 +80,9 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setPhoneAdditional($phoneAdditional);
         $this->assertInstanceOf(PhoneNumber::class, $this->naturalPerson->phoneAdditional());
         $this->assertTrue($this->naturalPerson->phoneAdditional()->isEqual($phoneAdditional));
+
+        $this->naturalPerson->setPhoneAdditional(null);
+        $this->assertNull($this->naturalPerson->phoneAdditional());
     }
 
     public function testItSetsEmail(): void
@@ -83,6 +91,9 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setEmail($email);
         $this->assertInstanceOf(Email::class, $this->naturalPerson->email());
         $this->assertTrue($this->naturalPerson->email()->isEqual($email));
+
+        $this->naturalPerson->setEmail(null);
+        $this->assertNull($this->naturalPerson->email());
     }
 
     public function testItSetsAddress(): void
@@ -91,6 +102,9 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setAddress($address);
         $this->assertInstanceOf(Address::class, $this->naturalPerson->address());
         $this->assertTrue($this->naturalPerson->address()->isEqual($address));
+
+        $this->naturalPerson->setAddress(null);
+        $this->assertNull($this->naturalPerson->address());
     }
 
     public function testItSetsBornAt(): void
@@ -99,6 +113,9 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setBornAt($bornAt);
         $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->bornAt());
         $this->assertSame('2000-01-01', $this->naturalPerson->bornAt()->format('Y-m-d'));
+
+        $this->naturalPerson->setBornAt(null);
+        $this->assertNull($this->naturalPerson->bornAt());
     }
 
     public function testItSetsPlaceOfBirth(): void
@@ -107,6 +124,9 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setPlaceOfBirth($placeOfBirth);
         $this->assertInstanceOf(PlaceOfBirth::class, $this->naturalPerson->placeOfBirth());
         $this->assertTrue($this->naturalPerson->placeOfBirth()->isEqual($placeOfBirth));
+
+        $this->naturalPerson->setPlaceOfBirth(null);
+        $this->assertNull($this->naturalPerson->placeOfBirth());
     }
 
     public function testItSetsPassport(): void
@@ -121,5 +141,8 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setPassport($passport);
         $this->assertInstanceOf(Passport::class, $this->naturalPerson->passport());
         $this->assertTrue($this->naturalPerson->passport()->isEqual($passport));
+
+        $this->naturalPerson->setPassport(null);
+        $this->assertNull($this->naturalPerson->passport());
     }
 }
