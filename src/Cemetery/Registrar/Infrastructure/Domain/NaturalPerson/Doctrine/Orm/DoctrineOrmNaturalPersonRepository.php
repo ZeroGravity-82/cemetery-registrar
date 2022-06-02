@@ -43,7 +43,7 @@ final class DoctrineOrmNaturalPersonRepository extends Repository implements Nat
     public function findById(NaturalPersonId $naturalPersonId): ?NaturalPerson
     {
         return $this->entityManager->getRepository(NaturalPerson::class)->findBy([
-            'id'        => (string) $naturalPersonId,
+            'id'        => $naturalPersonId->value(),
             'removedAt' => null,
         ])[0] ?? null;
     }

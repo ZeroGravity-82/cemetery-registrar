@@ -43,7 +43,7 @@ final class DoctrineOrmDeceasedRepository extends Repository implements Deceased
     public function findById(DeceasedId $deceasedId): ?Deceased
     {
         return $this->entityManager->getRepository(Deceased::class)->findBy([
-            'id'        => (string) $deceasedId,
+            'id'        => $deceasedId->value(),
             'removedAt' => null,
         ])[0] ?? null;
     }

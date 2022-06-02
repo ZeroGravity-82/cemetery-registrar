@@ -7,6 +7,8 @@ namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\EventDispatcher;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepository;
+use Cemetery\Registrar\Domain\Organization\OrganizationId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -14,11 +16,13 @@ use Cemetery\Registrar\Domain\EventDispatcher;
 final class JuristicPersonRemover
 {
     /**
+     * @param FuneralCompanyRepository $funeralCompanyRepo
      * @param BurialRepository         $burialRepo
      * @param JuristicPersonRepository $juristicPersonRepo
      * @param EventDispatcher          $eventDispatcher
      */
     public function __construct(
+        private readonly FuneralCompanyRepository $funeralCompanyRepo,
         private readonly BurialRepository         $burialRepo,
         private readonly JuristicPersonRepository $juristicPersonRepo,
         private readonly EventDispatcher          $eventDispatcher,
@@ -29,11 +33,11 @@ final class JuristicPersonRemover
      */
     public function remove(JuristicPerson $juristicPerson): void
     {
-        $burialCount = $this->burialRepo->countByFuneralCompanyId(new FuneralCompanyId($juristicPerson->id()));
-        if ($burialCount > 0) {
+        $funeralCompany = $this->funeralCompanyRepo->findByOrganizationId(new OrganizationId($juristicPerson->id()));
+        if ($funeralCompany) {
             throw new \RuntimeException(\sprintf(
-                'Юридическое лицо не может быть удалено, т.к. оно указано как похоронная фирма для %d захоронений.',
-                $burialCount,
+                'Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой с ID "%s".',
+                $funeralCompany->id()->value(),
             ));
         }
         $burialCount = $this->burialRepo->countByCustomerId(new CustomerId($juristicPerson->id()));

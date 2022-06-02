@@ -43,7 +43,7 @@ final class DoctrineOrmJuristicPersonRepository extends Repository implements Ju
     public function findById(JuristicPersonId $juristicPersonId): ?JuristicPerson
     {
         return $this->entityManager->getRepository(JuristicPerson::class)->findBy([
-            'id'        => (string) $juristicPersonId,
+            'id'        => $juristicPersonId->value(),
             'removedAt' => null,
         ])[0] ?? null;
     }

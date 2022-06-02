@@ -43,7 +43,7 @@ final class DoctrineOrmSoleProprietorRepository extends Repository implements So
     public function findById(SoleProprietorId $soleProprietorId): ?SoleProprietor
     {
         return $this->entityManager->getRepository(SoleProprietor::class)->findBy([
-            'id'        => (string) $soleProprietorId,
+            'id'        => $soleProprietorId->value(),
             'removedAt' => null,
         ])[0] ?? null;
     }

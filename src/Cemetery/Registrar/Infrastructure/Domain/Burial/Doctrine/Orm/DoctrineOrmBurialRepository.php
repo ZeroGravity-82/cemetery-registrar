@@ -45,7 +45,7 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
     public function findById(BurialId $burialId): ?Burial
     {
         return $this->entityManager->getRepository(Burial::class)->findBy([
-            'id'        => (string) $burialId,
+            'id'        => $burialId->value(),
             'removedAt' => null,
         ])[0] ?? null;
     }
