@@ -24,12 +24,23 @@ $customerTypeSelector.on(`change`, function (event) {
     switch (customerTypeSelectorValue) {
         case naturalPersonTypeValue:
             $naturalPersonSubform.removeClass(`d-none`);
+            resetSubform($juristicPersonSubform);
+            resetSubform($soleProprietorSubform);
             break;
         case juristicPersonTypeValue:
             $juristicPersonSubform.removeClass(`d-none`);
+            resetSubform($naturalPersonSubform);
+            resetSubform($soleProprietorSubform);
             break;
         case soleProprietorTypeValue:
             $soleProprietorSubform.removeClass(`d-none`);
+            resetSubform($naturalPersonSubform);
+            resetSubform($juristicPersonSubform);
             break;
     }
 });
+
+function resetSubform($subform)
+{
+    $subform.find(`input`).val(null);
+}
