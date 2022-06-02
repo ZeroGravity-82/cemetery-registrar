@@ -8,10 +8,9 @@ use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Entity;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
@@ -55,11 +54,11 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $this->assertSame(6, $this->getRowCount(Burial::class));
 
         // Testing itself
-        $knownFuneralCompanyId = new FuneralCompanyId(new JuristicPersonId('JP001'));
+        $knownFuneralCompanyId = new FuneralCompanyId('FC001');
         $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
         $this->assertSame(2, $burialCount);
 
-        $unknownFuneralCompanyId = new FuneralCompanyId(new SoleProprietorId('unknown_id'));
+        $unknownFuneralCompanyId = new FuneralCompanyId('unknown_id');
         $burialCount             = $this->repo->countByFuneralCompanyId($unknownFuneralCompanyId);
         $this->assertSame(0, $burialCount);
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Burial;
+namespace Cemetery\Registrar\Domain\Organization;
 
 use Cemetery\Registrar\Domain\EntityMaskingId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
@@ -11,11 +11,11 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
 /**
- * Wrapper class for value objects identifying a funeral company.
+ * Wrapper class for value objects identifying an organization.
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyId extends EntityMaskingId
+final class OrganizationId extends EntityMaskingId
 {
     /**
      * @param JuristicPersonId|SoleProprietorId $id
@@ -29,7 +29,7 @@ final class FuneralCompanyId extends EntityMaskingId
     /**
      * {@inheritdoc}
      */
-    public function idType(): string
+    public function idClassShortcut(): string
     {
         return match (\get_class($this->id())) {
             JuristicPersonId::class => JuristicPerson::CLASS_SHORTCUT,

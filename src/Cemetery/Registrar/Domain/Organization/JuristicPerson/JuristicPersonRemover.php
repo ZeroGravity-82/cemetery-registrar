@@ -6,7 +6,6 @@ namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\EventDispatcher;
 
 /**

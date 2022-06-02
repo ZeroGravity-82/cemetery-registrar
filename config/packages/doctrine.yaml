@@ -12,7 +12,7 @@ doctrine:
             burial_place_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialPlaceIdType
             burial_type:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialTypeType
             customer_id:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType
-            funeral_company_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\FuneralCompanyIdType
+
             # BurialContainer
             burial_container:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialContainer\BurialContainerType
             # BurialPlace/ColumbariumNiche
@@ -41,6 +41,9 @@ doctrine:
             cause_of_death:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeathType
             death_certificate_id:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
             deceased_id:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
+            # FuneralCompany
+            funeral_company_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
+            funeral_company_note:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNoteType
             # GeoPosition
             geo_position:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\GeoPosition\GeoPositionType
             # NaturalPerson
@@ -50,6 +53,7 @@ doctrine:
             place_of_birth:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PlaceOfBirthType
             # Organization
             okved:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
+            organization_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OrganizationIdType
             organization_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\NameType
             # Organization/BankDetails
             bank_details:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\BankDetailsType

@@ -35,10 +35,10 @@ final class DeceasedFactory extends EntityFactory
         $causeOfDeath       = $causeOfDeath !== null       ? new CauseOfDeath($causeOfDeath)             : null;
 
         return (new Deceased(
-                new DeceasedId($this->identityGenerator->getNextIdentity()),
-                $naturalPersonId,
-                $diedAt,
-            ))
+            new DeceasedId($this->identityGenerator->getNextIdentity()),
+            $naturalPersonId,
+            $diedAt,
+        ))
             ->setAge($age)
             ->setDeathCertificateId($deathCertificateId)
             ->setCauseOfDeath($causeOfDeath);

@@ -9,10 +9,8 @@ use Cemetery\Registrar\Domain\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Infrastructure\Domain\Repository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\FuneralCompanyIdType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -79,16 +77,12 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
      */
     public function countByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): int
     {
-        $id = $funeralCompanyId->id();
-
         return (int) $this->entityManager
             ->getRepository(Burial::class)
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
-            ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.type') = :type")
-            ->andWhere("JSON_EXTRACT(b.funeralCompanyId, '$.value') = :value")
-            ->setParameter('type', $funeralCompanyId->idType())
-            ->setParameter('value', $id->value())
+            ->andWhere('b.funeralCompanyId = :funeralCompanyId')
+            ->setParameter('funeralCompanyId', $funeralCompanyId->value())
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -98,16 +92,14 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
      */
     public function countByCustomerId(CustomerId $customerId): int
     {
-        $id = $customerId->id();
-
         return (int) $this->entityManager
             ->getRepository(Burial::class)
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
             ->andWhere("JSON_EXTRACT(b.customerId, '$.type') = :type")
             ->andWhere("JSON_EXTRACT(b.customerId, '$.value') = :value")
-            ->setParameter('type', $customerId->idType())
-            ->setParameter('value', $id->value())
+            ->setParameter('type', $customerId->idClassShortcut())
+            ->setParameter('value', $customerId->id()->value())
             ->getQuery()
             ->getSingleScalarResult();
     }

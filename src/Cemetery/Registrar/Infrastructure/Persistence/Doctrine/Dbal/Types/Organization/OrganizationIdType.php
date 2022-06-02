@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization;
 
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\OrganizationId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMaskingIdType;
@@ -14,26 +14,26 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMask
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyIdType extends EntityMaskingIdType
+final class OrganizationIdType extends EntityMaskingIdType
 {
     /**
      * {@inheritdoc}
      */
-    protected string $className = FuneralCompanyId::class;
+    protected string $className = OrganizationId::class;
 
     /**
      * {@inheritdoc}
      */
-    protected string $typeName = 'funeral_company_id';
+    protected string $typeName = 'organization_id';
 
     /**
      * {@inheritdoc}
      */
-    protected function buildPhpValue(array $decodedValue): FuneralCompanyId
+    protected function buildPhpValue(array $decodedValue): OrganizationId
     {
         return match ($decodedValue['type']) {
-            JuristicPerson::CLASS_SHORTCUT => new FuneralCompanyId(new JuristicPersonId($decodedValue['value'])),
-            SoleProprietor::CLASS_SHORTCUT => new FuneralCompanyId(new SoleProprietorId($decodedValue['value'])),
+            JuristicPerson::CLASS_SHORTCUT => new OrganizationId(new JuristicPersonId($decodedValue['value'])),
+            SoleProprietor::CLASS_SHORTCUT => new OrganizationId(new SoleProprietorId($decodedValue['value'])),
         };
     }
 }

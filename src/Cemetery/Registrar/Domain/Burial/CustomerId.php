@@ -31,7 +31,7 @@ final class CustomerId extends EntityMaskingId
     /**
      * {@inheritdoc}
      */
-    public function idType(): string
+    public function idClassShortcut(): string
     {
         return match (\get_class($this->id())) {
             NaturalPersonId::class  => NaturalPerson::CLASS_SHORTCUT,

@@ -49,10 +49,10 @@ final class GraveSiteFactory extends EntityFactory
         $size = $size !== null ? new GraveSiteSize($size) : null;
 
         return (new GraveSite(
-                new GraveSiteId($this->identityGenerator->getNextIdentity()),
-                $cemeteryBlockId,
-                $rowInBlock,
-            ))
+            new GraveSiteId($this->identityGenerator->getNextIdentity()),
+            $cemeteryBlockId,
+            $rowInBlock,
+        ))
             ->setPositionInRow($positionInRow)
             ->setGeoPosition($geoPosition)
             ->setSize($size);

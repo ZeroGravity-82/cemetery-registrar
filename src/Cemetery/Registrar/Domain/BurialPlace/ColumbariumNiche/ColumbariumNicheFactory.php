@@ -46,11 +46,11 @@ final class ColumbariumNicheFactory extends EntityFactory
             : null;
 
         return (new ColumbariumNiche(
-                new ColumbariumNicheId($this->identityGenerator->getNextIdentity()),
-                $columbariumId,
-                $rowInColumbarium,
-                $nicheNumber,
-            ))
+            new ColumbariumNicheId($this->identityGenerator->getNextIdentity()),
+            $columbariumId,
+            $rowInColumbarium,
+            $nicheNumber,
+        ))
             ->setGeoPosition($geoPosition);
     }
 }

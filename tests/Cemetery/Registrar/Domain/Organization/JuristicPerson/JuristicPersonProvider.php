@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
 use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
@@ -51,5 +53,19 @@ final class JuristicPersonProvider
         $name = new Name('МУП "Новосибирский метрополитен"');
 
         return new JuristicPerson($id, $name);
+    }
+
+    public static function getJuristicPersonE(): JuristicPerson
+    {
+        $id              = new JuristicPersonId('JP005');
+        $name            = new Name('МУП Похоронный Дом "ИМИ"');
+        $inn             = new Inn('5402103598');
+        $kpp             = new Kpp('540201001');
+        $generalDirector = new FullName('Бондаренко Сергей Валентинович');
+
+        return (new JuristicPerson($id, $name))
+            ->setInn($inn)
+            ->setKpp($kpp)
+            ->setGeneralDirector($generalDirector);
     }
 }

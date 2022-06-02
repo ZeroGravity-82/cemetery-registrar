@@ -80,9 +80,9 @@ final class JuristicPersonFactory extends EntityFactory
         $website         = $website !== null         ? new Website($website)             : null;
 
         return (new JuristicPerson(
-                new JuristicPersonId($this->identityGenerator->getNextIdentity()),
-                $name,
-            ))
+            new JuristicPersonId($this->identityGenerator->getNextIdentity()),
+            $name,
+        ))
             ->setInn($inn)
             ->setKpp($kpp)
             ->setOgrn($ogrn)

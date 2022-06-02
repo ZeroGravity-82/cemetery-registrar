@@ -11,7 +11,6 @@ use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
@@ -21,6 +20,7 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
@@ -150,14 +150,7 @@ class BurialTest extends AggregateRootTest
     
     public function testItSetsFuneralCompanyId(): void
     {
-        $juristicPersonId = new JuristicPersonId('JP001');
-        $funeralCompanyId = new FuneralCompanyId($juristicPersonId);
-        $this->burial->setFuneralCompanyId($funeralCompanyId);
-        $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->funeralCompanyId());
-        $this->assertTrue($this->burial->funeralCompanyId()->isEqual($funeralCompanyId));
-
-        $soleProprietorId = new SoleProprietorId('SP001');
-        $funeralCompanyId = new FuneralCompanyId($soleProprietorId);
+        $funeralCompanyId = new FuneralCompanyId('FC001');
         $this->burial->setFuneralCompanyId($funeralCompanyId);
         $this->assertInstanceOf(FuneralCompanyId::class, $this->burial->funeralCompanyId());
         $this->assertTrue($this->burial->funeralCompanyId()->isEqual($funeralCompanyId));

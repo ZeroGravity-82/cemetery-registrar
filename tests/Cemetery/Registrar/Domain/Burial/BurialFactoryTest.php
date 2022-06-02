@@ -10,14 +10,12 @@ use Cemetery\Registrar\Domain\Burial\BurialFactory;
 use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Tests\Registrar\Domain\EntityFactoryTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
@@ -50,7 +48,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $customerId         = new CustomerId(new JuristicPersonId('JP001'));
         $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS001'));
         $burialPlaceOwnerId = new NaturalPersonId('NP001');
-        $funeralCompanyId   = new FuneralCompanyId(new SoleProprietorId('SP001'));
+        $funeralCompanyId   = new FuneralCompanyId('FC003');
         $burialContainer    = new BurialContainer(new Urn());
         $buriedAt           = new \DateTimeImmutable('2020-04-30');
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');

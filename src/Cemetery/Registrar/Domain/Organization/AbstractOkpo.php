@@ -121,7 +121,7 @@ abstract class AbstractOkpo
             }
         }
         if ($checkDigit !== $checkValue) {
-            $this->throwIncorrectCheckDigitException();
+            $this->throwInvalidCheckDigitException();
         }
     }
 
@@ -142,9 +142,9 @@ abstract class AbstractOkpo
     }
 
     /**
-     * @throws \InvalidArgumentException when the OKPO contains an incorrect check digit
+     * @throws \InvalidArgumentException about invalid check digit
      */
-    private function throwIncorrectCheckDigitException(): void
+    private function throwInvalidCheckDigitException(): void
     {
         throw new \InvalidArgumentException('ОКПО недействителен.');
     }

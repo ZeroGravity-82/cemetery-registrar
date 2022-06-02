@@ -12,8 +12,6 @@ use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Burial\CustomerIdFactory;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Burial\FuneralCompanyIdFactory;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainerFactory;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
@@ -31,6 +29,7 @@ use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedFactory;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\Deceased\DeceasedRepository;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonFactory;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
@@ -38,6 +37,7 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Organization\OrganizationIdFactory;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorFactory;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorRepository;
@@ -59,7 +59,7 @@ final class CreateBurialService extends BurialService
         private readonly BurialContainerFactory     $burialContainerFactory,
         private readonly DeceasedRepository         $deceasedRepo,
         private readonly BurialPlaceIdFactory       $burialPlaceIdFactory,
-        private readonly FuneralCompanyIdFactory    $funeralCompanyIdFactory,
+        private readonly OrganizationIdFactory      $organizationIdFactory,
         private readonly CustomerIdFactory          $customerIdFactory,
         private readonly NaturalPersonRepository    $naturalPersonRepo,
         private readonly SoleProprietorRepository   $soleProprietorRepo,
@@ -228,7 +228,7 @@ final class CreateBurialService extends BurialService
         $burialPlaceOwnerId = null;
 
         if ($request->burialPlaceOwnerId !== null) {
-            $burialPlaceOwnerId = new NaturalPersonId((string) $request->burialPlaceOwnerId);
+            $burialPlaceOwnerId = new NaturalPersonId($request->burialPlaceOwnerId);
         }
 //        if ($request->burialPlaceOwnerId === null) {
 //            $burialPlaceOwner = $this->createNaturalPersonForBurialPlaceOwner($request);
@@ -248,30 +248,9 @@ final class CreateBurialService extends BurialService
     {
         $funeralCompanyId = null;
 
-        $this->assertSupportedFuneralCompanyType($request);
-        $this->assertFuneralCompanyTypeProvidedForId($request);
-        if ($request->funeralCompanyId !== null && $request->funeralCompanyType !== null) {
-            $funeralCompanyId = match ($request->funeralCompanyType) {
-                SoleProprietor::CLASS_SHORTCUT =>
-                    $this->funeralCompanyIdFactory->createForSoleProprietor($request->funeralCompanyId),
-                JuristicPerson::CLASS_SHORTCUT =>
-                    $this->funeralCompanyIdFactory->createForJuristicPerson($request->funeralCompanyId),
-            };
+        if ($request->funeralCompanyId !== null) {
+            $funeralCompanyId = new FuneralCompanyId($request->funeralCompanyId);
         }
-//        if ($request->funeralCompanyId === null && $request->funeralCompanyType !== null) {
-//            switch ($request->funeralCompanyType) {
-//                case SoleProprietor::CLASS_SHORTCUT:
-//                    $funeralCompany = $this->createSoleProprietorForFuneralCompany($request);
-//                    $this->soleProprietorRepo->save($funeralCompany);
-//                    break;
-//                case JuristicPerson::CLASS_SHORTCUT:
-//                    $funeralCompany = $this->createJuristicPersonForFuneralCompany($request);
-//                    $this->juristicPersonRepo->save($funeralCompany);
-//                    break;
-//            }
-//            /** @var SoleProprietor|JuristicPerson $funeralCompany */
-//            $funeralCompanyId = $this->funeralCompanyIdFactory->create($funeralCompany->id());
-//        }
 
         return $funeralCompanyId;
     }
@@ -511,62 +490,6 @@ final class CreateBurialService extends BurialService
     /**
      * @param CreateBurialRequest $request
      *
-     * @return SoleProprietor
-     */
-    private function createSoleProprietorForFuneralCompany(CreateBurialRequest $request): SoleProprietor
-    {
-        return $this->soleProprietorFactory->create(
-            $request->funeralCompanySoleProprietorName,
-            $request->funeralCompanySoleProprietorInn,
-            $request->funeralCompanySoleProprietorOgrnip,
-            $request->funeralCompanySoleProprietorOkpo,
-            $request->funeralCompanySoleProprietorOkved,
-            $request->funeralCompanySoleProprietorRegistrationAddress,
-            $request->funeralCompanySoleProprietorActualLocationAddress,
-            $request->funeralCompanySoleProprietorBankDetailsBankName,
-            $request->funeralCompanySoleProprietorBankDetailsBik,
-            $request->funeralCompanySoleProprietorBankDetailsCorrespondentAccount,
-            $request->funeralCompanySoleProprietorBankDetailsCurrentAccount,
-            $request->funeralCompanySoleProprietorPhone,
-            $request->funeralCompanySoleProprietorPhoneAdditional,
-            $request->funeralCompanySoleProprietorFax,
-            $request->funeralCompanySoleProprietorEmail,
-            $request->funeralCompanySoleProprietorWebsite,
-        );
-    }
-
-    /**
-     * @param CreateBurialRequest $request
-     *
-     * @return JuristicPerson
-     */
-    private function createJuristicPersonForFuneralCompany(CreateBurialRequest $request): JuristicPerson
-    {
-        return $this->juristicPersonFactory->create(
-            $request->funeralCompanyJuristicPersonName,
-            $request->funeralCompanyJuristicPersonInn,
-            $request->funeralCompanyJuristicPersonKpp,
-            $request->funeralCompanyJuristicPersonOgrn,
-            $request->funeralCompanyJuristicPersonOkpo,
-            $request->funeralCompanyJuristicPersonOkved,
-            $request->funeralCompanyJuristicPersonLegalAddress,
-            $request->funeralCompanyJuristicPersonPostalAddress,
-            $request->funeralCompanyJuristicPersonBankDetailsBankName,
-            $request->funeralCompanyJuristicPersonBankDetailsBik,
-            $request->funeralCompanyJuristicPersonBankDetailsCorrespondentAccount,
-            $request->funeralCompanyJuristicPersonBankDetailsCurrentAccount,
-            $request->funeralCompanyJuristicPersonPhone,
-            $request->funeralCompanyJuristicPersonPhoneAdditional,
-            $request->funeralCompanyJuristicPersonFax,
-            $request->funeralCompanyJuristicPersonGeneralDirector,
-            $request->funeralCompanyJuristicPersonEmail,
-            $request->funeralCompanyJuristicPersonWebsite,
-        );
-    }
-
-    /**
-     * @param CreateBurialRequest $request
-     *
      * @throws \RuntimeException when the customer type is not supported
      */
     private function assertSupportedCustomerType(CreateBurialRequest $request): void
@@ -600,26 +523,6 @@ final class CreateBurialService extends BurialService
         )) {
             throw new \RuntimeException(
                 \sprintf('Неподдерживаемый тип места захоронения "%s".', $request->burialPlaceType)
-            );
-        }
-    }
-
-    /**
-     * @param CreateBurialRequest $request
-     *
-     * @throws \RuntimeException when the funeral company type is not supported
-     */
-    private function assertSupportedFuneralCompanyType(CreateBurialRequest $request): void
-    {
-        if ($request->funeralCompanyType === null) {
-            return;
-        }
-        if (!\in_array(
-            $request->funeralCompanyType,
-            [SoleProprietor::CLASS_SHORTCUT, JuristicPerson::CLASS_SHORTCUT]
-        )) {
-            throw new \RuntimeException(
-                \sprintf('Неподдерживаемый тип похоронной фирмы "%s".', $request->funeralCompanyType)
             );
         }
     }
@@ -671,19 +574,4 @@ final class CreateBurialService extends BurialService
             );
         }
     }
-
-    /**
-     * @param CreateBurialRequest $request
-     *
-     * @throws \RuntimeException when the funeral company type is not provided for the funeral company ID
-     */
-    private function assertFuneralCompanyTypeProvidedForId(CreateBurialRequest $request): void
-    {
-        if ($request->funeralCompanyId !== null && $request->funeralCompanyType === null) {
-            throw new \RuntimeException(
-                \sprintf('Не указан тип похоронной фирмы для идентификатора "%s".', $request->funeralCompanyId)
-            );
-        }
-    }
-
 }

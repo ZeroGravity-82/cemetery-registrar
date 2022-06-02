@@ -31,7 +31,7 @@ final class BurialPlaceId extends EntityMaskingId
     /**
      * {@inheritdoc}
      */
-    public function idType(): string
+    public function idClassShortcut(): string
     {
         return match (\get_class($this->id())) {
             GraveSiteId::class        => GraveSite::CLASS_SHORTCUT,

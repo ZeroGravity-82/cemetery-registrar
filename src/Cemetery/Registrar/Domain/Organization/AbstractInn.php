@@ -71,9 +71,9 @@ abstract class AbstractInn
     }
 
     /**
-     * @throws \InvalidArgumentException when the INN contains an incorrect check digits
+     * @throws \InvalidArgumentException about invalid check digits
      */
-    protected function throwIncorrectCheckDigitsException(): void
+    protected function throwInvalidCheckDigitsException(): void
     {
         throw new \InvalidArgumentException('ИНН недействителен.');
     }

@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Domain\Burial;
 use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\EntityFactory;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\IdentityGenerator;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
@@ -49,10 +50,10 @@ final class BurialFactory extends EntityFactory
         ?\DateTimeImmutable $buriedAt,
     ): Burial {
         return (new Burial(
-                new BurialId($this->identityGenerator->getNextIdentity()),
-                new BurialCode($this->burialCodeGenerator->getNextCode()),
-                $type,
-                $deceasedId,
+            new BurialId($this->identityGenerator->getNextIdentity()),
+            new BurialCode($this->burialCodeGenerator->getNextCode()),
+            $type,
+            $deceasedId,
         ))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)

@@ -40,9 +40,9 @@ final class MemorialTreeFactory extends EntityFactory
             : null;
 
         return (new MemorialTree(
-                new MemorialTreeId($this->identityGenerator->getNextIdentity()),
-                $treeNumber,
-            ))
+            new MemorialTreeId($this->identityGenerator->getNextIdentity()),
+            $treeNumber,
+        ))
             ->setGeoPosition($geoPosition);
     }
 }

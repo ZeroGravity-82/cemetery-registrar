@@ -62,9 +62,9 @@ final class NaturalPersonFactory extends EntityFactory
             : null;
 
         return (new NaturalPerson(
-                new NaturalPersonId($this->identityGenerator->getNextIdentity()),
-                $fullName,
-            ))
+            new NaturalPersonId($this->identityGenerator->getNextIdentity()),
+            $fullName,
+        ))
             ->setPhone($phone)
             ->setPhoneAdditional($phoneAdditional)
             ->setEmail($email)

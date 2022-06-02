@@ -31,7 +31,7 @@ final class Inn extends AbstractInn
         $checkValue1 = $this->calculateCheckDigit($value, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
         $checkValue2 = $this->calculateCheckDigit($value, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
         if ($checkDigit1 !== $checkValue1 || $checkDigit2 !== $checkValue2) {
-            $this->throwIncorrectCheckDigitsException();
+            $this->throwInvalidCheckDigitsException();
         }
     }
 }

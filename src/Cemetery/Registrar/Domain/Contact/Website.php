@@ -128,7 +128,7 @@ final class Website
     }
 
     /**
-     * @throws \InvalidArgumentException when the website address has invalid format
+     * @throws \InvalidArgumentException about invalid website address format
      */
     private function throwInvalidFormatException(): void
     {
