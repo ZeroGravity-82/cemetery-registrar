@@ -74,11 +74,11 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends RepositoryInteg
         $this->assertSame(4, $this->getRowCount(FuneralCompany::class));
 
         $persistedEntityD = $this->repo->findById($this->entityD->id());
+        $organizationIdD  = $persistedEntityD->organizationId();
         $this->repo->remove($persistedEntityD);
         $this->entityManager->clear();
 
-        $knownOrganizationId = new OrganizationId(new JuristicPersonId('JP002'));
-        $this->assertNull($this->repo->findByOrganizationId($knownOrganizationId));
+        $this->assertNull($this->repo->findByOrganizationId($organizationIdD));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
