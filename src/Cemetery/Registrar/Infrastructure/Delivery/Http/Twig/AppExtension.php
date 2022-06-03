@@ -16,7 +16,7 @@ class AppExtension extends AbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('ucfirst', [$this, 'ucfirst'], ['needs_environment' => true]),
