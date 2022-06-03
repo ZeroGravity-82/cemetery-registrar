@@ -79,12 +79,12 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $this->assertSame(6, $this->getRowCount(Burial::class));
 
         // Testing itself
-        $persistedEntityF = $this->repo->findById($this->entityF->id());
+        $persistedEntityF  = $this->repo->findById($this->entityF->id());
+        $funeralCompanyIdF = $persistedEntityF->funeralCompanyId();
         $this->repo->remove($persistedEntityF);
         $this->entityManager->clear();
 
-        $knownFuneralCompanyId = new FuneralCompanyId('FC003');
-        $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
+        $burialCount = $this->repo->countByFuneralCompanyId($funeralCompanyIdF);
         $this->assertSame(0, $burialCount);
     }
 
@@ -120,11 +120,11 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
 
         // Testing itself
         $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $customerIdB      = $persistedEntityB->customerId();
         $this->repo->remove($persistedEntityB);
         $this->entityManager->clear();
 
-        $knownCustomerId = new CustomerId(new NaturalPersonId('NP005'));
-        $burialCount     = $this->repo->countByCustomerId($knownCustomerId);
+        $burialCount = $this->repo->countByCustomerId($customerIdB);
         $this->assertSame(1, $burialCount);
     }
 
