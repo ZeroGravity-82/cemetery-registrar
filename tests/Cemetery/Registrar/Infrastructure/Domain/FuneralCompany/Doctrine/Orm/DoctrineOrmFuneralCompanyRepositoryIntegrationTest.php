@@ -27,6 +27,8 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends RepositoryInteg
     protected string $entityIdClassName         = FuneralCompanyId::class;
     protected string $entityCollectionClassName = FuneralCompanyCollection::class;
 
+    private FuneralCompany $entityD;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -35,16 +37,17 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends RepositoryInteg
         $this->entityA = FuneralCompanyProvider::getFuneralCompanyA();
         $this->entityB = FuneralCompanyProvider::getFuneralCompanyB();
         $this->entityC = FuneralCompanyProvider::getFuneralCompanyC();
+        $this->entityD = FuneralCompanyProvider::getFuneralCompanyD();
     }
 
     public function testItFindsFuneralCompanyByOrganizationId(): void
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new FuneralCompanyCollection(
-            [$this->entityA, $this->entityB, $this->entityC]
+            [$this->entityA, $this->entityB, $this->entityC, $this->entityD]
         ));
         $this->entityManager->clear();
-        $this->assertSame(3, $this->getRowCount(FuneralCompany::class));
+        $this->assertSame(4, $this->getRowCount(FuneralCompany::class));
 
         // Testing itself
         $knownOrganizationId = new OrganizationId(new JuristicPersonId('JP001'));
@@ -59,6 +62,23 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends RepositoryInteg
 
         $unknownOrganizationId = new OrganizationId(new SoleProprietorId('unknown_id'));
         $this->assertNull($this->repo->findByOrganizationId($unknownOrganizationId));
+    }
+
+    public function testItDoesNotFindRemovedFuneralCompanyByOrganizationId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new FuneralCompanyCollection(
+            [$this->entityA, $this->entityB, $this->entityC, $this->entityD]
+        ));
+        $this->entityManager->clear();
+        $this->assertSame(4, $this->getRowCount(FuneralCompany::class));
+
+        $persistedEntityD = $this->repo->findById($this->entityD->id());
+        $this->repo->remove($persistedEntityD);
+        $this->entityManager->clear();
+
+        $knownOrganizationId = new OrganizationId(new JuristicPersonId('JP002'));
+        $this->assertNull($this->repo->findByOrganizationId($knownOrganizationId));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
