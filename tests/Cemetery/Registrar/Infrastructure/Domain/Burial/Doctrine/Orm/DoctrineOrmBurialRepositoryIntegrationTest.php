@@ -30,7 +30,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
     private Burial $entityD;
     private Burial $entityE;
     private Burial $entityF;
-    private Burial $entityG;
 
     public function setUp(): void
     {
@@ -43,7 +42,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $this->entityD = BurialProvider::getBurialD();
         $this->entityE = BurialProvider::getBurialE();
         $this->entityF = BurialProvider::getBurialF();
-        $this->entityG = BurialProvider::getBurialG();
     }
 
     public function testItCountsBurialsByFuneralCompanyId(): void
