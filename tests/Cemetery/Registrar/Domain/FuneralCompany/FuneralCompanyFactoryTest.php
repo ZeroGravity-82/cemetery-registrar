@@ -37,7 +37,7 @@ class FuneralCompanyFactoryTest extends EntityFactoryTest
         $this->assertInstanceOf(FuneralCompany::class, $funeralCompany);
         $this->assertSame(self::ENTITY_ID, $funeralCompany->id()->value());
         $this->assertSame($organizationId, $funeralCompany->organizationId()->id()->value());
-        $this->assertSame($organizationType, $funeralCompany->organizationId()->idClassShortcut());
+        $this->assertSame($organizationType, $funeralCompany->organizationId()->idType());
         $this->assertSame($note, $funeralCompany->note()->value());
     }
 
@@ -54,7 +54,7 @@ class FuneralCompanyFactoryTest extends EntityFactoryTest
         $this->assertInstanceOf(FuneralCompany::class, $funeralCompany);
         $this->assertSame(self::ENTITY_ID, $funeralCompany->id()->value());
         $this->assertSame($organizationId, $funeralCompany->organizationId()->id()->value());
-        $this->assertSame($organizationType, $funeralCompany->organizationId()->idClassShortcut());
+        $this->assertSame($organizationType, $funeralCompany->organizationId()->idType());
         $this->assertNull($funeralCompany->note());
     }
 }

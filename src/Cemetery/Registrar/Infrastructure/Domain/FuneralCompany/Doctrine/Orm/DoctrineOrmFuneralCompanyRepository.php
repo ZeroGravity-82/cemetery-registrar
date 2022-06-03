@@ -76,9 +76,16 @@ final class DoctrineOrmFuneralCompanyRepository extends Repository implements Fu
      */
     public function findByOrganizationId(OrganizationId $organizationId): ?FuneralCompany
     {
-        return $this->entityManager->getRepository(Burial::class)->findBy([
-            'id'        => (string) $burialId,
-            'removedAt' => null,
-        ])[0] ?? null;
+        return $this->entityManager
+            ->getRepository(FuneralCompany::class)
+            ->createQueryBuilder('fc')
+            ->select('fc')
+            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.type') = :type")
+            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.value') = :value")
+//            ->andWhere('fc.removedAt = null')
+            ->setParameter('type', $organizationId->idType())
+            ->setParameter('value', $organizationId->id()->value())
+            ->getQuery()
+            ->getResult();
     }
 }

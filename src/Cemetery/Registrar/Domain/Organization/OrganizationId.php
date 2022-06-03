@@ -29,7 +29,7 @@ final class OrganizationId extends EntityMaskingId
     /**
      * {@inheritdoc}
      */
-    public function idClassShortcut(): string
+    public function idType(): string
     {
         return match (\get_class($this->id())) {
             JuristicPersonId::class => JuristicPerson::CLASS_SHORTCUT,

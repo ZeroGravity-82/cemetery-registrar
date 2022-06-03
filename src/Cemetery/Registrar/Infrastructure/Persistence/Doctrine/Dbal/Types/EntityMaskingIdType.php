@@ -34,7 +34,7 @@ abstract class EntityMaskingIdType extends CustomJsonType
         $id = $value->id();
 
         return [
-            'type'  => $value->idClassShortcut(),
+            'type'  => $value->idType(),
             'value' => $id->value()
         ];
     }

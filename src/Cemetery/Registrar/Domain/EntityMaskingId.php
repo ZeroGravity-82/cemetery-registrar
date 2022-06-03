@@ -26,7 +26,7 @@ abstract class EntityMaskingId
     /**
      * @return string
      */
-    abstract public function idClassShortcut(): string;
+    abstract public function idType(): string;
 
     /**
      * @return EntityId
