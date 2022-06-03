@@ -40,6 +40,18 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getTotalCount(): int
+    {
+        return $this->connection->createQueryBuilder()
+            ->select('COUNT(b.id)')
+            ->from('burial', 'b')
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
+    /**
      * @param string $id
      *
      * @return false|array
@@ -439,7 +451,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
             );
         }
 
-        return new BurialViewList(\count($burialViewListData), $burialViewListItems);
+        return new BurialViewList($burialViewListItems);
     }
 
     /**

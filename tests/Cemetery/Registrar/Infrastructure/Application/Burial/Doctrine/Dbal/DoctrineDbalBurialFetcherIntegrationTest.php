@@ -103,7 +103,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         // First page
         $burialViewListForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewListForFirstPage);
-        $this->assertSame(4, $burialViewListForFirstPage->totalCount);
         $this->assertCount(4, $burialViewListForFirstPage->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForFirstPage->burialViewListItems);
         $this->assertItemForFirstPageEqualsB007($burialViewListForFirstPage->burialViewListItems[0]);  // This item has minimum code value
@@ -115,7 +114,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         // Second page
         $burialViewListForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewListForSecondPage);
-        $this->assertSame(3, $burialViewListForSecondPage->totalCount);
         $this->assertCount(3, $burialViewListForSecondPage->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForSecondPage->burialViewListItems);
 
@@ -126,13 +124,11 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         // Third page
         $burialViewListForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewListForThirdPage);
-        $this->assertSame(0, $burialViewListForThirdPage->totalCount);
         $this->assertEmpty($burialViewListForThirdPage->burialViewListItems);
 
         // All at once
         $burialViewListForDefaultPageSize = $this->fetcher->findAll(1);
         $this->assertInstanceOf(BurialViewList::class, $burialViewListForDefaultPageSize);
-        $this->assertSame(7, $burialViewListForDefaultPageSize->totalCount);
         $this->assertCount(7, $burialViewListForDefaultPageSize->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForDefaultPageSize->burialViewListItems);
     }
@@ -143,30 +139,31 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
         $burialViewList = $this->fetcher->findAll(1, 'Ждан', $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertSame(3, $burialViewList->totalCount);
         $this->assertIsArray($burialViewList->burialViewListItems);
         $this->assertCount(3, $burialViewList->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
 
         $burialViewList = $this->fetcher->findAll(1, 'Новос', $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertSame(4, $burialViewList->totalCount);
         $this->assertIsArray($burialViewList->burialViewListItems);
         $this->assertCount(4, $burialViewList->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
 
         $burialViewList = $this->fetcher->findAll(1, '11', $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertSame(4, $burialViewList->totalCount);
         $this->assertIsArray($burialViewList->burialViewListItems);
         $this->assertCount(4, $burialViewList->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
         $burialViewList = $this->fetcher->findAll(2, '11', $customPageSize);
         $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertSame(2, $burialViewList->totalCount);
         $this->assertIsArray($burialViewList->burialViewListItems);
         $this->assertCount(2, $burialViewList->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
+    }
+
+    public function testItReturnsBurialTotalCount(): void
+    {
+        $this->assertSame(7, $this->fetcher->getTotalCount());
     }
 
     private function fillDatabase(): void
