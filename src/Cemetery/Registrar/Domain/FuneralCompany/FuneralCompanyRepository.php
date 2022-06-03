@@ -36,6 +36,15 @@ interface FuneralCompanyRepository
     public function findById(FuneralCompanyId $funeralCompanyId): ?FuneralCompany;
 
     /**
+     * Returns the funeral company by organization ID. If no funeral company found, null will be returned.
+     *
+     * @param OrganizationId $organizationId
+     *
+     * @return FuneralCompany|null
+     */
+    public function findByOrganizationId(OrganizationId $organizationId): ?FuneralCompany;
+
+    /**
      * Removes the funeral company from the repository.
      *
      * @param FuneralCompany $funeralCompany
@@ -48,13 +57,4 @@ interface FuneralCompanyRepository
      * @param FuneralCompanyCollection $funeralCompanies
      */
     public function removeAll(FuneralCompanyCollection $funeralCompanies): void;
-
-    /**
-     * Returns the funeral company by organization ID. If no funeral company found, null will be returned.
-     *
-     * @param OrganizationId $organizationId
-     *
-     * @return FuneralCompany|null
-     */
-    public function findByOrganizationId(OrganizationId $organizationId): ?FuneralCompany;
 }

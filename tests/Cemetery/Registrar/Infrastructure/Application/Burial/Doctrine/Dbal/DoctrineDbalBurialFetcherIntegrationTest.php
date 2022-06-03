@@ -22,6 +22,7 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
+use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
@@ -36,6 +37,7 @@ use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\DoctrineOrmGraveSiteRepository;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\MemorialTree\Doctrine\Orm\DoctrineOrmMemorialTreeRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\Orm\DoctrineOrmDeceasedRepository;
+use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\Orm\DoctrineOrmFuneralCompanyRepository;
 use Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\Orm\DoctrineOrmNaturalPersonRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\Orm\DoctrineOrmJuristicPersonRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\Doctrine\Orm\DoctrineOrmSoleProprietorRepository;
@@ -46,6 +48,7 @@ use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockProvider;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\GraveSiteProvider;
 use Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeProvider;
 use Cemetery\Tests\Registrar\Domain\Deceased\DeceasedProvider;
+use Cemetery\Tests\Registrar\Domain\FuneralCompany\FuneralCompanyProvider;
 use Cemetery\Tests\Registrar\Domain\NaturalPerson\NaturalPersonProvider;
 use Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson\JuristicPersonProvider;
 use Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor\SoleProprietorProvider;
@@ -178,6 +181,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->fillCemeteryBlockTable();
         $this->fillGraveSiteTable();
         $this->fillMemorialTreeTable();
+        $this->fillFuneralCompanyTable();
     }
 
     private function fillBurialTable(): void
@@ -299,6 +303,17 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
                 MemorialTreeProvider::getMemorialTreeB(),
                 MemorialTreeProvider::getMemorialTreeC(),
                 MemorialTreeProvider::getMemorialTreeD(),
+            ]));
+    }
+
+    private function fillFuneralCompanyTable(): void
+    {
+        (new DoctrineOrmFuneralCompanyRepository($this->entityManager))
+            ->saveAll(new FuneralCompanyCollection([
+                FuneralCompanyProvider::getFuneralCompanyA(),
+                FuneralCompanyProvider::getFuneralCompanyB(),
+                FuneralCompanyProvider::getFuneralCompanyC(),
+                FuneralCompanyProvider::getFuneralCompanyD(),
             ]));
     }
 
@@ -596,7 +611,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                        $burialFormView->burialPlaceOwnerPassportDivisionCode);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyId);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyName);
         $this->assertSame(null,                                        $burialFormView->burialChainId);
         $this->assertSame('CN002',                                     $burialFormView->burialPlaceId);
         $this->assertSame(ColumbariumNiche::CLASS_SHORTCUT,            $burialFormView->burialPlaceType);
@@ -704,7 +718,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                        $burialFormView->burialPlaceOwnerPassportDivisionCode);
         $this->assertSame(null,                                        $burialFormView->funeralCompanyId);
-        $this->assertSame(null,                                        $burialFormView->funeralCompanyName);
         $this->assertSame(null,                                        $burialFormView->burialChainId);
         $this->assertSame('GS003',                                     $burialFormView->burialPlaceId);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                   $burialFormView->burialPlaceType);
@@ -812,7 +825,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportDivisionCode);
         $this->assertSame('FC001',                                       $burialFormView->funeralCompanyId);
-        $this->assertSame('ООО "Рога и копыта"',                         $burialFormView->funeralCompanyName);
         $this->assertSame(null,                                          $burialFormView->burialChainId);
         $this->assertSame('MT002',                                       $burialFormView->burialPlaceId);
         $this->assertSame(MemorialTree::CLASS_SHORTCUT,                  $burialFormView->burialPlaceType);
@@ -920,7 +932,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportDivisionCode);
         $this->assertSame('FC001',                                       $burialFormView->funeralCompanyId);
-        $this->assertSame('ООО "Рога и копыта"',                         $burialFormView->funeralCompanyName);
         $this->assertSame(null,                                          $burialFormView->burialChainId);
         $this->assertSame('GS001',                                       $burialFormView->burialPlaceId);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $burialFormView->burialPlaceType);
@@ -1028,7 +1039,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Отделом МВД Ленинского района г. Пензы',      $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportDivisionCode);
         $this->assertSame('FC002',                                       $burialFormView->funeralCompanyId);
-        $this->assertSame('МУП Похоронный Дом "ИМИ"',                    $burialFormView->funeralCompanyName);
         $this->assertSame(null,                                          $burialFormView->burialChainId);
         $this->assertSame('GS002',                                       $burialFormView->burialPlaceId);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $burialFormView->burialPlaceType);
@@ -1135,8 +1145,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedAt);
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportDivisionCode);
-        $this->assertSame('SP002',                                       $burialFormView->funeralCompanyId);
-        $this->assertSame('ИП Петров Пётр Петрович',                     $burialFormView->funeralCompanyName);
+        $this->assertSame('FC003',                                       $burialFormView->funeralCompanyId);
         $this->assertSame(null,                                          $burialFormView->burialChainId);
         $this->assertSame(null,                                          $burialFormView->burialPlaceId);
         $this->assertSame(null,                                          $burialFormView->burialPlaceType);
@@ -1244,7 +1253,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportIssuedBy);
         $this->assertSame(null,                                          $burialFormView->burialPlaceOwnerPassportDivisionCode);
         $this->assertSame(null,                                          $burialFormView->funeralCompanyId);
-        $this->assertSame(null,                                          $burialFormView->funeralCompanyName);
         $this->assertSame(null,                                          $burialFormView->burialChainId);
         $this->assertSame('GS005',                                       $burialFormView->burialPlaceId);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $burialFormView->burialPlaceType);

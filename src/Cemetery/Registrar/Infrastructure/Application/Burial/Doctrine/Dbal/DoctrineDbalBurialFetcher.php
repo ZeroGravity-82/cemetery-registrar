@@ -120,8 +120,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
                 'bponp.passport->>"$.issuedAt"                 AS burialPlaceOwnerPassportIssuedAt',
                 'bponp.passport->>"$.issuedBy"                 AS burialPlaceOwnerPassportIssuedBy',
                 'bponp.passport->>"$.divisionCode"             AS burialPlaceOwnerPassportDivisionCode',
-                'b.funeral_company_id"                         AS funeralCompanyId',
-                'fc.name                                       AS funeralCompanyName',
+                'fc.id                                         AS funeralCompanyId',
                 'b.burial_chain_id                             AS burialChainId',
                 'b.burial_place_id->>"$.value"                 AS burialPlaceId',
                 'b.burial_place_id->>"$.type"                  AS burialPlaceType',
@@ -152,18 +151,18 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
                 'b.updated_at                                  AS updatedAt',
             )
             ->from('burial', 'b')
-            ->leftJoin('b',    'deceased',          'd',      'b.deceased_id                    = d.id')
-            ->leftJoin('d',    'natural_person',    'dnp',    'd.natural_person_id              = dnp.id')
-            ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value"        = cnp.id')
-            ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value"        = csp.id')
-            ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value"        = cjp.id')
-            ->leftJoin('b',    'natural_person',    'bponp',  'b.burial_place_owner_id          = bponp.id')
-            ->leftJoin('b',    'funeral_company',   'fc',     'b.funeral_company_id             = fc.id')
-            ->leftJoin('b',    'grave_site',        'bpgs',   'b.burial_place_id->>"$.value"    = bpgs.id')
-            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb', 'bpgs.cemetery_block_id           = bpgscb.id')
-            ->leftJoin('b',    'columbarium_niche', 'bpcn',   'b.burial_place_id->>"$.value"    = bpcn.id')
-            ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id              = bpcnc.id')
-            ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value"    = bpmt.id')
+            ->leftJoin('b',    'deceased',          'd',      'b.deceased_id                 = d.id')
+            ->leftJoin('d',    'natural_person',    'dnp',    'd.natural_person_id           = dnp.id')
+            ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value"     = cnp.id')
+            ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value"     = csp.id')
+            ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value"     = cjp.id')
+            ->leftJoin('b',    'natural_person',    'bponp',  'b.burial_place_owner_id       = bponp.id')
+            ->leftJoin('b',    'funeral_company',   'fc',     'b.funeral_company_id          = fc.id')
+            ->leftJoin('b',    'grave_site',        'bpgs',   'b.burial_place_id->>"$.value" = bpgs.id')
+            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb', 'bpgs.cemetery_block_id        = bpgscb.id')
+            ->leftJoin('b',    'columbarium_niche', 'bpcn',   'b.burial_place_id->>"$.value" = bpcn.id')
+            ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id           = bpcnc.id')
+            ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value" = bpmt.id')
             ->andWhere('b.id = :id')
             ->setParameter('id', $id)
             ->executeQuery();
@@ -258,7 +257,6 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
                 default => $burialFormViewData['burialPlaceOwnerPassportDivisionCode'],
             },
             $burialFormViewData['funeralCompanyId'],
-            $burialFormViewData['funeralCompanyName'],
             $burialFormViewData['burialChainId'],
             $burialFormViewData['burialPlaceId'],
             $burialFormViewData['burialPlaceType'],

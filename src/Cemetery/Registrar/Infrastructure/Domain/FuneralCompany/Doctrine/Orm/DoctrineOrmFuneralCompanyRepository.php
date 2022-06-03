@@ -52,6 +52,23 @@ final class DoctrineOrmFuneralCompanyRepository extends Repository implements Fu
     /**
      * {@inheritdoc}
      */
+    public function findByOrganizationId(OrganizationId $organizationId): ?FuneralCompany
+    {
+        return $this->entityManager
+            ->getRepository(FuneralCompany::class)
+            ->createQueryBuilder('fc')
+            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.type') = :type")
+            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.value') = :value")
+            ->andWhere('fc.removedAt IS NULL')
+            ->setParameter('type', $organizationId->idType())
+            ->setParameter('value', $organizationId->id()->value())
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove(FuneralCompany $funeralCompany): void
     {
         $funeralCompany->refreshRemovedAtTimestamp();
@@ -69,23 +86,5 @@ final class DoctrineOrmFuneralCompanyRepository extends Repository implements Fu
             $this->entityManager->persist($funeralCompany);
         }
         $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findByOrganizationId(OrganizationId $organizationId): ?FuneralCompany
-    {
-        return $this->entityManager
-            ->getRepository(FuneralCompany::class)
-            ->createQueryBuilder('fc')
-            ->select('fc')
-            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.type') = :type")
-            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.value') = :value")
-//            ->andWhere('fc.removedAt = null')
-            ->setParameter('type', $organizationId->idType())
-            ->setParameter('value', $organizationId->id()->value())
-            ->getQuery()
-            ->getResult();
     }
 }

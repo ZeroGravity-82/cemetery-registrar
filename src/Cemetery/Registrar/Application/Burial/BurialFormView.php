@@ -83,7 +83,6 @@ final class BurialFormView
         public readonly ?string $burialPlaceOwnerPassportIssuedBy,
         public readonly ?string $burialPlaceOwnerPassportDivisionCode,
         public readonly ?string $funeralCompanyId,
-        public readonly ?string $funeralCompanyName,
         public readonly ?string $burialChainId,
         public readonly ?string $burialPlaceId,
         public readonly ?string $burialPlaceType,
