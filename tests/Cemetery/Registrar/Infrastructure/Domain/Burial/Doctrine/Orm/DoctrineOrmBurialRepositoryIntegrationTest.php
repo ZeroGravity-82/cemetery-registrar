@@ -30,6 +30,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
     private Burial $entityD;
     private Burial $entityE;
     private Burial $entityF;
+    private Burial $entityG;
 
     public function setUp(): void
     {
@@ -42,6 +43,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $this->entityD = BurialProvider::getBurialD();
         $this->entityE = BurialProvider::getBurialE();
         $this->entityF = BurialProvider::getBurialF();
+        $this->entityG = BurialProvider::getBurialG();
     }
 
     public function testItCountsBurialsByFuneralCompanyId(): void
@@ -58,8 +60,33 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
         $this->assertSame(2, $burialCount);
 
+        $knownFuneralCompanyId = new FuneralCompanyId('FC003');
+        $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
+        $this->assertSame(1, $burialCount);
+
         $unknownFuneralCompanyId = new FuneralCompanyId('unknown_id');
         $burialCount             = $this->repo->countByFuneralCompanyId($unknownFuneralCompanyId);
+        $this->assertSame(0, $burialCount);
+    }
+
+    public function testItDoesNotCountRemovedBurialsByFuneralCompanyId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(
+            new BurialCollection(
+                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF]
+            )
+        );
+        $this->entityManager->clear();
+        $this->assertSame(6, $this->getRowCount(Burial::class));
+
+        // Testing itself
+        $persistedEntityF = $this->repo->findById($this->entityF->id());
+        $this->repo->remove($persistedEntityF);
+        $this->entityManager->clear();
+
+        $knownFuneralCompanyId = new FuneralCompanyId('FC003');
+        $burialCount           = $this->repo->countByFuneralCompanyId($knownFuneralCompanyId);
         $this->assertSame(0, $burialCount);
     }
 
@@ -80,6 +107,27 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends RepositoryIntegrationTe
         $unknownCustomerId = new CustomerId(new SoleProprietorId('unknown_id'));
         $burialCount       = $this->repo->countByCustomerId($unknownCustomerId);
         $this->assertSame(0, $burialCount);
+    }
+
+    public function testItDoesNotCountRemovedBurialsByCustomerId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(
+            new BurialCollection(
+                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF]
+            )
+        );
+        $this->entityManager->clear();
+        $this->assertSame(6, $this->getRowCount(Burial::class));
+
+        // Testing itself
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($persistedEntityB);
+        $this->entityManager->clear();
+
+        $knownCustomerId = new CustomerId(new NaturalPersonId('NP005'));
+        $burialCount     = $this->repo->countByCustomerId($knownCustomerId);
+        $this->assertSame(1, $burialCount);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

@@ -82,6 +82,7 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
             ->andWhere('b.funeralCompanyId = :funeralCompanyId')
+            ->andWhere('b.removedAt IS NULL')
             ->setParameter('funeralCompanyId', $funeralCompanyId->value())
             ->getQuery()
             ->getSingleScalarResult();
@@ -98,6 +99,7 @@ final class DoctrineOrmBurialRepository extends Repository implements BurialRepo
             ->select('COUNT(b.id)')
             ->andWhere("JSON_EXTRACT(b.customerId, '$.type') = :type")
             ->andWhere("JSON_EXTRACT(b.customerId, '$.value') = :value")
+            ->andWhere('b.removedAt IS NULL')
             ->setParameter('type', $customerId->idType())
             ->setParameter('value', $customerId->id()->value())
             ->getQuery()
