@@ -10,6 +10,7 @@ use Cemetery\Registrar\Application\Burial\BurialViewList;
 use Cemetery\Registrar\Application\Burial\BurialViewListItem;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Infrastructure\Application\Fetcher;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -34,9 +35,51 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
      */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialViewList
     {
-        $burialViewListData = $this->queryBurialViewListData($page, $term, $pageSize);
+        $queryBuilder = $this->connection->createQueryBuilder()
+            ->select(
+                'b.id                          AS id',
+                'b.code                        AS code',
+                'dnp.full_name                 AS deceasedNaturalPersonFullName',
+                'dnp.born_at                   AS deceasedNaturalPersonBornAt',
+                'd.died_at                     AS deceasedDiedAt',
+                'd.age                         AS deceasedAge',
+                'b.buried_at                   AS buriedAt',
+                'b.burial_place_id->>"$.type"  AS burialPlaceType',
+                'bpgscb.name                   AS burialPlaceGraveSiteCemeteryBlockName',
+                'bpgs.row_in_block             AS burialPlaceGraveSiteRowInBlock',
+                'bpgs.position_in_row          AS burialPlaceGraveSitePositionInRow',
+                'bpcnc.name                    AS burialPlaceColumbariumNicheColumbariumName',
+                'bpcn.row_in_columbarium       AS burialPlaceColumbariumNicheRowInColumbarium',
+                'bpcn.columbarium_niche_number AS burialPlaceColumbariumNicheNumber',
+                'bpmt.tree_number              AS burialPlaceMemorialTreeNumber',
+                'b.customer_id->>"$.type"      AS customerType',
+                'cnp.full_name                 AS customerNaturalPersonFullName',
+                'cnp.address                   AS customerNaturalPersonAddress',
+                'cnp.phone                     AS customerNaturalPersonPhone',
+                'csp.name                      AS customerSoleProprietorName',
+                'csp.registration_address      AS customerSoleProprietorRegistrationAddress',
+                'csp.actual_location_address   AS customerSoleProprietorActualLocationAddress',
+                'csp.phone                     AS customerSoleProprietorPhone',
+                'cjp.name                      AS customerJuristicPersonName',
+                'cjp.legal_address             AS customerJuristicPersonLegalAddress',
+                'cjp.postal_address            AS customerJuristicPersonPostalAddress',
+                'cjp.phone                     AS customerJuristicPersonPhone',
+            )
+            ->from('burial', 'b')
+            ->andWhere('b.removed_at IS NULL')
+            ->orderBy('b.code')
+            ->setFirstResult(($page - 1) * $pageSize)
+            ->setMaxResults($pageSize);
+        $this->addJoinsToQueryBuilder($queryBuilder);
+        $this->addWheresToQueryBuilder($queryBuilder, $term);
 
-        return $this->hydrateBurialViewList($burialViewListData);
+        $burialViewListData = $queryBuilder
+            ->executeQuery()
+            ->fetchAllAssociative();
+        $totalCount = $this->doGetTotalCount($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
+
+        return $this->hydrateBurialViewList($burialViewListData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -44,11 +87,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
      */
     public function getTotalCount(): int
     {
-        return $this->connection->createQueryBuilder()
-            ->select('COUNT(b.id)')
-            ->from('burial', 'b')
-            ->executeQuery()
-            ->fetchFirstColumn()[0];
+        return $this->doGetTotalCount(null);
     }
 
     /**
@@ -58,7 +97,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
      */
     private function queryBurialFormViewData(string $id): false|array
     {
-        $result = $this->connection->createQueryBuilder()
+        return $this->connection->createQueryBuilder()
             ->select(
                 'b.id                                          AS id',
                 'b.code                                        AS code',
@@ -176,10 +215,88 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
             ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id           = bpcnc.id')
             ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value" = bpmt.id')
             ->andWhere('b.id = :id')
+            ->andWhere('b.removed_at IS NULL')
             ->setParameter('id', $id)
-            ->executeQuery();
+            ->executeQuery()
+            ->fetchAssociative();
+    }
 
-        return $result->fetchAssociative();
+    /**
+     * @param string|null $term
+     *
+     * @return int
+     */
+    private function doGetTotalCount(?string $term): int
+    {
+        $queryBuilder = $this->connection->createQueryBuilder()
+            ->select('COUNT(b.id)')
+            ->from('burial', 'b')
+            ->andWhere('b.removed_at IS NULL');
+        $this->addJoinsToQueryBuilder($queryBuilder);
+        $this->addWheresToQueryBuilder($queryBuilder, $term);
+
+        return $queryBuilder
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     */
+    private function addJoinsToQueryBuilder(QueryBuilder $queryBuilder): void
+    {
+        $queryBuilder
+            ->leftJoin('b',    'deceased',          'd',      'b.deceased_id                 = d.id')
+            ->leftJoin('d',    'natural_person',    'dnp',    'd.natural_person_id           = dnp.id')
+            ->leftJoin('b',    'grave_site',        'bpgs',   'b.burial_place_id->>"$.value" = bpgs.id')
+            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb', 'bpgs.cemetery_block_id        = bpgscb.id')
+            ->leftJoin('b',    'columbarium_niche', 'bpcn',   'b.burial_place_id->>"$.value" = bpcn.id')
+            ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id           = bpcnc.id')
+            ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value" = bpmt.id')
+            ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value"     = cnp.id')
+            ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value"     = csp.id')
+            ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value"     = cjp.id');
+    }
+
+    /**
+     * @param QueryBuilder $queryBuilder
+     * @param string|null  $term
+     */
+    private function addWheresToQueryBuilder(QueryBuilder $queryBuilder, ?string $term): void
+    {
+        if ($term === null || $term === '') {
+            return;
+        }
+        $queryBuilder
+            ->andWhere(
+                $queryBuilder->expr()->or(
+                    $queryBuilder->expr()->like('b.code', ':term'),
+                    $queryBuilder->expr()->like('dnp.full_name', ':term'),
+                    $queryBuilder->expr()->like('dnp.born_at', ':term'),
+                    $queryBuilder->expr()->like('d.died_at', ':term'),
+                    $queryBuilder->expr()->like('d.age', ':term'),
+                    $queryBuilder->expr()->like('b.buried_at', ':term'),
+                    $queryBuilder->expr()->like('bpgscb.name', ':term'),
+                    $queryBuilder->expr()->like('bpgs.row_in_block', ':term'),
+                    $queryBuilder->expr()->like('bpgs.position_in_row', ':term'),
+                    $queryBuilder->expr()->like('bpcnc.name', ':term'),
+                    $queryBuilder->expr()->like('bpcn.row_in_columbarium', ':term'),
+                    $queryBuilder->expr()->like('bpcn.columbarium_niche_number', ':term'),
+                    $queryBuilder->expr()->like('bpmt.tree_number', ':term'),
+                    $queryBuilder->expr()->like('cnp.full_name', ':term'),
+                    $queryBuilder->expr()->like('cnp.address', ':term'),
+                    $queryBuilder->expr()->like('cnp.phone', ':term'),
+                    $queryBuilder->expr()->like('csp.name', ':term'),
+                    $queryBuilder->expr()->like('csp.registration_address', ':term'),
+                    $queryBuilder->expr()->like('csp.actual_location_address', ':term'),
+                    $queryBuilder->expr()->like('csp.phone', ':term'),
+                    $queryBuilder->expr()->like('cjp.name', ':term'),
+                    $queryBuilder->expr()->like('cjp.legal_address', ':term'),
+                    $queryBuilder->expr()->like('cjp.postal_address', ':term'),
+                    $queryBuilder->expr()->like('cjp.phone', ':term'),
+                )
+            )
+            ->setParameter('term', "%$term%");
     }
 
     /**
@@ -317,107 +434,23 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
     }
 
     /**
+     * @param array       $burialViewListData
      * @param int         $page
-     * @param string|null $term
      * @param int         $pageSize
-     *
-     * @return array[]
-     */
-    private function queryBurialViewListData(
-        int     $page,
-        ?string $term     = null,
-        int     $pageSize = self::DEFAULT_PAGE_SIZE
-    ): array {
-        $queryBuilder = $this->connection->createQueryBuilder()
-            ->select(
-                'b.id                          AS id',
-                'b.code                        AS code',
-                'dnp.full_name                 AS deceasedNaturalPersonFullName',
-                'dnp.born_at                   AS deceasedNaturalPersonBornAt',
-                'd.died_at                     AS deceasedDiedAt',
-                'd.age                         AS deceasedAge',
-                'b.buried_at                   AS buriedAt',
-                'b.burial_place_id->>"$.type"  AS burialPlaceType',
-                'bpgscb.name                   AS burialPlaceGraveSiteCemeteryBlockName',
-                'bpgs.row_in_block             AS burialPlaceGraveSiteRowInBlock',
-                'bpgs.position_in_row          AS burialPlaceGraveSitePositionInRow',
-                'bpcnc.name                    AS burialPlaceColumbariumNicheColumbariumName',
-                'bpcn.row_in_columbarium       AS burialPlaceColumbariumNicheRowInColumbarium',
-                'bpcn.columbarium_niche_number AS burialPlaceColumbariumNicheNumber',
-                'bpmt.tree_number              AS burialPlaceMemorialTreeNumber',
-                'b.customer_id->>"$.type"      AS customerType',
-                'cnp.full_name                 AS customerNaturalPersonFullName',
-                'cnp.address                   AS customerNaturalPersonAddress',
-                'cnp.phone                     AS customerNaturalPersonPhone',
-                'csp.name                      AS customerSoleProprietorName',
-                'csp.registration_address      AS customerSoleProprietorRegistrationAddress',
-                'csp.actual_location_address   AS customerSoleProprietorActualLocationAddress',
-                'csp.phone                     AS customerSoleProprietorPhone',
-                'cjp.name                      AS customerJuristicPersonName',
-                'cjp.legal_address             AS customerJuristicPersonLegalAddress',
-                'cjp.postal_address            AS customerJuristicPersonPostalAddress',
-                'cjp.phone                     AS customerJuristicPersonPhone',
-            )
-            ->from('burial', 'b')
-            ->leftJoin('b',    'deceased',          'd',      'b.deceased_id                 = d.id')
-            ->leftJoin('d',    'natural_person',    'dnp',    'd.natural_person_id           = dnp.id')
-            ->leftJoin('b',    'grave_site',        'bpgs',   'b.burial_place_id->>"$.value" = bpgs.id')
-            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb', 'bpgs.cemetery_block_id        = bpgscb.id')
-            ->leftJoin('b',    'columbarium_niche', 'bpcn',   'b.burial_place_id->>"$.value" = bpcn.id')
-            ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id           = bpcnc.id')
-            ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value" = bpmt.id')
-            ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value"     = cnp.id')
-            ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value"     = csp.id')
-            ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value"     = cjp.id')
-            ->setFirstResult(($page - 1) * $pageSize)
-            ->setMaxResults($pageSize);
-
-        if ($term !== null && $term !== '') {
-            $queryBuilder
-                ->andWhere(
-                    $queryBuilder->expr()->or(
-                        $queryBuilder->expr()->like('b.code',                        ':term'),
-                        $queryBuilder->expr()->like('dnp.full_name',                 ':term'),
-                        $queryBuilder->expr()->like('dnp.born_at',                   ':term'),
-                        $queryBuilder->expr()->like('d.died_at',                     ':term'),
-                        $queryBuilder->expr()->like('d.age',                         ':term'),
-                        $queryBuilder->expr()->like('b.buried_at',                   ':term'),
-                        $queryBuilder->expr()->like('bpgscb.name',                   ':term'),
-                        $queryBuilder->expr()->like('bpgs.row_in_block',             ':term'),
-                        $queryBuilder->expr()->like('bpgs.position_in_row',          ':term'),
-                        $queryBuilder->expr()->like('bpcnc.name',                    ':term'),
-                        $queryBuilder->expr()->like('bpcn.row_in_columbarium',       ':term'),
-                        $queryBuilder->expr()->like('bpcn.columbarium_niche_number', ':term'),
-                        $queryBuilder->expr()->like('bpmt.tree_number',              ':term'),
-                        $queryBuilder->expr()->like('cnp.full_name',                 ':term'),
-                        $queryBuilder->expr()->like('cnp.address',                   ':term'),
-                        $queryBuilder->expr()->like('cnp.phone',                     ':term'),
-                        $queryBuilder->expr()->like('csp.name',                      ':term'),
-                        $queryBuilder->expr()->like('csp.registration_address',      ':term'),
-                        $queryBuilder->expr()->like('csp.actual_location_address',   ':term'),
-                        $queryBuilder->expr()->like('csp.phone',                     ':term'),
-                        $queryBuilder->expr()->like('cjp.name',                      ':term'),
-                        $queryBuilder->expr()->like('cjp.legal_address',             ':term'),
-                        $queryBuilder->expr()->like('cjp.postal_address',            ':term'),
-                        $queryBuilder->expr()->like('cjp.phone',                     ':term'),
-                    )
-                )
-                ->setParameter('term', "%$term%");
-        }
-        $result = $queryBuilder
-            ->orderBy('b.code')
-            ->executeQuery();
-
-        return $result->fetchAllAssociative();
-    }
-
-    /**
-     * @param array $burialViewListData
+     * @param string|null $term
+     * @param int         $totalCount
+     * @param int         $totalPages
      *
      * @return BurialViewList
      */
-    private function hydrateBurialViewList(array $burialViewListData): BurialViewList
-    {
+    private function hydrateBurialViewList(
+        array   $burialViewListData,
+        int     $page,
+        int     $pageSize,
+        ?string $term,
+        int     $totalCount,
+        int     $totalPages,
+    ): BurialViewList {
         $burialViewListItems = [];
         foreach ($burialViewListData as $burialViewListItemData) {
             $burialViewListItems[] = new BurialViewListItem(
@@ -451,7 +484,7 @@ final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
             );
         }
 
-        return new BurialViewList($burialViewListItems);
+        return new BurialViewList($burialViewListItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**

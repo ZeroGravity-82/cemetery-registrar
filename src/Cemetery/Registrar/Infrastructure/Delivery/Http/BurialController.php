@@ -31,7 +31,7 @@ class BurialController extends AbstractController
     #[Route('/burial', name: 'burial_index', methods: 'GET')]
     public function index(): Response
     {
-        $burialViewList   = $this->burialFetcher->findAll(1, null, 3);
+        $burialViewList   = $this->burialFetcher->findAll(1);
         $burialTotalCount = $this->burialFetcher->getTotalCount();
 
         return $this->render('burial/index.html.twig', [

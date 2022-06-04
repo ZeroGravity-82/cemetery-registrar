@@ -10,6 +10,11 @@ namespace Cemetery\Registrar\Application\Burial;
 final class BurialViewList
 {
     public function __construct(
-        public readonly array $burialViewListItems,
+        public readonly array   $burialViewListItems,
+        public readonly int     $page,
+        public readonly int     $pageSize,
+        public readonly ?string $term,
+        public readonly int     $totalCount,
+        public readonly int     $totalPages,
     ) {}
 }
