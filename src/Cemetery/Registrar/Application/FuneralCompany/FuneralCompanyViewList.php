@@ -10,6 +10,11 @@ namespace Cemetery\Registrar\Application\FuneralCompany;
 final class FuneralCompanyViewList
 {
     public function __construct(
-        public readonly array $funeralCompanyViewListItems,
+        public readonly array   $funeralCompanyViewListItems,
+        public readonly int     $page,
+        public readonly int     $pageSize,
+        public readonly ?string $term,
+        public readonly int     $totalCount,
+        public readonly int     $totalPages,
     ) {}
 }
