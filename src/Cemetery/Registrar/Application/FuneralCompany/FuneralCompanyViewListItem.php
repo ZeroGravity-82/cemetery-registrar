@@ -19,5 +19,6 @@ final class FuneralCompanyViewListItem
         public readonly ?string $soleProprietorRegistrationAddress,
         public readonly ?string $soleProprietorActualLocationAddress,
         public readonly ?string $soleProprietorPhone,
+        public readonly ?string $note,
     ) {}
 }

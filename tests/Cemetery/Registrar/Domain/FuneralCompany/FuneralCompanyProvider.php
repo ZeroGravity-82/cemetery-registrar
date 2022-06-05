@@ -25,7 +25,7 @@ final class FuneralCompanyProvider
     {
         $id             = new FuneralCompanyId('FC002');
         $organizationId = new OrganizationId(new SoleProprietorId('SP001'));
-        $note           = new FuneralCompanyNote('Примечание 1');
+        $note           = new FuneralCompanyNote('Фирма находится в Кемерове');
 
         return (new FuneralCompany($id, $organizationId))
             ->setNote($note);
