@@ -1,0 +1,47 @@
+{% extends 'logged.html.twig' %}
+
+{% block title %}Похоронные фирмы{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+  <div class="mb-2 mb-lg-2">
+    <p class="pt-2 fs-5 fw-bold text-success">Похоронные фирмы (всего: {{ funeralCompanyTotalCount }})</p>
+
+    {% include 'funeral_company/_toolbar.html.twig' %}
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover caption-top">
+        <thead class="table-light align-middle">
+          <tr>
+            <th>Наименование</th>
+            <th>ИНН</th>
+            <th>Адрес</th>
+            <th>Телефон</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for funeralCompanyViewListItem in funeralCompanyViewList.funeralCompanyViewListItems %}
+            {% include 'funeral_company/_funeral_company_view_list_item.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% include 'burial/_modal_funeral_company_new.html.twig' %}
+
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+
+  <link href="/css/funeral-company-form.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="/js/funeral-company-form.js"></script>
+{% endblock %}
