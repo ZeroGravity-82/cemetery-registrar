@@ -109,8 +109,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     public function testItFailsToReturnBurialFormViewByUnknownId(): void
     {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Захоронение с ID "unknown_id" не найдено.');
+        $this->expectExceptionForNotFoundBurialById('unknown_id');
         $this->burialFetcher->getFormViewById('unknown_id');
     }
 
@@ -118,12 +117,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
     {
         // Prepare database table for testing
         $this->burialRepo->remove($this->entityD);
+        $burialIdD = $this->entityD->id()->value();
 
         // Testing itself
-        $burialIdD = $this->entityD->id()->value();
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Захоронение с ID "%s" не найдено.', $burialIdD));
-
+        $this->expectExceptionForNotFoundBurialById($burialIdD);
         $this->burialFetcher->getFormViewById($burialIdD);
     }
 
@@ -158,7 +155,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(2,               $burialViewListForSecondPage->totalPages);
         $this->assertIsArray($burialViewListForSecondPage->burialViewListItems);
         $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForSecondPage->burialViewListItems);
-
         $this->assertItemForSecondPageEqualsB005($burialViewListForSecondPage->burialViewListItems[0]);
         $this->assertItemForSecondPageEqualsB006($burialViewListForSecondPage->burialViewListItems[1]);
         $this->assertItemForSecondPageEqualsB004($burialViewListForSecondPage->burialViewListItems[2]);  // This item has maximum code value
@@ -1367,5 +1363,11 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertTrue(
             new \DateTimeImmutable() >= \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $updatedAt)
         );
+    }
+
+    private function expectExceptionForNotFoundBurialById(string $burialId): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf('Захоронение с ID "%s" не найдено.', $burialId));
     }
 }
