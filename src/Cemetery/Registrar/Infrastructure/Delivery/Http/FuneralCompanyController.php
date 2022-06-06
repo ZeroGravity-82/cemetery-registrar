@@ -6,8 +6,6 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Http;
 
 use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,7 +18,7 @@ class FuneralCompanyController extends AbstractController
      * @param FuneralCompanyFetcher $funeralCompanyFetcher
      */
     public function __construct(
-//        private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
+        private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
     ) {}
 
     #[Route('/funeral-company', name: 'funeral_company_index', methods: 'GET')]

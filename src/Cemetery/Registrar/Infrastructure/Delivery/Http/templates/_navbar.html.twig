@@ -1,3 +1,5 @@
+{% set currentRoute = app.request.get('_route') %}
+
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" href="{{ path('home_index') }}">Регистратор</a>
@@ -11,7 +13,8 @@
           <a class="nav-link disabled" aria-current="page" href="#">Заказ</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="#">Захоронения</a>
+          <a class="nav-link {% if currentRoute == 'burial_index' %}active{% endif %}"
+             href="{{ path('burial_index') }}">Захоронения</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Номенклатура</a>
@@ -20,7 +23,8 @@
           <a class="nav-link disabled" href="#">Организации</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#">Похоронные фирмы</a>
+          <a class="nav-link {% if currentRoute == 'funeral_company_index' %}active{% endif %}"
+             href="{{ path('funeral_company_index') }}">Похоронные фирмы</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Причины смерти</a>

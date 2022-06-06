@@ -1,0 +1,19 @@
+<tr data-id="{{ funeralCompanyViewListItem.id }}">
+
+  {% if funeralCompanyViewListItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
+    <td>{{- funeralCompanyViewListItem.organizationJuristicPersonName          is empty ? '' : funeralCompanyViewListItem.organizationJuristicPersonName -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationJuristicPersonInn           is empty ? '' : funeralCompanyViewListItem.organizationJuristicPersonInn -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationJuristicPersonLegalAddress  is empty ? '' : funeralCompanyViewListItem.organizationJuristicPersonLegalAddress -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationJuristicPersonPostalAddress is empty ? '' : funeralCompanyViewListItem.organizationJuristicPersonPostalAddress -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationJuristicPersonPhone         is empty ? '' : funeralCompanyViewListItem.organizationJuristicPersonPhone -}}</td>
+  {% elseif funeralCompanyViewListItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
+    <td>{{- funeralCompanyViewListItem.organizationSoleProprietorName                  is empty ? '' : funeralCompanyViewListItem.organizationSoleProprietorName -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationSoleProprietorInn                   is empty ? '' : funeralCompanyViewListItem.organizationSoleProprietorInn -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationSoleProprietorRegistrationAddress   is empty ? '' : funeralCompanyViewListItem.organizationSoleProprietorRegistrationAddress -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationSoleProprietorActualLocationAddress is empty ? '' : funeralCompanyViewListItem.organizationSoleProprietorActualLocationAddress -}}</td>
+    <td>{{- funeralCompanyViewListItem.organizationSoleProprietorPhone                 is empty ? '' : funeralCompanyViewListItem.organizationSoleProprietorPhone -}}</td>
+  {% endif %}
+  <td>
+    {{- funeralCompanyViewListItem.note is empty ? '' : funeralCompanyViewListItem.note -}}
+  </td>
+</tr>

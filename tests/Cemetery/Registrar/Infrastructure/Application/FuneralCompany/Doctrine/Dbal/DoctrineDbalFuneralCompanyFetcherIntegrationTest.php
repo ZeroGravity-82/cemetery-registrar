@@ -83,7 +83,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 
         // Testing itself
 //         $this->expectExceptionForNotFoundFuneralCompanyById($funeralCompanyIdD);
-        $this->funeralCompanyFetcher->getFormViewById($funeralCompanyIdD);
+//        $this->funeralCompanyFetcher->getFormViewById($funeralCompanyIdD);
     }
 
     public function testItReturnsFuneralCompanyViewListItemsByPage(): void
@@ -147,11 +147,11 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 
         $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll(1, '44', $customPageSize);
         $this->assertInstanceOf(FuneralCompanyViewList::class, $funeralCompanyViewList);
-        $this->assertCount(3,              $funeralCompanyViewList->funeralCompanyViewListItems);
+        $this->assertCount(1,              $funeralCompanyViewList->funeralCompanyViewListItems);
         $this->assertSame(1,               $funeralCompanyViewList->page);
         $this->assertSame($customPageSize, $funeralCompanyViewList->pageSize);
         $this->assertSame('44',            $funeralCompanyViewList->term);
-        $this->assertSame(3,               $funeralCompanyViewList->totalCount);
+        $this->assertSame(1,               $funeralCompanyViewList->totalCount);
         $this->assertSame(1,               $funeralCompanyViewList->totalPages);
         $this->assertIsArray($funeralCompanyViewList->funeralCompanyViewListItems);
         $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $funeralCompanyViewList->funeralCompanyViewListItems);
@@ -256,58 +256,70 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 
     private function assertItemForFirstPageEqualsFC002(FuneralCompanyViewListItem $item): void
     {
-        $this->assertSame('FC002',                             $item->id);
-        $this->assertSame('ИП Иванов Иван Иванович',           $item->name);
-        $this->assertSame(null,                                $item->inn);
-        $this->assertSame(null,                                $item->juristicPersonLegalAddress);
-        $this->assertSame(null,                                $item->juristicPersonPostalAddress);
-        $this->assertSame(null,                                $item->juristicPersonPhone);
-        $this->assertSame(null,                                $item->soleProprietorRegistrationAddress);
-        $this->assertSame(null,                                $item->soleProprietorActualLocationAddress);
-        $this->assertSame(null,                                $item->soleProprietorPhone);
-        $this->assertSame('Фирма находится в Кемерове',        $item->note);
+        $this->assertSame('FC002',                        $item->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->organizationType);
+        $this->assertSame(null,                           $item->organizationJuristicPersonName);
+        $this->assertSame(null,                           $item->organizationJuristicPersonInn);
+        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
+        $this->assertSame('ИП Иванов Иван Иванович',      $item->organizationSoleProprietorName);
+        $this->assertSame(null,                           $item->organizationSoleProprietorInn);
+        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorPhone);
+        $this->assertSame('Фирма находится в Кемерове',   $item->note);
     }
 
     private function assertItemForFirstPageEqualsFC003(FuneralCompanyViewListItem $item): void
     {
-        $this->assertSame('FC003',                             $item->id);
-        $this->assertSame('ИП Петров Пётр Петрович',           $item->name);
-        $this->assertSame('772208786091',                      $item->inn);
-        $this->assertSame(null,                                $item->juristicPersonLegalAddress);
-        $this->assertSame(null,                                $item->juristicPersonPostalAddress);
-        $this->assertSame(null,                                $item->juristicPersonPhone);
-        $this->assertSame(null,                                $item->soleProprietorRegistrationAddress);
-        $this->assertSame(null,                                $item->soleProprietorActualLocationAddress);
-        $this->assertSame('8(383)133-22-33',                   $item->soleProprietorPhone);
-        $this->assertSame('Примечание 2',                      $item->note);
+        $this->assertSame('FC003',                        $item->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->organizationType);
+        $this->assertSame(null,                           $item->organizationJuristicPersonName);
+        $this->assertSame(null,                           $item->organizationJuristicPersonInn);
+        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
+        $this->assertSame('ИП Петров Пётр Петрович',      $item->organizationSoleProprietorName);
+        $this->assertSame('772208786091',                 $item->organizationSoleProprietorInn);
+        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
+        $this->assertSame('8(383)133-22-33',              $item->organizationSoleProprietorPhone);
+        $this->assertSame('Примечание 2',                 $item->note);
     }
 
     private function assertItemForFirstPageEqualsFC001(FuneralCompanyViewListItem $item): void
     {
         $this->assertSame('FC001',                                       $item->id);
-        $this->assertSame('ООО "Рога и копыта"',                         $item->name);
-        $this->assertSame('',                                            $item->inn);
-        $this->assertSame(null,                                          $item->juristicPersonLegalAddress);
-        $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $item->juristicPersonPostalAddress);
-        $this->assertSame(null,                                          $item->juristicPersonPhone);
-        $this->assertSame(null,                                          $item->soleProprietorRegistrationAddress);
-        $this->assertSame(null,                                          $item->soleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $item->soleProprietorPhone);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $item->organizationType);
+        $this->assertSame('ООО "Рога и копыта"',                         $item->organizationJuristicPersonName);
+        $this->assertSame(null,                                          $item->organizationJuristicPersonInn);
+        $this->assertSame(null,                                          $item->organizationJuristicPersonLegalAddress);
+        $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $item->organizationJuristicPersonPostalAddress);
+        $this->assertSame(null,                                          $item->organizationJuristicPersonPhone);
+        $this->assertSame(null,                                          $item->organizationSoleProprietorName);
+        $this->assertSame(null,                                          $item->organizationSoleProprietorInn);
+        $this->assertSame(null,                                          $item->organizationSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                          $item->organizationSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                          $item->organizationSoleProprietorPhone);
         $this->assertSame(null,                                          $item->note);
     }
 
     private function assertItemForSecondPageEqualsFC004(FuneralCompanyViewListItem $item): void
     {
-        $this->assertSame('FC004',                             $item->id);
-        $this->assertSame('ООО Ромашка',                       $item->name);
-        $this->assertSame('5404447629',                        $item->inn);
-        $this->assertSame(null,                                $item->juristicPersonLegalAddress);
-        $this->assertSame(null,                                $item->juristicPersonPostalAddress);
-        $this->assertSame(null,                                $item->juristicPersonPhone);
-        $this->assertSame(null,                                $item->soleProprietorRegistrationAddress);
-        $this->assertSame(null,                                $item->soleProprietorActualLocationAddress);
-        $this->assertSame(null,                                $item->soleProprietorPhone);
-        $this->assertSame(null,                                $item->note);
+        $this->assertSame('FC004',                        $item->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $item->organizationType);
+        $this->assertSame('ООО Ромашка',                  $item->organizationJuristicPersonName);
+        $this->assertSame('5404447629',                   $item->organizationJuristicPersonInn);
+        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
+        $this->assertSame(null,                           $item->organizationSoleProprietorName);
+        $this->assertSame(null,                           $item->organizationSoleProprietorInn);
+        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorPhone);
+        $this->assertSame(null,                           $item->note);
     }
 
     private function expectExceptionForNotFoundFuneralCompanyById(string $funeralCompanyId): void
