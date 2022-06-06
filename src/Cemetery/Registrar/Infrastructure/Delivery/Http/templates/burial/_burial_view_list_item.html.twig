@@ -34,12 +34,12 @@
       {{- burialViewListItem.customerNaturalPersonAddress is empty ? '' : burialViewListItem.customerNaturalPersonAddress -}}
     {% elseif burialViewListItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
       {{- burialViewListItem.customerSoleProprietorRegistrationAddress is empty
-      ? burialViewListItem.customerSoleProprietorActualLocationAddress is empty ? '' : burialViewListItem.customerSoleProprietorActualLocationAddress
-      : burialViewListItem.customerSoleProprietorRegistrationAddress -}}
+        ? burialViewListItem.customerSoleProprietorActualLocationAddress is empty ? '' : burialViewListItem.customerSoleProprietorActualLocationAddress
+        : burialViewListItem.customerSoleProprietorRegistrationAddress -}}
     {% elseif burialViewListItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
       {{- burialViewListItem.customerJuristicPersonLegalAddress is empty
-      ? burialViewListItem.customerJuristicPersonPostalAddress is empty ? '' : burialViewListItem.customerJuristicPersonPostalAddress
-      : burialViewListItem.customerJuristicPersonLegalAddress -}}
+        ? burialViewListItem.customerJuristicPersonPostalAddress is empty ? '' : burialViewListItem.customerJuristicPersonPostalAddress
+        : burialViewListItem.customerJuristicPersonLegalAddress -}}
     {% endif %}
   </td>
   <td>
