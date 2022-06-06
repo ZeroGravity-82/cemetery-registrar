@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Http;
 use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\CreateBurial\CreateBurialRequest;
 use Cemetery\Registrar\Application\Burial\CreateBurial\CreateBurialService;
+use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyFetcher;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,23 +21,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class BurialController extends AbstractController
 {
     /**
-     * @param BurialFetcher       $burialFetcher
-     * @param CreateBurialService $createBurialService
+     * @param BurialFetcher         $burialFetcher
+     * @param FuneralCompanyFetcher $funeralCompanyFetcher
+     * @param CreateBurialService   $createBurialService
      */
     public function __construct(
-        private readonly BurialFetcher       $burialFetcher,
-        private readonly CreateBurialService $createBurialService,
+        private readonly BurialFetcher         $burialFetcher,
+        private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
+        private readonly CreateBurialService   $createBurialService,
     ) {}
 
     #[Route('/burial', name: 'burial_index', methods: 'GET')]
     public function index(): Response
     {
-        $burialViewList   = $this->burialFetcher->findAll(1);
-        $burialTotalCount = $this->burialFetcher->getTotalCount();
+        $burialViewList         = $this->burialFetcher->findAll(1);
+        $burialTotalCount       = $this->burialFetcher->getTotalCount();
+        $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX);
 
         return $this->render('burial/index.html.twig', [
-            'burialViewList'   => $burialViewList,
-            'burialTotalCount' => $burialTotalCount,
+            'burialViewList'         => $burialViewList,
+            'burialTotalCount'       => $burialTotalCount,
+            'funeralCompanyViewList' => $funeralCompanyViewList,
         ]);
     }
 

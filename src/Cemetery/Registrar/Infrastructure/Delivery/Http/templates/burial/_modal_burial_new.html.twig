@@ -41,17 +41,7 @@
                 <h5 class="card-title text-success">Захоронение</h5>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="row">
-                      <div class="col-md-3"><label for="funeralCompanyJuristicPersonName" class="form-label">Похоронная фирма</label></div>
-                      <div class="col-md-9">
-                        <select class="form-select form-select-sm" id="funeralCompanyJuristicPersonName" name="funeralCompanyJuristicPersonName" aria-label="Похоронная фирма">
-                          <option selected></option>
-                          <option value="JP005">МАНО СПС "Ритуал"</option>
-                          <option value="JP006">ИМИ</option>
-                          <option value="JP007">Надежда</option>
-                        </select>
-                      </div>
-                    </div>
+                    {% include 'burial/_funeral_company_selector.html.twig' %}
                     <div class="row">
                       <div class="col-md-3"><label for="buriedAt" class="form-label">Дата захоронения</label></div>
                       <div class="col-md-9"><input type="datetime-local" class="form-control form-control-sm" id="buriedAt" name="buriedAt"></div>

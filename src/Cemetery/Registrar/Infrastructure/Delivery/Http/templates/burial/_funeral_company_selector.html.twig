@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-3"><label for="funeralCompanyId" class="form-label">Похоронная фирма</label></div>
+  <div class="col-md-9">
+    <select class="form-select form-select-sm" id="funeralCompanyId" name="funeralCompanyId" aria-label="Похоронная фирма">
+      <option selected></option>
+      {%- for funeralCompanyViewListItem in funeralCompanyViewList.funeralCompanyViewListItems -%}
+        <option value="{{- funeralCompanyViewListItem.id -}}">
+          {%- if funeralCompanyViewListItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
+            {{- funeralCompanyViewListItem.organizationJuristicPersonName -}}
+          {%- elseif funeralCompanyViewListItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -%}
+            {{- funeralCompanyViewListItem.organizationSoleProprietorName -}}
+          {%- endif -%}
+        </option>
+      {%- endfor -%}
+    </select>
+  </div>
+</div>
