@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Organization;
+namespace Cemetery\Tests\Registrar\Domain\Organization;
 
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\OrganizationId;
+use Cemetery\Registrar\Domain\Organization\OrganizationIdFactory;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use PHPUnit\Framework\TestCase;
 
