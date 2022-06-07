@@ -1,7 +1,12 @@
+.gitattributes
+.gitignore
+
+# Tests
 /tests export-ignore
 /phpunit.xml.dist export-ignore
-/src/Cemetery/Registrar/Infrastructure/Persistence/Doctrine/Orm/DataFixtures export-ignore
 .env.test export-ignore
+
+# Docker
 /docker export-ignore
 docker-compose.yml export-ignore
 Makefile export-ignore
