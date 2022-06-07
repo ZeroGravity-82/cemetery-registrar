@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
 use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\MemorialTree\Doctrine\Orm\DoctrineOrmMemorialTreeRepository;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeProvider;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**

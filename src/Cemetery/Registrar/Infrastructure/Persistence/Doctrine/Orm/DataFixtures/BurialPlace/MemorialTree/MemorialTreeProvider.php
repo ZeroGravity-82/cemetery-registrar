@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\MemorialTree;
 
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;

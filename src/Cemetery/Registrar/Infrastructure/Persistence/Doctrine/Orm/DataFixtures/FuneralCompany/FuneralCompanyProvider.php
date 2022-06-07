@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\FuneralCompany;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\FuneralCompany;
 
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;

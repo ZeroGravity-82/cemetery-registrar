@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Deceased;
 
-use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
-use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
-use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Deceased\DeceasedProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**

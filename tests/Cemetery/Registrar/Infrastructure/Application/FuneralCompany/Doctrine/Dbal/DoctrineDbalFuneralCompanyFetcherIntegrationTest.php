@@ -7,22 +7,15 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Application\FuneralCompany\Doc
 use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyFetcher;
 use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyViewList;
 use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyViewListItem;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepository;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Infrastructure\Application\FuneralCompany\Doctrine\Dbal\DoctrineDbalFuneralCompanyFetcher;
-use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
 use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\Orm\DoctrineOrmFuneralCompanyRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\Orm\DoctrineOrmJuristicPersonRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\Doctrine\Orm\DoctrineOrmSoleProprietorRepository;
-use Cemetery\Tests\Registrar\Domain\FuneralCompany\FuneralCompanyProvider;
-use Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson\JuristicPersonProvider;
-use Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor\SoleProprietorProvider;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\FuneralCompany\FuneralCompanyFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
 
 /**
@@ -35,23 +28,15 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
     private const DEFAULT_PAGE_SIZE = 20;
 
     private FuneralCompanyRepository $funeralCompanyRepo;
-    private FuneralCompany           $entityA;
-    private FuneralCompany           $entityB;
-    private FuneralCompany           $entityC;
-    private FuneralCompany           $entityD;
     private FuneralCompanyFetcher    $funeralCompanyFetcher;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->funeralCompanyRepo = new DoctrineOrmFuneralCompanyRepository($this->entityManager);
-        $this->entityA            = FuneralCompanyProvider::getFuneralCompanyA();
-        $this->entityB            = FuneralCompanyProvider::getFuneralCompanyB();
-        $this->entityC            = FuneralCompanyProvider::getFuneralCompanyC();
-        $this->entityD            = FuneralCompanyProvider::getFuneralCompanyD();
-        $this->fillDatabase();
+        $this->funeralCompanyRepo    = new DoctrineOrmFuneralCompanyRepository($this->entityManager);
         $this->funeralCompanyFetcher = new DoctrineDbalFuneralCompanyFetcher($this->connection);
+        $this->loadFixtures();
     }
 
     public function testItHasValidPageSizeConstant(): void
@@ -78,12 +63,13 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
     public function testItFailsToReturnFuneralCompanyFormViewForRemovedBurial(): void
     {
         // Prepare database table for testing
-        $this->funeralCompanyRepo->remove($this->entityD);
-        $funeralCompanyIdD = $this->entityD->id()->value();
+        $funeralCompanyToRemove = $this->funeralCompanyRepo->findById(new FuneralCompanyId('FC004'));
+        $this->funeralCompanyRepo->remove($funeralCompanyToRemove);
+        $removedFuneralCompanyId = $funeralCompanyToRemove->id()->value();
 
         // Testing itself
-//         $this->expectExceptionForNotFoundFuneralCompanyById($funeralCompanyIdD);
-//        $this->funeralCompanyFetcher->getFormViewById($funeralCompanyIdD);
+//         $this->expectExceptionForNotFoundFuneralCompanyById($removedFuneralCompanyId);
+//        $this->funeralCompanyFetcher->getFormViewById($removedFuneralCompanyId);
     }
 
     public function testItReturnsFuneralCompanyViewListItemsByPage(): void
@@ -208,50 +194,20 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
     public function testItDoesNotCountRemovedFuneralCompanyWhenCalculatingTotalCount(): void
     {
         // Prepare database table for testing
-        $this->funeralCompanyRepo->remove($this->entityD);
+        $funeralCompanyToRemove = $this->funeralCompanyRepo->findById(new FuneralCompanyId('FC004'));
+        $this->funeralCompanyRepo->remove($funeralCompanyToRemove);
 
         // Testing itself
         $this->assertSame(3, $this->funeralCompanyFetcher->getTotalCount());
     }
 
-    private function fillDatabase(): void
+    protected function loadFixtures(): void
     {
-        $this->fillFuneralCompanyTable();
-        $this->fillSoleProprietorTable();
-        $this->fillJuristicPersonTable();
-    }
-
-    private function fillFuneralCompanyTable(): void
-    {
-        $this->funeralCompanyRepo
-            ->saveAll(new FuneralCompanyCollection([
-                $this->entityA,
-                $this->entityB,
-                $this->entityC,
-                $this->entityD,
-            ]));
-    }
-
-    private function fillJuristicPersonTable(): void
-    {
-        (new DoctrineOrmJuristicPersonRepository($this->entityManager))
-            ->saveAll(new JuristicPersonCollection([
-                JuristicPersonProvider::getJuristicPersonA(),
-                JuristicPersonProvider::getJuristicPersonB(),
-                JuristicPersonProvider::getJuristicPersonC(),
-                JuristicPersonProvider::getJuristicPersonD(),
-            ]));
-    }
-
-    private function fillSoleProprietorTable(): void
-    {
-        (new DoctrineOrmSoleProprietorRepository($this->entityManager))
-            ->saveAll(new SoleProprietorCollection([
-                SoleProprietorProvider::getSoleProprietorA(),
-                SoleProprietorProvider::getSoleProprietorB(),
-                SoleProprietorProvider::getSoleProprietorC(),
-                SoleProprietorProvider::getSoleProprietorD(),
-            ]));
+        $this->databaseTool->loadFixtures([
+            JuristicPersonFixtures::class,
+            SoleProprietorFixtures::class,
+            FuneralCompanyFixtures::class,
+        ]);
     }
 
     private function assertItemForFirstPageEqualsFC002(FuneralCompanyViewListItem $item): void

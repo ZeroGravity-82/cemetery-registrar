@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;

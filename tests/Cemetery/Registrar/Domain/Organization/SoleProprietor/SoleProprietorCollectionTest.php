@@ -6,6 +6,7 @@ namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollection;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**

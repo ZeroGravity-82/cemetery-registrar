@@ -6,6 +6,7 @@ namespace Cemetery\Tests\Registrar\Domain\FuneralCompany;
 
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\FuneralCompany\FuneralCompanyProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**

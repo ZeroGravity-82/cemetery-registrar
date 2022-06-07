@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Deceased;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Deceased;
 
 use Cemetery\Registrar\Domain\Deceased\Age;
 use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;

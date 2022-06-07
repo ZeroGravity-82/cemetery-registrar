@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Burial;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Burial;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCode;

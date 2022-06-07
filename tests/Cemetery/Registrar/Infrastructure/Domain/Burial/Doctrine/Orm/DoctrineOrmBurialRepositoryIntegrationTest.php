@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
-use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Burial\BurialProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**

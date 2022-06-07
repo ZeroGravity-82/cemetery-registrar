@@ -6,6 +6,7 @@ namespace Cemetery\Tests\Registrar\Domain\Burial;
 
 use Cemetery\Registrar\Domain\Burial\Burial;
 use Cemetery\Registrar\Domain\Burial\BurialCollection;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Burial\BurialProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**

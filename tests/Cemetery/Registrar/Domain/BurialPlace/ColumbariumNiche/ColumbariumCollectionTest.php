@@ -6,6 +6,7 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumCollection;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
 
 /**

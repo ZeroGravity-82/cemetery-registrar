@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
-use Cemetery\Registrar\Domain\Organization\Name;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
+use Cemetery\Registrar\Domain\Organization\Name;
 
 final class JuristicPersonProvider
 {

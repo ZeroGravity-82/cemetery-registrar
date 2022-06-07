@@ -8,52 +8,31 @@ use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\BurialFormView;
 use Cemetery\Registrar\Application\Burial\BurialViewList;
 use Cemetery\Registrar\Application\Burial\BurialViewListItem;
-use Cemetery\Registrar\Domain\Burial\Burial;
-use Cemetery\Registrar\Domain\Burial\BurialCollection;
+use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\BurialType;
 use Cemetery\Registrar\Domain\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\BurialContainer\Urn;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumCollection;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
-use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Infrastructure\Application\Burial\Doctrine\Dbal\DoctrineDbalBurialFetcher;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\Orm\DoctrineOrmColumbariumNicheRepository;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\Orm\DoctrineOrmColumbariumRepository;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\DoctrineOrmCemeteryBlockRepository;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\DoctrineOrmGraveSiteRepository;
-use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\MemorialTree\Doctrine\Orm\DoctrineOrmMemorialTreeRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Deceased\Doctrine\Orm\DoctrineOrmDeceasedRepository;
-use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\Orm\DoctrineOrmFuneralCompanyRepository;
-use Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\Orm\DoctrineOrmNaturalPersonRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\Orm\DoctrineOrmJuristicPersonRepository;
-use Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\Doctrine\Orm\DoctrineOrmSoleProprietorRepository;
-use Cemetery\Tests\Registrar\Domain\Burial\BurialProvider;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumProvider;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockProvider;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite\GraveSiteProvider;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeProvider;
-use Cemetery\Tests\Registrar\Domain\Deceased\DeceasedProvider;
-use Cemetery\Tests\Registrar\Domain\FuneralCompany\FuneralCompanyProvider;
-use Cemetery\Tests\Registrar\Domain\NaturalPerson\NaturalPersonProvider;
-use Cemetery\Tests\Registrar\Domain\Organization\JuristicPerson\JuristicPersonProvider;
-use Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor\SoleProprietorProvider;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Burial\BurialFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite\GraveSiteFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\MemorialTree\MemorialTreeFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Deceased\DeceasedFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\FuneralCompany\FuneralCompanyFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\NaturalPerson\NaturalPersonFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
 
 /**
@@ -66,29 +45,15 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
     private const DEFAULT_PAGE_SIZE = 20;
 
     private BurialRepository $burialRepo;
-    private Burial           $entityA;
-    private Burial           $entityB;
-    private Burial           $entityC;
-    private Burial           $entityD;
-    private Burial           $entityE;
-    private Burial           $entityF;
-    private Burial           $entityG;
     private BurialFetcher    $burialFetcher;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->burialRepo = new DoctrineOrmBurialRepository($this->entityManager);
-        $this->entityA    = BurialProvider::getBurialA();
-        $this->entityB    = BurialProvider::getBurialB();
-        $this->entityC    = BurialProvider::getBurialC();
-        $this->entityD    = BurialProvider::getBurialD();
-        $this->entityE    = BurialProvider::getBurialE();
-        $this->entityF    = BurialProvider::getBurialF();
-        $this->entityG    = BurialProvider::getBurialG();
-        $this->fillDatabase();
+        $this->burialRepo    = new DoctrineOrmBurialRepository($this->entityManager);
         $this->burialFetcher = new DoctrineDbalBurialFetcher($this->connection);
+        $this->loadFixtures();
     }
 
     public function testItHasValidPageSizeConstant(): void
@@ -116,12 +81,13 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
     public function testItFailsToReturnBurialFormViewForRemovedBurial(): void
     {
         // Prepare database table for testing
-        $this->burialRepo->remove($this->entityD);
-        $burialIdD = $this->entityD->id()->value();
+        $burialToRemove = $this->burialRepo->findById(new BurialId('B004'));
+        $this->burialRepo->remove($burialToRemove);
+        $removedBurialId = $burialToRemove->id()->value();
 
         // Testing itself
-        $this->expectExceptionForNotFoundBurialById($burialIdD);
-        $this->burialFetcher->getFormViewById($burialIdD);
+        $this->expectExceptionForNotFoundBurialById($removedBurialId);
+        $this->burialFetcher->getFormViewById($removedBurialId);
     }
 
     public function testItReturnsBurialViewListItemsByPage(): void
@@ -238,158 +204,28 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
     public function testItDoesNotCountRemovedBurialsWhenCalculatingTotalCount(): void
     {
         // Prepare database table for testing
-        $this->burialRepo->remove($this->entityD);
+        $burialToRemove = $this->burialRepo->findById(new BurialId('B004'));
+        $this->burialRepo->remove($burialToRemove);
 
         // Testing itself
         $this->assertSame(6, $this->burialFetcher->getTotalCount());
     }
 
-    private function fillDatabase(): void
+    protected function loadFixtures(): void
     {
-        $this->fillBurialTable();
-        $this->fillDeceasedTable();
-        $this->fillNaturalPersonTable();
-        $this->fillSoleProprietorTable();
-        $this->fillJuristicPersonTable();
-        $this->fillColumbariumTable();
-        $this->fillColumbariumNicheTable();
-        $this->fillCemeteryBlockTable();
-        $this->fillGraveSiteTable();
-        $this->fillMemorialTreeTable();
-        $this->fillFuneralCompanyTable();
-    }
-
-    private function fillBurialTable(): void
-    {
-        $this->burialRepo
-            ->saveAll(new BurialCollection([
-                $this->entityA,
-                $this->entityB,
-                $this->entityC,
-                $this->entityD,
-                $this->entityE,
-                $this->entityF,
-                $this->entityG,
-            ]));
-    }
-
-    private function fillDeceasedTable(): void
-    {
-        (new DoctrineOrmDeceasedRepository($this->entityManager))
-            ->saveAll(new DeceasedCollection([
-                DeceasedProvider::getDeceasedA(),
-                DeceasedProvider::getDeceasedB(),
-                DeceasedProvider::getDeceasedC(),
-                DeceasedProvider::getDeceasedD(),
-                DeceasedProvider::getDeceasedE(),
-                DeceasedProvider::getDeceasedF(),
-                DeceasedProvider::getDeceasedG(),
-            ]));
-    }
-
-    private function fillNaturalPersonTable(): void
-    {
-        (new DoctrineOrmNaturalPersonRepository($this->entityManager))
-            ->saveAll(new NaturalPersonCollection([
-                NaturalPersonProvider::getNaturalPersonA(),
-                NaturalPersonProvider::getNaturalPersonB(),
-                NaturalPersonProvider::getNaturalPersonC(),
-                NaturalPersonProvider::getNaturalPersonD(),
-                NaturalPersonProvider::getNaturalPersonE(),
-                NaturalPersonProvider::getNaturalPersonF(),
-                NaturalPersonProvider::getNaturalPersonG(),
-                NaturalPersonProvider::getNaturalPersonH(),
-                NaturalPersonProvider::getNaturalPersonI(),
-            ]));
-    }
-
-    private function fillSoleProprietorTable(): void
-    {
-        (new DoctrineOrmSoleProprietorRepository($this->entityManager))
-            ->saveAll(new SoleProprietorCollection([
-                SoleProprietorProvider::getSoleProprietorA(),
-                SoleProprietorProvider::getSoleProprietorB(),
-                SoleProprietorProvider::getSoleProprietorC(),
-                SoleProprietorProvider::getSoleProprietorD(),
-            ]));
-    }
-
-    private function fillJuristicPersonTable(): void
-    {
-        (new DoctrineOrmJuristicPersonRepository($this->entityManager))
-            ->saveAll(new JuristicPersonCollection([
-                JuristicPersonProvider::getJuristicPersonA(),
-                JuristicPersonProvider::getJuristicPersonB(),
-                JuristicPersonProvider::getJuristicPersonC(),
-                JuristicPersonProvider::getJuristicPersonD(),
-            ]));
-    }
-
-    private function fillColumbariumTable(): void
-    {
-        (new DoctrineOrmColumbariumRepository($this->entityManager))
-            ->saveAll(new ColumbariumCollection([
-                ColumbariumProvider::getColumbariumA(),
-                ColumbariumProvider::getColumbariumB(),
-                ColumbariumProvider::getColumbariumC(),
-                ColumbariumProvider::getColumbariumD(),
-            ]));
-    }
-
-    private function fillColumbariumNicheTable(): void
-    {
-        (new DoctrineOrmColumbariumNicheRepository($this->entityManager))
-            ->saveAll(new ColumbariumNicheCollection([
-                ColumbariumNicheProvider::getColumbariumNicheA(),
-                ColumbariumNicheProvider::getColumbariumNicheB(),
-                ColumbariumNicheProvider::getColumbariumNicheC(),
-                ColumbariumNicheProvider::getColumbariumNicheD(),
-            ]));
-    }
-
-    private function fillCemeteryBlockTable(): void
-    {
-        (new DoctrineOrmCemeteryBlockRepository($this->entityManager))
-            ->saveAll(new CemeteryBlockCollection([
-                CemeteryBlockProvider::getCemeteryBlockA(),
-                CemeteryBlockProvider::getCemeteryBlockB(),
-                CemeteryBlockProvider::getCemeteryBlockC(),
-                CemeteryBlockProvider::getCemeteryBlockD(),
-            ]));
-    }
-
-    private function fillGraveSiteTable(): void
-    {
-        (new DoctrineOrmGraveSiteRepository($this->entityManager))
-            ->saveAll(new GraveSiteCollection([
-                GraveSiteProvider::getGraveSiteA(),
-                GraveSiteProvider::getGraveSiteB(),
-                GraveSiteProvider::getGraveSiteC(),
-                GraveSiteProvider::getGraveSiteD(),
-                GraveSiteProvider::getGraveSiteE(),
-            ]));
-    }
-
-    private function fillMemorialTreeTable(): void
-    {
-        (new DoctrineOrmMemorialTreeRepository($this->entityManager))
-            ->saveAll(new MemorialTreeCollection([
-                MemorialTreeProvider::getMemorialTreeA(),
-                MemorialTreeProvider::getMemorialTreeB(),
-                MemorialTreeProvider::getMemorialTreeC(),
-                MemorialTreeProvider::getMemorialTreeD(),
-            ]));
-    }
-
-    private function fillFuneralCompanyTable(): void
-    {
-        (new DoctrineOrmFuneralCompanyRepository($this->entityManager))
-            ->saveAll(new FuneralCompanyCollection([
-                FuneralCompanyProvider::getFuneralCompanyA(),
-                FuneralCompanyProvider::getFuneralCompanyB(),
-                FuneralCompanyProvider::getFuneralCompanyC(),
-                FuneralCompanyProvider::getFuneralCompanyD(),
-            ]));
+        $this->databaseTool->loadFixtures([
+            NaturalPersonFixtures::class,
+            JuristicPersonFixtures::class,
+            SoleProprietorFixtures::class,
+            DeceasedFixtures::class,
+            CemeteryBlockFixtures::class,
+            GraveSiteFixtures::class,
+            ColumbariumFixtures::class,
+            ColumbariumNicheFixtures::class,
+            MemorialTreeFixtures::class,
+            FuneralCompanyFixtures::class,
+            BurialFixtures::class,
+        ]);
     }
 
     private function assertItemForFirstPageEqualsB007(BurialViewListItem $item): void

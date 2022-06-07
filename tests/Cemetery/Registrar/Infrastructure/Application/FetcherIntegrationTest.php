@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Application;
 
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
+use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -14,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 abstract class FetcherIntegrationTest extends KernelTestCase
 {
+    protected AbstractDatabaseTool   $databaseTool;
     protected Connection             $connection;
     protected EntityManagerInterface $entityManager;
 
@@ -22,6 +24,10 @@ abstract class FetcherIntegrationTest extends KernelTestCase
         self::bootKernel();
         $container = self::getContainer();
 
+        /** @var DatabaseToolCollection $databaseToolCollection */
+        $databaseToolCollection = $container->get(DatabaseToolCollection::class);
+        $this->databaseTool     = $databaseToolCollection->get();
+
         /** @var Connection $connection */
         $connection       = $container->get(Connection::class);
         $this->connection = $connection;
@@ -29,11 +35,7 @@ abstract class FetcherIntegrationTest extends KernelTestCase
         /** @var EntityManagerInterface $entityManager */
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
-        $this->truncateEntities();
     }
 
-    protected function truncateEntities(): void
-    {
-        (new OrmPurger($this->entityManager))->purge();
-    }
+    abstract protected function loadFixtures();
 }

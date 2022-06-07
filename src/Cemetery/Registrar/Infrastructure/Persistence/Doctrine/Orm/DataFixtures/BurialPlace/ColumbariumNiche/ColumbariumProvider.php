@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Organization\SoleProprietor;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Contact\Address;
 use Cemetery\Registrar\Domain\Contact\Email;

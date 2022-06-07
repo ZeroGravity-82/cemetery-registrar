@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\RowInColumbarium;
 use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\ColumbariumNiche\Doctrine\Orm\DoctrineOrmColumbariumNicheRepository;
-use Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
 
 /**
