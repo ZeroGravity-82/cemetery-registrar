@@ -23,23 +23,6 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
     protected string                 $entityIdClassName;
     protected string                 $entityCollectionClassName;
 
-    /**
-     * Checks that the entities have the same values for all of their properties.
-     *
-     * @param Entity $entityOne
-     * @param Entity $entityTwo
-     *
-     * @return bool
-     */
-    abstract protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool;
-
-    /**
-     * Updates some properties of the entity A.
-     *
-     * @param Entity $entityA
-     */
-    abstract protected function updateEntityA(Entity $entityA): void;
-
     public function setUp(): void
     {
         self::bootKernel();
@@ -192,6 +175,23 @@ abstract class RepositoryIntegrationTest extends KernelTestCase
 
         $this->assertSame(3, $this->getRowCount($this->entityClassName));
     }
+
+    /**
+     * Checks that the entities have the same values for all of their properties.
+     *
+     * @param Entity $entityOne
+     * @param Entity $entityTwo
+     *
+     * @return bool
+     */
+    abstract protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool;
+
+    /**
+     * Updates some properties of the entity A.
+     *
+     * @param Entity $entityA
+     */
+    abstract protected function updateEntityA(Entity $entityA): void;
 
     protected function truncateEntities(): void
     {
