@@ -1,2 +1,6 @@
 /tests export-ignore
 /phpunit.xml.dist export-ignore
+.env.test
+/docker
+docker-compose.yml
+Makefile
