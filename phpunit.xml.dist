@@ -35,5 +35,6 @@
 
     <extensions>
         <extension class="Hook\BypassFinalHook" />
+        <extension class="DAMA\DoctrineTestBundle\PHPUnit\PHPUnitExtension" />
     </extensions>
 </phpunit>
