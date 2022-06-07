@@ -9,8 +9,10 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class MemorialTree extends AggregateRoot
+class MemorialTree extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'MEMORIAL_TREE';
     public const CLASS_LABEL    = 'памятное дерево';

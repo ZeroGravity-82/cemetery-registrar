@@ -15,8 +15,10 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class SoleProprietor extends AggregateRoot
+class SoleProprietor extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'SOLE_PROPRIETOR';
     public const CLASS_LABEL    = 'ИП';

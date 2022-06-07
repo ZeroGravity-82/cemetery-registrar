@@ -9,8 +9,10 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class GraveSite extends AggregateRoot
+class GraveSite extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'GRAVE_SITE';
     public const CLASS_LABEL    = 'участок на кладбище';

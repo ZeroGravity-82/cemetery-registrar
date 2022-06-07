@@ -9,8 +9,10 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class ColumbariumNiche extends AggregateRoot
+class ColumbariumNiche extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'COLUMBARIUM_NICHE';
     public const CLASS_LABEL    = 'колумбарная ниша';

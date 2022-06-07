@@ -16,8 +16,10 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class JuristicPerson extends AggregateRoot
+class JuristicPerson extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'JURISTIC_PERSON';
     public const CLASS_LABEL    = 'юрлицо';

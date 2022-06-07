@@ -11,8 +11,10 @@ use Cemetery\Registrar\Domain\Contact\PhoneNumber;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class NaturalPerson extends AggregateRoot
+class NaturalPerson extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'NATURAL_PERSON';
     public const CLASS_LABEL    = 'физлицо';

@@ -9,8 +9,10 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
+ *
+ * @final
  */
-final class Columbarium extends AggregateRoot
+class Columbarium extends AggregateRoot
 {
     /**
      * @var GeoPosition|null
