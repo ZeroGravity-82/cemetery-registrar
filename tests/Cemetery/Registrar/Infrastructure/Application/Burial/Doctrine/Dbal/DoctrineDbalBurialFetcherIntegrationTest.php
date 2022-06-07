@@ -22,18 +22,18 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Infrastructure\Application\Burial\Doctrine\Dbal\DoctrineDbalBurialFetcher;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Burial\BurialFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite\GraveSiteFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\MemorialTree\MemorialTreeFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Deceased\DeceasedFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\FuneralCompany\FuneralCompanyFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\NaturalPerson\NaturalPersonFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
+use DataFixtures\Burial\BurialFixtures;
+use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
+use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
+use DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
+use DataFixtures\BurialPlace\GraveSite\GraveSiteFixtures;
+use DataFixtures\BurialPlace\MemorialTree\MemorialTreeFixtures;
+use DataFixtures\Deceased\DeceasedFixtures;
+use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
+use DataFixtures\NaturalPerson\NaturalPersonFixtures;
+use DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
+use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 
 /**
  * @group database

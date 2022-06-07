@@ -6,8 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\Deceased;
 
 use Cemetery\Registrar\Domain\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Deceased\DeceasedProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
+use DataFixtures\Deceased\DeceasedProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

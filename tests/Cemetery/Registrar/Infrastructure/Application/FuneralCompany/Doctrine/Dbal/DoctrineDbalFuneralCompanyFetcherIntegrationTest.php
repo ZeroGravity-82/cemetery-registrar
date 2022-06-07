@@ -13,10 +13,10 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Infrastructure\Application\FuneralCompany\Doctrine\Dbal\DoctrineDbalFuneralCompanyFetcher;
 use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\Orm\DoctrineOrmFuneralCompanyRepository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\FuneralCompany\FuneralCompanyFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
+use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
+use DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
+use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 
 /**
  * @group database

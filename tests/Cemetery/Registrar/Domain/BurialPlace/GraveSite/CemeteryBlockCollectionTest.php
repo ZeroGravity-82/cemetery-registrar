@@ -6,8 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
+use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

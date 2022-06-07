@@ -9,8 +9,8 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Domain\NaturalPerson\Doctrine\Orm\DoctrineOrmNaturalPersonRepository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\NaturalPerson\NaturalPersonProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
+use DataFixtures\NaturalPerson\NaturalPersonProvider;
 
 /**
  * @group database

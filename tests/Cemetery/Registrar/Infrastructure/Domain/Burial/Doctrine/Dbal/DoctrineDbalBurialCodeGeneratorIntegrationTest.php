@@ -6,7 +6,7 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Domain\Burial\Doctrine\Dbal;
 
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Dbal\DoctrineDbalBurialCodeGenerator;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\Burial\BurialProvider;
+use DataFixtures\Burial\BurialProvider;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;

@@ -6,8 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
+use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

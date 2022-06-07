@@ -6,8 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\NaturalPerson;
 
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\NaturalPerson\NaturalPersonProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
+use DataFixtures\NaturalPerson\NaturalPersonProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

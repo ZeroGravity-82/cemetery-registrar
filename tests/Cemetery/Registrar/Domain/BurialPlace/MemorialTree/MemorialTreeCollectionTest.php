@@ -6,8 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\BurialPlace\MemorialTree;
 
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
 use Cemetery\Tests\Registrar\Domain\EntityCollectionTest;
+use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

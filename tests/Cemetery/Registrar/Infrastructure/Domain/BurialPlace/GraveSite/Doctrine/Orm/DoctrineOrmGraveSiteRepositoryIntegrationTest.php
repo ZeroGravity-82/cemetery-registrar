@@ -10,8 +10,8 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Entity;
 use Cemetery\Registrar\Infrastructure\Domain\BurialPlace\GraveSite\Doctrine\Orm\DoctrineOrmGraveSiteRepository;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 use Cemetery\Tests\Registrar\Infrastructure\Domain\RepositoryIntegrationTest;
+use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 
 /**
  * @group database
