@@ -58,13 +58,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Cemetery\\": "src/Cemetery/"
+            "Cemetery\\": "src/Cemetery/",
+            "DataFixtures\\": "src/DataFixtures/"
         }
     },
     "autoload-dev": {
         "psr-4": {
             "Cemetery\\Tests\\": "tests/Cemetery/",
-            "DataFixtures\\": "tests/DataFixtures/",
             "Hook\\": "tests/Hook/"
         }
     },
