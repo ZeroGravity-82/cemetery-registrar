@@ -4,7 +4,7 @@
 
 # Tests
 /tests export-ignore
-/phpunit.xml.dist export-ignore
+phpunit.xml.dist export-ignore
 .env.test export-ignore
 
 # Docker
