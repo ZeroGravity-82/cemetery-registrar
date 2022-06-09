@@ -60,7 +60,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 //        $this->funeralCompanyFetcher->getFormViewById('unknown_id');
     }
 
-    public function testItFailsToReturnFuneralCompanyFormViewForRemovedBurial(): void
+    public function testItFailsToReturnFuneralCompanyFormViewForRemovedFuneralCompany(): void
     {
         // Prepare database table for testing
         $funeralCompanyToRemove = $this->funeralCompanyRepo->findById(new FuneralCompanyId('FC004'));
@@ -92,39 +92,39 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertItemForFirstPageEqualsFC001($funeralCompanyViewListForFirstPage->funeralCompanyViewListItems[2]);
 
         // Second page
-        $burialViewListForSecondPage = $this->funeralCompanyFetcher->findAll(2, null, $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyViewList::class, $burialViewListForSecondPage);
-        $this->assertCount(1,              $burialViewListForSecondPage->funeralCompanyViewListItems);
-        $this->assertSame(2,               $burialViewListForSecondPage->page);
-        $this->assertSame($customPageSize, $burialViewListForSecondPage->pageSize);
-        $this->assertSame(null,            $burialViewListForSecondPage->term);
-        $this->assertSame(4,               $burialViewListForSecondPage->totalCount);
-        $this->assertSame(2,               $burialViewListForSecondPage->totalPages);
-        $this->assertIsArray($burialViewListForSecondPage->funeralCompanyViewListItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $burialViewListForSecondPage->funeralCompanyViewListItems);
-        $this->assertItemForSecondPageEqualsFC004($burialViewListForSecondPage->funeralCompanyViewListItems[0]);
+        $funeralCompanyViewListForSecondPage = $this->funeralCompanyFetcher->findAll(2, null, $customPageSize);
+        $this->assertInstanceOf(FuneralCompanyViewList::class, $funeralCompanyViewListForSecondPage);
+        $this->assertCount(1,              $funeralCompanyViewListForSecondPage->funeralCompanyViewListItems);
+        $this->assertSame(2,               $funeralCompanyViewListForSecondPage->page);
+        $this->assertSame($customPageSize, $funeralCompanyViewListForSecondPage->pageSize);
+        $this->assertSame(null,            $funeralCompanyViewListForSecondPage->term);
+        $this->assertSame(4,               $funeralCompanyViewListForSecondPage->totalCount);
+        $this->assertSame(2,               $funeralCompanyViewListForSecondPage->totalPages);
+        $this->assertIsArray($funeralCompanyViewListForSecondPage->funeralCompanyViewListItems);
+        $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $funeralCompanyViewListForSecondPage->funeralCompanyViewListItems);
+        $this->assertItemForSecondPageEqualsFC004($funeralCompanyViewListForSecondPage->funeralCompanyViewListItems[0]);
 
         // Third page
-        $burialViewListForThirdPage = $this->funeralCompanyFetcher->findAll(3, null, $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyViewList::class, $burialViewListForThirdPage);
-        $this->assertCount(0,              $burialViewListForThirdPage->funeralCompanyViewListItems);
-        $this->assertSame(3,               $burialViewListForThirdPage->page);
-        $this->assertSame($customPageSize, $burialViewListForThirdPage->pageSize);
-        $this->assertSame(null,            $burialViewListForThirdPage->term);
-        $this->assertSame(4,               $burialViewListForThirdPage->totalCount);
-        $this->assertSame(2,               $burialViewListForThirdPage->totalPages);
+        $funeralCompanyViewListForThirdPage = $this->funeralCompanyFetcher->findAll(3, null, $customPageSize);
+        $this->assertInstanceOf(FuneralCompanyViewList::class, $funeralCompanyViewListForThirdPage);
+        $this->assertCount(0,              $funeralCompanyViewListForThirdPage->funeralCompanyViewListItems);
+        $this->assertSame(3,               $funeralCompanyViewListForThirdPage->page);
+        $this->assertSame($customPageSize, $funeralCompanyViewListForThirdPage->pageSize);
+        $this->assertSame(null,            $funeralCompanyViewListForThirdPage->term);
+        $this->assertSame(4,               $funeralCompanyViewListForThirdPage->totalCount);
+        $this->assertSame(2,               $funeralCompanyViewListForThirdPage->totalPages);
 
         // All at once
-        $burialViewListForDefaultPageSize = $this->funeralCompanyFetcher->findAll(1);
-        $this->assertInstanceOf(FuneralCompanyViewList::class, $burialViewListForDefaultPageSize);
-        $this->assertCount(4,                      $burialViewListForDefaultPageSize->funeralCompanyViewListItems);
-        $this->assertSame(1,                       $burialViewListForDefaultPageSize->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $burialViewListForDefaultPageSize->pageSize);
-        $this->assertSame(null,                    $burialViewListForDefaultPageSize->term);
-        $this->assertSame(4,                       $burialViewListForDefaultPageSize->totalCount);
-        $this->assertSame(1,                       $burialViewListForDefaultPageSize->totalPages);
-        $this->assertIsArray($burialViewListForDefaultPageSize->funeralCompanyViewListItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $burialViewListForDefaultPageSize->funeralCompanyViewListItems);
+        $funeralCompanyViewListForDefaultPageSize = $this->funeralCompanyFetcher->findAll(1);
+        $this->assertInstanceOf(FuneralCompanyViewList::class, $funeralCompanyViewListForDefaultPageSize);
+        $this->assertCount(4,                      $funeralCompanyViewListForDefaultPageSize->funeralCompanyViewListItems);
+        $this->assertSame(1,                       $funeralCompanyViewListForDefaultPageSize->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $funeralCompanyViewListForDefaultPageSize->pageSize);
+        $this->assertSame(null,                    $funeralCompanyViewListForDefaultPageSize->term);
+        $this->assertSame(4,                       $funeralCompanyViewListForDefaultPageSize->totalCount);
+        $this->assertSame(1,                       $funeralCompanyViewListForDefaultPageSize->totalPages);
+        $this->assertIsArray($funeralCompanyViewListForDefaultPageSize->funeralCompanyViewListItems);
+        $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $funeralCompanyViewListForDefaultPageSize->funeralCompanyViewListItems);
     }
 
     public function testItReturnsFuneralCompanyViewListItemsByPageAndTerm(): void
