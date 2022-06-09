@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\JuristicPerson;
+namespace Cemetery\Registrar\Application\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\EventDispatcher;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCreated;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\SoleProprietor;
+namespace Cemetery\Registrar\Application\Organization\SoleProprietor;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

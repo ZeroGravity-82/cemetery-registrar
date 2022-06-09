@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\SoleProprietor;
+namespace Cemetery\Registrar\Application\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
