@@ -225,6 +225,25 @@ class BankDetailsTest extends TestCase
         );
     }
 
+    public function testItStringifyableWithoutCorrespondentAccount(): void
+    {
+        $bankDetails = new BankDetails(
+            $this->bankNameA,
+            $this->bikA,
+            null,
+            $this->currentAccountA1,
+        );
+        $this->assertSame(
+            \sprintf(
+                '%s, р/счёт %s, БИК %s',
+                $this->bankNameA,
+                $this->currentAccountA1,
+                $this->bikA,
+            ),
+            (string) $bankDetails
+        );
+    }
+
     public function testItComparable(): void
     {
         $bankDetailsA = new BankDetails(

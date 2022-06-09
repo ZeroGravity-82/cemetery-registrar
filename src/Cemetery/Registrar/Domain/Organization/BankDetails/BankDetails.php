@@ -60,13 +60,12 @@ class BankDetails
      */
     public function __toString(): string
     {
-        return \sprintf(
-            '%s, р/счёт %s, к/счёт %s, БИК %s',
-            $this->bankName(),
-            $this->currentAccount(),
-            $this->correspondentAccount(),
-            $this->bik(),
-        );
+        $bankDetailsString = $this->bankName();
+        $bankDetailsString .= ', р/счёт ' . $this->currentAccount();
+        if ($this->correspondentAccount()) {
+            $bankDetailsString .= ', к/счёт ' . $this->correspondentAccount();
+        }
+        return $bankDetailsString . ', БИК ' . $this->bik();
     }
 
     /**
