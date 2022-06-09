@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Http\Twig;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Twig\Extension;
 
 use Twig\Environment;
 use Twig\Extension\AbstractExtension;
@@ -11,7 +11,7 @@ use Twig\TwigFilter;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AppExtension extends AbstractExtension
+class TextUtilitiesExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}

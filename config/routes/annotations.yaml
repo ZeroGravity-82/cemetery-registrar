@@ -1,5 +1,5 @@
 controllers:
-    resource: ../../src/Cemetery/Registrar/Infrastructure/Delivery/Http/
+    resource: ../../src/Cemetery/Registrar/Infrastructure/Delivery/Web/Controller/
     type: annotation
 
 kernel:

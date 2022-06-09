@@ -1,5 +1,5 @@
 twig:
-    default_path: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Delivery/Http/templates'
+    default_path: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Delivery/Web/Twig/templates'
 
 when@test:
     twig:

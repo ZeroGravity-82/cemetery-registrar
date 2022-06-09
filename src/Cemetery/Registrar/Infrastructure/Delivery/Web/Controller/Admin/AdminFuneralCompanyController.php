@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Http;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyController extends AbstractController
+class AdminFuneralCompanyController extends AbstractController
 {
     /**
      * @param FuneralCompanyFetcher $funeralCompanyFetcher
@@ -21,13 +21,13 @@ class FuneralCompanyController extends AbstractController
         private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
     ) {}
 
-    #[Route('/funeral-company', name: 'funeral_company_index', methods: 'GET')]
+    #[Route('/admin/funeral-company', name: 'admin_funeral_company_index', methods: 'GET')]
     public function index(): Response
     {
         $funeralCompanyViewList   = $this->funeralCompanyFetcher->findAll(1);
         $funeralCompanyTotalCount = $this->funeralCompanyFetcher->getTotalCount();
 
-        return $this->render('funeral_company/index.html.twig', [
+        return $this->render('admin/funeral_company/index.html.twig', [
             'funeralCompanyViewList'   => $funeralCompanyViewList,
             'funeralCompanyTotalCount' => $funeralCompanyTotalCount,
         ]);

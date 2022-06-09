@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Http;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\CreateBurial\CreateBurialRequest;

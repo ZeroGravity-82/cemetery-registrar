@@ -15,7 +15,9 @@
   </head>
   <body>
     <main class="container-fluid">
-      {% include '_header.html.twig' %}
+      {% block header %}
+        {% include '_navbar.html.twig' %}
+      {% endblock %}
       {% block body %}{% endblock %}
     </main>
 
