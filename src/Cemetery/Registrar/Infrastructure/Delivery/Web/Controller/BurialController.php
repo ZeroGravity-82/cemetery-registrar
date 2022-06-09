@@ -48,10 +48,12 @@ class BurialController extends AbstractController
     #[Route('/burial/new', name: 'burial_new', methods: 'POST')]
     public function new(Request $request): Response
     {
-        $createBurialRequest = new CreateBurialRequest(...$this->getRequestArgs($request));
-        $this->createBurialService->execute($createBurialRequest);
+        $createBurialRequest  = new CreateBurialRequest(...$this->getRequestArgs($request));
+        $burialId             = $this->createBurialService->execute($createBurialRequest)->burialId;
 
-        return $this->redirectToRoute('burial_index');
+        return $this->redirectToRoute('burial_index', [
+            'burialId' => $burialId,
+        ]);
     }
     
     #[Route('/burial/edit-get/{id}', name: 'burial_edit_get', methods: 'GET')]
