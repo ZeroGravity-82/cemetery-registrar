@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" href="{{ path('home_index') }}">Регистратор</a>
+    <a class="navbar-brand fw-bold" href="{{ path('home') }}">Регистратор</a>
     <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -15,8 +15,8 @@
             <a class="nav-link disabled" aria-current="page" href="#">Заказ</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if currentRoute == 'burial_index' %}active{% endif %}"
-               href="{{ path('burial_index') }}">Захоронения</a>
+            <a class="nav-link {% if currentRoute == 'burial_list' %}active{% endif %}"
+               href="{{ path('burial_list') }}">Захоронения</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Справка</a>
@@ -40,8 +40,8 @@
             <a class="nav-link disabled" href="#">Организации</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {% if currentRoute == 'admin_funeral_company_index' %}active{% endif %}"
-               href="{{ path('admin_funeral_company_index') }}">Похоронные фирмы</a>
+            <a class="nav-link {% if currentRoute == 'admin_funeral_company_list' %}active{% endif %}"
+               href="{{ path('admin_funeral_company_list') }}">Похоронные фирмы</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Причины смерти</a>
@@ -61,7 +61,7 @@
           <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="dropdownUser">
             <li><a class="dropdown-item disabled" href="#">Настройки</a></li>
             <li><a class="dropdown-item disabled" href="#">Профиль</a></li>
-            <li><a class="dropdown-item" href="{{ path('admin_dashboard_index') }}">Админка</a></li>
+            <li><a class="dropdown-item" href="{{ path('admin_dashboard') }}">Админка</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Выйти</a></li>
           </ul>

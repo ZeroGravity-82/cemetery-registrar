@@ -21,13 +21,13 @@ class AdminFuneralCompanyController extends AbstractController
         private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
     ) {}
 
-    #[Route('/admin/funeral-company', name: 'admin_funeral_company_index', methods: 'GET')]
+    #[Route('/admin/funeral-company', name: 'admin_funeral_company_list', methods: 'GET')]
     public function index(): Response
     {
         $funeralCompanyViewList   = $this->funeralCompanyFetcher->findAll(1);
         $funeralCompanyTotalCount = $this->funeralCompanyFetcher->getTotalCount();
 
-        return $this->render('admin/funeral_company/index.html.twig', [
+        return $this->render('admin/funeral_company/list.html.twig', [
             'funeralCompanyViewList'   => $funeralCompanyViewList,
             'funeralCompanyTotalCount' => $funeralCompanyTotalCount,
         ]);

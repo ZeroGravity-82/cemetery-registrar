@@ -31,14 +31,14 @@ class BurialController extends AbstractController
         private readonly CreateBurialService   $createBurialService,
     ) {}
 
-    #[Route('/burial', name: 'burial_index', methods: 'GET')]
+    #[Route('/burial', name: 'burial_list', methods: 'GET')]
     public function index(): Response
     {
         $burialViewList         = $this->burialFetcher->findAll(1);
         $burialTotalCount       = $this->burialFetcher->getTotalCount();
         $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX);
 
-        return $this->render('burial/index.html.twig', [
+        return $this->render('burial/list.html.twig', [
             'burialViewList'         => $burialViewList,
             'burialTotalCount'       => $burialTotalCount,
             'funeralCompanyViewList' => $funeralCompanyViewList,
@@ -51,7 +51,7 @@ class BurialController extends AbstractController
         $createBurialRequest  = new CreateBurialRequest(...$this->getRequestArgs($request));
         $burialId             = $this->createBurialService->execute($createBurialRequest)->burialId;
 
-        return $this->redirectToRoute('burial_index', [
+        return $this->redirectToRoute('burial_list', [
             'burialId' => $burialId,
         ]);
     }
