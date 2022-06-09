@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\FuneralCompany;
+namespace Cemetery\Registrar\Application\Burial\ListBurials;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyViewList
+class BurialViewList
 {
     /**
      * @param array       $listItems

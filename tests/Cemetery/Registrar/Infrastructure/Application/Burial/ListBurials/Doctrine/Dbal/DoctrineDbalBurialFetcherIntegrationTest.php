@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Application\Burial\Doctrine\Dbal;
+namespace Cemetery\Registrar\Infrastructure\Application\Burial\ListBurials\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\BurialFormView;
-use Cemetery\Registrar\Application\Burial\BurialViewList;
-use Cemetery\Registrar\Application\Burial\BurialViewListItem;
+use Cemetery\Registrar\Application\Burial\ListBurials\BurialFetcher;
+use Cemetery\Registrar\Application\Burial\ListBurials\BurialViewList;
+use Cemetery\Registrar\Application\Burial\ListBurials\BurialViewListItem;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\BurialType;

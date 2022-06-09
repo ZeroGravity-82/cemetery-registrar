@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Application\Burial\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\Burial\BurialFetcher;
 use Cemetery\Registrar\Application\Burial\BurialFormView;
-use Cemetery\Registrar\Application\Burial\BurialViewList;
-use Cemetery\Registrar\Application\Burial\BurialViewListItem;
+use Cemetery\Registrar\Application\Burial\ListBurials\BurialFetcher;
+use Cemetery\Registrar\Application\Burial\ListBurials\BurialViewList;
+use Cemetery\Registrar\Application\Burial\ListBurials\BurialViewListItem;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Infrastructure\Application\Fetcher;
 use Doctrine\DBAL\Query\QueryBuilder;

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\Burial;
+namespace Cemetery\Registrar\Application\Burial\ListBurials;
+
+use Cemetery\Registrar\Application\Burial\BurialFormView;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

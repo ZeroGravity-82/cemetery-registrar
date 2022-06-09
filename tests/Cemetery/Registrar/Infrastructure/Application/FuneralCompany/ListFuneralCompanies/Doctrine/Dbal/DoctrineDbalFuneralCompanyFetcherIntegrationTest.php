@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Application\FuneralCompany\Doctrine\Dbal;
+namespace Cemetery\Registrar\Infrastructure\Application\FuneralCompany\ListFuneralCompanies\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyFetcher;
-use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyViewList;
-use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyViewListItem;
+use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyViewList;
+use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyViewListItem;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepository;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;

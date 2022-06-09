@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\FuneralCompany;
+namespace Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

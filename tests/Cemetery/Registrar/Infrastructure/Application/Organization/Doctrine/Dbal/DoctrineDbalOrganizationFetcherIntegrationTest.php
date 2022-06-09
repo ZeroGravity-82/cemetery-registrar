@@ -4,24 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Application\Organization\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyFetcher;
-use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyViewList;
-use Cemetery\Registrar\Application\FuneralCompany\FuneralCompanyViewListItem;
+use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyFetcher;
 use Cemetery\Registrar\Application\Organization\OrganizationViewList;
 use Cemetery\Registrar\Application\Organization\OrganizationViewListItem;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepository;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Infrastructure\Application\FuneralCompany\Doctrine\Dbal\DoctrineDbalFuneralCompanyFetcher;
-use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\Orm\DoctrineOrmFuneralCompanyRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Organization\JuristicPerson\Doctrine\Orm\DoctrineOrmJuristicPersonRepository;
 use Cemetery\Registrar\Infrastructure\Domain\Organization\SoleProprietor\Doctrine\Orm\DoctrineOrmSoleProprietorRepository;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
-use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
 use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
 
