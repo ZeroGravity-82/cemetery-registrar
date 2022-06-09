@@ -30,7 +30,7 @@ class JuristicPersonProvider
         $id          = new JuristicPersonId('JP002');
         $name        = new Name('ООО Ромашка');
         $inn         = new Inn('5404447629');
-        $bankDetails = new BankDetails('АО "АЛЬФА-БАНК"', '044525593', '30101810200000000593', '40701810401400000014');
+        $bankDetails = new BankDetails('ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ', '044106001', null, '40601810900001000022');
 
         return (new JuristicPerson($id, $name))
             ->setInn($inn)
