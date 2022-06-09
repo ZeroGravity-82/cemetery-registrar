@@ -10,15 +10,15 @@ namespace Cemetery\Registrar\Application\FuneralCompany;
 class FuneralCompanyViewList
 {
     /**
-     * @param FuneralCompanyViewListItem[]|array $funeralCompanyViewListItems
-     * @param int                                $page
-     * @param int                                $pageSize
-     * @param string|null                        $term
-     * @param int                                $totalCount
-     * @param int                                $totalPages
+     * @param array       $listItems
+     * @param int         $page
+     * @param int         $pageSize
+     * @param string|null $term
+     * @param int         $totalCount
+     * @param int         $totalPages
      */
     public function __construct(
-        public readonly array   $funeralCompanyViewListItems,
+        public readonly array   $listItems,
         public readonly int     $page,
         public readonly int     $pageSize,
         public readonly ?string $term,
