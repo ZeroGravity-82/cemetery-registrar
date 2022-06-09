@@ -9,6 +9,14 @@ namespace Cemetery\Registrar\Application\Burial;
  */
 class BurialViewList
 {
+    /**
+     * @param array       $burialViewListItems
+     * @param int         $page
+     * @param int         $pageSize
+     * @param string|null $term
+     * @param int         $totalCount
+     * @param int         $totalPages
+     */
     public function __construct(
         public readonly array   $burialViewListItems,
         public readonly int     $page,

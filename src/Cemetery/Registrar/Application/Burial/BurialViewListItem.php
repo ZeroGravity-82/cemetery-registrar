@@ -9,6 +9,35 @@ namespace Cemetery\Registrar\Application\Burial;
  */
 class BurialViewListItem
 {
+    /**
+     * @param string      $id
+     * @param string      $code
+     * @param string|null $deceasedNaturalPersonFullName
+     * @param string|null $deceasedNaturalPersonBornAt
+     * @param string|null $deceasedDiedAt
+     * @param int|null    $deceasedAge
+     * @param string|null $buriedAt
+     * @param string|null $burialPlaceType
+     * @param string|null $burialPlaceGraveSiteCemeteryBlockName
+     * @param int|null    $burialPlaceGraveSiteRowInBlock
+     * @param int|null    $burialPlaceGraveSitePositionInRow
+     * @param string|null $burialPlaceColumbariumNicheColumbariumName
+     * @param int|null    $burialPlaceColumbariumNicheRowInColumbarium
+     * @param string|null $burialPlaceColumbariumNicheNumber
+     * @param string|null $burialPlaceMemorialTreeNumber
+     * @param string|null $customerType
+     * @param string|null $customerNaturalPersonFullName
+     * @param string|null $customerNaturalPersonAddress
+     * @param string|null $customerNaturalPersonPhone
+     * @param string|null $customerSoleProprietorName
+     * @param string|null $customerSoleProprietorRegistrationAddress
+     * @param string|null $customerSoleProprietorActualLocationAddress
+     * @param string|null $customerSoleProprietorPhone
+     * @param string|null $customerJuristicPersonName
+     * @param string|null $customerJuristicPersonLegalAddress
+     * @param string|null $customerJuristicPersonPostalAddress
+     * @param string|null $customerJuristicPersonPhone
+     */
     public function __construct(
         public readonly string  $id,
         public readonly string  $code,
