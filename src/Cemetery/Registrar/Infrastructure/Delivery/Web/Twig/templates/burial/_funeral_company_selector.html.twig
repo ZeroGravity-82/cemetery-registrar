@@ -3,12 +3,12 @@
   <div class="col-md-9">
     <select class="form-select form-select-sm" id="funeralCompanyId" name="funeralCompanyId" aria-label="Похоронная фирма">
       <option selected></option>
-      {% for funeralCompanyViewListItem in funeralCompanyViewList.funeralCompanyViewListItems %}
-        <option value="{{ funeralCompanyViewListItem.id }}">
-          {%- if funeralCompanyViewListItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
-            {{ funeralCompanyViewListItem.organizationJuristicPersonName }}
-          {%- elseif funeralCompanyViewListItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -%}
-            {{ funeralCompanyViewListItem.organizationSoleProprietorName }}
+      {% for listItem in funeralCompanyViewList.listItems %}
+        <option value="{{ listItem.id }}">
+          {%- if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
+            {{ listItem.organizationJuristicPersonName }}
+          {%- elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -%}
+            {{ listItem.organizationSoleProprietorName }}
           {%- endif -%}
         </option>
       {% endfor %}
