@@ -95,105 +95,105 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $customPageSize = 4;
 
         // First page
-        $burialViewListForFirstPage = $this->burialFetcher->findAll(1, null, $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewListForFirstPage);
-        $this->assertCount(4,              $burialViewListForFirstPage->burialViewListItems);
-        $this->assertSame(1,               $burialViewListForFirstPage->page);
-        $this->assertSame($customPageSize, $burialViewListForFirstPage->pageSize);
-        $this->assertSame(null,            $burialViewListForFirstPage->term);
-        $this->assertSame(7,               $burialViewListForFirstPage->totalCount);
-        $this->assertSame(2,               $burialViewListForFirstPage->totalPages);
-        $this->assertIsArray($burialViewListForFirstPage->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForFirstPage->burialViewListItems);
-        $this->assertItemForFirstPageEqualsB007($burialViewListForFirstPage->burialViewListItems[0]);  // This item has minimum code value
-        $this->assertItemForFirstPageEqualsB001($burialViewListForFirstPage->burialViewListItems[1]);
-        $this->assertItemForFirstPageEqualsB002($burialViewListForFirstPage->burialViewListItems[2]);
-        $this->assertItemForFirstPageEqualsB003($burialViewListForFirstPage->burialViewListItems[3]);
+        $listForFirstPage = $this->burialFetcher->findAll(1, null, $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $listForFirstPage);
+        $this->assertCount(4,              $listForFirstPage->listItems);
+        $this->assertSame(1,               $listForFirstPage->page);
+        $this->assertSame($customPageSize, $listForFirstPage->pageSize);
+        $this->assertSame(null,            $listForFirstPage->term);
+        $this->assertSame(7,               $listForFirstPage->totalCount);
+        $this->assertSame(2,               $listForFirstPage->totalPages);
+        $this->assertIsArray($listForFirstPage->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $listForFirstPage->listItems);
+        $this->assertItemForFirstPageEqualsB007($listForFirstPage->listItems[0]);  // This item has minimum code value
+        $this->assertItemForFirstPageEqualsB001($listForFirstPage->listItems[1]);
+        $this->assertItemForFirstPageEqualsB002($listForFirstPage->listItems[2]);
+        $this->assertItemForFirstPageEqualsB003($listForFirstPage->listItems[3]);
 
         // Second page
-        $burialViewListForSecondPage = $this->burialFetcher->findAll(2, null, $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewListForSecondPage);
-        $this->assertCount(3,              $burialViewListForSecondPage->burialViewListItems);
-        $this->assertSame(2,               $burialViewListForSecondPage->page);
-        $this->assertSame($customPageSize, $burialViewListForSecondPage->pageSize);
-        $this->assertSame(null,            $burialViewListForSecondPage->term);
-        $this->assertSame(7,               $burialViewListForSecondPage->totalCount);
-        $this->assertSame(2,               $burialViewListForSecondPage->totalPages);
-        $this->assertIsArray($burialViewListForSecondPage->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForSecondPage->burialViewListItems);
-        $this->assertItemForSecondPageEqualsB005($burialViewListForSecondPage->burialViewListItems[0]);
-        $this->assertItemForSecondPageEqualsB006($burialViewListForSecondPage->burialViewListItems[1]);
-        $this->assertItemForSecondPageEqualsB004($burialViewListForSecondPage->burialViewListItems[2]);  // This item has maximum code value
+        $listForSecondPage = $this->burialFetcher->findAll(2, null, $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $listForSecondPage);
+        $this->assertCount(3,              $listForSecondPage->listItems);
+        $this->assertSame(2,               $listForSecondPage->page);
+        $this->assertSame($customPageSize, $listForSecondPage->pageSize);
+        $this->assertSame(null,            $listForSecondPage->term);
+        $this->assertSame(7,               $listForSecondPage->totalCount);
+        $this->assertSame(2,               $listForSecondPage->totalPages);
+        $this->assertIsArray($listForSecondPage->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $listForSecondPage->listItems);
+        $this->assertItemForSecondPageEqualsB005($listForSecondPage->listItems[0]);
+        $this->assertItemForSecondPageEqualsB006($listForSecondPage->listItems[1]);
+        $this->assertItemForSecondPageEqualsB004($listForSecondPage->listItems[2]);  // This item has maximum code value
 
         // Third page
-        $burialViewListForThirdPage = $this->burialFetcher->findAll(3, null, $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewListForThirdPage);
-        $this->assertCount(0,              $burialViewListForThirdPage->burialViewListItems);
-        $this->assertSame(3,               $burialViewListForThirdPage->page);
-        $this->assertSame($customPageSize, $burialViewListForThirdPage->pageSize);
-        $this->assertSame(null,            $burialViewListForThirdPage->term);
-        $this->assertSame(7,               $burialViewListForThirdPage->totalCount);
-        $this->assertSame(2,               $burialViewListForThirdPage->totalPages);
+        $listForThirdPage = $this->burialFetcher->findAll(3, null, $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $listForThirdPage);
+        $this->assertCount(0,              $listForThirdPage->listItems);
+        $this->assertSame(3,               $listForThirdPage->page);
+        $this->assertSame($customPageSize, $listForThirdPage->pageSize);
+        $this->assertSame(null,            $listForThirdPage->term);
+        $this->assertSame(7,               $listForThirdPage->totalCount);
+        $this->assertSame(2,               $listForThirdPage->totalPages);
 
         // All at once
-        $burialViewListForDefaultPageSize = $this->burialFetcher->findAll(1);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewListForDefaultPageSize);
-        $this->assertCount(7,                      $burialViewListForDefaultPageSize->burialViewListItems);
-        $this->assertSame(1,                       $burialViewListForDefaultPageSize->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $burialViewListForDefaultPageSize->pageSize);
-        $this->assertSame(null,                    $burialViewListForDefaultPageSize->term);
-        $this->assertSame(7,                       $burialViewListForDefaultPageSize->totalCount);
-        $this->assertSame(1,                       $burialViewListForDefaultPageSize->totalPages);
-        $this->assertIsArray($burialViewListForDefaultPageSize->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewListForDefaultPageSize->burialViewListItems);
+        $listForDefaultPageSize = $this->burialFetcher->findAll(1);
+        $this->assertInstanceOf(BurialViewList::class, $listForDefaultPageSize);
+        $this->assertCount(7,                      $listForDefaultPageSize->listItems);
+        $this->assertSame(1,                       $listForDefaultPageSize->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
+        $this->assertSame(null,                    $listForDefaultPageSize->term);
+        $this->assertSame(7,                       $listForDefaultPageSize->totalCount);
+        $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
+        $this->assertIsArray($listForDefaultPageSize->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $listForDefaultPageSize->listItems);
     }
 
     public function testItReturnsBurialViewListItemsByPageAndTerm(): void
     {
         $customPageSize = 4;
 
-        $burialViewList = $this->burialFetcher->findAll(1, 'Ждан', $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertCount(3,              $burialViewList->burialViewListItems);
-        $this->assertSame(1,               $burialViewList->page);
-        $this->assertSame($customPageSize, $burialViewList->pageSize);
-        $this->assertSame('Ждан',          $burialViewList->term);
-        $this->assertSame(3,               $burialViewList->totalCount);
-        $this->assertSame(1,               $burialViewList->totalPages);
-        $this->assertIsArray($burialViewList->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
+        $list = $this->burialFetcher->findAll(1, 'Ждан', $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $list);
+        $this->assertCount(3,              $list->listItems);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('Ждан',          $list->term);
+        $this->assertSame(3,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $list->listItems);
 
-        $burialViewList = $this->burialFetcher->findAll(1, 'Новос', $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertCount(4,              $burialViewList->burialViewListItems);
-        $this->assertSame(1,               $burialViewList->page);
-        $this->assertSame($customPageSize, $burialViewList->pageSize);
-        $this->assertSame('Новос',          $burialViewList->term);
-        $this->assertSame(4,               $burialViewList->totalCount);
-        $this->assertSame(1,               $burialViewList->totalPages);
-        $this->assertIsArray($burialViewList->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
+        $list = $this->burialFetcher->findAll(1, 'Новос', $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $list);
+        $this->assertCount(4,              $list->listItems);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('Новос',          $list->term);
+        $this->assertSame(4,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $list->listItems);
 
-        $burialViewList = $this->burialFetcher->findAll(1, '11', $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertCount(4,              $burialViewList->burialViewListItems);
-        $this->assertSame(1,               $burialViewList->page);
-        $this->assertSame($customPageSize, $burialViewList->pageSize);
-        $this->assertSame('11',            $burialViewList->term);
-        $this->assertSame(6,               $burialViewList->totalCount);
-        $this->assertSame(2,               $burialViewList->totalPages);
-        $this->assertIsArray($burialViewList->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
-        $burialViewList = $this->burialFetcher->findAll(2, '11', $customPageSize);
-        $this->assertInstanceOf(BurialViewList::class, $burialViewList);
-        $this->assertCount(2,              $burialViewList->burialViewListItems);
-        $this->assertSame(2,               $burialViewList->page);
-        $this->assertSame($customPageSize, $burialViewList->pageSize);
-        $this->assertSame('11',            $burialViewList->term);
-        $this->assertSame(6,               $burialViewList->totalCount);
-        $this->assertSame(2,               $burialViewList->totalPages);
-        $this->assertIsArray($burialViewList->burialViewListItems);
-        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $burialViewList->burialViewListItems);
+        $list = $this->burialFetcher->findAll(1, '11', $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $list);
+        $this->assertCount(4,              $list->listItems);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('11',            $list->term);
+        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $list->listItems);
+        $list = $this->burialFetcher->findAll(2, '11', $customPageSize);
+        $this->assertInstanceOf(BurialViewList::class, $list);
+        $this->assertCount(2,              $list->listItems);
+        $this->assertSame(2,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('11',            $list->term);
+        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialViewListItem::class, $list->listItems);
     }
 
     public function testItReturnsBurialTotalCount(): void
