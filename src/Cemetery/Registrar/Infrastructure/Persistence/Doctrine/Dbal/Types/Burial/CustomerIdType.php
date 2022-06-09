@@ -16,7 +16,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMask
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CustomerIdType extends EntityMaskingIdType
+class CustomerIdType extends EntityMaskingIdType
 {
     /**
      * {@inheritdoc}

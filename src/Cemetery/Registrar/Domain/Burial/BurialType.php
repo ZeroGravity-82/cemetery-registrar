@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Burial;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialType
+class BurialType
 {
     public const COFFIN_IN_GRAVE_SITE      = 'COFFIN_IN_GRAVE_SITE';
     public const URN_IN_GRAVE_SITE         = 'URN_IN_GRAVE_SITE';

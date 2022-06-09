@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialPlaceIdFactory
+class BurialPlaceIdFactory
 {
     /**
      * @param GraveSiteId|ColumbariumNicheId|MemorialTreeId $id

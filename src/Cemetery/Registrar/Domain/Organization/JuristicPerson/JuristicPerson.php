@@ -16,8 +16,6 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
- *
- * @final
  */
 class JuristicPerson extends AggregateRoot
 {

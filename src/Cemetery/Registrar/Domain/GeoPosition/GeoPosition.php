@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class GeoPosition
+class GeoPosition
 {
     /**
      * @param Coordinates   $coordinates

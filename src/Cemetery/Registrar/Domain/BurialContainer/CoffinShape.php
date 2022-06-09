@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CoffinShape
+class CoffinShape
 {
     public const TRAPEZOID             = 'TRAPEZOID';
     public const GREEK_WITH_HANDLES    = 'GREEK_WITH_HANDLES';

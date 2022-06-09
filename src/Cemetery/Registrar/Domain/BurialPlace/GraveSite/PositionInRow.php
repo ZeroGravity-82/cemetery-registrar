@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialPlace\GraveSite;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class PositionInRow
+class PositionInRow
 {
     /**
      * @param int $value

@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\Deceased;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CauseOfDeath
+class CauseOfDeath
 {
     /**
      * @param string $value

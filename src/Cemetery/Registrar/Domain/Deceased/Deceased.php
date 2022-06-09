@@ -9,8 +9,6 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
- *
- * @final
  */
 class Deceased extends AggregateRoot
 {

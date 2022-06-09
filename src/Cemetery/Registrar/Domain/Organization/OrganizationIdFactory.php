@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class OrganizationIdFactory
+class OrganizationIdFactory
 {
     /**
      * @param SoleProprietorId|JuristicPersonId $id

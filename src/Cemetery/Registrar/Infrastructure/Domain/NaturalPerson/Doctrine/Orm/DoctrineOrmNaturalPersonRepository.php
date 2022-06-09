@@ -13,7 +13,7 @@ use Cemetery\Registrar\Infrastructure\Domain\Repository;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineOrmNaturalPersonRepository extends Repository implements NaturalPersonRepository
+class DoctrineOrmNaturalPersonRepository extends Repository implements NaturalPersonRepository
 {
     /**
      * {@inheritdoc}

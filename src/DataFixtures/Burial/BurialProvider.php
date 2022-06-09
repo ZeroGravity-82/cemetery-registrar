@@ -24,7 +24,7 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
-final class BurialProvider
+class BurialProvider
 {
     public static function getBurialA(): Burial
     {

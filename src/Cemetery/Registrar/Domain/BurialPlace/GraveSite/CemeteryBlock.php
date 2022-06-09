@@ -8,8 +8,6 @@ use Cemetery\Registrar\Domain\AggregateRoot;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
- *
- * @final
  */
 class CemeteryBlock extends AggregateRoot
 {

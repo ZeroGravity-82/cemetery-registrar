@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineDbalFuneralCompanyFetcher extends Fetcher implements FuneralCompanyFetcher
+class DoctrineDbalFuneralCompanyFetcher extends Fetcher implements FuneralCompanyFetcher
 {
     // TODO implement getFormViewById() method
 

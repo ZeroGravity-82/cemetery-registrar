@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialPlace\GraveSite;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class GraveSiteSize
+class GraveSiteSize
 {
     private const VALUE_PATTERN = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
 

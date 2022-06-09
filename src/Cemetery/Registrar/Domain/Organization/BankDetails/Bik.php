@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization\BankDetails;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Bik
+class Bik
 {
     private const BIK_LENGTH = 9;
 

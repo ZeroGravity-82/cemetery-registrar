@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DeceasedFactory extends EntityFactory
+class DeceasedFactory extends EntityFactory
 {
     /**
      * @param string|null $naturalPersonId

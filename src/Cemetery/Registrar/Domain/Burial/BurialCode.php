@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Burial;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialCode
+class BurialCode
 {
     public  const CODE_FORMAT     = '%02d';
     private const CODE_MAX_LENGTH = 9;

@@ -10,7 +10,7 @@ use Doctrine\DBAL\Connection;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineDbalBurialCodeGenerator implements BurialCodeGenerator
+class DoctrineDbalBurialCodeGenerator implements BurialCodeGenerator
 {
     /**
      * @param Connection $connection

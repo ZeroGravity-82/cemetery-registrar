@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\EntityMaskingId;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialPlaceId extends EntityMaskingId
+class BurialPlaceId extends EntityMaskingId
 {
     /**
      * @param GraveSiteId|ColumbariumNicheId|MemorialTreeId $id

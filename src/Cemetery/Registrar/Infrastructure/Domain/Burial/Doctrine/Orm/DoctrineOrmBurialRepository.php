@@ -15,7 +15,7 @@ use Cemetery\Registrar\Infrastructure\Domain\Repository;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineOrmBurialRepository extends Repository implements BurialRepository
+class DoctrineOrmBurialRepository extends Repository implements BurialRepository
 {
     /**
      * {@inheritdoc}

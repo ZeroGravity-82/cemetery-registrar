@@ -10,7 +10,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class NameType extends CustomStringType
+class NameType extends CustomStringType
 {
     /**
      * {@inheritdoc}

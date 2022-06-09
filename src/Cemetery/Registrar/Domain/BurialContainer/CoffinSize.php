@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CoffinSize
+class CoffinSize
 {
     private const MIN_SIZE = 165;
     private const MAX_SIZE = 225;

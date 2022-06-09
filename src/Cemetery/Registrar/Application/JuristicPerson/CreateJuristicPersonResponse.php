@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\JuristicPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CreateJuristicPersonResponse
+class CreateJuristicPersonResponse
 {
     public function __construct(
         public readonly string $id,

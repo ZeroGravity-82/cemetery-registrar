@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization\BankDetails;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CorrespondentAccount extends AbstractAccount
+class CorrespondentAccount extends AbstractAccount
 {
     public const ACCOUNT_TYPE = 'К/счёт';
 

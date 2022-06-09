@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Organization\AbstractOgrn;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Ogrn extends AbstractOgrn
+class Ogrn extends AbstractOgrn
 {
     private const OGRN_NAME = 'ОГРН';
 

@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\EntityCollection;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class SoleProprietorCollection extends EntityCollection
+class SoleProprietorCollection extends EntityCollection
 {
     /**
      * {@inheritdoc}

@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class GraveSiteProvider
+class GraveSiteProvider
 {
     public static function getGraveSiteA(): GraveSite
     {

@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class ColumbariumProvider
+class ColumbariumProvider
 {
     public static function getColumbariumA(): Columbarium
     {

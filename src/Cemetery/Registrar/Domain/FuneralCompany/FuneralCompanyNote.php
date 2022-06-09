@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\FuneralCompany;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyNote
+class FuneralCompanyNote
 {
     /**
      * @param string $value

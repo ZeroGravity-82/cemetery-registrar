@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockName;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CemeteryBlockProvider
+class CemeteryBlockProvider
 {
     public static function getCemeteryBlockA(): CemeteryBlock
     {

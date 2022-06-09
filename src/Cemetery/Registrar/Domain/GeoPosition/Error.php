@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Error
+class Error
 {
     private const VALUE_PATTERN = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 0, 12.5, 1, etc.
 

@@ -10,7 +10,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomInte
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class AgeType extends CustomIntegerType
+class AgeType extends CustomIntegerType
 {
     /**
      * {@inheritdoc}

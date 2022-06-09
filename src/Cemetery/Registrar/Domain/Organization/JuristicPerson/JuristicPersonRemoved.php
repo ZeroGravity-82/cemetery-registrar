@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Event;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class JuristicPersonRemoved extends Event
+class JuristicPersonRemoved extends Event
 {
     /**
      * @param JuristicPersonId $juristicPersonId

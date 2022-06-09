@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\Organization\OrganizationId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class JuristicPersonRemover
+class JuristicPersonRemover
 {
     /**
      * @param FuneralCompanyRepository $funeralCompanyRepo

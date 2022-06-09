@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class MemorialTreeProvider
+class MemorialTreeProvider
 {
     public static function getMemorialTreeA(): MemorialTree
     {

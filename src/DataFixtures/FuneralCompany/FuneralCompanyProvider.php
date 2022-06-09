@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\OrganizationId;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
-final class FuneralCompanyProvider
+class FuneralCompanyProvider
 {
     public static function getFuneralCompanyA(): FuneralCompany
     {

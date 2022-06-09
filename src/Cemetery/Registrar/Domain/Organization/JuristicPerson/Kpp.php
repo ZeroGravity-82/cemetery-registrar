@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization\JuristicPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Kpp
+class Kpp
 {
     private const KPP_LENGTH = 9;
 

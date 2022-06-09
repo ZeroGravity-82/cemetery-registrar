@@ -10,7 +10,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJson
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BankDetailsType extends CustomJsonType
+class BankDetailsType extends CustomJsonType
 {
     /**
      * {@inheritdoc}

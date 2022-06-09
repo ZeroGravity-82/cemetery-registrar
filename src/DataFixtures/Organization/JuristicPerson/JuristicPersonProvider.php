@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
 use Cemetery\Registrar\Domain\Organization\Name;
 
-final class JuristicPersonProvider
+class JuristicPersonProvider
 {
     public static function getJuristicPersonA(): JuristicPerson
     {

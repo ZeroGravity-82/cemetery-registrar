@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\EntityFactory;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class NaturalPersonFactory extends EntityFactory
+class NaturalPersonFactory extends EntityFactory
 {
     /**
      * @param string|null $fullName

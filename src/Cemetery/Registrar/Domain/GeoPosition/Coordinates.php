@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Coordinates
+class Coordinates
 {
     public const VALUE_PATTERN = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
 

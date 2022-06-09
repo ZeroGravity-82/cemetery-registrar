@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class ColumbariumNicheNumber
+class ColumbariumNicheNumber
 {
     /**
      * @param string $value

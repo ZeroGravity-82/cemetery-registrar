@@ -9,6 +9,6 @@ use Cemetery\Registrar\Domain\EntityId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class MemorialTreeId extends EntityId
+class MemorialTreeId extends EntityId
 {
 }

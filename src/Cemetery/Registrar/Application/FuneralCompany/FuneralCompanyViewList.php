@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\FuneralCompany;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyViewList
+class FuneralCompanyViewList
 {
     /**
      * @param FuneralCompanyViewListItem[]|array $funeralCompanyViewListItems

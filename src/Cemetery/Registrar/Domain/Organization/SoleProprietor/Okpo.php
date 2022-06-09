@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Organization\AbstractOkpo;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Okpo extends AbstractOkpo
+class Okpo extends AbstractOkpo
 {
     private const OKPO_LENGTH = 10;
 

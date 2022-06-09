@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Organization;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Okved
+class Okved
 {
     /**
      * @param string $value

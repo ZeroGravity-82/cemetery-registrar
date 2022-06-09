@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\NaturalPerson\Passport;
 
-final class NaturalPersonProvider
+class NaturalPersonProvider
 {
     public static function getNaturalPersonA(): NaturalPerson
     {

@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class OrganizationId extends EntityMaskingId
+class OrganizationId extends EntityMaskingId
 {
     /**
      * @param JuristicPersonId|SoleProprietorId $id

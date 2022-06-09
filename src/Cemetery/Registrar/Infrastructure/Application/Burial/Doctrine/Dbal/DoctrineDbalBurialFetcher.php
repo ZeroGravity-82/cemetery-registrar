@@ -15,7 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
+class DoctrineDbalBurialFetcher extends Fetcher implements BurialFetcher
 {
     /**
      * {@inheritdoc}

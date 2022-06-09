@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 
-final class SoleProprietorProvider
+class SoleProprietorProvider
 {
     public static function getSoleProprietorA(): SoleProprietor
     {

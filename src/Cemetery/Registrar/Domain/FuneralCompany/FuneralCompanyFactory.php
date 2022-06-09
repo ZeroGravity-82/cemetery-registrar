@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FuneralCompanyFactory extends EntityFactory
+class FuneralCompanyFactory extends EntityFactory
 {
     /**
      * @param string      $organizationId

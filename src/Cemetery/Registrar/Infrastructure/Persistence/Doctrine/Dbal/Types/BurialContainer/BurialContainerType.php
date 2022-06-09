@@ -14,7 +14,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJson
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialContainerType extends CustomJsonType
+class BurialContainerType extends CustomJsonType
 {
     /**
      * {@inheritdoc}

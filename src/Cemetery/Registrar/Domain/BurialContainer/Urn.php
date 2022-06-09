@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Urn
+class Urn
 {
     public const CLASS_SHORTCUT = 'URN';
     public const CLASS_LABEL    = 'урна с прахом';

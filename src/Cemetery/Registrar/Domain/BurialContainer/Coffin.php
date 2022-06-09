@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Coffin
+class Coffin
 {
     public const CLASS_SHORTCUT = 'COFFIN';
     public const CLASS_LABEL    = 'гроб';

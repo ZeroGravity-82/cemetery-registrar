@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\BurialPlace\MemorialTree;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class MemorialTreeNumber
+class MemorialTreeNumber
 {
     /**
      * @param string $value

@@ -45,7 +45,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorReposito
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CreateBurialService extends BurialService
+class CreateBurialService extends BurialService
 {
     public function __construct(
         private readonly BurialFactory              $burialFactory,

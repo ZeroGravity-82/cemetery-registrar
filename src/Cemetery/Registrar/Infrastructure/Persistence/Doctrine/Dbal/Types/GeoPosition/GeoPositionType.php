@@ -12,7 +12,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJson
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class GeoPositionType extends CustomJsonType
+class GeoPositionType extends CustomJsonType
 {
     /**
      * {@inheritdoc}

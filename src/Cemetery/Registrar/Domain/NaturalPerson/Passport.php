@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Passport
+class Passport
 {
     /**
      * @param string             $series

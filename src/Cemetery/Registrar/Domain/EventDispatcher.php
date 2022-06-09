@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class EventDispatcher
+class EventDispatcher
 {
     /**
      * @var callable[][]|array

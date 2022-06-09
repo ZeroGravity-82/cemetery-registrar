@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\NaturalPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class FullName
+class FullName
 {
     /**
      * @param string $value

@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class CustomerIdFactory
+class CustomerIdFactory
 {
     /**
      * @param NaturalPersonId|SoleProprietorId|JuristicPersonId $id

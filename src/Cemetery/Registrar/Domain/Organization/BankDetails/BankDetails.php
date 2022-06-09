@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Organization\Name;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BankDetails
+class BankDetails
 {
     /**
      * @var Name

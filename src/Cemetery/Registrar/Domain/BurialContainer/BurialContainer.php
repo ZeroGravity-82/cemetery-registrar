@@ -9,7 +9,7 @@ namespace Cemetery\Registrar\Domain\BurialContainer;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class BurialContainer
+class BurialContainer
 {
     /**
      * @param Coffin|Urn $container

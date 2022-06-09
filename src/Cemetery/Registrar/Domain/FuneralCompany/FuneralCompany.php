@@ -9,8 +9,6 @@ use Cemetery\Registrar\Domain\Organization\OrganizationId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
- *
- * @final
  */
 class FuneralCompany extends AggregateRoot
 {

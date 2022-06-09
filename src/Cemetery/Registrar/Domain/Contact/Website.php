@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Contact;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Website
+class Website
 {
     private const DOMAIN_NAME_MAX_LENGTH = 253;
     private const LABEL_MAX_LENGTH       = 63;

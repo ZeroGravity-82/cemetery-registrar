@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class MemorialTreeFactory extends EntityFactory
+class MemorialTreeFactory extends EntityFactory
 {
     /**
      * @param string|null $treeNumber

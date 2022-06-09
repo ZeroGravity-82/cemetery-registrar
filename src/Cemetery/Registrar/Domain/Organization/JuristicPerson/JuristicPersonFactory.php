@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\Organization\Okved;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class JuristicPersonFactory extends EntityFactory
+class JuristicPersonFactory extends EntityFactory
 {
     /**
      * @param string|null $name

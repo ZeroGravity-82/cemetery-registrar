@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Organization\AbstractInn;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-final class Inn extends AbstractInn
+class Inn extends AbstractInn
 {
     private const INN_LENGTH = 12;
 
