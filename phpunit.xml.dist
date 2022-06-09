@@ -32,8 +32,4 @@
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
-
-    <extensions>
-        <extension class="Hook\BypassFinalHook" />
-    </extensions>
 </phpunit>
