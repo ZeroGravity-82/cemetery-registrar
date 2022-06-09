@@ -87,9 +87,9 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertSame(2,               $listForFirstPage->totalPages);
         $this->assertIsArray($listForFirstPage->listItems);
         $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $listForFirstPage->listItems);
-        $this->assertItemForFirstPageEqualsFC002($listForFirstPage->listItems[0]);  // Items are ordered by name
-        $this->assertItemForFirstPageEqualsFC003($listForFirstPage->listItems[1]);
-        $this->assertItemForFirstPageEqualsFC001($listForFirstPage->listItems[2]);
+        $this->assertItemEqualsFC002($listForFirstPage->listItems[0]);  // Items are ordered by name
+        $this->assertItemEqualsFC003($listForFirstPage->listItems[1]);
+        $this->assertItemEqualsFC001($listForFirstPage->listItems[2]);
 
         // Second page
         $listForSecondPage = $this->funeralCompanyFetcher->findAll(2, null, $customPageSize);
@@ -102,7 +102,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertSame(2,               $listForSecondPage->totalPages);
         $this->assertIsArray($listForSecondPage->listItems);
         $this->assertContainsOnlyInstancesOf(FuneralCompanyViewListItem::class, $listForSecondPage->listItems);
-        $this->assertItemForSecondPageEqualsFC004($listForSecondPage->listItems[0]);
+        $this->assertItemEqualsFC004($listForSecondPage->listItems[0]);
 
         // Third page
         $listForThirdPage = $this->funeralCompanyFetcher->findAll(3, null, $customPageSize);
@@ -210,41 +210,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         ]);
     }
 
-    private function assertItemForFirstPageEqualsFC002(FuneralCompanyViewListItem $item): void
-    {
-        $this->assertSame('FC002',                        $item->id);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->organizationType);
-        $this->assertSame(null,                           $item->organizationJuristicPersonName);
-        $this->assertSame(null,                           $item->organizationJuristicPersonInn);
-        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
-        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
-        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
-        $this->assertSame('ИП Иванов Иван Иванович',      $item->organizationSoleProprietorName);
-        $this->assertSame(null,                           $item->organizationSoleProprietorInn);
-        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                           $item->organizationSoleProprietorPhone);
-        $this->assertSame('Фирма находится в Кемерове',   $item->note);
-    }
-
-    private function assertItemForFirstPageEqualsFC003(FuneralCompanyViewListItem $item): void
-    {
-        $this->assertSame('FC003',                        $item->id);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->organizationType);
-        $this->assertSame(null,                           $item->organizationJuristicPersonName);
-        $this->assertSame(null,                           $item->organizationJuristicPersonInn);
-        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
-        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
-        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
-        $this->assertSame('ИП Петров Пётр Петрович',      $item->organizationSoleProprietorName);
-        $this->assertSame('772208786091',                 $item->organizationSoleProprietorInn);
-        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
-        $this->assertSame('8(383)133-22-33',              $item->organizationSoleProprietorPhone);
-        $this->assertSame('Примечание 2',                 $item->note);
-    }
-
-    private function assertItemForFirstPageEqualsFC001(FuneralCompanyViewListItem $item): void
+    private function assertItemEqualsFC001(FuneralCompanyViewListItem $item): void
     {
         $this->assertSame('FC001',                                       $item->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $item->organizationType);
@@ -261,7 +227,41 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertSame(null,                                          $item->note);
     }
 
-    private function assertItemForSecondPageEqualsFC004(FuneralCompanyViewListItem $item): void
+    private function assertItemEqualsFC002(FuneralCompanyViewListItem $item): void
+    {
+        $this->assertSame('FC002',                        $item->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->organizationType);
+        $this->assertSame(null,                           $item->organizationJuristicPersonName);
+        $this->assertSame(null,                           $item->organizationJuristicPersonInn);
+        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
+        $this->assertSame('ИП Иванов Иван Иванович',      $item->organizationSoleProprietorName);
+        $this->assertSame(null,                           $item->organizationSoleProprietorInn);
+        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorPhone);
+        $this->assertSame('Фирма находится в Кемерове',   $item->note);
+    }
+
+    private function assertItemEqualsFC003(FuneralCompanyViewListItem $item): void
+    {
+        $this->assertSame('FC003',                        $item->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->organizationType);
+        $this->assertSame(null,                           $item->organizationJuristicPersonName);
+        $this->assertSame(null,                           $item->organizationJuristicPersonInn);
+        $this->assertSame(null,                           $item->organizationJuristicPersonLegalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPostalAddress);
+        $this->assertSame(null,                           $item->organizationJuristicPersonPhone);
+        $this->assertSame('ИП Петров Пётр Петрович',      $item->organizationSoleProprietorName);
+        $this->assertSame('772208786091',                 $item->organizationSoleProprietorInn);
+        $this->assertSame(null,                           $item->organizationSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                           $item->organizationSoleProprietorActualLocationAddress);
+        $this->assertSame('8(383)133-22-33',              $item->organizationSoleProprietorPhone);
+        $this->assertSame('Примечание 2',                 $item->note);
+    }
+
+    private function assertItemEqualsFC004(FuneralCompanyViewListItem $item): void
     {
         $this->assertSame('FC004',                        $item->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $item->organizationType);
