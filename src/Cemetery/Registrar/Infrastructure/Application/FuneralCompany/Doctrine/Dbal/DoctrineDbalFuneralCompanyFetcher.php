@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Application\FuneralCompany\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyFetcher;
-use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyViewList;
-use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyViewListItem;
+use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyViewList;
+use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyViewListItem;
 use Cemetery\Registrar\Infrastructure\Application\Fetcher;
 use Doctrine\DBAL\Query\QueryBuilder;
 

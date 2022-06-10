@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
-use Cemetery\Registrar\Application\FuneralCompany\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
