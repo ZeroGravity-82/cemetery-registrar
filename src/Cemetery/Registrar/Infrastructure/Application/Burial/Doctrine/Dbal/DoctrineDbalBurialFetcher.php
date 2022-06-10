@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Application\Burial\Doctrine\Dbal;
 use Cemetery\Registrar\Application\ListBurials\BurialFetcher;
 use Cemetery\Registrar\Application\ListBurials\BurialViewList;
 use Cemetery\Registrar\Application\ListBurials\BurialViewListItem;
-use Cemetery\Registrar\Application\UpdateBurial\BurialFormView;
+use Cemetery\Registrar\Application\EditBurial\BurialFormView;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Cemetery\Registrar\Infrastructure\Application\Fetcher;
 use Doctrine\DBAL\Query\QueryBuilder;

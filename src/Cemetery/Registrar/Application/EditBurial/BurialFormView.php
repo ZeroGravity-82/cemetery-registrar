@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\UpdateBurial;
+namespace Cemetery\Registrar\Application\EditBurial;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Application\ListBurials\Doctrine\Dba
 use Cemetery\Registrar\Application\ListBurials\BurialFetcher;
 use Cemetery\Registrar\Application\ListBurials\BurialViewList;
 use Cemetery\Registrar\Application\ListBurials\BurialViewListItem;
-use Cemetery\Registrar\Application\UpdateBurial\BurialFormView;
+use Cemetery\Registrar\Application\EditBurial\BurialFormView;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\BurialType;
