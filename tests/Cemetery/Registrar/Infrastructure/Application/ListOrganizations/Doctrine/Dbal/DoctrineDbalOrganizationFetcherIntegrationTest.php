@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Application\ListOrganizations\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyFetcher;
-use Cemetery\Registrar\Application\ListOrganizations\OrganizationFetcher;
-use Cemetery\Registrar\Application\ListOrganizations\OrganizationViewList;
-use Cemetery\Registrar\Application\ListOrganizations\OrganizationViewListItem;
+use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\Query\ListOrganizations\OrganizationFetcher;
+use Cemetery\Registrar\Application\Query\ListOrganizations\OrganizationViewList;
+use Cemetery\Registrar\Application\Query\ListOrganizations\OrganizationViewListItem;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;

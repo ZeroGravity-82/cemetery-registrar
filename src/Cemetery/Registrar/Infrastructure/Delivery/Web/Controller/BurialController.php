@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
-use Cemetery\Registrar\Application\CreateBurial\CreateBurialRequest;
-use Cemetery\Registrar\Application\CreateBurial\CreateBurialService;
-use Cemetery\Registrar\Application\ListBurials\BurialFetcher;
-use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\Command\CreateBurial\CreateBurialRequest;
+use Cemetery\Registrar\Application\Command\CreateBurial\CreateBurialService;
+use Cemetery\Registrar\Application\Query\ListBurials\BurialFetcher;
+use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyFetcher;
 use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

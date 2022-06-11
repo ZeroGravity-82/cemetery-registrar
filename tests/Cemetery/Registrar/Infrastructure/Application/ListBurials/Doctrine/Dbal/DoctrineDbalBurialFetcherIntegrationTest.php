@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Application\ListBurials\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\ListBurials\BurialFetcher;
-use Cemetery\Registrar\Application\ListBurials\BurialViewList;
-use Cemetery\Registrar\Application\ListBurials\BurialViewListItem;
-use Cemetery\Registrar\Application\EditBurial\BurialFormView;
+use Cemetery\Registrar\Application\Command\EditBurial\BurialFormView;
+use Cemetery\Registrar\Application\Query\ListBurials\BurialFetcher;
+use Cemetery\Registrar\Application\Query\ListBurials\BurialViewList;
+use Cemetery\Registrar\Application\Query\ListBurials\BurialViewListItem;
 use Cemetery\Registrar\Domain\Burial\BurialId;
 use Cemetery\Registrar\Domain\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Burial\BurialType;
@@ -20,7 +20,7 @@ use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Infrastructure\Application\Burial\Doctrine\Dbal\DoctrineDbalBurialFetcher;
+use Cemetery\Registrar\Infrastructure\Application\Query\Burial\Doctrine\Dbal\DoctrineDbalBurialFetcher;
 use Cemetery\Registrar\Infrastructure\Domain\Burial\Doctrine\Orm\DoctrineOrmBurialRepository;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
 use DataFixtures\Burial\BurialFixtures;

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Application\ListFuneralCompanies\Doctrine\Dbal;
 
-use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyFetcher;
-use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyViewList;
-use Cemetery\Registrar\Application\ListFuneralCompanies\FuneralCompanyViewListItem;
+use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyViewList;
+use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyViewListItem;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepository;
 use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Infrastructure\Application\FuneralCompany\Doctrine\Dbal\DoctrineDbalFuneralCompanyFetcher;
+use Cemetery\Registrar\Infrastructure\Application\Query\FuneralCompany\Doctrine\Dbal\DoctrineDbalFuneralCompanyFetcher;
 use Cemetery\Registrar\Infrastructure\Domain\FuneralCompany\Doctrine\Orm\DoctrineOrmFuneralCompanyRepository;
 use Cemetery\Tests\Registrar\Infrastructure\Application\FetcherIntegrationTest;
 use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
