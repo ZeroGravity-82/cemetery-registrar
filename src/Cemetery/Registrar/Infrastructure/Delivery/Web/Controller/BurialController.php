@@ -31,7 +31,7 @@ class BurialController extends AbstractController
         private readonly CreateBurialService   $createBurialService,
     ) {}
 
-    #[Route('/burial', name: 'burial_list', methods: 'GET')]
+    #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
     public function index(): Response
     {
         $burialViewList         = $this->burialFetcher->findAll(1);
@@ -45,31 +45,48 @@ class BurialController extends AbstractController
         ]);
     }
 
-    #[Route('/burial/new', name: 'burial_new', methods: 'POST')]
+    #[Route('/burial/new', name: 'burial_new', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function new(Request $request): Response
     {
-        $createBurialRequest  = new CreateBurialRequest(...$this->getRequestArgs($request));
-        $burialId             = $this->createBurialService->execute($createBurialRequest)->burialId;
+        if ($request->isMethod(Request::METHOD_GET)) {
+//            $causeOfDeathViewList   = $this->causeOfDeathFetcher->findAll();
+//            $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll();
+            $response               = $this->render('burial/new.html.twig', [
+                'causeOfDeathViewList'   => [],
+                'funeralCompanyViewList' => [],
+            ]);
+        }
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $createBurialRequest  = new CreateBurialRequest(...$this->getRequestArgs($request));
+            $burialId             = $this->createBurialService->execute($createBurialRequest)->burialId;
 
-        return $this->redirectToRoute('burial_list', [
-            'burialId' => $burialId,
-        ]);
+            $response = $this->redirectToRoute('burial_list', [
+                'burialId' => $burialId,
+            ]);
+        }
+
+        return $response;
     }
     
-    #[Route('/burial/edit-get/{id}', name: 'burial_edit_get', methods: 'GET')]
-    public function editGet(string $id): JsonResponse
+    #[Route('/burial/edit/{id}', name: 'burial_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function edit(Request $request, string $id): JsonResponse
     {
-        $burialFormView = $this->burialFetcher->getFormViewById($id);
+        if ($request->isMethod(Request::METHOD_GET)) {
+            $burialFormView = $this->burialFetcher->getFormViewById($id);
+            $response = $this->json($burialFormView);
+        }
+        if ($request->isMethod(Request::METHOD_POST)) {
+            // TODO
+        }
 
-        return $this->json($burialFormView);
+        return $response;
     }
 
-    #[Route('/burial/edit-post/{id}', name: 'burial_edit_post', methods: 'POST')]
-    public function editPost(Request $request): Response
-    {
-        // TODO
-    }
-
+    /**
+     * @param Request $request
+     *
+     * @return array
+     */
     private function getRequestArgs(Request $request): array
     {
         return [
