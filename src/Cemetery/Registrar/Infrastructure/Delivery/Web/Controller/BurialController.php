@@ -10,9 +10,10 @@ use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTota
 use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalService;
 use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsRequest;
 use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsService;
+use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\ListFuneralCompaniesRequest;
+use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\ListFuneralCompaniesService;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
-use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,17 +26,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class BurialController extends AbstractController
 {
     /**
-     * @param BurialFetcher            $burialFetcher
-     * @param FuneralCompanyFetcher    $funeralCompanyFetcher
-     * @param CountBurialTotalService  $countBurialTotalService
-     * @param RegisterNewBurialService $registerNewBurialService
+     * @param BurialFetcher               $burialFetcher
+     * @param CountBurialTotalService     $countBurialTotalService
+     * @param ListBurialsService          $listBurialsService
+     * @param ListFuneralCompaniesService $listFuneralCompaniesService
+     * @param RegisterNewBurialService    $registerNewBurialService
      */
     public function __construct(
-        private readonly BurialFetcher            $burialFetcher,
-        private readonly FuneralCompanyFetcher    $funeralCompanyFetcher,
-        private readonly CountBurialTotalService  $countBurialTotalService,
-        private readonly ListBurialsService       $listBurialsService,
-        private readonly RegisterNewBurialService $registerNewBurialService,
+        private readonly BurialFetcher               $burialFetcher,
+        private readonly CountBurialTotalService     $countBurialTotalService,
+        private readonly ListBurialsService          $listBurialsService,
+        private readonly ListFuneralCompaniesService $listFuneralCompaniesService,
+        private readonly RegisterNewBurialService    $registerNewBurialService,
     ) {}
 
     #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
@@ -49,12 +51,14 @@ class BurialController extends AbstractController
             ->execute(new ListBurialsRequest())
             ->burialList;
 
-        $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX);
+        $funeralCompanyList = $this->listFuneralCompaniesService
+            ->execute(new ListFuneralCompaniesRequest())
+            ->funeralCompanyList;
 
         return $this->render('burial/list.html.twig', [
-            'burialTotalCount'       => $burialTotalCount,
-            'burialList'             => $burialList,
-            'funeralCompanyViewList' => $funeralCompanyViewList,
+            'burialTotalCount'   => $burialTotalCount,
+            'burialList'         => $burialList,
+            'funeralCompanyList' => $funeralCompanyList,
         ]);
     }
 

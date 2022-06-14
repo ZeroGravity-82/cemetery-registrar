@@ -3,7 +3,7 @@
   <div class="col-md-9">
     <select class="form-select form-select-sm" id="funeralCompanyId" name="funeralCompanyId" aria-label="Похоронная фирма">
       <option selected></option>
-      {% for listItem in funeralCompanyViewList.listItems %}
+      {% for listItem in funeralCompanyList.listItems %}
         <option value="{{ listItem.id }}">
           {%- if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
             {{ listItem.organizationJuristicPersonName }}
