@@ -6,6 +6,8 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\RegisterNewBurialRequest;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\RegisterNewBurialService;
+use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalRequest;
+use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalService;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
@@ -23,25 +25,30 @@ class BurialController extends AbstractController
     /**
      * @param BurialFetcher            $burialFetcher
      * @param FuneralCompanyFetcher    $funeralCompanyFetcher
+     * @param CountBurialTotalService  $countBurialTotalService
      * @param RegisterNewBurialService $registerNewBurialService
      */
     public function __construct(
         private readonly BurialFetcher            $burialFetcher,
         private readonly FuneralCompanyFetcher    $funeralCompanyFetcher,
+        private readonly CountBurialTotalService  $countBurialTotalService,
         private readonly RegisterNewBurialService $registerNewBurialService,
     ) {}
 
     #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
     public function index(): Response
     {
-        $burialViewList         = $this->burialFetcher->findAll(1);
-        $burialTotalCount       = $this->burialFetcher->getTotalCount();
+        $burialTotalCount = $this->countBurialTotalService
+            ->execute(new CountBurialTotalRequest())
+            ->burialTotalCount;
+
+        $burialList         = $this->burialFetcher->findAll(1);
 
         $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX);
 
         return $this->render('burial/list.html.twig', [
-            'burialViewList'         => $burialViewList,
             'burialTotalCount'       => $burialTotalCount,
+            'burialList'             => $burialList,
             'funeralCompanyViewList' => $funeralCompanyViewList,
         ]);
     }
@@ -252,5 +259,4 @@ class BurialController extends AbstractController
             throw new \RuntimeException(\sprintf('Неверный формат геопозиции "%s".', $geoPosition));
         }
     }
-
 }
