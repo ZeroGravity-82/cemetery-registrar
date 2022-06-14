@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DataFixtures\BurialPlace\ColumbariumNiche;
 
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumName;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\Error;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumName;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
+use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

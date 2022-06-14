@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeCollection;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
-use Cemetery\Registrar\Domain\Entity;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
+use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmMemorialTreeRepository;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
 

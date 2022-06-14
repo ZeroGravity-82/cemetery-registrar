@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DataFixtures\BurialPlace\MemorialTree;
 
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTree;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeNumber;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\Error;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
+use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

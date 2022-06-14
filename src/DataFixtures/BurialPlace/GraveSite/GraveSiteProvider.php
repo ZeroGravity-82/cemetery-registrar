@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace DataFixtures\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteSize;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\PositionInRow;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\RowInBlock;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\Error;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
+use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\Command\JuristicPerson\CreateJuristicPerson;
 
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\EventDispatcher;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCreated;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonFactory;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

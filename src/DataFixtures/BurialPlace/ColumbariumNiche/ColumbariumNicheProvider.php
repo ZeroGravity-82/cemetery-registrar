@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace DataFixtures\BurialPlace\ColumbariumNiche;
 
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNiche;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheNumber;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\RowInColumbarium;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\GeoPosition\Error;
-use Cemetery\Registrar\Domain\GeoPosition\GeoPosition;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheNumber;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbarium;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
+use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

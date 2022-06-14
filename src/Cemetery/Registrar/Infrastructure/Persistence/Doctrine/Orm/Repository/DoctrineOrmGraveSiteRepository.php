@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteCollection;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

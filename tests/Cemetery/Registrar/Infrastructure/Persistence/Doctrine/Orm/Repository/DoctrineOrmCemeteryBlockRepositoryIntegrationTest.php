@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockCollection;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Registrar\Domain\Entity;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollection;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
+use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCemeteryBlockRepository;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 

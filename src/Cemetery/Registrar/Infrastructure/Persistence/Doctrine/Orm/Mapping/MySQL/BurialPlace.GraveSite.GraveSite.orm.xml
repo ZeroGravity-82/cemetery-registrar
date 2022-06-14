@@ -1,6 +1,6 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
-    <entity name="Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSite" table="grave_site">
+    <entity name="Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite" table="grave_site">
         <id name="id" column="id" type="grave_site_id">
         </id>
 

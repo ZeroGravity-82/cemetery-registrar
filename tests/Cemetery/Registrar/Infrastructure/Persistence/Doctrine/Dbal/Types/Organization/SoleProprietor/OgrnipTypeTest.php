@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor;
 
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\Ogrnip;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Ogrnip;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\OgrnipType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
 

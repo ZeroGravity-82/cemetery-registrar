@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace DataFixtures\Deceased;
 
-use Cemetery\Registrar\Domain\Deceased\Age;
-use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
-use Cemetery\Registrar\Domain\Deceased\DeathCertificateId;
-use Cemetery\Registrar\Domain\Deceased\Deceased;
-use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\Deceased\Age;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\Deceased\DeathCertificateId;
+use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
+use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

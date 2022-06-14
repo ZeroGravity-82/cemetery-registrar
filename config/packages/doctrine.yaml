@@ -77,7 +77,7 @@ doctrine:
                 is_bundle: false
                 type: xml
                 dir: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Persistence/Doctrine/Orm/Mapping/MySQL'
-                prefix: Cemetery\Registrar\Domain
+                prefix: Cemetery\Registrar\Domain\Model
         dql:
             string_functions:
                 JSON_EXTRACT: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonExtract

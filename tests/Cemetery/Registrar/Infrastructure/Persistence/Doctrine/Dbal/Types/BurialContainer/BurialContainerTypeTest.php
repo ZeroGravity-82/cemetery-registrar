@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialContainer;
 
-use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
-use Cemetery\Registrar\Domain\BurialContainer\Coffin;
-use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
-use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
-use Cemetery\Registrar\Domain\BurialContainer\Urn;
+use Cemetery\Registrar\Domain\Model\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\Model\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\Model\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\Model\BurialContainer\CoffinSize;
+use Cemetery\Registrar\Domain\Model\BurialContainer\Urn;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialContainer\BurialContainerType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomTypeTest;
 use Doctrine\DBAL\Types\ConversionException;

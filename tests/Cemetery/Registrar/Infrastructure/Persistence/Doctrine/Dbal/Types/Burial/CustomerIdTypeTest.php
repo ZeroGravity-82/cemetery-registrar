@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial;
 
-use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
+use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMaskingIdTypeTest;
 

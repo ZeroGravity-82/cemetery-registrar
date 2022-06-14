@@ -6,9 +6,9 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\RegisterNewBurialRequest;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\RegisterNewBurialService;
-use Cemetery\Registrar\Application\Query\Burial\BurialFetcher;
-use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\FuneralCompanyFetcher;
-use Cemetery\Registrar\Domain\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
+use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,8 +73,8 @@ class BurialController extends AbstractController
     public function edit(Request $request, string $id): JsonResponse
     {
         if ($request->isMethod(Request::METHOD_GET)) {
-            $burialFormView = $this->burialFetcher->getFormViewById($id);
-            $response = $this->json($burialFormView);
+            $burialView = $this->burialFetcher->getViewById($id);
+            $response = $this->json($burialView);
         }
         if ($request->isMethod(Request::METHOD_POST)) {
             // TODO

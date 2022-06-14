@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyNote;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\OrganizationId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyNote;
+use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmFuneralCompanyRepository;
 use DataFixtures\FuneralCompany\FuneralCompanyProvider;
 

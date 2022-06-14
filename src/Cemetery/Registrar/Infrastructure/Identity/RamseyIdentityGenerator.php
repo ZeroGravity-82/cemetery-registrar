@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Identity;
 
-use Cemetery\Registrar\Domain\IdentityGenerator;
+use Cemetery\Registrar\Domain\Model\IdentityGenerator;
 use Ramsey\Uuid\UuidFactory;
 
 /**

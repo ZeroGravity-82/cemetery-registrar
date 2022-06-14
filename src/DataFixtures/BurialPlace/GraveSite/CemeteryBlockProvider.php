@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace DataFixtures\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlock;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\CemeteryBlockName;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

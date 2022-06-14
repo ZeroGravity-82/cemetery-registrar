@@ -8,46 +8,46 @@
   <td>{{- listItem.buriedAt                    is empty ? '' : listItem.buriedAt|date('d.m.Y H:i') -}}</td>
   <td>{{- listItem.deceasedAge                 is empty ? '' : listItem.deceasedAge -}}</td>
   <td>
-    {% if listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\BurialPlace\\GraveSite\\GraveSite::CLASS_SHORTCUT') %}
+    {% if listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\Model\\BurialPlace\\GraveSite\\GraveSite::CLASS_SHORTCUT') %}
       {{- listItem.burialPlaceGraveSiteCemeteryBlockName is empty ? '' : 'квартал '~listItem.burialPlaceGraveSiteCemeteryBlockName -}}
       {{- listItem.burialPlaceGraveSiteRowInBlock        is empty ? '' : ', ряд '~listItem.burialPlaceGraveSiteRowInBlock -}}
       {{- listItem.burialPlaceGraveSitePositionInRow     is empty ? '' : ', место '~listItem.burialPlaceGraveSitePositionInRow -}}
-    {% elseif listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\BurialPlace\\ColumbariumNiche\\ColumbariumNiche::CLASS_SHORTCUT') %}
+    {% elseif listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\Model\\BurialPlace\\ColumbariumNiche\\ColumbariumNiche::CLASS_SHORTCUT') %}
       {{- listItem.burialPlaceColumbariumNicheColumbariumName  is empty ? '' : 'колумбарий '~listItem.burialPlaceColumbariumNicheColumbariumName -}}
       {{- listItem.burialPlaceColumbariumNicheRowInColumbarium is empty ? '' : ', ряд '~listItem.burialPlaceColumbariumNicheRowInColumbarium -}}
       {{- listItem.burialPlaceColumbariumNicheNumber           is empty ? '' : ', ниша '~listItem.burialPlaceColumbariumNicheNumber -}}
-    {% elseif listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\BurialPlace\\MemorialTree\\MemorialTree::CLASS_SHORTCUT') %}
+    {% elseif listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\Model\\BurialPlace\\MemorialTree\\MemorialTree::CLASS_SHORTCUT') %}
       {{- listItem.burialPlaceMemorialTreeNumber is empty ? '' : 'сосна '~listItem.burialPlaceMemorialTreeNumber -}}
     {% endif %}
   </td>
   <td>
-    {% if listItem.customerType == constant('Cemetery\\Registrar\\Domain\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') %}
+    {% if listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') %}
       {{- listItem.customerNaturalPersonFullName is empty ? '' : listItem.customerNaturalPersonFullName -}}
-    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
+    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
       {{- listItem.customerSoleProprietorName is empty ? '' : listItem.customerSoleProprietorName -}}
-    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
+    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
       {{- listItem.customerJuristicPersonName is empty ? '' : listItem.customerJuristicPersonName -}}
     {% endif %}
   </td>
   <td>
-    {% if listItem.customerType == constant('Cemetery\\Registrar\\Domain\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') %}
+    {% if listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') %}
       {{- listItem.customerNaturalPersonAddress is empty ? '' : listItem.customerNaturalPersonAddress -}}
-    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
+    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
       {{- listItem.customerSoleProprietorRegistrationAddress is empty
         ? listItem.customerSoleProprietorActualLocationAddress is empty ? '' : listItem.customerSoleProprietorActualLocationAddress
         : listItem.customerSoleProprietorRegistrationAddress -}}
-    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
+    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
       {{- listItem.customerJuristicPersonLegalAddress is empty
         ? listItem.customerJuristicPersonPostalAddress is empty ? '' : listItem.customerJuristicPersonPostalAddress
         : listItem.customerJuristicPersonLegalAddress -}}
     {% endif %}
   </td>
   <td>
-    {% if listItem.customerType == constant('Cemetery\\Registrar\\Domain\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') %}
+    {% if listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') %}
       {{- listItem.customerNaturalPersonPhone is empty ? '' : listItem.customerNaturalPersonPhone -}}
-    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
+    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
       {{- listItem.customerSoleProprietorPhone is empty ? '' : listItem.customerSoleProprietorPhone -}}
-    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
+    {% elseif listItem.customerType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
       {{- listItem.customerJuristicPersonPhone is empty ? '' : listItem.customerJuristicPersonPhone -}}
     {% endif %}
   </td>

@@ -5,9 +5,9 @@
       <option selected></option>
       {% for listItem in funeralCompanyViewList.listItems %}
         <option value="{{ listItem.id }}">
-          {%- if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
+          {%- if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
             {{ listItem.organizationJuristicPersonName }}
-          {%- elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -%}
+          {%- elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -%}
             {{ listItem.organizationSoleProprietorName }}
           {%- endif -%}
         </option>

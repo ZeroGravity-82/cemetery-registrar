@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal;
 
-use Cemetery\Registrar\Domain\Burial\BurialCodeGenerator;
+use Cemetery\Registrar\Domain\Model\Burial\BurialCodeGenerator;
 use Doctrine\DBAL\Connection;
 
 /**

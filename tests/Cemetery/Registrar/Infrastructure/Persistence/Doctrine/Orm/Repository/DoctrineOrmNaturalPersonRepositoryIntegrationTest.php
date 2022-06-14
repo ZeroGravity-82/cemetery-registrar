@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonCollection;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmNaturalPersonRepository;
 use DataFixtures\NaturalPerson\NaturalPersonProvider;
 

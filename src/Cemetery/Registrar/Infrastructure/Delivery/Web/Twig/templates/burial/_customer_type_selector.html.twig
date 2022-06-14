@@ -1,17 +1,17 @@
 <div class="row pb-3">
   <div class="col-12 js-customer-type-selector-wrapper"
-       data-natural-person-value="{{- constant('Cemetery\\Registrar\\Domain\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') -}}"
-       data-juristic-person-value="{{- constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -}}"
-       data-sole-proprietor-value="{{- constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -}}">
+       data-natural-person-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') -}}"
+       data-juristic-person-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -}}"
+       data-sole-proprietor-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -}}">
     <div class="form-check form-check-inline">
       <input id="customerTypeNaturalPerson"
              type="radio"
              class="form-check-input"
              name="customerType"
-             value="{{- constant('Cemetery\\Registrar\\Domain\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') -}}">
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\NaturalPerson\\NaturalPerson::CLASS_SHORTCUT') -}}">
       <label class="form-check-label"
              for="customerTypeNaturalPerson">
-        {{- constant('Cemetery\\Registrar\\Domain\\NaturalPerson\\NaturalPerson::CLASS_LABEL')|ucfirst -}}
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\NaturalPerson\\NaturalPerson::CLASS_LABEL')|ucfirst -}}
       </label>
     </div>
     <div class="form-check form-check-inline">
@@ -19,10 +19,10 @@
              type="radio"
              class="form-check-input"
              name="customerType"
-             value="{{- constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -}}">
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -}}">
       <label class="form-check-label"
              for="customerTypeJuristicPerson">
-        {{- constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_LABEL')|ucfirst -}}
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_LABEL')|ucfirst -}}
       </label>
     </div>
     <div class="form-check form-check-inline">
@@ -30,10 +30,10 @@
              type="radio"
              class="form-check-input"
              name="customerType"
-             value="{{- constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -}}">
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -}}">
       <label class="form-check-label"
              for="customerTypeSoleProprietor">
-        {{- constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_LABEL')|ucfirst -}}
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_LABEL')|ucfirst -}}
       </label>
     </div>
   </div>

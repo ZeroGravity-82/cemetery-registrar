@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonCollection;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmJuristicPersonRepository;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
 

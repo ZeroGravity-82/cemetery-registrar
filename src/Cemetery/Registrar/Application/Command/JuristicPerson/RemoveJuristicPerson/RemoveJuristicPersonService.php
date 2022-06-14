@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\Command\JuristicPerson\RemoveJuristicPerson;
 
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRemover;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemover;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types;
 
-use Cemetery\Registrar\Domain\EntityMaskingId;
+use Cemetery\Registrar\Domain\Model\EntityMaskingId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Burial\Burial;
-use Cemetery\Registrar\Domain\Burial\BurialCollection;
-use Cemetery\Registrar\Domain\Burial\BurialId;
-use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Entity;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
+use Cemetery\Registrar\Domain\Model\Burial\Burial;
+use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
+use Cemetery\Registrar\Domain\Model\Burial\BurialId;
+use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmBurialRepository;
 use DataFixtures\Burial\BurialProvider;
 

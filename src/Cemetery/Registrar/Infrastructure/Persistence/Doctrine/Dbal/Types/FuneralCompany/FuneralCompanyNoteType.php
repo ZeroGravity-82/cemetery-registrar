@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany;
 
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyNote;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyNote;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringType;
 
 /**

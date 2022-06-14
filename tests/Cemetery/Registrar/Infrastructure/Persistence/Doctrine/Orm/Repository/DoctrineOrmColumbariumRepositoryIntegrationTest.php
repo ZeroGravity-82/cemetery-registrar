@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\Columbarium;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumCollection;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumId;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumName;
-use Cemetery\Registrar\Domain\Entity;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumCollection;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumName;
+use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 

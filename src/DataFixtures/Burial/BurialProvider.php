@@ -4,25 +4,25 @@ declare(strict_types=1);
 
 namespace DataFixtures\Burial;
 
-use Cemetery\Registrar\Domain\Burial\Burial;
-use Cemetery\Registrar\Domain\Burial\BurialCode;
-use Cemetery\Registrar\Domain\Burial\BurialId;
-use Cemetery\Registrar\Domain\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\Burial\BurialType;
-use Cemetery\Registrar\Domain\Burial\CustomerId;
-use Cemetery\Registrar\Domain\BurialContainer\BurialContainer;
-use Cemetery\Registrar\Domain\BurialContainer\Coffin;
-use Cemetery\Registrar\Domain\BurialContainer\CoffinShape;
-use Cemetery\Registrar\Domain\BurialContainer\CoffinSize;
-use Cemetery\Registrar\Domain\BurialContainer\Urn;
-use Cemetery\Registrar\Domain\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\BurialPlace\MemorialTree\MemorialTreeId;
-use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
+use Cemetery\Registrar\Domain\Model\Burial\Burial;
+use Cemetery\Registrar\Domain\Model\Burial\BurialCode;
+use Cemetery\Registrar\Domain\Model\Burial\BurialId;
+use Cemetery\Registrar\Domain\Model\Burial\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\Burial\BurialType;
+use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Model\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\Model\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\Model\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\Model\BurialContainer\CoffinSize;
+use Cemetery\Registrar\Domain\Model\BurialContainer\Urn;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 
 class BurialProvider
 {

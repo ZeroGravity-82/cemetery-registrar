@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact;
 
-use Cemetery\Registrar\Domain\Contact\Address;
+use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringType;
 
 /**

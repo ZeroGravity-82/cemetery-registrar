@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace DataFixtures\NaturalPerson;
 
-use Cemetery\Registrar\Domain\Contact\Address;
-use Cemetery\Registrar\Domain\Contact\Email;
-use Cemetery\Registrar\Domain\Contact\PhoneNumber;
-use Cemetery\Registrar\Domain\NaturalPerson\FullName;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPerson;
-use Cemetery\Registrar\Domain\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\NaturalPerson\Passport;
+use Cemetery\Registrar\Domain\Model\Contact\Address;
+use Cemetery\Registrar\Domain\Model\Contact\Email;
+use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\Passport;
 
 class NaturalPersonProvider
 {

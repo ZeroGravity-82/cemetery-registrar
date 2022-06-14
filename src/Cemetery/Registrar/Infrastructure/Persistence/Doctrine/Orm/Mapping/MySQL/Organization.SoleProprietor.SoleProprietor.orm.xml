@@ -1,6 +1,6 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
-    <entity name="Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor" table="sole_proprietor">
+    <entity name="Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor" table="sole_proprietor">
         <id name="id" column="id" type="sole_proprietor_id">
         </id>
 

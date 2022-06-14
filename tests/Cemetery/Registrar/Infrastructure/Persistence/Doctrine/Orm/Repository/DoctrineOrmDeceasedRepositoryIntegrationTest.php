@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Deceased\CauseOfDeath;
-use Cemetery\Registrar\Domain\Deceased\Deceased;
-use Cemetery\Registrar\Domain\Deceased\DeceasedCollection;
-use Cemetery\Registrar\Domain\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\Entity;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
+use Cemetery\Registrar\Domain\Model\Deceased\DeceasedCollection;
+use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmDeceasedRepository;
 use DataFixtures\Deceased\DeceasedProvider;
 

@@ -1,5 +1,5 @@
 <tr data-id="{{ listItem.id }}">
-  {% if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
+  {% if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
     <td>{{- listItem.organizationJuristicPersonName is empty ? '' : listItem.organizationJuristicPersonName -}}</td>
     <td>{{- listItem.organizationJuristicPersonInn  is empty ? '' : listItem.organizationJuristicPersonInn -}}</td>
     <td>
@@ -8,7 +8,7 @@
           : listItem.organizationJuristicPersonLegalAddress -}}
     </td>
     <td>{{- listItem.organizationJuristicPersonPhone is empty ? '' : listItem.organizationJuristicPersonPhone -}}</td>
-  {% elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
+  {% elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
     <td>{{- listItem.organizationSoleProprietorName is empty ? '' : listItem.organizationSoleProprietorName -}}</td>
     <td>{{- listItem.organizationSoleProprietorInn  is empty ? '' : listItem.organizationSoleProprietorInn -}}</td>
     <td>

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompany;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyCollection;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\FuneralCompany\FuneralCompanyRepository;
-use Cemetery\Registrar\Domain\Organization\OrganizationId;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
+use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

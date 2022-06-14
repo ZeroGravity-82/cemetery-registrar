@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace DataFixtures\Organization\JuristicPerson;
 
-use Cemetery\Registrar\Domain\Contact\Address;
-use Cemetery\Registrar\Domain\NaturalPerson\FullName;
-use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\Inn;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Organization\JuristicPerson\Kpp;
-use Cemetery\Registrar\Domain\Organization\Name;
+use Cemetery\Registrar\Domain\Model\Contact\Address;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
+use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Kpp;
+use Cemetery\Registrar\Domain\Model\Organization\Name;
 
 class JuristicPersonProvider
 {

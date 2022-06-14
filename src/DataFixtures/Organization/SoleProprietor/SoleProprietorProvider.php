@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace DataFixtures\Organization\SoleProprietor;
 
-use Cemetery\Registrar\Domain\Contact\Address;
-use Cemetery\Registrar\Domain\Contact\Email;
-use Cemetery\Registrar\Domain\Contact\PhoneNumber;
-use Cemetery\Registrar\Domain\Contact\Website;
-use Cemetery\Registrar\Domain\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Domain\Organization\Name;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\Inn;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Domain\Organization\SoleProprietor\SoleProprietorId;
+use Cemetery\Registrar\Domain\Model\Contact\Address;
+use Cemetery\Registrar\Domain\Model\Contact\Email;
+use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\Model\Contact\Website;
+use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
+use Cemetery\Registrar\Domain\Model\Organization\Name;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 
 class SoleProprietorProvider
 {
