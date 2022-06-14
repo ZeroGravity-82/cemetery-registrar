@@ -28,15 +28,15 @@
         </thead>
         <tbody>
           {% for listItem in burialViewList.listItems %}
-            {% include 'burial/_burial_view_list_item.html.twig' %}
+            {% include 'burial/_list_item.html.twig' %}
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
-  {% include 'burial/_modal_burial_new.html.twig' %}
-  {% include 'burial/_modal_burial_edit.html.twig' %}
+  {% include 'burial/_modal_new.html.twig' %}
+  {% include 'burial/_modal_edit.html.twig' %}
 
 {% endblock %}
 

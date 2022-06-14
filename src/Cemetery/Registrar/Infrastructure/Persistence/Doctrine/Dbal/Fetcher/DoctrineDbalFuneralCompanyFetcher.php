@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyFetcher;
-use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyViewList;
-use Cemetery\Registrar\Application\Query\ListFuneralCompanies\FuneralCompanyViewListItem;
+use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\FuneralCompanyFetcher;
+use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\FuneralCompanyList;
+use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\FuneralCompanyListItem;
 use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
@@ -19,7 +19,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     /**
      * {@inheritdoc}
      */
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyViewList
+    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -128,7 +128,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
      * @param int         $totalCount
      * @param int         $totalPages
      *
-     * @return FuneralCompanyViewList
+     * @return FuneralCompanyList
      */
     private function hydrateFuneralCompanyViewList(
         array   $funeralCompanyViewListData,
@@ -137,10 +137,10 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         ?string $term,
         int     $totalCount,
         int     $totalPages,
-    ): FuneralCompanyViewList {
+    ): FuneralCompanyList {
         $funeralCompanyViewListItems = [];
         foreach ($funeralCompanyViewListData as $funeralCompanyViewListItemData) {
-            $funeralCompanyViewListItems[] = new FuneralCompanyViewListItem(
+            $funeralCompanyViewListItems[] = new FuneralCompanyListItem(
                 $funeralCompanyViewListItemData['id'],
                 $funeralCompanyViewListItemData['organizationType'],
                 $funeralCompanyViewListItemData['organizationJuristicPersonName'],
@@ -157,6 +157,6 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             );
         }
 
-        return new FuneralCompanyViewList($funeralCompanyViewListItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new FuneralCompanyList($funeralCompanyViewListItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

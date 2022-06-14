@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Application\Command\EditBurial\BurialFormView;
+use Cemetery\Registrar\Application\Query\Burial\ReadBurial\BurialFormView;
 use Cemetery\Registrar\Application\Query\ListBurials\BurialFetcher;
-use Cemetery\Registrar\Application\Query\ListBurials\BurialViewList;
+use Cemetery\Registrar\Application\Query\ListBurials\BurialList;
 use Cemetery\Registrar\Application\Query\ListBurials\BurialViewListItem;
 use Cemetery\Registrar\Domain\Burial\BurialCode;
 use Doctrine\DBAL\Query\QueryBuilder;
@@ -32,7 +32,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     /**
      * {@inheritdoc}
      */
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialViewList
+    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -440,7 +440,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      * @param int         $totalCount
      * @param int         $totalPages
      *
-     * @return BurialViewList
+     * @return BurialList
      */
     private function hydrateBurialViewList(
         array   $burialViewListData,
@@ -449,7 +449,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         ?string $term,
         int     $totalCount,
         int     $totalPages,
-    ): BurialViewList {
+    ): BurialList {
         $burialViewListItems = [];
         foreach ($burialViewListData as $burialViewListItemData) {
             $burialViewListItems[] = new BurialViewListItem(
@@ -483,7 +483,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             );
         }
 
-        return new BurialViewList($burialViewListItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new BurialList($burialViewListItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**

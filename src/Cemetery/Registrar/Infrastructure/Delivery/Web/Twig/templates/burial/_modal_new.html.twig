@@ -1,0 +1,127 @@
+<div class="modal fade" id="createBurialModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createBurialModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createBurialModalLabel">Создание захоронения</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+      </div>
+      <div class="modal-body">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Основная</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link disabled" id="geo-position-tab" data-bs-toggle="tab" data-bs-target="#geo-position" type="button" role="tab" tabindex="-1" aria-controls="geo-position" aria-selected="false">Геопозиция</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link disabled" id="reminders-tab" data-bs-toggle="tab" data-bs-target="#reminders" type="button" role="tab" tabindex="-1" aria-controls="reminders" aria-selected="false">Напоминания</button>
+          </li>
+        </ul>
+        <form class="tab-content" id="createBurialTabContent" action="{{ path('burial_new') }}" method="post" name="create-burial">
+          <div class="container tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+              <div class="col-md-6 px-0 card">
+                <div class="card-body pb-0">
+                  <h5 class="card-title text-success">Информация об умершем</h5>
+                  {% include 'deceased/_subform.html.twig' %}
+                </div>
+              </div>
+              <div class="col-md-6 px-0 card">
+                <div class="card-body pb-0">
+                  <h5 class="card-title text-success">Заказчик</h5>
+                  {% include 'burial/_customer_type_selector.html.twig' %}
+                  {% include 'natural_person/_subform.html.twig' with {'context': 'customer'} %}
+                  {% include 'organization/juristic_person/_subform.html.twig' with {'context': 'customer'} %}
+                  {% include 'organization/sole_proprietor/_subform.html.twig' with {'context': 'customer'} %}
+                </div>
+              </div>
+            </div>
+            <div class="row card">
+              <div class="card-body pb-0">
+                <h5 class="card-title text-success">Захоронение</h5>
+                <div class="row">
+                  <div class="col-md-6">
+                    {% include 'burial/_funeral_company_selector.html.twig' %}
+                    <div class="row">
+                      <div class="col-md-3"><label for="buriedAt" class="form-label">Дата захоронения</label></div>
+                      <div class="col-md-9"><input type="datetime-local" class="form-control form-control-sm" id="buriedAt" name="buriedAt"></div>
+                    </div>
+                    <div class="row d-none">
+                      <div class="col-md-3"><label for="burialPlaceType" class="form-label">Тип места захоронения</label></div>
+                      <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialPlaceType" name="burialPlaceType" value="GRAVE_SITE"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 row">
+                        <div class="col-md-3"><label for="burialPlaceGraveSiteCemeteryBlockId" class="form-label">Квартал</label></div>
+                        <div class="col-md-9">
+                          <select class="form-select form-select-sm" id="burialPlaceGraveSiteCemeteryBlockId" name="burialPlaceGraveSiteCemeteryBlockId" aria-label="Квартал">
+                            <option selected></option>
+                            <option value="CB001">воинский</option>
+                            <option value="CB002">общий А</option>
+                            <option value="CB003">общий Б</option>
+                            <option value="CB004">мусульманский</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-md-6 row">
+                        <div class="col-md-3"><label for="burialPlaceGraveSiteRowInBlock" class="form-label">Ряд</label></div>
+                        <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="burialPlaceGraveSiteRowInBlock" name="burialPlaceGraveSiteRowInBlock"></div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3"><label for="burialPlaceGeoPosition" class="form-label">Геопозиция</label></div>
+                      <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialPlaceGeoPosition" name="burialPlaceGeoPosition"></div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row d-none">
+                      <div class="col-md-3"><label for="burialContainerType" class="form-label">Тип контейнера захоронения</label></div>
+                      <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialContainerType" name="burialContainerType" value="COFFIN"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3"><label for="burialContainerCoffinShape" class="form-label">Форма гроба</label></div>
+                      <div class="col-md-9">
+                        <select class="form-select form-select-sm" id="burialContainerCoffinShape" name="burialContainerCoffinShape" aria-label="Форма гроба">
+                          <option selected></option>
+                          <option value="TRAPEZOID">Трапеция</option>
+                          <option value="GREEK_WITH_HANDLES">Грек (с ручками)</option>
+                          <option value="GREEK_WITHOUT_HANDLES">Грек (без ручек)</option>
+                          <option value="AMERICAN">Американец</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3"><label for="burialContainerCoffinSize" class="form-label">Размер гроба</label></div>
+                      <div class="col-md-9"><input type="number" min="165" max="225" class="form-control form-control-sm" id="burialContainerCoffinSize" name="burialContainerCoffinSize"></div>
+                    </div>
+                    <div class="row">
+                      <div class="col-12">
+                        <div class="form-check">
+                          <label class="form-check-label" for="burialContainerCoffinIsNonStandard">Нестандарт</label>
+                          <input class="form-check-input" type="checkbox" value="true" id="burialContainerCoffinIsNonStandard" name="burialContainerCoffinIsNonStandard">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="containertab-pane fade d-none" id="geo-position" role="tabpanel" aria-labelledby="geo-position-tab">...</div>
+          <div class="containertab-pane fade d-none" id="reminders" role="tabpanel" aria-labelledby="reminders-tab">...</div>
+
+          <div class="container">
+            <div class="row pt-3 text-end">
+              <div class="col-12">
+                <button type="submit" class="btn btn-warning btn-sm" aria-label="Записать и закрыть">Записать и закрыть</button>
+                <button type="submit" class="btn btn-secondary btn-sm disabled" aria-label="Записать">Записать</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal" aria-label="Закрыть">Закрыть</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer"></div>
+    </div>
+  </div>
+</div>
