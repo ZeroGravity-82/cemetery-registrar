@@ -8,6 +8,8 @@ use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\RegisterNewB
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\RegisterNewBurialService;
 use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalRequest;
 use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalService;
+use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsRequest;
+use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsService;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
@@ -32,6 +34,7 @@ class BurialController extends AbstractController
         private readonly BurialFetcher            $burialFetcher,
         private readonly FuneralCompanyFetcher    $funeralCompanyFetcher,
         private readonly CountBurialTotalService  $countBurialTotalService,
+        private readonly ListBurialsService       $listBurialsService,
         private readonly RegisterNewBurialService $registerNewBurialService,
     ) {}
 
@@ -42,7 +45,9 @@ class BurialController extends AbstractController
             ->execute(new CountBurialTotalRequest())
             ->burialTotalCount;
 
-        $burialList         = $this->burialFetcher->findAll(1);
+        $burialList = $this->listBurialsService
+            ->execute(new ListBurialsRequest())
+            ->burialList;
 
         $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX);
 
