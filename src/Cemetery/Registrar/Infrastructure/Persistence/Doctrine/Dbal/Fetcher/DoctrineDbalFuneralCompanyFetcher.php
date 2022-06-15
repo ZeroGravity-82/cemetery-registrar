@@ -14,7 +14,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements FuneralCompanyFetcher
 {
-    // TODO implement getFormViewById() method
+    // TODO implement getViewById() method
 
     /**
      * {@inheritdoc}
@@ -46,13 +46,13 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         $this->addJoinsToQueryBuilder($queryBuilder);
         $this->addWheresToQueryBuilder($queryBuilder, $term);
 
-        $funeralCompanyViewListData = $queryBuilder
+        $funeralCompanyListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doGetTotalCount($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateFuneralCompanyViewList($funeralCompanyViewListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateFuneralCompanyList($funeralCompanyListData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -121,7 +121,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     }
 
     /**
-     * @param array       $funeralCompanyViewListData
+     * @param array       $funeralCompanyListData
      * @param int         $page
      * @param int         $pageSize
      * @param string|null $term
@@ -130,33 +130,33 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
      *
      * @return FuneralCompanyList
      */
-    private function hydrateFuneralCompanyViewList(
-        array   $funeralCompanyViewListData,
+    private function hydrateFuneralCompanyList(
+        array   $funeralCompanyListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): FuneralCompanyList {
-        $funeralCompanyViewListItems = [];
-        foreach ($funeralCompanyViewListData as $funeralCompanyViewListItemData) {
-            $funeralCompanyViewListItems[] = new FuneralCompanyListItem(
-                $funeralCompanyViewListItemData['id'],
-                $funeralCompanyViewListItemData['organizationType'],
-                $funeralCompanyViewListItemData['organizationJuristicPersonName'],
-                $funeralCompanyViewListItemData['organizationJuristicPersonInn'],
-                $funeralCompanyViewListItemData['organizationJuristicPersonLegalAddress'],
-                $funeralCompanyViewListItemData['organizationJuristicPersonPostalAddress'],
-                $funeralCompanyViewListItemData['organizationJuristicPersonPhone'],
-                $funeralCompanyViewListItemData['organizationSoleProprietorName'],
-                $funeralCompanyViewListItemData['organizationSoleProprietorInn'],
-                $funeralCompanyViewListItemData['organizationSoleProprietorRegistrationAddress'],
-                $funeralCompanyViewListItemData['organizationSoleProprietorActualLocationAddress'],
-                $funeralCompanyViewListItemData['organizationSoleProprietorPhone'],
-                $funeralCompanyViewListItemData['note'],
+        $funeralCompanyListItems = [];
+        foreach ($funeralCompanyListData as $funeralCompanyListItemData) {
+            $funeralCompanyListItems[] = new FuneralCompanyListItem(
+                $funeralCompanyListItemData['id'],
+                $funeralCompanyListItemData['organizationType'],
+                $funeralCompanyListItemData['organizationJuristicPersonName'],
+                $funeralCompanyListItemData['organizationJuristicPersonInn'],
+                $funeralCompanyListItemData['organizationJuristicPersonLegalAddress'],
+                $funeralCompanyListItemData['organizationJuristicPersonPostalAddress'],
+                $funeralCompanyListItemData['organizationJuristicPersonPhone'],
+                $funeralCompanyListItemData['organizationSoleProprietorName'],
+                $funeralCompanyListItemData['organizationSoleProprietorInn'],
+                $funeralCompanyListItemData['organizationSoleProprietorRegistrationAddress'],
+                $funeralCompanyListItemData['organizationSoleProprietorActualLocationAddress'],
+                $funeralCompanyListItemData['organizationSoleProprietorPhone'],
+                $funeralCompanyListItemData['note'],
             );
         }
 
-        return new FuneralCompanyList($funeralCompanyViewListItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new FuneralCompanyList($funeralCompanyListItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

@@ -43,23 +43,23 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertSame(self::DEFAULT_PAGE_SIZE, FuneralCompanyFetcher::DEFAULT_PAGE_SIZE);
     }
 
-    public function testItReturnsFuneralCompanyFormViewById(): void
+    public function testItReturnsFuneralCompanyViewById(): void
     {
         $this->markTestIncomplete();
-//        $this->testItReturnsFuneralCompanyFormViewForFC001();
-//        $this->testItReturnsFuneralCompanyFormViewForFC002();
-//        $this->testItReturnsFuneralCompanyFormViewForFC003();
-//        $this->testItReturnsFuneralCompanyFormViewForFC004();
+//        $this->testItReturnsFuneralCompanyViewForFC001();
+//        $this->testItReturnsFuneralCompanyViewForFC002();
+//        $this->testItReturnsFuneralCompanyViewForFC003();
+//        $this->testItReturnsFuneralCompanyViewForFC004();
     }
 
-    public function testItFailsToReturnFuneralCompanyFormViewByUnknownId(): void
+    public function testItFailsToReturnFuneralCompanyViewByUnknownId(): void
     {
         $this->markTestIncomplete();
 //        $this->expectExceptionForNotFoundFuneralCompanyById('unknown_id');
-//        $this->funeralCompanyFetcher->getFormViewById('unknown_id');
+//        $this->funeralCompanyFetcher->getViewById('unknown_id');
     }
 
-    public function testItFailsToReturnFuneralCompanyFormViewForRemovedFuneralCompany(): void
+    public function testItFailsToReturnFuneralCompanyViewForRemovedFuneralCompany(): void
     {
         // Prepare database table for testing
         $funeralCompanyToRemove = $this->funeralCompanyRepo->findById(new FuneralCompanyId('FC004'));
@@ -68,7 +68,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 
         // Testing itself
 //         $this->expectExceptionForNotFoundFuneralCompanyById($removedFuneralCompanyId);
-//        $this->funeralCompanyFetcher->getFormViewById($removedFuneralCompanyId);
+//        $this->funeralCompanyFetcher->getViewById($removedFuneralCompanyId);
     }
 
     public function testItReturnsFuneralCompanyViewListItemsByPage(): void
