@@ -37,7 +37,8 @@
             <a class="nav-link disabled" href="#">Номенклатура</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" href="#">Организации</a>
+            <a class="nav-link {% if currentRoute == 'admin_organization_list' %}active{% endif %}"
+               href="{{ path('admin_organization_list') }}">Организации</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {% if currentRoute == 'admin_funeral_company_list' %}active{% endif %}"

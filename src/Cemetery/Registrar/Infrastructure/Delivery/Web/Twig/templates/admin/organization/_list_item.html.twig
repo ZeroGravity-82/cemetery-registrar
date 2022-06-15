@@ -1,0 +1,36 @@
+<tr data-id="{{ listItem.id }}">
+  {% if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
+    <td>{{- listItem.organizationJuristicPersonName            is empty ? '' : listItem.organizationJuristicPersonName -}}</td>
+    <td>{{ constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_LABEL') }}</td>
+    <td>
+        {{- listItem.organizationJuristicPersonInn             is empty ? '' : listItem.organizationJuristicPersonInn -}}/
+        {{- listItem.organizationJuristicPersonKpp             is empty ? '' : listItem.organizationJuristicPersonKpp -}}
+    </td>
+    <td>{{- listItem.organizationJuristicOgrn                  is empty ? '' : listItem.organizationJuristicOgrn -}}</td>
+    <td>{{- listItem.organizationJuristicOkpo                  is empty ? '' : listItem.organizationJuristicOkpo -}}</td>
+    <td>{{- listItem.organizationJuristicOkved                 is empty ? '' : listItem.organizationJuristicOkved -}}</td>
+    <td>{{- listItem.organizationJuristicPersonLegalAddress    is empty ? '' : listItem.organizationJuristicPersonLegalAddress -}}</td>
+    <td>{{- listItem.organizationJuristicPersonPostalAddress   is empty ? '' : listItem.organizationJuristicPersonPostalAddress -}}</td>
+    <td>{{- listItem.organizationJuristicPersonPhone           is empty ? '' : listItem.organizationJuristicPersonPhone -}}</td>
+    <td>{{- listItem.organizationJuristicPersonPhoneAdditional is empty ? '' : listItem.organizationJuristicPersonPhoneAdditional -}}</td>
+    <td>{{- listItem.organizationJuristicPersonFax             is empty ? '' : listItem.organizationJuristicPersonFax -}}</td>
+    <td>{{- listItem.organizationJuristicPersonGeneralDirector is empty ? '' : listItem.organizationJuristicPersonGeneralDirector -}}</td>
+    <td>{{- listItem.organizationJuristicPersonEmail           is empty ? '' : listItem.organizationJuristicPersonEmail -}}</td>
+    <td>{{- listItem.organizationJuristicPersonWebsite         is empty ? '' : listItem.organizationJuristicPersonWebsite -}}</td>
+  {% elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
+    <td>{{- listItem.organizationSoleProprietorName                  is empty ? '' : listItem.organizationSoleProprietorName -}}</td>
+    <td>{{ constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_LABEL') }}</td>
+    <td>{{- listItem.organizationSoleProprietorInn                   is empty ? '' : listItem.organizationSoleProprietorInn -}}/-</td>
+    <td>{{- listItem.organizationSoleProprietorOgrnip                is empty ? '' : listItem.organizationSoleProprietorOgrnip -}}</td>
+    <td>{{- listItem.organizationSoleProprietorOkpo                  is empty ? '' : listItem.organizationSoleProprietorOkpo -}}</td>
+    <td>{{- listItem.organizationSoleProprietorOkved                 is empty ? '' : listItem.organizationSoleProprietorOkved -}}</td>
+    <td>{{- listItem.organizationSoleProprietorRegistrationAddress   is empty ? '' : listItem.organizationSoleProprietorRegistrationAddress -}}</td>
+    <td>{{- listItem.organizationSoleProprietorActualLocationAddress is empty ? '' : listItem.organizationSoleProprietorActualLocationAddress -}}</td>
+    <td>{{- listItem.organizationSoleProprietorPhone                 is empty ? '' : listItem.organizationSoleProprietorPhone -}}</td>
+    <td>{{- listItem.organizationSoleProprietorPhoneAdditional       is empty ? '' : listItem.organizationSoleProprietorPhoneAdditional -}}</td>
+    <td>{{- listItem.organizationSoleProprietorFax                   is empty ? '' : listItem.organizationSoleProprietorFax -}}</td>
+    <td>-</td>
+    <td>{{- listItem.organizationSoleProprietorEmail                 is empty ? '' : listItem.organizationSoleProprietorEmail -}}</td>
+    <td>{{- listItem.organizationSoleProprietorWebsite               is empty ? '' : listItem.organizationSoleProprietorWebsite -}}</td>
+  {% endif %}
+</tr>

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Админка - Организации{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+  <div class="mb-2 mb-lg-2">
+    <p class="pt-2 fs-5 fw-bold text-success">Организации <span class="text-muted fw-normal fs-6">({{ organizationTotalCount }})</span></p>
+
+    {% include 'admin/organization/_toolbar.html.twig' %}
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover caption-top">
+        <thead class="table-light align-middle">
+          <tr>
+            <th>Наименование</th>
+            <th>Тип</th>
+            <th>ИНН/КПП</th>
+            <th>ОГРН(ИП)</th>
+            <th>ОКПО</th>
+            <th>ОКВЭД</th>
+            <th>Адрес юридический (регистрации)</th>
+            <th>Адрес почтовый (фактический)</th>
+            <th>Банковские реквизиты</th>
+            <th>Телефон</th>
+            <th>Телефон дополнительный</th>
+            <th>Факс</th>
+            <th>Гендиректор</th>
+            <th>Эл. почта</th>
+            <th>Веб-сайт</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for listItem in organizationList.listItems %}
+            {% include 'admin/organization/_list_item.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{#  {% include 'admin/organization/_modal_organization_new.html.twig' %}#}
+
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+
+  <link href="/css/organization-form.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="/js/organization-form.js"></script>
+{% endblock %}
