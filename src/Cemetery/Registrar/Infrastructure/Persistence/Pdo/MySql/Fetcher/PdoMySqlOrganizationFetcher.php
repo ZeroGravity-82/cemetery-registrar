@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Pdo\MySql\Fetcher;
 
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationList;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
@@ -80,20 +82,43 @@ class PdoMySqlOrganizationFetcher implements OrganizationFetcher
      */
     private function doGetTotalCount(?string $term): int
     {
-        $sql = <<<'SQL_START'
+        $sql = \sprintf(<<<'SQL_START'
 SELECT COUNT(*)
-FROM (SELECT id, name, phone, removed_at FROM juristic_person
+FROM (SELECT id,
+             '%s' AS type,
+             name,
+             inn,
+             phone,
+             removed_at
+      FROM juristic_person
       UNION
-      SELECT id, name, phone, removed_at FROM sole_proprietor) AS union_table
+      SELECT id,
+             '%s' AS type,
+             name,
+             inn,
+             phone,
+             removed_at
+      FROM sole_proprietor) AS union_table
 WHERE removed_at IS NULL
-SQL_START;
-        $sql = $this->addWheresToSql($sql, $term);
+SQL_START
+            ,
+            JuristicPerson::CLASS_SHORTCUT,
+            SoleProprietor::CLASS_SHORTCUT
+        );
 
+        $term = 'SOLE';
+
+        $hasTerm = $term !== null && $term !== '';
+        if ($hasTerm) {
+            $sql = $this->addWheresToSql($sql, $term);
+        }
         $stmt = $this->connection->prepare($sql);
+        if ($hasTerm) {
+            $stmt->bindValue('term', "%$term%");
+        }
         $result = $stmt->executeQuery();
-        dump($result->fetchFirstColumn()[0]);
 
-        return 0;
+        return $result->fetchFirstColumn()[0];
     }
 
     /**
@@ -104,12 +129,15 @@ SQL_START;
      */
     private function addWheresToSql(string $sql, ?string $term): string
     {
-        $term = 'ИП';
 
-        if ($term !== null && $term !== '') {
-            $sql .= <<<'SQL_WHERE'
-  AND (juristic_person.name                    LIKE %:term%
-//    OR juristic_person.inn                     LIKE %:term%
+
+        $sql .= <<<'SQL_WHERE'
+  AND (name                LIKE :term
+    OR inn                 LIKE :term
+    OR phone               LIKE :term)
+SQL_WHERE;
+
+
 //    OR juristic_person.legal_address           LIKE %:term%
 //    OR juristic_person.postal_address          LIKE %:term%
 //    OR juristic_person.phone                   LIKE %:term%
@@ -117,10 +145,6 @@ SQL_START;
 //    OR sole_proprietor.inn                     LIKE %:term%
 //    OR sole_proprietor.registration_address    LIKE %:term%
 //    OR sole_proprietor.actual_location_address LIKE %:term%
-    OR sole_proprietor.phone                   LIKE %:term%)
-SQL_WHERE;
-
-
 
 //
 //            $queryBuilder
@@ -139,7 +163,6 @@ SQL_WHERE;
 //                )
 //            )
 //            ->setParameter('term', "%$term%");
-        }
 
         return $sql;
     }
