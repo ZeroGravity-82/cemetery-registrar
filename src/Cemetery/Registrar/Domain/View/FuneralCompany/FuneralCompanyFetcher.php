@@ -19,4 +19,9 @@ interface FuneralCompanyFetcher
      * @return FuneralCompanyList
      */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList;
+
+    /**
+     * @return int
+     */
+    public function getTotalCount(): int;
 }
