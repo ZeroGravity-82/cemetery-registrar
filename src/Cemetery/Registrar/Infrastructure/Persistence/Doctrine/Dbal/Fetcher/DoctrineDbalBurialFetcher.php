@@ -72,13 +72,13 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         $this->addJoinsToQueryBuilder($queryBuilder);
         $this->addWheresToQueryBuilder($queryBuilder, $term);
 
-        $burialViewListData = $queryBuilder
+        $burialListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doGetTotalCount($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateBurialViewList($burialViewListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateBurialList($burialListData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -433,7 +433,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     }
 
     /**
-     * @param array       $burialViewListData
+     * @param array       $burialListData
      * @param int         $page
      * @param int         $pageSize
      * @param string|null $term
@@ -442,8 +442,8 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      *
      * @return BurialList
      */
-    private function hydrateBurialViewList(
-        array   $burialViewListData,
+    private function hydrateBurialList(
+        array   $burialListData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -451,7 +451,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         int     $totalPages,
     ): BurialList {
         $burialListItems = [];
-        foreach ($burialViewListData as $burialListItemData) {
+        foreach ($burialListData as $burialListItemData) {
             $burialListItems[] = new BurialListItem(
                 $burialListItemData['id'],
                 $this->formatCode($burialListItemData['code']),
