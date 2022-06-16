@@ -65,6 +65,7 @@ class BankDetails
         if ($this->correspondentAccount()) {
             $bankDetailsString .= ', к/счёт ' . $this->correspondentAccount();
         }
+
         return $bankDetailsString . ', БИК ' . $this->bik();
     }
 
