@@ -23,5 +23,5 @@ interface OrganizationFetcher
     /**
      * @return int
      */
-    public function getTotalCount(): int;
+    public function countTotal(): int;
 }

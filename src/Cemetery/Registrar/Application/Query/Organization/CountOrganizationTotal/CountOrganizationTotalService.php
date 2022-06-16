@@ -23,6 +23,6 @@ class CountOrganizationTotalService extends ApplicationService
      */
     public function execute($request): CountOrganizationTotalResponse
     {
-        return new CountOrganizationTotalResponse($this->organizationFetcher->getTotalCount());
+        return new CountOrganizationTotalResponse($this->organizationFetcher->countTotal());
     }
 }
