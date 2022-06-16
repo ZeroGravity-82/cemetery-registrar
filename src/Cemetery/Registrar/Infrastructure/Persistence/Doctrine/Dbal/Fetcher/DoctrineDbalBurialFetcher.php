@@ -487,11 +487,11 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     }
 
     /**
-     * @param $code
+     * @param string $code
      *
      * @return string
      */
-    private function formatCode($code): string
+    private function formatCode(string $code): string
     {
         return \sprintf(BurialCode::CODE_FORMAT, $code);
     }
