@@ -32,5 +32,5 @@ interface BurialFetcher
     /**
      * @return int
      */
-    public function getTotalCount(): int;
+    public function countTotal(): int;
 }

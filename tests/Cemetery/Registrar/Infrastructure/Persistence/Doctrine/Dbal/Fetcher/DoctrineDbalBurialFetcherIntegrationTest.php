@@ -197,7 +197,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
 
     public function testItReturnsBurialTotalCount(): void
     {
-        $this->assertSame(7, $this->burialFetcher->getTotalCount());
+        $this->assertSame(7, $this->burialFetcher->countTotal());
     }
 
     public function testItDoesNotCountRemovedBurialsWhenCalculatingTotalCount(): void
@@ -207,7 +207,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->burialRepo->remove($burialToRemove);
 
         // Testing itself
-        $this->assertSame(6, $this->burialFetcher->getTotalCount());
+        $this->assertSame(6, $this->burialFetcher->countTotal());
     }
 
     protected function loadFixtures(): void

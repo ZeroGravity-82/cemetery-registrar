@@ -43,13 +43,14 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             ->addOrderBy('osp.name')
             ->setFirstResult(($page - 1) * $pageSize)
             ->setMaxResults($pageSize);
-        $this->addJoinsToQueryBuilder($queryBuilder);
-        $this->addWheresToQueryBuilder($queryBuilder, $term);
+        $this->appendJoins($queryBuilder);
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
 
         $funeralCompanyListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $this->doGetTotalCount($term);
+        $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateFuneralCompanyList($funeralCompanyListData, $page, $pageSize, $term, $totalCount, $totalPages);
@@ -58,9 +59,9 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     /**
      * {@inheritdoc}
      */
-    public function getTotalCount(): int
+    public function countTotal(): int
     {
-        return $this->doGetTotalCount(null);
+        return $this->doCountTotal(null);
     }
 
     /**
@@ -68,14 +69,15 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
      *
      * @return int
      */
-    private function doGetTotalCount(?string $term): int
+    private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(fc.id)')
             ->from('funeral_company', 'fc')
             ->andWhere('fc.removed_at IS NULL');
-        $this->addJoinsToQueryBuilder($queryBuilder);
-        $this->addWheresToQueryBuilder($queryBuilder, $term);
+        $this->appendJoins($queryBuilder);
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
 
         return $queryBuilder
             ->executeQuery()
@@ -85,7 +87,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     /**
      * @param QueryBuilder $queryBuilder
      */
-    private function addJoinsToQueryBuilder(QueryBuilder $queryBuilder): void
+    private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
             ->leftJoin('fc', 'juristic_person', 'ojp', 'fc.organization_id->>"$.value" = ojp.id')
@@ -96,28 +98,26 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
      * @param QueryBuilder $queryBuilder
      * @param string|null  $term
      */
-    private function addWheresToQueryBuilder(QueryBuilder $queryBuilder, ?string $term): void
+    private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
-        if ($term === null || $term === '') {
-            return;
+        if ($this->isTermNotEmpty($term)) {
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->or(
+                        $queryBuilder->expr()->like('ojp.name', ':term'),
+                        $queryBuilder->expr()->like('ojp.inn', ':term'),
+                        $queryBuilder->expr()->like('ojp.legal_address', ':term'),
+                        $queryBuilder->expr()->like('ojp.postal_address', ':term'),
+                        $queryBuilder->expr()->like('ojp.phone', ':term'),
+                        $queryBuilder->expr()->like('osp.name', ':term'),
+                        $queryBuilder->expr()->like('osp.inn', ':term'),
+                        $queryBuilder->expr()->like('osp.registration_address', ':term'),
+                        $queryBuilder->expr()->like('osp.actual_location_address', ':term'),
+                        $queryBuilder->expr()->like('osp.phone', ':term'),
+                        $queryBuilder->expr()->like('fc.note', ':term'),
+                    )
+                );
         }
-        $queryBuilder
-            ->andWhere(
-                $queryBuilder->expr()->or(
-                    $queryBuilder->expr()->like('ojp.name', ':term'),
-                    $queryBuilder->expr()->like('ojp.inn', ':term'),
-                    $queryBuilder->expr()->like('ojp.legal_address', ':term'),
-                    $queryBuilder->expr()->like('ojp.postal_address', ':term'),
-                    $queryBuilder->expr()->like('ojp.phone', ':term'),
-                    $queryBuilder->expr()->like('osp.name', ':term'),
-                    $queryBuilder->expr()->like('osp.inn', ':term'),
-                    $queryBuilder->expr()->like('osp.registration_address', ':term'),
-                    $queryBuilder->expr()->like('osp.actual_location_address', ':term'),
-                    $queryBuilder->expr()->like('osp.phone', ':term'),
-                    $queryBuilder->expr()->like('fc.note', ':term'),
-                )
-            )
-            ->setParameter('term', "%$term%");
     }
 
     /**

@@ -69,13 +69,14 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             ->orderBy('b.code')
             ->setFirstResult(($page - 1) * $pageSize)
             ->setMaxResults($pageSize);
-        $this->addJoinsToQueryBuilder($queryBuilder);
-        $this->addWheresToQueryBuilder($queryBuilder, $term);
+        $this->appendJoins($queryBuilder);
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
 
         $burialListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $this->doGetTotalCount($term);
+        $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateBurialList($burialListData, $page, $pageSize, $term, $totalCount, $totalPages);
@@ -84,9 +85,9 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     /**
      * {@inheritdoc}
      */
-    public function getTotalCount(): int
+    public function countTotal(): int
     {
-        return $this->doGetTotalCount(null);
+        return $this->doCountTotal(null);
     }
 
     /**
@@ -225,14 +226,15 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      *
      * @return int
      */
-    private function doGetTotalCount(?string $term): int
+    private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(b.id)')
             ->from('burial', 'b')
             ->andWhere('b.removed_at IS NULL');
-        $this->addJoinsToQueryBuilder($queryBuilder);
-        $this->addWheresToQueryBuilder($queryBuilder, $term);
+        $this->appendJoins($queryBuilder);
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
 
         return $queryBuilder
             ->executeQuery()
@@ -242,7 +244,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     /**
      * @param QueryBuilder $queryBuilder
      */
-    private function addJoinsToQueryBuilder(QueryBuilder $queryBuilder): void
+    private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
             ->leftJoin('b',    'deceased',          'd',      'b.deceased_id                 = d.id')
@@ -261,41 +263,39 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      * @param QueryBuilder $queryBuilder
      * @param string|null  $term
      */
-    private function addWheresToQueryBuilder(QueryBuilder $queryBuilder, ?string $term): void
+    private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
-        if ($term === null || $term === '') {
-            return;
+        if ($this->isTermNotEmpty($term)) {
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->or(
+                        $queryBuilder->expr()->like('b.code', ':term'),
+                        $queryBuilder->expr()->like('dnp.full_name', ':term'),
+                        $queryBuilder->expr()->like('dnp.born_at', ':term'),
+                        $queryBuilder->expr()->like('d.died_at', ':term'),
+                        $queryBuilder->expr()->like('d.age', ':term'),
+                        $queryBuilder->expr()->like('b.buried_at', ':term'),
+                        $queryBuilder->expr()->like('bpgscb.name', ':term'),
+                        $queryBuilder->expr()->like('bpgs.row_in_block', ':term'),
+                        $queryBuilder->expr()->like('bpgs.position_in_row', ':term'),
+                        $queryBuilder->expr()->like('bpcnc.name', ':term'),
+                        $queryBuilder->expr()->like('bpcn.row_in_columbarium', ':term'),
+                        $queryBuilder->expr()->like('bpcn.columbarium_niche_number', ':term'),
+                        $queryBuilder->expr()->like('bpmt.tree_number', ':term'),
+                        $queryBuilder->expr()->like('cnp.full_name', ':term'),
+                        $queryBuilder->expr()->like('cnp.address', ':term'),
+                        $queryBuilder->expr()->like('cnp.phone', ':term'),
+                        $queryBuilder->expr()->like('csp.name', ':term'),
+                        $queryBuilder->expr()->like('csp.registration_address', ':term'),
+                        $queryBuilder->expr()->like('csp.actual_location_address', ':term'),
+                        $queryBuilder->expr()->like('csp.phone', ':term'),
+                        $queryBuilder->expr()->like('cjp.name', ':term'),
+                        $queryBuilder->expr()->like('cjp.legal_address', ':term'),
+                        $queryBuilder->expr()->like('cjp.postal_address', ':term'),
+                        $queryBuilder->expr()->like('cjp.phone', ':term'),
+                    )
+                );
         }
-        $queryBuilder
-            ->andWhere(
-                $queryBuilder->expr()->or(
-                    $queryBuilder->expr()->like('b.code', ':term'),
-                    $queryBuilder->expr()->like('dnp.full_name', ':term'),
-                    $queryBuilder->expr()->like('dnp.born_at', ':term'),
-                    $queryBuilder->expr()->like('d.died_at', ':term'),
-                    $queryBuilder->expr()->like('d.age', ':term'),
-                    $queryBuilder->expr()->like('b.buried_at', ':term'),
-                    $queryBuilder->expr()->like('bpgscb.name', ':term'),
-                    $queryBuilder->expr()->like('bpgs.row_in_block', ':term'),
-                    $queryBuilder->expr()->like('bpgs.position_in_row', ':term'),
-                    $queryBuilder->expr()->like('bpcnc.name', ':term'),
-                    $queryBuilder->expr()->like('bpcn.row_in_columbarium', ':term'),
-                    $queryBuilder->expr()->like('bpcn.columbarium_niche_number', ':term'),
-                    $queryBuilder->expr()->like('bpmt.tree_number', ':term'),
-                    $queryBuilder->expr()->like('cnp.full_name', ':term'),
-                    $queryBuilder->expr()->like('cnp.address', ':term'),
-                    $queryBuilder->expr()->like('cnp.phone', ':term'),
-                    $queryBuilder->expr()->like('csp.name', ':term'),
-                    $queryBuilder->expr()->like('csp.registration_address', ':term'),
-                    $queryBuilder->expr()->like('csp.actual_location_address', ':term'),
-                    $queryBuilder->expr()->like('csp.phone', ':term'),
-                    $queryBuilder->expr()->like('cjp.name', ':term'),
-                    $queryBuilder->expr()->like('cjp.legal_address', ':term'),
-                    $queryBuilder->expr()->like('cjp.postal_address', ':term'),
-                    $queryBuilder->expr()->like('cjp.phone', ':term'),
-                )
-            )
-            ->setParameter('term', "%$term%");
     }
 
     /**

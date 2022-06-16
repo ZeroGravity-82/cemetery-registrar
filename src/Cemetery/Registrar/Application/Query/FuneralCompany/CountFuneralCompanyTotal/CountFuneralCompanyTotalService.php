@@ -23,6 +23,6 @@ class CountFuneralCompanyTotalService extends ApplicationService
      */
     public function execute($request): CountFuneralCompanyTotalResponse
     {
-        return new CountFuneralCompanyTotalResponse($this->funeralCompanyFetcher->getTotalCount());
+        return new CountFuneralCompanyTotalResponse($this->funeralCompanyFetcher->countTotal());
     }
 }

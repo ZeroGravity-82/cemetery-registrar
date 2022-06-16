@@ -187,7 +187,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 
     public function testItReturnsFuneralCompanyTotalCount(): void
     {
-        $this->assertSame(4, $this->funeralCompanyFetcher->getTotalCount());
+        $this->assertSame(4, $this->funeralCompanyFetcher->countTotal());
     }
 
     public function testItDoesNotCountRemovedFuneralCompanyWhenCalculatingTotalCount(): void
@@ -197,7 +197,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->funeralCompanyRepo->remove($funeralCompanyToRemove);
 
         // Testing itself
-        $this->assertSame(3, $this->funeralCompanyFetcher->getTotalCount());
+        $this->assertSame(3, $this->funeralCompanyFetcher->countTotal());
     }
 
     protected function loadFixtures(): void

@@ -23,6 +23,6 @@ class CountBurialTotalService extends ApplicationService
      */
     public function execute($request): CountBurialTotalResponse
     {
-        return new CountBurialTotalResponse($this->burialFetcher->getTotalCount());
+        return new CountBurialTotalResponse($this->burialFetcher->countTotal());
     }
 }
