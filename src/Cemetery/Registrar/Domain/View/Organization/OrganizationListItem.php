@@ -11,7 +11,8 @@ class OrganizationListItem
 {
     /**
      * @param string      $id
-     * @param string      $type
+     * @param string      $typeShortcut
+     * @param string      $typeLabel
      * @param string|null $juristicPersonName
      * @param string|null $juristicPersonInn
      * @param string|null $juristicPersonKpp
@@ -43,7 +44,8 @@ class OrganizationListItem
      */
     public function __construct(
         public readonly string  $id,
-        public readonly string  $type,
+        public readonly string  $typeShortcut,
+        public readonly string  $typeLabel,
         public readonly ?string $juristicPersonName,
         public readonly ?string $juristicPersonInn,
         public readonly ?string $juristicPersonKpp,
