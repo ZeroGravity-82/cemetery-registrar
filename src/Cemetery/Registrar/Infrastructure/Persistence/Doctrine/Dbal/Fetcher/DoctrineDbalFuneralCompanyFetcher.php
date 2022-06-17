@@ -138,25 +138,25 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         int     $totalCount,
         int     $totalPages,
     ): FuneralCompanyList {
-        $funeralCompanyListItems = [];
-        foreach ($funeralCompanyListData as $funeralCompanyListItemData) {
-            $funeralCompanyListItems[] = new FuneralCompanyListItem(
-                $funeralCompanyListItemData['id'],
-                $funeralCompanyListItemData['organizationType'],
-                $funeralCompanyListItemData['organizationJuristicPersonName'],
-                $funeralCompanyListItemData['organizationJuristicPersonInn'],
-                $funeralCompanyListItemData['organizationJuristicPersonLegalAddress'],
-                $funeralCompanyListItemData['organizationJuristicPersonPostalAddress'],
-                $funeralCompanyListItemData['organizationJuristicPersonPhone'],
-                $funeralCompanyListItemData['organizationSoleProprietorName'],
-                $funeralCompanyListItemData['organizationSoleProprietorInn'],
-                $funeralCompanyListItemData['organizationSoleProprietorRegistrationAddress'],
-                $funeralCompanyListItemData['organizationSoleProprietorActualLocationAddress'],
-                $funeralCompanyListItemData['organizationSoleProprietorPhone'],
-                $funeralCompanyListItemData['note'],
+        $listItems = [];
+        foreach ($funeralCompanyListData as $listItemData) {
+            $listItems[] = new FuneralCompanyListItem(
+                $listItemData['id'],
+                $listItemData['organizationType'],
+                $listItemData['organizationJuristicPersonName'],
+                $listItemData['organizationJuristicPersonInn'],
+                $listItemData['organizationJuristicPersonLegalAddress'],
+                $listItemData['organizationJuristicPersonPostalAddress'],
+                $listItemData['organizationJuristicPersonPhone'],
+                $listItemData['organizationSoleProprietorName'],
+                $listItemData['organizationSoleProprietorInn'],
+                $listItemData['organizationSoleProprietorRegistrationAddress'],
+                $listItemData['organizationSoleProprietorActualLocationAddress'],
+                $listItemData['organizationSoleProprietorPhone'],
+                $listItemData['note'],
             );
         }
 
-        return new FuneralCompanyList($funeralCompanyListItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new FuneralCompanyList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }
