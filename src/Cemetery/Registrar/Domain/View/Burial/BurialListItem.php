@@ -12,9 +12,9 @@ class BurialListItem
     /**
      * @param string      $id
      * @param string      $code
-     * @param string|null $deceasedNaturalPersonFullName
+     * @param string      $deceasedNaturalPersonFullName
      * @param string|null $deceasedNaturalPersonBornAt
-     * @param string|null $deceasedDiedAt
+     * @param string      $deceasedDiedAt
      * @param int|null    $deceasedAge
      * @param string|null $buriedAt
      * @param string|null $burialPlaceType
@@ -41,9 +41,9 @@ class BurialListItem
     public function __construct(
         public readonly string  $id,
         public readonly string  $code,
-        public readonly ?string $deceasedNaturalPersonFullName,
+        public readonly string  $deceasedNaturalPersonFullName,
         public readonly ?string $deceasedNaturalPersonBornAt,
-        public readonly ?string $deceasedDiedAt,
+        public readonly string  $deceasedDiedAt,
         public readonly ?int    $deceasedAge,
         public readonly ?string $buriedAt,
         public readonly ?string $burialPlaceType,
