@@ -450,40 +450,40 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         int     $totalCount,
         int     $totalPages,
     ): BurialList {
-        $burialListItems = [];
-        foreach ($burialListData as $burialListItemData) {
-            $burialListItems[] = new BurialListItem(
-                $burialListItemData['id'],
-                $this->formatCode($burialListItemData['code']),
-                $burialListItemData['deceasedNaturalPersonFullName'],
-                $burialListItemData['deceasedNaturalPersonBornAt'],
-                $burialListItemData['deceasedDiedAt'],
-                $burialListItemData['deceasedAge'],
-                $burialListItemData['buriedAt'],
-                $burialListItemData['burialPlaceType'],
-                $burialListItemData['burialPlaceGraveSiteCemeteryBlockName'],
-                $burialListItemData['burialPlaceGraveSiteRowInBlock'],
-                $burialListItemData['burialPlaceGraveSitePositionInRow'],
-                $burialListItemData['burialPlaceColumbariumNicheColumbariumName'],
-                $burialListItemData['burialPlaceColumbariumNicheRowInColumbarium'],
-                $burialListItemData['burialPlaceColumbariumNicheNumber'],
-                $burialListItemData['burialPlaceMemorialTreeNumber'],
-                $burialListItemData['customerType'],
-                $burialListItemData['customerNaturalPersonFullName'],
-                $burialListItemData['customerNaturalPersonAddress'],
-                $burialListItemData['customerNaturalPersonPhone'],
-                $burialListItemData['customerSoleProprietorName'],
-                $burialListItemData['customerSoleProprietorRegistrationAddress'],
-                $burialListItemData['customerSoleProprietorActualLocationAddress'],
-                $burialListItemData['customerSoleProprietorPhone'],
-                $burialListItemData['customerJuristicPersonName'],
-                $burialListItemData['customerJuristicPersonLegalAddress'],
-                $burialListItemData['customerJuristicPersonPostalAddress'],
-                $burialListItemData['customerJuristicPersonPhone'],
+        $listItems = [];
+        foreach ($burialListData as $listItemData) {
+            $listItems[] = new BurialListItem(
+                $listItemData['id'],
+                $this->formatCode($listItemData['code']),
+                $listItemData['deceasedNaturalPersonFullName'],
+                $listItemData['deceasedNaturalPersonBornAt'],
+                $listItemData['deceasedDiedAt'],
+                $listItemData['deceasedAge'],
+                $listItemData['buriedAt'],
+                $listItemData['burialPlaceType'],
+                $listItemData['burialPlaceGraveSiteCemeteryBlockName'],
+                $listItemData['burialPlaceGraveSiteRowInBlock'],
+                $listItemData['burialPlaceGraveSitePositionInRow'],
+                $listItemData['burialPlaceColumbariumNicheColumbariumName'],
+                $listItemData['burialPlaceColumbariumNicheRowInColumbarium'],
+                $listItemData['burialPlaceColumbariumNicheNumber'],
+                $listItemData['burialPlaceMemorialTreeNumber'],
+                $listItemData['customerType'],
+                $listItemData['customerNaturalPersonFullName'],
+                $listItemData['customerNaturalPersonAddress'],
+                $listItemData['customerNaturalPersonPhone'],
+                $listItemData['customerSoleProprietorName'],
+                $listItemData['customerSoleProprietorRegistrationAddress'],
+                $listItemData['customerSoleProprietorActualLocationAddress'],
+                $listItemData['customerSoleProprietorPhone'],
+                $listItemData['customerJuristicPersonName'],
+                $listItemData['customerJuristicPersonLegalAddress'],
+                $listItemData['customerJuristicPersonPostalAddress'],
+                $listItemData['customerJuristicPersonPhone'],
             );
         }
 
-        return new BurialList($burialListItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new BurialList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
