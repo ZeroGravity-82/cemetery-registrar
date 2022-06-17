@@ -22,42 +22,16 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
      */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {
+        $sql  = $this->buildFindAllSql($page, $term, $pageSize);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
+        $result = $stmt->executeQuery();
 
+        $organizationListData = $result->fetchAllAssociative();
+        $totalCount           = $this->doCountTotal($term);
+        $totalPages           = (int) \ceil($totalCount / $pageSize);
 
-
-
-//        $queryBuilder = $this->connection->createQueryBuilder()
-//            ->select(
-//                'fc.id                         AS id',
-//                'fc.organization_id->>"$.type" AS organizationType',
-//                'ojp.name                      AS organizationJuristicPersonName',
-//                'ojp.inn                       AS organizationJuristicPersonInn',
-//                'ojp.legal_address             AS organizationJuristicPersonLegalAddress',
-//                'ojp.postal_address            AS organizationJuristicPersonPostalAddress',
-//                'ojp.phone                     AS organizationJuristicPersonPhone',
-//                'osp.name                      AS organizationSoleProprietorName',
-//                'osp.inn                       AS organizationSoleProprietorInn',
-//                'osp.registration_address      AS organizationSoleProprietorRegistrationAddress',
-//                'osp.actual_location_address   AS organizationSoleProprietorActualLocationAddress',
-//                'osp.phone                     AS organizationSoleProprietorPhone',
-//                'fc.note                       AS note'
-//            )
-//            ->from('funeral_company', 'fc')
-//            ->andWhere('fc.removed_at IS NULL')
-//            ->orderBy('ojp.name')
-//            ->addOrderBy('osp.name')
-//            ->setFirstResult(($page - 1) * $pageSize)
-//            ->setMaxResults($pageSize);
-//        $this->addJoinsToQueryBuilder($queryBuilder);
-//        $this->addWheresToQueryBuilder($queryBuilder, $term);
-//
-//        $organizationListData = $queryBuilder
-//            ->executeQuery()
-//            ->fetchAllAssociative();
-//        $totalCount = $this->doGetTotalCount($term);
-//        $totalPages = (int) \ceil($totalCount / $pageSize);
-//
-//        return $this->hydrateOrganizationList($organizationListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateOrganizationList($organizationListData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -90,9 +64,45 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
      */
     private function buildCountTotalSql(?string $term): string
     {
-        $sql = \sprintf('SELECT COUNT(*) FROM (%s) AS union_table WHERE removed_at IS NULL', $this->buildUnionSql());
+        $sql = \sprintf('SELECT COUNT(*) FROM (%s) AS unionTable WHERE removedAt IS NULL', $this->buildUnionSql());
 
         return $this->appendAndWhereLikeTermSql($sql, $term);
+    }
+
+    /**
+     * @param int $page
+     * @param string|null $term
+     * @param int $pageSize
+     *
+     * @return string
+     */
+    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
+    {
+        $sql = \sprintf(<<<FIND_ALL_SQL
+SELECT id,
+       typeShortcut,
+       typeLabel,
+       name,
+       innKpp,
+       ogrn,
+       okpo,
+       okved,
+       address,
+       bankDetails,
+       phone,
+       generalDirector,
+       emailWebsite
+FROM (%s) AS unionTable
+WHERE removedAt IS NULL
+FIND_ALL_SQL
+            ,
+            $this->buildUnionSql()
+        );
+
+        $sql = $this->appendAndWhereLikeTermSql($sql, $term);
+        $sql = $this->appendOrderByName($sql);
+
+        return $this->appendLimitOffset($sql, $page, $pageSize);
     }
 
     /**
@@ -102,83 +112,107 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
     {
         return \sprintf(<<<UNION_SQL
 SELECT id                                                 AS id,
-       '%s'                                               AS type_shortcut,
-       '%s'                                               AS type_label,
-       name                                               AS juristic_person_name,
-       inn                                                AS juristic_person_inn,
-       kpp                                                AS juristic_person_kpp,
-       ogrn                                               AS juristic_person_ogrn,
-       okpo                                               AS juristic_person_okpo,
-       okved                                              AS juristic_person_okved,
-       legal_address                                      AS juristic_person_legal_address,
-       postal_address                                     AS juristic_person_postal_address,
-       JSON_VALUE(bank_details, '$.bankName')             AS juristic_person_bank_details_bank_name,
-       JSON_VALUE(bank_details, '$.bik')                  AS juristic_person_bank_details_bik,
-       JSON_VALUE(bank_details, '$.correspondentAccount') AS juristic_person_bank_details_correspondent_account,
-       JSON_VALUE(bank_details, '$.currentAccount')       AS juristic_person_bank_details_current_account,
-       phone                                              AS juristic_person_phone,
-       phone_additional                                   AS juristic_person_phone_additional,
-       fax                                                AS juristic_person_fax,
-       general_director                                   AS juristic_person_general_director,
-       email                                              AS juristic_person_email,
-       website                                            AS juristic_person_website,
-       NULL                                               AS sole_proprietor_name,
-       NULL                                               AS sole_proprietor_inn,
-       NULL                                               AS sole_proprietor_ogrnip,
-       NULL                                               AS sole_proprietor_okpo,
-       NULL                                               AS sole_proprietor_okved,
-       NULL                                               AS sole_proprietor_registration_address,
-       NULL                                               AS sole_proprietor_actual_location_address,
-       NULL                                               AS sole_proprietor_bank_details_bank_name,
-       NULL                                               AS sole_proprietor_bank_details_bik,
-       NULL                                               AS sole_proprietor_bank_details_correspondent_account,
-       NULL                                               AS sole_proprietor_bank_details_current_account,
-       NULL                                               AS sole_proprietor_phone,
-       NULL                                               AS sole_proprietor_phone_additional,
-       NULL                                               AS sole_proprietor_fax,
-       NULL                                               AS sole_proprietor_email,
-       NULL                                               AS sole_proprietor_website,
-       removed_at                                         AS removed_at
+       '%s'                                               AS typeShortcut,
+       '%s'                                               AS typeLabel,
+       name                                               AS name,
+       IF(
+           inn IS NOT NULL OR kpp IS NOT NULL,
+           CONCAT_WS('/', IFNULL(inn, '-'), IFNULL(kpp, '-')),
+           NULL
+       )                                                  AS innKpp,
+       ogrn                                               AS ogrn,
+       okpo                                               AS okpo,
+       okved                                              AS okved,
+       IF(
+           legal_address IS NOT NULL OR postal_address IS NOT NULL,
+           CONCAT_WS(', ', legal_address, postal_address),
+           NULL
+       )                                                  AS address,
+       IF(
+           bank_details IS NOT NULL,
+           CONCAT(
+               JSON_VALUE(bank_details, '$.bankName'),
+               ', р/счёт ',
+               JSON_VALUE(bank_details, '$.currentAccount'),
+               IF(
+                   JSON_VALUE(bank_details, '$.correspondentAccount') IS NOT NULL,
+                   CONCAT(', к/счёт ', JSON_VALUE(bank_details, '$.correspondentAccount')),
+                   ''
+               ),
+               ', БИК ',
+               JSON_VALUE(bank_details, '$.bik')
+           ),
+           NULL
+       )                                                  AS bankDetails,
+       IF(
+           phone IS NOT NULL OR phone_additional IS NOT NULL OR fax IS NOT NULL,
+           CONCAT_WS(
+               ', ',
+               phone,
+               phone_additional,
+               IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
+           ),
+           NULL
+       )                                                  AS phone,
+       general_director                                   AS generalDirector,
+       IF(
+           email IS NOT NULL OR website IS NOT NULL,
+           CONCAT_WS(', ', email, website),
+           NULL
+       )                                                  AS emailWebsite,
+       removed_at                                         AS removedAt
 FROM juristic_person
 UNION
 SELECT id                                                 AS id,
-       '%s'                                               AS type_shortcut,
-       '%s'                                               AS type_label,
-       NULL                                               AS juristic_person_name,
-       NULL                                               AS juristic_person_inn,
-       NULL                                               AS juristic_person_kpp,
-       NULL                                               AS juristic_person_ogrn,
-       NULL                                               AS juristic_person_okpo,
-       NULL                                               AS juristic_person_okved,
-       NULL                                               AS juristic_person_legal_address,
-       NULL                                               AS juristic_person_postal_address,
-       NULL                                               AS juristic_person_bank_details_bank_name,
-       NULL                                               AS juristic_person_bank_details_bik,
-       NULL                                               AS juristic_person_bank_details_correspondent_account,
-       NULL                                               AS juristic_person_bank_details_current_account,
-       NULL                                               AS juristic_person_phone,
-       NULL                                               AS juristic_person_phone_additional,
-       NULL                                               AS juristic_person_fax,
-       NULL                                               AS juristic_person_general_director,
-       NULL                                               AS juristic_person_email,
-       NULL                                               AS juristic_person_website,
-       name                                               AS sole_proprietor_name,
-       inn                                                AS sole_proprietor_inn,
-       ogrnip                                             AS sole_proprietor_ogrnip,
-       okpo                                               AS sole_proprietor_okpo,
-       okved                                              AS sole_proprietor_okved,
-       registration_address                               AS sole_proprietor_registration_address,
-       actual_location_address                            AS sole_proprietor_actual_location_address,
-       JSON_VALUE(bank_details, '$.bankName')             AS sole_proprietor_bank_details_bank_name,
-       JSON_VALUE(bank_details, '$.bik')                  AS sole_proprietor_bank_details_bik,
-       JSON_VALUE(bank_details, '$.correspondentAccount') AS sole_proprietor_bank_details_correspondent_account,
-       JSON_VALUE(bank_details, '$.currentAccount')       AS sole_proprietor_bank_details_current_account,
-       phone                                              AS sole_proprietor_phone,
-       phone_additional                                   AS sole_proprietor_phone_additional,
-       fax                                                AS sole_proprietor_fax,
-       email                                              AS sole_proprietor_email,
-       website                                            AS sole_proprietor_website,
-       removed_at                                         AS removed_at
+       '%s'                                               AS typeShortcut,
+       '%s'                                               AS typeLabel,
+       name                                               AS name,
+       IF(inn IS NOT NULL, CONCAT(inn, '/-'), NULL)       AS innKpp,
+       ogrnip                                             AS ogrn,
+       okpo                                               AS okpo,
+       okved                                              AS okved,
+       IF(
+           registration_address IS NOT NULL OR actual_location_address IS NOT NULL,
+           CONCAT_WS(
+               ', ',
+               registration_address,
+               actual_location_address
+           ),
+           NULL
+       )                                                  AS address,
+       IF(
+           bank_details IS NOT NULL,
+           CONCAT(
+               JSON_VALUE(bank_details, '$.bankName'),
+               ', р/счёт ',
+               JSON_VALUE(bank_details, '$.currentAccount'),
+               IF(
+                   JSON_VALUE(bank_details, '$.correspondentAccount') IS NOT NULL,
+                   CONCAT(', к/счёт ', JSON_VALUE(bank_details, '$.correspondentAccount')),
+                   ''
+               ),
+               ', БИК ',
+               JSON_VALUE(bank_details, '$.bik')
+           ),
+           NULL
+       )                                                  AS bankDetails,
+       IF(
+           phone IS NOT NULL OR phone_additional IS NOT NULL OR fax IS NOT NULL,
+           CONCAT_WS(
+               ', ',
+               phone,
+               phone_additional,
+               IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
+           ),
+           NULL
+       )                                                  AS phone,
+       NULL                                               AS generalDirector,
+       IF(
+           email IS NOT NULL OR website IS NOT NULL,
+           CONCAT_WS(', ', email, website),
+           NULL
+       )                                                  AS emailWebsite,
+       removed_at                                         AS removedAt
 FROM sole_proprietor
 UNION_SQL
             ,
@@ -190,7 +224,7 @@ UNION_SQL
     }
 
     /**
-     * @param string      $sql
+     * @param string $sql
      * @param string|null $term
      *
      * @return string
@@ -199,45 +233,43 @@ UNION_SQL
     {
         if ($this->isTermNotEmpty($term)) {
             $sql .= <<<LIKE_TERM_SQL
-  AND (type_label                                         LIKE :term
-    OR juristic_person_name                               LIKE :term
-    OR juristic_person_inn                                LIKE :term
-    OR juristic_person_kpp                                LIKE :term
-    OR juristic_person_ogrn                               LIKE :term
-    OR juristic_person_okpo                               LIKE :term
-    OR juristic_person_okved                              LIKE :term
-    OR juristic_person_legal_address                      LIKE :term
-    OR juristic_person_postal_address                     LIKE :term
-    OR juristic_person_bank_details_bank_name             LIKE :term
-    OR juristic_person_bank_details_bik                   LIKE :term
-    OR juristic_person_bank_details_correspondent_account LIKE :term
-    OR juristic_person_bank_details_current_account       LIKE :term
-    OR juristic_person_phone                              LIKE :term
-    OR juristic_person_phone_additional                   LIKE :term
-    OR juristic_person_fax                                LIKE :term
-    OR juristic_person_general_director                   LIKE :term
-    OR juristic_person_email                              LIKE :term
-    OR juristic_person_website                            LIKE :term
-    OR sole_proprietor_name                               LIKE :term
-    OR sole_proprietor_inn                                LIKE :term
-    OR sole_proprietor_ogrnip                             LIKE :term
-    OR sole_proprietor_okpo                               LIKE :term
-    OR sole_proprietor_okved                              LIKE :term
-    OR sole_proprietor_registration_address               LIKE :term
-    OR sole_proprietor_actual_location_address            LIKE :term
-    OR sole_proprietor_bank_details_bank_name             LIKE :term
-    OR sole_proprietor_bank_details_bik                   LIKE :term
-    OR sole_proprietor_bank_details_correspondent_account LIKE :term
-    OR sole_proprietor_bank_details_current_account       LIKE :term
-    OR sole_proprietor_phone                              LIKE :term
-    OR sole_proprietor_phone_additional                   LIKE :term
-    OR sole_proprietor_fax                                LIKE :term
-    OR sole_proprietor_email                              LIKE :term
-    OR sole_proprietor_website                            LIKE :term)
+  AND (typeLabel          LIKE :term
+    OR name               LIKE :term
+    OR innKpp             LIKE :term
+    OR ogrn               LIKE :term
+    OR okpo               LIKE :term
+    OR okved              LIKE :term
+    OR address            LIKE :term
+    OR LOWER(bankDetails) LIKE LOWER(:term)
+    OR phone              LIKE :term
+    OR generalDirector    LIKE :term
+    OR emailWebsite       LIKE :term)
 LIKE_TERM_SQL;
         }
 
         return $sql;
+    }
+
+    /**
+     * @param string $sql
+     *
+     * @return string
+     */
+    private function appendOrderByName(string $sql): string
+    {
+        return \sprintf('%s ORDER BY name', $sql);
+    }
+
+    /**
+     * @param string $sql
+     * @param int    $page
+     * @param int    $pageSize
+     *
+     * @return string
+     */
+    private function appendLimitOffset(string $sql, int $page, int $pageSize): string
+    {
+        return \sprintf('%s LIMIT %d OFFSET %d', $sql, $pageSize, ($page - 1) * $pageSize);
     }
 
     /**
@@ -259,21 +291,21 @@ LIKE_TERM_SQL;
         int     $totalPages,
     ): OrganizationList {
         $organizationListItems = [];
-        foreach ($organizationListData as $organizationListItemData) {
+        foreach ($organizationListData as $listItemData) {
             $organizationListItems[] = new OrganizationListItem(
-                $organizationListItemData['id'],
-                $organizationListItemData['organizationType'],
-                $organizationListItemData['organizationJuristicPersonName'],
-                $organizationListItemData['organizationJuristicPersonInn'],
-                $organizationListItemData['organizationJuristicPersonLegalAddress'],
-                $organizationListItemData['organizationJuristicPersonPostalAddress'],
-                $organizationListItemData['organizationJuristicPersonPhone'],
-                $organizationListItemData['organizationSoleProprietorName'],
-                $organizationListItemData['organizationSoleProprietorInn'],
-                $organizationListItemData['organizationSoleProprietorRegistrationAddress'],
-                $organizationListItemData['organizationSoleProprietorActualLocationAddress'],
-                $organizationListItemData['organizationSoleProprietorPhone'],
-                $organizationListItemData['note'],
+                $listItemData['id'],
+                $listItemData['typeShortcut'],
+                $listItemData['typeLabel'],
+                $listItemData['name'],
+                $listItemData['innKpp'],
+                $listItemData['ogrn'],
+                $listItemData['okpo'],
+                $listItemData['okved'],
+                $listItemData['address'],
+                $listItemData['bankDetails'],
+                $listItemData['phone'],
+                $listItemData['generalDirector'],
+                $listItemData['emailWebsite'],
             );
         }
 
