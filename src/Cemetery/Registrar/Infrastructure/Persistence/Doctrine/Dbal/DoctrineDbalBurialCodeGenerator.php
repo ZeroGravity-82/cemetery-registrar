@@ -26,11 +26,11 @@ class DoctrineDbalBurialCodeGenerator implements BurialCodeGenerator
     {
         $result = $this->connection->createQueryBuilder()
             ->select(
-                'MAX(CAST(b.code AS UNSIGNED)) AS code_max'
+                'MAX(CAST(b.code AS UNSIGNED)) AS codeMax'
             )
             ->from('burial', 'b')
             ->executeQuery();
 
-        return (string) ($result->fetchAssociative()['code_max'] + 1);
+        return (string) ($result->fetchAssociative()['codeMax'] + 1);
     }
 }
