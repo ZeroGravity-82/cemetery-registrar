@@ -6,68 +6,69 @@ doctrine:
         charset: utf8mb4
         types:
             # Burial
-            burial_chain_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialChainIdType
-            burial_code:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialCodeType
-            burial_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialIdType
-            burial_place_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialPlaceIdType
-            burial_type:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialTypeType
-            customer_id:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType
-
+            burial_chain_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialChainIdType
+            burial_code:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialCodeType
+            burial_id:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialIdType
+            burial_place_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialPlaceIdType
+            burial_type:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialTypeType
+            customer_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType
             # BurialContainer
-            burial_container:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialContainer\BurialContainerType
+            burial_container:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialContainer\BurialContainerType
             # BurialPlace/ColumbariumNiche
-            columbarium_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumIdType
-            columbarium_name:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNameType
-            columbarium_niche_id:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNicheIdType
-            columbarium_niche_number: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNicheNumberType
-            row_in_columbarium:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\RowInColumbariumType
+            columbarium_id:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumIdType
+            columbarium_name:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNameType
+            columbarium_niche_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNicheIdType
+            columbarium_niche_number:   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNicheNumberType
+            row_in_columbarium:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\RowInColumbariumType
             # BurialPlace/GraveSite
-            cemetery_block_id:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\CemeteryBlockIdType
-            cemetery_block_name:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\CemeteryBlockNameType
-            grave_site_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\GraveSiteIdType
-            grave_site_size:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\GraveSiteSizeType
-            position_in_row:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\PositionInRowType
-            row_in_block:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\RowInBlockType
+            cemetery_block_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\CemeteryBlockIdType
+            cemetery_block_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\CemeteryBlockNameType
+            grave_site_id:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\GraveSiteIdType
+            grave_site_size:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\GraveSiteSizeType
+            position_in_row:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\PositionInRowType
+            row_in_block:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\RowInBlockType
             # BurialPlace/MemorialTree
-            memorial_tree_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\MemorialTree\MemorialTreeIdType
-            memorial_tree_number:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\MemorialTree\MemorialTreeNumberType
+            memorial_tree_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\MemorialTree\MemorialTreeIdType
+            memorial_tree_number:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\MemorialTree\MemorialTreeNumberType
             # Contact
-            address:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\AddressType
-            email:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\EmailType
-            phone_number:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\PhoneNumberType
-            website:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType
+            address:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\AddressType
+            email:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\EmailType
+            phone_number:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\PhoneNumberType
+            website:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType
             # Deceased
-            age:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\AgeType
-            cause_of_death:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeathType
-            death_certificate_id:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
-            deceased_id:              Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
+            age:                        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\AgeType
+            death_certificate_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
+            deceased_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
+            # Deceased/CauseOfDeath
+            cause_of_death_description: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathDescriptionType
+            cause_of_death_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathIdType
             # FuneralCompany
-            funeral_company_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
-            funeral_company_note:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNoteType
+            funeral_company_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
+            funeral_company_note:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNoteType
             # GeoPosition
-            geo_position:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\GeoPosition\GeoPositionType
+            geo_position:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\GeoPosition\GeoPositionType
             # NaturalPerson
-            full_name:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\FullNameType
-            natural_person_id:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\NaturalPersonIdType
-            passport:                 Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PassportType
-            place_of_birth:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PlaceOfBirthType
+            full_name:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\FullNameType
+            natural_person_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\NaturalPersonIdType
+            passport:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PassportType
+            place_of_birth:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PlaceOfBirthType
             # Organization
-            okved:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
-            organization_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OrganizationIdType
-            organization_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\NameType
+            okved:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
+            organization_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OrganizationIdType
+            organization_name:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\NameType
             # Organization/BankDetails
-            bank_details:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\BankDetailsType
+            bank_details:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\BankDetailsType
             # Organization/JuristicPerson
-            juristic_person_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\JuristicPersonIdType
-            juristic_person_inn:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\InnType
-            kpp:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\KppType
-            juristic_person_okpo:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\OkpoType
-            ogrn:                     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\OgrnType
+            juristic_person_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\JuristicPersonIdType
+            juristic_person_inn:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\InnType
+            kpp:                        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\KppType
+            juristic_person_okpo:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\OkpoType
+            ogrn:                       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\OgrnType
             # Organization/SoleProprietor
-            ogrnip:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\OgrnipType
-            sole_proprietor_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\SoleProprietorIdType
-            sole_proprietor_inn:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\InnType
-            sole_proprietor_okpo:     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\OkpoType
+            ogrnip:                     Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\OgrnipType
+            sole_proprietor_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\SoleProprietorIdType
+            sole_proprietor_inn:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\InnType
+            sole_proprietor_okpo:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\OkpoType
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedCollection;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
@@ -43,14 +43,14 @@ class DoctrineOrmDeceasedRepositoryIntegrationTest extends DoctrineOrmRepository
             $this->areEqualValueObjects($entityOne->naturalPersonId(), $entityTwo->naturalPersonId()) &&
             $this->areEqualDateTimeValues($entityOne->diedAt(), $entityTwo->diedAt()) &&
             $this->areEqualValueObjects($entityOne->deathCertificateId(), $entityTwo->deathCertificateId()) &&
-            $this->areEqualValueObjects($entityOne->causeOfDeath(), $entityTwo->causeOfDeath());
+            $this->areEqualValueObjects($entityOne->causeOfDeathId(), $entityTwo->causeOfDeathId());
     }
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newCauseOfDeath = new CauseOfDeath('Некоторая причина смерти 1');
+        $newCauseOfDeathId = new CauseOfDeathId('CD001');
 
         /** @var Deceased $entityA */
-        $entityA->setCauseOfDeath($newCauseOfDeath);
+        $entityA->setCauseOfDeathId($newCauseOfDeathId);
     }
 }

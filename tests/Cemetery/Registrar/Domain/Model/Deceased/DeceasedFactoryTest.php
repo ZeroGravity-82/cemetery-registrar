@@ -28,14 +28,14 @@ class DeceasedFactoryTest extends EntityFactoryTest
         $diedAt             = '2021-04-23';
         $age                = 82;
         $deathCertificateId = 'DC001';
-        $causeOfDeath       = 'Некоторая причина смерти';
+        $causeOfDeathId     = 'CD001';
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $deceased = $this->deceasedFactory->create(
             $naturalPersonId,
             $diedAt,
             $age,
             $deathCertificateId,
-            $causeOfDeath,
+            $causeOfDeathId,
         );
         $this->assertInstanceOf(Deceased::class, $deceased);
         $this->assertSame(self::ENTITY_ID, $deceased->id()->value());
@@ -43,7 +43,7 @@ class DeceasedFactoryTest extends EntityFactoryTest
         $this->assertSame($diedAt, $deceased->diedAt()->format('Y-m-d'));
         $this->assertSame($age, $deceased->age()->value());
         $this->assertSame($deathCertificateId, $deceased->deathCertificateId()->value());
-        $this->assertSame($causeOfDeath, $deceased->causeOfDeath()->value());
+        $this->assertSame($causeOfDeathId, $deceased->causeOfDeathId()->value());
     }
 
     public function testItCreatesDeceasedWithoutOptionalFields(): void
@@ -64,6 +64,6 @@ class DeceasedFactoryTest extends EntityFactoryTest
         $this->assertSame($diedAt, $deceased->diedAt()->format('Y-m-d'));
         $this->assertNull($deceased->age());
         $this->assertNull($deceased->deathCertificateId());
-        $this->assertNull($deceased->causeOfDeath());
+        $this->assertNull($deceased->causeOfDeathId());
     }
 }

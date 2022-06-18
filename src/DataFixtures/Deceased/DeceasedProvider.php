@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace DataFixtures\Deceased;
 
 use Cemetery\Registrar\Domain\Model\Deceased\Age;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
@@ -32,12 +33,12 @@ class DeceasedProvider
         $diedAt             = new \DateTimeImmutable('2001-02-12');
         $age                = new Age(82);
         $deathCertificateId = new DeathCertificateId('DC001');
-        $causeOfDeath       = new CauseOfDeath('Болезнь сердечно-легочная хроническая');
+        $causeOfDeath       = new CauseOfDeathId('CD008');
 
         return (new Deceased($id, $naturalPersonId, $diedAt))
             ->setAge($age)
             ->setDeathCertificateId($deathCertificateId)
-            ->setCauseOfDeath($causeOfDeath);
+            ->setCauseOfDeathId($causeOfDeath);
     }
 
     public static function getDeceasedC(): Deceased
@@ -46,11 +47,11 @@ class DeceasedProvider
         $naturalPersonId    = new NaturalPersonId('NP003');
         $diedAt             = new \DateTimeImmutable('2012-05-13');
         $deathCertificateId = new DeathCertificateId('DC002');
-        $causeOfDeath       = new CauseOfDeath('Онкология');
+        $causeOfDeath       = new CauseOfDeathId('CD004');
 
         return (new Deceased($id, $naturalPersonId, $diedAt))
             ->setDeathCertificateId($deathCertificateId)
-            ->setCauseOfDeath($causeOfDeath);
+            ->setCauseOfDeathId($causeOfDeath);
     }
 
     public static function getDeceasedD(): Deceased

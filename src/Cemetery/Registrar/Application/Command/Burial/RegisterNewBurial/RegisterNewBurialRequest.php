@@ -17,7 +17,7 @@ class RegisterNewBurialRequest
      * @param string|null $deceasedDiedAt
      * @param int|null    $deceasedAge
      * @param string|null $deceasedDeathCertificateId
-     * @param string|null $deceasedCauseOfDeath
+     * @param string|null $deceasedCauseOfDeathId
      * @param string|null $customerId
      * @param string|null $customerType
      * @param string|null $customerNaturalPersonFullName
@@ -108,7 +108,7 @@ class RegisterNewBurialRequest
         public readonly ?string $deceasedDiedAt,
         public readonly ?int    $deceasedAge,
         public readonly ?string $deceasedDeathCertificateId,
-        public readonly ?string $deceasedCauseOfDeath,
+        public readonly ?string $deceasedCauseOfDeathId,
         public readonly ?string $customerId,
         public readonly ?string $customerType,
         public readonly ?string $customerNaturalPersonFullName,

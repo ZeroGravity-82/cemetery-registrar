@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Deceased;
 
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
@@ -17,7 +18,7 @@ class DeceasedFactory extends EntityFactory
      * @param string|null $diedAt
      * @param int|null    $age
      * @param string|null $deathCertificateId
-     * @param string|null $causeOfDeath
+     * @param string|null $causeOfDeathId
      *
      * @return Deceased
      */
@@ -26,13 +27,13 @@ class DeceasedFactory extends EntityFactory
         ?string $diedAt,
         ?int    $age,
         ?string $deathCertificateId,
-        ?string $causeOfDeath,
+        ?string $causeOfDeathId,
     ): Deceased {
         $naturalPersonId    = new NaturalPersonId((string) $naturalPersonId);
         $diedAt             = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
-        $age                = $age !== null                ? new Age($age)                               : null;
+        $age                = $age                !== null ? new Age($age)                               : null;
         $deathCertificateId = $deathCertificateId !== null ? new DeathCertificateId($deathCertificateId) : null;
-        $causeOfDeath       = $causeOfDeath !== null       ? new CauseOfDeath($causeOfDeath)             : null;
+        $causeOfDeathId     = $causeOfDeathId     !== null ? new CauseOfDeathId($causeOfDeathId)         : null;
 
         return (new Deceased(
             new DeceasedId($this->identityGenerator->getNextIdentity()),
@@ -41,6 +42,6 @@ class DeceasedFactory extends EntityFactory
         ))
             ->setAge($age)
             ->setDeathCertificateId($deathCertificateId)
-            ->setCauseOfDeath($causeOfDeath);
+            ->setCauseOfDeathId($causeOfDeathId);
     }
 }

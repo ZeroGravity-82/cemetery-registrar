@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\Deceased;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
@@ -23,9 +24,9 @@ class Deceased extends AggregateRoot
     private ?DeathCertificateId $deathCertificateId = null;
 
     /**
-     * @var CauseOfDeath|null
+     * @var CauseOfDeathId|null
      */
-    private ?CauseOfDeath $causeOfDeath = null;
+    private ?CauseOfDeathId $causeOfDeathId = null;
 
     /**
      * @param DeceasedId         $id
@@ -130,21 +131,21 @@ class Deceased extends AggregateRoot
     }
 
     /**
-     * @return CauseOfDeath|null
+     * @return CauseOfDeathId|null
      */
-    public function causeOfDeath(): ?CauseOfDeath
+    public function causeOfDeathId(): ?CauseOfDeathId
     {
-        return $this->causeOfDeath;
+        return $this->causeOfDeathId;
     }
 
     /**
-     * @param CauseOfDeath|null $causeOfDeath
+     * @param CauseOfDeathId|null $causeOfDeathId
      *
      * @return $this
      */
-    public function setCauseOfDeath(?CauseOfDeath $causeOfDeath): self
+    public function setCauseOfDeathId(?CauseOfDeathId $causeOfDeathId): self
     {
-        $this->causeOfDeath = $causeOfDeath;
+        $this->causeOfDeathId = $causeOfDeathId;
 
         return $this;
     }

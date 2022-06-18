@@ -330,7 +330,7 @@ class RegisterNewBurialService extends ApplicationService
             $request->deceasedDiedAt,
             $request->deceasedAge                ?: null,
             $request->deceasedDeathCertificateId ?: null,
-            $request->deceasedCauseOfDeath       ?: null,
+            $request->deceasedCauseOfDeathId     ?: null,
         );
     }
 

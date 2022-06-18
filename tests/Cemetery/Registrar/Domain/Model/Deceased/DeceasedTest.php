@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Deceased;
 
 use Cemetery\Registrar\Domain\Model\Deceased\Age;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
@@ -38,7 +38,7 @@ class DeceasedTest extends AggregateRootTest
         $this->assertSame('2022-01-10', $this->deceased->diedAt()->format('Y-m-d'));
         $this->assertNull($this->deceased->age());
         $this->assertNull($this->deceased->deathCertificateId());
-        $this->assertNull($this->deceased->causeOfDeath());
+        $this->assertNull($this->deceased->causeOfDeathId());
     }
 
     public function testItSetsNaturalPersonId(): void
@@ -79,14 +79,14 @@ class DeceasedTest extends AggregateRootTest
         $this->assertNull($this->deceased->deathCertificateId());
     }
 
-    public function testItSetsCauseOfDeath(): void
+    public function testItSetsCauseOfDeathId(): void
     {
-        $causeOfDeath = new CauseOfDeath('Некоторая причина смерти');
-        $this->deceased->setCauseOfDeath($causeOfDeath);
-        $this->assertInstanceOf(CauseOfDeath::class, $this->deceased->causeOfDeath());
-        $this->assertTrue($this->deceased->causeOfDeath()->isEqual($causeOfDeath));
+        $causeOfDeathId = new CauseOfDeathId('CD011');
+        $this->deceased->setCauseOfDeathId($causeOfDeathId);
+        $this->assertInstanceOf(CauseOfDeathId::class, $this->deceased->causeOfDeathId());
+        $this->assertTrue($this->deceased->causeOfDeathId()->isEqual($causeOfDeathId));
 
-        $this->deceased->setCauseOfDeath(null);
-        $this->assertNull($this->deceased->causeOfDeath());
+        $this->deceased->setCauseOfDeathId(null);
+        $this->assertNull($this->deceased->causeOfDeathId());
     }
 }

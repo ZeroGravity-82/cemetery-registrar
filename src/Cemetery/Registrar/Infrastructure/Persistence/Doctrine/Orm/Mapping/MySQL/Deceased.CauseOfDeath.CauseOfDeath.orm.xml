@@ -1,0 +1,13 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+
+    <entity name="Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath" table="cause_of_death">
+        <id name="id" column="id" type="cause_of_death_id">
+        </id>
+
+        <field name="description" column="description" type="cause_of_death_description"                 />
+        <field name="createdAt"   column="created_at"  type="datetime_immutable"                         />
+        <field name="updatedAt"   column="updated_at"  type="datetime_immutable"                         />
+        <field name="removedAt"   column="removed_at"  type="datetime_immutable"         nullable="true" />
+    </entity>
+
+</doctrine-mapping>

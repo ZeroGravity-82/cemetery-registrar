@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\Deceased;
+namespace Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
 
 /**
- * @todo Rework to read the list of all possible causes from some repository
- *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeath
+class CauseOfDeathDescription
 {
     /**
      * @param string $value

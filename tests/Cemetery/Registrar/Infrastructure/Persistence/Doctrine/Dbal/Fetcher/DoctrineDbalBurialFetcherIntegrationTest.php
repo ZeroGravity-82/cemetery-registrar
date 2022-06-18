@@ -458,7 +458,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('2021-12-01',                                $burialView->deceasedDiedAt);
         $this->assertSame(null,                                        $burialView->deceasedAge);
         $this->assertSame(null,                                        $burialView->deceasedDeathCertificateId);
-        $this->assertSame(null,                                        $burialView->deceasedCauseOfDeath);
+        $this->assertSame(null,                                        $burialView->deceasedCauseOfDeathId);
         $this->assertSame('NP005',                                     $burialView->customerId);
         $this->assertSame(NaturalPerson::CLASS_SHORTCUT,               $burialView->customerType);
         $this->assertSame('Жданова Инга Григорьевна',                  $burialView->customerNaturalPersonFullName);
@@ -565,7 +565,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('2001-02-12',                                $burialView->deceasedDiedAt);
         $this->assertSame(82,                                          $burialView->deceasedAge);
         $this->assertSame('DC001',                                     $burialView->deceasedDeathCertificateId);
-        $this->assertSame('Болезнь сердечно-легочная хроническая',     $burialView->deceasedCauseOfDeath);
+        $this->assertSame('CD008',                                     $burialView->deceasedCauseOfDeathId);
         $this->assertSame('NP005',                                     $burialView->customerId);
         $this->assertSame(NaturalPerson::CLASS_SHORTCUT,               $burialView->customerType);
         $this->assertSame('Жданова Инга Григорьевна',                  $burialView->customerNaturalPersonFullName);
@@ -672,7 +672,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('2012-05-13',                                  $burialView->deceasedDiedAt);
         $this->assertSame(null,                                          $burialView->deceasedAge);
         $this->assertSame('DC002',                                       $burialView->deceasedDeathCertificateId);
-        $this->assertSame('Онкология',                                   $burialView->deceasedCauseOfDeath);
+        $this->assertSame('CD004',                                       $burialView->deceasedCauseOfDeathId);
         $this->assertSame('NP006',                                       $burialView->customerId);
         $this->assertSame(NaturalPerson::CLASS_SHORTCUT,                 $burialView->customerType);
         $this->assertSame('Гришина Устинья Ярославовна',                 $burialView->customerNaturalPersonFullName);
@@ -779,7 +779,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('2022-03-10',                                  $burialView->deceasedDiedAt);
         $this->assertSame(null,                                          $burialView->deceasedAge);
         $this->assertSame(null,                                          $burialView->deceasedDeathCertificateId);
-        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeath);
+        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeathId);
         $this->assertSame('JP004',                                       $burialView->customerId);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $burialView->customerType);
         $this->assertSame(null,                                          $burialView->customerNaturalPersonFullName);
@@ -886,7 +886,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('2010-01-26',                                  $burialView->deceasedDiedAt);
         $this->assertSame(null,                                          $burialView->deceasedAge);
         $this->assertSame(null,                                          $burialView->deceasedDeathCertificateId);
-        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeath);
+        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeathId);
         $this->assertSame('SP003',                                       $burialView->customerId);
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT,                $burialView->customerType);
         $this->assertSame(null,                                          $burialView->customerNaturalPersonFullName);
@@ -993,7 +993,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('2021-12-03',                                  $burialView->deceasedDiedAt);
         $this->assertSame(null,                                          $burialView->deceasedAge);
         $this->assertSame(null,                                          $burialView->deceasedDeathCertificateId);
-        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeath);
+        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeathId);
         $this->assertSame('NP007',                                       $burialView->customerId);
         $this->assertSame(NaturalPerson::CLASS_SHORTCUT,                 $burialView->customerType);
         $this->assertSame('Громов Никифор Рудольфович',                  $burialView->customerNaturalPersonFullName);
@@ -1100,7 +1100,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('1980-05-26',                                  $burialView->deceasedDiedAt);
         $this->assertSame(null,                                          $burialView->deceasedAge);
         $this->assertSame(null,                                          $burialView->deceasedDeathCertificateId);
-        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeath);
+        $this->assertSame(null,                                          $burialView->deceasedCauseOfDeathId);
         $this->assertSame(null,                                          $burialView->customerId);
         $this->assertSame(null,                                          $burialView->customerType);
         $this->assertSame(null ,                                         $burialView->customerNaturalPersonFullName);
