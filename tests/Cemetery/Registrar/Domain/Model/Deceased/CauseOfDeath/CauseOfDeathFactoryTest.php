@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Deceased\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathDescription;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathFactory;
 use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
 
@@ -32,6 +32,6 @@ class CauseOfDeathFactoryTest extends EntityFactoryTest
         );
         $this->assertInstanceOf(CauseOfDeath::class, $causeOfDeath);
         $this->assertSame(self::ENTITY_ID, $causeOfDeath->id()->value());
-        $this->assertSame($description, $causeOfDeath->description()->value());
+        $this->assertSame($description, $causeOfDeath->name()->value());
     }
 }

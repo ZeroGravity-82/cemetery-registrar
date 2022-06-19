@@ -19,7 +19,7 @@ class CauseOfDeathFactory extends EntityFactory
     public function create(
         string $description,
     ): CauseOfDeath {
-        $description = new CauseOfDeathDescription($description);
+        $description = new CauseOfDeathName($description);
 
         return (new CauseOfDeath(
             new CauseOfDeathId($this->identityGenerator->getNextIdentity()),

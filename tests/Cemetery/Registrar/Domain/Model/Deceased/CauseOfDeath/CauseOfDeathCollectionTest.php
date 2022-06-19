@@ -35,7 +35,7 @@ class CauseOfDeathCollectionTest extends EntityCollectionTest
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (CauseOfDeath $causeOfDeath) {
-            return \str_contains($causeOfDeath->description()->value(), 'болезнь');
+            return \str_contains($causeOfDeath->name()->value(), 'болезнь');
         };
     }
 }

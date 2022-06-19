@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace DataFixtures\Deceased\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathDescription;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 
 /**
@@ -16,7 +16,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathA(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD001');
-        $description = new CauseOfDeathDescription('COVID-19');
+        $description = new CauseOfDeathName('COVID-19');
 
         return new CauseOfDeath($id, $description);
     }
@@ -24,7 +24,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathB(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD002');
-        $description = new CauseOfDeathDescription('Обструктивная болезнь легких');
+        $description = new CauseOfDeathName('Обструктивная болезнь легких');
 
         return new CauseOfDeath($id, $description);
     }
@@ -32,7 +32,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathC(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD003');
-        $description = new CauseOfDeathDescription('Атеросклеротическая болезнь сердца');
+        $description = new CauseOfDeathName('Атеросклеротическая болезнь сердца');
 
         return new CauseOfDeath($id, $description);
     }
@@ -40,7 +40,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathD(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD004');
-        $description = new CauseOfDeathDescription('Онкология');
+        $description = new CauseOfDeathName('Онкология');
 
         return new CauseOfDeath($id, $description);
     }
@@ -48,7 +48,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathE(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD005');
-        $description = new CauseOfDeathDescription('Астма кардиальная');
+        $description = new CauseOfDeathName('Астма кардиальная');
 
         return new CauseOfDeath($id, $description);
     }
@@ -56,7 +56,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathF(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD006');
-        $description = new CauseOfDeathDescription('Асфиксия');
+        $description = new CauseOfDeathName('Асфиксия');
 
         return new CauseOfDeath($id, $description);
     }
@@ -64,7 +64,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathG(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD007');
-        $description = new CauseOfDeathDescription('Аневризма брюшной аорты разорванная');
+        $description = new CauseOfDeathName('Аневризма брюшной аорты разорванная');
 
         return new CauseOfDeath($id, $description);
     }
@@ -72,7 +72,7 @@ class CauseOfDeathProvider
     public static function getCauseOfDeathH(): CauseOfDeath
     {
         $id          = new CauseOfDeathId('CD008');
-        $description = new CauseOfDeathDescription('Болезнь сердечно-легочная хроническая');
+        $description = new CauseOfDeathName('Болезнь сердечно-легочная хроническая');
 
         return new CauseOfDeath($id, $description);
     }

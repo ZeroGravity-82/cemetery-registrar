@@ -12,12 +12,12 @@ use Cemetery\Registrar\Domain\Model\AggregateRoot;
 class CauseOfDeath extends AggregateRoot
 {
     /**
-     * @param CauseOfDeathId          $id
-     * @param CauseOfDeathDescription $description
+     * @param CauseOfDeathId   $id
+     * @param CauseOfDeathName $name
      */
     public function __construct(
         private readonly CauseOfDeathId $id,
-        private CauseOfDeathDescription $description,
+        private CauseOfDeathName        $name,
     ) {
         parent::__construct();
     }
@@ -30,21 +30,21 @@ class CauseOfDeath extends AggregateRoot
         return $this->id;
     }
     /**
-     * @return CauseOfDeathDescription
+     * @return CauseOfDeathName
      */
-    public function description(): CauseOfDeathDescription
+    public function name(): CauseOfDeathName
     {
-        return $this->description;
+        return $this->name;
     }
 
     /**
-     * @param CauseOfDeathDescription $description
+     * @param CauseOfDeathName $name
      *
      * @return $this
      */
-    public function setDescription(CauseOfDeathDescription $description): self
+    public function setName(CauseOfDeathName $name): self
     {
-        $this->description = $description;
+        $this->name = $name;
 
         return $this;
     }

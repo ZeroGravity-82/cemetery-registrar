@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Deceased\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathDescription;
+use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
 
@@ -19,7 +19,7 @@ class CauseOfDeathTest extends AggregateRootTest
     public function setUp(): void
     {
         $id                 = new CauseOfDeathId('CD001');
-        $description        = new CauseOfDeathDescription('Некоторая причина смерти');
+        $description        = new CauseOfDeathName('Некоторая причина смерти');
         $this->causeOfDeath = new CauseOfDeath($id, $description);
         $this->entity       = $this->causeOfDeath;
     }
@@ -28,15 +28,15 @@ class CauseOfDeathTest extends AggregateRootTest
     {
         $this->assertInstanceOf(CauseOfDeathId::class, $this->causeOfDeath->id());
         $this->assertSame('CD001', $this->causeOfDeath->id()->value());
-        $this->assertInstanceOf(CauseOfDeathDescription::class, $this->causeOfDeath->description());
-        $this->assertSame('Некоторая причина смерти', $this->causeOfDeath->description()->value());
+        $this->assertInstanceOf(CauseOfDeathName::class, $this->causeOfDeath->name());
+        $this->assertSame('Некоторая причина смерти', $this->causeOfDeath->name()->value());
     }
 
     public function testItSetsDescription(): void
     {
-        $description = new CauseOfDeathDescription('Другая причина смерти');
-        $this->causeOfDeath->setDescription($description);
-        $this->assertInstanceOf(CauseOfDeathDescription::class, $this->causeOfDeath->description());
-        $this->assertTrue($this->causeOfDeath->description()->isEqual($description));
+        $description = new CauseOfDeathName('Другая причина смерти');
+        $this->causeOfDeath->setName($description);
+        $this->assertInstanceOf(CauseOfDeathName::class, $this->causeOfDeath->name());
+        $this->assertTrue($this->causeOfDeath->name()->isEqual($description));
     }
 }

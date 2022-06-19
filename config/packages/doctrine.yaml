@@ -40,7 +40,7 @@ doctrine:
             death_certificate_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
             deceased_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
             # Deceased/CauseOfDeath
-            cause_of_death_description: Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathDescriptionType
+            cause_of_death_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathNameType
             cause_of_death_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathIdType
             # FuneralCompany
             funeral_company_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
