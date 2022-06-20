@@ -6,8 +6,9 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetc
 
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathRepository;
-use Cemetery\Registrar\Domain\View\Burial\BurialView;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalCauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
@@ -68,127 +69,122 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
 
         // First page
         $listForFirstPage = $this->causeOfDeathFetcher->findAll(1, null, $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $listForFirstPage);
+        $this->assertInstanceOf(CauseOfDeathList::class, $listForFirstPage);
         $this->assertCount(3,              $listForFirstPage->listItems);
         $this->assertSame(1,               $listForFirstPage->page);
         $this->assertSame($customPageSize, $listForFirstPage->pageSize);
         $this->assertSame(null,            $listForFirstPage->term);
-        $this->assertSame(4,               $listForFirstPage->totalCount);
-        $this->assertSame(2,               $listForFirstPage->totalPages);
+        $this->assertSame(8,               $listForFirstPage->totalCount);
+        $this->assertSame(3,               $listForFirstPage->totalPages);
         $this->assertIsArray($listForFirstPage->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $listForFirstPage->listItems);
-        $this->assertItemEqualsFC002($listForFirstPage->listItems[0]);  // Items are ordered by name
-        $this->assertItemEqualsFC003($listForFirstPage->listItems[1]);
-        $this->assertItemEqualsFC001($listForFirstPage->listItems[2]);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForFirstPage->listItems);
+        $this->assertItemEqualsCD001($listForFirstPage->listItems[0]);  // Items are ordered by name
+        $this->assertItemEqualsCD007($listForFirstPage->listItems[1]);
+        $this->assertItemEqualsCD005($listForFirstPage->listItems[2]);
 
         // Second page
         $listForSecondPage = $this->causeOfDeathFetcher->findAll(2, null, $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $listForSecondPage);
-        $this->assertCount(1,              $listForSecondPage->listItems);
+        $this->assertInstanceOf(CauseOfDeathList::class, $listForSecondPage);
+        $this->assertCount(3,              $listForSecondPage->listItems);
         $this->assertSame(2,               $listForSecondPage->page);
         $this->assertSame($customPageSize, $listForSecondPage->pageSize);
         $this->assertSame(null,            $listForSecondPage->term);
-        $this->assertSame(4,               $listForSecondPage->totalCount);
-        $this->assertSame(2,               $listForSecondPage->totalPages);
+        $this->assertSame(8,               $listForSecondPage->totalCount);
+        $this->assertSame(3,               $listForSecondPage->totalPages);
         $this->assertIsArray($listForSecondPage->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $listForSecondPage->listItems);
-        $this->assertItemEqualsFC004($listForSecondPage->listItems[0]);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForSecondPage->listItems);
+        $this->assertItemEqualsCD006($listForSecondPage->listItems[0]);
+        $this->assertItemEqualsCD003($listForSecondPage->listItems[1]);
+        $this->assertItemEqualsCD008($listForSecondPage->listItems[2]);
 
         // Third page
         $listForThirdPage = $this->causeOfDeathFetcher->findAll(3, null, $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $listForThirdPage);
-        $this->assertCount(0,              $listForThirdPage->listItems);
+        $this->assertInstanceOf(CauseOfDeathList::class, $listForThirdPage);
+        $this->assertCount(2,              $listForThirdPage->listItems);
         $this->assertSame(3,               $listForThirdPage->page);
         $this->assertSame($customPageSize, $listForThirdPage->pageSize);
         $this->assertSame(null,            $listForThirdPage->term);
-        $this->assertSame(4,               $listForThirdPage->totalCount);
-        $this->assertSame(2,               $listForThirdPage->totalPages);
+        $this->assertSame(8,               $listForThirdPage->totalCount);
+        $this->assertSame(3,               $listForThirdPage->totalPages);
+        $this->assertIsArray($listForThirdPage->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForThirdPage->listItems);
+        $this->assertItemEqualsCD002($listForThirdPage->listItems[0]);
+        $this->assertItemEqualsCD004($listForThirdPage->listItems[1]);
+
+        // Fourth page
+        $listForFourthPage = $this->causeOfDeathFetcher->findAll(4, null, $customPageSize);
+        $this->assertInstanceOf(CauseOfDeathList::class, $listForFourthPage);
+        $this->assertCount(0,              $listForFourthPage->listItems);
+        $this->assertSame(4,               $listForFourthPage->page);
+        $this->assertSame($customPageSize, $listForFourthPage->pageSize);
+        $this->assertSame(null,            $listForFourthPage->term);
+        $this->assertSame(8,               $listForFourthPage->totalCount);
+        $this->assertSame(3,               $listForFourthPage->totalPages);
 
         // All at once
         $listForDefaultPageSize = $this->causeOfDeathFetcher->findAll(1);
-        $this->assertInstanceOf(FuneralCompanyList::class, $listForDefaultPageSize);
-        $this->assertCount(4,                      $listForDefaultPageSize->listItems);
+        $this->assertInstanceOf(CauseOfDeathList::class, $listForDefaultPageSize);
+        $this->assertCount(8,                      $listForDefaultPageSize->listItems);
         $this->assertSame(1,                       $listForDefaultPageSize->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
         $this->assertSame(null,                    $listForDefaultPageSize->term);
-        $this->assertSame(4,                       $listForDefaultPageSize->totalCount);
+        $this->assertSame(8,                       $listForDefaultPageSize->totalCount);
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
         $this->assertIsArray($listForDefaultPageSize->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $listForDefaultPageSize->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForDefaultPageSize->listItems);
     }
 
     public function testItReturnsCauseOfDeathListItemsByPageAndTerm(): void
     {
         $customPageSize = 3;
 
-        $list = $this->causeOfDeathFetcher->findAll(1, '44', $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
-        $this->assertCount(1,              $list->listItems);
-        $this->assertSame(1,               $list->page);
-        $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('44',            $list->term);
-        $this->assertSame(1,               $list->totalCount);
-        $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->listItems);
-
-        $list = $this->causeOfDeathFetcher->findAll(1, 'Кемеров', $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
-        $this->assertCount(2,              $list->listItems);
-        $this->assertSame(1,               $list->page);
-        $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('Кемеров',       $list->term);
-        $this->assertSame(2,               $list->totalCount);
-        $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->listItems);
-
-        $list = $this->causeOfDeathFetcher->findAll(1, 'ро', $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
+        $list = $this->causeOfDeathFetcher->findAll(1, 'Болезнь', $customPageSize);
+        $this->assertInstanceOf(CauseOfDeathList::class, $list);
         $this->assertCount(3,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('ро',            $list->term);
-        $this->assertSame(4,               $list->totalCount);
-        $this->assertSame(2,               $list->totalPages);
+        $this->assertSame('Болезнь',       $list->term);
+        $this->assertSame(3,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
         $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->listItems);
-        $list = $this->causeOfDeathFetcher->findAll(2, 'ро', $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
-        $this->assertCount(1,              $list->listItems);
-        $this->assertSame(2,               $list->page);
-        $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('ро',            $list->term);
-        $this->assertSame(4,               $list->totalCount);
-        $this->assertSame(2,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
 
-        $list = $this->causeOfDeathFetcher->findAll(1, '133', $customPageSize);
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
+        $list = $this->causeOfDeathFetcher->findAll(1, 'серд', $customPageSize);
+        $this->assertInstanceOf(CauseOfDeathList::class, $list);
+        $this->assertCount(2,              $list->listItems);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('серд',          $list->term);
+        $this->assertSame(2,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
+
+        $list = $this->causeOfDeathFetcher->findAll(1, 'coV', $customPageSize);
+        $this->assertInstanceOf(CauseOfDeathList::class, $list);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('133',           $list->term);
+        $this->assertSame('coV',           $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
         $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
     }
 
     public function testItReturnsCauseOfDeathTotalCount(): void
     {
-        $this->assertSame(4, $this->causeOfDeathFetcher->countTotal());
+        $this->assertSame(8, $this->causeOfDeathFetcher->countTotal());
     }
 
     public function testItDoesNotCountRemovedCauseOfDeathWhenCalculatingTotalCount(): void
     {
         // Prepare database table for testing
-        $funeralCompanyToRemove = $this->causeOfDeathRepo->findById(new FuneralCompanyId('FC004'));
-        $this->causeOfDeathRepo->remove($funeralCompanyToRemove);
+        $causeOfDeathToRemove = $this->causeOfDeathRepo->findById(new CauseOfDeathId('CD004'));
+        $this->causeOfDeathRepo->remove($causeOfDeathToRemove);
 
         // Testing itself
-        $this->assertSame(3, $this->causeOfDeathFetcher->countTotal());
+        $this->assertSame(7, $this->causeOfDeathFetcher->countTotal());
     }
 
     protected function loadFixtures(): void
@@ -198,21 +194,52 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         ]);
     }
 
-    private function assertItemEqualsFC001(FuneralCompanyListItem $item): void
+    private function assertItemEqualsCD001(CauseOfDeathListItem $item): void
     {
-        $this->assertSame('FC001',                                       $item->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $item->organizationType);
-        $this->assertSame('ООО "Рога и копыта"',                         $item->organizationJuristicPersonName);
-        $this->assertSame(null,                                          $item->organizationJuristicPersonInn);
-        $this->assertSame(null,                                          $item->organizationJuristicPersonLegalAddress);
-        $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $item->organizationJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $item->organizationJuristicPersonPhone);
-        $this->assertSame(null,                                          $item->organizationSoleProprietorName);
-        $this->assertSame(null,                                          $item->organizationSoleProprietorInn);
-        $this->assertSame(null,                                          $item->organizationSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                                          $item->organizationSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $item->organizationSoleProprietorPhone);
-        $this->assertSame(null,                                          $item->note);
+        $this->assertSame('CD001',    $item->id);
+        $this->assertSame('COVID-19', $item->name);
+    }
+
+    private function assertItemEqualsCD002(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD002',                        $item->id);
+        $this->assertSame('Обструктивная болезнь легких', $item->name);
+    }
+
+    private function assertItemEqualsCD003(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD003',                              $item->id);
+        $this->assertSame('Атеросклеротическая болезнь сердца', $item->name);
+    }
+
+    private function assertItemEqualsCD004(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD004',     $item->id);
+        $this->assertSame('Онкология', $item->name);
+    }
+
+    private function assertItemEqualsCD005(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD005',             $item->id);
+        $this->assertSame('Астма кардиальная', $item->name);
+    }
+
+    private function assertItemEqualsCD006(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD006',    $item->id);
+        $this->assertSame('Асфиксия', $item->name);
+    }
+
+    private function assertItemEqualsCD007(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD007',                               $item->id);
+        $this->assertSame('Аневризма брюшной аорты разорванная', $item->name);
+    }
+
+    private function assertItemEqualsCD008(CauseOfDeathListItem $item): void
+    {
+        $this->assertSame('CD008',                                 $item->id);
+        $this->assertSame('Болезнь сердечно-легочная хроническая', $item->name);
     }
 
     private function testItReturnsCauseOfDeathViewForCD001(): void
