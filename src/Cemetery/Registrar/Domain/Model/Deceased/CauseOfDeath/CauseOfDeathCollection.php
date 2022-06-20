@@ -14,7 +14,7 @@ class CauseOfDeathCollection extends AggregateRootCollection
     /**
      * {@inheritdoc}
      */
-    public function supportedClassName(): string
+    public function supportedEntityClassName(): string
     {
         return CauseOfDeath::class;
     }

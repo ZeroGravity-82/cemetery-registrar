@@ -27,9 +27,9 @@ class JuristicPersonCollectionTest extends AggregateRootCollectionTest
         $this->collection = new JuristicPersonCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(JuristicPerson::class, $this->collection->supportedClassName());
+        $this->assertSame(JuristicPerson::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

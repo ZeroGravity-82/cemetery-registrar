@@ -14,7 +14,7 @@ class FuneralCompanyCollection extends AggregateRootCollection
     /**
      * {@inheritdoc}
      */
-    public function supportedClassName(): string
+    public function supportedEntityClassName(): string
     {
         return FuneralCompany::class;
     }

@@ -25,6 +25,13 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     }
 
     /**
+     * Returns the name of the supported entity class.
+     *
+     * @return string
+     */
+    abstract public function supportedEntityClassName(): string;
+
+    /**
      * {@inheritdoc}
      */
     public function count(): int
@@ -67,7 +74,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         if (!isset($this->entities[$entityId])) {
             throw new \LogicException(\sprintf(
                 'Entity of type "%s" with ID "%s" is not found.',
-                $this->supportedClassName(),
+                $this->supportedEntityClassName(),
                 $entityId
             ));
         }
@@ -200,13 +207,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the name of the supported entity class.
-     *
-     * @return string
-     */
-    abstract public function supportedClassName(): string;
-
-    /**
      * Checks whether the entity is of a type supported by the collection.
      *
      * @param Entity $entity
@@ -215,11 +215,11 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      */
     private function assertValidType(Entity $entity): void
     {
-        $supportedClassName = $this->supportedClassName();
-        if (!$entity instanceof $supportedClassName) {
+        $supportedEntityClassName = $this->supportedEntityClassName();
+        if (!$entity instanceof $supportedEntityClassName) {
             throw new \InvalidArgumentException(\sprintf(
                 'Invalid type for an entity: expected "%s", "%s" given.',
-                $this->supportedClassName(),
+                $this->supportedEntityClassName(),
                 \get_class($entity)
             ));
         }

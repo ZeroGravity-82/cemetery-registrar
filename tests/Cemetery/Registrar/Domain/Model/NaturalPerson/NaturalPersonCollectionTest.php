@@ -27,9 +27,9 @@ class NaturalPersonCollectionTest extends AggregateRootCollectionTest
         $this->collection = new NaturalPersonCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(NaturalPerson::class, $this->collection->supportedClassName());
+        $this->assertSame(NaturalPerson::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

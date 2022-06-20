@@ -27,9 +27,9 @@ class GraveSiteCollectionTest extends AggregateRootCollectionTest
         $this->collection = new GraveSiteCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(GraveSite::class, $this->collection->supportedClassName());
+        $this->assertSame(GraveSite::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

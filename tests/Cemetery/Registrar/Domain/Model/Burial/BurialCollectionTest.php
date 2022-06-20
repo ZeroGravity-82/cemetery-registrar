@@ -27,9 +27,9 @@ class BurialCollectionTest extends AggregateRootCollectionTest
         $this->collection = new BurialCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(Burial::class, $this->collection->supportedClassName());
+        $this->assertSame(Burial::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

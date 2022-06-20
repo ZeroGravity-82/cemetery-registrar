@@ -14,7 +14,7 @@ class MemorialTreeCollection extends AggregateRootCollection
     /**
      * {@inheritdoc}
      */
-    public function supportedClassName(): string
+    public function supportedEntityClassName(): string
     {
         return MemorialTree::class;
     }

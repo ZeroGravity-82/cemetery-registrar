@@ -14,7 +14,7 @@ class BurialCollection extends AggregateRootCollection
     /**
      * {@inheritdoc}
      */
-    public function supportedClassName(): string
+    public function supportedEntityClassName(): string
     {
         return Burial::class;
     }

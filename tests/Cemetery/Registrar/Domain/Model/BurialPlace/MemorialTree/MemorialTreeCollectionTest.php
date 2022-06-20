@@ -27,9 +27,9 @@ class MemorialTreeCollectionTest extends AggregateRootCollectionTest
         $this->collection = new MemorialTreeCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(MemorialTree::class, $this->collection->supportedClassName());
+        $this->assertSame(MemorialTree::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

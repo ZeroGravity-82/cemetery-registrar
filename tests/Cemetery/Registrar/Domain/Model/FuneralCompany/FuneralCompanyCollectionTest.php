@@ -27,9 +27,9 @@ class FuneralCompanyCollectionTest extends AggregateRootCollectionTest
         $this->collection = new FuneralCompanyCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(FuneralCompany::class, $this->collection->supportedClassName());
+        $this->assertSame(FuneralCompany::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

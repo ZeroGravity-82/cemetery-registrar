@@ -27,9 +27,9 @@ class CemeteryBlockCollectionTest extends AggregateRootCollectionTest
         $this->collection = new CemeteryBlockCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(CemeteryBlock::class, $this->collection->supportedClassName());
+        $this->assertSame(CemeteryBlock::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

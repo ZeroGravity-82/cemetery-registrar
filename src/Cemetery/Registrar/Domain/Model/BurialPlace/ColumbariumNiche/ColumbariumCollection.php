@@ -14,7 +14,7 @@ class ColumbariumCollection extends AggregateRootCollection
     /**
      * {@inheritdoc}
      */
-    public function supportedClassName(): string
+    public function supportedEntityClassName(): string
     {
         return Columbarium::class;
     }

@@ -27,9 +27,9 @@ class ColumbariumNicheCollectionTest extends AggregateRootCollectionTest
         $this->collection = new ColumbariumNicheCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(ColumbariumNiche::class, $this->collection->supportedClassName());
+        $this->assertSame(ColumbariumNiche::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

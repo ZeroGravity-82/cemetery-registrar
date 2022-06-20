@@ -14,7 +14,7 @@ class DeceasedCollection extends AggregateRootCollection
     /**
      * {@inheritdoc}
      */
-    public function supportedClassName(): string
+    public function supportedEntityClassName(): string
     {
         return Deceased::class;
     }

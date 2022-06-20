@@ -27,9 +27,9 @@ class SoleProprietorCollectionTest extends AggregateRootCollectionTest
         $this->collection = new SoleProprietorCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(SoleProprietor::class, $this->collection->supportedClassName());
+        $this->assertSame(SoleProprietor::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

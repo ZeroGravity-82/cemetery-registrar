@@ -17,8 +17,8 @@ abstract class AggregateRootCollectionTest extends EntityCollectionTest
         $this->assertInstanceOf(AggregateRootCollection::class, $this->collection);
     }
 
-    public function testSupportedClassIsAggregateRoot(): void
+    public function testSupportedEntityClassIsAggregateRoot(): void
     {
-        $this->assertInstanceOf(AggregateRoot::class, $this->createMock($this->collection->supportedClassName()));
+        $this->assertInstanceOf(AggregateRoot::class, $this->createMock($this->collection->supportedEntityClassName()));
     }
 }

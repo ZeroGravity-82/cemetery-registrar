@@ -27,9 +27,9 @@ class CauseOfDeathCollectionTest extends AggregateRootCollectionTest
         $this->collection = new CauseOfDeathCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(CauseOfDeath::class, $this->collection->supportedClassName());
+        $this->assertSame(CauseOfDeath::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

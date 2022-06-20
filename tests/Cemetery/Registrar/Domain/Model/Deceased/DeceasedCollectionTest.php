@@ -27,9 +27,9 @@ class DeceasedCollectionTest extends AggregateRootCollectionTest
         $this->collection = new DeceasedCollection([$this->entityA]);
     }
 
-    public function testItReturnsSupportedClassName(): void
+    public function testItReturnsSupportedEntityClassName(): void
     {
-        $this->assertSame(Deceased::class, $this->collection->supportedClassName());
+        $this->assertSame(Deceased::class, $this->collection->supportedEntityClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
