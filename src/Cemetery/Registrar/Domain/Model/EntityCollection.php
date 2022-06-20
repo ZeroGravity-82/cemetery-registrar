@@ -67,7 +67,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         if (!isset($this->entities[$entityId])) {
             throw new \LogicException(\sprintf(
                 'Entity of type "%s" with ID "%s" is not found.',
-                $this->supportedEntityClassName(),
+                $this->supportedClassName(),
                 $entityId
             ));
         }
@@ -204,7 +204,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      *
      * @return string
      */
-    abstract public function supportedEntityClassName(): string;
+    abstract public function supportedClassName(): string;
 
     /**
      * Checks whether the entity is of a type supported by the collection.
@@ -215,11 +215,11 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      */
     private function assertValidType(Entity $entity): void
     {
-        $supportedEntityClassName = $this->supportedEntityClassName();
-        if (!$entity instanceof $supportedEntityClassName) {
+        $supportedClassName = $this->supportedClassName();
+        if (!$entity instanceof $supportedClassName) {
             throw new \InvalidArgumentException(\sprintf(
                 'Invalid type for an entity: expected "%s", "%s" given.',
-                $this->supportedEntityClassName(),
+                $this->supportedClassName(),
                 \get_class($entity)
             ));
         }

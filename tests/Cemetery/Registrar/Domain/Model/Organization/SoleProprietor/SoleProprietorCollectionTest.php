@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
 use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorCollectionTest extends EntityCollectionTest
+class SoleProprietorCollectionTest extends AggregateRootCollectionTest
 {
     public function setUp(): void
     {
@@ -27,9 +27,9 @@ class SoleProprietorCollectionTest extends EntityCollectionTest
         $this->collection = new SoleProprietorCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClassName(): void
+    public function testItReturnsSupportedClassName(): void
     {
-        $this->assertSame(SoleProprietor::class, $this->collection->supportedEntityClassName());
+        $this->assertSame(SoleProprietor::class, $this->collection->supportedClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

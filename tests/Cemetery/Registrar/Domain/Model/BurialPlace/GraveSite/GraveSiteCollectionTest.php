@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteCollectionTest extends EntityCollectionTest
+class GraveSiteCollectionTest extends AggregateRootCollectionTest
 {
     public function setUp(): void
     {
@@ -27,9 +27,9 @@ class GraveSiteCollectionTest extends EntityCollectionTest
         $this->collection = new GraveSiteCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClassName(): void
+    public function testItReturnsSupportedClassName(): void
     {
-        $this->assertSame(GraveSite::class, $this->collection->supportedEntityClassName());
+        $this->assertSame(GraveSite::class, $this->collection->supportedClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

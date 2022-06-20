@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\FuneralCompany;
 
-use Cemetery\Registrar\Domain\Model\EntityCollection;
+use Cemetery\Registrar\Domain\Model\AggregateRootCollection;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyCollection extends EntityCollection
+class FuneralCompanyCollection extends AggregateRootCollection
 {
     /**
      * {@inheritdoc}
      */
-    public function supportedEntityClassName(): string
+    public function supportedClassName(): string
     {
         return FuneralCompany::class;
     }

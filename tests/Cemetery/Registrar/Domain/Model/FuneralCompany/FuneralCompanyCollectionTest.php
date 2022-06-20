@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\FuneralCompany;
 
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
 use DataFixtures\FuneralCompany\FuneralCompanyProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyCollectionTest extends EntityCollectionTest
+class FuneralCompanyCollectionTest extends AggregateRootCollectionTest
 {
     public function setUp(): void
     {
@@ -27,9 +27,9 @@ class FuneralCompanyCollectionTest extends EntityCollectionTest
         $this->collection = new FuneralCompanyCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClassName(): void
+    public function testItReturnsSupportedClassName(): void
     {
-        $this->assertSame(FuneralCompany::class, $this->collection->supportedEntityClassName());
+        $this->assertSame(FuneralCompany::class, $this->collection->supportedClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\Model\EntityCollection;
+use Cemetery\Registrar\Domain\Model\AggregateRootCollection;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathCollection extends EntityCollection
+class CauseOfDeathCollection extends AggregateRootCollection
 {
     /**
      * {@inheritdoc}
      */
-    public function supportedEntityClassName(): string
+    public function supportedClassName(): string
     {
         return CauseOfDeath::class;
     }

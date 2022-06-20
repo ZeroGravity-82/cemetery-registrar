@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonCollectionTest extends EntityCollectionTest
+class JuristicPersonCollectionTest extends AggregateRootCollectionTest
 {
     public function setUp(): void
     {
@@ -27,9 +27,9 @@ class JuristicPersonCollectionTest extends EntityCollectionTest
         $this->collection = new JuristicPersonCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClassName(): void
+    public function testItReturnsSupportedClassName(): void
     {
-        $this->assertSame(JuristicPerson::class, $this->collection->supportedEntityClassName());
+        $this->assertSame(JuristicPerson::class, $this->collection->supportedClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Deceased\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
 use DataFixtures\Deceased\CauseOfDeath\CauseOfDeathProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathCollectionTest extends EntityCollectionTest
+class CauseOfDeathCollectionTest extends AggregateRootCollectionTest
 {
     public function setUp(): void
     {
@@ -27,9 +27,9 @@ class CauseOfDeathCollectionTest extends EntityCollectionTest
         $this->collection = new CauseOfDeathCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClassName(): void
+    public function testItReturnsSupportedClassName(): void
     {
-        $this->assertSame(CauseOfDeath::class, $this->collection->supportedEntityClassName());
+        $this->assertSame(CauseOfDeath::class, $this->collection->supportedClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure

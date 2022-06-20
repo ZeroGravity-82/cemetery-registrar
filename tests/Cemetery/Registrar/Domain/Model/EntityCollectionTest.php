@@ -26,7 +26,12 @@ abstract class EntityCollectionTest extends TestCase
     protected Entity           $entityD;
     protected EntityCollection $collection;
 
-    abstract public function testItReturnsEntityClassName(): void;
+    abstract public function testItReturnsSupportedClassName(): void;
+
+    public function testSupportedClassIsEntity(): void
+    {
+        $this->assertInstanceOf(Entity::class, $this->createMock($this->collection->supportedClassName()));
+    }
 
     public function testItCountable(): void
     {
@@ -62,7 +67,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(\sprintf(
             'Entity of type "%s" with ID "%s" is not found.',
-            $this->collection->supportedEntityClassName(),
+            $this->collection->supportedClassName(),
             $this->idC
         ));
         $this->collection->get($this->idC);
@@ -211,7 +216,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
             'Invalid type for an entity: expected "%s", "%s" given',
-            $this->collection->supportedEntityClassName(),
+            $this->collection->supportedClassName(),
             $entityClassName
         ));
         $collectionClassName = \get_class($this->collection);
@@ -226,7 +231,7 @@ abstract class EntityCollectionTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
             'Invalid type for an entity: expected "%s", "%s" given',
-            $this->collection->supportedEntityClassName(),
+            $this->collection->supportedClassName(),
             $entityClass
         ));
         $this->collection->add($entity);

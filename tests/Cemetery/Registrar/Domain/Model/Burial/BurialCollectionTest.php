@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
 use DataFixtures\Burial\BurialProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialCollectionTest extends EntityCollectionTest
+class BurialCollectionTest extends AggregateRootCollectionTest
 {
     public function setUp(): void
     {
@@ -27,9 +27,9 @@ class BurialCollectionTest extends EntityCollectionTest
         $this->collection = new BurialCollection([$this->entityA]);
     }
 
-    public function testItReturnsEntityClassName(): void
+    public function testItReturnsSupportedClassName(): void
     {
-        $this->assertSame(Burial::class, $this->collection->supportedEntityClassName());
+        $this->assertSame(Burial::class, $this->collection->supportedClassName());
     }
 
     protected function getClosureForCollectionFiltering(): \Closure
