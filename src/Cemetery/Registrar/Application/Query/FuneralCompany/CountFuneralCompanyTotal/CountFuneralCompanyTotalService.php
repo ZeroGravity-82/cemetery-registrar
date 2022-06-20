@@ -17,6 +17,14 @@ class CountFuneralCompanyTotalService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return CountFuneralCompanyTotalRequest::class;
+    }
+
+    /**
      * @param CountFuneralCompanyTotalRequest $request
      *
      * @return CountFuneralCompanyTotalResponse

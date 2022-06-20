@@ -17,6 +17,14 @@ class CountCauseOfDeathTotalService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return CountCauseOfDeathTotalRequest::class;
+    }
+
+    /**
      * @param CountCauseOfDeathTotalRequest $request
      *
      * @return CountCauseOfDeathTotalResponse

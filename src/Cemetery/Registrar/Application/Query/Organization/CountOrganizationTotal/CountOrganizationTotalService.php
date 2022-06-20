@@ -17,6 +17,14 @@ class CountOrganizationTotalService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return CountOrganizationTotalRequest::class;
+    }
+
+    /**
      * @param CountOrganizationTotalRequest $request
      *
      * @return CountOrganizationTotalResponse

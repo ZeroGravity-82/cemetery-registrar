@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\ApplicationService;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class TransactionalApplicationService extends ApplicationService
+abstract class TransactionalApplicationService extends ApplicationService
 {
     /**
      * @param ApplicationService   $service

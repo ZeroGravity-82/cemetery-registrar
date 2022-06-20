@@ -17,6 +17,14 @@ class ListOrganizationsService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return ListOrganizationsRequest::class;
+    }
+
+    /**
      * @param ListOrganizationsRequest $request
      *
      * @return ListOrganizationsResponse

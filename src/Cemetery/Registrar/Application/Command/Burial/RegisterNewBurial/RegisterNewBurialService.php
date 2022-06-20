@@ -71,13 +71,21 @@ class RegisterNewBurialService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return RegisterNewBurialRequest::class;
+    }
+
+    /**
      * @param RegisterNewBurialRequest $request
      *
      * @return RegisterNewBurialResponse
      */
     public function execute($request): RegisterNewBurialResponse
     {
-        $this->assertInstanceOf($request, RegisterNewBurialRequest::class);
+        $this->assertSupportedRequestClass($request);
         $type               = $this->processTypeData($request);
         $deceasedId         = $this->processDeceasedData($request);
         $customerId         = $this->processCustomerData($request);

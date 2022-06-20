@@ -9,7 +9,9 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class EntityCollection implements \Countable, \IteratorAggregate
 {
-    /** @var Entity[]|array */
+    /**
+     * @var Entity[]|array
+     */
     private array $entities = [];
 
     /**
@@ -19,7 +21,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         array $entities = [],
     ) {
         foreach ($entities as $entity) {
-            $this->assertValidType($entity);
+            $this->assertSupportedEntityClass($entity);
             $this->add($entity);
         }
     }
@@ -54,7 +56,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      */
     public function add(Entity $entity): void
     {
-        $this->assertValidType($entity);
+        $this->assertSupportedEntityClass($entity);
         $entityId                  = (string) $entity->id();
         $this->entities[$entityId] = $entity;
     }
@@ -213,7 +215,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      *
      * @throws \InvalidArgumentException when the entity type does not match the collection
      */
-    private function assertValidType(Entity $entity): void
+    private function assertSupportedEntityClass(Entity $entity): void
     {
         $supportedEntityClassName = $this->supportedEntityClassName();
         if (!$entity instanceof $supportedEntityClassName) {

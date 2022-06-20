@@ -17,6 +17,14 @@ class ListCausesOfDeathService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return ListCausesOfDeathRequest::class;
+    }
+
+    /**
      * @param ListCausesOfDeathRequest $request
      *
      * @return ListCausesOfDeathResponse

@@ -17,6 +17,14 @@ class CountBurialTotalService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return CountBurialTotalRequest::class;
+    }
+
+    /**
      * @param CountBurialTotalRequest $request
      *
      * @return CountBurialTotalResponse

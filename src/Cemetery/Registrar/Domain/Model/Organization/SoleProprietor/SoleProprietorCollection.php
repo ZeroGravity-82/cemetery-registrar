@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization\SoleProprietor;
 
-use Cemetery\Registrar\Domain\Model\AggregateRootCollection;
+use Cemetery\Registrar\Domain\Model\EntityCollection;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorCollection extends AggregateRootCollection
+class SoleProprietorCollection extends EntityCollection
 {
     /**
      * {@inheritdoc}

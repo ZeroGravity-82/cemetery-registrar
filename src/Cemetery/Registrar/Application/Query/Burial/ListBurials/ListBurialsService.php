@@ -17,6 +17,14 @@ class ListBurialsService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return ListBurialsRequest::class;
+    }
+
+    /**
      * @param ListBurialsRequest $request
      *
      * @return ListBurialsResponse

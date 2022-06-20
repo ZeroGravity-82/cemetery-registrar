@@ -25,11 +25,19 @@ class RemoveJuristicPersonService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return RemoveJuristicPersonRequest::class;
+    }
+
+    /**
      * @param RemoveJuristicPersonRequest $request
      */
     public function execute($request): void
     {
-        $this->assertInstanceOf($request, RemoveJuristicPersonRequest::class);
+        $this->assertSupportedRequestClass($request);
         $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRemover->remove($juristicPerson);
     }

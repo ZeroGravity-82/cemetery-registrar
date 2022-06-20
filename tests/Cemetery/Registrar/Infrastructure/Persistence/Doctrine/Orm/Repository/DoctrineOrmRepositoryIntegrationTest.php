@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmRepository;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -18,7 +19,7 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
     protected Entity                 $entityB;
     protected Entity                 $entityC;
     protected EntityManagerInterface $entityManager;
-    protected object                 $repo;
+    protected DoctrineOrmRepository  $repo;
     protected string                 $entityClassName;
     protected string                 $entityIdClassName;
     protected string                 $entityCollectionClassName;
@@ -32,6 +33,14 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $entityManager       = $container->get(EntityManagerInterface::class);
         $this->entityManager = $entityManager;
         $this->truncateEntities();
+    }
+
+    public function testSupportedEntityClassIsAggregateRoot(): void
+    {
+        $this->assertInstanceOf(
+            $this->repo->supportedAggregateRootClassName(),
+            $this->createMock($this->collection->supportedEntityClassName())
+        );
     }
 
     public function testItSavesANewEntity(): void

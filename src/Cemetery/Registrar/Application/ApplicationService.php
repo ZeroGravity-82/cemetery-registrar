@@ -10,6 +10,13 @@ namespace Cemetery\Registrar\Application;
 abstract class ApplicationService
 {
     /**
+     * Returns the name of the supported request class.
+     *
+     * @return string
+     */
+    abstract public function supportedRequestClassName(): string;
+
+    /**
      * @param $request
      *
      * @return mixed|void
@@ -17,18 +24,19 @@ abstract class ApplicationService
     abstract public function execute($request);
 
     /**
-     * @param object $request
-     * @param string $supportedClass
+     * @param $request
      *
-     * @throws \InvalidArgumentException when the request object is not an instance of the supported class
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
-    protected function assertInstanceOf(object $request, string $supportedClass): void
+    protected function assertSupportedRequestClass($request): void
     {
-        if (!$request instanceof $supportedClass) {
+        $supportedRequestClassName = $this->supportedRequestClassName();
+        if (!$request instanceof $supportedRequestClassName) {
             throw new \InvalidArgumentException(\sprintf(
-                'The only argument of the %s::execute method must be instance of %s class.',
+                'The only argument of the "%s::execute" method must be instance of "%s" class, "%s" given.',
                 \get_class($this),
-                $supportedClass,
+                $supportedRequestClassName,
+                \is_object($request) ? \get_class($request) : \get_debug_type($request),
             ));
         }
     }

@@ -27,13 +27,21 @@ class CreateJuristicPersonService extends ApplicationService
     ) {}
 
     /**
+     * {@inheritdoc}
+     */
+    public function supportedRequestClassName(): string
+    {
+        return CreateJuristicPersonRequest::class;
+    }
+
+    /**
      * @param CreateJuristicPersonRequest $request
      *
      * @return CreateJuristicPersonResponse
      */
     public function execute($request): CreateJuristicPersonResponse
     {
-        $this->assertInstanceOf($request, CreateJuristicPersonRequest::class);
+        $this->assertSupportedRequestClass($request);
 
         // TODO add uniqueness check
         $juristicPerson = $this->juristicPersonFactory->create(

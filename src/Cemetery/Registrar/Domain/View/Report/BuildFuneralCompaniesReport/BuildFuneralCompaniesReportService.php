@@ -11,12 +11,17 @@ use Cemetery\Registrar\Application\ApplicationService;
  */
 class BuildFuneralCompaniesReportService extends ApplicationService
 {
+    public function supportedRequestClassName(): string
+    {
+        return BuildFuneralCompaniesReportRequest::class;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function execute($request): BuildFuneralCompaniesReportResponse
     {
-        $this->assertInstanceOf($request, BuildFuneralCompaniesReportRequest::class);
+        $this->assertSupportedRequestClass($request);
 
         /** @var BuildFuneralCompaniesReportRequest $request */
         $startDate = $request->startDate;
