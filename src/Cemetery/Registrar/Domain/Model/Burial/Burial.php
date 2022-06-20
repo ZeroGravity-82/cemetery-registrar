@@ -314,7 +314,7 @@ class Burial extends AggregateRoot
         if (!$matches) {
             throw new \RuntimeException(\sprintf(
                 'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
-                $container,
+                $container::CLASS_LABEL,
                 $this->type()->label(),
             ));
         }

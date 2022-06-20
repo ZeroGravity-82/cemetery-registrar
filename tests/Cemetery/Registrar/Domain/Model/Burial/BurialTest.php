@@ -305,7 +305,7 @@ class BurialTest extends AggregateRootTest
 
         $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
-            (string) $coffin,
+            $coffin::CLASS_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
         );
         $burialContainer = new BurialContainer($coffin);
@@ -318,7 +318,7 @@ class BurialTest extends AggregateRootTest
 
         $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
-            (string) $coffin,
+            $coffin::CLASS_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
         );
         $burialContainer = new BurialContainer($coffin);
@@ -331,7 +331,7 @@ class BurialTest extends AggregateRootTest
 
         $coffin = new Coffin(new CoffinSize(180), CoffinShape::american(), false);
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
-            (string) $coffin,
+            $coffin::CLASS_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
         $burialContainer = new BurialContainer($coffin);
@@ -344,7 +344,7 @@ class BurialTest extends AggregateRootTest
 
         $urn = new Urn();
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
-            (string) $urn,
+            $urn::CLASS_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
         );
         $burialContainer = new BurialContainer($urn);
@@ -357,7 +357,7 @@ class BurialTest extends AggregateRootTest
 
         $urn = new Urn();
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
-            (string) $urn,
+            $urn::CLASS_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
         $burialContainer = new BurialContainer($urn);
