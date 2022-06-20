@@ -54,12 +54,12 @@ class BurialTest extends AggregateRootTest
     public function testItSuccessfullyCreated(): void
     {
         $this->assertInstanceOf(BurialId::class, $this->burial->id());
-        $this->assertSame('B001', (string) $this->burial->id());
+        $this->assertSame('B001', $this->burial->id()->value());
         $this->assertInstanceOf(BurialCode::class, $this->burial->code());
-        $this->assertSame('10001', (string) $this->burial->code());
+        $this->assertSame('10001', $this->burial->code()->value());
         $this->assertInstanceOf(BurialType::class, $this->burial->type());
         $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
-        $this->assertSame('D001', (string) $this->burial->deceasedId());
+        $this->assertSame('D001', $this->burial->deceasedId()->value());
         $this->assertTrue($this->burial->type()->isCoffinInGraveSite());
         $this->assertNull($this->burial->customerId());
         $this->assertNull($this->burial->burialPlaceId());
