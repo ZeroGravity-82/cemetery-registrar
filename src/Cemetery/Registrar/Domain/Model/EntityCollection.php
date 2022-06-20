@@ -215,8 +215,8 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      */
     private function assertValidType(Entity $entity): void
     {
-        $supportedEntityClass = $this->supportedEntityClassName();
-        if (!$entity instanceof $supportedEntityClass) {
+        $supportedEntityClassName = $this->supportedEntityClassName();
+        if (!$entity instanceof $supportedEntityClassName) {
             throw new \InvalidArgumentException(\sprintf(
                 'Invalid type for an entity: expected "%s", "%s" given.',
                 $this->supportedEntityClassName(),

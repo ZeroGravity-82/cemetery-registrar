@@ -205,17 +205,17 @@ abstract class EntityCollectionTest extends TestCase
 
     public function testItFailsWhenCreatedWithInvalidEntityType(): void
     {
-        $entity      = $this->getFakeEntity();
-        $entityClass = \get_class($entity);
+        $entity          = $this->getFakeEntity();
+        $entityClassName = \get_class($entity);
 
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
             'Invalid type for an entity: expected "%s", "%s" given',
             $this->collection->supportedEntityClassName(),
-            $entityClass
+            $entityClassName
         ));
-        $collectionClass = \get_class($this->collection);
-        new $collectionClass([$entity]);
+        $collectionClassName = \get_class($this->collection);
+        new $collectionClassName([$entity]);
     }
 
     public function testItFailsWhenAddsEntityOfInvalidType(): void
