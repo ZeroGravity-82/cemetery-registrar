@@ -45,9 +45,9 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newDescription = new CauseOfDeathName('COVID19');
+        $newName = new CauseOfDeathName('COVID19');
 
         /** @var CauseOfDeath $entityA */
-        $entityA->setName($newDescription);
+        $entityA->setName($newName);
     }
 }

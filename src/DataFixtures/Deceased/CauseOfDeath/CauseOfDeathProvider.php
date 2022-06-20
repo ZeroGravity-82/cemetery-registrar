@@ -15,65 +15,65 @@ class CauseOfDeathProvider
 {
     public static function getCauseOfDeathA(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD001');
-        $description = new CauseOfDeathName('COVID-19');
+        $id   = new CauseOfDeathId('CD001');
+        $name = new CauseOfDeathName('COVID-19');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathB(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD002');
-        $description = new CauseOfDeathName('Обструктивная болезнь легких');
+        $id   = new CauseOfDeathId('CD002');
+        $name = new CauseOfDeathName('Обструктивная болезнь легких');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathC(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD003');
-        $description = new CauseOfDeathName('Атеросклеротическая болезнь сердца');
+        $id   = new CauseOfDeathId('CD003');
+        $name = new CauseOfDeathName('Атеросклеротическая болезнь сердца');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathD(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD004');
-        $description = new CauseOfDeathName('Онкология');
+        $id   = new CauseOfDeathId('CD004');
+        $name = new CauseOfDeathName('Онкология');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathE(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD005');
-        $description = new CauseOfDeathName('Астма кардиальная');
+        $id   = new CauseOfDeathId('CD005');
+        $name = new CauseOfDeathName('Астма кардиальная');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathF(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD006');
-        $description = new CauseOfDeathName('Асфиксия');
+        $id   = new CauseOfDeathId('CD006');
+        $name = new CauseOfDeathName('Асфиксия');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathG(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD007');
-        $description = new CauseOfDeathName('Аневризма брюшной аорты разорванная');
+        $id   = new CauseOfDeathId('CD007');
+        $name = new CauseOfDeathName('Аневризма брюшной аорты разорванная');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 
     public static function getCauseOfDeathH(): CauseOfDeath
     {
-        $id          = new CauseOfDeathId('CD008');
-        $description = new CauseOfDeathName('Болезнь сердечно-легочная хроническая');
+        $id   = new CauseOfDeathId('CD008');
+        $name = new CauseOfDeathName('Болезнь сердечно-легочная хроническая');
 
-        return new CauseOfDeath($id, $description);
+        return new CauseOfDeath($id, $name);
     }
 }

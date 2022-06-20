@@ -12,18 +12,18 @@ use Cemetery\Registrar\Domain\Model\EntityFactory;
 class CauseOfDeathFactory extends EntityFactory
 {
     /**
-     * @param string $description
+     * @param string $name
      *
      * @return CauseOfDeath
      */
     public function create(
-        string $description,
+        string $name,
     ): CauseOfDeath {
-        $description = new CauseOfDeathName($description);
+        $name = new CauseOfDeathName($name);
 
         return (new CauseOfDeath(
             new CauseOfDeathId($this->identityGenerator->getNextIdentity()),
-            $description,
+            $name,
         ));
     }
 }

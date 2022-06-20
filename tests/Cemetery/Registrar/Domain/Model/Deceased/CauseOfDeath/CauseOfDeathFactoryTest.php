@@ -25,13 +25,13 @@ class CauseOfDeathFactoryTest extends EntityFactoryTest
 
     public function testItCreatesCauseOfDeath(): void
     {
-        $description = 'Некоторая причина смерти';
+        $name = 'Некоторая причина смерти';
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $causeOfDeath = $this->deceasedFactory->create(
-            $description,
+            $name,
         );
         $this->assertInstanceOf(CauseOfDeath::class, $causeOfDeath);
         $this->assertSame(self::ENTITY_ID, $causeOfDeath->id()->value());
-        $this->assertSame($description, $causeOfDeath->name()->value());
+        $this->assertSame($name, $causeOfDeath->name()->value());
     }
 }
