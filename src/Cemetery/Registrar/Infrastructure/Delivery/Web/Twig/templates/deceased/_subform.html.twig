@@ -22,14 +22,4 @@
   <div class="col-md-3"><label for="deceasedDeathCertificateId" class="form-label">Свидетельство о смерти</label></div>
   <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="deceasedDeathCertificateId" name="deceasedDeathCertificateId"></div>
 </div>
-<div class="row">
-  <div class="col-md-3"><label for="deceasedCauseOfDeath" class="form-label">Причина смерти</label></div>
-  <div class="col-md-9">
-    <select class="form-select form-select-sm" id="deceasedCauseOfDeath" name="deceasedCauseOfDeath" aria-label="Причина смерти">
-      <option selected></option>
-      <option value="Обструктивная болезнь легких">Обструктивная болезнь легких</option>
-      <option value="Аневризма брюшной аорты разорванная">Аневризма брюшной аорты разорванная</option>
-      <option value="Онкология">Онкология</option>
-    </select>
-  </div>
-</div>
+{% include 'deceased/_cause_of_death_selector.html.twig' %}

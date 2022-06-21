@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-3"><label for="deceasedCauseOfDeathId" class="form-label">Причина смерти</label></div>
+  <div class="col-md-9">
+    <select class="form-select form-select-sm" id="deceasedCauseOfDeathId" name="deceasedCauseOfDeathId" aria-label="Причина смерти">
+      <option selected></option>
+      {% for listItem in causeOfDeathList.listItems %}
+        <option value="{{ listItem.id }}">
+          {{ listItem.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
