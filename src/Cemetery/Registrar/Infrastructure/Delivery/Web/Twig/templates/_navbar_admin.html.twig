@@ -1,0 +1,29 @@
+<li class="nav-item">
+  <a class="nav-link disabled" href="#">Номенклатура</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link {% if currentRoute == 'admin_organization_list' %}active{% endif %}"
+     href="{{ path('admin_organization_list') }}">Организации</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link {% if currentRoute == 'admin_funeral_company_list' %}active{% endif %}"
+     href="{{ path('admin_funeral_company_list') }}">Похоронные фирмы</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link {% if currentRoute == 'admin_cause_of_death_list' %}active{% endif %}"
+     href="{{ path('admin_cause_of_death_list') }}">Причины смерти</a>
+</li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="dropdownBurialPlaces" data-bs-toggle="dropdown" aria-expanded="false">Места захоронения</a>
+  <ul class="dropdown-menu" aria-labelledby="dropdownBurialPlaces">
+    <li><a class="dropdown-item disabled" href="#">Участки на кладбище</a></li>
+    <li><a class="dropdown-item disabled" href="#">Колумбарные ниши</a></li>
+    <li><a class="dropdown-item disabled" href="#">Памятные деревья</a></li>
+  </ul>
+</li>
+<li class="nav-item">
+  <a class="nav-link disabled" href="#">Типы цен</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link disabled" href="#">Установка цен номенклатуры</a>
+</li>

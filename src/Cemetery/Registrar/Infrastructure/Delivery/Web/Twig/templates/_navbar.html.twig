@@ -9,51 +9,10 @@
 
     <div class="navbar-collapse offcanvas-collapse" id="navbarsDefault">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {# Regular navbar #}
         {% if 'admin' not in currentRoute %}
-          <li class="nav-item">
-            <a class="nav-link disabled" aria-current="page" href="#">Заказ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if currentRoute == 'burial_list' %}active{% endif %}"
-               href="{{ path('burial_list') }}">Захоронения</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Справка</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdownReports" data-bs-toggle="dropdown" aria-expanded="false">Отчеты</a>
-            <ul class="dropdown-menu" aria-labelledby="dropdownReports">
-              <li><a class="dropdown-item disabled" href="#">Отчеты по похоронным фирмам</a></li>
-              <li><a class="dropdown-item disabled" href="#">Список захоронений</a></li>
-            </ul>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle disabled" href="#" id="dropdownService" data-bs-toggle="dropdown" aria-expanded="false">Сервис</a>
-          </li>
-        {# Admin navbar #}
+          {% include '_navbar_regular.html.twig' %}
         {% else %}
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Номенклатура</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if currentRoute == 'admin_organization_list' %}active{% endif %}"
-               href="{{ path('admin_organization_list') }}">Организации</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if currentRoute == 'admin_funeral_company_list' %}active{% endif %}"
-               href="{{ path('admin_funeral_company_list') }}">Похоронные фирмы</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {% if currentRoute == 'admin_cause_of_death_list' %}active{% endif %}"
-               href="{{ path('admin_cause_of_death_list') }}">Причины смерти</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Типы цен</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" href="#">Установка цен номенклатуры</a>
-          </li>
+          {% include '_navbar_admin.html.twig' %}
         {% endif %}
       </ul>
       <div class="dropdown text-end">

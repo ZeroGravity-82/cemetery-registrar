@@ -1,0 +1,20 @@
+<li class="nav-item">
+  <a class="nav-link disabled" aria-current="page" href="#">Заказ</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link {% if currentRoute == 'burial_list' %}active{% endif %}"
+     href="{{ path('burial_list') }}">Захоронения</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link disabled" href="#">Справка</a>
+</li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="dropdownReports" data-bs-toggle="dropdown" aria-expanded="false">Отчеты</a>
+  <ul class="dropdown-menu" aria-labelledby="dropdownReports">
+    <li><a class="dropdown-item disabled" href="#">Отчеты по похоронным фирмам</a></li>
+    <li><a class="dropdown-item disabled" href="#">Список захоронений</a></li>
+  </ul>
+</li>
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle disabled" href="#" id="dropdownService" data-bs-toggle="dropdown" aria-expanded="false">Сервис</a>
+</li>
