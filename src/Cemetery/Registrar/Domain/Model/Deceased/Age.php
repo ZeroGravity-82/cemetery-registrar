@@ -9,6 +9,8 @@ namespace Cemetery\Registrar\Domain\Model\Deceased;
  */
 class Age
 {
+    private const MAX_AGE = 125;
+
     /**
      * @param int $value
      */
@@ -50,6 +52,7 @@ class Age
     private function assertValidValue(int $value): void
     {
         $this->assertNotNegative($value);
+        $this->assertNotTooMuch($value);
     }
 
     /**
@@ -61,6 +64,18 @@ class Age
     {
         if ($value < 0) {
             throw new \InvalidArgumentException('Возраст не может иметь отрицательное значение.');
+        }
+    }
+
+    /**
+     * @param int $value
+     *
+     * @throws \InvalidArgumentException when the age has too much value
+     */
+    private function assertNotTooMuch(int $value): void
+    {
+        if ($value > self::MAX_AGE) {
+            throw new \InvalidArgumentException(\sprintf('Возраст не может превышать %d лет.', self::MAX_AGE));
         }
     }
 }

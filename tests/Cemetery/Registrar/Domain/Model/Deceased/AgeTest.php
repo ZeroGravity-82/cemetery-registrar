@@ -12,13 +12,19 @@ use PHPUnit\Framework\TestCase;
  */
 class AgeTest extends TestCase
 {
+    private const MAX_AGE = 125;
+
     public function testItSuccessfullyCreated(): void
     {
-        $age = new Age(82);
-        $this->assertSame(82, $age->value());
-
         $age = new Age(0);
         $this->assertSame(0, $age->value());
+
+        $age = new Age(self::MAX_AGE);
+        $this->assertSame(self::MAX_AGE, $age->value());
+
+        $avgAge = (int) (self::MAX_AGE / 2);
+        $age    = new Age($avgAge);
+        $this->assertSame($avgAge, $age->value());
     }
 
     public function testItFailsWithNegativeValue(): void
@@ -28,10 +34,16 @@ class AgeTest extends TestCase
         new Age(-1);
     }
 
+    public function testItFailsWithTooMuchValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf('Возраст не может превышать %d лет.', self::MAX_AGE));
+        new Age(self::MAX_AGE + 1);
+    }
+
     public function testItStringifyable(): void
     {
         $age = new Age(82);
-
         $this->assertSame('82', (string) $age);
     }
 
@@ -40,7 +52,6 @@ class AgeTest extends TestCase
         $ageA = new Age(82);
         $ageB = new Age(15);
         $ageC = new Age(82);
-
         $this->assertFalse($ageA->isEqual($ageB));
         $this->assertTrue($ageA->isEqual($ageC));
         $this->assertFalse($ageB->isEqual($ageC));
