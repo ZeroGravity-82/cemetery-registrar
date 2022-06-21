@@ -14,9 +14,13 @@
      href="{{ path('admin_cause_of_death_list') }}">Причины смерти</a>
 </li>
 <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" href="#" id="dropdownBurialPlaces" data-bs-toggle="dropdown" aria-expanded="false">Места захоронения</a>
+  <a class="nav-link dropdown-toggle {% if currentRoute in ['admin_grave_site_list'] %}active{% endif %}"
+     href="#"
+     id="dropdownBurialPlaces"
+     data-bs-toggle="dropdown"
+     aria-expanded="false">Места захоронения</a>
   <ul class="dropdown-menu" aria-labelledby="dropdownBurialPlaces">
-    <li><a class="dropdown-item disabled" href="#">Участки на кладбище</a></li>
+    <li><a class="dropdown-item" href="{{ path('admin_grave_site_list') }}">Участки на кладбище</a></li>
     <li><a class="dropdown-item disabled" href="#">Колумбарные ниши</a></li>
     <li><a class="dropdown-item disabled" href="#">Памятные деревья</a></li>
   </ul>
