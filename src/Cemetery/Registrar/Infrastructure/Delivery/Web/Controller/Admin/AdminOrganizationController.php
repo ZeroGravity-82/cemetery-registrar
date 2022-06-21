@@ -32,7 +32,6 @@ class AdminOrganizationController extends AbstractController
         $organizationTotalCount = $this->countOrganizationTotalService
             ->execute(new CountOrganizationTotalRequest())
             ->totalCount;
-
         $organizationList = $this->listOrganizationsService
             ->execute(new ListOrganizationsRequest())
             ->list;

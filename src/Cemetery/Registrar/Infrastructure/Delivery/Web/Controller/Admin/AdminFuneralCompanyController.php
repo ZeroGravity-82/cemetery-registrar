@@ -32,7 +32,6 @@ class AdminFuneralCompanyController extends AbstractController
         $funeralCompanyTotalCount = $this->countFuneralCompanyTotalService
             ->execute(new CountFuneralCompanyTotalRequest())
             ->totalCount;
-
         $funeralCompanyList = $this->listFuneralCompaniesService
             ->execute(new ListFuneralCompaniesRequest())
             ->list;
