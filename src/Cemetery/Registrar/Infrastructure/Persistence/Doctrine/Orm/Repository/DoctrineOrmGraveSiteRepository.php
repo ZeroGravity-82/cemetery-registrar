@@ -16,60 +16,25 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
 {
     /**
      * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
      */
-    public function save(GraveSite $graveSite): void
+    public function supportedAggregateRootClassName(): string
     {
-        $graveSite->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($graveSite);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
-     */
-    public function saveAll(GraveSiteCollection $graveSites): void
-    {
-        foreach ($graveSites as $graveSite) {
-            $graveSite->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($graveSite);
-        }
-        $this->entityManager->flush();
+        return GraveSite::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(GraveSiteId $graveSiteId): ?GraveSite
+    public function supportedAggregateRootIdClassName(): string
     {
-        return $this->entityManager->getRepository(GraveSite::class)->findBy([
-            'id'        => $graveSiteId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
+        return GraveSiteId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove(GraveSite $graveSite): void
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        $graveSite->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($graveSite);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(GraveSiteCollection $graveSites): void
-    {
-        foreach ($graveSites as $graveSite) {
-            $graveSite->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($graveSite);
-        }
-        $this->entityManager->flush();
+        return GraveSiteCollection::class;
     }
 }

@@ -33,6 +33,21 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
         $this->entityC = ColumbariumNicheProvider::getColumbariumNicheC();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(ColumbariumNiche::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(ColumbariumNicheId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(ColumbariumNicheCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var ColumbariumNiche $entityOne */

@@ -33,6 +33,21 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends DoctrineOrmReposit
         $this->entityC = ColumbariumProvider::getColumbariumC();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(Columbarium::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(ColumbariumId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(ColumbariumCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Columbarium $entityOne */

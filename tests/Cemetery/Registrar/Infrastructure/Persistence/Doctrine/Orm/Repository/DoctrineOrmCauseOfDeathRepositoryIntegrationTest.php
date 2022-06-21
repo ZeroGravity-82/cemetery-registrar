@@ -33,6 +33,21 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->entityC = CauseOfDeathProvider::getCauseOfDeathC();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(CauseOfDeath::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(CauseOfDeathId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(CauseOfDeathCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var CauseOfDeath $entityOne */

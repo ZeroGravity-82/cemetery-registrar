@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonCollectionTest extends AggregateRootCollectionTest
+class JuristicPersonCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {

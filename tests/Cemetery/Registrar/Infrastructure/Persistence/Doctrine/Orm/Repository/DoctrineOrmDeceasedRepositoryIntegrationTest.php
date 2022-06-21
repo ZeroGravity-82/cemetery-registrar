@@ -33,6 +33,21 @@ class DoctrineOrmDeceasedRepositoryIntegrationTest extends DoctrineOrmRepository
         $this->entityC = DeceasedProvider::getDeceasedC();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(Deceased::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(DeceasedId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(DeceasedCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var Deceased $entityOne */

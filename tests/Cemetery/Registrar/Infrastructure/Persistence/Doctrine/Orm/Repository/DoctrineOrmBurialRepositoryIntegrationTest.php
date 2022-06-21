@@ -43,6 +43,21 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
         $this->entityF = BurialProvider::getBurialF();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(Burial::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(BurialId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(BurialCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     public function testItCountsBurialsByFuneralCompanyId(): void
     {
         // Prepare the repo for testing

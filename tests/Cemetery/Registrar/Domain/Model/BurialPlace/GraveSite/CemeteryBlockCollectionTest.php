@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollection;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockCollectionTest extends AggregateRootCollectionTest
+class CemeteryBlockCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {

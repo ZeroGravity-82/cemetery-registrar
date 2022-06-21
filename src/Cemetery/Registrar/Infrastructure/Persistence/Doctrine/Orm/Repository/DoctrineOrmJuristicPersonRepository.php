@@ -17,55 +17,24 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function save(JuristicPerson $juristicPerson): void
+    public function supportedAggregateRootClassName(): string
     {
-        $juristicPerson->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($juristicPerson);
-        $this->entityManager->flush();
+        return JuristicPerson::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function saveAll(JuristicPersonCollection $juristicPersons): void
+    public function supportedAggregateRootIdClassName(): string
     {
-        foreach ($juristicPersons as $juristicPerson) {
-            $juristicPerson->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($juristicPerson);
-        }
-        $this->entityManager->flush();
+        return JuristicPersonId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(JuristicPersonId $juristicPersonId): ?JuristicPerson
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        return $this->entityManager->getRepository(JuristicPerson::class)->findBy([
-            'id'        => $juristicPersonId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(JuristicPerson $juristicPerson): void
-    {
-        $juristicPerson->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($juristicPerson);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(JuristicPersonCollection $juristicPersons): void
-    {
-        foreach ($juristicPersons as $juristicPerson) {
-            $juristicPerson->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($juristicPerson);
-        }
-        $this->entityManager->flush();
+        return JuristicPersonCollection::class;
     }
 }

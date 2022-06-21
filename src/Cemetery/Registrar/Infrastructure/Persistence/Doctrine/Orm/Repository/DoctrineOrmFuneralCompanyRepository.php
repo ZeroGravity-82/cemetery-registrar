@@ -18,34 +18,25 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function save(FuneralCompany $funeralCompany): void
+    public function supportedAggregateRootClassName(): string
     {
-        $funeralCompany->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($funeralCompany);
-        $this->entityManager->flush();
+        return FuneralCompany::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function saveAll(FuneralCompanyCollection $funeralCompanies): void
+    public function supportedAggregateRootIdClassName(): string
     {
-        foreach ($funeralCompanies as $funeralCompany) {
-            $funeralCompany->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($funeralCompany);
-        }
-        $this->entityManager->flush();
+        return FuneralCompanyId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(FuneralCompanyId $funeralCompanyId): ?FuneralCompany
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        return $this->entityManager->getRepository(FuneralCompany::class)->findBy([
-            'id'        => $funeralCompanyId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
+        return FuneralCompanyCollection::class;
     }
 
     /**
@@ -63,27 +54,5 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
             ->setParameter('value', $organizationId->id()->value())
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(FuneralCompany $funeralCompany): void
-    {
-        $funeralCompany->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($funeralCompany);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(FuneralCompanyCollection $funeralCompanies): void
-    {
-        foreach ($funeralCompanies as $funeralCompany) {
-            $funeralCompany->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($funeralCompany);
-        }
-        $this->entityManager->flush();
     }
 }

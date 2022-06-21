@@ -17,55 +17,24 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function save(CauseOfDeath $causeOfDeath): void
+    public function supportedAggregateRootClassName(): string
     {
-        $causeOfDeath->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($causeOfDeath);
-        $this->entityManager->flush();
+        return CauseOfDeath::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function saveAll(CauseOfDeathCollection $causesOfDeath): void
+    public function supportedAggregateRootIdClassName(): string
     {
-        foreach ($causesOfDeath as $causeOfDeath) {
-            $causeOfDeath->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($causeOfDeath);
-        }
-        $this->entityManager->flush();
+        return CauseOfDeathId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(CauseOfDeathId $causeOfDeathId): ?CauseOfDeath
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        return $this->entityManager->getRepository(CauseOfDeath::class)->findBy([
-            'id'        => $causeOfDeathId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(CauseOfDeath $causeOfDeath): void
-    {
-        $causeOfDeath->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($causeOfDeath);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(CauseOfDeathCollection $causesOfDeath): void
-    {
-        foreach ($causesOfDeath as $causeOfDeath) {
-            $causeOfDeath->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($causeOfDeath);
-        }
-        $this->entityManager->flush();
+        return CauseOfDeathCollection::class;
     }
 }

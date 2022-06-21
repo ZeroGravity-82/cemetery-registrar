@@ -17,55 +17,24 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function save(NaturalPerson $naturalPerson): void
+    public function supportedAggregateRootClassName(): string
     {
-        $naturalPerson->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($naturalPerson);
-        $this->entityManager->flush();
+        return NaturalPerson::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function saveAll(NaturalPersonCollection $naturalPersons): void
+    public function supportedAggregateRootIdClassName(): string
     {
-        foreach ($naturalPersons as $naturalPerson) {
-            $naturalPerson->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($naturalPerson);
-        }
-        $this->entityManager->flush();
+        return NaturalPersonId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(NaturalPersonId $naturalPersonId): ?NaturalPerson
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        return $this->entityManager->getRepository(NaturalPerson::class)->findBy([
-            'id'        => $naturalPersonId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(NaturalPerson $naturalPerson): void
-    {
-        $naturalPerson->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($naturalPerson);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(NaturalPersonCollection $naturalPersons): void
-    {
-        foreach ($naturalPersons as $naturalPerson) {
-            $naturalPerson->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($naturalPerson);
-        }
-        $this->entityManager->flush();
+        return NaturalPersonCollection::class;
     }
 }

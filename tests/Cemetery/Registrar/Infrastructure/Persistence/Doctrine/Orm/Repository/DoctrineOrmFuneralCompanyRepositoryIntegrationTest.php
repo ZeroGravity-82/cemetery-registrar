@@ -39,6 +39,21 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityD = FuneralCompanyProvider::getFuneralCompanyD();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(FuneralCompany::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(FuneralCompanyId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(FuneralCompanyCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     public function testItFindsFuneralCompanyByOrganizationId(): void
     {
         // Prepare the repo for testing

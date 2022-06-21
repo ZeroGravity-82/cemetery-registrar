@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\FuneralCompany;
 
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
 use DataFixtures\FuneralCompany\FuneralCompanyProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyCollectionTest extends AggregateRootCollectionTest
+class FuneralCompanyCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {

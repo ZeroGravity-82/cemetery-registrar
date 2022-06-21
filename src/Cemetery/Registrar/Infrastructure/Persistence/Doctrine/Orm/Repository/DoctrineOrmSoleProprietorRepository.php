@@ -17,55 +17,24 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function save(SoleProprietor $soleProprietor): void
+    public function supportedAggregateRootClassName(): string
     {
-        $soleProprietor->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($soleProprietor);
-        $this->entityManager->flush();
+        return SoleProprietor::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function saveAll(SoleProprietorCollection $soleProprietors): void
+    public function supportedAggregateRootIdClassName(): string
     {
-        foreach ($soleProprietors as $soleProprietor) {
-            $soleProprietor->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($soleProprietor);
-        }
-        $this->entityManager->flush();
+        return SoleProprietorId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(SoleProprietorId $soleProprietorId): ?SoleProprietor
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        return $this->entityManager->getRepository(SoleProprietor::class)->findBy([
-            'id'        => $soleProprietorId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(SoleProprietor $soleProprietor): void
-    {
-        $soleProprietor->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($soleProprietor);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(SoleProprietorCollection $soleProprietors): void
-    {
-        foreach ($soleProprietors as $soleProprietor) {
-            $soleProprietor->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($soleProprietor);
-        }
-        $this->entityManager->flush();
+        return SoleProprietorCollection::class;
     }
 }

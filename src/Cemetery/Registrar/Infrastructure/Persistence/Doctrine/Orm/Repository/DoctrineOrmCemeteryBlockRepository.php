@@ -16,60 +16,25 @@ class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implement
 {
     /**
      * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
      */
-    public function save(CemeteryBlock $cemeteryBlock): void
+    public function supportedAggregateRootClassName(): string
     {
-        $cemeteryBlock->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($cemeteryBlock);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
-     */
-    public function saveAll(CemeteryBlockCollection $cemeteryBlocks): void
-    {
-        foreach ($cemeteryBlocks as $cemeteryBlock) {
-            $cemeteryBlock->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($cemeteryBlock);
-        }
-        $this->entityManager->flush();
+        return CemeteryBlock::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(CemeteryBlockId $cemeteryBlockId): ?CemeteryBlock
+    public function supportedAggregateRootIdClassName(): string
     {
-        return $this->entityManager->getRepository(CemeteryBlock::class)->findBy([
-            'id'        => $cemeteryBlockId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
+        return CemeteryBlockId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove(CemeteryBlock $cemeteryBlock): void
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        $cemeteryBlock->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($cemeteryBlock);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(CemeteryBlockCollection $cemeteryBlocks): void
-    {
-        foreach ($cemeteryBlocks as $cemeteryBlock) {
-            $cemeteryBlock->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($cemeteryBlock);
-        }
-        $this->entityManager->flush();
+        return CemeteryBlockCollection::class;
     }
 }

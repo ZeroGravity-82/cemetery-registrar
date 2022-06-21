@@ -16,60 +16,25 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
 {
     /**
      * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
      */
-    public function save(ColumbariumNiche $columbariumNiche): void
+    public function supportedAggregateRootClassName(): string
     {
-        $columbariumNiche->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($columbariumNiche);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
-     */
-    public function saveAll(ColumbariumNicheCollection $columbariumNiches): void
-    {
-        foreach ($columbariumNiches as $columbariumNiche) {
-            $columbariumNiche->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($columbariumNiche);
-        }
-        $this->entityManager->flush();
+        return ColumbariumNiche::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(ColumbariumNicheId $columbariumNicheId): ?ColumbariumNiche
+    public function supportedAggregateRootIdClassName(): string
     {
-        return $this->entityManager->getRepository(ColumbariumNiche::class)->findBy([
-            'id'        => $columbariumNicheId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
+        return ColumbariumNicheId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove(ColumbariumNiche $columbariumNiche): void
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        $columbariumNiche->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($columbariumNiche);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(ColumbariumNicheCollection $columbariumNiches): void
-    {
-        foreach ($columbariumNiches as $columbariumNiche) {
-            $columbariumNiche->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($columbariumNiche);
-        }
-        $this->entityManager->flush();
+        return ColumbariumNicheCollection::class;
     }
 }

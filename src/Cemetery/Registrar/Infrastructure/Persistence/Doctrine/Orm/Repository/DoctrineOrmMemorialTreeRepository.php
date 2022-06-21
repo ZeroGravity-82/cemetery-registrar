@@ -16,60 +16,25 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
 {
     /**
      * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
      */
-    public function save(MemorialTree $memorialTree): void
+    public function supportedAggregateRootClassName(): string
     {
-        $memorialTree->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($memorialTree);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @todo Re-throw exception about integrity constraint violation
-     */
-    public function saveAll(MemorialTreeCollection $memorialTrees): void
-    {
-        foreach ($memorialTrees as $memorialTree) {
-            $memorialTree->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($memorialTree);
-        }
-        $this->entityManager->flush();
+        return MemorialTree::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(MemorialTreeId $memorialTreeId): ?MemorialTree
+    public function supportedAggregateRootIdClassName(): string
     {
-        return $this->entityManager->getRepository(MemorialTree::class)->findBy([
-            'id'        => $memorialTreeId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
+        return MemorialTreeId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function remove(MemorialTree $memorialTree): void
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        $memorialTree->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($memorialTree);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(MemorialTreeCollection $memorialTrees): void
-    {
-        foreach ($memorialTrees as $memorialTree) {
-            $memorialTree->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($memorialTree);
-        }
-        $this->entityManager->flush();
+        return MemorialTreeCollection::class;
     }
 }

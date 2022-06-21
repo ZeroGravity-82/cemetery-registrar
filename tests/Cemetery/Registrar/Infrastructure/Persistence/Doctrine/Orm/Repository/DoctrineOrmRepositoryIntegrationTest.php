@@ -35,13 +35,11 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->truncateEntities();
     }
 
-    public function testSupportedEntityClassIsAggregateRoot(): void
-    {
-        $this->assertInstanceOf(
-            $this->repo->supportedAggregateRootClassName(),
-            $this->createMock($this->collection->supportedEntityClassName())
-        );
-    }
+    abstract public function testItReturnsSupportedAggregateRootClassName(): void;
+
+    abstract public function testItReturnsSupportedAggregateRootIdClassName(): void;
+
+    abstract public function testItReturnsSupportedAggregateRootCollectionClassName(): void;
 
     public function testItSavesANewEntity(): void
     {

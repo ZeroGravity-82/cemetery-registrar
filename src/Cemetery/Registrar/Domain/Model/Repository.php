@@ -31,22 +31,22 @@ interface Repository
     public function supportedAggregateRootCollectionClassName(): string;
 
     /**
-     * Adds the aggregate root to the repository. If the aggregate root is already persisted, it will be updated.
+     * Adds the aggregate to the repository. If the aggregate is already persisted, it will be updated.
      *
      * @param $aggregateRoot
      */
     public function save($aggregateRoot): void;
 
     /**
-     * Adds the collection of aggregate roots to the repository. If any of the aggregate roots are already persisted,
-     * they will be updated.
+     * Adds the collection of aggregates to the repository. If any of the aggregates are already persisted, they will
+     * be updated.
      *
      * @param $aggregateRoots
      */
     public function saveAll($aggregateRoots): void;
 
     /**
-     * Returns the aggregate root by the ID. If no aggregate root found, null will be returned.
+     * Returns the aggregate by the aggregate root ID. If no aggregate root found, null will be returned.
      *
      * @param $aggregateRootId
      *
@@ -55,14 +55,14 @@ interface Repository
     public function findById($aggregateRootId): ?AggregateRoot;
 
     /**
-     * Removes the aggregate root from the repository.
+     * Removes the aggregate from the repository.
      *
      * @param $aggregateRoot
      */
     public function remove($aggregateRoot): void;
 
     /**
-     * Removes the collection of aggregate roots from the repository.
+     * Removes the collection of aggregates from the repository.
      *
      * @param $aggregateRoots
      */

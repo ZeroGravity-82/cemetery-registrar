@@ -34,6 +34,21 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityC = SoleProprietorProvider::getSoleProprietorC();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(SoleProprietor::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(SoleProprietorId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(SoleProprietorCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     public function testItHydratesBankDetailsEmbeddable(): void
     {
         $this->repo->saveAll(new SoleProprietorCollection([$this->entityA, $this->entityB]));

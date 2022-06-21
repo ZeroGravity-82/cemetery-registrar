@@ -34,6 +34,21 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityC = JuristicPersonProvider::getJuristicPersonC();
     }
 
+    public function testItReturnsSupportedAggregateRootClassName(): void
+    {
+        $this->assertSame(JuristicPerson::class, $this->repo->supportedAggregateRootClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    {
+        $this->assertSame(JuristicPersonId::class, $this->repo->supportedAggregateRootIdClassName());
+    }
+
+    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    {
+        $this->assertSame(JuristicPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
     public function testItHydratesBankDetailsEmbeddable(): void
     {
         $this->repo->saveAll(new JuristicPersonCollection([$this->entityA, $this->entityB]));

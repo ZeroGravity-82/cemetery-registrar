@@ -17,55 +17,24 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
     /**
      * {@inheritdoc}
      */
-    public function save(Columbarium $columbarium): void
+    public function supportedAggregateRootClassName(): string
     {
-        $columbarium->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($columbarium);
-        $this->entityManager->flush();
+        return Columbarium::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function saveAll(ColumbariumCollection $columbariums): void
+    public function supportedAggregateRootIdClassName(): string
     {
-        foreach ($columbariums as $columbarium) {
-            $columbarium->refreshUpdatedAtTimestamp();
-            $this->entityManager->persist($columbarium);
-        }
-        $this->entityManager->flush();
+        return ColumbariumId::class;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findById(ColumbariumId $columbariumId): ?Columbarium
+    public function supportedAggregateRootCollectionClassName(): string
     {
-        return $this->entityManager->getRepository(Columbarium::class)->findBy([
-            'id'        => $columbariumId->value(),
-            'removedAt' => null,
-        ])[0] ?? null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function remove(Columbarium $columbarium): void
-    {
-        $columbarium->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($columbarium);
-        $this->entityManager->flush();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function removeAll(ColumbariumCollection $columbariums): void
-    {
-        foreach ($columbariums as $columbarium) {
-            $columbarium->refreshRemovedAtTimestamp();
-            $this->entityManager->persist($columbarium);
-        }
-        $this->entityManager->flush();
+        return ColumbariumCollection::class;
     }
 }

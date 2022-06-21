@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
+use Cemetery\Registrar\Infrastructure\Persistence\Fetcher;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Statement;
@@ -11,7 +12,7 @@ use Doctrine\DBAL\Statement;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class DoctrineDbalFetcher
+abstract class DoctrineDbalFetcher extends Fetcher
 {
     /**
      * @param Connection $connection
@@ -19,16 +20,6 @@ abstract class DoctrineDbalFetcher
     public function __construct(
         protected readonly Connection $connection,
     ) {}
-
-    /**
-     * @param string|null $term
-     *
-     * @return bool
-     */
-    protected function isTermNotEmpty(?string $term): bool
-    {
-        return $term !== null && $term !== '';
-    }
 
     /**
      * @param QueryBuilder $queryBuilder

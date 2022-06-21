@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCollection;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
 use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorCollectionTest extends AggregateRootCollectionTest
+class SoleProprietorCollectionTest extends EntityCollectionTest
 {
     public function setUp(): void
     {
