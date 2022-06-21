@@ -47,10 +47,10 @@ class BurialController extends AbstractController
     #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
     public function index(): Response
     {
-        $burialTotalCount   = $this->countBurialTotalService->execute(new CountBurialTotalRequest())->burialTotalCount;
-        $burialList         = $this->listBurialsService->execute(new ListBurialsRequest())->burialList;
-        $funeralCompanyList = $this->listFuneralCompaniesService->execute(new ListFuneralCompaniesRequest())->funeralCompanyList;
-        $causeOfDeathList   = $this->listCausesOfDeathService->execute(new ListCausesOfDeathRequest())->causeOfDeathList;
+        $burialTotalCount   = $this->countBurialTotalService->execute(new CountBurialTotalRequest())->totalCount;
+        $burialList         = $this->listBurialsService->execute(new ListBurialsRequest())->list;
+        $funeralCompanyList = $this->listFuneralCompaniesService->execute(new ListFuneralCompaniesRequest())->list;
+        $causeOfDeathList   = $this->listCausesOfDeathService->execute(new ListCausesOfDeathRequest())->list;
 
         return $this->render('burial/list.html.twig', [
             'burialTotalCount'   => $burialTotalCount,

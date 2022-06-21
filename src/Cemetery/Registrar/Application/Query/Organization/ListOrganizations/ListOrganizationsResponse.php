@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationList;
 class ListOrganizationsResponse
 {
     public function __construct(
-        public readonly OrganizationList $organizationList,
+        public readonly OrganizationList $list,
     ) {}
 }

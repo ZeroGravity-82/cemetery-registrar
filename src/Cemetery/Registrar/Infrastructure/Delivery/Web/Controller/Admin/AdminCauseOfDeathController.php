@@ -31,11 +31,10 @@ class AdminCauseOfDeathController extends AbstractController
     {
         $causeOfDeathTotalCount = $this->countCauseOfDeathTotalService
             ->execute(new CountCauseOfDeathTotalRequest())
-            ->causeOfDeathTotalCount;
-
+            ->totalCount;
         $causeOfDeathList = $this->listCausesOfDeathService
             ->execute(new ListCausesOfDeathRequest())
-            ->causeOfDeathList;
+            ->list;
 
         return $this->render('admin/cause_of_death/list.html.twig', [
             'causeOfDeathTotalCount' => $causeOfDeathTotalCount,

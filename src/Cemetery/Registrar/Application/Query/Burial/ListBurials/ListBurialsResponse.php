@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\Burial\BurialList;
 class ListBurialsResponse
 {
     public function __construct(
-        public readonly BurialList $burialList,
+        public readonly BurialList $list,
     ) {}
 }

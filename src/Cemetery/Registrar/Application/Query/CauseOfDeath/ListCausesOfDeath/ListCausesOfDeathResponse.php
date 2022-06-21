@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
 class ListCausesOfDeathResponse
 {
     public function __construct(
-        public readonly CauseOfDeathList $causeOfDeathList,
+        public readonly CauseOfDeathList $list,
     ) {}
 }

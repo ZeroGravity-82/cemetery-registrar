@@ -31,11 +31,11 @@ class AdminOrganizationController extends AbstractController
     {
         $organizationTotalCount = $this->countOrganizationTotalService
             ->execute(new CountOrganizationTotalRequest())
-            ->organizationTotalCount;
+            ->totalCount;
 
         $organizationList = $this->listOrganizationsService
             ->execute(new ListOrganizationsRequest())
-            ->organizationList;
+            ->list;
 
         return $this->render('admin/organization/list.html.twig', [
             'organizationTotalCount' => $organizationTotalCount,

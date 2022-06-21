@@ -31,11 +31,11 @@ class AdminFuneralCompanyController extends AbstractController
     {
         $funeralCompanyTotalCount = $this->countFuneralCompanyTotalService
             ->execute(new CountFuneralCompanyTotalRequest())
-            ->funeralCompanyTotalCount;
+            ->totalCount;
 
         $funeralCompanyList = $this->listFuneralCompaniesService
             ->execute(new ListFuneralCompaniesRequest())
-            ->funeralCompanyList;
+            ->list;
 
         return $this->render('admin/funeral_company/list.html.twig', [
             'funeralCompanyTotalCount' => $funeralCompanyTotalCount,

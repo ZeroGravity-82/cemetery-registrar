@@ -10,9 +10,9 @@ namespace Cemetery\Registrar\Application\Query\Organization\CountOrganizationTot
 class CountOrganizationTotalResponse
 {
     /**
-     * @param int $organizationTotalCount
+     * @param int $totalCount
      */
     public function __construct(
-        public readonly int $organizationTotalCount,
+        public readonly int $totalCount,
     ) {}
 }
