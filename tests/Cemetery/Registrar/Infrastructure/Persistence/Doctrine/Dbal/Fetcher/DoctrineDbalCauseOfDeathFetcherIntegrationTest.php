@@ -70,14 +70,14 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         // First page
         $listForFirstPage = $this->causeOfDeathFetcher->findAll(1, null, $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $listForFirstPage);
+        $this->assertIsArray($listForFirstPage->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForFirstPage->listItems);
         $this->assertCount(3,              $listForFirstPage->listItems);
         $this->assertSame(1,               $listForFirstPage->page);
         $this->assertSame($customPageSize, $listForFirstPage->pageSize);
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(8,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertIsArray($listForFirstPage->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForFirstPage->listItems);
         $this->assertItemEqualsCD001($listForFirstPage->listItems[0]);  // Items are ordered by name
         $this->assertItemEqualsCD007($listForFirstPage->listItems[1]);
         $this->assertItemEqualsCD005($listForFirstPage->listItems[2]);
@@ -85,14 +85,14 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         // Second page
         $listForSecondPage = $this->causeOfDeathFetcher->findAll(2, null, $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $listForSecondPage);
+        $this->assertIsArray($listForSecondPage->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForSecondPage->listItems);
         $this->assertCount(3,              $listForSecondPage->listItems);
         $this->assertSame(2,               $listForSecondPage->page);
         $this->assertSame($customPageSize, $listForSecondPage->pageSize);
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(8,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertIsArray($listForSecondPage->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForSecondPage->listItems);
         $this->assertItemEqualsCD006($listForSecondPage->listItems[0]);
         $this->assertItemEqualsCD003($listForSecondPage->listItems[1]);
         $this->assertItemEqualsCD008($listForSecondPage->listItems[2]);
@@ -100,20 +100,21 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         // Third page
         $listForThirdPage = $this->causeOfDeathFetcher->findAll(3, null, $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $listForThirdPage);
+        $this->assertIsArray($listForThirdPage->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForThirdPage->listItems);
         $this->assertCount(2,              $listForThirdPage->listItems);
         $this->assertSame(3,               $listForThirdPage->page);
         $this->assertSame($customPageSize, $listForThirdPage->pageSize);
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(8,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertIsArray($listForThirdPage->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForThirdPage->listItems);
         $this->assertItemEqualsCD002($listForThirdPage->listItems[0]);
         $this->assertItemEqualsCD004($listForThirdPage->listItems[1]);
 
         // Fourth page
         $listForFourthPage = $this->causeOfDeathFetcher->findAll(4, null, $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $listForFourthPage);
+        $this->assertIsArray($listForFourthPage->listItems);
         $this->assertCount(0,              $listForFourthPage->listItems);
         $this->assertSame(4,               $listForFourthPage->page);
         $this->assertSame($customPageSize, $listForFourthPage->pageSize);
@@ -124,14 +125,14 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         // All at once
         $listForDefaultPageSize = $this->causeOfDeathFetcher->findAll(1);
         $this->assertInstanceOf(CauseOfDeathList::class, $listForDefaultPageSize);
+        $this->assertIsArray($listForDefaultPageSize->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForDefaultPageSize->listItems);
         $this->assertCount(8,                      $listForDefaultPageSize->listItems);
         $this->assertSame(1,                       $listForDefaultPageSize->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
         $this->assertSame(null,                    $listForDefaultPageSize->term);
         $this->assertSame(8,                       $listForDefaultPageSize->totalCount);
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
-        $this->assertIsArray($listForDefaultPageSize->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $listForDefaultPageSize->listItems);
     }
 
     public function testItReturnsCauseOfDeathListItemsByPageAndTerm(): void
@@ -140,36 +141,36 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
 
         $list = $this->causeOfDeathFetcher->findAll(1, 'Болезнь', $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
         $this->assertCount(3,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('Болезнь',       $list->term);
         $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
 
         $list = $this->causeOfDeathFetcher->findAll(1, 'серд', $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
         $this->assertCount(2,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('серд',          $list->term);
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
 
         $list = $this->causeOfDeathFetcher->findAll(1, 'coV', $customPageSize);
         $this->assertInstanceOf(CauseOfDeathList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('coV',           $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->listItems);
     }
 
     public function testItReturnsCauseOfDeathTotalCount(): void
@@ -248,6 +249,8 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertInstanceOf(CauseOfDeathView::class, $causeOfDeathView);
         $this->assertSame('CD001',    $causeOfDeathView->id);
         $this->assertSame('COVID-19', $causeOfDeathView->name);
+        $this->assertValidDateTimeValue($causeOfDeathView->createdAt);
+        $this->assertValidDateTimeValue($causeOfDeathView->updatedAt);
     }
 
     private function expectExceptionForNotFoundCauseOfDeathById(string $causeOfDeathId): void

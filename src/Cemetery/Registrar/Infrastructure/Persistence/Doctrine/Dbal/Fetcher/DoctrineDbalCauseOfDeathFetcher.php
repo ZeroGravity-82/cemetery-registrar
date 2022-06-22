@@ -20,12 +20,12 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
      */
     public function getViewById(string $id): CauseOfDeathView
     {
-        $causeOfDeathViewData = $this->queryCauseOfDeathViewData($id);
-        if ($causeOfDeathViewData === false) {
+        $viewData = $this->queryCauseOfDeathViewData($id);
+        if ($viewData === false) {
             throw new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $id));
         }
 
-        return $this->hydrateCauseOfDeathView($causeOfDeathViewData);
+        return $this->hydrateView($viewData);
     }
 
     /**
@@ -46,13 +46,13 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $causeOfDeathListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateCauseOfDeathList($causeOfDeathListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -119,22 +119,22 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
     }
 
     /**
-     * @param array $causeOfDeathViewData
+     * @param array $viewData
      *
      * @return CauseOfDeathView
      */
-    private function hydrateCauseOfDeathView(array $causeOfDeathViewData): CauseOfDeathView
+    private function hydrateView(array $viewData): CauseOfDeathView
     {
         return new CauseOfDeathView(
-            $causeOfDeathViewData['id'],
-            $causeOfDeathViewData['name'],
-            $causeOfDeathViewData['createdAt'],
-            $causeOfDeathViewData['updatedAt'],
+            $viewData['id'],
+            $viewData['name'],
+            $viewData['createdAt'],
+            $viewData['updatedAt'],
         );
     }
 
     /**
-     * @param array       $causeOfDeath
+     * @param array       $listData
      * @param int         $page
      * @param int         $pageSize
      * @param string|null $term
@@ -143,8 +143,8 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
      *
      * @return CauseOfDeathList
      */
-    private function hydrateCauseOfDeathList(
-        array   $causeOfDeath,
+    private function hydrateList(
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -152,7 +152,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         int     $totalPages,
     ): CauseOfDeathList {
         $listItems = [];
-        foreach ($causeOfDeath as $listItemData) {
+        foreach ($listData as $listItemData) {
             $listItems[] = new CauseOfDeathListItem(
                 $listItemData['id'],
                 $listItemData['name'],
