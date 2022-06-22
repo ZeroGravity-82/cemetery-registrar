@@ -27,11 +27,11 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         $this->bindTermValue($stmt, $term);
         $result = $stmt->executeQuery();
 
-        $organizationListData = $result->fetchAllAssociative();
-        $totalCount           = $this->doCountTotal($term);
-        $totalPages           = (int) \ceil($totalCount / $pageSize);
+        $listData   = $result->fetchAllAssociative();
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateOrganizationList($organizationListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -273,7 +273,7 @@ LIKE_TERM_SQL;
     }
 
     /**
-     * @param array       $organizationListData
+     * @param array       $listData
      * @param int         $page
      * @param int         $pageSize
      * @param string|null $term
@@ -282,17 +282,17 @@ LIKE_TERM_SQL;
      *
      * @return OrganizationList
      */
-    private function hydrateOrganizationList(
-        array   $organizationListData,
+    private function hydrateList(
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): OrganizationList {
-        $organizationListItems = [];
-        foreach ($organizationListData as $listItemData) {
-            $organizationListItems[] = new OrganizationListItem(
+        $listItems = [];
+        foreach ($listData as $listItemData) {
+            $listItems[] = new OrganizationListItem(
                 $listItemData['id'],
                 $listItemData['typeShortcut'],
                 $listItemData['typeLabel'],
@@ -309,6 +309,6 @@ LIKE_TERM_SQL;
             );
         }
 
-        return new OrganizationList($organizationListItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new OrganizationList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

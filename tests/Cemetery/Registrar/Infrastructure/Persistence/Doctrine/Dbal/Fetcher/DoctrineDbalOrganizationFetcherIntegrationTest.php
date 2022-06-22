@@ -113,14 +113,14 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         // First page
         $listForFirstPage = $this->organizationFetcher->findAll(1, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForFirstPage);
+        $this->assertIsArray($listForFirstPage->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForFirstPage->listItems);
         $this->assertCount(4,              $listForFirstPage->listItems);
         $this->assertSame(1,               $listForFirstPage->page);
         $this->assertSame($customPageSize, $listForFirstPage->pageSize);
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(9,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertIsArray($listForFirstPage->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForFirstPage->listItems);
         $this->assertItemEqualsSP001($listForFirstPage->listItems[0]);  // Items are ordered by name
         $this->assertItemEqualsSP002($listForFirstPage->listItems[1]);
         $this->assertItemEqualsSP003($listForFirstPage->listItems[2]);
@@ -129,14 +129,14 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         // Second page
         $listForSecondPage = $this->organizationFetcher->findAll(2, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForSecondPage);
+        $this->assertIsArray($listForSecondPage->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForSecondPage->listItems);
         $this->assertCount(4,              $listForSecondPage->listItems);
         $this->assertSame(2,               $listForSecondPage->page);
         $this->assertSame($customPageSize, $listForSecondPage->pageSize);
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(9,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertIsArray($listForSecondPage->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForSecondPage->listItems);
         $this->assertItemEqualsJP004($listForSecondPage->listItems[0]);
         $this->assertItemEqualsJP005($listForSecondPage->listItems[1]);
         $this->assertItemEqualsJP001($listForSecondPage->listItems[2]);
@@ -145,19 +145,20 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         // Third page
         $listForThirdPage = $this->organizationFetcher->findAll(3, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForThirdPage);
+        $this->assertIsArray($listForThirdPage->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForThirdPage->listItems);
         $this->assertCount(1,              $listForThirdPage->listItems);
         $this->assertSame(3,               $listForThirdPage->page);
         $this->assertSame($customPageSize, $listForThirdPage->pageSize);
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(9,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertIsArray($listForThirdPage->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForThirdPage->listItems);
         $this->assertItemEqualsJP003($listForThirdPage->listItems[0]);
 
         // Fourth page
         $listForFourthPage = $this->organizationFetcher->findAll(4, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForFourthPage);
+        $this->assertIsArray($listForFourthPage->listItems);
         $this->assertCount(0,              $listForFourthPage->listItems);
         $this->assertSame(4,               $listForFourthPage->page);
         $this->assertSame($customPageSize, $listForFourthPage->pageSize);
@@ -168,14 +169,14 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         // All at once
         $listForDefaultPageSize = $this->organizationFetcher->findAll(1);
         $this->assertInstanceOf(OrganizationList::class, $listForDefaultPageSize);
+        $this->assertIsArray($listForDefaultPageSize->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForDefaultPageSize->listItems);
         $this->assertCount(9,                      $listForDefaultPageSize->listItems);
         $this->assertSame(1,                       $listForDefaultPageSize->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
         $this->assertSame(null,                    $listForDefaultPageSize->term);
         $this->assertSame(9,                       $listForDefaultPageSize->totalCount);
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
-        $this->assertIsArray($listForDefaultPageSize->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForDefaultPageSize->listItems);
     }
 
     public function testItReturnsOrganizationListItemsByPageAndTerm(): void
@@ -184,154 +185,154 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
 
         $list = $this->organizationFetcher->findAll(1, 'АльФа', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('АльФа',         $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, '44', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(2,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('44',            $list->term);
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, 'Кемеров', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('Кемеров',       $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, 'ро', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(3,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('ро',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $list = $this->organizationFetcher->findAll(2, 'ро', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(3,              $list->listItems);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('ро',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $list = $this->organizationFetcher->findAll(3, 'ро', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(3,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('ро',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, '133', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('133',           $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, 'юрлиц', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(3,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('юрлиц',         $list->term);
         $this->assertSame(5,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $list = $this->organizationFetcher->findAll(2, 'юрлиц', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(2,              $list->listItems);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('юрлиц',         $list->term);
         $this->assertSame(5,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, 'ВАЛЕНТИН', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('ВАЛЕНТИН',      $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, '54044476', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('54044476',      $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, '540201001', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('540201001',     $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, '044525593', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,              $list->listItems);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('044525593',     $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
 
         $list = $this->organizationFetcher->findAll(1, 'nfo@funeral54.r', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
         $this->assertCount(1,                $list->listItems);
         $this->assertSame(1,                 $list->page);
         $this->assertSame($customPageSize,   $list->pageSize);
         $this->assertSame('nfo@funeral54.r', $list->term);
         $this->assertSame(1,                 $list->totalCount);
         $this->assertSame(1,                 $list->totalPages);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->listItems);
     }
 
     public function testItReturnsOrganizationTotalCount(): void
