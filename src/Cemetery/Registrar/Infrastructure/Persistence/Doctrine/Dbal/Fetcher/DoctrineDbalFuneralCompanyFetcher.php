@@ -47,13 +47,13 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $funeralCompanyListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateFuneralCompanyList($funeralCompanyListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -121,7 +121,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     }
 
     /**
-     * @param array       $funeralCompanyListData
+     * @param array       $listData
      * @param int         $page
      * @param int         $pageSize
      * @param string|null $term
@@ -130,8 +130,8 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
      *
      * @return FuneralCompanyList
      */
-    private function hydrateFuneralCompanyList(
-        array   $funeralCompanyListData,
+    private function hydrateList(
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -139,7 +139,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         int     $totalPages,
     ): FuneralCompanyList {
         $listItems = [];
-        foreach ($funeralCompanyListData as $listItemData) {
+        foreach ($listData as $listItemData) {
             $listItems[] = new FuneralCompanyListItem(
                 $listItemData['id'],
                 $listItemData['organizationType'],
