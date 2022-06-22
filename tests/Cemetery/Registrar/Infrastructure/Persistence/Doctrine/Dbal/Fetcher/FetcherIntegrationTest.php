@@ -38,4 +38,11 @@ abstract class FetcherIntegrationTest extends KernelTestCase
     }
 
     abstract protected function loadFixtures();
+
+    protected function assertValidDateTimeValue(string $value): void
+    {
+        $this->assertTrue(
+            new \DateTimeImmutable() >= \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $value)
+        );
+    }
 }

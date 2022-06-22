@@ -110,6 +110,7 @@ class BurialView
      * @param string|null $burialContainerCoffinShape
      * @param bool|null   $burialContainerCoffinIsNonStandard
      * @param string|null $buriedAt
+     * @param string      $createdAt
      * @param string      $updatedAt
      */
     public function __construct(
@@ -213,6 +214,7 @@ class BurialView
         public readonly ?string $burialContainerCoffinShape,
         public readonly ?bool   $burialContainerCoffinIsNonStandard,
         public readonly ?string $buriedAt,
+        public readonly string  $createdAt,
         public readonly string  $updatedAt,
     ) {}
 }

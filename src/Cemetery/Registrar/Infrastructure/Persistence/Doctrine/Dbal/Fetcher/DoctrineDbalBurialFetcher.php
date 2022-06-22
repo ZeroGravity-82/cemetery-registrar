@@ -21,12 +21,12 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      */
     public function getViewById(string $id): BurialView
     {
-        $burialViewData = $this->queryBurialViewData($id);
-        if ($burialViewData === false) {
+        $viewData = $this->queryBurialViewData($id);
+        if ($viewData === false) {
             throw new \RuntimeException(\sprintf('Захоронение с ID "%s" не найдено.', $id));
         }
 
-        return $this->hydrateBurialView($burialViewData);
+        return $this->hydrateView($viewData);
     }
 
     /**
@@ -73,13 +73,13 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $burialListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateBurialList($burialListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     /**
@@ -199,6 +199,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 'b.burial_container->>"$.value.shape"          AS burialContainerCoffinShape',
                 'b.burial_container->>"$.value.isNonStandard"  AS burialContainerCoffinIsNonStandard',
                 'b.buried_at                                   AS buriedAt',
+                'b.created_at                                  AS createdAt',
                 'b.updated_at                                  AS updatedAt',
             )
             ->from('burial', 'b')
@@ -299,141 +300,142 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     }
 
     /**
-     * @param array $burialViewData
+     * @param array $viewData
      *
      * @return BurialView
      */
-    private function hydrateBurialView(array $burialViewData): BurialView
+    private function hydrateView(array $viewData): BurialView
     {
         return new BurialView(
-            $burialViewData['id'],
-            $this->formatCode($burialViewData['code']),
-            $burialViewData['type'],
-            $burialViewData['deceasedId'],
-            $burialViewData['deceasedNaturalPersonId'],
-            $burialViewData['deceasedNaturalPersonFullName'],
-            $burialViewData['deceasedNaturalPersonBornAt'],
-            $burialViewData['deceasedDiedAt'],
-            $burialViewData['deceasedAge'],
-            $burialViewData['deceasedDeathCertificateId'],
-            $burialViewData['deceasedCauseOfDeathId'],
-            $burialViewData['customerId'],
-            $burialViewData['customerType'],
-            $burialViewData['customerNaturalPersonFullName'],
-            $burialViewData['customerNaturalPersonPhone'],
-            $burialViewData['customerNaturalPersonPhoneAdditional'],
-            $burialViewData['customerNaturalPersonEmail'],
-            $burialViewData['customerNaturalPersonAddress'],
-            $burialViewData['customerNaturalPersonBornAt'],
-            $burialViewData['customerNaturalPersonPlaceOfBirth'],
-            $burialViewData['customerNaturalPersonPassportSeries'],
-            $burialViewData['customerNaturalPersonPassportNumber'],
-            $burialViewData['customerNaturalPersonPassportIssuedAt'],
-            $burialViewData['customerNaturalPersonPassportIssuedBy'],
-            match ($burialViewData['customerNaturalPersonPassportDivisionCode']) {
+            $viewData['id'],
+            $this->formatCode($viewData['code']),
+            $viewData['type'],
+            $viewData['deceasedId'],
+            $viewData['deceasedNaturalPersonId'],
+            $viewData['deceasedNaturalPersonFullName'],
+            $viewData['deceasedNaturalPersonBornAt'],
+            $viewData['deceasedDiedAt'],
+            $viewData['deceasedAge'],
+            $viewData['deceasedDeathCertificateId'],
+            $viewData['deceasedCauseOfDeathId'],
+            $viewData['customerId'],
+            $viewData['customerType'],
+            $viewData['customerNaturalPersonFullName'],
+            $viewData['customerNaturalPersonPhone'],
+            $viewData['customerNaturalPersonPhoneAdditional'],
+            $viewData['customerNaturalPersonEmail'],
+            $viewData['customerNaturalPersonAddress'],
+            $viewData['customerNaturalPersonBornAt'],
+            $viewData['customerNaturalPersonPlaceOfBirth'],
+            $viewData['customerNaturalPersonPassportSeries'],
+            $viewData['customerNaturalPersonPassportNumber'],
+            $viewData['customerNaturalPersonPassportIssuedAt'],
+            $viewData['customerNaturalPersonPassportIssuedBy'],
+            match ($viewData['customerNaturalPersonPassportDivisionCode']) {
                 'null'  => null,
-                default => $burialViewData['customerNaturalPersonPassportDivisionCode'],
+                default => $viewData['customerNaturalPersonPassportDivisionCode'],
             },
-            $burialViewData['customerSoleProprietorName'],
-            $burialViewData['customerSoleProprietorInn'],
-            $burialViewData['customerSoleProprietorOgrnip'],
-            $burialViewData['customerSoleProprietorOkpo'],
-            $burialViewData['customerSoleProprietorOkved'],
-            $burialViewData['customerSoleProprietorRegistrationAddress'],
-            $burialViewData['customerSoleProprietorActualLocationAddress'],
-            $burialViewData['customerSoleProprietorBankDetailsBankName'],
-            $burialViewData['customerSoleProprietorBankDetailsBik'],
-            $burialViewData['customerSoleProprietorBankDetailsCorrespondentAccount'],
-            $burialViewData['customerSoleProprietorBankDetailsCurrentAccount'],
-            $burialViewData['customerSoleProprietorPhone'],
-            $burialViewData['customerSoleProprietorPhoneAdditional'],
-            $burialViewData['customerSoleProprietorFax'],
-            $burialViewData['customerSoleProprietorEmail'],
-            $burialViewData['customerSoleProprietorWebsite'],
-            $burialViewData['customerJuristicPersonName'],
-            $burialViewData['customerJuristicPersonInn'],
-            $burialViewData['customerJuristicPersonKpp'],
-            $burialViewData['customerJuristicPersonOgrn'],
-            $burialViewData['customerJuristicPersonOkpo'],
-            $burialViewData['customerJuristicPersonOkved'],
-            $burialViewData['customerJuristicPersonLegalAddress'],
-            $burialViewData['customerJuristicPersonPostalAddress'],
-            $burialViewData['customerJuristicPersonBankDetailsBankName'],
-            $burialViewData['customerJuristicPersonBankDetailsBik'],
-            $burialViewData['customerJuristicPersonBankDetailsCorrespondentAccount'],
-            $burialViewData['customerJuristicPersonBankDetailsCurrentAccount'],
-            $burialViewData['customerJuristicPersonPhone'],
-            $burialViewData['customerJuristicPersonPhoneAdditional'],
-            $burialViewData['customerJuristicPersonFax'],
-            $burialViewData['customerJuristicPersonGeneralDirector'],
-            $burialViewData['customerJuristicPersonEmail'],
-            $burialViewData['customerJuristicPersonWebsite'],
-            $burialViewData['burialPlaceOwnerId'],
-            $burialViewData['burialPlaceOwnerFullName'],
-            $burialViewData['burialPlaceOwnerPhone'],
-            $burialViewData['burialPlaceOwnerPhoneAdditional'],
-            $burialViewData['burialPlaceOwnerEmail'],
-            $burialViewData['burialPlaceOwnerAddress'],
-            $burialViewData['burialPlaceOwnerBornAt'],
-            $burialViewData['burialPlaceOwnerPlaceOfBirth'],
-            $burialViewData['burialPlaceOwnerPassportSeries'],
-            $burialViewData['burialPlaceOwnerPassportNumber'],
-            $burialViewData['burialPlaceOwnerPassportIssuedAt'],
-            $burialViewData['burialPlaceOwnerPassportIssuedBy'],
-            match ($burialViewData['burialPlaceOwnerPassportDivisionCode']) {
+            $viewData['customerSoleProprietorName'],
+            $viewData['customerSoleProprietorInn'],
+            $viewData['customerSoleProprietorOgrnip'],
+            $viewData['customerSoleProprietorOkpo'],
+            $viewData['customerSoleProprietorOkved'],
+            $viewData['customerSoleProprietorRegistrationAddress'],
+            $viewData['customerSoleProprietorActualLocationAddress'],
+            $viewData['customerSoleProprietorBankDetailsBankName'],
+            $viewData['customerSoleProprietorBankDetailsBik'],
+            $viewData['customerSoleProprietorBankDetailsCorrespondentAccount'],
+            $viewData['customerSoleProprietorBankDetailsCurrentAccount'],
+            $viewData['customerSoleProprietorPhone'],
+            $viewData['customerSoleProprietorPhoneAdditional'],
+            $viewData['customerSoleProprietorFax'],
+            $viewData['customerSoleProprietorEmail'],
+            $viewData['customerSoleProprietorWebsite'],
+            $viewData['customerJuristicPersonName'],
+            $viewData['customerJuristicPersonInn'],
+            $viewData['customerJuristicPersonKpp'],
+            $viewData['customerJuristicPersonOgrn'],
+            $viewData['customerJuristicPersonOkpo'],
+            $viewData['customerJuristicPersonOkved'],
+            $viewData['customerJuristicPersonLegalAddress'],
+            $viewData['customerJuristicPersonPostalAddress'],
+            $viewData['customerJuristicPersonBankDetailsBankName'],
+            $viewData['customerJuristicPersonBankDetailsBik'],
+            $viewData['customerJuristicPersonBankDetailsCorrespondentAccount'],
+            $viewData['customerJuristicPersonBankDetailsCurrentAccount'],
+            $viewData['customerJuristicPersonPhone'],
+            $viewData['customerJuristicPersonPhoneAdditional'],
+            $viewData['customerJuristicPersonFax'],
+            $viewData['customerJuristicPersonGeneralDirector'],
+            $viewData['customerJuristicPersonEmail'],
+            $viewData['customerJuristicPersonWebsite'],
+            $viewData['burialPlaceOwnerId'],
+            $viewData['burialPlaceOwnerFullName'],
+            $viewData['burialPlaceOwnerPhone'],
+            $viewData['burialPlaceOwnerPhoneAdditional'],
+            $viewData['burialPlaceOwnerEmail'],
+            $viewData['burialPlaceOwnerAddress'],
+            $viewData['burialPlaceOwnerBornAt'],
+            $viewData['burialPlaceOwnerPlaceOfBirth'],
+            $viewData['burialPlaceOwnerPassportSeries'],
+            $viewData['burialPlaceOwnerPassportNumber'],
+            $viewData['burialPlaceOwnerPassportIssuedAt'],
+            $viewData['burialPlaceOwnerPassportIssuedBy'],
+            match ($viewData['burialPlaceOwnerPassportDivisionCode']) {
                 'null'  => null,
-                default => $burialViewData['burialPlaceOwnerPassportDivisionCode'],
+                default => $viewData['burialPlaceOwnerPassportDivisionCode'],
             },
-            $burialViewData['funeralCompanyId'],
-            $burialViewData['burialChainId'],
-            $burialViewData['burialPlaceId'],
-            $burialViewData['burialPlaceType'],
-            $burialViewData['burialPlaceGraveSiteCemeteryBlockId'],
-            $burialViewData['burialPlaceGraveSiteCemeteryBlockName'],
-            $burialViewData['burialPlaceGraveSiteRowInBlock'],
-            $burialViewData['burialPlaceGraveSitePositionInRow'],
-            $burialViewData['burialPlaceGraveSiteSize'],
-            $burialViewData['burialPlaceGraveSiteGeoPositionLatitude'],
-            $burialViewData['burialPlaceGraveSiteGeoPositionLongitude'],
-            match ($burialViewData['burialPlaceGraveSiteGeoPositionError']) {
+            $viewData['funeralCompanyId'],
+            $viewData['burialChainId'],
+            $viewData['burialPlaceId'],
+            $viewData['burialPlaceType'],
+            $viewData['burialPlaceGraveSiteCemeteryBlockId'],
+            $viewData['burialPlaceGraveSiteCemeteryBlockName'],
+            $viewData['burialPlaceGraveSiteRowInBlock'],
+            $viewData['burialPlaceGraveSitePositionInRow'],
+            $viewData['burialPlaceGraveSiteSize'],
+            $viewData['burialPlaceGraveSiteGeoPositionLatitude'],
+            $viewData['burialPlaceGraveSiteGeoPositionLongitude'],
+            match ($viewData['burialPlaceGraveSiteGeoPositionError']) {
                 'null'  => null,
-                default => $burialViewData['burialPlaceGraveSiteGeoPositionError'],
+                default => $viewData['burialPlaceGraveSiteGeoPositionError'],
             },
-            $burialViewData['burialPlaceColumbariumNicheColumbariumId'],
-            $burialViewData['burialPlaceColumbariumNicheColumbariumName'],
-            $burialViewData['burialPlaceColumbariumNicheRowInColumbarium'],
-            $burialViewData['burialPlaceColumbariumNicheNumber'],
-            $burialViewData['burialPlaceColumbariumNicheGeoPositionLatitude'],
-            $burialViewData['burialPlaceColumbariumNicheGeoPositionLongitude'],
-            match ($burialViewData['burialPlaceColumbariumNicheGeoPositionError']) {
+            $viewData['burialPlaceColumbariumNicheColumbariumId'],
+            $viewData['burialPlaceColumbariumNicheColumbariumName'],
+            $viewData['burialPlaceColumbariumNicheRowInColumbarium'],
+            $viewData['burialPlaceColumbariumNicheNumber'],
+            $viewData['burialPlaceColumbariumNicheGeoPositionLatitude'],
+            $viewData['burialPlaceColumbariumNicheGeoPositionLongitude'],
+            match ($viewData['burialPlaceColumbariumNicheGeoPositionError']) {
                 'null'  => null,
-                default => $burialViewData['burialPlaceColumbariumNicheGeoPositionError'],
+                default => $viewData['burialPlaceColumbariumNicheGeoPositionError'],
             },
-            $burialViewData['burialPlaceMemorialTreeNumber'],
-            $burialViewData['burialPlaceMemorialTreeGeoPositionLatitude'],
-            $burialViewData['burialPlaceMemorialTreeGeoPositionLongitude'],
-            match ($burialViewData['burialPlaceMemorialTreeGeoPositionError']) {
+            $viewData['burialPlaceMemorialTreeNumber'],
+            $viewData['burialPlaceMemorialTreeGeoPositionLatitude'],
+            $viewData['burialPlaceMemorialTreeGeoPositionLongitude'],
+            match ($viewData['burialPlaceMemorialTreeGeoPositionError']) {
                 'null'  => null,
-                default => $burialViewData['burialPlaceMemorialTreeGeoPositionError'],
+                default => $viewData['burialPlaceMemorialTreeGeoPositionError'],
             },
-            $burialViewData['burialContainerType'],
-            match ($burialViewData['burialContainerCoffinSize']) {
+            $viewData['burialContainerType'],
+            match ($viewData['burialContainerCoffinSize']) {
                 null    => null,
-                default => (int) $burialViewData['burialContainerCoffinSize'],
+                default => (int) $viewData['burialContainerCoffinSize'],
             },
-            $burialViewData['burialContainerCoffinShape'],
-            match ($burialViewData['burialContainerCoffinIsNonStandard']) {
+            $viewData['burialContainerCoffinShape'],
+            match ($viewData['burialContainerCoffinIsNonStandard']) {
                 'true'  => true,
                 'false' => false,
                 null    => null,
             },
-            $burialViewData['buriedAt'],
-            $burialViewData['updatedAt'],
+            $viewData['buriedAt'],
+            $viewData['createdAt'],
+            $viewData['updatedAt'],
         );
     }
 
     /**
-     * @param array       $burialListData
+     * @param array       $listData
      * @param int         $page
      * @param int         $pageSize
      * @param string|null $term
@@ -442,8 +444,8 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      *
      * @return BurialList
      */
-    private function hydrateBurialList(
-        array   $burialListData,
+    private function hydrateList(
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -451,7 +453,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         int     $totalPages,
     ): BurialList {
         $listItems = [];
-        foreach ($burialListData as $listItemData) {
+        foreach ($listData as $listItemData) {
             $listItems[] = new BurialListItem(
                 $listItemData['id'],
                 $this->formatCode($listItemData['code']),
