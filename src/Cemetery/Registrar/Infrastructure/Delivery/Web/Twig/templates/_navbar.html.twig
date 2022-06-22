@@ -9,10 +9,10 @@
 
     <div class="navbar-collapse offcanvas-collapse" id="navbarsDefault">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        {% if 'admin' not in currentRoute %}
-          {% include '_navbar_regular.html.twig' %}
-        {% else %}
+        {% if currentRoute starts with 'admin' %}
           {% include '_navbar_admin.html.twig' %}
+        {% else %}
+          {% include '_navbar_regular.html.twig' %}
         {% endif %}
       </ul>
       <div class="dropdown text-end">
