@@ -118,12 +118,12 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
 
     private function testItReturnsCemeteryBlockViewForCB001(): void
     {
-        $cemeteryBlockView = $this->cemeteryBlockFetcher->getViewById('CB001');
-        $this->assertInstanceOf(CemeteryBlockView::class, $cemeteryBlockView);
-        $this->assertSame('CB001',    $cemeteryBlockView->id);
-        $this->assertSame('воинский', $cemeteryBlockView->name);
-        $this->assertValidDateTimeValue($cemeteryBlockView->createdAt);
-        $this->assertValidDateTimeValue($cemeteryBlockView->updatedAt);
+        $view = $this->cemeteryBlockFetcher->getViewById('CB001');
+        $this->assertInstanceOf(CemeteryBlockView::class, $view);
+        $this->assertSame('CB001',    $view->id);
+        $this->assertSame('воинский', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
     }
 
     private function expectExceptionForNotFoundCemeteryBlockById(string $cemeteryBlockId): void
