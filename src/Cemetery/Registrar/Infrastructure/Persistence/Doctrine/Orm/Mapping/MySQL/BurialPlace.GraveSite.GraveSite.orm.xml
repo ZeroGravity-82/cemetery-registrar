@@ -4,10 +4,6 @@
         <id name="id" column="id" type="grave_site_id">
         </id>
 
-        <unique-constraints>
-            <unique-constraint columns="cemetery_block_id,row_in_block" name="grave_site_cemetery_block_id_row_in_block_uq" />
-        </unique-constraints>
-
         <field name="cemeteryBlockId" column="cemetery_block_id" type="cemetery_block_id"                   />
         <field name="rowInBlock"      column="row_in_block"      type="row_in_block"                        />
         <field name="positionInRow"   column="position_in_row"   type="position_in_row"     nullable="true" />
