@@ -104,10 +104,10 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(7,               $listForFirstPage->totalCount);
         $this->assertSame(2,               $listForFirstPage->totalPages);
-        $this->assertItemEqualsB007($listForFirstPage->listItems[0]);  // This item has minimum code value
-        $this->assertItemEqualsB001($listForFirstPage->listItems[1]);
-        $this->assertItemEqualsB002($listForFirstPage->listItems[2]);
-        $this->assertItemEqualsB003($listForFirstPage->listItems[3]);
+        $this->assertListItemEqualsB007($listForFirstPage->listItems[0]);  // This item has minimum code value
+        $this->assertListItemEqualsB001($listForFirstPage->listItems[1]);
+        $this->assertListItemEqualsB002($listForFirstPage->listItems[2]);
+        $this->assertListItemEqualsB003($listForFirstPage->listItems[3]);
 
         // Second page
         $listForSecondPage = $this->burialFetcher->findAll(2, null, $customPageSize);
@@ -120,9 +120,9 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(7,               $listForSecondPage->totalCount);
         $this->assertSame(2,               $listForSecondPage->totalPages);
-        $this->assertItemEqualsB005($listForSecondPage->listItems[0]);
-        $this->assertItemEqualsB006($listForSecondPage->listItems[1]);
-        $this->assertItemEqualsB004($listForSecondPage->listItems[2]);  // This item has maximum code value
+        $this->assertListItemEqualsB005($listForSecondPage->listItems[0]);
+        $this->assertListItemEqualsB006($listForSecondPage->listItems[1]);
+        $this->assertListItemEqualsB004($listForSecondPage->listItems[2]);  // This item has maximum code value
 
         // Third page
         $listForThirdPage = $this->burialFetcher->findAll(3, null, $customPageSize);
@@ -228,221 +228,221 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         ]);
     }
 
-    private function assertItemEqualsB001(BurialListItem $item): void
+    private function assertListItemEqualsB001(BurialListItem $listItem): void
     {
-        $this->assertSame('B001',                              $item->id);
-        $this->assertSame('11',                                $item->code);
-        $this->assertSame('Егоров Абрам Даниилович',           $item->deceasedNaturalPersonFullName);
-        $this->assertSame(null,                                $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('2021-12-01',                        $item->deceasedDiedAt);
-        $this->assertSame(null,                                $item->deceasedAge);
-        $this->assertSame('2021-12-03 13:10:00',               $item->buriedAt);
-        $this->assertSame(ColumbariumNiche::CLASS_SHORTCUT,    $item->burialPlaceType);
-        $this->assertSame(null,                                $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(null,                                $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                                $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame('южный',                             $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(2,                                   $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame('002',                               $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame(null,                                $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(NaturalPerson::CLASS_SHORTCUT,       $item->customerType);
-        $this->assertSame('Жданова Инга Григорьевна',          $item->customerNaturalPersonFullName);
-        $this->assertSame('Новосибирск, ул. Ленина, д. 1',     $item->customerNaturalPersonAddress);
-        $this->assertSame('+7-913-771-22-33',                  $item->customerNaturalPersonPhone);
-        $this->assertSame(null,                                $item->customerSoleProprietorName);
-        $this->assertSame(null,                                $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                                $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                $item->customerSoleProprietorPhone);
-        $this->assertSame(null,                                $item->customerJuristicPersonName);
-        $this->assertSame(null,                                $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                                $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                $item->customerJuristicPersonPhone);
+        $this->assertSame('B001',                              $listItem->id);
+        $this->assertSame('11',                                $listItem->code);
+        $this->assertSame('Егоров Абрам Даниилович',           $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame(null,                                $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('2021-12-01',                        $listItem->deceasedDiedAt);
+        $this->assertSame(null,                                $listItem->deceasedAge);
+        $this->assertSame('2021-12-03 13:10:00',               $listItem->buriedAt);
+        $this->assertSame(ColumbariumNiche::CLASS_SHORTCUT,    $listItem->burialPlaceType);
+        $this->assertSame(null,                                $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(null,                                $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                                $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame('южный',                             $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(2,                                   $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame('002',                               $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                                $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(NaturalPerson::CLASS_SHORTCUT,       $listItem->customerType);
+        $this->assertSame('Жданова Инга Григорьевна',          $listItem->customerNaturalPersonFullName);
+        $this->assertSame('Новосибирск, ул. Ленина, д. 1',     $listItem->customerNaturalPersonAddress);
+        $this->assertSame('+7-913-771-22-33',                  $listItem->customerNaturalPersonPhone);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorPhone);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertItemEqualsB002(BurialListItem $item): void
+    private function assertListItemEqualsB002(BurialListItem $listItem): void
     {
-        $this->assertSame('B002',                          $item->id);
-        $this->assertSame('11002',                         $item->code);
-        $this->assertSame('Устинов Арсений Максович',      $item->deceasedNaturalPersonFullName);
-        $this->assertSame('1918-12-30',                    $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('2001-02-12',                    $item->deceasedDiedAt);
-        $this->assertSame(82,                              $item->deceasedAge);
-        $this->assertSame(null,                            $item->buriedAt);
-        $this->assertSame(GraveSite::CLASS_SHORTCUT,       $item->burialPlaceType);
-        $this->assertSame('общий Б',                       $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(7,                               $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                            $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame(null,                            $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(null,                            $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame(null,                            $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame(null,                            $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(NaturalPerson::CLASS_SHORTCUT,   $item->customerType);
-        $this->assertSame('Жданова Инга Григорьевна',      $item->customerNaturalPersonFullName);
-        $this->assertSame('Новосибирск, ул. Ленина, д. 1', $item->customerNaturalPersonAddress);
-        $this->assertSame('+7-913-771-22-33',              $item->customerNaturalPersonPhone);
-        $this->assertSame(null,                            $item->customerSoleProprietorName);
-        $this->assertSame(null,                            $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                            $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                            $item->customerSoleProprietorPhone);
-        $this->assertSame(null,                            $item->customerJuristicPersonName);
-        $this->assertSame(null,                            $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                            $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                            $item->customerJuristicPersonPhone);
+        $this->assertSame('B002',                          $listItem->id);
+        $this->assertSame('11002',                         $listItem->code);
+        $this->assertSame('Устинов Арсений Максович',      $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame('1918-12-30',                    $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('2001-02-12',                    $listItem->deceasedDiedAt);
+        $this->assertSame(82,                              $listItem->deceasedAge);
+        $this->assertSame(null,                            $listItem->buriedAt);
+        $this->assertSame(GraveSite::CLASS_SHORTCUT,       $listItem->burialPlaceType);
+        $this->assertSame('общий Б',                       $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(7,                               $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                            $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                            $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                            $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                            $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                            $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(NaturalPerson::CLASS_SHORTCUT,   $listItem->customerType);
+        $this->assertSame('Жданова Инга Григорьевна',      $listItem->customerNaturalPersonFullName);
+        $this->assertSame('Новосибирск, ул. Ленина, д. 1', $listItem->customerNaturalPersonAddress);
+        $this->assertSame('+7-913-771-22-33',              $listItem->customerNaturalPersonPhone);
+        $this->assertSame(null,                            $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                            $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                            $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                            $listItem->customerSoleProprietorPhone);
+        $this->assertSame(null,                            $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                            $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                            $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                            $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertItemEqualsB003(BurialListItem $item): void
+    private function assertListItemEqualsB003(BurialListItem $listItem): void
     {
-        $this->assertSame('B003',                        $item->id);
-        $this->assertSame('11003',                       $item->code);
-        $this->assertSame('Шилов Александр Михаилович',  $item->deceasedNaturalPersonFullName);
-        $this->assertSame('1969-05-20',                  $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('2012-05-13',                  $item->deceasedDiedAt);
-        $this->assertSame(null,                          $item->deceasedAge);
-        $this->assertSame(null,                          $item->buriedAt);
-        $this->assertSame(MemorialTree::CLASS_SHORTCUT,  $item->burialPlaceType);
-        $this->assertSame(null,                          $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(null,                          $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                          $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame(null,                          $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(null,                          $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame(null,                          $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame('002',                         $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(NaturalPerson::CLASS_SHORTCUT, $item->customerType);
-        $this->assertSame('Гришина Устинья Ярославовна', $item->customerNaturalPersonFullName);
-        $this->assertSame(null,                          $item->customerNaturalPersonAddress);
-        $this->assertSame(null,                          $item->customerNaturalPersonPhone);
-        $this->assertSame(null,                          $item->customerSoleProprietorName);
-        $this->assertSame(null,                          $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                          $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                          $item->customerSoleProprietorPhone);
-        $this->assertSame(null,                          $item->customerJuristicPersonName);
-        $this->assertSame(null,                          $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                          $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                          $item->customerJuristicPersonPhone);
+        $this->assertSame('B003',                        $listItem->id);
+        $this->assertSame('11003',                       $listItem->code);
+        $this->assertSame('Шилов Александр Михаилович',  $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame('1969-05-20',                  $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('2012-05-13',                  $listItem->deceasedDiedAt);
+        $this->assertSame(null,                          $listItem->deceasedAge);
+        $this->assertSame(null,                          $listItem->buriedAt);
+        $this->assertSame(MemorialTree::CLASS_SHORTCUT,  $listItem->burialPlaceType);
+        $this->assertSame(null,                          $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(null,                          $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                          $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                          $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                          $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                          $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame('002',                         $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(NaturalPerson::CLASS_SHORTCUT, $listItem->customerType);
+        $this->assertSame('Гришина Устинья Ярославовна', $listItem->customerNaturalPersonFullName);
+        $this->assertSame(null,                          $listItem->customerNaturalPersonAddress);
+        $this->assertSame(null,                          $listItem->customerNaturalPersonPhone);
+        $this->assertSame(null,                          $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                          $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                          $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                          $listItem->customerSoleProprietorPhone);
+        $this->assertSame(null,                          $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                          $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                          $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                          $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertItemEqualsB004(BurialListItem $item): void
+    private function assertListItemEqualsB004(BurialListItem $listItem): void
     {
-        $this->assertSame('B004',                                        $item->id);
-        $this->assertSame('234117890',                                   $item->code);
-        $this->assertSame('Жданова Инга Григорьевна',                    $item->deceasedNaturalPersonFullName);
-        $this->assertSame('1979-02-12',                                  $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('2022-03-10',                                  $item->deceasedDiedAt);
-        $this->assertSame(null,                                          $item->deceasedAge);
-        $this->assertSame(null,                                          $item->buriedAt);
-        $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $item->burialPlaceType);
-        $this->assertSame('воинский',                                    $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(1,                                             $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                                          $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame(null,                                          $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(null,                                          $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame(null,                                          $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame(null,                                          $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $item->customerType);
-        $this->assertSame(null,                                          $item->customerNaturalPersonFullName);
-        $this->assertSame(null,                                          $item->customerNaturalPersonAddress);
-        $this->assertSame(null,                                          $item->customerNaturalPersonPhone);
-        $this->assertSame(null,                                          $item->customerSoleProprietorName);
-        $this->assertSame(null,                                          $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                                          $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $item->customerSoleProprietorPhone);
-        $this->assertSame('МУП "Новосибирский метрополитен"',            $item->customerJuristicPersonName);
-        $this->assertSame(null,                                          $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                                          $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $item->customerJuristicPersonPhone);
+        $this->assertSame('B004',                                        $listItem->id);
+        $this->assertSame('234117890',                                   $listItem->code);
+        $this->assertSame('Жданова Инга Григорьевна',                    $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame('1979-02-12',                                  $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('2022-03-10',                                  $listItem->deceasedDiedAt);
+        $this->assertSame(null,                                          $listItem->deceasedAge);
+        $this->assertSame(null,                                          $listItem->buriedAt);
+        $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $listItem->burialPlaceType);
+        $this->assertSame('воинский',                                    $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(1,                                             $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                                          $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                                          $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                                          $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                                          $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                                          $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $listItem->customerType);
+        $this->assertSame(null,                                          $listItem->customerNaturalPersonFullName);
+        $this->assertSame(null,                                          $listItem->customerNaturalPersonAddress);
+        $this->assertSame(null,                                          $listItem->customerNaturalPersonPhone);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorPhone);
+        $this->assertSame('МУП "Новосибирский метрополитен"',            $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertItemEqualsB005(BurialListItem $item): void
+    private function assertListItemEqualsB005(BurialListItem $listItem): void
     {
-        $this->assertSame('B005',                         $item->id);
-        $this->assertSame('11005',                        $item->code);
-        $this->assertSame('Соколов Герман Маркович',      $item->deceasedNaturalPersonFullName);
-        $this->assertSame(null,                           $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('2010-01-26',                   $item->deceasedDiedAt);
-        $this->assertSame(null,                           $item->deceasedAge);
-        $this->assertSame('2010-01-28 12:55:00',          $item->buriedAt);
-        $this->assertSame(GraveSite::CLASS_SHORTCUT,      $item->burialPlaceType);
-        $this->assertSame('общий А',                      $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(3,                              $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(4,                              $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame(null,                           $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(null,                           $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame(null,                           $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame(null,                           $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->customerType);
-        $this->assertSame(null,                           $item->customerNaturalPersonFullName);
-        $this->assertSame(null,                           $item->customerNaturalPersonAddress);
-        $this->assertSame(null,                           $item->customerNaturalPersonPhone);
-        $this->assertSame('ИП Сидоров Сидр Сидорович',    $item->customerSoleProprietorName);
-        $this->assertSame(null,                           $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame('с. Каменка, д. 14',            $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame('8(383)147-22-33',              $item->customerSoleProprietorPhone);
-        $this->assertSame(null,                           $item->customerJuristicPersonName);
-        $this->assertSame(null,                           $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                           $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                           $item->customerJuristicPersonPhone);
+        $this->assertSame('B005',                         $listItem->id);
+        $this->assertSame('11005',                        $listItem->code);
+        $this->assertSame('Соколов Герман Маркович',      $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame(null,                           $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('2010-01-26',                   $listItem->deceasedDiedAt);
+        $this->assertSame(null,                           $listItem->deceasedAge);
+        $this->assertSame('2010-01-28 12:55:00',          $listItem->buriedAt);
+        $this->assertSame(GraveSite::CLASS_SHORTCUT,      $listItem->burialPlaceType);
+        $this->assertSame('общий А',                      $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(3,                              $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(4,                              $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                           $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                           $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                           $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                           $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->customerType);
+        $this->assertSame(null,                           $listItem->customerNaturalPersonFullName);
+        $this->assertSame(null,                           $listItem->customerNaturalPersonAddress);
+        $this->assertSame(null,                           $listItem->customerNaturalPersonPhone);
+        $this->assertSame('ИП Сидоров Сидр Сидорович',    $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                           $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame('с. Каменка, д. 14',            $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame('8(383)147-22-33',              $listItem->customerSoleProprietorPhone);
+        $this->assertSame(null,                           $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                           $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                           $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                           $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertItemEqualsB006(BurialListItem $item): void
+    private function assertListItemEqualsB006(BurialListItem $listItem): void
     {
-        $this->assertSame('B006',                                        $item->id);
-        $this->assertSame('11006',                                       $item->code);
-        $this->assertSame('Гришина Устинья Ярославовна',                 $item->deceasedNaturalPersonFullName);
-        $this->assertSame(null,                                          $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('2021-12-03',                                  $item->deceasedDiedAt);
-        $this->assertSame(null,                                          $item->deceasedAge);
-        $this->assertSame(null,                                          $item->buriedAt);
-        $this->assertSame(null,                                          $item->burialPlaceType);
-        $this->assertSame(null,                                          $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(null,                                          $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                                          $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame(null,                                          $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(null,                                          $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame(null,                                          $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame(null,                                          $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(NaturalPerson::CLASS_SHORTCUT,                 $item->customerType);
-        $this->assertSame('Громов Никифор Рудольфович',                  $item->customerNaturalPersonFullName);
-        $this->assertSame('Новосибирск, ул. Н.-Данченко, д. 18, кв. 17', $item->customerNaturalPersonAddress);
-        $this->assertSame(null,                                          $item->customerNaturalPersonPhone);
-        $this->assertSame(null,                                          $item->customerSoleProprietorName);
-        $this->assertSame(null,                                          $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                                          $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                          $item->customerSoleProprietorPhone);
-        $this->assertSame(null,                                          $item->customerJuristicPersonName);
-        $this->assertSame(null,                                          $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                                          $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                          $item->customerJuristicPersonPhone);
+        $this->assertSame('B006',                                        $listItem->id);
+        $this->assertSame('11006',                                       $listItem->code);
+        $this->assertSame('Гришина Устинья Ярославовна',                 $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame(null,                                          $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('2021-12-03',                                  $listItem->deceasedDiedAt);
+        $this->assertSame(null,                                          $listItem->deceasedAge);
+        $this->assertSame(null,                                          $listItem->buriedAt);
+        $this->assertSame(null,                                          $listItem->burialPlaceType);
+        $this->assertSame(null,                                          $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(null,                                          $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                                          $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                                          $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                                          $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                                          $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                                          $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(NaturalPerson::CLASS_SHORTCUT,                 $listItem->customerType);
+        $this->assertSame('Громов Никифор Рудольфович',                  $listItem->customerNaturalPersonFullName);
+        $this->assertSame('Новосибирск, ул. Н.-Данченко, д. 18, кв. 17', $listItem->customerNaturalPersonAddress);
+        $this->assertSame(null,                                          $listItem->customerNaturalPersonPhone);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                          $listItem->customerSoleProprietorPhone);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                                          $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertItemEqualsB007(BurialListItem $item): void
+    private function assertListItemEqualsB007(BurialListItem $listItem): void
     {
-        $this->assertSame('B007',                              $item->id);
-        $this->assertSame('01',                                $item->code);
-        $this->assertSame('Никонов Родион Митрофанович',       $item->deceasedNaturalPersonFullName);
-        $this->assertSame(null,                                $item->deceasedNaturalPersonBornAt);
-        $this->assertSame('1980-05-26',                        $item->deceasedDiedAt);
-        $this->assertSame(null,                                $item->deceasedAge);
-        $this->assertSame(null,                                $item->buriedAt);
-        $this->assertSame(GraveSite::CLASS_SHORTCUT,           $item->burialPlaceType);
-        $this->assertSame('мусульманский',                     $item->burialPlaceGraveSiteCemeteryBlockName);
-        $this->assertSame(3,                                   $item->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                                $item->burialPlaceGraveSitePositionInRow);
-        $this->assertSame(null,                                $item->burialPlaceColumbariumNicheColumbariumName);
-        $this->assertSame(null,                                $item->burialPlaceColumbariumNicheRowInColumbarium);
-        $this->assertSame(null,                                $item->burialPlaceColumbariumNicheNumber);
-        $this->assertSame(null,                                $item->burialPlaceMemorialTreeNumber);
-        $this->assertSame(null,                                $item->customerType);
-        $this->assertSame(null,                                $item->customerNaturalPersonFullName);
-        $this->assertSame(null,                                $item->customerNaturalPersonAddress);
-        $this->assertSame(null,                                $item->customerNaturalPersonPhone);
-        $this->assertSame(null,                                $item->customerSoleProprietorName);
-        $this->assertSame(null,                                $item->customerSoleProprietorRegistrationAddress);
-        $this->assertSame(null,                                $item->customerSoleProprietorActualLocationAddress);
-        $this->assertSame(null,                                $item->customerSoleProprietorPhone);
-        $this->assertSame(null,                                $item->customerJuristicPersonName);
-        $this->assertSame(null,                                $item->customerJuristicPersonLegalAddress);
-        $this->assertSame(null,                                $item->customerJuristicPersonPostalAddress);
-        $this->assertSame(null,                                $item->customerJuristicPersonPhone);
+        $this->assertSame('B007',                              $listItem->id);
+        $this->assertSame('01',                                $listItem->code);
+        $this->assertSame('Никонов Родион Митрофанович',       $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame(null,                                $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('1980-05-26',                        $listItem->deceasedDiedAt);
+        $this->assertSame(null,                                $listItem->deceasedAge);
+        $this->assertSame(null,                                $listItem->buriedAt);
+        $this->assertSame(GraveSite::CLASS_SHORTCUT,           $listItem->burialPlaceType);
+        $this->assertSame('мусульманский',                     $listItem->burialPlaceGraveSiteCemeteryBlockName);
+        $this->assertSame(3,                                   $listItem->burialPlaceGraveSiteRowInBlock);
+        $this->assertSame(null,                                $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(null,                                $listItem->burialPlaceColumbariumNicheColumbariumName);
+        $this->assertSame(null,                                $listItem->burialPlaceColumbariumNicheRowInColumbarium);
+        $this->assertSame(null,                                $listItem->burialPlaceColumbariumNicheNumber);
+        $this->assertSame(null,                                $listItem->burialPlaceMemorialTreeNumber);
+        $this->assertSame(null,                                $listItem->customerType);
+        $this->assertSame(null,                                $listItem->customerNaturalPersonFullName);
+        $this->assertSame(null,                                $listItem->customerNaturalPersonAddress);
+        $this->assertSame(null,                                $listItem->customerNaturalPersonPhone);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorName);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorRegistrationAddress);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorActualLocationAddress);
+        $this->assertSame(null,                                $listItem->customerSoleProprietorPhone);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonName);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonLegalAddress);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonPostalAddress);
+        $this->assertSame(null,                                $listItem->customerJuristicPersonPhone);
     }
 
     private function testItReturnsBurialViewForB001(): void
