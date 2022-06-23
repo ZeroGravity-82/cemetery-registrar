@@ -182,17 +182,17 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('11',            $list->term);
-        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
         $list = $this->burialFetcher->findAll(2, '11', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->listItems);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->listItems);
-        $this->assertCount(2,              $list->listItems);
+        $this->assertCount(3,              $list->listItems);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('11',            $list->term);
-        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
     }
 
@@ -426,7 +426,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(GraveSite::CLASS_SHORTCUT,           $listItem->burialPlaceType);
         $this->assertSame('мусульманский',                     $listItem->burialPlaceGraveSiteCemeteryBlockName);
         $this->assertSame(3,                                   $listItem->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                                $listItem->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(11,                                  $listItem->burialPlaceGraveSitePositionInRow);
         $this->assertSame(null,                                $listItem->burialPlaceColumbariumNicheColumbariumName);
         $this->assertSame(null,                                $listItem->burialPlaceColumbariumNicheRowInColumbarium);
         $this->assertSame(null,                                $listItem->burialPlaceColumbariumNicheNumber);
@@ -1176,7 +1176,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('CB004',                                       $view->burialPlaceGraveSiteCemeteryBlockId);
         $this->assertSame('мусульманский',                               $view->burialPlaceGraveSiteCemeteryBlockName);
         $this->assertSame(3,                                             $view->burialPlaceGraveSiteRowInBlock);
-        $this->assertSame(null,                                          $view->burialPlaceGraveSitePositionInRow);
+        $this->assertSame(11,                                            $view->burialPlaceGraveSitePositionInRow);
         $this->assertSame(null,                                          $view->burialPlaceGraveSiteSize);
         $this->assertSame(null,                                          $view->burialPlaceGraveSiteGeoPositionLatitude);
         $this->assertSame(null,                                          $view->burialPlaceGraveSiteGeoPositionLongitude);
