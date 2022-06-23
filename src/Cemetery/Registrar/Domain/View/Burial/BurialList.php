@@ -10,12 +10,12 @@ namespace Cemetery\Registrar\Domain\View\Burial;
 class BurialList
 {
     /**
-     * @param array       $listItems
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
+     * @param BurialListItem[]|array $listItems
+     * @param int                    $page
+     * @param int                    $pageSize
+     * @param string|null            $term
+     * @param int                    $totalCount
+     * @param int                    $totalPages
      */
     public function __construct(
         public readonly array   $listItems,

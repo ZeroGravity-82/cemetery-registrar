@@ -10,12 +10,12 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche;
 class ColumbariumNicheList
 {
     /**
-     * @param array       $listItems
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
+     * @param ColumbariumNicheListItem[]|array $listItems
+     * @param int                              $page
+     * @param int                              $pageSize
+     * @param string|null                      $term
+     * @param int                              $totalCount
+     * @param int                              $totalPages
      */
     public function __construct(
         public readonly array   $listItems,

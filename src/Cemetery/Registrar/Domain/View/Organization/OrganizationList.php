@@ -10,12 +10,12 @@ namespace Cemetery\Registrar\Domain\View\Organization;
 class OrganizationList
 {
     /**
-     * @param array       $listItems
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
+     * @param OrganizationListItem[]|array $listItems
+     * @param int                          $page
+     * @param int                          $pageSize
+     * @param string|null                  $term
+     * @param int                          $totalCount
+     * @param int                          $totalPages
      */
     public function __construct(
         public readonly array   $listItems,
