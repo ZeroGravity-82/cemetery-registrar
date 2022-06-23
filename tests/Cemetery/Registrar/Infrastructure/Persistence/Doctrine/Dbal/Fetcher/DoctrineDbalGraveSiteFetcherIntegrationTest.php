@@ -133,17 +133,17 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(9,               $listForFourthPage->totalCount);
         $this->assertSame(3,               $listForFourthPage->totalPages);
 
-        // All at once
-        $listForAll = $this->graveSiteFetcher->findAll(1, null, PHP_INT_MAX);
-        $this->assertInstanceOf(GraveSiteList::class, $listForAll);
-        $this->assertIsArray($listForAll->listItems);
-        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $listForAll->listItems);
-        $this->assertCount(9,                      $listForAll->listItems);
-        $this->assertSame(1,                       $listForAll->page);
-        $this->assertSame(PHP_INT_MAX,             $listForAll->pageSize);
-        $this->assertSame(null,                    $listForAll->term);
-        $this->assertSame(9,                       $listForAll->totalCount);
-        $this->assertSame(1,                       $listForAll->totalPages);
+        // Default page size
+        $listForDefaultPageSize = $this->graveSiteFetcher->findAll(1);
+        $this->assertInstanceOf(GraveSiteList::class, $listForDefaultPageSize);
+        $this->assertIsArray($listForDefaultPageSize->listItems);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $listForDefaultPageSize->listItems);
+        $this->assertCount(9,                      $listForDefaultPageSize->listItems);
+        $this->assertSame(1,                       $listForDefaultPageSize->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
+        $this->assertSame(null,                    $listForDefaultPageSize->term);
+        $this->assertSame(9,                       $listForDefaultPageSize->totalCount);
+        $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
     public function testItReturnsGraveSiteListItemsByPageAndTerm(): void
