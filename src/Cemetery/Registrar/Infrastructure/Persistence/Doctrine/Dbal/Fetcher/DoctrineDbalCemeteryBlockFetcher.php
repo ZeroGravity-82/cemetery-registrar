@@ -51,12 +51,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
      */
     public function countTotal(): int
     {
-        return $this->connection->createQueryBuilder()
-            ->select('COUNT(cb.id)')
-            ->from('cemetery_block', 'cb')
-            ->andWhere('cb.removed_at IS NULL')
-            ->executeQuery()
-            ->fetchFirstColumn()[0];
+        return $this->doCountTotal();
     }
 
     /**
@@ -79,6 +74,19 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
             ->setParameter('id', $id)
             ->executeQuery()
             ->fetchAssociative();
+    }
+
+    /**
+     * @return int
+     */
+    private function doCountTotal(): int
+    {
+        return $this->connection->createQueryBuilder()
+            ->select('COUNT(cb.id)')
+            ->from('cemetery_block', 'cb')
+            ->andWhere('cb.removed_at IS NULL')
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
     }
 
     /**
