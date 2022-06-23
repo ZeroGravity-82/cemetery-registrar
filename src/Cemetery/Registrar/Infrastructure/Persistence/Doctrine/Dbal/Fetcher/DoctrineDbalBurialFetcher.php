@@ -21,7 +21,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      */
     public function getViewById(string $id): BurialView
     {
-        $viewData = $this->queryBurialViewData($id);
+        $viewData = $this->queryViewData($id);
         if ($viewData === false) {
             throw new \RuntimeException(\sprintf('Захоронение с ID "%s" не найдено.', $id));
         }
@@ -95,7 +95,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
      *
      * @return false|array
      */
-    private function queryBurialViewData(string $id): false|array
+    private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
             ->select(
