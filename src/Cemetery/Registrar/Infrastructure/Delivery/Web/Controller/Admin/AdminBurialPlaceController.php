@@ -19,6 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
+#[Route('/admin/burial-place')]
 class AdminBurialPlaceController extends AbstractController
 {
     /**
@@ -34,7 +35,7 @@ class AdminBurialPlaceController extends AbstractController
         private readonly ListGraveSitesService          $listGraveSitesService,
     ) {}
 
-    #[Route('/admin/burial-place/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
+    #[Route('/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
     public function index(): Response
     {
         $cemeteryBlockTotalCount = $this->countCemeteryBlockTotalService

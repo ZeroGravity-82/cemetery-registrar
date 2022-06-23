@@ -11,9 +11,10 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
+#[Route('/admin/dashboard')]
 class AdminDashboardController extends AbstractController
 {
-    #[Route('/admin/dashboard', name: 'admin_dashboard', methods: 'GET')]
+    #[Route('/', name: 'admin_dashboard', methods: 'GET')]
     public function dashboard(): Response
     {
         return $this->render('admin/dashboard.html.twig');
