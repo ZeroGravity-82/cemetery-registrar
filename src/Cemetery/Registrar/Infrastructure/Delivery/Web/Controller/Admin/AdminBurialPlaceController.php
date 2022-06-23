@@ -36,7 +36,7 @@ class AdminBurialPlaceController extends AbstractController
     ) {}
 
     #[Route('/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
-    public function index(): Response
+    public function graveSiteList(): Response
     {
         $cemeteryBlockTotalCount = $this->countCemeteryBlockTotalService
             ->execute(new CountCemeteryBlockTotalRequest())

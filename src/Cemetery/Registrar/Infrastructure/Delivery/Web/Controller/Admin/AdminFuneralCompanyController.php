@@ -28,7 +28,7 @@ class AdminFuneralCompanyController extends AbstractController
     ) {}
 
     #[Route('/', name: 'admin_funeral_company_list', methods: 'GET')]
-    public function index(): Response
+    public function list(): Response
     {
         $funeralCompanyTotalCount = $this->countFuneralCompanyTotalService
             ->execute(new CountFuneralCompanyTotalRequest())

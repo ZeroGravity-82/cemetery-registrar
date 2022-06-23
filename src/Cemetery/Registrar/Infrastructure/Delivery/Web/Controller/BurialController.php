@@ -46,7 +46,7 @@ class BurialController extends AbstractController
     ) {}
 
     #[Route('/', name: 'burial_list', methods: Request::METHOD_GET)]
-    public function index(): Response
+    public function list(): Response
     {
         $burialTotalCount = $this->countBurialTotalService
             ->execute(new CountBurialTotalRequest())

@@ -28,7 +28,7 @@ class AdminOrganizationController extends AbstractController
     ) {}
 
     #[Route('/', name: 'admin_organization_list', methods: 'GET')]
-    public function index(): Response
+    public function list(): Response
     {
         $organizationTotalCount = $this->countOrganizationTotalService
             ->execute(new CountOrganizationTotalRequest())

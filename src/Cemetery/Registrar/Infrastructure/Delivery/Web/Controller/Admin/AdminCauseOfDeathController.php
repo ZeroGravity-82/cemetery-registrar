@@ -28,7 +28,7 @@ class AdminCauseOfDeathController extends AbstractController
     ) {}
 
     #[Route('/', name: 'admin_cause_of_death_list', methods: 'GET')]
-    public function index(): Response
+    public function list(): Response
     {
         $causeOfDeathTotalCount = $this->countCauseOfDeathTotalService
             ->execute(new CountCauseOfDeathTotalRequest())
