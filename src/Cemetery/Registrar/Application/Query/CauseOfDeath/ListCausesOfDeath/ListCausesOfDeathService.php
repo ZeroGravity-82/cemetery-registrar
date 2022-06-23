@@ -31,6 +31,6 @@ class ListCausesOfDeathService extends ApplicationService
      */
     public function execute($request): ListCausesOfDeathResponse
     {
-        return new ListCausesOfDeathResponse($this->causeOfDeathFetcher->findAll(1, null, PHP_INT_MAX));
+        return new ListCausesOfDeathResponse($this->causeOfDeathFetcher->findAll(1));
     }
 }

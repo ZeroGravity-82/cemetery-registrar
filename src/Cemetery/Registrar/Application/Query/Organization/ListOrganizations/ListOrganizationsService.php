@@ -31,6 +31,6 @@ class ListOrganizationsService extends ApplicationService
      */
     public function execute($request): ListOrganizationsResponse
     {
-        return new ListOrganizationsResponse($this->organizationFetcher->findAll(1, null, PHP_INT_MAX));
+        return new ListOrganizationsResponse($this->organizationFetcher->findAll(1));
     }
 }

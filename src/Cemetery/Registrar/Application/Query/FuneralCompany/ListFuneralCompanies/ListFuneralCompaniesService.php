@@ -31,6 +31,6 @@ class ListFuneralCompaniesService extends ApplicationService
      */
     public function execute($request): ListFuneralCompaniesResponse
     {
-        return new ListFuneralCompaniesResponse($this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX));
+        return new ListFuneralCompaniesResponse($this->funeralCompanyFetcher->findAll(1));
     }
 }
