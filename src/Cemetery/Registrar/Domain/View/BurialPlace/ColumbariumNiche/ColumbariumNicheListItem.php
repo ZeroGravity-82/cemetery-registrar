@@ -13,12 +13,12 @@ class ColumbariumNicheListItem
      * @param string $id
      * @param string $columbariumName
      * @param int    $rowInColumbarium
-     * @param int    $nicheNumber
+     * @param string $nicheNumber
      */
     public function __construct(
         public readonly string  $id,
         public readonly string  $columbariumName,
         public readonly int     $rowInColumbarium,
-        public readonly int     $nicheNumber,
+        public readonly string  $nicheNumber,
     ) {}
 }

@@ -61,4 +61,34 @@ class ColumbariumNicheProvider
 
         return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
     }
+
+    public static function getColumbariumNicheE(): ColumbariumNiche
+    {
+        $id               = new ColumbariumNicheId('CN005');
+        $columbariumId    = new ColumbariumId('C004');
+        $rowInColumbarium = new RowInColumbarium(5);
+        $nicheNumber      = new ColumbariumNicheNumber('006');
+
+        return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
+    }
+
+    public static function getColumbariumNicheF(): ColumbariumNiche
+    {
+        $id               = new ColumbariumNicheId('CN006');
+        $columbariumId    = new ColumbariumId('C004');
+        $rowInColumbarium = new RowInColumbarium(7);
+        $nicheNumber      = new ColumbariumNicheNumber('005');
+
+        return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
+    }
+
+    public static function getColumbariumNicheG(): ColumbariumNiche
+    {
+        $id               = new ColumbariumNicheId('CN007');
+        $columbariumId    = new ColumbariumId('C004');
+        $rowInColumbarium = new RowInColumbarium(7);
+        $nicheNumber      = new ColumbariumNicheNumber('007');
+
+        return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
+    }
 }

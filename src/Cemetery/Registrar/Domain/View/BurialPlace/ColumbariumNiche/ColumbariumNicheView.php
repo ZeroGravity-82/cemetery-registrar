@@ -13,7 +13,7 @@ class ColumbariumNicheView
      * @param string      $id
      * @param string      $columbariumId
      * @param int         $rowInColumbarium
-     * @param int         $nicheNumber
+     * @param string      $nicheNumber
      * @param string|null $geoPositionLatitude
      * @param string|null $geoPositionLongitude
      * @param string|null $geoPositionError
@@ -24,7 +24,7 @@ class ColumbariumNicheView
         public readonly string  $id,
         public readonly string  $columbariumId,
         public readonly int     $rowInColumbarium,
-        public readonly int     $nicheNumber,
+        public readonly string  $nicheNumber,
         public readonly ?string $geoPositionLatitude,
         public readonly ?string $geoPositionLongitude,
         public readonly ?string $geoPositionError,
