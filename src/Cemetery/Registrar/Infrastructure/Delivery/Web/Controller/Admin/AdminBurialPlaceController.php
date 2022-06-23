@@ -20,6 +20,10 @@ use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlock
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksService;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListGraveSites\ListGraveSitesRequest;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListGraveSites\ListGraveSitesService;
+use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\CountMemorialTreeTotal\CountMemorialTreeTotalRequest;
+use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\CountMemorialTreeTotal\CountMemorialTreeTotalService;
+use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\ListMemorialTrees\ListMemorialTreesRequest;
+use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\ListMemorialTrees\ListMemorialTreesService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -39,6 +43,8 @@ class AdminBurialPlaceController extends AbstractController
      * @param ListColumbariumService            $listColumbariumService
      * @param CountColumbariumNicheTotalService $countColumbariumNicheTotalService
      * @param ListColumbariumNichesService      $listColumbariumNichesService
+     * @param CountMemorialTreeTotalService     $countMemorialTreeTotalService
+     * @param ListMemorialTreesService          $listMemorialTreesService
      */
     public function __construct(
         private readonly CountCemeteryBlockTotalService    $countCemeteryBlockTotalService,
@@ -49,6 +55,8 @@ class AdminBurialPlaceController extends AbstractController
         private readonly ListColumbariumService            $listColumbariumService,
         private readonly CountColumbariumNicheTotalService $countColumbariumNicheTotalService,
         private readonly ListColumbariumNichesService      $listColumbariumNichesService,
+        private readonly CountMemorialTreeTotalService     $countMemorialTreeTotalService,
+        private readonly ListMemorialTreesService          $listMemorialTreesService,
     ) {}
 
     #[Route('/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
@@ -96,6 +104,22 @@ class AdminBurialPlaceController extends AbstractController
             'columbariumList'            => $columbariumList,
             'columbariumNicheTotalCount' => $columbariumNicheTotalCount,
             'columbariumNicheList'       => $columbariumNicheList,
+        ]);
+    }
+
+    #[Route('/memorial-tree', name: 'admin_burial_place_memorial_tree_list', methods: 'GET')]
+    public function memorialTreeList(): Response
+    {
+        $memorialTreeTotalCount = $this->countMemorialTreeTotalService
+            ->execute(new CountMemorialTreeTotalRequest())
+            ->totalCount;
+        $memorialTreeList = $this->listMemorialTreesService
+            ->execute(new ListMemorialTreesRequest())
+            ->list;
+
+        return $this->render('admin/burial_place/memorial_tree/list.html.twig', [
+            'memorialTreeTotalCount' => $memorialTreeTotalCount,
+            'memorialTreeList'       => $memorialTreeList,
         ]);
     }
 }

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Админка - Памятные деревья{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+  <div class="mb-2 mb-lg-2">
+    <p class="pt-2 fs-5 fw-bold text-success">Памятные деревья <span class="text-muted fw-normal fs-6">({{ memorialTreeTotalCount }})</span></p>
+
+    {% include 'admin/burial_place/memorial_tree/_toolbar.html.twig' %}
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover caption-top">
+        <thead class="table-light align-middle">
+        <tr>
+          <th>Номер</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for listItem in memorialTreeList.listItems %}
+          {% include 'admin/burial_place/memorial_tree/_list_item.html.twig' %}
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{#  {% include 'admin/burial_place/memorial_tree/_modal_new.html.twig' %}#}
+
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+
+  <link href="/css/burial-place.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="/js/burial-place.js"></script>
+{% endblock %}

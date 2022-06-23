@@ -37,7 +37,7 @@ class MemorialTreeProvider
     public static function getMemorialTreeC(): MemorialTree
     {
         $id          = new MemorialTreeId('MT003');
-        $treeNumber  = new MemorialTreeNumber('003');
+        $treeNumber  = new MemorialTreeNumber('004');
         $geoPosition = new GeoPosition(new Coordinates('50.950357', '80.7972252'), null);
 
         return (new MemorialTree($id, $treeNumber))
@@ -47,7 +47,7 @@ class MemorialTreeProvider
     public static function getMemorialTreeD(): MemorialTree
     {
         $id         = new MemorialTreeId('MT004');
-        $treeNumber = new MemorialTreeNumber('004');
+        $treeNumber = new MemorialTreeNumber('003');
 
         return new MemorialTree($id, $treeNumber);
     }
