@@ -20,7 +20,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
      */
     public function getViewById(string $id): CauseOfDeathView
     {
-        $viewData = $this->queryCauseOfDeathViewData($id);
+        $viewData = $this->queryViewData($id);
         if ($viewData === false) {
             throw new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $id));
         }
@@ -68,7 +68,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
      *
      * @return false|array
      */
-    private function queryCauseOfDeathViewData(string $id): false|array
+    private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
             ->select(
