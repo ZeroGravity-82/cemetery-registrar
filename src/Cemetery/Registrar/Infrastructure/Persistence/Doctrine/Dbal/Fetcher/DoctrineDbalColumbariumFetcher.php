@@ -34,12 +34,12 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     {
         $columbariumListData = $this->connection->createQueryBuilder()
             ->select(
-                'с.id   AS id',
-                'с.name AS name',
+                'c.id   AS id',
+                'c.name AS name',
             )
-            ->from('сolumbarium', 'с')
-            ->andWhere('с.removed_at IS NULL')
-            ->orderBy('с.name')
+            ->from('columbarium', 'c')
+            ->andWhere('c.removed_at IS NULL')
+            ->orderBy('c.name')
             ->executeQuery()
             ->fetchAllAssociative();
 
@@ -63,17 +63,17 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     {
         return $this->connection->createQueryBuilder()
             ->select(
-                'с.id                                       AS id',
-                'с.name                                     AS name',
+                'c.id                                       AS id',
+                'c.name                                     AS name',
                 'c.geo_position->>"$.coordinates.latitude"  AS geoPositionLatitude',
                 'c.geo_position->>"$.coordinates.longitude" AS geoPositionLongitude',
                 'c.geo_position->>"$.error"                 AS geoPositionError',
-                'с.created_at                               AS createdAt',
-                'с.updated_at                               AS updatedAt',
+                'c.created_at                               AS createdAt',
+                'c.updated_at                               AS updatedAt',
             )
-            ->from('сolumbarium', 'с')
-            ->andWhere('с.id = :id')
-            ->andWhere('с.removed_at IS NULL')
+            ->from('columbarium', 'c')
+            ->andWhere('c.id = :id')
+            ->andWhere('c.removed_at IS NULL')
             ->setParameter('id', $id)
             ->executeQuery()
             ->fetchAssociative();
@@ -85,9 +85,9 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     private function doCountTotal(): int
     {
         return $this->connection->createQueryBuilder()
-            ->select('COUNT(с.id)')
-            ->from('сolumbarium', 'с')
-            ->andWhere('с.removed_at IS NULL')
+            ->select('COUNT(c.id)')
+            ->from('columbarium', 'c')
+            ->andWhere('c.removed_at IS NULL')
             ->executeQuery()
             ->fetchFirstColumn()[0];
     }
