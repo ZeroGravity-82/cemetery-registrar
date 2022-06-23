@@ -36,7 +36,7 @@ class AdminBurialPlaceController extends AbstractController
             ->execute(new ListCemeteryBlocksRequest())
             ->list;
 
-        return $this->render('admin/grave_site/list.html.twig', [
+        return $this->render('admin/burial_place/grave_site/list.html.twig', [
             'cemeteryBlockTotalCount' => $cemeteryBlockTotalCount,
             'cemeteryBlockList'       => $cemeteryBlockList,
         ]);
