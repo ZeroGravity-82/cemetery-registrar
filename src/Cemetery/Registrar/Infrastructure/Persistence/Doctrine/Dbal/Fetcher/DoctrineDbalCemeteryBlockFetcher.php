@@ -19,7 +19,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
      */
     public function getViewById(string $id): CemeteryBlockView
     {
-        $cemeteryBlockViewData = $this->queryCemeteryBlockViewData($id);
+        $cemeteryBlockViewData = $this->queryViewData($id);
         if ($cemeteryBlockViewData === false) {
             throw new \RuntimeException(\sprintf('Квартал с ID "%s" не найден.', $id));
         }
@@ -59,7 +59,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
      *
      * @return false|array
      */
-    private function queryCemeteryBlockViewData(string $id): false|array
+    private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
             ->select(
