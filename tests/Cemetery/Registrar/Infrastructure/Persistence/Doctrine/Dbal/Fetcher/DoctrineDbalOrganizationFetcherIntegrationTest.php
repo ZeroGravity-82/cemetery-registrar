@@ -167,16 +167,16 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(3,               $listForFourthPage->totalPages);
 
         // All at once
-        $listForDefaultPageSize = $this->organizationFetcher->findAll(1);
-        $this->assertInstanceOf(OrganizationList::class, $listForDefaultPageSize);
-        $this->assertIsArray($listForDefaultPageSize->listItems);
-        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForDefaultPageSize->listItems);
-        $this->assertCount(9,                      $listForDefaultPageSize->listItems);
-        $this->assertSame(1,                       $listForDefaultPageSize->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
-        $this->assertSame(null,                    $listForDefaultPageSize->term);
-        $this->assertSame(9,                       $listForDefaultPageSize->totalCount);
-        $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
+        $listForAll = $this->organizationFetcher->findAll(1, null, PHP_INT_MAX);
+        $this->assertInstanceOf(OrganizationList::class, $listForAll);
+        $this->assertIsArray($listForAll->listItems);
+        $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForAll->listItems);
+        $this->assertCount(9,                      $listForAll->listItems);
+        $this->assertSame(1,                       $listForAll->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForAll->pageSize);
+        $this->assertSame(null,                    $listForAll->term);
+        $this->assertSame(9,                       $listForAll->totalCount);
+        $this->assertSame(1,                       $listForAll->totalPages);
     }
 
     public function testItReturnsOrganizationListItemsByPageAndTerm(): void

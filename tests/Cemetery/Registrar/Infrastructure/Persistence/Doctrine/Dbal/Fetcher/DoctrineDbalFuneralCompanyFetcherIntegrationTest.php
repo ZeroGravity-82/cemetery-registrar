@@ -115,16 +115,16 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertSame(2,               $listForThirdPage->totalPages);
 
         // All at once
-        $listForDefaultPageSize = $this->funeralCompanyFetcher->findAll(1);
-        $this->assertInstanceOf(FuneralCompanyList::class, $listForDefaultPageSize);
-        $this->assertIsArray($listForDefaultPageSize->listItems);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $listForDefaultPageSize->listItems);
-        $this->assertCount(4,                      $listForDefaultPageSize->listItems);
-        $this->assertSame(1,                       $listForDefaultPageSize->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
-        $this->assertSame(null,                    $listForDefaultPageSize->term);
-        $this->assertSame(4,                       $listForDefaultPageSize->totalCount);
-        $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
+        $listForAll = $this->funeralCompanyFetcher->findAll(1, null, PHP_INT_MAX);
+        $this->assertInstanceOf(FuneralCompanyList::class, $listForAll);
+        $this->assertIsArray($listForAll->listItems);
+        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $listForAll->listItems);
+        $this->assertCount(4,                      $listForAll->listItems);
+        $this->assertSame(1,                       $listForAll->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForAll->pageSize);
+        $this->assertSame(null,                    $listForAll->term);
+        $this->assertSame(4,                       $listForAll->totalCount);
+        $this->assertSame(1,                       $listForAll->totalPages);
     }
 
     public function testItReturnsFuneralCompanyListItemsByPageAndTerm(): void

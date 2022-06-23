@@ -58,15 +58,16 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
 
     public function testItReturnsCemeteryBlockListItems(): void
     {
-        $list = $this->cemeteryBlockFetcher->findAll();
-        $this->assertInstanceOf(CemeteryBlockList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->listItems);
-        $this->assertCount(4, $list->listItems);
-        $this->assertItemEqualsCB001($list->listItems[0]);  // Items are ordered by name
-        $this->assertItemEqualsCB004($list->listItems[1]);
-        $this->assertItemEqualsCB002($list->listItems[2]);
-        $this->assertItemEqualsCB003($list->listItems[3]);
+        // All at once
+        $listForAll = $this->cemeteryBlockFetcher->findAll();
+        $this->assertInstanceOf(CemeteryBlockList::class, $listForAll);
+        $this->assertIsArray($listForAll->listItems);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForAll->listItems);
+        $this->assertCount(4, $listForAll->listItems);
+        $this->assertItemEqualsCB001($listForAll->listItems[0]);  // Items are ordered by name
+        $this->assertItemEqualsCB004($listForAll->listItems[1]);
+        $this->assertItemEqualsCB002($listForAll->listItems[2]);
+        $this->assertItemEqualsCB003($listForAll->listItems[3]);
     }
 
     public function testItReturnsCemeteryBlockTotalCount(): void
