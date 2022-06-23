@@ -121,10 +121,10 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(9,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertItemEqualsSP001($listForFirstPage->listItems[0]);  // Items are ordered by name
-        $this->assertItemEqualsSP002($listForFirstPage->listItems[1]);
-        $this->assertItemEqualsSP003($listForFirstPage->listItems[2]);
-        $this->assertItemEqualsSP004($listForFirstPage->listItems[3]);
+        $this->assertListItemEqualsSP001($listForFirstPage->listItems[0]);  // Items are ordered by name
+        $this->assertListItemEqualsSP002($listForFirstPage->listItems[1]);
+        $this->assertListItemEqualsSP003($listForFirstPage->listItems[2]);
+        $this->assertListItemEqualsSP004($listForFirstPage->listItems[3]);
 
         // Second page
         $listForSecondPage = $this->organizationFetcher->findAll(2, null, $customPageSize);
@@ -137,10 +137,10 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(9,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertItemEqualsJP004($listForSecondPage->listItems[0]);
-        $this->assertItemEqualsJP005($listForSecondPage->listItems[1]);
-        $this->assertItemEqualsJP001($listForSecondPage->listItems[2]);
-        $this->assertItemEqualsJP002($listForSecondPage->listItems[3]);
+        $this->assertListItemEqualsJP004($listForSecondPage->listItems[0]);
+        $this->assertListItemEqualsJP005($listForSecondPage->listItems[1]);
+        $this->assertListItemEqualsJP001($listForSecondPage->listItems[2]);
+        $this->assertListItemEqualsJP002($listForSecondPage->listItems[3]);
 
         // Third page
         $listForThirdPage = $this->organizationFetcher->findAll(3, null, $customPageSize);
@@ -153,7 +153,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(9,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertItemEqualsJP003($listForThirdPage->listItems[0]);
+        $this->assertListItemEqualsJP003($listForThirdPage->listItems[0]);
 
         // Fourth page
         $listForFourthPage = $this->organizationFetcher->findAll(4, null, $customPageSize);
@@ -360,168 +360,168 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         ]);
     }
 
-    private function assertItemEqualsSP001(OrganizationListItem $item): void
+    private function assertListItemEqualsJP001(OrganizationListItem $listItem): void
     {
-        $this->assertSame('SP001',                        $item->id);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->typeShortcut);
-        $this->assertSame(SoleProprietor::CLASS_LABEL,    $item->typeLabel);
-        $this->assertSame('ИП Иванов Иван Иванович',      $item->name);
-        $this->assertSame(null,                           $item->innKpp);
-        $this->assertSame(null,                           $item->ogrn);
-        $this->assertSame(null,                           $item->okpo);
-        $this->assertSame(null,                           $item->okved);
-        $this->assertSame(null,                           $item->address);
-        $this->assertSame(null,                           $item->bankDetails);
-        $this->assertSame(null,                           $item->phone);
-        $this->assertSame(null,                           $item->generalDirector);
-        $this->assertSame(null,                           $item->emailWebsite);
+        $this->assertSame('JP001',                                       $listItem->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $listItem->typeShortcut);
+        $this->assertSame(JuristicPerson::CLASS_LABEL,                   $listItem->typeLabel);
+        $this->assertSame('ООО "Рога и копыта"',                         $listItem->name);
+        $this->assertSame(null,                                          $listItem->innKpp);
+        $this->assertSame(null,                                          $listItem->ogrn);
+        $this->assertSame(null,                                          $listItem->okpo);
+        $this->assertSame(null,                                          $listItem->okved);
+        $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $listItem->address);
+        $this->assertSame(null,                                          $listItem->bankDetails);
+        $this->assertSame(null,                                          $listItem->phone);
+        $this->assertSame(null,                                          $listItem->generalDirector);
+        $this->assertSame(null,                                          $listItem->emailWebsite);
     }
 
-    private function assertItemEqualsSP002(OrganizationListItem $item): void
+    private function assertListItemEqualsJP002(OrganizationListItem $listItem): void
     {
-        $this->assertSame('SP002',                        $item->id);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->typeShortcut);
-        $this->assertSame(SoleProprietor::CLASS_LABEL,    $item->typeLabel);
-        $this->assertSame('ИП Петров Пётр Петрович',      $item->name);
-        $this->assertSame('772208786091/-',               $item->innKpp);
-        $this->assertSame(null,                           $item->ogrn);
-        $this->assertSame(null,                           $item->okpo);
-        $this->assertSame(null,                           $item->okved);
-        $this->assertSame(null,                           $item->address);
+        $this->assertSame('JP002',                        $listItem->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
+        $this->assertSame(JuristicPerson::CLASS_LABEL,    $listItem->typeLabel);
+        $this->assertSame('ООО Ромашка',                  $listItem->name);
+        $this->assertSame('5404447629/-',                 $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->ogrn);
+        $this->assertSame(null,                           $listItem->okpo);
+        $this->assertSame(null,                           $listItem->okved);
+        $this->assertSame(null,                           $listItem->address);
+        $this->assertSame(
+            'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ, р/счёт 40601810900001000022, БИК 044106001',
+            $listItem->bankDetails
+        );
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->generalDirector);
+        $this->assertSame(null,                           $listItem->emailWebsite);
+    }
+
+    private function assertListItemEqualsJP003(OrganizationListItem $listItem): void
+    {
+        $this->assertSame('JP003',                        $listItem->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
+        $this->assertSame(JuristicPerson::CLASS_LABEL,    $listItem->typeLabel);
+        $this->assertSame('ПАО "ГАЗПРОМ"',                $listItem->name);
+        $this->assertSame('7736050003/-',                 $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->ogrn);
+        $this->assertSame(null,                           $listItem->okpo);
+        $this->assertSame(null,                           $listItem->okved);
+        $this->assertSame(null,                           $listItem->address);
+        $this->assertSame(null,                           $listItem->bankDetails);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->generalDirector);
+        $this->assertSame(null,                           $listItem->emailWebsite);
+    }
+
+    private function assertListItemEqualsJP004(OrganizationListItem $listItem): void
+    {
+        $this->assertSame('JP004',                            $listItem->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,     $listItem->typeShortcut);
+        $this->assertSame(JuristicPerson::CLASS_LABEL,        $listItem->typeLabel);
+        $this->assertSame('МУП "Новосибирский метрополитен"', $listItem->name);
+        $this->assertSame(null,                               $listItem->innKpp);
+        $this->assertSame(null,                               $listItem->ogrn);
+        $this->assertSame(null,                               $listItem->okpo);
+        $this->assertSame(null,                               $listItem->okved);
+        $this->assertSame(null,                               $listItem->address);
+        $this->assertSame(null,                               $listItem->bankDetails);
+        $this->assertSame(null,                               $listItem->phone);
+        $this->assertSame(null,                               $listItem->generalDirector);
+        $this->assertSame(null,                               $listItem->emailWebsite);
+    }
+
+    private function assertListItemEqualsJP005(OrganizationListItem $listItem): void
+    {
+        $this->assertSame('JP005',                            $listItem->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,     $listItem->typeShortcut);
+        $this->assertSame(JuristicPerson::CLASS_LABEL,        $listItem->typeLabel);
+        $this->assertSame('МУП Похоронный Дом "ИМИ"',         $listItem->name);
+        $this->assertSame('5402103598/540201001',             $listItem->innKpp);
+        $this->assertSame(null,                               $listItem->ogrn);
+        $this->assertSame(null,                               $listItem->okpo);
+        $this->assertSame(null,                               $listItem->okved);
+        $this->assertSame(null,                               $listItem->address);
+        $this->assertSame(null,                               $listItem->bankDetails);
+        $this->assertSame(null,                               $listItem->phone);
+        $this->assertSame('Бондаренко Сергей Валентинович',   $listItem->generalDirector);
+        $this->assertSame(null,                               $listItem->emailWebsite);
+    }
+
+    private function assertListItemEqualsSP001(OrganizationListItem $listItem): void
+    {
+        $this->assertSame('SP001',                        $listItem->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
+        $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
+        $this->assertSame('ИП Иванов Иван Иванович',      $listItem->name);
+        $this->assertSame(null,                           $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->ogrn);
+        $this->assertSame(null,                           $listItem->okpo);
+        $this->assertSame(null,                           $listItem->okved);
+        $this->assertSame(null,                           $listItem->address);
+        $this->assertSame(null,                           $listItem->bankDetails);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->generalDirector);
+        $this->assertSame(null,                           $listItem->emailWebsite);
+    }
+
+    private function assertListItemEqualsSP002(OrganizationListItem $listItem): void
+    {
+        $this->assertSame('SP002',                        $listItem->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
+        $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
+        $this->assertSame('ИП Петров Пётр Петрович',      $listItem->name);
+        $this->assertSame('772208786091/-',               $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->ogrn);
+        $this->assertSame(null,                           $listItem->okpo);
+        $this->assertSame(null,                           $listItem->okved);
+        $this->assertSame(null,                           $listItem->address);
         $this->assertSame(
             'АО "АЛЬФА-БАНК", р/счёт 40701810401400000014, к/счёт 30101810200000000593, БИК 044525593',
-            $item->bankDetails
+            $listItem->bankDetails
         );
         $this->assertSame(
             '8(383)133-22-33, 8(383)133-22-44, 8(383)133-22-55 (факс)',
-            $item->phone
+            $listItem->phone
         );
         $this->assertSame(
             'info@funeral54.ru, funeral54.ru',
-            $item->emailWebsite
+            $listItem->emailWebsite
         );
     }
 
-    private function assertItemEqualsSP003(OrganizationListItem $item): void
+    private function assertListItemEqualsSP003(OrganizationListItem $listItem): void
     {
-        $this->assertSame('SP003',                        $item->id);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->typeShortcut);
-        $this->assertSame(SoleProprietor::CLASS_LABEL,    $item->typeLabel);
-        $this->assertSame('ИП Сидоров Сидр Сидорович',    $item->name);
-        $this->assertSame('391600743661/-',               $item->innKpp);
-        $this->assertSame(null,                           $item->ogrn);
-        $this->assertSame(null,                           $item->okpo);
-        $this->assertSame(null,                           $item->okved);
-        $this->assertSame('с. Каменка, д. 14',            $item->address);
-        $this->assertSame(null,                           $item->bankDetails);
-        $this->assertSame('8(383)147-22-33',              $item->phone);
-        $this->assertSame(null,                           $item->generalDirector);
-        $this->assertSame(null,                           $item->emailWebsite);
+        $this->assertSame('SP003',                        $listItem->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
+        $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
+        $this->assertSame('ИП Сидоров Сидр Сидорович',    $listItem->name);
+        $this->assertSame('391600743661/-',               $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->ogrn);
+        $this->assertSame(null,                           $listItem->okpo);
+        $this->assertSame(null,                           $listItem->okved);
+        $this->assertSame('с. Каменка, д. 14',            $listItem->address);
+        $this->assertSame(null,                           $listItem->bankDetails);
+        $this->assertSame('8(383)147-22-33',              $listItem->phone);
+        $this->assertSame(null,                           $listItem->generalDirector);
+        $this->assertSame(null,                           $listItem->emailWebsite);
     }
 
-    private function assertItemEqualsSP004(OrganizationListItem $item): void
+    private function assertListItemEqualsSP004(OrganizationListItem $listItem): void
     {
-        $this->assertSame('SP004',                        $item->id);
-        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $item->typeShortcut);
-        $this->assertSame(SoleProprietor::CLASS_LABEL,    $item->typeLabel);
-        $this->assertSame('ИП Соколов Герман Маркович',   $item->name);
-        $this->assertSame(null,                           $item->innKpp);
-        $this->assertSame(null,                           $item->ogrn);
-        $this->assertSame(null,                           $item->okpo);
-        $this->assertSame(null,                           $item->okved);
-        $this->assertSame(null,                           $item->address);
-        $this->assertSame(null,                           $item->bankDetails);
-        $this->assertSame(null,                           $item->phone);
-        $this->assertSame(null,                           $item->generalDirector);
-        $this->assertSame(null,                           $item->emailWebsite);
-    }
-
-    private function assertItemEqualsJP004(OrganizationListItem $item): void
-    {
-        $this->assertSame('JP004',                            $item->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,     $item->typeShortcut);
-        $this->assertSame(JuristicPerson::CLASS_LABEL,        $item->typeLabel);
-        $this->assertSame('МУП "Новосибирский метрополитен"', $item->name);
-        $this->assertSame(null,                               $item->innKpp);
-        $this->assertSame(null,                               $item->ogrn);
-        $this->assertSame(null,                               $item->okpo);
-        $this->assertSame(null,                               $item->okved);
-        $this->assertSame(null,                               $item->address);
-        $this->assertSame(null,                               $item->bankDetails);
-        $this->assertSame(null,                               $item->phone);
-        $this->assertSame(null,                               $item->generalDirector);
-        $this->assertSame(null,                               $item->emailWebsite);
-    }
-
-    private function assertItemEqualsJP005(OrganizationListItem $item): void
-    {
-        $this->assertSame('JP005',                            $item->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,     $item->typeShortcut);
-        $this->assertSame(JuristicPerson::CLASS_LABEL,        $item->typeLabel);
-        $this->assertSame('МУП Похоронный Дом "ИМИ"',         $item->name);
-        $this->assertSame('5402103598/540201001',             $item->innKpp);
-        $this->assertSame(null,                               $item->ogrn);
-        $this->assertSame(null,                               $item->okpo);
-        $this->assertSame(null,                               $item->okved);
-        $this->assertSame(null,                               $item->address);
-        $this->assertSame(null,                               $item->bankDetails);
-        $this->assertSame(null,                               $item->phone);
-        $this->assertSame('Бондаренко Сергей Валентинович',   $item->generalDirector);
-        $this->assertSame(null,                               $item->emailWebsite);
-    }
-
-    private function assertItemEqualsJP001(OrganizationListItem $item): void
-    {
-        $this->assertSame('JP001',                                       $item->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,                $item->typeShortcut);
-        $this->assertSame(JuristicPerson::CLASS_LABEL,                   $item->typeLabel);
-        $this->assertSame('ООО "Рога и копыта"',                         $item->name);
-        $this->assertSame(null,                                          $item->innKpp);
-        $this->assertSame(null,                                          $item->ogrn);
-        $this->assertSame(null,                                          $item->okpo);
-        $this->assertSame(null,                                          $item->okved);
-        $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $item->address);
-        $this->assertSame(null,                                          $item->bankDetails);
-        $this->assertSame(null,                                          $item->phone);
-        $this->assertSame(null,                                          $item->generalDirector);
-        $this->assertSame(null,                                          $item->emailWebsite);
-    }
-
-    private function assertItemEqualsJP002(OrganizationListItem $item): void
-    {
-        $this->assertSame('JP002',                        $item->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $item->typeShortcut);
-        $this->assertSame(JuristicPerson::CLASS_LABEL,    $item->typeLabel);
-        $this->assertSame('ООО Ромашка',                  $item->name);
-        $this->assertSame('5404447629/-',                 $item->innKpp);
-        $this->assertSame(null,                           $item->ogrn);
-        $this->assertSame(null,                           $item->okpo);
-        $this->assertSame(null,                           $item->okved);
-        $this->assertSame(null,                           $item->address);
-        $this->assertSame(
-            'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ, р/счёт 40601810900001000022, БИК 044106001',
-            $item->bankDetails
-        );
-        $this->assertSame(null,                           $item->phone);
-        $this->assertSame(null,                           $item->generalDirector);
-        $this->assertSame(null,                           $item->emailWebsite);
-    }
-
-    private function assertItemEqualsJP003(OrganizationListItem $item): void
-    {
-        $this->assertSame('JP003',                        $item->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $item->typeShortcut);
-        $this->assertSame(JuristicPerson::CLASS_LABEL,    $item->typeLabel);
-        $this->assertSame('ПАО "ГАЗПРОМ"',                $item->name);
-        $this->assertSame('7736050003/-',                 $item->innKpp);
-        $this->assertSame(null,                           $item->ogrn);
-        $this->assertSame(null,                           $item->okpo);
-        $this->assertSame(null,                           $item->okved);
-        $this->assertSame(null,                           $item->address);
-        $this->assertSame(null,                           $item->bankDetails);
-        $this->assertSame(null,                           $item->phone);
-        $this->assertSame(null,                           $item->generalDirector);
-        $this->assertSame(null,                           $item->emailWebsite);
+        $this->assertSame('SP004',                        $listItem->id);
+        $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
+        $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
+        $this->assertSame('ИП Соколов Герман Маркович',   $listItem->name);
+        $this->assertSame(null,                           $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->ogrn);
+        $this->assertSame(null,                           $listItem->okpo);
+        $this->assertSame(null,                           $listItem->okved);
+        $this->assertSame(null,                           $listItem->address);
+        $this->assertSame(null,                           $listItem->bankDetails);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->generalDirector);
+        $this->assertSame(null,                           $listItem->emailWebsite);
     }
 
     private function expectExceptionForNotFoundOrganizationById(string $organizationId, string $organizationType): void
