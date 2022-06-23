@@ -78,9 +78,9 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(8,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertItemEqualsCD001($listForFirstPage->listItems[0]);  // Items are ordered by name
-        $this->assertItemEqualsCD007($listForFirstPage->listItems[1]);
-        $this->assertItemEqualsCD005($listForFirstPage->listItems[2]);
+        $this->assertListItemEqualsCD001($listForFirstPage->listItems[0]);  // Items are ordered by name
+        $this->assertListItemEqualsCD007($listForFirstPage->listItems[1]);
+        $this->assertListItemEqualsCD005($listForFirstPage->listItems[2]);
 
         // Second page
         $listForSecondPage = $this->causeOfDeathFetcher->findAll(2, null, $customPageSize);
@@ -93,9 +93,9 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(8,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertItemEqualsCD006($listForSecondPage->listItems[0]);
-        $this->assertItemEqualsCD003($listForSecondPage->listItems[1]);
-        $this->assertItemEqualsCD008($listForSecondPage->listItems[2]);
+        $this->assertListItemEqualsCD006($listForSecondPage->listItems[0]);
+        $this->assertListItemEqualsCD003($listForSecondPage->listItems[1]);
+        $this->assertListItemEqualsCD008($listForSecondPage->listItems[2]);
 
         // Third page
         $listForThirdPage = $this->causeOfDeathFetcher->findAll(3, null, $customPageSize);
@@ -108,8 +108,8 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(8,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertItemEqualsCD002($listForThirdPage->listItems[0]);
-        $this->assertItemEqualsCD004($listForThirdPage->listItems[1]);
+        $this->assertListItemEqualsCD002($listForThirdPage->listItems[0]);
+        $this->assertListItemEqualsCD004($listForThirdPage->listItems[1]);
 
         // Fourth page
         $listForFourthPage = $this->causeOfDeathFetcher->findAll(4, null, $customPageSize);
@@ -195,52 +195,52 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         ]);
     }
 
-    private function assertItemEqualsCD001(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD001(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD001',    $item->id);
-        $this->assertSame('COVID-19', $item->name);
+        $this->assertSame('CD001',    $listItem->id);
+        $this->assertSame('COVID-19', $listItem->name);
     }
 
-    private function assertItemEqualsCD002(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD002(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD002',                        $item->id);
-        $this->assertSame('Обструктивная болезнь легких', $item->name);
+        $this->assertSame('CD002',                        $listItem->id);
+        $this->assertSame('Обструктивная болезнь легких', $listItem->name);
     }
 
-    private function assertItemEqualsCD003(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD003(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD003',                              $item->id);
-        $this->assertSame('Атеросклеротическая болезнь сердца', $item->name);
+        $this->assertSame('CD003',                              $listItem->id);
+        $this->assertSame('Атеросклеротическая болезнь сердца', $listItem->name);
     }
 
-    private function assertItemEqualsCD004(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD004(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD004',     $item->id);
-        $this->assertSame('Онкология', $item->name);
+        $this->assertSame('CD004',     $listItem->id);
+        $this->assertSame('Онкология', $listItem->name);
     }
 
-    private function assertItemEqualsCD005(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD005(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD005',             $item->id);
-        $this->assertSame('Астма кардиальная', $item->name);
+        $this->assertSame('CD005',             $listItem->id);
+        $this->assertSame('Астма кардиальная', $listItem->name);
     }
 
-    private function assertItemEqualsCD006(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD006(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD006',    $item->id);
-        $this->assertSame('Асфиксия', $item->name);
+        $this->assertSame('CD006',    $listItem->id);
+        $this->assertSame('Асфиксия', $listItem->name);
     }
 
-    private function assertItemEqualsCD007(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD007(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD007',                               $item->id);
-        $this->assertSame('Аневризма брюшной аорты разорванная', $item->name);
+        $this->assertSame('CD007',                               $listItem->id);
+        $this->assertSame('Аневризма брюшной аорты разорванная', $listItem->name);
     }
 
-    private function assertItemEqualsCD008(CauseOfDeathListItem $item): void
+    private function assertListItemEqualsCD008(CauseOfDeathListItem $listItem): void
     {
-        $this->assertSame('CD008',                                 $item->id);
-        $this->assertSame('Болезнь сердечно-легочная хроническая', $item->name);
+        $this->assertSame('CD008',                                 $listItem->id);
+        $this->assertSame('Болезнь сердечно-легочная хроническая', $listItem->name);
     }
 
     private function testItReturnsCauseOfDeathViewForCD001(): void
