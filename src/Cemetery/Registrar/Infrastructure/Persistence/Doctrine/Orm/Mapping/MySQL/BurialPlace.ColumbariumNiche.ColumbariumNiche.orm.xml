@@ -4,10 +4,6 @@
         <id name="id" column="id" type="columbarium_niche_id">
         </id>
 
-        <unique-constraints>
-            <unique-constraint columns="columbarium_id,columbarium_niche_number" name="columbarium_id_niche_number_uq" />
-        </unique-constraints>
-
         <field name="columbariumId"    column="columbarium_id"           type="columbarium_id"                           />
         <field name="rowInColumbarium" column="row_in_columbarium"       type="row_in_columbarium"                       />
         <field name="nicheNumber"      column="columbarium_niche_number" type="columbarium_niche_number"                 />
