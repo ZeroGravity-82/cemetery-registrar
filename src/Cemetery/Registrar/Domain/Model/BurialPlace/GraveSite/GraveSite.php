@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\Model\AggregateRoot;
 class GraveSite extends AggregateRoot
 {
     public const CLASS_SHORTCUT = 'GRAVE_SITE';
-    public const CLASS_LABEL    = 'участок на кладбище';
+    public const CLASS_LABEL    = 'участок';
 
     /**
      * @var PositionInRow|null

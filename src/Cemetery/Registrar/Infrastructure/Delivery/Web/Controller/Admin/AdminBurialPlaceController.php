@@ -6,8 +6,12 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\CountCemeteryBlockTotal\CountCemeteryBlockTotalRequest;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\CountCemeteryBlockTotal\CountCemeteryBlockTotalService;
+use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\CountGraveSiteTotal\CountGraveSiteTotalRequest;
+use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\CountGraveSiteTotal\CountGraveSiteTotalService;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksRequest;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksService;
+use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListGraveSites\ListGraveSitesRequest;
+use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListGraveSites\ListGraveSitesService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,10 +24,14 @@ class AdminBurialPlaceController extends AbstractController
     /**
      * @param CountCemeteryBlockTotalService $countCemeteryBlockTotalService
      * @param ListCemeteryBlocksService      $listCemeteryBlocksService
+     * @param CountGraveSiteTotalService     $countGraveSiteTotalService
+     * @param ListGraveSitesService          $listGraveSitesService
      */
     public function __construct(
         private readonly CountCemeteryBlockTotalService $countCemeteryBlockTotalService,
         private readonly ListCemeteryBlocksService      $listCemeteryBlocksService,
+        private readonly CountGraveSiteTotalService     $countGraveSiteTotalService,
+        private readonly ListGraveSitesService          $listGraveSitesService,
     ) {}
 
     #[Route('/admin/burial-place/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
@@ -35,10 +43,18 @@ class AdminBurialPlaceController extends AbstractController
         $cemeteryBlockList = $this->listCemeteryBlocksService
             ->execute(new ListCemeteryBlocksRequest())
             ->list;
+        $graveSiteTotalCount = $this->countGraveSiteTotalService
+            ->execute(new CountGraveSiteTotalRequest())
+            ->totalCount;
+        $graveSiteList = $this->listGraveSitesService
+            ->execute(new ListGraveSitesRequest())
+            ->list;
 
         return $this->render('admin/burial_place/grave_site/list.html.twig', [
             'cemeteryBlockTotalCount' => $cemeteryBlockTotalCount,
             'cemeteryBlockList'       => $cemeteryBlockList,
+            'graveSiteTotalCount'     => $graveSiteTotalCount,
+            'graveSiteList'           => $graveSiteList,
         ]);
     }
 }

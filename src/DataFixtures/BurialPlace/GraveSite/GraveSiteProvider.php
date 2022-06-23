@@ -59,8 +59,10 @@ class GraveSiteProvider
         $id              = new GraveSiteId('GS004');
         $cemeteryBlockId = new CemeteryBlockId('CB004');
         $rowInBlock      = new RowInBlock(2);
+        $positionInRow   = new PositionInRow(4);
 
-        return new GraveSite($id, $cemeteryBlockId, $rowInBlock);
+        return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
+            ->setPositionInRow($positionInRow);
     }
 
     public static function getGraveSiteE(): GraveSite
@@ -68,7 +70,55 @@ class GraveSiteProvider
         $id              = new GraveSiteId('GS005');
         $cemeteryBlockId = new CemeteryBlockId('CB004');
         $rowInBlock      = new RowInBlock(3);
+        $positionInRow   = new PositionInRow(11);
 
-        return new GraveSite($id, $cemeteryBlockId, $rowInBlock);
+        return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
+            ->setPositionInRow($positionInRow);
+    }
+
+    public static function getGraveSiteF(): GraveSite
+    {
+        $id              = new GraveSiteId('GS006');
+        $cemeteryBlockId = new CemeteryBlockId('CB004');
+        $rowInBlock      = new RowInBlock(3);
+        $positionInRow   = new PositionInRow(10);
+
+        return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
+            ->setPositionInRow($positionInRow);
+    }
+
+    public static function getGraveSiteG(): GraveSite
+    {
+        $id              = new GraveSiteId('GS007');
+        $cemeteryBlockId = new CemeteryBlockId('CB002');
+        $rowInBlock      = new RowInBlock(3);
+        $positionInRow   = new PositionInRow(5);
+
+        return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
+            ->setPositionInRow($positionInRow);
+    }
+
+    public static function getGraveSiteH(): GraveSite
+    {
+        $id              = new GraveSiteId('GS008');
+        $cemeteryBlockId = new CemeteryBlockId('CB002');
+        $rowInBlock      = new RowInBlock(3);
+        $positionInRow   = new PositionInRow(6);
+
+        return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
+            ->setPositionInRow($positionInRow);
+    }
+
+    public static function getGraveSiteI(): GraveSite
+    {
+        $id              = new GraveSiteId('GS009');
+        $cemeteryBlockId = new CemeteryBlockId('CB002');
+        $rowInBlock      = new RowInBlock(3);
+        $positionInRow   = new PositionInRow(7);
+        $size            = new GraveSiteSize('3.5');
+
+        return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
+            ->setPositionInRow($positionInRow)
+            ->setSize($size);
     }
 }

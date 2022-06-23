@@ -14,6 +14,10 @@ class GraveSiteFixtures extends Fixture
         $manager->persist(GraveSiteProvider::getGraveSiteC());
         $manager->persist(GraveSiteProvider::getGraveSiteD());
         $manager->persist(GraveSiteProvider::getGraveSiteE());
+        $manager->persist(GraveSiteProvider::getGraveSiteF());
+        $manager->persist(GraveSiteProvider::getGraveSiteG());
+        $manager->persist(GraveSiteProvider::getGraveSiteH());
+        $manager->persist(GraveSiteProvider::getGraveSiteI());
         $manager->flush();
     }
 }
