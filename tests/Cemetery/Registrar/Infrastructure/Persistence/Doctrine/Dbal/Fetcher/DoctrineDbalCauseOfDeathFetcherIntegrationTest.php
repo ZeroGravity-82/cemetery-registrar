@@ -245,12 +245,12 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
 
     private function testItReturnsCauseOfDeathViewForCD001(): void
     {
-        $causeOfDeathView = $this->causeOfDeathFetcher->getViewById('CD001');
-        $this->assertInstanceOf(CauseOfDeathView::class, $causeOfDeathView);
-        $this->assertSame('CD001',    $causeOfDeathView->id);
-        $this->assertSame('COVID-19', $causeOfDeathView->name);
-        $this->assertValidDateTimeValue($causeOfDeathView->createdAt);
-        $this->assertValidDateTimeValue($causeOfDeathView->updatedAt);
+        $view = $this->causeOfDeathFetcher->getViewById('CD001');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD001',    $view->id);
+        $this->assertSame('COVID-19', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
     }
 
     private function expectExceptionForNotFoundCauseOfDeathById(string $causeOfDeathId): void
