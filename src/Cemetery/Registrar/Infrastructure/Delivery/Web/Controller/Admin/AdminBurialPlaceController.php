@@ -58,4 +58,28 @@ class AdminBurialPlaceController extends AbstractController
             'graveSiteList'           => $graveSiteList,
         ]);
     }
+
+    #[Route('/columbarium-niche', name: 'admin_burial_place_columbarium_niche_list', methods: 'GET')]
+    public function columbariumNicheList(): Response
+    {
+        $columbariumTotalCount = $this->countColumbariumTotalService
+            ->execute(new CountColumbariumTotalRequest())
+            ->totalCount;
+        $columbariumList = $this->listColumbariumsService
+            ->execute(new ListColumbariumsRequest())
+            ->list;
+        $columbariumNicheTotalCount = $this->countColumbariumNicheTotalService
+            ->execute(new CountColumbariumNicheTotalRequest())
+            ->totalCount;
+        $columbariumNicheList = $this->listColumbariumNichesService
+            ->execute(new ListColumbariumNichesRequest())
+            ->list;
+
+        return $this->render('admin/burial_place/columbarium_niche/list.html.twig', [
+            'columbariumTotalCount'      => $columbariumTotalCount,
+            'columbariumList'            => $columbariumList,
+            'columbariumNicheTotalCount' => $columbariumNicheTotalCount,
+            'columbariumNicheList'       => $columbariumNicheList,
+        ]);
+    }
 }

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Админка - Колумбарные ниши{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+  <div class="row">
+    <div class="col-md-3 border-end pe-5">
+      <p class="pt-2 fs-5 fw-bold text-success">Колумбарии <span class="text-muted fw-normal fs-6">({{ columbariumTotalCount }})</span></p>
+
+      {% include 'admin/burial_place/columbarium_niche/_toolbar_columbarium.html.twig' %}
+
+      <div class="table-responsive">
+        <table class="table table-sm table-hover caption-top">
+          <thead class="table-light align-middle">
+            <tr>
+              <th>Наименование</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for listItem in columbariumList.listItems %}
+            {% include 'admin/burial_place/columbarium_niche/_list_item_columbarium.html.twig' %}
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="mb-2 mb-lg-2">
+        <p class="pt-2 fs-5 fw-bold text-success">Ниши <span class="text-muted fw-normal fs-6">({{ columbariumNicheTotalCount }})</span></p>
+
+        {% include 'admin/burial_place/columbarium_niche/_toolbar_columbarium_niche.html.twig' %}
+
+        <div class="table-responsive">
+          <table class="table table-sm table-hover caption-top">
+            <thead class="table-light align-middle">
+              <tr>
+                <th>Колумбарий</th>
+                <th>Ряд</th>
+                <th>Номер</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for listItem in columbariumNicheList.listItems %}
+              {% include 'admin/burial_place/columbarium_niche/_list_item_columbarium_niche.html.twig' %}
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{#  {% include 'admin/burial_place/columbarium_niche/_modal_columbarium_new.html.twig' %}#}
+{#  {% include 'admin/burial_place/columbarium_niche/_modal_columbarium_niche_new.html.twig' %}#}
+
+{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+
+  <link href="/css/burial-place.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="/js/burial-place.js"></script>
+{% endblock %}
