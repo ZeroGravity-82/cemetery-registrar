@@ -64,10 +64,10 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
         $this->assertIsArray($listForAll->listItems);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForAll->listItems);
         $this->assertCount(4, $listForAll->listItems);
-        $this->assertItemEqualsCB001($listForAll->listItems[0]);  // Items are ordered by name
-        $this->assertItemEqualsCB004($listForAll->listItems[1]);
-        $this->assertItemEqualsCB002($listForAll->listItems[2]);
-        $this->assertItemEqualsCB003($listForAll->listItems[3]);
+        $this->assertListItemEqualsCB001($listForAll->listItems[0]);  // Items are ordered by name
+        $this->assertListItemEqualsCB004($listForAll->listItems[1]);
+        $this->assertListItemEqualsCB002($listForAll->listItems[2]);
+        $this->assertListItemEqualsCB003($listForAll->listItems[3]);
     }
 
     public function testItReturnsCemeteryBlockTotalCount(): void
@@ -92,28 +92,28 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
         ]);
     }
 
-    private function assertItemEqualsCB001(CemeteryBlockListItem $item): void
+    private function assertListItemEqualsCB001(CemeteryBlockListItem $listItem): void
     {
-        $this->assertSame('CB001',    $item->id);
-        $this->assertSame('воинский', $item->name);
+        $this->assertSame('CB001',    $listItem->id);
+        $this->assertSame('воинский', $listItem->name);
     }
 
-    private function assertItemEqualsCB002(CemeteryBlockListItem $item): void
+    private function assertListItemEqualsCB002(CemeteryBlockListItem $listItem): void
     {
-        $this->assertSame('CB002',   $item->id);
-        $this->assertSame('общий А', $item->name);
+        $this->assertSame('CB002',   $listItem->id);
+        $this->assertSame('общий А', $listItem->name);
     }
 
-    private function assertItemEqualsCB003(CemeteryBlockListItem $item): void
+    private function assertListItemEqualsCB003(CemeteryBlockListItem $listItem): void
     {
-        $this->assertSame('CB003',   $item->id);
-        $this->assertSame('общий Б', $item->name);
+        $this->assertSame('CB003',   $listItem->id);
+        $this->assertSame('общий Б', $listItem->name);
     }
 
-    private function assertItemEqualsCB004(CemeteryBlockListItem $item): void
+    private function assertListItemEqualsCB004(CemeteryBlockListItem $listItem): void
     {
-        $this->assertSame('CB004',         $item->id);
-        $this->assertSame('мусульманский', $item->name);
+        $this->assertSame('CB004',         $listItem->id);
+        $this->assertSame('мусульманский', $listItem->name);
     }
 
     private function testItReturnsCemeteryBlockViewForCB001(): void
