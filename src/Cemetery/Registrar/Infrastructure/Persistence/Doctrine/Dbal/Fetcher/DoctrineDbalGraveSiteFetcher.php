@@ -22,7 +22,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     {
         $viewData = $this->queryViewData($id);
         if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Участок с ID "%s" не найден.', $id));
+            throw new \RuntimeException(\sprintf('Участок на кладбище с ID "%s" не найден.', $id));
         }
 
         return $this->hydrateView($viewData);
