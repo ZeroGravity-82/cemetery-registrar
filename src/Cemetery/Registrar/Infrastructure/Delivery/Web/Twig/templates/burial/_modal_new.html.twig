@@ -43,7 +43,7 @@
                   <div class="col-md-6">
                     {% include 'burial/_funeral_company_selector.html.twig' %}
                     <div class="row">
-                      <div class="col-md-3"><label for="buriedAt" class="form-label">Дата захоронения</label></div>
+                      <div class="col-md-3"><label for="buriedAt" class="form-label">Дата и время захоронения</label></div>
                       <div class="col-md-9"><input type="datetime-local" class="form-control form-control-sm" id="buriedAt" name="buriedAt"></div>
                     </div>
                     <div class="row d-none">
@@ -51,12 +51,20 @@
                       <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialPlaceType" name="burialPlaceType" value="GRAVE_SITE"></div>
                     </div>
                     <div class="row">
-                      <div class="col-md-6">
+                      <div class="col-md-5">
                         {% include 'burial_place/grave_site/_cemetery_block_selector.html.twig' %}
                       </div>
-                      <div class="col-md-6 row">
-                        <div class="col-md-3"><label for="burialPlaceGraveSiteRowInBlock" class="form-label">Ряд</label></div>
-                        <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="burialPlaceGraveSiteRowInBlock" name="burialPlaceGraveSiteRowInBlock"></div>
+                      <div class="col-md-3">
+                        <div class="row">
+                          <div class="col-md-3"><label for="burialPlaceGraveSiteRowInBlock" class="form-label">Ряд</label></div>
+                          <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="burialPlaceGraveSiteRowInBlock" name="burialPlaceGraveSiteRowInBlock"></div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="row">
+                          <div class="col-md-3"><label for="burialPlaceGraveSitePositionInRow" class="form-label">Место</label></div>
+                          <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="burialPlaceGraveSitePositionInRow" name="burialPlaceGraveSitePositionInRow"></div>
+                        </div>
                       </div>
                     </div>
                     <div class="row">
