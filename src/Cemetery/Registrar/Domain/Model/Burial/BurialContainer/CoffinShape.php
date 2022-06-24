@@ -14,7 +14,7 @@ class CoffinShape
     public const GREEK_WITHOUT_HANDLES = 'GREEK_WITHOUT_HANDLES';
     public const AMERICAN              = 'AMERICAN';
 
-    private const LABELS = [
+    public const LABELS = [
         self::TRAPEZOID             => 'трапеция',
         self::GREEK_WITH_HANDLES    => 'грек (с ручками)',
         self::GREEK_WITHOUT_HANDLES => 'грек (без ручек)',

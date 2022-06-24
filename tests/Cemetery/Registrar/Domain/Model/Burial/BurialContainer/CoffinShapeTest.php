@@ -21,6 +21,22 @@ class CoffinShapeTest extends TestCase
     private const AMERICAN_VALUE              = 'AMERICAN';
     private const AMERICAN_LABEL              = 'американец';
 
+    public function testItHasValidShapeValueConstants(): void
+    {
+        $this->assertSame(self::TRAPEZOID_VALUE,             CoffinShape::TRAPEZOID);
+        $this->assertSame(self::GREEK_WITH_HANDLES_VALUE,    CoffinShape::GREEK_WITH_HANDLES);
+        $this->assertSame(self::GREEK_WITHOUT_HANDLES_VALUE, CoffinShape::GREEK_WITHOUT_HANDLES);
+        $this->assertSame(self::AMERICAN_VALUE,              CoffinShape::AMERICAN);
+    }
+
+    public function testItHasValidShapeLabesConstants(): void
+    {
+        $this->assertSame(self::TRAPEZOID_LABEL,             CoffinShape::LABELS[self::TRAPEZOID_VALUE]);
+        $this->assertSame(self::GREEK_WITH_HANDLES_LABEL,    CoffinShape::LABELS[self::GREEK_WITH_HANDLES_VALUE]);
+        $this->assertSame(self::GREEK_WITHOUT_HANDLES_LABEL, CoffinShape::LABELS[self::GREEK_WITHOUT_HANDLES_VALUE]);
+        $this->assertSame(self::AMERICAN_LABEL,              CoffinShape::LABELS[self::AMERICAN_VALUE]);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $coffinShape = new CoffinShape(CoffinShape::TRAPEZOID);
