@@ -51,17 +51,8 @@
                       <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialPlaceType" name="burialPlaceType" value="GRAVE_SITE"></div>
                     </div>
                     <div class="row">
-                      <div class="col-md-6 row">
-                        <div class="col-md-3"><label for="burialPlaceGraveSiteCemeteryBlockId" class="form-label">Квартал</label></div>
-                        <div class="col-md-9">
-                          <select class="form-select form-select-sm" id="burialPlaceGraveSiteCemeteryBlockId" name="burialPlaceGraveSiteCemeteryBlockId" aria-label="Квартал">
-                            <option selected></option>
-                            <option value="CB001">воинский</option>
-                            <option value="CB002">общий А</option>
-                            <option value="CB003">общий Б</option>
-                            <option value="CB004">мусульманский</option>
-                          </select>
-                        </div>
+                      <div class="col-md-6">
+                        {% include 'burial_place/grave_site/_cemetery_block_selector.html.twig' %}
                       </div>
                       <div class="col-md-6 row">
                         <div class="col-md-3"><label for="burialPlaceGraveSiteRowInBlock" class="form-label">Ряд</label></div>

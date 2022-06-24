@@ -10,6 +10,8 @@ use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTota
 use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalService;
 use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsRequest;
 use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsService;
+use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksRequest;
+use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathService;
 use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\ListFuneralCompaniesRequest;
@@ -35,6 +37,7 @@ class BurialController extends AbstractController
      * @param ListFuneralCompaniesService $listFuneralCompaniesService
      * @param ListCausesOfDeathService    $listCausesOfDeathService
      * @param RegisterNewBurialService    $registerNewBurialService
+     * @param ListCemeteryBlocksService   $listCemeteryBlocksService
      */
     public function __construct(
         private readonly BurialFetcher               $burialFetcher,
@@ -43,6 +46,7 @@ class BurialController extends AbstractController
         private readonly ListFuneralCompaniesService $listFuneralCompaniesService,
         private readonly ListCausesOfDeathService    $listCausesOfDeathService,
         private readonly RegisterNewBurialService    $registerNewBurialService,
+        private readonly ListCemeteryBlocksService   $listCemeteryBlocksService,
     ) {}
 
     #[Route('/', name: 'burial_list', methods: Request::METHOD_GET)]
@@ -60,12 +64,16 @@ class BurialController extends AbstractController
         $causeOfDeathList = $this->listCausesOfDeathService
             ->execute(new ListCausesOfDeathRequest())
             ->list;
+        $cemeteryBlockList = $this->listCemeteryBlocksService
+            ->execute(new ListCemeteryBlocksRequest())
+            ->list;
 
         return $this->render('burial/list.html.twig', [
             'burialTotalCount'   => $burialTotalCount,
             'burialList'         => $burialList,
             'funeralCompanyList' => $funeralCompanyList,
             'causeOfDeathList'   => $causeOfDeathList,
+            'cemeteryBlockList'  => $cemeteryBlockList,
         ]);
     }
 

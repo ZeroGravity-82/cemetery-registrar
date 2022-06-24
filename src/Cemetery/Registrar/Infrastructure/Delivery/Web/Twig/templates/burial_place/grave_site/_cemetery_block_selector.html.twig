@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-3"><label for="burialPlaceGraveSiteCemeteryBlockId" class="form-label">Квартал</label></div>
+  <div class="col-md-9">
+    <select class="form-select form-select-sm" id="burialPlaceGraveSiteCemeteryBlockId" name="burialPlaceGraveSiteCemeteryBlockId" aria-label="Квартал">
+      <option selected></option>
+      {% for listItem in cemeteryBlockList.listItems %}
+        <option value="{{ listItem.id }}">
+          {{ listItem.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
