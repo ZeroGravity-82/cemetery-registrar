@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCodeGenerator;
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialFactory;
 use Cemetery\Registrar\Domain\Model\Burial\BurialPlaceId;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
 use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Model\BurialContainer\BurialContainer;
-use Cemetery\Registrar\Domain\Model\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;

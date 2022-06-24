@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\BurialContainer;
+namespace Cemetery\Registrar\Domain\Model\Burial\BurialContainer;
 
 /**
  * Wrapper class for value objects that are burial containers.

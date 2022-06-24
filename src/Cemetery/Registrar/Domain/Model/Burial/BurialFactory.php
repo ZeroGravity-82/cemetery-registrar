@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Burial;
 
-use Cemetery\Registrar\Domain\Model\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
-use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\IdentityGenerator;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 

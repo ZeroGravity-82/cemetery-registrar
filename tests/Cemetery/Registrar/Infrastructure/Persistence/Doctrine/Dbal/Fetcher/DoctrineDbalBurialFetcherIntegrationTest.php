@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Coffin;
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
 use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
-use Cemetery\Registrar\Domain\Model\BurialContainer\Coffin;
-use Cemetery\Registrar\Domain\Model\BurialContainer\CoffinShape;
-use Cemetery\Registrar\Domain\Model\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;

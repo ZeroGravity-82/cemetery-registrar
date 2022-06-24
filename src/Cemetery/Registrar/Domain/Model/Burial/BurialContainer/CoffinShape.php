@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\BurialContainer;
+namespace Cemetery\Registrar\Domain\Model\Burial\BurialContainer;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

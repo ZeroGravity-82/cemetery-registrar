@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Model\BurialContainer;
+namespace Cemetery\Tests\Registrar\Domain\Model\Burial\BurialContainer;
 
-use Cemetery\Registrar\Domain\Model\BurialContainer\CoffinShape;
+use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinShape;
 use PHPUnit\Framework\TestCase;
 
 /**
