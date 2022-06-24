@@ -9,6 +9,8 @@ namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
  */
 class PositionInRow
 {
+    private const MAX_POSITION = 100;
+
     /**
      * @param int $value
      */
@@ -51,6 +53,7 @@ class PositionInRow
     {
         $this->assertNotNegative($value);
         $this->assertNotZero($value);
+        $this->assertNotTooMuch($value);
     }
 
     /**
@@ -74,6 +77,18 @@ class PositionInRow
     {
         if ($positionInRow === 0) {
             throw new \InvalidArgumentException('Место в ряду не может иметь нулевое значение.');
+        }
+    }
+
+    /**
+     * @param int $value
+     *
+     * @throws \InvalidArgumentException when the position in row has too much value
+     */
+    private function assertNotTooMuch(int $value): void
+    {
+        if ($value > self::MAX_POSITION) {
+            throw new \InvalidArgumentException(\sprintf('Место в ряду не может иметь значение больше %d.', self::MAX_POSITION));
         }
     }
 }
