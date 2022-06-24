@@ -12,10 +12,19 @@ use PHPUnit\Framework\TestCase;
  */
 final class RowInBlockTest extends TestCase
 {
+    private const MAX_ROW = 100;
+
     public function testItSuccessfullyCreated(): void
     {
-        $rowInBlock = new RowInBlock(10);
-        $this->assertSame(10, $rowInBlock->value());
+        $rowInBlock = new RowInBlock(1);
+        $this->assertSame(1, $rowInBlock->value());
+
+        $rowInBlock = new RowInBlock(self::MAX_ROW);
+        $this->assertSame(self::MAX_ROW, $rowInBlock->value());
+
+        $rowInBlockAvg = (int) (self::MAX_ROW / 2);
+        $rowInBlock    = new RowInBlock($rowInBlockAvg);
+        $this->assertSame($rowInBlockAvg, $rowInBlock->value());
     }
 
     public function testItFailsWithNegativeValue(): void
@@ -30,6 +39,13 @@ final class RowInBlockTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Ряд в квартале не может иметь нулевое значение.');
         new RowInBlock(0);
+    }
+
+    public function testItFailsWithTooMuchValue(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(\sprintf('Ряд в квартале не может иметь значение больше %d.', self::MAX_ROW));
+        new RowInBlock(self::MAX_ROW + 1);
     }
 
     public function testItStringifyable(): void

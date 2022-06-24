@@ -9,6 +9,8 @@ namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
  */
 class RowInBlock
 {
+    private const MAX_ROW = 100;
+
     /**
      * @param int $value
      */
@@ -51,6 +53,7 @@ class RowInBlock
     {
         $this->assertNotNegative($value);
         $this->assertNotZero($value);
+        $this->assertNotTooMuch($value);
     }
 
     /**
@@ -74,6 +77,18 @@ class RowInBlock
     {
         if ($value === 0) {
             throw new \InvalidArgumentException('Ряд в квартале не может иметь нулевое значение.');
+        }
+    }
+
+    /**
+     * @param int $value
+     *
+     * @throws \InvalidArgumentException when the row in block has too much value
+     */
+    private function assertNotTooMuch(int $value): void
+    {
+        if ($value > self::MAX_ROW) {
+            throw new \InvalidArgumentException(\sprintf('Ряд в квартале не может иметь значение больше %d.', self::MAX_ROW));
         }
     }
 }
