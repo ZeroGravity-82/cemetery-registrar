@@ -10,6 +10,8 @@ use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTota
 use Cemetery\Registrar\Application\Query\Burial\CountBurialTotal\CountBurialTotalService;
 use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsRequest;
 use Cemetery\Registrar\Application\Query\Burial\ListBurials\ListBurialsService;
+use Cemetery\Registrar\Application\Query\Burial\ListCoffinShapes\ListCoffinShapesRequest;
+use Cemetery\Registrar\Application\Query\Burial\ListCoffinShapes\ListCoffinShapesService;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksRequest;
 use Cemetery\Registrar\Application\Query\BurialPlace\GraveSite\ListCemeteryBlocks\ListCemeteryBlocksService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathRequest;
@@ -38,6 +40,7 @@ class BurialController extends AbstractController
      * @param ListCausesOfDeathService    $listCausesOfDeathService
      * @param RegisterNewBurialService    $registerNewBurialService
      * @param ListCemeteryBlocksService   $listCemeteryBlocksService
+     * @param ListCoffinShapesService     $listCoffinShapesService
      */
     public function __construct(
         private readonly BurialFetcher               $burialFetcher,
@@ -47,6 +50,7 @@ class BurialController extends AbstractController
         private readonly ListCausesOfDeathService    $listCausesOfDeathService,
         private readonly RegisterNewBurialService    $registerNewBurialService,
         private readonly ListCemeteryBlocksService   $listCemeteryBlocksService,
+        private readonly ListCoffinShapesService     $listCoffinShapesService,
     ) {}
 
     #[Route('/', name: 'burial_list', methods: Request::METHOD_GET)]
@@ -67,6 +71,9 @@ class BurialController extends AbstractController
         $cemeteryBlockList = $this->listCemeteryBlocksService
             ->execute(new ListCemeteryBlocksRequest())
             ->list;
+        $coffinShapeList = $this->listCoffinShapesService
+            ->execute(new ListCoffinShapesRequest())
+            ->list;
 
         return $this->render('burial/list.html.twig', [
             'burialTotalCount'   => $burialTotalCount,
@@ -74,6 +81,7 @@ class BurialController extends AbstractController
             'funeralCompanyList' => $funeralCompanyList,
             'causeOfDeathList'   => $causeOfDeathList,
             'cemeteryBlockList'  => $cemeteryBlockList,
+            'coffinShapeList'    => $coffinShapeList,
         ]);
     }
 

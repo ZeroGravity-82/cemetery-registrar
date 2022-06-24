@@ -77,18 +77,7 @@
                       <div class="col-md-3"><label for="burialContainerType" class="form-label">Тип контейнера захоронения</label></div>
                       <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="burialContainerType" name="burialContainerType" value="COFFIN"></div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-3"><label for="burialContainerCoffinShape" class="form-label">Форма гроба</label></div>
-                      <div class="col-md-9">
-                        <select class="form-select form-select-sm" id="burialContainerCoffinShape" name="burialContainerCoffinShape" aria-label="Форма гроба">
-                          <option selected></option>
-                          <option value="TRAPEZOID">Трапеция</option>
-                          <option value="GREEK_WITH_HANDLES">Грек (с ручками)</option>
-                          <option value="GREEK_WITHOUT_HANDLES">Грек (без ручек)</option>
-                          <option value="AMERICAN">Американец</option>
-                        </select>
-                      </div>
-                    </div>
+                    {% include 'burial/_coffin_shape_selector.html.twig' %}
                     <div class="row">
                       <div class="col-md-3"><label for="burialContainerCoffinSize" class="form-label">Размер гроба</label></div>
                       <div class="col-md-9"><input type="number" min="165" max="225" class="form-control form-control-sm" id="burialContainerCoffinSize" name="burialContainerCoffinSize"></div>

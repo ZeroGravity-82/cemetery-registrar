@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-3"><label for="burialContainerCoffinShape" class="form-label">Форма гроба</label></div>
+  <div class="col-md-9">
+    <select class="form-select form-select-sm" id="burialContainerCoffinShape" name="burialContainerCoffinShape" aria-label="Форма гроба">
+      <option selected></option>
+      {% for listItem in coffinShapeList.listItems %}
+        <option value="{{ listItem.value }}">
+          {{ listItem.label }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
