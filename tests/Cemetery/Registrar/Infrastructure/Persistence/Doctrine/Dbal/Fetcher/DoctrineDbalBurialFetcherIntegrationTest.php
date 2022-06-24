@@ -89,7 +89,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->burialFetcher->getViewById($removedBurialId);
     }
 
-    public function testItReturnsBurialListItemsByPage(): void
+    public function testItReturnsBurialListByPage(): void
     {
         $customPageSize = 4;
 
@@ -148,7 +148,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsBurialListItemsByPageAndTerm(): void
+    public function testItReturnsBurialListByPageAndTerm(): void
     {
         $customPageSize = 4;
 

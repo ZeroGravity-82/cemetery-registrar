@@ -71,7 +71,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
 //        $this->funeralCompanyFetcher->getViewById($removedFuneralCompanyId);
     }
 
-    public function testItReturnsFuneralCompanyListItemsByPage(): void
+    public function testItReturnsFuneralCompanyListByPage(): void
     {
         $customPageSize = 3;
 
@@ -127,7 +127,7 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends FetcherIntegratio
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsFuneralCompanyListItemsByPageAndTerm(): void
+    public function testItReturnsFuneralCompanyListByPageAndTerm(): void
     {
         $customPageSize = 3;
 

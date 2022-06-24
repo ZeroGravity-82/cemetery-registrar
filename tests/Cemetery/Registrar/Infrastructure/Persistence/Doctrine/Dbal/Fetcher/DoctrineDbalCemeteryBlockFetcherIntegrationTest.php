@@ -56,7 +56,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
         $this->cemeteryBlockFetcher->getViewById($removedCemeteryBlockId);
     }
 
-    public function testItReturnsCemeteryBlockListItems(): void
+    public function testItReturnsCemeteryBlockList(): void
     {
         // All at once
         $listForAll = $this->cemeteryBlockFetcher->findAll();

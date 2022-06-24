@@ -63,7 +63,7 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         $this->causeOfDeathFetcher->getViewById($removedCauseOfDeathId);
     }
 
-    public function testItReturnsCauseOfDeathListItemsByPage(): void
+    public function testItReturnsCauseOfDeathListByPage(): void
     {
         $customPageSize = 3;
 
@@ -135,7 +135,7 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsCauseOfDeathListItemsByPageAndTerm(): void
+    public function testItReturnsCauseOfDeathListByPageAndTerm(): void
     {
         $customPageSize = 3;
 

@@ -66,7 +66,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends FetcherIntegrationT
         $this->memorialTreeFetcher->getViewById($removedMemorialTreeId);
     }
 
-    public function testItReturnsMemorialTreeListItemsByPage(): void
+    public function testItReturnsMemorialTreeListByPage(): void
     {
         $customPageSize = 3;
 
@@ -111,7 +111,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsMemorialTreeListItemsByPageAndTerm(): void
+    public function testItReturnsMemorialTreeListByPageAndTerm(): void
     {
         $customPageSize = 3;
 

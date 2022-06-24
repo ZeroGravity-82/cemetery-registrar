@@ -70,7 +70,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
         $this->columbariumNicheFetcher->getViewById($removedColumbariumNicheId);
     }
 
-    public function testItReturnsColumbariumNicheListItemsByPage(): void
+    public function testItReturnsColumbariumNicheListByPage(): void
     {
         $customPageSize = 3;
 
@@ -131,7 +131,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsColumbariumNicheListItemsByPageAndTerm(): void
+    public function testItReturnsColumbariumNicheListByPageAndTerm(): void
     {
         $customPageSize = 3;
 

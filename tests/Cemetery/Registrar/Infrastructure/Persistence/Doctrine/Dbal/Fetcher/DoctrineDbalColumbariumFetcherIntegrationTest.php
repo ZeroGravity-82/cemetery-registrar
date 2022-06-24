@@ -58,7 +58,7 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends FetcherIntegrationTe
         $this->columbariumFetcher->getViewById($removedColumbariumId);
     }
 
-    public function testItReturnsColumbariumListItems(): void
+    public function testItReturnsColumbariumList(): void
     {
         // All at once
         $listForAll = $this->columbariumFetcher->findAll();

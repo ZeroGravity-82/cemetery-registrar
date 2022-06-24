@@ -106,7 +106,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         $this->organizationFetcher->getViewById($removedSoleProprietorId);
     }
 
-    public function testItReturnsOrganizationListItemsByPage(): void
+    public function testItReturnsOrganizationListByPage(): void
     {
         $customPageSize = 4;
 
@@ -179,7 +179,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends FetcherIntegrationT
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsOrganizationListItemsByPageAndTerm(): void
+    public function testItReturnsOrganizationListByPageAndTerm(): void
     {
         $customPageSize = 3;
 

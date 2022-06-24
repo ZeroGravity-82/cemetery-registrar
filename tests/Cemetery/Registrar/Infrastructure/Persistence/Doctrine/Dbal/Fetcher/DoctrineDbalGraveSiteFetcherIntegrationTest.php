@@ -72,7 +72,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends FetcherIntegrationTest
         $this->graveSiteFetcher->getViewById($removedGraveSiteId);
     }
 
-    public function testItReturnsGraveSiteListItemsByPage(): void
+    public function testItReturnsGraveSiteListByPage(): void
     {
         $customPageSize = 4;
 
@@ -146,7 +146,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsGraveSiteListItemsByPageAndTerm(): void
+    public function testItReturnsGraveSiteListByPageAndTerm(): void
     {
         $customPageSize = 3;
 
