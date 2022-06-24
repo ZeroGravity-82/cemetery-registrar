@@ -44,14 +44,14 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurial(): void
     {
-        $deceasedId         = new DeceasedId('D001');
-        $type               = new BurialType(BurialType::URN_IN_GRAVE_SITE);
-        $customerId         = new CustomerId(new JuristicPersonId('JP001'));
-        $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS001'));
-        $burialPlaceOwnerId = new NaturalPersonId('NP001');
-        $funeralCompanyId   = new FuneralCompanyId('FC003');
-        $burialContainer    = new BurialContainer(new Urn());
-        $buriedAt           = new \DateTimeImmutable('2020-04-30');
+        $deceasedId       = new DeceasedId('D001');
+        $type             = new BurialType(BurialType::URN_IN_GRAVE_SITE);
+        $customerId       = new CustomerId(new JuristicPersonId('JP001'));
+        $burialPlaceId    = new BurialPlaceId(new GraveSiteId('GS001'));
+        $personInChargeId = new NaturalPersonId('NP001');
+        $funeralCompanyId = new FuneralCompanyId('FC003');
+        $burialContainer  = new BurialContainer(new Urn());
+        $buriedAt         = new \DateTimeImmutable('2020-04-30');
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');
         $burial = $this->burialFactory->create(
@@ -59,7 +59,7 @@ class BurialFactoryTest extends EntityFactoryTest
             $deceasedId,
             $customerId,
             $burialPlaceId,
-            $burialPlaceOwnerId,
+            $personInChargeId,
             $funeralCompanyId,
             $burialContainer,
             $buriedAt,
@@ -71,7 +71,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertTrue($type->isEqual($burial->type()));
         $this->assertTrue($customerId->isEqual($burial->customerId()));
         $this->assertTrue($burialPlaceId->isEqual($burial->burialPlaceId()));
-        $this->assertTrue($burialPlaceOwnerId->isEqual($burial->burialPlaceOwnerId()));
+        $this->assertTrue($personInChargeId->isEqual($burial->personInChargeId()));
         $this->assertTrue($funeralCompanyId->isEqual($burial->funeralCompanyId()));
         $this->assertTrue($burialContainer->isEqual($burial->burialContainer()));
         $this->assertTrue($burialContainer->isEqual($burial->burialContainer()));
@@ -104,7 +104,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertTrue($type->isEqual($burial->type()));
         $this->assertNull($burial->customerId());
         $this->assertNull($burial->burialPlaceId());
-        $this->assertNull($burial->burialPlaceOwnerId());
+        $this->assertNull($burial->personInChargeId());
         $this->assertNull($burial->funeralCompanyId());
         $this->assertNull($burial->burialContainer());
         $this->assertNull($burial->burialContainer());

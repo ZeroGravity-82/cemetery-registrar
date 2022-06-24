@@ -33,7 +33,7 @@ class Burial extends AggregateRoot
     /**
      * @var NaturalPersonId|null
      */
-    private ?NaturalPersonId $burialPlaceOwnerId = null;
+    private ?NaturalPersonId $personInChargeId = null;
 
     /**
      * @var FuneralCompanyId|null
@@ -170,19 +170,19 @@ class Burial extends AggregateRoot
     /**
      * @return NaturalPersonId|null
      */
-    public function burialPlaceOwnerId(): ?NaturalPersonId
+    public function personInChargeId(): ?NaturalPersonId
     {
-        return $this->burialPlaceOwnerId;
+        return $this->personInChargeId;
     }
 
     /**
-     * @param NaturalPersonId|null $burialPlaceOwnerId
+     * @param NaturalPersonId|null $personInChargeId
      *
      * @return $this
      */
-    public function setBurialPlaceOwnerId(?NaturalPersonId $burialPlaceOwnerId): self
+    public function setPersonInChargeId(?NaturalPersonId $personInChargeId): self
     {
-        $this->burialPlaceOwnerId = $burialPlaceOwnerId;
+        $this->personInChargeId = $personInChargeId;
 
         return $this;
     }

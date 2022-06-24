@@ -69,19 +69,19 @@ class BurialView
      * @param string|null $customerJuristicPersonGeneralDirector
      * @param string|null $customerJuristicPersonEmail
      * @param string|null $customerJuristicPersonWebsite
-     * @param string|null $burialPlaceOwnerId
-     * @param string|null $burialPlaceOwnerFullName
-     * @param string|null $burialPlaceOwnerPhone
-     * @param string|null $burialPlaceOwnerPhoneAdditional
-     * @param string|null $burialPlaceOwnerEmail
-     * @param string|null $burialPlaceOwnerAddress
-     * @param string|null $burialPlaceOwnerBornAt
-     * @param string|null $burialPlaceOwnerPlaceOfBirth
-     * @param string|null $burialPlaceOwnerPassportSeries
-     * @param string|null $burialPlaceOwnerPassportNumber
-     * @param string|null $burialPlaceOwnerPassportIssuedAt
-     * @param string|null $burialPlaceOwnerPassportIssuedBy
-     * @param string|null $burialPlaceOwnerPassportDivisionCode
+     * @param string|null $personInChargeId
+     * @param string|null $personInChargeFullName
+     * @param string|null $personInChargePhone
+     * @param string|null $personInChargePhoneAdditional
+     * @param string|null $personInChargeEmail
+     * @param string|null $personInChargeAddress
+     * @param string|null $personInChargeBornAt
+     * @param string|null $personInChargePlaceOfBirth
+     * @param string|null $personInChargePassportSeries
+     * @param string|null $personInChargePassportNumber
+     * @param string|null $personInChargePassportIssuedAt
+     * @param string|null $personInChargePassportIssuedBy
+     * @param string|null $personInChargePassportDivisionCode
      * @param string|null $funeralCompanyId
      * @param string|null $burialChainId
      * @param string|null $burialPlaceId
@@ -173,19 +173,19 @@ class BurialView
         public readonly ?string $customerJuristicPersonGeneralDirector,
         public readonly ?string $customerJuristicPersonEmail,
         public readonly ?string $customerJuristicPersonWebsite,
-        public readonly ?string $burialPlaceOwnerId,
-        public readonly ?string $burialPlaceOwnerFullName,
-        public readonly ?string $burialPlaceOwnerPhone,
-        public readonly ?string $burialPlaceOwnerPhoneAdditional,
-        public readonly ?string $burialPlaceOwnerEmail,
-        public readonly ?string $burialPlaceOwnerAddress,
-        public readonly ?string $burialPlaceOwnerBornAt,
-        public readonly ?string $burialPlaceOwnerPlaceOfBirth,
-        public readonly ?string $burialPlaceOwnerPassportSeries,
-        public readonly ?string $burialPlaceOwnerPassportNumber,
-        public readonly ?string $burialPlaceOwnerPassportIssuedAt,
-        public readonly ?string $burialPlaceOwnerPassportIssuedBy,
-        public readonly ?string $burialPlaceOwnerPassportDivisionCode,
+        public readonly ?string $personInChargeId,
+        public readonly ?string $personInChargeFullName,
+        public readonly ?string $personInChargePhone,
+        public readonly ?string $personInChargePhoneAdditional,
+        public readonly ?string $personInChargeEmail,
+        public readonly ?string $personInChargeAddress,
+        public readonly ?string $personInChargeBornAt,
+        public readonly ?string $personInChargePlaceOfBirth,
+        public readonly ?string $personInChargePassportSeries,
+        public readonly ?string $personInChargePassportNumber,
+        public readonly ?string $personInChargePassportIssuedAt,
+        public readonly ?string $personInChargePassportIssuedBy,
+        public readonly ?string $personInChargePassportDivisionCode,
         public readonly ?string $funeralCompanyId,
         public readonly ?string $burialChainId,
         public readonly ?string $burialPlaceId,

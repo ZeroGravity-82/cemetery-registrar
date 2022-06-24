@@ -63,7 +63,7 @@ class BurialTest extends AggregateRootTest
         $this->assertTrue($this->burial->type()->isCoffinInGraveSite());
         $this->assertNull($this->burial->customerId());
         $this->assertNull($this->burial->burialPlaceId());
-        $this->assertNull($this->burial->burialPlaceOwnerId());
+        $this->assertNull($this->burial->personInChargeId());
         $this->assertNull($this->burial->funeralCompanyId());
         $this->assertNull($this->burial->burialContainer());
         $this->assertNull($this->burial->buriedAt());
@@ -137,15 +137,15 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->burialPlaceId());
     }
 
-    public function testItSetsBurialPlaceOwnerId(): void
+    public function testItSetsPersonInChargeId(): void
     {
-        $burialPlaceOwnerId = new NaturalPersonId('NP002');
-        $this->burial->setBurialPlaceOwnerId($burialPlaceOwnerId);
-        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->burialPlaceOwnerId());
-        $this->assertTrue($this->burial->burialPlaceOwnerId()->isEqual($burialPlaceOwnerId));
+        $personInChargeId = new NaturalPersonId('NP002');
+        $this->burial->setPersonInChargeId($personInChargeId);
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->personInChargeId());
+        $this->assertTrue($this->burial->personInChargeId()->isEqual($personInChargeId));
 
-        $this->burial->setBurialPlaceOwnerId(null);
-        $this->assertNull($this->burial->burialPlaceOwnerId());
+        $this->burial->setPersonInChargeId(null);
+        $this->assertNull($this->burial->personInChargeId());
     }
     
     public function testItSetsFuneralCompanyId(): void

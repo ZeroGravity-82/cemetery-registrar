@@ -86,21 +86,21 @@ class RegisterNewBurialService extends ApplicationService
     public function execute($request): RegisterNewBurialResponse
     {
         $this->assertSupportedRequestClass($request);
-        $type               = $this->processTypeData($request);
-        $deceasedId         = $this->processDeceasedData($request);
-        $customerId         = $this->processCustomerData($request);
-        $burialPlaceId      = $this->processBurialPlaceData($request);
-        $burialPlaceOwnerId = $this->processBurialPlaceOwnerData($request);
-        $funeralCompanyId   = $this->processFuneralCompanyData($request);
-        $burialContainer    = $this->processBurialContainerData($request);
-        $buriedAt           = $this->processBuriedAtData($request);
+        $type             = $this->processTypeData($request);
+        $deceasedId       = $this->processDeceasedData($request);
+        $customerId       = $this->processCustomerData($request);
+        $burialPlaceId    = $this->processBurialPlaceData($request);
+        $personInChargeId = $this->processPersonInChargeData($request);
+        $funeralCompanyId = $this->processFuneralCompanyData($request);
+        $burialContainer  = $this->processBurialContainerData($request);
+        $buriedAt         = $this->processBuriedAtData($request);
 
         $burial = $this->burialFactory->create(
             $type,
             $deceasedId,
             $customerId,
             $burialPlaceId,
-            $burialPlaceOwnerId,
+            $personInChargeId,
             $funeralCompanyId,
             $burialContainer,
             $buriedAt,
@@ -230,20 +230,20 @@ class RegisterNewBurialService extends ApplicationService
      *
      * @return NaturalPersonId|null
      */
-    private function processBurialPlaceOwnerData(RegisterNewBurialRequest $request): ?NaturalPersonId
+    private function processPersonInChargeData(RegisterNewBurialRequest $request): ?NaturalPersonId
     {
-        $burialPlaceOwnerId = null;
+        $personInChargeId = null;
 
-        if ($request->burialPlaceOwnerId !== null) {
-            $burialPlaceOwnerId = new NaturalPersonId($request->burialPlaceOwnerId);
+        if ($request->personInChargeId !== null) {
+            $personInChargeId = new NaturalPersonId($request->personInChargeId);
         }
-//        if ($request->burialPlaceOwnerId === null) {
-//            $burialPlaceOwner = $this->createNaturalPersonForBurialPlaceOwner($request);
-//            $this->naturalPersonRepo->save($burialPlaceOwner);
-//            $burialPlaceOwnerId = $burialPlaceOwner->id();
+//        if ($request->personInChargeId === null) {
+//            $personInCharge = $this->createNaturalPersonForPersonInCharge($request);
+//            $this->naturalPersonRepo->save($personInCharge);
+//            $personInChargeId = $personInCharge->id();
 //        }
 
-        return $burialPlaceOwnerId;
+        return $personInChargeId;
     }
 
     /**
@@ -476,21 +476,21 @@ class RegisterNewBurialService extends ApplicationService
      *
      * @return NaturalPerson
      */
-    private function createNaturalPersonForBurialPlaceOwner(RegisterNewBurialRequest $request): NaturalPerson
+    private function createNaturalPersonForPersonInCharge(RegisterNewBurialRequest $request): NaturalPerson
     {
         return $this->naturalPersonFactory->create(
-            $request->burialPlaceOwnerFullName,
-            $request->burialPlaceOwnerPhone,
-            $request->burialPlaceOwnerPhoneAdditional,
-            $request->burialPlaceOwnerEmail,
-            $request->burialPlaceOwnerAddress,
-            $request->burialPlaceOwnerBornAt,
-            $request->burialPlaceOwnerPlaceOfBirth,
-            $request->burialPlaceOwnerPassportSeries,
-            $request->burialPlaceOwnerPassportNumber,
-            $request->burialPlaceOwnerPassportIssuedAt,
-            $request->burialPlaceOwnerPassportIssuedBy,
-            $request->burialPlaceOwnerPassportDivisionCode,
+            $request->personInChargeFullName,
+            $request->personInChargePhone,
+            $request->personInChargePhoneAdditional,
+            $request->personInChargeEmail,
+            $request->personInChargeAddress,
+            $request->personInChargeBornAt,
+            $request->personInChargePlaceOfBirth,
+            $request->personInChargePassportSeries,
+            $request->personInChargePassportNumber,
+            $request->personInChargePassportIssuedAt,
+            $request->personInChargePassportIssuedBy,
+            $request->personInChargePassportDivisionCode,
         );
     }
 

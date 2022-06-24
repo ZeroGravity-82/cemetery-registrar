@@ -32,7 +32,7 @@ class BurialFactory extends EntityFactory
      * @param DeceasedId              $deceasedId
      * @param CustomerId|null         $customerId
      * @param BurialPlaceId|null      $burialPlaceId
-     * @param NaturalPersonId|null    $burialPlaceOwnerId
+     * @param NaturalPersonId|null    $personInChargeId
      * @param FuneralCompanyId|null   $funeralCompanyId
      * @param BurialContainer|null    $burialContainer
      * @param \DateTimeImmutable|null $buriedAt
@@ -44,7 +44,7 @@ class BurialFactory extends EntityFactory
         DeceasedId          $deceasedId,
         ?CustomerId         $customerId,
         ?BurialPlaceId      $burialPlaceId,
-        ?NaturalPersonId    $burialPlaceOwnerId,
+        ?NaturalPersonId    $personInChargeId,
         ?FuneralCompanyId   $funeralCompanyId,
         ?BurialContainer    $burialContainer,
         ?\DateTimeImmutable $buriedAt,
@@ -57,7 +57,7 @@ class BurialFactory extends EntityFactory
         ))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
-            ->setBurialPlaceOwnerId($burialPlaceOwnerId)
+            ->setPersonInChargeId($personInChargeId)
             ->setFuneralCompanyId($funeralCompanyId)
             ->setBurialContainer($burialContainer)
             ->setBuriedAt($buriedAt);

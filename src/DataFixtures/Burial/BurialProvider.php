@@ -46,37 +46,37 @@ class BurialProvider
 
     public static function getBurialB(): Burial
     {
-        $id                 = new BurialId('B002');
-        $burialCode         = new BurialCode('11002');
-        $burialType         = BurialType::coffinInGraveSite();
-        $deceasedId         = new DeceasedId('D002');
-        $customerId         = new CustomerId(new NaturalPersonId('NP005'));
-        $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS003'));
-        $burialPlaceOwnerId = new NaturalPersonId('NP006');
-        $burialContainer    = new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), false));
+        $id               = new BurialId('B002');
+        $burialCode       = new BurialCode('11002');
+        $burialType       = BurialType::coffinInGraveSite();
+        $deceasedId       = new DeceasedId('D002');
+        $customerId       = new CustomerId(new NaturalPersonId('NP005'));
+        $burialPlaceId    = new BurialPlaceId(new GraveSiteId('GS003'));
+        $personInChargeId = new NaturalPersonId('NP006');
+        $burialContainer  = new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::trapezoid(), false));
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
-            ->setBurialPlaceOwnerId($burialPlaceOwnerId)
+            ->setPersonInChargeId($personInChargeId)
             ->setBurialContainer($burialContainer);
     }
 
     public static function getBurialC(): Burial
     {
-        $id                 = new BurialId('B003');
-        $burialCode         = new BurialCode('11003');
-        $burialType         = BurialType::ashesUnderMemorialTree();
-        $deceasedId         = new DeceasedId('D003');
-        $customerId         = new CustomerId(new NaturalPersonId('NP006'));
-        $burialPlaceId      = new BurialPlaceId(new MemorialTreeId('MT002'));
-        $burialPlaceOwnerId = new NaturalPersonId('NP006');
-        $funeralCompanyId   = new FuneralCompanyId('FC001');
+        $id               = new BurialId('B003');
+        $burialCode       = new BurialCode('11003');
+        $burialType       = BurialType::ashesUnderMemorialTree();
+        $deceasedId       = new DeceasedId('D003');
+        $customerId       = new CustomerId(new NaturalPersonId('NP006'));
+        $burialPlaceId    = new BurialPlaceId(new MemorialTreeId('MT002'));
+        $personInChargeId = new NaturalPersonId('NP006');
+        $funeralCompanyId = new FuneralCompanyId('FC001');
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
-            ->setBurialPlaceOwnerId($burialPlaceOwnerId)
+            ->setPersonInChargeId($personInChargeId)
             ->setFuneralCompanyId($funeralCompanyId);
     }
 
@@ -98,20 +98,20 @@ class BurialProvider
 
     public static function getBurialE(): Burial
     {
-        $id                 = new BurialId('B005');
-        $burialCode         = new BurialCode('11005');
-        $burialType         = BurialType::coffinInGraveSite();
-        $deceasedId         = new DeceasedId('D005');
-        $customerId         = new CustomerId(new SoleProprietorId('SP003'));
-        $burialPlaceId      = new BurialPlaceId(new GraveSiteId('GS002'));
-        $burialPlaceOwnerId = new NaturalPersonId('NP008');
-        $funeralCompanyId   = new FuneralCompanyId('FC002');
-        $buriedAt           = new \DateTimeImmutable('2010-01-28 12:55:00');
+        $id               = new BurialId('B005');
+        $burialCode       = new BurialCode('11005');
+        $burialType       = BurialType::coffinInGraveSite();
+        $deceasedId       = new DeceasedId('D005');
+        $customerId       = new CustomerId(new SoleProprietorId('SP003'));
+        $burialPlaceId    = new BurialPlaceId(new GraveSiteId('GS002'));
+        $personInChargeId = new NaturalPersonId('NP008');
+        $funeralCompanyId = new FuneralCompanyId('FC002');
+        $buriedAt         = new \DateTimeImmutable('2010-01-28 12:55:00');
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
-            ->setBurialPlaceOwnerId($burialPlaceOwnerId)
+            ->setPersonInChargeId($personInChargeId)
             ->setFuneralCompanyId($funeralCompanyId)
             ->setBuriedAt($buriedAt);
     }
