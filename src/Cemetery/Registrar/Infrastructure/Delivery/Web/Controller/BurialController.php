@@ -139,7 +139,7 @@ class BurialController extends AbstractController
                 (int) $request->request->get('deceasedAge')
                 : null,
             $request->request->get('deceasedDeathCertificateId'),
-            $request->request->get('deceasedCauseOfDeath'),
+            $request->request->get('deceasedCauseOfDeathId'),
             $request->request->get('customerId'),
             $request->request->get('customerType'),
             $request->request->get('customerNaturalPersonFullName'),
@@ -202,7 +202,6 @@ class BurialController extends AbstractController
             $request->request->get('personInChargePassportIssuedBy'),
             $request->request->get('personInChargePassportDivisionCode'),
             $request->request->get('funeralCompanyId'),
-            $request->request->get('funeralCompanyName'),
             $request->request->get('burialChainId'),
             $request->request->get('burialPlaceId'),
             $request->request->get('burialPlaceType'),
