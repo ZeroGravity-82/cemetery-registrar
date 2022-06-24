@@ -17,7 +17,7 @@
       {{- listItem.burialPlaceColumbariumNicheRowInColumbarium is empty ? '' : ', ряд '~listItem.burialPlaceColumbariumNicheRowInColumbarium -}}
       {{- listItem.burialPlaceColumbariumNicheNumber           is empty ? '' : ', ниша '~listItem.burialPlaceColumbariumNicheNumber -}}
     {% elseif listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\Model\\BurialPlace\\MemorialTree\\MemorialTree::CLASS_SHORTCUT') %}
-      {{- listItem.burialPlaceMemorialTreeNumber is empty ? '' : 'сосна '~listItem.burialPlaceMemorialTreeNumber -}}
+      {{- listItem.burialPlaceMemorialTreeNumber is empty ? '' : 'памятное дерево '~listItem.burialPlaceMemorialTreeNumber -}}
     {% endif %}
   </td>
   <td>
