@@ -1,26 +1,26 @@
 <div class="js-natural-person-subform d-none">
   <div class="row">
-    <div class="col-md-3"><label for="{{- context -}}NaturalPersonFullName" class="form-label">Ф.И.О.</label></div>
-    <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="{{- context -}}NaturalPersonFullName" name="{{- context -}}NaturalPersonFullName"></div>
+    <div class="col-md-3"><label for="{{- context -}}FullName" class="form-label">Ф.И.О.</label></div>
+    <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="{{- context -}}FullName" name="{{- context -}}FullName"></div>
   </div>
   <div class="row">
-    <div class="col-md-3"><label for="{{- context -}}NaturalPersonPhone" class="form-label">Телефон</label></div>
-    <div class="col-md-9"><input type="tel" class="form-control form-control-sm" id="{{- context -}}NaturalPersonPhone" name="{{- context -}}NaturalPersonPhone"></div>
+    <div class="col-md-3"><label for="{{- context -}}Phone" class="form-label">Телефон</label></div>
+    <div class="col-md-9"><input type="tel" class="form-control form-control-sm" id="{{- context -}}Phone" name="{{- context -}}Phone"></div>
   </div>
   <div class="row">
-    <div class="col-md-3"><label for="{{- context -}}NaturalPersonPhoneAdditional" class="form-label">Доп. телефон</label></div>
-    <div class="col-md-9"><input type="tel" class="form-control form-control-sm" id="{{- context -}}NaturalPersonPhoneAdditional" name="{{- context -}}NaturalPersonPhoneAdditional"></div>
+    <div class="col-md-3"><label for="{{- context -}}PhoneAdditional" class="form-label">Доп. телефон</label></div>
+    <div class="col-md-9"><input type="tel" class="form-control form-control-sm" id="{{- context -}}PhoneAdditional" name="{{- context -}}PhoneAdditional"></div>
   </div>
   <div class="row">
-    <div class="col-md-3"><label for="{{- context -}}NaturalPersonAddress" class="form-label">Адрес</label></div>
-    <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="{{- context -}}NaturalPersonAddress" name="{{- context -}}NaturalPersonAddress"></div>
+    <div class="col-md-3"><label for="{{- context -}}Address" class="form-label">Адрес</label></div>
+    <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="{{- context -}}Address" name="{{- context -}}Address"></div>
   </div>
   <p class="mt-1 mb-1">
-    <a class="fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#{{- context -}}NaturalPersonPassport" aria-expanded="false" aria-controls="{{- context -}}NaturalPersonPassport">
+    <a class="fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#{{- context -}}Passport" aria-expanded="false" aria-controls="{{- context -}}Passport">
       Паспортные данные
     </a>
   </p>
-  <div class="collapse" id="{{- context -}}NaturalPersonPassport">
+  <div class="collapse" id="{{- context -}}Passport">
     {% include 'natural_person/_passport_subform.html.twig' with {'context': context} %}
   </div>
 </div>

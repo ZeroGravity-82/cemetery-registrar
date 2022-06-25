@@ -1,24 +1,30 @@
-<div class="modal fade" id="createBurialModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="createBurialModalLabel" aria-hidden="true">
+<div class="modal fade" id="registerBurialModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="registerBurialModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="createBurialModalLabel">Создание захоронения</h5>
+        <h5 class="modal-title" id="registerBurialModalLabel">Создание захоронения</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
       </div>
-      <div class="modal-body">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <div class="modal-body pt-2">
+        <ul class="nav nav-tabs" id="modalBurialMainTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Основная</button>
+            <button class="nav-link active" id="modal-burial-home-tab" data-bs-toggle="tab" data-bs-target="#modal-burial-home-content" type="button" role="tab" aria-controls="modal-burial-home-content" aria-selected="true">
+              <span>Основная</span>
+            </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link disabled" id="geo-position-tab" data-bs-toggle="tab" data-bs-target="#geo-position" type="button" role="tab" tabindex="-1" aria-controls="geo-position" aria-selected="false">Геопозиция</button>
+            <button class="nav-link disabled" id="modal-burial-geo-position-tab" data-bs-toggle="tab" data-bs-target="#modal-burial-geo-position-content" type="button" role="tab" tabindex="-1" aria-controls="modal-burial-geo-position-content" aria-selected="false">
+              <span>Геопозиция</span>
+            </button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link disabled" id="reminders-tab" data-bs-toggle="tab" data-bs-target="#reminders" type="button" role="tab" tabindex="-1" aria-controls="reminders" aria-selected="false">Напоминания</button>
+            <button class="nav-link disabled" id="modal-burial-reminders-tab" data-bs-toggle="tab" data-bs-target="#modal-burial-reminders-content" type="button" role="tab" tabindex="-1" aria-controls="modal-burial-reminders-content" aria-selected="false">
+              <span>Напоминания</span>
+            </button>
           </li>
         </ul>
-        <form class="tab-content" id="createBurialTabContent" action="{{ path('burial_new') }}" method="post" name="create-burial">
-          <div class="container tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <form class="tab-content" id="modalBurialMainTabContent" action="{{ path('burial_new') }}" method="post" name="register-burial">
+          <div class="container tab-pane fade show active" id="modal-burial-home-content" role="tabpanel" aria-labelledby="modal-burial-home-tab">
             <div class="row">
               <div class="col-md-6 px-0 card">
                 <div class="card-body pb-0">
@@ -27,12 +33,33 @@
                 </div>
               </div>
               <div class="col-md-6 px-0 card">
-                <div class="card-body pb-0">
-                  <h5 class="card-title text-success">Заказчик</h5>
-                  {% include 'burial/_customer_type_selector.html.twig' %}
-                  {% include 'natural_person/_subform.html.twig' with {'context': 'customer'} %}
-                  {% include 'organization/juristic_person/_subform.html.twig' with {'context': 'customer'} %}
-                  {% include 'organization/sole_proprietor/_subform.html.twig' with {'context': 'customer'} %}
+                <ul class="nav nav-tabs pt-2 me-3" id="modalBurialCustomerTab" role="tablist">
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link py-1 active" id="modal-burial-customer-tab" data-bs-toggle="tab" data-bs-target="#modal-burial-customer-content" type="button" role="tab" aria-controls="modal-burial-customer-content" aria-selected="true">
+                      <span class="fs-5 text-success modal-burial-customer-tab-header">Заказчик</span>
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button class="nav-link py-1" id="modal-burial-person-in-charge-tab" data-bs-toggle="tab" data-bs-target="#modal-burial-person-in-charge-content" type="button" role="tab" tabindex="-1" aria-controls="modal-burial-person-in-charge-content" aria-selected="false">
+                      <span class="fs-5 text-success modal-burial-customer-tab-header">Ответственный</span>
+                    </button>
+                  </li>
+                </ul>
+                <div class="tab-content me-3" id="modalBurialCustomerTabContent">
+                  <div class="tab-pane fade show active" id="modal-burial-customer-content" role="tabpanel" aria-labelledby="modal-burial-customer-tab">
+                    <div class="container px-3 pt-2">
+                      {% include 'burial/_customer_type_selector.html.twig' %}
+                      {% include 'natural_person/_subform.html.twig' with {'context': 'customerNaturalPerson'} %}
+                      {% include 'organization/juristic_person/_subform.html.twig' with {'context': 'customerJuristicPerson'} %}
+                      {% include 'organization/sole_proprietor/_subform.html.twig' with {'context': 'customerSoleProprietor'} %}
+                    </div>
+                  </div>
+                  <div class="tab-pane fade" id="modal-burial-person-in-charge-content" role="tabpanel" aria-labelledby="modal-burial-person-in-charge-tab">
+                    <div class="container px-3 pt-2">
+{#                      {% include 'burial/_customer_type_selector.html.twig' %}#}
+                      {% include 'natural_person/_subform.html.twig' with {'context': 'personInCharge'} %}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -95,8 +122,8 @@
               </div>
             </div>
           </div>
-          <div class="containertab-pane fade d-none" id="geo-position" role="tabpanel" aria-labelledby="geo-position-tab">...</div>
-          <div class="containertab-pane fade d-none" id="reminders" role="tabpanel" aria-labelledby="reminders-tab">...</div>
+          <div class="container tab-pane fade d-none" id="modal-burial-geo-position-content" role="tabpanel" aria-labelledby="modal-burial-geo-position-tab">...</div>
+          <div class="container tab-pane fade d-none" id="modal-burial-reminders-content" role="tabpanel" aria-labelledby="modal-burial-reminders-tab">...</div>
 
           <div class="container">
             <div class="row pt-3 text-end">
