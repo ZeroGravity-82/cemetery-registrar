@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\Query\Organization\CountOrganizationTotal\Cou
 use Cemetery\Registrar\Application\Query\Organization\CountOrganizationTotal\CountOrganizationTotalService;
 use Cemetery\Registrar\Application\Query\Organization\ListOrganizations\ListOrganizationsRequest;
 use Cemetery\Registrar\Application\Query\Organization\ListOrganizations\ListOrganizationsService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 #[Route('/admin/organization')]
-class AdminOrganizationController extends AbstractController
+class AdminOrganizationController extends Controller
 {
     /**
      * @param CountOrganizationTotalService $countOrganizationTotalService

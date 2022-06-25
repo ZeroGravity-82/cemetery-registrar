@@ -24,7 +24,7 @@ use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\CountMemorialT
 use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\CountMemorialTreeTotal\CountMemorialTreeTotalService;
 use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\ListMemorialTrees\ListMemorialTreesRequest;
 use Cemetery\Registrar\Application\Query\BurialPlace\MemorialTree\ListMemorialTrees\ListMemorialTreesService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -32,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 #[Route('/admin/burial-place')]
-class AdminBurialPlaceController extends AbstractController
+class AdminBurialPlaceController extends Controller
 {
     /**
      * @param CountCemeteryBlockTotalService    $countCemeteryBlockTotalService

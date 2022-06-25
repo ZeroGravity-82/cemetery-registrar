@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\Query\FuneralCompany\CountFuneralCompanyTotal
 use Cemetery\Registrar\Application\Query\FuneralCompany\CountFuneralCompanyTotal\CountFuneralCompanyTotalService;
 use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\ListFuneralCompaniesRequest;
 use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\ListFuneralCompaniesService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 #[Route('/admin/funeral-company')]
-class AdminFuneralCompanyController extends AbstractController
+class AdminFuneralCompanyController extends Controller
 {
     /**
      * @param CountFuneralCompanyTotalService $countFuneralCompanyTotalService

@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\Cou
 use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\CountCauseOfDeathTotalService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 #[Route('/admin/cause-of-death')]
-class AdminCauseOfDeathController extends AbstractController
+class AdminCauseOfDeathController extends Controller
 {
     /**
      * @param CountCauseOfDeathTotalService $countCauseOfDeathTotalService
