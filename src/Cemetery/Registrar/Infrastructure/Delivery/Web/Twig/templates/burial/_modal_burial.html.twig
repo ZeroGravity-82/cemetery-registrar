@@ -56,8 +56,15 @@
                   </div>
                   <div class="tab-pane fade" id="modal-burial-person-in-charge-content" role="tabpanel" aria-labelledby="modal-burial-person-in-charge-tab">
                     <div class="container px-3 pt-2">
-{#                      {% include 'burial/_customer_type_selector.html.twig' %}#}
-                      {% include 'natural_person/_subform.html.twig' with {'context': 'personInCharge'} %}
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="form-check">
+                            <label class="form-check-label" for="personInChargeIsSameAsCustomer">Совпадает с заказчиком</label>
+                            <input class="form-check-input" type="checkbox" value="true" id="personInChargeIsSameAsCustomer" name="personInChargeIsSameAsCustomer">
+                          </div>
+                        </div>
+                        {% include 'natural_person/_subform.html.twig' with {'context': 'personInCharge'} %}
+                      </div>
                     </div>
                   </div>
                 </div>
