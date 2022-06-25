@@ -9,6 +9,7 @@ const $customerSoleProprietorSubform          = $(`#customerSoleProprietorSubfor
 const $personInChargeIsSameAsCustomerCheckbox = $(`#personInChargeIsSameAsCustomer`);
 const $personInChargeSubform                  = $(`#personInChargeSubform`);
 
+//----------------------------------------------------------------------------------------------customer type selector
 // Initialize customer type selector
 if ($customerTypeSelector.is(`:checked`) === false) {
     $customerTypeSelector.filter(`[value=${naturalPersonTypeValue}]`).prop(`checked`, true);
@@ -43,6 +44,7 @@ $customerTypeSelector.on(`change`, function (event) {
     updatePersonInChargeSubform(customerTypeSelectorValue);
 });
 
+// --------------------------------------------------------------------------------"the same as the customer" checkbox
 // Initialize "the same as the customer" checkbox for person in charge sub-form
 $personInChargeIsSameAsCustomerCheckbox.prop(`checked`, true);
 
@@ -71,11 +73,12 @@ function updatePersonInChargeSubform(customerTypeSelectorValue) {
                 $personInChargeIsSameAsCustomerCheckbox.prop(`checked`, false);
             }
             $personInChargeIsSameAsCustomerCheckbox.prop(`disabled`, true);
+            $personInChargeSubform.removeClass(`d-none`);
             break;
     }
 }
 
-// Utilities
+// --------------------------------------------------------------------------------------------------------- Utilities
 function resetSubform($subform)
 {
     $subform.find(`input`).val(null);
