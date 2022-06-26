@@ -25,6 +25,7 @@
         </ul>
         <form class="tab-content" id="modalBurialMainTabContent" action="{{ path('burial_new') }}" method="post" name="register-burial">
           <div class="container tab-pane fade show active" id="modal-burial-home-content" role="tabpanel" aria-labelledby="modal-burial-home-tab">
+            {% include 'burial/_burial_type_selector.html.twig' %}
             <div class="row">
               <div class="col-md-6 px-0 card">
                 <div class="card-body pb-0">

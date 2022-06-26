@@ -1,0 +1,53 @@
+<div class="row pb-3">
+  <div class="col-12"
+       id="burialTypeSelectorWrapper"
+       data-coffin-in-grave-site-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::COFFIN_IN_GRAVE_SITE') -}}"
+       data-urn-in-grave-site-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_GRAVE_SITE') -}}"
+       data-urn-in-columbarium-niche-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_COLUMBARIUM_NICHE') -}}"
+       data-ashes-under-memorial-tree-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::ASHES_UNDER_MEMORIAL_TREE') -}}">
+    <div class="form-check form-check-inline">
+      <input id="burialTypeCoffinInGraveSite"
+             type="radio"
+             class="form-check-input"
+             name="burialType"
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::COFFIN_IN_GRAVE_SITE') -}}">
+      <label class="form-check-label"
+             for="burialTypeCoffinInGraveSite">
+        гробом в могилу
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input id="burialTypeUrnInGraveSite"
+             type="radio"
+             class="form-check-input"
+             name="burialType"
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_GRAVE_SITE') -}}">
+      <label class="form-check-label"
+             for="burialTypeUrnInGraveSite">
+        урной в могилу
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input id="burialTypeUrnInColumbariumNiche"
+             type="radio"
+             class="form-check-input"
+             name="burialType"
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_COLUMBARIUM_NICHE') -}}">
+      <label class="form-check-label"
+             for="burialTypeUrnInColumbariumNiche">
+        урной в колумбарную нишу
+      </label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input id="burialTypeAshesUnderMemorialTree"
+             type="radio"
+             class="form-check-input"
+             name="burialType"
+             value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::ASHES_UNDER_MEMORIAL_TREE') -}}">
+      <label class="form-check-label"
+             for="burialTypeAshesUnderMemorialTree">
+        прахом под деревом
+      </label>
+    </div>
+  </div>
+</div>
