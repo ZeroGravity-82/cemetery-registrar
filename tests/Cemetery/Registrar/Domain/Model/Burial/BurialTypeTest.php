@@ -21,6 +21,22 @@ class BurialTypeTest extends TestCase
     private const ASHES_UNDER_MEMORIAL_TREE_VALUE = 'ASHES_UNDER_MEMORIAL_TREE';
     private const ASHES_UNDER_MEMORIAL_TREE_LABEL = 'прахом под деревом';
 
+    public function testItHasValidValueConstants(): void
+    {
+        $this->assertSame(self::COFFIN_IN_GRAVE_SITE_VALUE,      BurialType::COFFIN_IN_GRAVE_SITE);
+        $this->assertSame(self::URN_IN_GRAVE_SITE_VALUE,         BurialType::URN_IN_GRAVE_SITE);
+        $this->assertSame(self::URN_IN_COLUMBARIUM_NICHE_VALUE,  BurialType::URN_IN_COLUMBARIUM_NICHE);
+        $this->assertSame(self::ASHES_UNDER_MEMORIAL_TREE_VALUE, BurialType::ASHES_UNDER_MEMORIAL_TREE);
+    }
+
+    public function testItHasValidLabelsConstant(): void
+    {
+        $this->assertSame(self::COFFIN_IN_GRAVE_SITE_LABEL,      BurialType::LABELS[self::COFFIN_IN_GRAVE_SITE_VALUE]);
+        $this->assertSame(self::URN_IN_GRAVE_SITE_LABEL,         BurialType::LABELS[self::URN_IN_GRAVE_SITE_VALUE]);
+        $this->assertSame(self::URN_IN_COLUMBARIUM_NICHE_LABEL,  BurialType::LABELS[self::URN_IN_COLUMBARIUM_NICHE_VALUE]);
+        $this->assertSame(self::ASHES_UNDER_MEMORIAL_TREE_LABEL, BurialType::LABELS[self::ASHES_UNDER_MEMORIAL_TREE_VALUE]);
+    }
+
     public function testItSuccessfullyCreated(): void
     {
         $burialType = new BurialType(BurialType::COFFIN_IN_GRAVE_SITE);
