@@ -21,7 +21,7 @@ class CoffinShapeFetcherTest extends TestCase
         $this->assertInstanceOf(CoffinShapeList::class, $list);
         $this->assertIsArray($list->listItems);
         $this->assertContainsOnlyInstancesOf(CoffinShapeListItem::class, $list->listItems);
-        $this->assertCount(4,              $list->listItems);
+        $this->assertCount(4, $list->listItems);
         $this->assertListItemEqualsTrapezoid($list->listItems[0]);
         $this->assertListItemEqualsGreekWithHandles($list->listItems[1]);
         $this->assertListItemEqualsGreekWithoutHandles($list->listItems[2]);
