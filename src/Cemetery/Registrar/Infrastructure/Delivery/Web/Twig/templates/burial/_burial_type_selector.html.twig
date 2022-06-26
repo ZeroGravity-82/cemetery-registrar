@@ -1,5 +1,5 @@
-<div class="row pb-3">
-  <div class="col-12"
+<div class="row pt-2">
+  <div class="col-12 ps-3"
        id="burialTypeSelectorWrapper"
        data-coffin-in-grave-site-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::COFFIN_IN_GRAVE_SITE') -}}"
        data-urn-in-grave-site-value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_GRAVE_SITE') -}}"
@@ -13,7 +13,7 @@
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::COFFIN_IN_GRAVE_SITE') -}}">
       <label class="form-check-label"
              for="burialTypeCoffinInGraveSite">
-        гробом в могилу
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::LABELS')[constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::COFFIN_IN_GRAVE_SITE')]|ucfirst -}}
       </label>
     </div>
     <div class="form-check form-check-inline">
@@ -24,7 +24,7 @@
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_GRAVE_SITE') -}}">
       <label class="form-check-label"
              for="burialTypeUrnInGraveSite">
-        урной в могилу
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::LABELS')[constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_GRAVE_SITE')]|ucfirst -}}
       </label>
     </div>
     <div class="form-check form-check-inline">
@@ -35,7 +35,7 @@
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_COLUMBARIUM_NICHE') -}}">
       <label class="form-check-label"
              for="burialTypeUrnInColumbariumNiche">
-        урной в колумбарную нишу
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::LABELS')[constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_COLUMBARIUM_NICHE')]|ucfirst -}}
       </label>
     </div>
     <div class="form-check form-check-inline">
@@ -46,7 +46,7 @@
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::ASHES_UNDER_MEMORIAL_TREE') -}}">
       <label class="form-check-label"
              for="burialTypeAshesUnderMemorialTree">
-        прахом под деревом
+        {{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::LABELS')[constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::ASHES_UNDER_MEMORIAL_TREE')]|ucfirst -}}
       </label>
     </div>
   </div>
