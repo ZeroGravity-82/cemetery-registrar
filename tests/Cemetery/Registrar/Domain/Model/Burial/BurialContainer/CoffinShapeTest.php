@@ -29,7 +29,7 @@ class CoffinShapeTest extends TestCase
         $this->assertSame(self::AMERICAN_VALUE,              CoffinShape::AMERICAN);
     }
 
-    public function testItHasValidLabelConstants(): void
+    public function testItHasValidLabelsConstant(): void
     {
         $this->assertSame(self::TRAPEZOID_LABEL,             CoffinShape::LABELS[self::TRAPEZOID_VALUE]);
         $this->assertSame(self::GREEK_WITH_HANDLES_LABEL,    CoffinShape::LABELS[self::GREEK_WITH_HANDLES_VALUE]);
