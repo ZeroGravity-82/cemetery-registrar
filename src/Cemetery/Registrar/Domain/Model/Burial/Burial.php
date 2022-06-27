@@ -121,6 +121,9 @@ class Burial extends AggregateRoot
      */
     public function setType(BurialType $type): self
     {
+        if ($this->type !== $type) {
+            $this->setBurialContainer(null);
+        }
         $this->type = $type;
 
         return $this;

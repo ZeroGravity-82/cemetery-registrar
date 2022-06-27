@@ -390,6 +390,44 @@ class BurialTest extends AggregateRootTest
         $this->burial->setBurialContainer($burialContainer);
     }
 
+    public function testItDiscardsBurialContainerAfterChangingBurialTypeA(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $this->burial->setBurialContainer(
+            new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::greekWithHandles(), false))
+        );
+        $this->assertNotNull($this->burial->burialContainer());
+
+        // Testing itself
+        $this->burial->setType(BurialType::urnInGraveSite());
+        $this->assertNull($this->burial->burialContainer());
+    }
+
+    public function testItDiscardsBurialContainerAfterChangingBurialTypeB(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::urnInGraveSite());
+        $this->burial->setBurialContainer(new BurialContainer(new Urn));
+        $this->assertNotNull($this->burial->burialContainer());
+
+        // Testing itself
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
+        $this->assertNull($this->burial->burialContainer());
+    }
+
+    public function testItDiscardsBurialContainerAfterChangingBurialTypeC(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
+        $this->burial->setBurialContainer(new BurialContainer(new Urn));
+        $this->assertNotNull($this->burial->burialContainer());
+
+        // Testing itself
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $this->assertNull($this->burial->burialContainer());
+    }
+
     private function expectExceptionForBurialPlaceNotMatchingTheBurialType(
         string $burialPlace,
         string $burialType,
