@@ -282,14 +282,14 @@ class Burial extends AggregateRoot
     private function assertBurialPlaceMatchesBurialType(?BurialPlaceId $burialPlaceId): void
     {
         $id      = $burialPlaceId?->id();
-        $matches = match (true) {
+        $isMatch = match (true) {
             $this->type()->isCoffinInGraveSite(),
             $this->type()->isUrnInGraveSite()         => $id === null || $id instanceof GraveSiteId,
             $this->type()->isUrnInColumbariumNiche()  => $id === null || $id instanceof ColumbariumNicheId,
             $this->type()->isAshesUnderMemorialTree() => $id === null || $id instanceof MemorialTreeId,
             default => false,
         };
-        if (!$matches) {
+        if (!$isMatch) {
             throw new \RuntimeException(\sprintf(
                 'Место захоронения "%s" не соответствует типу захороненния "%s".',
                 $this->getBurialPlaceLabel($burialPlaceId),
@@ -308,14 +308,14 @@ class Burial extends AggregateRoot
     private function assertBurialContainerMatchesBurialType(?BurialContainer $burialContainer): void
     {
         $container = $burialContainer?->container();
-        $matches   = match (true) {
+        $isMatch   = match (true) {
             $this->type()->isCoffinInGraveSite()      => $container === null || $container instanceof Coffin,
             $this->type()->isUrnInGraveSite(),
             $this->type()->isUrnInColumbariumNiche()  => $container === null || $container instanceof Urn,
             $this->type()->isAshesUnderMemorialTree() => $container === null,
             default => false,
         };
-        if (!$matches) {
+        if (!$isMatch) {
             throw new \RuntimeException(\sprintf(
                 'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
                 $container::CLASS_LABEL,
