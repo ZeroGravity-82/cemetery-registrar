@@ -199,7 +199,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::coffinInGraveSite());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
         );
@@ -214,7 +214,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::coffinInGraveSite());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
         );
@@ -229,7 +229,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::urnInGraveSite());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
         );
@@ -244,7 +244,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::urnInGraveSite());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
         );
@@ -259,7 +259,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::urnInColumbariumNiche());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_GRAVE_SITE_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
         );
@@ -274,7 +274,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::urnInColumbariumNiche());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
         );
@@ -289,7 +289,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_GRAVE_SITE_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
@@ -304,7 +304,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         // Testing itself
-        $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
+        $this->expectExceptionForBurialPlaceNotMatchingBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
@@ -357,7 +357,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::urnInGraveSite());
 
         // Testing itself
-        $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
+        $this->expectExceptionForBurialContainerNotMatchingBurialType(
             Coffin::CLASS_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
         );
@@ -372,7 +372,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::urnInColumbariumNiche());
 
         // Testing itself
-        $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
+        $this->expectExceptionForBurialContainerNotMatchingBurialType(
             Coffin::CLASS_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
         );
@@ -387,7 +387,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         // Testing itself
-        $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
+        $this->expectExceptionForBurialContainerNotMatchingBurialType(
             Coffin::CLASS_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
@@ -402,7 +402,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::coffinInGraveSite());
 
         // Testing itself
-        $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
+        $this->expectExceptionForBurialContainerNotMatchingBurialType(
             Urn::CLASS_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
         );
@@ -417,7 +417,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
         // Testing itself
-        $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
+        $this->expectExceptionForBurialContainerNotMatchingBurialType(
             Urn::CLASS_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
@@ -505,7 +505,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setFuneralCompanyId($funeralCompanyId);
     }
 
-    private function expectExceptionForBurialPlaceNotMatchingTheBurialType(
+    private function expectExceptionForBurialPlaceNotMatchingBurialType(
         string $burialPlace,
         string $burialType,
     ): void {
@@ -517,7 +517,7 @@ class BurialTest extends AggregateRootTest
         ));
     }
 
-    private function expectExceptionForBurialContainerNotMatchingTheBurialType(
+    private function expectExceptionForBurialContainerNotMatchingBurialType(
         string $burialContainer,
         string $burialType,
     ): void {
