@@ -195,8 +195,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingColumbariumNicheForCoffinInGraveSiteBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::coffinInGraveSite());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
@@ -208,8 +210,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingMemorialTreeForCoffinInGraveSiteBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::coffinInGraveSite());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
@@ -221,8 +225,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingColumbariumNicheForUrnInGraveSiteBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::urnInGraveSite());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
@@ -234,8 +240,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingMemorialTreeForUrnInGraveSiteBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::urnInGraveSite());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
@@ -247,8 +255,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingGraveSiteForUrnInColumbariumNicheBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::urnInColumbariumNiche());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_GRAVE_SITE_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
@@ -260,8 +270,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingMemorialTreeForUrnInColumbariumNicheBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::urnInColumbariumNiche());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_MEMORIAL_TREE_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
@@ -273,8 +285,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingGraveSiteForAshesUnderMemorialTreeBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_GRAVE_SITE_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
@@ -286,8 +300,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingColumbariumNicheForAshesUnderMemorialTreeBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
+        // Testing itself
         $this->expectExceptionForBurialPlaceNotMatchingTheBurialType(
             self::BURIAL_PLACE_COLUMBARIUM_NICHE_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
@@ -301,8 +317,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingCoffinForUrnInGraveSiteBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::urnInGraveSite());
 
+        // Testing itself
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
             Coffin::CLASS_LABEL,
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
@@ -314,8 +332,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingCoffinForUrnInColumbariumNicheBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::urnInColumbariumNiche());
 
+        // Testing itself
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
             Coffin::CLASS_LABEL,
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
@@ -327,8 +347,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingCoffinForAshesUnderMemorialTreeBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
+        // Testing itself
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
             Coffin::CLASS_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
@@ -340,8 +362,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingUrnForCoffinInGraveSiteBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::coffinInGraveSite());
 
+        // Testing itself
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
             Urn::CLASS_LABEL,
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
@@ -353,8 +377,10 @@ class BurialTest extends AggregateRootTest
 
     public function testItFailsWhenSettingUrnForAshesUnderMemorialTreeBurialType(): void
     {
+        // Prepare entity for testing
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
 
+        // Testing itself
         $this->expectExceptionForBurialContainerNotMatchingTheBurialType(
             Urn::CLASS_LABEL,
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
