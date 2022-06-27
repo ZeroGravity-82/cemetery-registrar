@@ -737,7 +737,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $view->personInChargePassportIssuedAt);
         $this->assertSame(null,                                          $view->personInChargePassportIssuedBy);
         $this->assertSame(null,                                          $view->personInChargePassportDivisionCode);
-        $this->assertSame('FC001',                                       $view->funeralCompanyId);
+        $this->assertSame(null,                                          $view->funeralCompanyId);
         $this->assertSame(null,                                          $view->burialChainId);
         $this->assertSame('MT002',                                       $view->burialPlaceId);
         $this->assertSame(MemorialTree::CLASS_SHORTCUT,                  $view->burialPlaceType);
@@ -1169,7 +1169,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                          $view->personInChargePassportIssuedAt);
         $this->assertSame(null,                                          $view->personInChargePassportIssuedBy);
         $this->assertSame(null,                                          $view->personInChargePassportDivisionCode);
-        $this->assertSame(null,                                          $view->funeralCompanyId);
+        $this->assertSame('FC001',                                       $view->funeralCompanyId);
         $this->assertSame(null,                                          $view->burialChainId);
         $this->assertSame('GS005',                                       $view->burialPlaceId);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $view->burialPlaceType);

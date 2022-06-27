@@ -71,13 +71,11 @@ class BurialProvider
         $customerId       = new CustomerId(new NaturalPersonId('NP006'));
         $burialPlaceId    = new BurialPlaceId(new MemorialTreeId('MT002'));
         $personInChargeId = new NaturalPersonId('NP006');
-        $funeralCompanyId = new FuneralCompanyId('FC001');
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
             ->setBurialPlaceId($burialPlaceId)
-            ->setPersonInChargeId($personInChargeId)
-            ->setFuneralCompanyId($funeralCompanyId);
+            ->setPersonInChargeId($personInChargeId);
     }
 
     public static function getBurialD(): Burial
@@ -132,13 +130,15 @@ class BurialProvider
 
     public static function getBurialG(): Burial
     {
-        $id              = new BurialId('B007');
-        $burialCode      = new BurialCode('1');
-        $burialType      = BurialType::coffinInGraveSite();
-        $deceasedId      = new DeceasedId('D007');
-        $burialPlaceId   = new BurialPlaceId(new GraveSiteId('GS005'));
+        $id               = new BurialId('B007');
+        $burialCode       = new BurialCode('1');
+        $burialType       = BurialType::coffinInGraveSite();
+        $deceasedId       = new DeceasedId('D007');
+        $burialPlaceId    = new BurialPlaceId(new GraveSiteId('GS005'));
+        $funeralCompanyId = new FuneralCompanyId('FC001');
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
-            ->setBurialPlaceId($burialPlaceId);
+            ->setBurialPlaceId($burialPlaceId)
+            ->setFuneralCompanyId($funeralCompanyId);
     }
 }

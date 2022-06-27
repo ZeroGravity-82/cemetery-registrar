@@ -29,6 +29,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     private Burial $entityD;
     private Burial $entityE;
     private Burial $entityF;
+    private Burial $entityG;
 
     public function setUp(): void
     {
@@ -41,6 +42,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
         $this->entityD = BurialProvider::getBurialD();
         $this->entityE = BurialProvider::getBurialE();
         $this->entityF = BurialProvider::getBurialF();
+        $this->entityG = BurialProvider::getBurialG();
     }
 
     public function testItReturnsSupportedAggregateRootClassName(): void
@@ -62,10 +64,10 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new BurialCollection(
-            [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF]
+            [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
         ));
         $this->entityManager->clear();
-        $this->assertSame(6, $this->getRowCount(Burial::class));
+        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $knownFuneralCompanyId = new FuneralCompanyId('FC001');
@@ -86,11 +88,11 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
         // Prepare the repo for testing
         $this->repo->saveAll(
             new BurialCollection(
-                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF]
+                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
             )
         );
         $this->entityManager->clear();
-        $this->assertSame(6, $this->getRowCount(Burial::class));
+        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $persistedEntityF  = $this->repo->findById($this->entityF->id());
@@ -106,10 +108,10 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new BurialCollection(
-            [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF]
+            [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
         ));
         $this->entityManager->clear();
-        $this->assertSame(6, $this->getRowCount(Burial::class));
+        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $knownCustomerId = new CustomerId(new NaturalPersonId('NP005'));
@@ -126,11 +128,11 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
         // Prepare the repo for testing
         $this->repo->saveAll(
             new BurialCollection(
-                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF]
+                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
             )
         );
         $this->entityManager->clear();
-        $this->assertSame(6, $this->getRowCount(Burial::class));
+        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $persistedEntityB = $this->repo->findById($this->entityB->id());
