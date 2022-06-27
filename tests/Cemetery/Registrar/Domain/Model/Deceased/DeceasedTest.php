@@ -6,6 +6,7 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Deceased;
 
 use Cemetery\Registrar\Domain\Model\Deceased\Age;
 use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\Deceased\CremationCertificateId;
 use Cemetery\Registrar\Domain\Model\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
 use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
@@ -39,6 +40,7 @@ class DeceasedTest extends AggregateRootTest
         $this->assertNull($this->deceased->age());
         $this->assertNull($this->deceased->deathCertificateId());
         $this->assertNull($this->deceased->causeOfDeathId());
+        $this->assertNull($this->deceased->cremationCertificateId());
     }
 
     public function testItSetsNaturalPersonId(): void
@@ -88,5 +90,16 @@ class DeceasedTest extends AggregateRootTest
 
         $this->deceased->setCauseOfDeathId(null);
         $this->assertNull($this->deceased->causeOfDeathId());
+    }
+
+    public function testItSetsCremationCertificateId(): void
+    {
+        $cremationCertificateId = new CremationCertificateId('CC001');
+        $this->deceased->setCremationCertificateId($cremationCertificateId);
+        $this->assertInstanceOf(CremationCertificateId::class, $this->deceased->cremationCertificateId());
+        $this->assertTrue($this->deceased->cremationCertificateId()->isEqual($cremationCertificateId));
+
+        $this->deceased->setCremationCertificateId(null);
+        $this->assertNull($this->deceased->cremationCertificateId());
     }
 }

@@ -37,6 +37,7 @@ doctrine:
             website:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType
             # Deceased
             age:                        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\AgeType
+            cremation_certificate_id:   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CremationCertificateIdType
             death_certificate_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
             deceased_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
             # Deceased/CauseOfDeath

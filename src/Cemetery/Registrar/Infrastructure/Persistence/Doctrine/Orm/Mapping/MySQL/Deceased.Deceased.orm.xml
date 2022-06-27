@@ -4,14 +4,15 @@
         <id name="id" column="id" type="deceased_id">
         </id>
 
-        <field name="naturalPersonId"    column="natural_person_id"    type="natural_person_id"                    />
-        <field name="diedAt"             column="died_at"              type="date_immutable"                       />
-        <field name="age"                column="age"                  type="age"                  nullable="true" />
-        <field name="deathCertificateId" column="death_certificate_id" type="death_certificate_id" nullable="true" />
-        <field name="causeOfDeathId"     column="cause_of_death_id"    type="cause_of_death_id"    nullable="true" />
-        <field name="createdAt"          column="created_at"           type="datetime_immutable"                   />
-        <field name="updatedAt"          column="updated_at"           type="datetime_immutable"                   />
-        <field name="removedAt"          column="removed_at"           type="datetime_immutable"   nullable="true" />
+        <field name="naturalPersonId"        column="natural_person_id"        type="natural_person_id"                        />
+        <field name="diedAt"                 column="died_at"                  type="date_immutable"                           />
+        <field name="age"                    column="age"                      type="age"                      nullable="true" />
+        <field name="deathCertificateId"     column="death_certificate_id"     type="death_certificate_id"     nullable="true" />
+        <field name="causeOfDeathId"         column="cause_of_death_id"        type="cause_of_death_id"        nullable="true" />
+        <field name="cremationCertificateId" column="cremation_certificate_id" type="cremation_certificate_id" nullable="true" />
+        <field name="createdAt"              column="created_at"               type="datetime_immutable"                       />
+        <field name="updatedAt"              column="updated_at"               type="datetime_immutable"                       />
+        <field name="removedAt"              column="removed_at"               type="datetime_immutable"       nullable="true" />
     </entity>
 
 </doctrine-mapping>

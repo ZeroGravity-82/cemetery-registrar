@@ -29,6 +29,11 @@ class Deceased extends AggregateRoot
     private ?CauseOfDeathId $causeOfDeathId = null;
 
     /**
+     * @var CremationCertificateId|null
+     */
+    private ?CremationCertificateId $cremationCertificateId = null;
+
+    /**
      * @param DeceasedId         $id
      * @param NaturalPersonId    $naturalPersonId
      * @param \DateTimeImmutable $diedAt
@@ -146,6 +151,26 @@ class Deceased extends AggregateRoot
     public function setCauseOfDeathId(?CauseOfDeathId $causeOfDeathId): self
     {
         $this->causeOfDeathId = $causeOfDeathId;
+
+        return $this;
+    }
+
+    /**
+     * @return CremationCertificateId|null
+     */
+    public function cremationCertificateId(): ?CremationCertificateId
+    {
+        return $this->cremationCertificateId;
+    }
+
+    /**
+     * @param CremationCertificateId|null $cremationCertificateId
+     *
+     * @return $this
+     */
+    public function setCremationCertificateId(?CremationCertificateId $cremationCertificateId): self
+    {
+        $this->cremationCertificateId = $cremationCertificateId;
 
         return $this;
     }
