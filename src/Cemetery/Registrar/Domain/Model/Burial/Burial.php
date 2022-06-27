@@ -123,6 +123,7 @@ class Burial extends AggregateRoot
     {
         if ($this->type !== $type) {
             $this->setBurialPlaceId(null);
+            $this->setFuneralCompanyId(null);
             $this->setBurialContainer(null);
         }
         $this->type = $type;

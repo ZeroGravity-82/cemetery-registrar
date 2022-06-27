@@ -505,6 +505,42 @@ class BurialTest extends AggregateRootTest
         $this->burial->setFuneralCompanyId($funeralCompanyId);
     }
 
+    public function testItDiscardsFuneralCompanyIdAfterChangingBurialTypeA(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $this->burial->setFuneralCompanyId(new FuneralCompanyId('FC001'));
+        $this->assertNotNull($this->burial->funeralCompanyId());
+
+        // Testing itself
+        $this->burial->setType(BurialType::urnInGraveSite());
+        $this->assertNull($this->burial->funeralCompanyId());
+    }
+
+    public function testItDiscardsFuneralCompanyIdAfterChangingBurialTypeB(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $this->burial->setFuneralCompanyId(new FuneralCompanyId('FC001'));
+        $this->assertNotNull($this->burial->funeralCompanyId());
+
+        // Testing itself
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
+        $this->assertNull($this->burial->funeralCompanyId());
+    }
+
+    public function testItDiscardsFuneralCompanyIdAfterChangingBurialTypeC(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $this->burial->setFuneralCompanyId(new FuneralCompanyId('FC001'));
+        $this->assertNotNull($this->burial->funeralCompanyId());
+
+        // Testing itself
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
+        $this->assertNull($this->burial->funeralCompanyId());
+    }
+
     private function expectExceptionForBurialPlaceNotMatchingBurialType(
         string $burialPlace,
         string $burialType,
