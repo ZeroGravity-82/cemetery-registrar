@@ -313,6 +313,42 @@ class BurialTest extends AggregateRootTest
         $this->burial->setBurialPlaceId($burialPlaceId);
     }
 
+    public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeA(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $this->burial->setBurialPlaceId(new BurialPlaceId(new GraveSiteId('GS001')));
+        $this->assertNotNull($this->burial->burialPlaceId());
+
+        // Testing itself
+        $this->burial->setType(BurialType::urnInGraveSite());
+        $this->assertNull($this->burial->burialPlaceId());
+    }
+
+    public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeB(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
+        $this->burial->setBurialPlaceId(new BurialPlaceId(new ColumbariumNicheId('CN001')));
+        $this->assertNotNull($this->burial->burialPlaceId());
+
+        // Testing itself
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
+        $this->assertNull($this->burial->burialPlaceId());
+    }
+
+    public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeC(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
+        $this->burial->setBurialPlaceId(new BurialPlaceId(new MemorialTreeId('MT001')));
+        $this->assertNotNull($this->burial->burialPlaceId());
+
+        // Testing itself
+        $this->burial->setType(BurialType::urnInGraveSite());
+        $this->assertNull($this->burial->burialPlaceId());
+    }
+
     // ------------------------------ "BurialType <-> BurialContainer" invariant testing ------------------------------
 
     public function testItFailsWhenSettingCoffinForUrnInGraveSiteBurialType(): void
