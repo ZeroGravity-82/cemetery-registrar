@@ -464,6 +464,47 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->burialContainer());
     }
 
+    // ------------------------------ "BurialType <-> FuneralCompanyId" invariant testing ------------------------------
+
+    public function testItFailsWhenSettingFuneralCompanyIdForUrnInGraveSiteBurialType(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::urnInGraveSite());
+
+        // Testing itself
+        $this->expectExceptionForFuneralCompanyIdNotNotAllowedForBurialType(
+            self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
+        );
+        $funeralCompanyId = new FuneralCompanyId('FC001');
+        $this->burial->setFuneralCompanyId($funeralCompanyId);
+    }
+
+    public function testItFailsWhenSettingFuneralCompanyIdForUrnInColumbariumNicheBurialType(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::urnInColumbariumNiche());
+
+        // Testing itself
+        $this->expectExceptionForFuneralCompanyIdNotNotAllowedForBurialType(
+            self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
+        );
+        $funeralCompanyId = new FuneralCompanyId('FC001');
+        $this->burial->setFuneralCompanyId($funeralCompanyId);
+    }
+
+    public function testItFailsWhenSettingFuneralCompanyIdForAshesUnderMemorialTreeBurialType(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::ashesUnderMemorialTree());
+
+        // Testing itself
+        $this->expectExceptionForFuneralCompanyIdNotNotAllowedForBurialType(
+            self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
+        );
+        $funeralCompanyId = new FuneralCompanyId('FC001');
+        $this->burial->setFuneralCompanyId($funeralCompanyId);
+    }
+
     private function expectExceptionForBurialPlaceNotMatchingTheBurialType(
         string $burialPlace,
         string $burialType,
@@ -484,6 +525,16 @@ class BurialTest extends AggregateRootTest
         $this->expectExceptionMessage(\sprintf(
             'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
             $burialContainer,
+            $burialType,
+        ));
+    }
+
+    private function expectExceptionForFuneralCompanyIdNotNotAllowedForBurialType(
+        string $burialType,
+    ): void {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Похоронная фирма не может быть задана для типа захороненния "%s".',
             $burialType,
         ));
     }

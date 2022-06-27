@@ -206,6 +206,7 @@ class Burial extends AggregateRoot
      */
     public function setFuneralCompanyId(?FuneralCompanyId $funeralCompanyId): self
     {
+        $this->assertFuneralCompanyAllowedForBurialType($funeralCompanyId);
         $this->funeralCompanyId = $funeralCompanyId;
 
         return $this;
@@ -319,6 +320,30 @@ class Burial extends AggregateRoot
             throw new \RuntimeException(\sprintf(
                 'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
                 $container::CLASS_LABEL,
+                $this->type()->label(),
+            ));
+        }
+    }
+
+    /**
+     * Checks that the funeral company allowed for the burial type.
+     *
+     * @param FuneralCompanyId|null $funeralCompanyId
+     *
+     * @throws \RuntimeException when the funeral company not allowed for the burial type
+     */
+    private function assertFuneralCompanyAllowedForBurialType(?FuneralCompanyId $funeralCompanyId): void
+    {
+        $isAllowed = match (true) {
+            $this->type()->isCoffinInGraveSite()      => true,
+            $this->type()->isUrnInGraveSite(),
+            $this->type()->isUrnInColumbariumNiche(),
+            $this->type()->isAshesUnderMemorialTree() => $funeralCompanyId === null,
+            default => false,
+        };
+        if (!$isAllowed) {
+            throw new \RuntimeException(\sprintf(
+                'Похоронная фирма не может быть задана для типа захороненния "%s".',
                 $this->type()->label(),
             ));
         }
