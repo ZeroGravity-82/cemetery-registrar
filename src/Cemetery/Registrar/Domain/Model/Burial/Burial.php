@@ -101,6 +101,7 @@ class Burial extends AggregateRoot
      */
     public function setDeceasedId(DeceasedId $deceasedId): self
     {
+        // $this->assertDeceasedMatchesBurialType($deceasedId);
         $this->deceasedId = $deceasedId;
 
         return $this;
@@ -121,6 +122,7 @@ class Burial extends AggregateRoot
      */
     public function setType(BurialType $type): self
     {
+        // $this->assertBurialTypeMatchesDeceased($type);
         if ($this->type !== $type) {
             $this->setBurialPlaceId(null);
             $this->setFuneralCompanyId(null);
