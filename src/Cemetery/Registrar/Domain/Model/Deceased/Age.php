@@ -21,6 +21,20 @@ class Age
     }
 
     /**
+     * @param \DateTimeImmutable      $bornAt
+     * @param \DateTimeImmutable|null $targetDate
+     *
+     * @return self
+     */
+    public static function fromDates(\DateTimeImmutable $bornAt, ?\DateTimeImmutable $targetDate = null): self
+    {
+        self::assertValidDates($bornAt, $targetDate);
+        $now = new \DateTimeImmutable();
+
+        return new self($bornAt->diff($targetDate ?? $now)->y);
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
@@ -76,6 +90,19 @@ class Age
     {
         if ($value > self::MAX_AGE) {
             throw new \InvalidArgumentException(\sprintf('Возраст не может превышать %d лет.', self::MAX_AGE));
+        }
+    }
+
+    /**
+     * @param \DateTimeImmutable      $bornAt
+     * @param \DateTimeImmutable|null $targetDate
+     *
+     * @throws \InvalidArgumentException when the target date is before the date of birth
+     */
+    private static function assertValidDates(\DateTimeImmutable $bornAt, ?\DateTimeImmutable $targetDate): void
+    {
+        if ($targetDate && $targetDate < $bornAt) {
+            throw new \InvalidArgumentException('Конечная дата не может предшествовать дате рождения.');
         }
     }
 }

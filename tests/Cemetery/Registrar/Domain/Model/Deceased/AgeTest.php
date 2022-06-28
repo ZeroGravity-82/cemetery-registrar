@@ -27,6 +27,24 @@ class AgeTest extends TestCase
         $this->assertSame($avgAge, $age->value());
     }
 
+    public function testItSuccessfullyCreatedFromDates(): void
+    {
+        $bornAt     = new \DateTimeImmutable('1968-10-24');
+        $targetDate = new \DateTimeImmutable('2021-01-05');
+        $age = Age::fromDates($bornAt, $targetDate);
+        $this->assertSame(52, $age->value());
+
+        $bornAt     = new \DateTimeImmutable('1947-01-19');
+        $targetDate = new \DateTimeImmutable('2016-01-20');
+        $age = Age::fromDates($bornAt, $targetDate);
+        $this->assertSame(69, $age->value());
+
+        $bornAt     = new \DateTimeImmutable('2021-02-13');
+        $targetDate = new \DateTimeImmutable('2021-09-15');
+        $age = Age::fromDates($bornAt, $targetDate);
+        $this->assertSame(0, $age->value());
+    }
+
     public function testItFailsWithNegativeValue(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -39,6 +57,15 @@ class AgeTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf('Возраст не может превышать %d лет.', self::MAX_AGE));
         new Age(self::MAX_AGE + 1);
+    }
+
+    public function testItFailsWithMistakenlySwappedDates(): void
+    {
+        $bornAt     = new \DateTimeImmutable('2021-01-05');
+        $targetDate = new \DateTimeImmutable('1968-10-24');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Конечная дата не может предшествовать дате рождения.');
+        Age::fromDates($bornAt, $targetDate);
     }
 
     public function testItStringifyable(): void
