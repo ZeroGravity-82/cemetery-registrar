@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Model\Deceased\CauseOfDeath;
+namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathCollection;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
 use DataFixtures\Deceased\CauseOfDeath\CauseOfDeathProvider;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\Deceased;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**

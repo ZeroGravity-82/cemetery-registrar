@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Deceased;
 
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Deceased\Age;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Deceased\CremationCertificateId;
 use Cemetery\Registrar\Domain\Model\Deceased\DeathCertificateId;
 use Cemetery\Registrar\Domain\Model\Deceased\Deceased;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathListItem;

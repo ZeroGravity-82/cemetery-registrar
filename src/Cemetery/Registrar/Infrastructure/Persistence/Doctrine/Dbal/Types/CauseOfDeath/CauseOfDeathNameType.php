@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathName;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringType;
 
 /**

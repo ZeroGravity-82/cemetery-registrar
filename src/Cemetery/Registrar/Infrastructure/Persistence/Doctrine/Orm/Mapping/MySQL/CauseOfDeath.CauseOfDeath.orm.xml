@@ -1,6 +1,6 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
-    <entity name="Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath" table="cause_of_death">
+    <entity name="Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath" table="cause_of_death">
         <id name="id" column="id" type="cause_of_death_id">
         </id>
 

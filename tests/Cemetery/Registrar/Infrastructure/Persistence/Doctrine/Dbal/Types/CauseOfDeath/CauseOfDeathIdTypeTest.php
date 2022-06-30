@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath;
+namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathIdType;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CauseOfDeath\CauseOfDeathIdType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
 
 /**

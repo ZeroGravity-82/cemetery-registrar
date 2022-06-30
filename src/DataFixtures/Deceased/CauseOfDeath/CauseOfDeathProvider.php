@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace DataFixtures\Deceased\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeath;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathName;
-use Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

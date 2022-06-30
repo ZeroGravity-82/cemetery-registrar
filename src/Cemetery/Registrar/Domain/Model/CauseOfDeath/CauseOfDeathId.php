@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\Deceased\CauseOfDeath;
+namespace Cemetery\Registrar\Domain\Model\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\EntityId;
 

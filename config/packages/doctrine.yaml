@@ -30,6 +30,9 @@ doctrine:
             # BurialPlace/MemorialTree
             memorial_tree_id:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\MemorialTree\MemorialTreeIdType
             memorial_tree_number:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\MemorialTree\MemorialTreeNumberType
+            # CauseOfDeath
+            cause_of_death_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CauseOfDeath\CauseOfDeathNameType
+            cause_of_death_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CauseOfDeath\CauseOfDeathIdType
             # Contact
             address:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\AddressType
             email:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\EmailType
@@ -40,9 +43,6 @@ doctrine:
             cremation_certificate_id:   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CremationCertificateIdType
             death_certificate_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
             deceased_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
-            # Deceased/CauseOfDeath
-            cause_of_death_name:        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathNameType
-            cause_of_death_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CauseOfDeath\CauseOfDeathIdType
             # FuneralCompany
             funeral_company_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
             funeral_company_note:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNoteType
