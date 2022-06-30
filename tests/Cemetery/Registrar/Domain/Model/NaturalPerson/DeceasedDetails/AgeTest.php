@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Model\Deceased;
+namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
-use Cemetery\Registrar\Domain\Model\Deceased\Age;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use PHPUnit\Framework\TestCase;
 
 /**

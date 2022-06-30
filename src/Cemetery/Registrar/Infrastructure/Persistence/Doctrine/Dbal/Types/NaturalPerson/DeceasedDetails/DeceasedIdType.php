@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased;
+namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails;
 
-use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringType;
 
 /**

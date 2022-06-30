@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Deceased;
 
-use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
-use Cemetery\Registrar\Domain\Model\Deceased\DeceasedFactory;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Deceased;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedFactory;
 use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
 
 /**

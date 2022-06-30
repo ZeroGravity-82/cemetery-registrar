@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\Deceased;
+namespace Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedFactory extends EntityFactory
+class DeceasedDetailsFactory
 {
     /**
      * @param string|null $naturalPersonId

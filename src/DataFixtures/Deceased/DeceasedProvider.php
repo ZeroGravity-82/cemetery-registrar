@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace DataFixtures\Deceased;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\Deceased\Age;
-use Cemetery\Registrar\Domain\Model\Deceased\DeathCertificateId;
-use Cemetery\Registrar\Domain\Model\Deceased\Deceased;
-use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificateId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Deceased;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**

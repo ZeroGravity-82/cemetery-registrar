@@ -11,8 +11,8 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
-use Cemetery\Registrar\Domain\Model\Deceased\DeceasedId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**

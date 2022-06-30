@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\Deceased;
+namespace Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

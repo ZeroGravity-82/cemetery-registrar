@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased;
+namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails;
 
-use Cemetery\Registrar\Domain\Model\Deceased\CremationCertificateId;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CremationCertificateIdType;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificateId;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails\CremationCertificateIdType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
 
 /**
