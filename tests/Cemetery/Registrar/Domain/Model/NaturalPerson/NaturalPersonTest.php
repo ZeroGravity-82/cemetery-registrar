@@ -53,6 +53,7 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->address());
         $this->assertNull($this->naturalPerson->bornAt());
         $this->assertNull($this->naturalPerson->placeOfBirth());
+        $this->assertNull($this->naturalPerson->passport());
     }
 
     public function testItSetsFullName(): void
