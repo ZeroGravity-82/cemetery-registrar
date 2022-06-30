@@ -57,13 +57,13 @@ class BankDetailsTest extends TestCase
             $this->currentAccountA1,
         );
         $this->assertInstanceOf(Name::class, $bankDetails->bankName());
-        $this->assertSame($this->bankNameA, (string) $bankDetails->bankName());
+        $this->assertSame($this->bankNameA, $bankDetails->bankName()->value());
         $this->assertInstanceOf(Bik::class, $bankDetails->bik());
-        $this->assertSame($this->bikA, (string) $bankDetails->bik());
+        $this->assertSame($this->bikA, $bankDetails->bik()->value());
         $this->assertInstanceOf(CorrespondentAccount::class, $bankDetails->correspondentAccount());
-        $this->assertSame($this->correspondentAccountA, (string) $bankDetails->correspondentAccount());
+        $this->assertSame($this->correspondentAccountA, $bankDetails->correspondentAccount()->value());
         $this->assertInstanceOf(CurrentAccount::class, $bankDetails->currentAccount());
-        $this->assertSame($this->currentAccountA1, (string) $bankDetails->currentAccount());
+        $this->assertSame($this->currentAccountA1, $bankDetails->currentAccount()->value());
 
         // Current account opened in the cash settlement center (belongs to Central Bank of Russia)
         $bankDetails = new BankDetails(
@@ -73,12 +73,12 @@ class BankDetailsTest extends TestCase
             $this->currentAccountC,
         );
         $this->assertInstanceOf(Name::class, $bankDetails->bankName());
-        $this->assertSame($this->bankNameC, (string) $bankDetails->bankName());
+        $this->assertSame($this->bankNameC, $bankDetails->bankName()->value());
         $this->assertInstanceOf(Bik::class, $bankDetails->bik());
-        $this->assertSame($this->bikC, (string) $bankDetails->bik());
+        $this->assertSame($this->bikC, $bankDetails->bik()->value());
         $this->assertNull($bankDetails->correspondentAccount());
         $this->assertInstanceOf(CurrentAccount::class, $bankDetails->currentAccount());
-        $this->assertSame($this->currentAccountC, (string) $bankDetails->currentAccount());
+        $this->assertSame($this->currentAccountC, $bankDetails->currentAccount()->value());
     }
 
     public function testItFailsWithEmptyBankNameValue(): void
@@ -270,6 +270,12 @@ class BankDetailsTest extends TestCase
             $this->correspondentAccountA,
             $this->currentAccountA1,
         );
+        $bankDetailsE = new BankDetails(
+            $this->bankNameC,
+            $this->bikC,
+            $this->correspondentAccountC,
+            $this->currentAccountC,
+        );
 
         $this->assertFalse($bankDetailsA->isEqual($bankDetailsB));
         $this->assertFalse($bankDetailsA->isEqual($bankDetailsC));
@@ -277,6 +283,7 @@ class BankDetailsTest extends TestCase
         $this->assertFalse($bankDetailsB->isEqual($bankDetailsC));
         $this->assertFalse($bankDetailsB->isEqual($bankDetailsD));
         $this->assertFalse($bankDetailsC->isEqual($bankDetailsD));
+        $this->assertFalse($bankDetailsA->isEqual($bankDetailsE));
     }
 
     private function expectExceptionForEmptyValue(string $name): void
