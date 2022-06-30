@@ -123,6 +123,8 @@ class Passport
 
     /**
      * @param \DateTimeImmutable $issuedAt
+     *
+     * @throws \RuntimeException when the issuing date is in the future
      */
     private function assertValidIssuedAt(\DateTimeImmutable $issuedAt): void
     {
