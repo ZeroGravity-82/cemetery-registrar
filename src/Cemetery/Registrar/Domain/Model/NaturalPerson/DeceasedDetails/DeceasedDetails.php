@@ -27,9 +27,7 @@ class DeceasedDetails
         private readonly ?CauseOfDeathId       $causeOfDeathId,
         private readonly ?DeathCertificate     $deathCertificate,
         private readonly ?CremationCertificate $cremationCertificate,
-    ) {
-        // $this->assert();
-    }
+    ) {}
 
     /**
      * @return NaturalPersonId
@@ -77,5 +75,31 @@ class DeceasedDetails
     public function cremationCertificate(): ?CremationCertificate
     {
         return $this->cremationCertificate;
+    }
+
+    /**
+     * @param self $bankDetails
+     *
+     * @return bool
+     */
+    public function isEqual(self $bankDetails): bool
+    {
+        $isSameNaturalPersonId = $bankDetails->naturalPersonId()->isEqual($this->naturalPersonId());
+        $isSameDiedAt          = $bankDetails->diedAt->format('Y-m-d') === $this->diedAt->format('Y-m-d');
+        $isSameAge             = $bankDetails->age() !== null && $this->age() !== null
+            ? $bankDetails->age()->isEqual($this->age())
+            : $bankDetails->age() === null && $this->age() === null;
+        $isSameCauseOfDeathId = $bankDetails->causeOfDeathId() !== null && $this->causeOfDeathId() !== null
+            ? $bankDetails->causeOfDeathId()->isEqual($this->causeOfDeathId())
+            : $bankDetails->causeOfDeathId() === null && $this->causeOfDeathId() === null;
+        $isSameDeathCertificate = $bankDetails->deathCertificate() !== null && $this->deathCertificate() !== null
+            ? $bankDetails->deathCertificate()->isEqual($this->deathCertificate())
+            : $bankDetails->deathCertificate() === null && $this->deathCertificate() === null;
+        $isSameCremationCertificate = $bankDetails->cremationCertificate() !== null && $this->cremationCertificate() !== null
+            ? $bankDetails->cremationCertificate()->isEqual($this->cremationCertificate())
+            : $bankDetails->cremationCertificate() === null && $this->cremationCertificate() === null;
+
+        return $isSameNaturalPersonId && $isSameDiedAt && $isSameAge && $isSameCauseOfDeathId &&
+               $isSameDeathCertificate && $isSameCremationCertificate;
     }
 }

@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,203 +17,173 @@ use PHPUnit\Framework\TestCase;
  */
 class DeceasedDetailsTest extends TestCase
 {
-    private string  $bankNameA;
-    private string  $bankNameB;
-    private string  $bankNameC;
-    private string  $bikA;
-    private string  $bikB;
-    private string  $bikC;
-    private string  $correspondentAccountA;
-    private string  $correspondentAccountB;
-    private ?string $correspondentAccountC;
-    private string  $currentAccountA1;
-    private string  $currentAccountA2;
-    private string  $currentAccountB;
-    private string  $currentAccountC;
+    private NaturalPersonId      $naturalPersonIdA;
+    private NaturalPersonId      $naturalPersonIdB;
+    private \DateTimeImmutable   $diedAtA;
+    private \DateTimeImmutable   $diedAtB;
+    private Age                  $ageA;
+    private Age                  $ageB;
+    private CauseOfDeathId       $causeOfDeathIdA;
+    private CauseOfDeathId       $causeOfDeathIdB;
+    private DeathCertificate     $deathCertificateA;
+    private DeathCertificate     $deathCertificateB;
+    private CremationCertificate $cremationCertificateA;
+    private CremationCertificate $cremationCertificateB;
 
     public function setUp(): void
     {
-        $this->bankNameA             = 'Сибирский филиал Публичного акционерного общества "Промсвязьбанк"';
-        $this->bankNameB             = 'АО "АЛЬФА-БАНК"';
-        $this->bankNameC             = 'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ';
-        $this->bikA                  = '045004816';
-        $this->bikB                  = '044525593';
-        $this->bikC                  = '044106001';
-        $this->correspondentAccountA = '30101810500000000816';
-        $this->correspondentAccountB = '30101810200000000593';
-        $this->correspondentAccountC = null;
-        $this->currentAccountA1      = '40702810904000040651';
-        $this->currentAccountA2      = '40702810304000039741';
-        $this->currentAccountB       = '40701810401400000014';
-        $this->currentAccountC       = '40601810900001000022';
+        $this->naturalPersonIdA      = new NaturalPersonId('NP001');
+        $this->naturalPersonIdB      = new NaturalPersonId('NP002');
+        $this->diedAtA               = new \DateTimeImmutable('2011-04-30');
+        $this->diedAtB               = new \DateTimeImmutable('2021-12-15');
+        $this->ageA                  = new Age(82);
+        $this->ageB                  = new Age(26);
+        $this->causeOfDeathIdA       = new CauseOfDeathId('CD001');
+        $this->causeOfDeathIdB       = new CauseOfDeathId('CD002');
+        $this->deathCertificateA     = new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28'));
+        $this->deathCertificateB     = new DeathCertificate('I-BC', '785066', new \DateTimeImmutable('2011-03-24'));
+        $this->cremationCertificateA = new CremationCertificate('12964', new \DateTimeImmutable('2002-10-29'));
+        $this->cremationCertificateB = new CremationCertificate('811/19', new \DateTimeImmutable('2011-03-23'));
     }
 
     public function testItSuccessfullyCreated(): void
     {
         $deceasedDetails = new DeceasedDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageA,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateA,
+            $this->cremationCertificateA,
         );
-        $this->assertInstanceOf(Name::class, $deceasedDetails->bankName());
-        $this->assertSame($this->bankNameA, (string) $deceasedDetails->bankName());
-        $this->assertInstanceOf(Bik::class, $deceasedDetails->bik());
-        $this->assertSame($this->bikA, (string) $deceasedDetails->bik());
-        $this->assertInstanceOf(CorrespondentAccount::class, $deceasedDetails->correspondentAccount());
-        $this->assertSame($this->correspondentAccountA, (string) $deceasedDetails->correspondentAccount());
-        $this->assertInstanceOf(CurrentAccount::class, $deceasedDetails->currentAccount());
-        $this->assertSame($this->currentAccountA1, (string) $deceasedDetails->currentAccount());
+        $this->assertInstanceOf(NaturalPersonId::class, $deceasedDetails->naturalPersonId());
+        $this->assertTrue($this->naturalPersonIdA->isEqual($deceasedDetails->naturalPersonId()));
+        $this->assertInstanceOf(\DateTimeImmutable::class, $deceasedDetails->diedAt());
+        $this->assertSame($this->diedAtA->format('Y-m-d'), $deceasedDetails->diedAt()->format('Y-m-d'));
+        $this->assertInstanceOf(Age::class, $deceasedDetails->age());
+        $this->assertTrue($this->ageA->isEqual($deceasedDetails->age()));
+        $this->assertInstanceOf(CauseOfDeathId::class, $deceasedDetails->causeOfDeathId());
+        $this->assertTrue($this->causeOfDeathIdA->isEqual($deceasedDetails->causeOfDeathId()));
+        $this->assertInstanceOf(DeathCertificate::class, $deceasedDetails->deathCertificate());
+        $this->assertTrue($this->deathCertificateA->isEqual($deceasedDetails->deathCertificate()));
+        $this->assertInstanceOf(CremationCertificate::class, $deceasedDetails->cremationCertificate());
+        $this->assertTrue($this->cremationCertificateA->isEqual($deceasedDetails->cremationCertificate()));
     }
 
-    public function testItFailsWithEmptyBankNameValue(): void
+    public function testItSuccessfullyCreatedWithoutOptionalFields(): void
     {
-        $this->expectExceptionForEmptyValue('Наименование');
-        new BankDetails(
-            '',
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
+        $deceasedDetails = new DeceasedDetails(
+            $this->naturalPersonIdB,
+            $this->diedAtB,
+            null,
+            null,
+            null,
+            null,
         );
-    }
-
-    public function testItFailsWithBankNameValueOfSpacesOnly(): void
-    {
-        $this->expectExceptionForEmptyValue('Наименование');
-        new BankDetails(
-            '   ',
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
-        );
-    }
-
-    public function testItFailsWithEmptyBikValue(): void
-    {
-        $this->expectExceptionForEmptyValue('БИК');
-        new BankDetails(
-            $this->bankNameA,
-            '',
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
-        );
-    }
-
-    public function testItFailsWithBikValueOfSpacesOnly(): void
-    {
-        $this->expectExceptionForEmptyValue('БИК');
-        new BankDetails(
-            $this->bankNameA,
-            '   ',
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
-        );
-    }
-
-    public function testItFailsWithEmptyCorrespondentAccountValue(): void
-    {
-        $this->expectExceptionForEmptyValue('К/счёт');
-        new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            '',
-            $this->currentAccountA1,
-        );
-    }
-
-    public function testItFailsWithCorrespondentAccountValueOfSpacesOnly(): void
-    {
-        $this->expectExceptionForEmptyValue('К/счёт');
-        new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            '   ',
-            $this->currentAccountA1,
-        );
-    }
-
-    public function testItFailsWithEmptyCurrentAccountValue(): void
-    {
-        $this->expectExceptionForEmptyValue('Р/счёт');
-        new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            '',
-        );
-    }
-
-    public function testItFailsWithCurrentAccountValueOfSpacesOnly(): void
-    {
-        $this->expectExceptionForEmptyValue('Р/счёт');
-        new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            '   ',
-        );
-    }
-
-    public function testItStringifyable(): void
-    {
-        $deceasedDetails = new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
-        );
-        $this->assertSame(
-            \sprintf(
-                '%s, р/счёт %s, к/счёт %s, БИК %s',
-                $this->bankNameA,
-                $this->currentAccountA1,
-                $this->correspondentAccountA,
-                $this->bikA,
-            ),
-            (string) $deceasedDetails
-        );
+        $this->assertInstanceOf(NaturalPersonId::class, $deceasedDetails->naturalPersonId());
+        $this->assertTrue($this->naturalPersonIdB->isEqual($deceasedDetails->naturalPersonId()));
+        $this->assertInstanceOf(\DateTimeImmutable::class, $deceasedDetails->diedAt());
+        $this->assertSame($this->diedAtB->format('Y-m-d'), $deceasedDetails->diedAt()->format('Y-m-d'));
+        $this->assertNull($deceasedDetails->age());
+        $this->assertNull($deceasedDetails->causeOfDeathId());
+        $this->assertNull($deceasedDetails->deathCertificate());
+        $this->assertNull($deceasedDetails->cremationCertificate());
     }
 
     public function testItComparable(): void
     {
-        $deceasedDetailsA = new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
+        $deceasedDetailsA = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageA,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateA,
+            $this->cremationCertificateA,
         );
-        $deceasedDetailsB = new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA2,
+        $deceasedDetailsB = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            null,
+            null,
+            null,
+            null,
         );
-        $deceasedDetailsC = new BankDetails(
-            $this->bankNameB,
-            $this->bikB,
-            $this->correspondentAccountB,
-            $this->currentAccountB,
+        $deceasedDetailsC = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtB,
+            $this->ageA,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateA,
+            $this->cremationCertificateA,
         );
-        $deceasedDetailsD = new BankDetails(
-            $this->bankNameA,
-            $this->bikA,
-            $this->correspondentAccountA,
-            $this->currentAccountA1,
+        $deceasedDetailsD = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageB,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateA,
+            $this->cremationCertificateA,
+        );
+        $deceasedDetailsE = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageA,
+            $this->causeOfDeathIdB,
+            $this->deathCertificateA,
+            $this->cremationCertificateA,
+        );
+        $deceasedDetailsF = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageA,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateB,
+            $this->cremationCertificateA,
+        );
+        $deceasedDetailsG = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageA,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateA,
+            $this->cremationCertificateB,
+        );
+        $deceasedDetailsH = new DeceasedDetails(
+            $this->naturalPersonIdA,
+            $this->diedAtA,
+            $this->ageA,
+            $this->causeOfDeathIdA,
+            $this->deathCertificateA,
+            $this->cremationCertificateA,
         );
 
         $this->assertFalse($deceasedDetailsA->isEqual($deceasedDetailsB));
         $this->assertFalse($deceasedDetailsA->isEqual($deceasedDetailsC));
-        $this->assertTrue($deceasedDetailsA->isEqual($deceasedDetailsD));
+        $this->assertFalse($deceasedDetailsA->isEqual($deceasedDetailsD));
+        $this->assertFalse($deceasedDetailsA->isEqual($deceasedDetailsE));
+        $this->assertFalse($deceasedDetailsA->isEqual($deceasedDetailsF));
+        $this->assertFalse($deceasedDetailsA->isEqual($deceasedDetailsG));
+        $this->assertTrue($deceasedDetailsA->isEqual($deceasedDetailsH));
         $this->assertFalse($deceasedDetailsB->isEqual($deceasedDetailsC));
         $this->assertFalse($deceasedDetailsB->isEqual($deceasedDetailsD));
+        $this->assertFalse($deceasedDetailsB->isEqual($deceasedDetailsE));
+        $this->assertFalse($deceasedDetailsB->isEqual($deceasedDetailsF));
+        $this->assertFalse($deceasedDetailsB->isEqual($deceasedDetailsG));
+        $this->assertFalse($deceasedDetailsB->isEqual($deceasedDetailsH));
         $this->assertFalse($deceasedDetailsC->isEqual($deceasedDetailsD));
-    }
-
-    private function expectExceptionForEmptyValue(string $name): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(
-            \sprintf('%s не может иметь пустое значение.', $name)
-        );
+        $this->assertFalse($deceasedDetailsC->isEqual($deceasedDetailsE));
+        $this->assertFalse($deceasedDetailsC->isEqual($deceasedDetailsF));
+        $this->assertFalse($deceasedDetailsC->isEqual($deceasedDetailsG));
+        $this->assertFalse($deceasedDetailsC->isEqual($deceasedDetailsH));
+        $this->assertFalse($deceasedDetailsD->isEqual($deceasedDetailsE));
+        $this->assertFalse($deceasedDetailsD->isEqual($deceasedDetailsF));
+        $this->assertFalse($deceasedDetailsD->isEqual($deceasedDetailsG));
+        $this->assertFalse($deceasedDetailsD->isEqual($deceasedDetailsH));
+        $this->assertFalse($deceasedDetailsE->isEqual($deceasedDetailsF));
+        $this->assertFalse($deceasedDetailsE->isEqual($deceasedDetailsG));
+        $this->assertFalse($deceasedDetailsE->isEqual($deceasedDetailsH));
+        $this->assertFalse($deceasedDetailsF->isEqual($deceasedDetailsG));
+        $this->assertFalse($deceasedDetailsF->isEqual($deceasedDetailsH));
+        $this->assertFalse($deceasedDetailsG->isEqual($deceasedDetailsH));
     }
 }

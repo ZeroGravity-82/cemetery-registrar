@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -54,6 +59,7 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->bornAt());
         $this->assertNull($this->naturalPerson->placeOfBirth());
         $this->assertNull($this->naturalPerson->passport());
+        $this->assertNull($this->naturalPerson->deceasedDetails());
     }
 
     public function testItSetsFullName(): void
@@ -145,5 +151,23 @@ class NaturalPersonTest extends AggregateRootTest
 
         $this->naturalPerson->setPassport(null);
         $this->assertNull($this->naturalPerson->passport());
+    }
+
+    public function testItSetsDeceasedDetails(): void
+    {
+        $deceasedDetails = new DeceasedDetails(
+            new NaturalPersonId('NP001'),
+            new \DateTimeImmutable('2011-04-30'),
+            new Age(82),
+            new CauseOfDeathId('CD001'),
+            new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28')),
+            new CremationCertificate('12964', new \DateTimeImmutable('2002-10-29')),
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+        $this->assertInstanceOf(DeceasedDetails::class, $this->naturalPerson->deceasedDetails());
+        $this->assertTrue($this->naturalPerson->deceasedDetails()->isEqual($deceasedDetails));
+
+        $this->naturalPerson->setDeceasedDetails(null);
+        $this->assertNull($this->naturalPerson->deceasedDetails());
     }
 }
