@@ -20,7 +20,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNich
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
@@ -46,7 +45,7 @@ class BurialTest extends AggregateRootTest
         $id           = new BurialId('B001');
         $code         = new BurialCode('10001');
         $type         = BurialType::coffinInGraveSite();
-        $deceasedId   = new DeceasedId('D001');
+        $deceasedId   = new NaturalPersonId('NP001');
         $this->burial = new Burial($id, $code, $type, $deceasedId);
         $this->entity = $this->burial;
     }
@@ -58,8 +57,8 @@ class BurialTest extends AggregateRootTest
         $this->assertInstanceOf(BurialCode::class, $this->burial->code());
         $this->assertSame('10001', $this->burial->code()->value());
         $this->assertInstanceOf(BurialType::class, $this->burial->type());
-        $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
-        $this->assertSame('D001', $this->burial->deceasedId()->value());
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->deceasedId());
+        $this->assertSame('NP001', $this->burial->deceasedId()->value());
         $this->assertTrue($this->burial->type()->isCoffinInGraveSite());
         $this->assertNull($this->burial->customerId());
         $this->assertNull($this->burial->burialPlaceId());
@@ -80,9 +79,9 @@ class BurialTest extends AggregateRootTest
 
     public function testItSetsDeceasedId(): void
     {
-        $deceasedId = new DeceasedId('D001');
+        $deceasedId = new NaturalPersonId('NP002');
         $this->burial->setDeceasedId($deceasedId);
-        $this->assertInstanceOf(DeceasedId::class, $this->burial->deceasedId());
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->deceasedId());
         $this->assertTrue($this->burial->deceasedId()->isEqual($deceasedId));
     }
 

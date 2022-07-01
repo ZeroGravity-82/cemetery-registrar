@@ -38,11 +38,6 @@ doctrine:
             email:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\EmailType
             phone_number:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\PhoneNumberType
             website:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType
-            # Deceased
-            age:                        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\AgeType
-            cremation_certificate_id:   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CremationCertificateIdType
-            death_certificate_id:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateIdType
-            deceased_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeceasedIdType
             # FuneralCompany
             funeral_company_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
             funeral_company_note:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNoteType
@@ -53,6 +48,10 @@ doctrine:
             natural_person_id:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\NaturalPersonIdType
             passport:                   Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PassportType
             place_of_birth:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PlaceOfBirthType
+            # NaturalPerson/DeceasedDetails
+            age:                        Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails\AgeType
+#            cremation_certificate:      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\CremationCertificateType
+#            death_certificate:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Deceased\DeathCertificateType
             # Organization
             okved:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
             organization_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OrganizationIdType

@@ -12,7 +12,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNich
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
@@ -56,16 +55,16 @@ class Burial extends AggregateRoot
     private ?BurialChainId $burialChainId = null;
 
     /**
-     * @param BurialId   $id
-     * @param BurialCode $code
-     * @param BurialType $type
-     * @param DeceasedId $deceasedId
+     * @param BurialId        $id
+     * @param BurialCode      $code
+     * @param BurialType      $type
+     * @param NaturalPersonId $deceasedId
      */
     public function __construct(
         private readonly BurialId   $id,
         private readonly BurialCode $code,
         private BurialType          $type,
-        private DeceasedId          $deceasedId,
+        private NaturalPersonId     $deceasedId,
     ) {
         parent::__construct();
     }
@@ -84,27 +83,6 @@ class Burial extends AggregateRoot
     public function code(): BurialCode
     {
         return $this->code;
-    }
-
-    /**
-     * @return DeceasedId
-     */
-    public function deceasedId(): DeceasedId
-    {
-        return $this->deceasedId;
-    }
-
-    /**
-     * @param DeceasedId $deceasedId
-     *
-     * @return $this
-     */
-    public function setDeceasedId(DeceasedId $deceasedId): self
-    {
-        // $this->assertDeceasedMatchesBurialType($deceasedId);
-        $this->deceasedId = $deceasedId;
-
-        return $this;
     }
 
     /**
@@ -129,6 +107,27 @@ class Burial extends AggregateRoot
             $this->setBurialContainer(null);
         }
         $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return NaturalPersonId
+     */
+    public function deceasedId(): NaturalPersonId
+    {
+        return $this->deceasedId;
+    }
+
+    /**
+     * @param NaturalPersonId $deceasedId
+     *
+     * @return $this
+     */
+    public function setDeceasedId(NaturalPersonId $deceasedId): self
+    {
+        // $this->assertDeceasedMatchesBurialType($deceasedId);
+        $this->deceasedId = $deceasedId;
 
         return $this;
     }

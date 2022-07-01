@@ -18,7 +18,6 @@ use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
@@ -48,7 +47,7 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialForCoffin(): void
     {
-        $deceasedId       = new DeceasedId('D001');
+        $deceasedId       = new NaturalPersonId('NP002');
         $type             = new BurialType(BurialType::COFFIN_IN_GRAVE_SITE);
         $customerId       = new CustomerId(new JuristicPersonId('JP001'));
         $burialPlaceId    = new BurialPlaceId(new GraveSiteId('GS001'));
@@ -86,7 +85,7 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialForUrn(): void
     {
-        $deceasedId       = new DeceasedId('D001');
+        $deceasedId       = new NaturalPersonId('NP002');
         $type             = new BurialType(BurialType::URN_IN_GRAVE_SITE);
         $customerId       = new CustomerId(new JuristicPersonId('JP001'));
         $burialPlaceId    = new BurialPlaceId(new GraveSiteId('GS001'));
@@ -123,7 +122,7 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialForAshes(): void
     {
-        $deceasedId       = new DeceasedId('D001');
+        $deceasedId       = new NaturalPersonId('NP002');
         $type             = new BurialType(BurialType::ASHES_UNDER_MEMORIAL_TREE);
         $customerId       = new CustomerId(new JuristicPersonId('JP001'));
         $burialPlaceId    = new BurialPlaceId(new MemorialTreeId('MT001'));
@@ -159,7 +158,7 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialWithoutOptionalFields(): void
     {
-        $deceasedId         = new DeceasedId('D001');
+        $deceasedId         = new NaturalPersonId('NP002');
         $type               = new BurialType(BurialType::ASHES_UNDER_MEMORIAL_TREE);
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');

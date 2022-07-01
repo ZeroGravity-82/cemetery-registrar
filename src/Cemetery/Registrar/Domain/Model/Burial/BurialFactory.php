@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\IdentityGenerator;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
@@ -29,7 +28,7 @@ class BurialFactory extends EntityFactory
 
     /**
      * @param BurialType              $type
-     * @param DeceasedId              $deceasedId
+     * @param NaturalPersonId         $deceasedId
      * @param CustomerId|null         $customerId
      * @param BurialPlaceId|null      $burialPlaceId
      * @param NaturalPersonId|null    $personInChargeId
@@ -41,7 +40,7 @@ class BurialFactory extends EntityFactory
      */
     public function create(
         BurialType          $type,
-        DeceasedId          $deceasedId,
+        NaturalPersonId     $deceasedId,
         ?CustomerId         $customerId,
         ?BurialPlaceId      $burialPlaceId,
         ?NaturalPersonId    $personInChargeId,

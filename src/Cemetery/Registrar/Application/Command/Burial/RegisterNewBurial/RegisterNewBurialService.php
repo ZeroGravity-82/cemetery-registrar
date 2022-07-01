@@ -26,10 +26,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Deceased;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedFactory;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedRepository;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFactory;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -50,7 +46,6 @@ class RegisterNewBurialService extends ApplicationService
     public function __construct(
         private readonly BurialRepository           $burialRepo,
         private readonly BurialFactory              $burialFactory,
-        private readonly DeceasedFactory            $deceasedFactory,
         private readonly NaturalPersonFactory       $naturalPersonFactory,
         private readonly SoleProprietorFactory      $soleProprietorFactory,
         private readonly JuristicPersonFactory      $juristicPersonFactory,
@@ -58,7 +53,6 @@ class RegisterNewBurialService extends ApplicationService
         private readonly ColumbariumNicheFactory    $columbariumNicheFactory,
         private readonly MemorialTreeFactory        $memorialTreeFactory,
         private readonly BurialContainerFactory     $burialContainerFactory,
-        private readonly DeceasedRepository         $deceasedRepo,
         private readonly BurialPlaceIdFactory       $burialPlaceIdFactory,
         private readonly OrganizationIdFactory      $organizationIdFactory,
         private readonly CustomerIdFactory          $customerIdFactory,

@@ -28,7 +28,6 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteFixtures;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeFixtures;
-use DataFixtures\Deceased\DeceasedFixtures;
 use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
 use DataFixtures\NaturalPerson\NaturalPersonFixtures;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
@@ -217,7 +216,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
             NaturalPersonFixtures::class,
             JuristicPersonFixtures::class,
             SoleProprietorFixtures::class,
-            DeceasedFixtures::class,
             CemeteryBlockFixtures::class,
             GraveSiteFixtures::class,
             ColumbariumFixtures::class,

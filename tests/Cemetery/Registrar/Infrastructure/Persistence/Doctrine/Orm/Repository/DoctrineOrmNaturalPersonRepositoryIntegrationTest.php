@@ -61,7 +61,8 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
             $this->areEqualValueObjects($entityOne->address(), $entityTwo->address()) &&
             $this->areEqualDateTimeValues($entityOne->bornAt(), $entityTwo->bornAt()) &&
             $this->areEqualValueObjects($entityOne->placeOfBirth(), $entityTwo->placeOfBirth()) &&
-            $this->areEqualValueObjects($entityOne->passport(), $entityTwo->passport());
+            $this->areEqualValueObjects($entityOne->passport(), $entityTwo->passport()) &&
+            $this->areEqualValueObjects($entityOne->deceasedDetails(), $entityTwo->deceasedDetails());
     }
 
     protected function updateEntityA(Entity $entityA): void
