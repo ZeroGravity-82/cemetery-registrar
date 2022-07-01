@@ -14,7 +14,7 @@ abstract class CustomJsonTypeTest extends CustomTypeTest
     protected string $phpValueClassName;
     protected string $exceptionMessageForDatabaseIncompleteValue;
 
-    abstract protected function getConversionTests(): array;
+    abstract protected function getConversionData(): iterable;
 
     public function testItConvertsToDatabaseNullValue(): void
     {

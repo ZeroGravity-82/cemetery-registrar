@@ -19,7 +19,7 @@ class BankDetailsTypeTest extends CustomJsonTypeTest
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат банковских реквизитов';
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToDatabaseValue(string $dbValue, BankDetails $phpValue): void
     {
@@ -38,7 +38,7 @@ class BankDetailsTypeTest extends CustomJsonTypeTest
     }
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToPhpValue(string $dbValue, BankDetails $phpValue): void
     {
@@ -47,13 +47,12 @@ class BankDetailsTypeTest extends CustomJsonTypeTest
         $this->assertTrue($resultingPhpValue->isEqual($phpValue));
     }
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value,
-            // PHP value
-            [
-                <<<JSON_A
+        // database value,
+        // PHP value
+        yield [
+            <<<JSON_A
 {
   "bankName": "Сибирский филиал Публичного акционерного общества \"Промсвязьбанк\"",
   "bik": "045004816",
@@ -61,16 +60,16 @@ class BankDetailsTypeTest extends CustomJsonTypeTest
   "currentAccount": "40702810904000040651"
 }
 JSON_A
-                ,
-                new BankDetails(
-                    'Сибирский филиал Публичного акционерного общества "Промсвязьбанк"',
-                    '045004816',
-                    '30101810500000000816',
-                    '40702810904000040651',
-                )
-            ],
-            [
-                <<<JSON_B
+            ,
+            new BankDetails(
+                'Сибирский филиал Публичного акционерного общества "Промсвязьбанк"',
+                '045004816',
+                '30101810500000000816',
+                '40702810904000040651',
+            )
+        ];
+        yield [
+            <<<JSON_B
 {
   "bankName": "ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ",
   "bik": "044106001",
@@ -78,14 +77,13 @@ JSON_A
   "currentAccount": "40601810900001000022"
 }
 JSON_B
-                ,
-                new BankDetails(
-                    'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ',
-                    '044106001',
-                    null,
-                    '40601810900001000022',
-                )
-            ],
+            ,
+            new BankDetails(
+                'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ',
+                '044106001',
+                null,
+                '40601810900001000022',
+            )
         ];
     }
 }

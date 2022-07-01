@@ -19,12 +19,10 @@ class OrganizationIdTypeTest extends EntityMaskingIdTypeTest
     protected string $typeName          = 'organization_id';
     protected string $phpValueClassName = OrganizationId::class;
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value, PHP value
-            ['{"type":"JURISTIC_PERSON","value":"JP001"}', new OrganizationId(new JuristicPersonId('JP001'))],
-            ['{"type":"SOLE_PROPRIETOR","value":"SP001"}', new OrganizationId(new SoleProprietorId('SP001'))],
-        ];
+        // database value, PHP value
+        yield ['{"type":"JURISTIC_PERSON","value":"JP001"}', new OrganizationId(new JuristicPersonId('JP001'))];
+        yield ['{"type":"SOLE_PROPRIETOR","value":"SP001"}', new OrganizationId(new SoleProprietorId('SP001'))];
     }
 }

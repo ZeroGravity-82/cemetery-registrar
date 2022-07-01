@@ -14,7 +14,7 @@ abstract class EntityMaskingIdTypeTest extends CustomJsonTypeTest
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат идентификатора';
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToDatabaseValue(string $dbValue, EntityMaskingId $phpValue): void
     {
@@ -29,7 +29,7 @@ abstract class EntityMaskingIdTypeTest extends CustomJsonTypeTest
     }
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToPhpValue(string $dbValue, EntityMaskingId $phpValue): void
     {

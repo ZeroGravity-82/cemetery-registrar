@@ -20,13 +20,11 @@ class BurialPlaceIdTypeTest extends EntityMaskingIdTypeTest
     protected string $typeName          = 'burial_place_id';
     protected string $phpValueClassName = BurialPlaceId::class;
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value, PHP value
-            ['{"type":"GRAVE_SITE","value":"GS001"}',        new BurialPlaceId(new GraveSiteId('GS001'))],
-            ['{"type":"COLUMBARIUM_NICHE","value":"CN001"}', new BurialPlaceId(new ColumbariumNicheId('CN001'))],
-            ['{"type":"MEMORIAL_TREE","value":"MT001"}',     new BurialPlaceId(new MemorialTreeId('MT001'))],
-        ];
+        // database value, PHP value
+        yield ['{"type":"GRAVE_SITE","value":"GS001"}',        new BurialPlaceId(new GraveSiteId('GS001'))];
+        yield ['{"type":"COLUMBARIUM_NICHE","value":"CN001"}', new BurialPlaceId(new ColumbariumNicheId('CN001'))];
+        yield ['{"type":"MEMORIAL_TREE","value":"MT001"}',     new BurialPlaceId(new MemorialTreeId('MT001'))];
     }
 }

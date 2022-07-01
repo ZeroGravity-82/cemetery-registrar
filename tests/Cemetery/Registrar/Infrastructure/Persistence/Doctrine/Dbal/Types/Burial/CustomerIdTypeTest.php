@@ -20,13 +20,11 @@ class CustomerIdTypeTest extends EntityMaskingIdTypeTest
     protected string $typeName          = 'customer_id';
     protected string $phpValueClassName = CustomerId::class;
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value, PHP value
-            ['{"type":"NATURAL_PERSON","value":"NP001"}',  new CustomerId(new NaturalPersonId('NP001'))],
-            ['{"type":"JURISTIC_PERSON","value":"JP001"}', new CustomerId(new JuristicPersonId('JP001'))],
-            ['{"type":"SOLE_PROPRIETOR","value":"SP001"}', new CustomerId(new SoleProprietorId('SP001'))],
-        ];
+        // database value, PHP value
+        yield ['{"type":"NATURAL_PERSON","value":"NP001"}',  new CustomerId(new NaturalPersonId('NP001'))];
+        yield ['{"type":"JURISTIC_PERSON","value":"JP001"}', new CustomerId(new JuristicPersonId('JP001'))];
+        yield ['{"type":"SOLE_PROPRIETOR","value":"SP001"}', new CustomerId(new SoleProprietorId('SP001'))];
     }
 }

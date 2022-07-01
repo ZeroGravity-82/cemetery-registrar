@@ -21,7 +21,7 @@ class GeoPositionTypeTest extends CustomJsonTypeTest
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат геопозиции';
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToDatabaseValue(string $dbValue, GeoPosition $phpValue): void
     {
@@ -49,7 +49,7 @@ class GeoPositionTypeTest extends CustomJsonTypeTest
     }
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToPhpValue(string $dbValue, GeoPosition $phpValue): void
     {
@@ -58,23 +58,21 @@ class GeoPositionTypeTest extends CustomJsonTypeTest
         $this->assertTrue($resultingPhpValue->isEqual($phpValue));
     }
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value,
-            // PHP value
-            [
-                '{"coordinates":{"latitude":54.950357,"longitude":-172.7972252},"error":0.25}',
-                new GeoPosition(new Coordinates('54.950357', '-172.7972252'), new Error('0.25'))
-            ],
-            [
-                '{"coordinates":{"latitude":-10.950357,"longitude":72.7972252},"error":null}',
-                new GeoPosition(new Coordinates('-10.950357','72.7972252'), null)
-            ],
-            [
-                '{"coordinates":{"latitude":54.950357,"longitude":72.0},"error":1.0}',
-                new GeoPosition(new Coordinates('54.950357','72.0'), new Error('1.0'))
-            ],
+        // database value,
+        // PHP value
+        yield [
+            '{"coordinates":{"latitude":54.950357,"longitude":-172.7972252},"error":0.25}',
+            new GeoPosition(new Coordinates('54.950357', '-172.7972252'), new Error('0.25'))
+        ];
+        yield [
+            '{"coordinates":{"latitude":-10.950357,"longitude":72.7972252},"error":null}',
+            new GeoPosition(new Coordinates('-10.950357','72.7972252'), null)
+        ];
+        yield [
+            '{"coordinates":{"latitude":54.950357,"longitude":72.0},"error":1.0}',
+            new GeoPosition(new Coordinates('54.950357','72.0'), new Error('1.0'))
         ];
     }
 }

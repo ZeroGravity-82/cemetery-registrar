@@ -19,7 +19,7 @@ class PassportTypeTest extends CustomJsonTypeTest
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат паспортных данных';
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToDatabaseValue(string $dbValue, Passport $phpValue): void
     {
@@ -40,7 +40,7 @@ class PassportTypeTest extends CustomJsonTypeTest
     }
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToPhpValue(string $dbValue, Passport $phpValue): void
     {
@@ -49,13 +49,12 @@ class PassportTypeTest extends CustomJsonTypeTest
         $this->assertTrue($resultingPhpValue->isEqual($phpValue));
     }
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value,
-            // PHP value
-            [
-                <<<JSON_A
+        // database value,
+        // PHP value
+        yield [
+            <<<JSON_A
 {
   "series": "1234",
   "number": "567890",
@@ -64,17 +63,17 @@ class PassportTypeTest extends CustomJsonTypeTest
   "divisionCode": "540-001"
 }
 JSON_A
-                ,
-                new Passport(
-                    '1234',
-                     '567890',
-                     new \DateTimeImmutable('2002-10-28'),
-                     'УВД Кировского района города Новосибирска',
-                     '540-001',
-                )
-            ],
-            [
-                <<<JSON_B
+            ,
+            new Passport(
+                '1234',
+                 '567890',
+                 new \DateTimeImmutable('2002-10-28'),
+                 'УВД Кировского района города Новосибирска',
+                 '540-001',
+            )
+        ];
+        yield [
+            <<<JSON_B
 {
   "series": "1235",
   "number": "567891",
@@ -83,15 +82,14 @@ JSON_A
   "divisionCode": null
 }
 JSON_B
-                ,
-                new Passport(
-                    '1235',
-                    '567891',
-                    new \DateTimeImmutable('2011-03-23'),
-                    'Отделом УФМС России по Новосибирской области в Заельцовском районе',
-                    null,
-                )
-            ],
+            ,
+            new Passport(
+                '1235',
+                '567891',
+                new \DateTimeImmutable('2011-03-23'),
+                'Отделом УФМС России по Новосибирской области в Заельцовском районе',
+                null,
+            )
         ];
     }
 }

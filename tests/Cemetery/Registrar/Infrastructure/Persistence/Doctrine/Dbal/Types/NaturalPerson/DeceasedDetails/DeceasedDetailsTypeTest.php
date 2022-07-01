@@ -24,7 +24,7 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат данных умершего';
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToDatabaseValue(string $dbValue, DeceasedDetails $phpValue): void
     {
@@ -65,7 +65,7 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
     }
 
     /**
-     * @dataProvider getConversionTests
+     * @dataProvider getConversionData
      */
     public function testItConvertsToPhpValue(string $dbValue, DeceasedDetails $phpValue): void
     {
@@ -74,13 +74,12 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
         $this->assertTrue($resultingPhpValue->isEqual($phpValue));
     }
 
-    protected function getConversionTests(): array
+    protected function getConversionData(): iterable
     {
-        return [
-            // database value,
-            // PHP value
-            [
-                <<<JSON_A
+        // database value,
+        // PHP value
+        yield [
+            <<<JSON_A
 {
   "naturalPersonId": "NP001",
   "diedAt": "2011-04-30",
@@ -97,18 +96,18 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
   }
 }
 JSON_A
-        ,
-                new DeceasedDetails(
-                    new NaturalPersonId('NP001'),
-                    new \DateTimeImmutable('2011-04-30'),
-                    new Age(82),
-                    new CauseOfDeathId('CD001'),
-                    new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28')),
-                    new CremationCertificate('12964', new \DateTimeImmutable('2002-10-29')),
-                ),
-            ],
-            [
-                <<<JSON_B
+            ,
+            new DeceasedDetails(
+                new NaturalPersonId('NP001'),
+                new \DateTimeImmutable('2011-04-30'),
+                new Age(82),
+                new CauseOfDeathId('CD001'),
+                new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28')),
+                new CremationCertificate('12964', new \DateTimeImmutable('2002-10-29')),
+            ),
+        ];
+        yield [
+            <<<JSON_B
 {
   "naturalPersonId": "NP002",
   "diedAt": "2021-12-15",
@@ -118,16 +117,15 @@ JSON_A
   "cremationCertificate": null
 }
 JSON_B
-                ,
-                new DeceasedDetails(
-                    new NaturalPersonId('NP002'),
-                    new \DateTimeImmutable('2021-12-15'),
-                    null,
-                    null,
-                    null,
-                    null,
-                )
-            ],
+            ,
+            new DeceasedDetails(
+                new NaturalPersonId('NP002'),
+                new \DateTimeImmutable('2021-12-15'),
+                null,
+                null,
+                null,
+                null,
+            )
         ];
     }
 }
