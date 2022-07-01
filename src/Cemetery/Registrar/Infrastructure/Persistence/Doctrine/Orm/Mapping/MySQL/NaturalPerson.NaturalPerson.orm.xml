@@ -12,6 +12,7 @@
         <field name="bornAt"          column="born_at"          type="date_immutable"     nullable="true" />
         <field name="placeOfBirth"    column="place_of_birth"   type="place_of_birth"     nullable="true" />
         <field name="passport"        column="passport"         type="passport"           nullable="true" />
+        <field name="deceasedDetails" column="deceased_details" type="deceased_details"   nullable="true" />
         <field name="createdAt"       column="created_at"       type="datetime_immutable"                 />
         <field name="updatedAt"       column="updated_at"       type="datetime_immutable"                 />
         <field name="removedAt"       column="removed_at"       type="datetime_immutable" nullable="true" />
