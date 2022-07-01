@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -51,6 +52,11 @@ class NaturalPerson extends AggregateRoot
      * @var Passport|null
      */
     private ?Passport $passport = null;
+
+    /**
+     * @var DeceasedDetails|null
+     */
+    private ?DeceasedDetails $deceasedDetails = null;
 
     /**
      * @param NaturalPersonId $id
@@ -227,6 +233,26 @@ class NaturalPerson extends AggregateRoot
     public function setPlaceOfBirth(?PlaceOfBirth $placeOfBirth): self
     {
         $this->placeOfBirth = $placeOfBirth;
+
+        return $this;
+    }
+
+    /**
+     * @return DeceasedDetails|null
+     */
+    public function deceasedDetails(): ?DeceasedDetails
+    {
+        return $this->deceasedDetails;
+    }
+
+    /**
+     * @param DeceasedDetails|null $deceasedDetails
+     *
+     * @return $this
+     */
+    public function setDeceasedDetails(?DeceasedDetails $deceasedDetails): self
+    {
+        $this->deceasedDetails = $deceasedDetails;
 
         return $this;
     }
