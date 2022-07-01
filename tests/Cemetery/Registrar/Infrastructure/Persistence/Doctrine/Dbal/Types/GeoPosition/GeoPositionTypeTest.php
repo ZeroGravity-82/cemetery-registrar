@@ -25,7 +25,8 @@ class GeoPositionTypeTest extends CustomJsonTypeTest
      */
     public function testItConvertsToDatabaseValue(string $dbValue, GeoPosition $phpValue): void
     {
-        $resultingDbValue     = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
+        $resultingDbValue = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
+        $this->assertJson($resultingDbValue);
         $decodedResultDbValue = \json_decode($resultingDbValue, true);
         $this->assertIsArray($decodedResultDbValue);
         $this->assertArrayHasKey('coordinates', $decodedResultDbValue);

@@ -23,7 +23,8 @@ class PassportTypeTest extends CustomJsonTypeTest
      */
     public function testItConvertsToDatabaseValue(string $dbValue, Passport $phpValue): void
     {
-        $resultingDbValue     = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
+        $resultingDbValue = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
+        $this->assertJson($resultingDbValue);
         $decodedResultDbValue = \json_decode($resultingDbValue, true);
         $this->assertIsArray($decodedResultDbValue);
         $this->assertArrayHasKey('series', $decodedResultDbValue);

@@ -18,7 +18,8 @@ abstract class EntityMaskingIdTypeTest extends CustomJsonTypeTest
      */
     public function testItConvertsToDatabaseValue(string $dbValue, EntityMaskingId $phpValue): void
     {
-        $resultingDbValue     = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
+        $resultingDbValue = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
+        $this->assertJson($resultingDbValue);
         $decodedResultDbValue = \json_decode($resultingDbValue, true);
         $this->assertIsArray($decodedResultDbValue);
         $this->assertArrayHasKey('type', $decodedResultDbValue);
