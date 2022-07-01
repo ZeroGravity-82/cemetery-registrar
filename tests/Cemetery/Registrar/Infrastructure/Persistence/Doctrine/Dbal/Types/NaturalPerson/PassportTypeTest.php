@@ -55,12 +55,42 @@ class PassportTypeTest extends CustomJsonTypeTest
             // database value,
             // PHP value
             [
-                '{"series":"1234","number":"567890","issuedAt":"2002-10-28","issuedBy":"УВД Кировского района города Новосибирска","divisionCode":"540-001"}',
-                new Passport('1234', '567890', new \DateTimeImmutable('2002-10-28'), 'УВД Кировского района города Новосибирска', '540-001')
+                <<<JSON_A
+{
+  "series": "1234",
+  "number": "567890",
+  "issuedAt": "2002-10-28",
+  "issuedBy": "УВД Кировского района города Новосибирска",
+  "divisionCode": "540-001"
+}
+JSON_A
+                ,
+                new Passport(
+                    '1234',
+                     '567890',
+                     new \DateTimeImmutable('2002-10-28'),
+                     'УВД Кировского района города Новосибирска',
+                     '540-001',
+                )
             ],
             [
-                '{"series":"1235","number":"567891","issuedAt":"2011-03-23","issuedBy":"Отделом УФМС России по Новосибирской области в Заельцовском районе","divisionCode":null}',
-                new Passport('1235', '567891', new \DateTimeImmutable('2011-03-23'), 'Отделом УФМС России по Новосибирской области в Заельцовском районе', null)
+                <<<JSON_B
+{
+  "series": "1235",
+  "number": "567891",
+  "issuedAt": "2011-03-23",
+  "issuedBy": "Отделом УФМС России по Новосибирской области в Заельцовском районе",
+  "divisionCode": null
+}
+JSON_B
+                ,
+                new Passport(
+                    '1235',
+                    '567891',
+                    new \DateTimeImmutable('2011-03-23'),
+                    'Отделом УФМС России по Новосибирской области в Заельцовском районе',
+                    null,
+                )
             ],
         ];
     }
