@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
-use DataFixtures\Deceased\CauseOfDeath\CauseOfDeathProvider;
+use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

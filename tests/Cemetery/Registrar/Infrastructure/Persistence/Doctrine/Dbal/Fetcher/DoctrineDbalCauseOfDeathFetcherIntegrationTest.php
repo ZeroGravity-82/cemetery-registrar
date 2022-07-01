@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalCauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
-use DataFixtures\Deceased\CauseOfDeath\CauseOfDeathFixtures;
+use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
 
 /**
  * @group database

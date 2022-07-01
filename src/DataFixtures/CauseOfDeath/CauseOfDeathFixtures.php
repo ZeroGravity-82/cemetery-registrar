@@ -1,6 +1,6 @@
 <?php
 
-namespace DataFixtures\Deceased\CauseOfDeath;
+namespace DataFixtures\CauseOfDeath;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;

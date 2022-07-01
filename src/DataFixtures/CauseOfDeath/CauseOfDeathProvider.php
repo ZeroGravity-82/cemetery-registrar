@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DataFixtures\Deceased\CauseOfDeath;
+namespace DataFixtures\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;

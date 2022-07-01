@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
-use DataFixtures\Deceased\CauseOfDeath\CauseOfDeathProvider;
+use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
 
 /**
  * @group database
