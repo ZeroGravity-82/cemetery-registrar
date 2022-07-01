@@ -43,7 +43,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 'dnp.deceased_details->>"$.diedAt" AS deceasedNaturalPersonDeceasedDetailsDiedAt',
                 'dnp.deceased_details->>"$.age"    AS deceasedNaturalPersonDeceasedDetailsAge',
                 'b.buried_at                       AS buriedAt',
-                'b.burial_place_id->>"$.type       AS burialPlaceType',
+                'b.burial_place_id->>"$.type"      AS burialPlaceType',
                 'bpgscb.name                       AS burialPlaceGraveSiteCemeteryBlockName',
                 'bpgs.row_in_block                 AS burialPlaceGraveSiteRowInBlock',
                 'bpgs.position_in_row              AS burialPlaceGraveSitePositionInRow',
@@ -320,7 +320,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             },
             match ($viewData['deceasedNaturalPersonDeceasedDetailsAge']) {
                 'null'  => null,
-                default => $viewData['deceasedNaturalPersonDeceasedDetailsAge'],
+                default => (int) $viewData['deceasedNaturalPersonDeceasedDetailsAge'],
             },
             match ($viewData['deceasedNaturalPersonDeceasedDetailsCauseOfDeathId']) {
                 'null'  => null,
@@ -493,7 +493,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 },
                 match ($listItemData['deceasedNaturalPersonDeceasedDetailsAge']) {
                     'null'  => null,
-                    default => $listItemData['deceasedNaturalPersonDeceasedDetailsAge'],
+                    default => (int) $listItemData['deceasedNaturalPersonDeceasedDetailsAge'],
                 },
                 $listItemData['buriedAt'],
                 $listItemData['burialPlaceType'],
