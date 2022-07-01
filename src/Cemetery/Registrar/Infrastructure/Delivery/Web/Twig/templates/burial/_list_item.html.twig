@@ -3,10 +3,10 @@
   <td class="text-end">
     {{- listItem.code -}}
   </td>
-  <td>{{- listItem.deceasedNaturalPersonBornAt is empty ? '' : listItem.deceasedNaturalPersonBornAt|date('d.m.Y') -}}</td>
-  <td>{{- listItem.deceasedDiedAt              is empty ? '' : listItem.deceasedDiedAt|date('d.m.Y') -}}</td>
-  <td>{{- listItem.buriedAt                    is empty ? '' : listItem.buriedAt|date('d.m.Y H:i') -}}</td>
-  <td>{{- listItem.deceasedAge                 is empty ? '' : listItem.deceasedAge -}}</td>
+  <td>{{- listItem.deceasedNaturalPersonBornAt                is empty ? '' : listItem.deceasedNaturalPersonBornAt|date('d.m.Y') -}}</td>
+  <td>{{- listItem.deceasedNaturalPersonDeceasedDetailsDiedAt is empty ? '' : listItem.deceasedNaturalPersonDeceasedDetailsDiedAt|date('d.m.Y') -}}</td>
+  <td>{{- listItem.buriedAt                                   is empty ? '' : listItem.buriedAt|date('d.m.Y H:i') -}}</td>
+  <td>{{- listItem.deceasedNaturalPersonDeceasedDetailsAge    is empty ? '' : listItem.deceasedNaturalPersonDeceasedDetailsAge -}}</td>
   <td>
     {% if listItem.burialPlaceType == constant('Cemetery\\Registrar\\Domain\\Model\\BurialPlace\\GraveSite\\GraveSite::CLASS_SHORTCUT') %}
       {{- listItem.burialPlaceGraveSiteCemeteryBlockName is empty ? '' : 'квартал '~listItem.burialPlaceGraveSiteCemeteryBlockName -}}
