@@ -13,14 +13,17 @@ class BurialView
      * @param string      $id
      * @param string      $code
      * @param string|null $type
-     * @param string|null $deceasedId
      * @param string|null $deceasedNaturalPersonId
      * @param string|null $deceasedNaturalPersonFullName
      * @param string|null $deceasedNaturalPersonBornAt
-     * @param string|null $deceasedDiedAt
-     * @param int|null    $deceasedAge
-     * @param string|null $deceasedDeathCertificateId
-     * @param string|null $deceasedCauseOfDeathId
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsDiedAt
+     * @param int|null    $deceasedNaturalPersonDeceasedDetailsAge
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsCauseOfDeathId
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsDeathCertificateIssuedAt
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsCremationCertificateNumber
+     * @param string|null $deceasedNaturalPersonDeceasedDetailsCremationCertificateIssuedAt
      * @param string|null $customerId
      * @param string|null $customerType
      * @param string|null $customerNaturalPersonFullName
@@ -117,14 +120,17 @@ class BurialView
         public readonly string  $id,
         public readonly string  $code,
         public readonly ?string $type,
-        public readonly ?string $deceasedId,
         public readonly ?string $deceasedNaturalPersonId,
         public readonly ?string $deceasedNaturalPersonFullName,
         public readonly ?string $deceasedNaturalPersonBornAt,
-        public readonly ?string $deceasedDiedAt,
-        public readonly ?int    $deceasedAge,
-        public readonly ?string $deceasedDeathCertificateId,
-        public readonly ?string $deceasedCauseOfDeathId,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsDiedAt,
+        public readonly ?int    $deceasedNaturalPersonDeceasedDetailsAge,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsCauseOfDeathId,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsDeathCertificateIssuedAt,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsCremationCertificateNumber,
+        public readonly ?string $deceasedNaturalPersonDeceasedDetailsCremationCertificateIssuedAt,
         public readonly ?string $customerId,
         public readonly ?string $customerType,
         public readonly ?string $customerNaturalPersonFullName,

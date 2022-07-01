@@ -14,8 +14,8 @@ class BurialListItem
      * @param string      $code
      * @param string      $deceasedNaturalPersonFullName
      * @param string|null $deceasedNaturalPersonBornAt
-     * @param string      $deceasedDiedAt
-     * @param int|null    $deceasedAge
+     * @param string      $deceasedNaturalPersonDeceasedDetailsDiedAt
+     * @param int|null    $deceasedNaturalPersonDeceasedDetailsAge
      * @param string|null $buriedAt
      * @param string|null $burialPlaceType
      * @param string|null $burialPlaceGraveSiteCemeteryBlockName
@@ -43,8 +43,8 @@ class BurialListItem
         public readonly string  $code,
         public readonly string  $deceasedNaturalPersonFullName,
         public readonly ?string $deceasedNaturalPersonBornAt,
-        public readonly string  $deceasedDiedAt,
-        public readonly ?int    $deceasedAge,
+        public readonly string  $deceasedNaturalPersonDeceasedDetailsDiedAt,
+        public readonly ?int    $deceasedNaturalPersonDeceasedDetailsAge,
         public readonly ?string $buriedAt,
         public readonly ?string $burialPlaceType,
         public readonly ?string $burialPlaceGraveSiteCemeteryBlockName,
