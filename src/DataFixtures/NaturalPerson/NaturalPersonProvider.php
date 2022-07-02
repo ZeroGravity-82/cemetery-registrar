@@ -24,11 +24,12 @@ class NaturalPersonProvider
         $id                   = new NaturalPersonId('NP001');
         $fullName             = new FullName('Егоров Абрам Даниилович');
         $diedAt               = new \DateTimeImmutable('2021-12-01');
+        $age                  = new Age(82);
         $cremationCertificate = new CremationCertificate('12964', new \DateTimeImmutable('2002-10-28'));
         $deceasedDetails      = new DeceasedDetails(
             $id,
             $diedAt,
-            null,
+            $age,
             null,
             null,
             $cremationCertificate,
@@ -44,13 +45,12 @@ class NaturalPersonProvider
         $fullName         = new FullName('Устинов Арсений Максович');
         $bornAt           = new \DateTimeImmutable('1918-12-30');
         $diedAt           = new \DateTimeImmutable('2001-02-12');
-        $age              = new Age(82);
         $causeOfDeathId   = new CauseOfDeathId('CD008');
         $deathCertificate = new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28'));
         $deceasedDetails  = new DeceasedDetails(
             $id,
             $diedAt,
-            $age,
+            null,
             $causeOfDeathId,
             $deathCertificate,
             null,
