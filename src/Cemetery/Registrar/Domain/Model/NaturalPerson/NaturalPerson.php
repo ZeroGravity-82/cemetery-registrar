@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\Exception\NaturalPersonException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -189,6 +190,8 @@ class NaturalPerson extends AggregateRoot
      * @param \DateTimeImmutable|null $bornAt
      *
      * @return $this
+     *
+     * @throws NaturalPersonException when the birthdate follows the death date (if any)
      */
     public function setBornAt(?\DateTimeImmutable $bornAt): self
     {
@@ -250,6 +253,9 @@ class NaturalPerson extends AggregateRoot
      * @param DeceasedDetails|null $deceasedDetails
      *
      * @return $this
+     *
+     * @throws NaturalPersonException when the death date precedes the birthdate (if any)
+     * @throws NaturalPersonException when the age is provided when both birthdate and death date are set
      */
     public function setDeceasedDetails(?DeceasedDetails $deceasedDetails): self
     {
@@ -264,7 +270,7 @@ class NaturalPerson extends AggregateRoot
      *
      * @param \DateTimeImmutable|null $bornAt
      *
-     * @throws \RuntimeException when the birthdate follows the death date (if any)
+     * @throws NaturalPersonException when the birthdate follows the death date (if any)
      */
     private function assertValidBirthdate(?\DateTimeImmutable $bornAt): void
     {
@@ -272,7 +278,7 @@ class NaturalPerson extends AggregateRoot
             return;
         }
         if ($bornAt > $this->deceasedDetails()->diedAt()) {
-            throw new \RuntimeException('Дата рождения не может следовать за датой смерти.');
+            throw NaturalPersonException::birthdateFollowsDeathDate();
         }
     }
 
@@ -281,8 +287,8 @@ class NaturalPerson extends AggregateRoot
      *
      * @param DeceasedDetails|null $deceasedDetails
      *
-     * @throws \RuntimeException when the death date precedes the birthdate (if any)
-     * @throws \RuntimeException when the age is provided when birthdate and death date are both set
+     * @throws NaturalPersonException when the death date precedes the birthdate (if any)
+     * @throws NaturalPersonException when the age is provided when both birthdate and death date are set
      */
     private function assertValidDeceasedDetails(?DeceasedDetails $deceasedDetails): void
     {
@@ -295,7 +301,7 @@ class NaturalPerson extends AggregateRoot
      *
      * @param DeceasedDetails|null $deceasedDetails
      *
-     * @throws \RuntimeException when the death date precedes the birthdate (if any)
+     * @throws NaturalPersonException when the death date precedes the birthdate (if any)
      */
     private function assertValidDeathDate(?DeceasedDetails $deceasedDetails): void
     {
@@ -303,16 +309,16 @@ class NaturalPerson extends AggregateRoot
             return;
         }
         if ($deceasedDetails->diedAt() < $this->bornAt()) {
-            throw new \RuntimeException('Дата смерти не может предшествовать дате рождения.');
+            throw NaturalPersonException::deathDatePrecedesBirthdate();
         }
     }
 
     /**
-     * Checks that the age from the deceased details is not provided when birthdate and death date are both set.
+     * Checks that the age from the deceased details is not provided when both birthdate and death date are set.
      *
      * @param DeceasedDetails|null $deceasedDetails
      *
-     * @throws \RuntimeException when the age is provided when birthdate and death date are both set
+     * @throws NaturalPersonException when the age is provided when both birthdate and death date are set
      */
     private function assertAgeIsNotRedundant(?DeceasedDetails $deceasedDetails): void
     {
@@ -320,7 +326,7 @@ class NaturalPerson extends AggregateRoot
             return;
         }
         if ($deceasedDetails?->age()) {
-            throw new \RuntimeException('Возраст не может быть задан вручную, т.к. уже заданы даты рождения и смерти.');
+            throw NaturalPersonException::ageForBothBirthAndDeathDatesSet();
         }
     }
 }

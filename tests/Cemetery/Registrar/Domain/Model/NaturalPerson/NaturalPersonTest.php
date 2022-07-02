@@ -12,6 +12,7 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\Exception\NaturalPersonException;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -187,8 +188,8 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setDeceasedDetails($deceasedDetails);
 
         // Testing itself
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Дата рождения не может следовать за датой смерти.');
+        $this->expectException(NaturalPersonException::class);
+        $this->expectExceptionMessage(NaturalPersonException::BIRTHDATE_FOLLOWS_DEATH_DATE);
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2010-05-13'));
     }
 
@@ -198,8 +199,8 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2010-05-13'));
 
         // Testing itself
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Дата смерти не может предшествовать дате рождения.');
+        $this->expectException(NaturalPersonException::class);
+        $this->expectExceptionMessage(NaturalPersonException::DEATH_DATE_PRECEDES_BIRTHDATE);
         $deceasedDetails = new DeceasedDetails(
             $this->naturalPersonId,
             new \DateTimeImmutable('2001-05-13'),
@@ -217,8 +218,8 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
 
         // Testing itself
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Возраст не может быть задан вручную, т.к. уже заданы даты рождения и смерти.');
+        $this->expectException(NaturalPersonException::class);
+        $this->expectExceptionMessage(NaturalPersonException::AGE_FOR_BOTH_BIRTH_AND_DEATH_DATES_SET);
         $deceasedDetails = new DeceasedDetails(
             $this->naturalPersonId,
             new \DateTimeImmutable('2010-05-13'),
