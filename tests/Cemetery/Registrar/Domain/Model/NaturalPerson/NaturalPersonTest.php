@@ -170,4 +170,63 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setDeceasedDetails(null);
         $this->assertNull($this->naturalPerson->deceasedDetails());
     }
+
+    // ------------------------- "bornAt <-> deceasedDetails->diedAt" invariant testing --------------------------
+
+    public function testItFailsWhenSettingBirthdateFollowsDeathDate(): void
+    {
+        // Prepare entity for testing
+        $deceasedDetails = new DeceasedDetails(
+            $this->naturalPersonId,
+            new \DateTimeImmutable('2001-05-13'),
+            null,
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+
+        // Testing itself
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Дата рождения не может следовать за датой смерти.');
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2010-05-13'));
+    }
+
+    public function testItFailsWhenSettingDeathDatePrecedesBirthdate(): void
+    {
+        // Prepare entity for testing
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2010-05-13'));
+
+        // Testing itself
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Дата смерти не может предшествовать дате рождения.');
+        $deceasedDetails = new DeceasedDetails(
+            $this->naturalPersonId,
+            new \DateTimeImmutable('2001-05-13'),
+            null,
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+    }
+
+    public function testItFailsWhenSettingAgeForBothBirthAndDeathDatesSet(): void
+    {
+        // Prepare entity for testing
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
+
+        // Testing itself
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Возраст не может быть задан вручную, т.к. уже заданы даты рождения и смерти.');
+        $deceasedDetails = new DeceasedDetails(
+            $this->naturalPersonId,
+            new \DateTimeImmutable('2010-05-13'),
+            new Age(9),
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+    }
 }
