@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-#[Route('/admin/organization')]
 class AdminOrganizationController extends Controller
 {
     /**
@@ -27,7 +26,7 @@ class AdminOrganizationController extends Controller
         private readonly ListOrganizationsService      $listOrganizationsService,
     ) {}
 
-    #[Route('/', name: 'admin_organization_list', methods: 'GET')]
+    #[Route('/admin/organization', name: 'admin_organization_list', methods: 'GET')]
     public function list(): Response
     {
         $organizationTotalCount = $this->countOrganizationTotalService

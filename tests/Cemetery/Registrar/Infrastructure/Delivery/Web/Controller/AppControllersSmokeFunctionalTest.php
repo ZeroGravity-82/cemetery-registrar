@@ -52,16 +52,16 @@ class AppControllersSmokeFunctionalTest extends WebTestCase
     private function getPageUrlTestData(): iterable
     {
         yield ['/'];
-        yield ['/burial/'];
+        yield ['/burial'];
         yield ['/burial/new'];
         yield ['/burial/edit/B001'];
-        yield ['/admin/dashboard/'];
+        yield ['/admin/dashboard'];
         yield ['/admin/burial-place/grave-site'];
         yield ['/admin/burial-place/columbarium-niche'];
         yield ['/admin/burial-place/memorial-tree'];
-        yield ['/admin/cause-of-death/'];
-        yield ['/admin/funeral-company/'];
-        yield ['/admin/organization/'];
+        yield ['/admin/cause-of-death'];
+        yield ['/admin/funeral-company'];
+        yield ['/admin/organization'];
     }
 
     private function loadFixtures(): void

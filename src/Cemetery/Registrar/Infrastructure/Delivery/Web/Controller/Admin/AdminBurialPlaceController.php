@@ -31,7 +31,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-#[Route('/admin/burial-place')]
 class AdminBurialPlaceController extends Controller
 {
     /**
@@ -59,7 +58,7 @@ class AdminBurialPlaceController extends Controller
         private readonly ListMemorialTreesService          $listMemorialTreesService,
     ) {}
 
-    #[Route('/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
+    #[Route('/admin/burial-place/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
     public function graveSiteList(): Response
     {
         $cemeteryBlockTotalCount = $this->countCemeteryBlockTotalService
@@ -83,7 +82,7 @@ class AdminBurialPlaceController extends Controller
         ]);
     }
 
-    #[Route('/columbarium-niche', name: 'admin_burial_place_columbarium_niche_list', methods: 'GET')]
+    #[Route('/admin/burial-place/columbarium-niche', name: 'admin_burial_place_columbarium_niche_list', methods: 'GET')]
     public function columbariumNicheList(): Response
     {
         $columbariumTotalCount = $this->countColumbariumTotalService
@@ -107,7 +106,7 @@ class AdminBurialPlaceController extends Controller
         ]);
     }
 
-    #[Route('/memorial-tree', name: 'admin_burial_place_memorial_tree_list', methods: 'GET')]
+    #[Route('/admin/burial-place/memorial-tree', name: 'admin_burial_place_memorial_tree_list', methods: 'GET')]
     public function memorialTreeList(): Response
     {
         $memorialTreeTotalCount = $this->countMemorialTreeTotalService

@@ -28,7 +28,6 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-#[Route('/burial')]
 class BurialController extends Controller
 {
     /**
@@ -52,7 +51,7 @@ class BurialController extends Controller
         private readonly ListCoffinShapesService     $listCoffinShapesService,
     ) {}
 
-    #[Route('/', name: 'burial_list', methods: Request::METHOD_GET)]
+    #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
     public function list(): Response
     {
         $burialTotalCount = $this->countBurialTotalService
@@ -84,7 +83,7 @@ class BurialController extends Controller
         ]);
     }
 
-    #[Route('/new', name: 'burial_new', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    #[Route('/burial/new', name: 'burial_new', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function new(Request $request): Response
     {
         if ($request->isMethod(Request::METHOD_GET)) {
@@ -107,7 +106,7 @@ class BurialController extends Controller
         return $response;
     }
     
-    #[Route('/edit/{id}', name: 'burial_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    #[Route('/burial/edit/{id}', name: 'burial_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function edit(Request $request, string $id): JsonResponse
     {
         if ($request->isMethod(Request::METHOD_GET)) {
