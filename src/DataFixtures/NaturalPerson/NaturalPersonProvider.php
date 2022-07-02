@@ -24,7 +24,7 @@ class NaturalPersonProvider
         $id                   = new NaturalPersonId('NP001');
         $fullName             = new FullName('Егоров Абрам Даниилович');
         $diedAt               = new \DateTimeImmutable('2021-12-01');
-        $age                  = new Age(82);
+        $age                  = new Age(69);
         $cremationCertificate = new CremationCertificate('12964', new \DateTimeImmutable('2002-10-28'));
         $deceasedDetails      = new DeceasedDetails(
             $id,
