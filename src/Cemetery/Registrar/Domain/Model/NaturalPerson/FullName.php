@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\NaturalPerson\Exception\FullNameException;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -11,6 +13,8 @@ class FullName
 {
     /**
      * @param string $value
+     *
+     * @throws FullNameException when the full name is empty
      */
     public function __construct(
         private readonly string $value,
@@ -46,6 +50,8 @@ class FullName
 
     /**
      * @param string $value
+     *
+     * @throws FullNameException when the full name is empty
      */
     private function assertValidValue(string $value): void
     {
@@ -55,12 +61,12 @@ class FullName
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the full name is empty
+     * @throws FullNameException when the full name is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('ФИО не может иметь пустое значение.');
+            throw FullNameException::emptyFullName();
         }
     }
 }
