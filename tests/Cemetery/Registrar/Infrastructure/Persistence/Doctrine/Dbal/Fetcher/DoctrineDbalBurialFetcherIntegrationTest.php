@@ -264,7 +264,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Устинов Арсений Максович',      $listItem->deceasedNaturalPersonFullName);
         $this->assertSame('1918-12-30',                    $listItem->deceasedNaturalPersonBornAt);
         $this->assertSame('2001-02-12',                    $listItem->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(null,                            $listItem->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(82,                              $listItem->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame(null,                            $listItem->buriedAt);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,       $listItem->burialPlaceType);
         $this->assertSame('общий Б',                       $listItem->burialPlaceGraveSiteCemeteryBlockName);
@@ -295,7 +295,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Шилов Александр Михаилович',  $listItem->deceasedNaturalPersonFullName);
         $this->assertSame('1969-05-20',                  $listItem->deceasedNaturalPersonBornAt);
         $this->assertSame('2012-05-13',                  $listItem->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(null,                          $listItem->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(42,                            $listItem->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame(null,                          $listItem->buriedAt);
         $this->assertSame(MemorialTree::CLASS_SHORTCUT,  $listItem->burialPlaceType);
         $this->assertSame(null,                          $listItem->burialPlaceGraveSiteCemeteryBlockName);
@@ -326,7 +326,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Жданова Инга Григорьевна',                    $listItem->deceasedNaturalPersonFullName);
         $this->assertSame('1979-02-12',                                  $listItem->deceasedNaturalPersonBornAt);
         $this->assertSame('2022-03-10',                                  $listItem->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(null,                                          $listItem->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(43,                                            $listItem->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame(null,                                          $listItem->buriedAt);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $listItem->burialPlaceType);
         $this->assertSame('воинский',                                    $listItem->burialPlaceGraveSiteCemeteryBlockName);
@@ -565,7 +565,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Устинов Арсений Максович',                  $view->deceasedNaturalPersonFullName);
         $this->assertSame('1918-12-30',                                $view->deceasedNaturalPersonBornAt);
         $this->assertSame('2001-02-12',                                $view->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(null,                                        $view->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(82,                                          $view->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame('CD008',                                     $view->deceasedNaturalPersonDeceasedDetailsCauseOfDeathId);
         $this->assertSame('V-МЮ',                                      $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries);
         $this->assertSame('532515',                                    $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber);
@@ -676,7 +676,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Шилов Александр Михаилович',                $view->deceasedNaturalPersonFullName);
         $this->assertSame('1969-05-20',                                $view->deceasedNaturalPersonBornAt);
         $this->assertSame('2012-05-13',                                $view->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(null,                                        $view->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(42,                                          $view->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame('CD004',                                     $view->deceasedNaturalPersonDeceasedDetailsCauseOfDeathId);
         $this->assertSame('I-BC',                                      $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries);
         $this->assertSame('785066',                                    $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber);
@@ -787,7 +787,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('Жданова Инга Григорьевна',                    $view->deceasedNaturalPersonFullName);
         $this->assertSame('1979-02-12',                                  $view->deceasedNaturalPersonBornAt);
         $this->assertSame('2022-03-10',                                  $view->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(43,                                            $view->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsCauseOfDeathId);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber);
