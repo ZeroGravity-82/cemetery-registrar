@@ -193,6 +193,17 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('11',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->burialFetcher->findAll(1, '42', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->listItems);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->listItems);
+        $this->assertCount(2,              $list->listItems);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('42',            $list->term);
+        $this->assertSame(2,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
     }
 
     public function testItReturnsBurialTotalCount(): void
@@ -324,9 +335,9 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame('B004',                                        $listItem->id);
         $this->assertSame('234117890',                                   $listItem->code);
         $this->assertSame('Жданова Инга Григорьевна',                    $listItem->deceasedNaturalPersonFullName);
-        $this->assertSame('1979-02-12',                                  $listItem->deceasedNaturalPersonBornAt);
+        $this->assertSame('1980-02-12',                                  $listItem->deceasedNaturalPersonBornAt);
         $this->assertSame('2022-03-10',                                  $listItem->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(43,                                            $listItem->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(42,                                            $listItem->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame(null,                                          $listItem->buriedAt);
         $this->assertSame(GraveSite::CLASS_SHORTCUT,                     $listItem->burialPlaceType);
         $this->assertSame('воинский',                                    $listItem->burialPlaceGraveSiteCemeteryBlockName);
@@ -468,7 +479,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $view->customerNaturalPersonPhoneAdditional);
         $this->assertSame(null,                                        $view->customerNaturalPersonEmail);
         $this->assertSame('Новосибирск, ул. Ленина, д. 1',             $view->customerNaturalPersonAddress);
-        $this->assertSame('1979-02-12',                                $view->customerNaturalPersonBornAt);
+        $this->assertSame('1980-02-12',                                $view->customerNaturalPersonBornAt);
         $this->assertSame(null,                                        $view->customerNaturalPersonPlaceOfBirth);
         $this->assertSame('1234',                                      $view->customerNaturalPersonPassportSeries);
         $this->assertSame('567890',                                    $view->customerNaturalPersonPassportNumber);
@@ -579,7 +590,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(null,                                        $view->customerNaturalPersonPhoneAdditional);
         $this->assertSame(null,                                        $view->customerNaturalPersonEmail);
         $this->assertSame('Новосибирск, ул. Ленина, д. 1',             $view->customerNaturalPersonAddress);
-        $this->assertSame('1979-02-12',                                $view->customerNaturalPersonBornAt);
+        $this->assertSame('1980-02-12',                                $view->customerNaturalPersonBornAt);
         $this->assertSame(null,                                        $view->customerNaturalPersonPlaceOfBirth);
         $this->assertSame('1234',                                      $view->customerNaturalPersonPassportSeries);
         $this->assertSame('567890',                                    $view->customerNaturalPersonPassportNumber);
@@ -785,9 +796,9 @@ class DoctrineDbalBurialFetcherIntegrationTest extends FetcherIntegrationTest
         $this->assertSame(BurialType::COFFIN_IN_GRAVE_SITE,              $view->type);
         $this->assertSame('NP005',                                       $view->deceasedNaturalPersonId);
         $this->assertSame('Жданова Инга Григорьевна',                    $view->deceasedNaturalPersonFullName);
-        $this->assertSame('1979-02-12',                                  $view->deceasedNaturalPersonBornAt);
+        $this->assertSame('1980-02-12',                                  $view->deceasedNaturalPersonBornAt);
         $this->assertSame('2022-03-10',                                  $view->deceasedNaturalPersonDeceasedDetailsDiedAt);
-        $this->assertSame(43,                                            $view->deceasedNaturalPersonDeceasedDetailsAge);
+        $this->assertSame(42,                                            $view->deceasedNaturalPersonDeceasedDetailsAge);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsCauseOfDeathId);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber);

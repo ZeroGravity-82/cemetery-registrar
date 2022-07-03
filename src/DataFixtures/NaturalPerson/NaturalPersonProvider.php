@@ -123,7 +123,7 @@ class NaturalPersonProvider
         $fullName = new FullName('Жданова Инга Григорьевна');
         $phone    = new PhoneNumber('+7-913-771-22-33');
         $address  = new Address('Новосибирск, ул. Ленина, д. 1');
-        $bornAt   = new \DateTimeImmutable('1979-02-12');
+        $bornAt   = new \DateTimeImmutable('1980-02-12');
         $passport = new Passport(
             '1234',
             '567890',
