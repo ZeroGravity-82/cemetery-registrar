@@ -53,7 +53,6 @@ class AppControllersSmokeFunctionalTest extends WebTestCase
     {
         yield ['/'];
         yield ['/burial'];
-        yield ['/burial/new'];
         yield ['/burial/edit/B001'];
         yield ['/admin/dashboard'];
         yield ['/admin/burial-place/grave-site'];
