@@ -71,6 +71,6 @@ class CreateJuristicPersonService extends ApplicationService
             $juristicPerson->inn(),
         ));
 
-        return new CreateJuristicPersonResponse((string) $juristicPerson->id());
+        return new CreateJuristicPersonResponse($juristicPerson->id()->value());
     }
 }
