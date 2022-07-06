@@ -29,3 +29,9 @@ $body.on(`click`, `tr`, function(e) {
         }
     });
 });
+
+$(document).ready(function(){
+    $("#modalCauseOfDeath").on('shown.bs.modal', function () {
+        $(this).find('#name').select();
+    });
+});
