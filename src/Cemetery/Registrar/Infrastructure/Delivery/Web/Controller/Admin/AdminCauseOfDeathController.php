@@ -10,6 +10,7 @@ use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\Cou
 use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\CountCauseOfDeathTotalService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathService;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
@@ -60,33 +61,33 @@ class AdminCauseOfDeathController extends Controller
     /**
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
     #[Route('/admin/cause-of-death/new', name: 'admin_cause_of_death_new', methods: Request::METHOD_POST)]
     public function new(Request $request): Response
     {
         $name                      = $this->getInputString($request, 'name');
-        dump($name);
-
-
         $createCauseOfDeathRequest = new CreateCauseOfDeathRequest($name);
         $causeOfDeathId            = $this->createCauseOfDeathService
             ->execute($createCauseOfDeathRequest)->causeOfDeathId;
-        $response                  = $this->redirectToRoute('admin_cause_of_death_list', [
-                'causeOfDeathId' => $causeOfDeathId,
-            ]);
 
-        return $response;
+        return $this->json(['id' => $causeOfDeathId], Response::HTTP_CREATED);
     }
 
+    /**
+     * @param Request $request
+     * @param string  $id
+     *
+     * @return JsonResponse
+     */
     #[Route('/admin/cause-of-death/edit/{id}', name: 'admin_cause_of_death_edit', methods: [
         Request::METHOD_GET,
-        Request::METHOD_POST,
+        Request::METHOD_PATCH,
     ])]
     public function edit(Request $request, string $id): JsonResponse
     {
-        if ($request->isMethod(Request::METHOD_POST)) {
-            $burial = $this->causeOfDeathRepo->findById($id);
+        if ($request->isMethod(Request::METHOD_PATCH)) {
+            $causeOfDeath = $this->causeOfDeathRepo->findById(new CauseOfDeathId($id));
         }
 
         if ($request->isMethod(Request::METHOD_GET)) {
