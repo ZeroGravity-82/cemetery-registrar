@@ -11,7 +11,7 @@ use Twig\TwigFilter;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class TextUtilitiesExtension extends AbstractExtension
+class TextExtension extends AbstractExtension
 {
     /**
      * {@inheritdoc}
