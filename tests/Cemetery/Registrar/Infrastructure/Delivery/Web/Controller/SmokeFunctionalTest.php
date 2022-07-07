@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AppControllersSmokeFunctionalTest extends WebTestCase
+class SmokeFunctionalTest extends WebTestCase
 {
     private KernelBrowser $client;
 
