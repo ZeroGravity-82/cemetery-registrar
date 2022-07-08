@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathUpdated;
 use Cemetery\Tests\Registrar\Domain\Model\EventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathUpdatedTest extends EventTest
+class CauseOfDeathEditedTest extends EventTest
 {
     private CauseOfDeathId   $causeOfDeathId;
     private CauseOfDeathName $causeOfDeathName;
@@ -21,7 +21,7 @@ class CauseOfDeathUpdatedTest extends EventTest
     {
         $this->causeOfDeathId   = new CauseOfDeathId('CD001');
         $this->causeOfDeathName = new CauseOfDeathName('Асфиксия');
-        $this->event            = new CauseOfDeathUpdated(
+        $this->event            = new CauseOfDeathEdited(
             $this->causeOfDeathId,
             $this->causeOfDeathName,
         );

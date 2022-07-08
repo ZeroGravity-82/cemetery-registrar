@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Model\Event;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathUpdated extends Event
+class CauseOfDeathEdited extends Event
 {
     /**
      * @param CauseOfDeathId   $causeOfDeathId

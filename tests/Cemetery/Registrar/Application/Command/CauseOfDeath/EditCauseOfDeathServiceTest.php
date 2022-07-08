@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCau
 use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCauseOfDeathResponse;
 use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
@@ -24,7 +24,6 @@ class EditCauseOfDeathServiceTest extends ApplicationServiceTest
     private string                            $name;
     private string                            $id;
     private MockObject|CauseOfDeath           $mockCauseOfDeath;
-    private MockObject|CauseOfDeathFactory    $mockCauseOfDeathFactory;
     private MockObject|CauseOfDeathRepository $mockCauseOfDeathRepo;
     private MockObject|EventDispatcher        $mockEventDispatcher;
 
@@ -33,12 +32,10 @@ class EditCauseOfDeathServiceTest extends ApplicationServiceTest
         $this->name = 'Онкология';
         $this->id   = 'CD001';
 
-        $this->mockCauseOfDeath        = $this->buildMockCauseOfDeath();
-        $this->mockCauseOfDeathFactory = $this->buildMockCauseOfDeathFactory();
-        $this->mockCauseOfDeathRepo    = $this->createMock(CauseOfDeathRepository::class);
-        $this->mockEventDispatcher     = $this->createMock(EventDispatcher::class);
-        $this->service                 = new EditCauseOfDeathService(
-            $this->mockCauseOfDeathFactory,
+        $this->mockCauseOfDeath     = $this->buildMockCauseOfDeath();
+        $this->mockCauseOfDeathRepo = $this->buildMockCauseOfDeathRepo();
+        $this->mockEventDispatcher  = $this->createMock(EventDispatcher::class);
+        $this->service              = new EditCauseOfDeathService(
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
         );
@@ -49,20 +46,27 @@ class EditCauseOfDeathServiceTest extends ApplicationServiceTest
         $this->assertSame(EditCauseOfDeathRequest::class, $this->service->supportedRequestClassName());
     }
 
-    public function testItCreatesCauseOfDeath(): void
+    public function testItEditsCauseOfDeath(): void
     {
-        $this->mockCauseOfDeathFactory->expects($this->once())->method('create')->with($this->name);
+        // Testing itself
+        $this->mockCauseOfDeathRepo->expects($this->once())->method('findById')->with(
+            $this->callback(function (object $arg) {
+                return
+                    $arg instanceof CauseOfDeathId &&
+                    $arg->value() === $this->id;
+            }),
+        );
         $this->mockCauseOfDeathRepo->expects($this->once())->method('save')->with($this->mockCauseOfDeath);
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return
-                    $arg instanceof CauseOfDeathCreated             &&
+                    $arg instanceof CauseOfDeathEdited              &&
                     $arg->causeOfDeathId()->value()   === $this->id &&
                     $arg->causeOfDeathName()->value() === $this->name;
             }),
         );
 
-        $response = $this->service->execute(new EditCauseOfDeathRequest($this->name));
+        $response = $this->service->execute(new EditCauseOfDeathRequest($this->id, $this->name));
         $this->assertInstanceOf(EditCauseOfDeathResponse::class, $response);
         $this->assertSame($this->id, $response->causeOfDeathId);
     }
@@ -70,6 +74,13 @@ class EditCauseOfDeathServiceTest extends ApplicationServiceTest
     public function testItFailsWhenNameAlreadyExists(): void
     {
         $this->markTestIncomplete();
+    }
+
+    public function testItFailsWhenAnCauseOfDeathIsNotFound(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage(\sprintf('Причина смерти с ID "%s" не найдена.', 'unknown_id'));
+        $this->service->execute(new EditCauseOfDeathRequest('unknown_id', 'Новое наименование'));
     }
 
     private function buildMockCauseOfDeath(): MockObject|CauseOfDeath
@@ -86,11 +97,11 @@ class EditCauseOfDeathServiceTest extends ApplicationServiceTest
         return $mockCauseOfDeath;
     }
 
-    private function buildMockCauseOfDeathFactory(): MockObject|CauseOfDeathFactory
+    private function buildMockCauseOfDeathRepo(): MockObject|CauseOfDeathRepository
     {
-        $mockCauseOfDeathFactory = $this->createMock(CauseOfDeathFactory::class);
-        $mockCauseOfDeathFactory->method('create')->with($this->name)->willReturn($this->mockCauseOfDeath);
+        $mockCauseOfDeathRepo = $this->createMock(CauseOfDeathRepository::class);
+        $mockCauseOfDeathRepo->method('findById')->willReturn($this->mockCauseOfDeath);
 
-        return $mockCauseOfDeathFactory;
+        return $mockCauseOfDeathRepo;
     }
 }
