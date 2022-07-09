@@ -1,4 +1,4 @@
-PhpStorm + Docker + Xdebug: https://blog.denisbondar.com/post/phpstorm_docker_xdebug
+Docker + php-fpm + PhpStorm + Xdebug: https://habr.com/ru/post/473184/
 
 dev:
     make init
