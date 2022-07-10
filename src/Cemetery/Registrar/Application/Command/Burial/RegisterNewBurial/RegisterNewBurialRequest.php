@@ -9,186 +9,93 @@ namespace Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial;
  */
 class RegisterNewBurialRequest
 {
-    /**
-     * @param string|null $type
-     * @param string|null $deceasedNaturalPersonId
-     * @param string|null $deceasedNaturalPersonFullName
-     * @param string|null $deceasedNaturalPersonBornAt
-     * @param string|null $deceasedDiedAt
-     * @param int|null    $deceasedAge
-     * @param string|null $deceasedDeathCertificateId
-     * @param string|null $deceasedCauseOfDeathId
-     * @param string|null $customerId
-     * @param string|null $customerType
-     * @param string|null $customerNaturalPersonFullName
-     * @param string|null $customerNaturalPersonPhone
-     * @param string|null $customerNaturalPersonPhoneAdditional
-     * @param string|null $customerNaturalPersonEmail
-     * @param string|null $customerNaturalPersonAddress
-     * @param string|null $customerNaturalPersonBornAt
-     * @param string|null $customerNaturalPersonPlaceOfBirth
-     * @param string|null $customerNaturalPersonPassportSeries
-     * @param string|null $customerNaturalPersonPassportNumber
-     * @param string|null $customerNaturalPersonPassportIssuedAt
-     * @param string|null $customerNaturalPersonPassportIssuedBy
-     * @param string|null $customerNaturalPersonPassportDivisionCode
-     * @param string|null $customerSoleProprietorName
-     * @param string|null $customerSoleProprietorInn
-     * @param string|null $customerSoleProprietorOgrnip
-     * @param string|null $customerSoleProprietorOkpo
-     * @param string|null $customerSoleProprietorOkved
-     * @param string|null $customerSoleProprietorRegistrationAddress
-     * @param string|null $customerSoleProprietorActualLocationAddress
-     * @param string|null $customerSoleProprietorBankDetailsBankName
-     * @param string|null $customerSoleProprietorBankDetailsBik
-     * @param string|null $customerSoleProprietorBankDetailsCorrespondentAccount
-     * @param string|null $customerSoleProprietorBankDetailsCurrentAccount
-     * @param string|null $customerSoleProprietorPhone
-     * @param string|null $customerSoleProprietorPhoneAdditional
-     * @param string|null $customerSoleProprietorFax
-     * @param string|null $customerSoleProprietorEmail
-     * @param string|null $customerSoleProprietorWebsite
-     * @param string|null $customerJuristicPersonName
-     * @param string|null $customerJuristicPersonInn
-     * @param string|null $customerJuristicPersonKpp
-     * @param string|null $customerJuristicPersonOgrn
-     * @param string|null $customerJuristicPersonOkpo
-     * @param string|null $customerJuristicPersonOkved
-     * @param string|null $customerJuristicPersonLegalAddress
-     * @param string|null $customerJuristicPersonPostalAddress
-     * @param string|null $customerJuristicPersonBankDetailsBankName
-     * @param string|null $customerJuristicPersonBankDetailsBik
-     * @param string|null $customerJuristicPersonBankDetailsCorrespondentAccount
-     * @param string|null $customerJuristicPersonBankDetailsCurrentAccount
-     * @param string|null $customerJuristicPersonPhone
-     * @param string|null $customerJuristicPersonPhoneAdditional
-     * @param string|null $customerJuristicPersonFax
-     * @param string|null $customerJuristicPersonGeneralDirector
-     * @param string|null $customerJuristicPersonEmail
-     * @param string|null $customerJuristicPersonWebsite
-     * @param string|null $personInChargeId
-     * @param string|null $personInChargeFullName
-     * @param string|null $personInChargePhone
-     * @param string|null $personInChargePhoneAdditional
-     * @param string|null $personInChargeEmail
-     * @param string|null $personInChargeAddress
-     * @param string|null $personInChargeBornAt
-     * @param string|null $personInChargePlaceOfBirth
-     * @param string|null $personInChargePassportSeries
-     * @param string|null $personInChargePassportNumber
-     * @param string|null $personInChargePassportIssuedAt
-     * @param string|null $personInChargePassportIssuedBy
-     * @param string|null $personInChargePassportDivisionCode
-     * @param string|null $funeralCompanyId
-     * @param string|null $burialChainId
-     * @param string|null $burialPlaceId
-     * @param string|null $burialPlaceType
-     * @param string|null $burialPlaceGraveSiteCemeteryBlockId
-     * @param int|null    $burialPlaceGraveSiteRowInBlock
-     * @param int|null    $burialPlaceGraveSitePositionInRow
-     * @param string|null $burialPlaceGraveSiteSize
-     * @param string|null $burialPlaceColumbariumNicheColumbariumId
-     * @param int|null    $burialPlaceColumbariumNicheRowInColumbarium
-     * @param string|null $burialPlaceColumbariumNicheNicheNumber
-     * @param string|null $burialPlaceMemorialTreeNumber
-     * @param string|null $burialPlaceGeoPositionLatitude
-     * @param string|null $burialPlaceGeoPositionLongitude
-     * @param string|null $burialPlaceGeoPositionError
-     * @param string|null $burialContainerType
-     * @param int|null    $burialContainerCoffinSize
-     * @param string|null $burialContainerCoffinShape
-     * @param bool|null   $burialContainerCoffinIsNonStandard
-     * @param string|null $buriedAt
-     */
-    public function __construct(
-        public readonly ?string $type,
-        public readonly ?string $deceasedNaturalPersonId,
-        public readonly ?string $deceasedNaturalPersonFullName,
-        public readonly ?string $deceasedNaturalPersonBornAt,
-        public readonly ?string $deceasedDiedAt,
-        public readonly ?int    $deceasedAge,
-        public readonly ?string $deceasedDeathCertificateId,
-        public readonly ?string $deceasedCauseOfDeathId,
-        public readonly ?string $customerId,
-        public readonly ?string $customerType,
-        public readonly ?string $customerNaturalPersonFullName,
-        public readonly ?string $customerNaturalPersonPhone,
-        public readonly ?string $customerNaturalPersonPhoneAdditional,
-        public readonly ?string $customerNaturalPersonEmail,
-        public readonly ?string $customerNaturalPersonAddress,
-        public readonly ?string $customerNaturalPersonBornAt,
-        public readonly ?string $customerNaturalPersonPlaceOfBirth,
-        public readonly ?string $customerNaturalPersonPassportSeries,
-        public readonly ?string $customerNaturalPersonPassportNumber,
-        public readonly ?string $customerNaturalPersonPassportIssuedAt,
-        public readonly ?string $customerNaturalPersonPassportIssuedBy,
-        public readonly ?string $customerNaturalPersonPassportDivisionCode,
-        public readonly ?string $customerSoleProprietorName,
-        public readonly ?string $customerSoleProprietorInn,
-        public readonly ?string $customerSoleProprietorOgrnip,
-        public readonly ?string $customerSoleProprietorOkpo,
-        public readonly ?string $customerSoleProprietorOkved,
-        public readonly ?string $customerSoleProprietorRegistrationAddress,
-        public readonly ?string $customerSoleProprietorActualLocationAddress,
-        public readonly ?string $customerSoleProprietorBankDetailsBankName,
-        public readonly ?string $customerSoleProprietorBankDetailsBik,
-        public readonly ?string $customerSoleProprietorBankDetailsCorrespondentAccount,
-        public readonly ?string $customerSoleProprietorBankDetailsCurrentAccount,
-        public readonly ?string $customerSoleProprietorPhone,
-        public readonly ?string $customerSoleProprietorPhoneAdditional,
-        public readonly ?string $customerSoleProprietorFax,
-        public readonly ?string $customerSoleProprietorEmail,
-        public readonly ?string $customerSoleProprietorWebsite,
-        public readonly ?string $customerJuristicPersonName,
-        public readonly ?string $customerJuristicPersonInn,
-        public readonly ?string $customerJuristicPersonKpp,
-        public readonly ?string $customerJuristicPersonOgrn,
-        public readonly ?string $customerJuristicPersonOkpo,
-        public readonly ?string $customerJuristicPersonOkved,
-        public readonly ?string $customerJuristicPersonLegalAddress,
-        public readonly ?string $customerJuristicPersonPostalAddress,
-        public readonly ?string $customerJuristicPersonBankDetailsBankName,
-        public readonly ?string $customerJuristicPersonBankDetailsBik,
-        public readonly ?string $customerJuristicPersonBankDetailsCorrespondentAccount,
-        public readonly ?string $customerJuristicPersonBankDetailsCurrentAccount,
-        public readonly ?string $customerJuristicPersonPhone,
-        public readonly ?string $customerJuristicPersonPhoneAdditional,
-        public readonly ?string $customerJuristicPersonFax,
-        public readonly ?string $customerJuristicPersonGeneralDirector,
-        public readonly ?string $customerJuristicPersonEmail,
-        public readonly ?string $customerJuristicPersonWebsite,
-        public readonly ?string $personInChargeId,
-        public readonly ?string $personInChargeFullName,
-        public readonly ?string $personInChargePhone,
-        public readonly ?string $personInChargePhoneAdditional,
-        public readonly ?string $personInChargeEmail,
-        public readonly ?string $personInChargeAddress,
-        public readonly ?string $personInChargeBornAt,
-        public readonly ?string $personInChargePlaceOfBirth,
-        public readonly ?string $personInChargePassportSeries,
-        public readonly ?string $personInChargePassportNumber,
-        public readonly ?string $personInChargePassportIssuedAt,
-        public readonly ?string $personInChargePassportIssuedBy,
-        public readonly ?string $personInChargePassportDivisionCode,
-        public readonly ?string $funeralCompanyId,
-        public readonly ?string $burialChainId,
-        public readonly ?string $burialPlaceId,
-        public readonly ?string $burialPlaceType,
-        public readonly ?string $burialPlaceGraveSiteCemeteryBlockId,
-        public readonly ?int    $burialPlaceGraveSiteRowInBlock,
-        public readonly ?int    $burialPlaceGraveSitePositionInRow,
-        public readonly ?string $burialPlaceGraveSiteSize,
-        public readonly ?string $burialPlaceColumbariumNicheColumbariumId,
-        public readonly ?int    $burialPlaceColumbariumNicheRowInColumbarium,
-        public readonly ?string $burialPlaceColumbariumNicheNicheNumber,
-        public readonly ?string $burialPlaceMemorialTreeNumber,
-        public readonly ?string $burialPlaceGeoPositionLatitude,
-        public readonly ?string $burialPlaceGeoPositionLongitude,
-        public readonly ?string $burialPlaceGeoPositionError,
-        public readonly ?string $burialContainerType,
-        public readonly ?int    $burialContainerCoffinSize,
-        public readonly ?string $burialContainerCoffinShape,
-        public readonly ?bool   $burialContainerCoffinIsNonStandard,
-        public readonly ?string $buriedAt,
-    ) {}
+    public ?string $type = null;
+    public ?string $deceasedNaturalPersonId = null;
+    public ?string $deceasedNaturalPersonFullName = null;
+    public ?string $deceasedNaturalPersonBornAt = null;
+    public ?string $deceasedDiedAt = null;
+    public ?int    $deceasedAge = null;
+    public ?string $deceasedDeathCertificateId = null;
+    public ?string $deceasedCauseOfDeathId = null;
+    public ?string $customerId = null;
+    public ?string $customerType = null;
+    public ?string $customerNaturalPersonFullName = null;
+    public ?string $customerNaturalPersonPhone = null;
+    public ?string $customerNaturalPersonPhoneAdditional = null;
+    public ?string $customerNaturalPersonEmail = null;
+    public ?string $customerNaturalPersonAddress = null;
+    public ?string $customerNaturalPersonBornAt = null;
+    public ?string $customerNaturalPersonPlaceOfBirth = null;
+    public ?string $customerNaturalPersonPassportSeries = null;
+    public ?string $customerNaturalPersonPassportNumber = null;
+    public ?string $customerNaturalPersonPassportIssuedAt = null;
+    public ?string $customerNaturalPersonPassportIssuedBy = null;
+    public ?string $customerNaturalPersonPassportDivisionCode = null;
+    public ?string $customerSoleProprietorName = null;
+    public ?string $customerSoleProprietorInn = null;
+    public ?string $customerSoleProprietorOgrnip = null;
+    public ?string $customerSoleProprietorOkpo = null;
+    public ?string $customerSoleProprietorOkved = null;
+    public ?string $customerSoleProprietorRegistrationAddress = null;
+    public ?string $customerSoleProprietorActualLocationAddress = null;
+    public ?string $customerSoleProprietorBankDetailsBankName = null;
+    public ?string $customerSoleProprietorBankDetailsBik = null;
+    public ?string $customerSoleProprietorBankDetailsCorrespondentAccount = null;
+    public ?string $customerSoleProprietorBankDetailsCurrentAccount = null;
+    public ?string $customerSoleProprietorPhone = null;
+    public ?string $customerSoleProprietorPhoneAdditional = null;
+    public ?string $customerSoleProprietorFax = null;
+    public ?string $customerSoleProprietorEmail = null;
+    public ?string $customerSoleProprietorWebsite = null;
+    public ?string $customerJuristicPersonName = null;
+    public ?string $customerJuristicPersonInn = null;
+    public ?string $customerJuristicPersonKpp = null;
+    public ?string $customerJuristicPersonOgrn = null;
+    public ?string $customerJuristicPersonOkpo = null;
+    public ?string $customerJuristicPersonOkved = null;
+    public ?string $customerJuristicPersonLegalAddress = null;
+    public ?string $customerJuristicPersonPostalAddress = null;
+    public ?string $customerJuristicPersonBankDetailsBankName = null;
+    public ?string $customerJuristicPersonBankDetailsBik = null;
+    public ?string $customerJuristicPersonBankDetailsCorrespondentAccount = null;
+    public ?string $customerJuristicPersonBankDetailsCurrentAccount = null;
+    public ?string $customerJuristicPersonPhone = null;
+    public ?string $customerJuristicPersonPhoneAdditional = null;
+    public ?string $customerJuristicPersonFax = null;
+    public ?string $customerJuristicPersonGeneralDirector = null;
+    public ?string $customerJuristicPersonEmail = null;
+    public ?string $customerJuristicPersonWebsite = null;
+    public ?string $personInChargeId = null;
+    public ?string $personInChargeFullName = null;
+    public ?string $personInChargePhone = null;
+    public ?string $personInChargePhoneAdditional = null;
+    public ?string $personInChargeEmail = null;
+    public ?string $personInChargeAddress = null;
+    public ?string $personInChargeBornAt = null;
+    public ?string $personInChargePlaceOfBirth = null;
+    public ?string $personInChargePassportSeries = null;
+    public ?string $personInChargePassportNumber = null;
+    public ?string $personInChargePassportIssuedAt = null;
+    public ?string $personInChargePassportIssuedBy = null;
+    public ?string $personInChargePassportDivisionCode = null;
+    public ?string $funeralCompanyId = null;
+    public ?string $burialChainId = null;
+    public ?string $burialPlaceId = null;
+    public ?string $burialPlaceType = null;
+    public ?string $burialPlaceGraveSiteCemeteryBlockId = null;
+    public ?int    $burialPlaceGraveSiteRowInBlock = null;
+    public ?int    $burialPlaceGraveSitePositionInRow = null;
+    public ?string $burialPlaceGraveSiteSize = null;
+    public ?string $burialPlaceColumbariumNicheColumbariumId = null;
+    public ?int    $burialPlaceColumbariumNicheRowInColumbarium = null;
+    public ?string $burialPlaceColumbariumNicheNicheNumber = null;
+    public ?string $burialPlaceMemorialTreeNumber = null;
+    public ?string $burialPlaceGeoPositionLatitude = null;
+    public ?string $burialPlaceGeoPositionLongitude = null;
+    public ?string $burialPlaceGeoPositionError = null;
+    public ?string $burialContainerType = null;
+    public ?int    $burialContainerCoffinSize = null;
+    public ?string $burialContainerCoffinShape = null;
+    public ?bool   $burialContainerCoffinIsNonStandard = null;
+    public ?string $buriedAt = null;
 }

@@ -6,6 +6,8 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\Command\CauseOfDeath\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\Command\CauseOfDeath\CreateCauseOfDeath\CreateCauseOfDeathService;
+use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCauseOfDeathRequest;
+use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCauseOfDeathService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\CountCauseOfDeathTotalRequest;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\CountCauseOfDeathTotalService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathRequest;
@@ -14,6 +16,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Form\Admin\AdminCauseOfDeathForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +31,7 @@ class AdminCauseOfDeathController extends Controller
      * @param CountCauseOfDeathTotalService $countCauseOfDeathTotalService
      * @param ListCausesOfDeathService      $listCausesOfDeathService
      * @param CreateCauseOfDeathService     $createCauseOfDeathService
+     * @param EditCauseOfDeathService       $editCauseOfDeathService
      * @param CauseOfDeathRepository        $causeOfDeathRepo
      * @param CauseOfDeathFetcher           $causeOfDeathFetcher
      */
@@ -35,6 +39,7 @@ class AdminCauseOfDeathController extends Controller
         private readonly CountCauseOfDeathTotalService $countCauseOfDeathTotalService,
         private readonly ListCausesOfDeathService      $listCausesOfDeathService,
         private readonly CreateCauseOfDeathService     $createCauseOfDeathService,
+        private readonly EditCauseOfDeathService       $editCauseOfDeathService,
         private readonly CauseOfDeathRepository        $causeOfDeathRepo,
         private readonly CauseOfDeathFetcher           $causeOfDeathFetcher,
     ) {}
@@ -68,7 +73,7 @@ class AdminCauseOfDeathController extends Controller
     {
         $name                      = $this->getInputString($request, 'name');
         $createCauseOfDeathRequest = new CreateCauseOfDeathRequest($name);
-        $causeOfDeathId            = $this->createCauseOfDeathService
+        $causeOfDeathId            = $this->editCauseOfDeathService
             ->execute($createCauseOfDeathRequest)->causeOfDeathId;
 
         return $this->json(['id' => $causeOfDeathId], Response::HTTP_CREATED);
@@ -82,20 +87,25 @@ class AdminCauseOfDeathController extends Controller
      */
     #[Route('/admin/cause-of-death/edit/{id}', name: 'admin_cause_of_death_edit', methods: [
         Request::METHOD_GET,
-        Request::METHOD_PATCH,
+        Request::METHOD_POST,
     ])]
     public function edit(Request $request, string $id): JsonResponse
     {
-        if ($request->isMethod(Request::METHOD_PATCH)) {
-            $causeOfDeath = $this->causeOfDeathRepo->findById(new CauseOfDeathId($id));
+        $form = $this->createForm(AdminCauseOfDeathForm::class, new EditCauseOfDeathRequest());
+
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $form->handleRequest($request);
+            dump($form->getData());
+//            $this->editCauseOfDeathService->execute(new EditCauseOfDeathRequest());
         }
 
         if ($request->isMethod(Request::METHOD_GET)) {
-            $burialView = $this->causeOfDeathFetcher->getViewById($id);
+            $causeOfDeathView = $this->causeOfDeathFetcher->getViewById($id);
 
-            return $this->json($burialView);
+
+            return $this->json([]);
         }
 
-        return $response;
+        return new JsonResponse();
     }
 }

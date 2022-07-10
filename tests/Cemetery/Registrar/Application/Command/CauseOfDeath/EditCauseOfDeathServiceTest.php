@@ -68,7 +68,7 @@ class EditCauseOfDeathServiceTest extends ApplicationServiceTest
 
         $response = $this->service->execute(new EditCauseOfDeathRequest($this->id, $this->name));
         $this->assertInstanceOf(EditCauseOfDeathResponse::class, $response);
-        $this->assertSame($this->id, $response->causeOfDeathId);
+        $this->assertSame($this->id, $response->id);
     }
 
     public function testItFailsWhenNameAlreadyExists(): void

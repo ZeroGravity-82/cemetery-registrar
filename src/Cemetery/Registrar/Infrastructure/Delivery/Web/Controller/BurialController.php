@@ -20,6 +20,7 @@ use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\Lis
 use Cemetery\Registrar\Application\Query\FuneralCompany\ListFuneralCompanies\ListFuneralCompaniesService;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Form\BurialForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -86,6 +87,22 @@ class BurialController extends Controller
     #[Route('/burial/new', name: 'burial_new', methods: [Request::METHOD_GET, Request::METHOD_POST])]
     public function new(Request $request): Response
     {
+        $form = $this->createForm(BurialForm::class, new RegisterNewBurialRequest());
+
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $form->handleRequest($request);
+            $registerNewBurialRequest = $form->getData();
+
+
+            dump($registerNewBurialRequest);
+
+            $burialId                 = $this->registerNewBurialService->execute($registerNewBurialRequest)->burialId;
+
+            $response = $this->redirectToRoute('burial_list', [
+                'burialId' => $burialId,
+            ]);
+        }
+
         if ($request->isMethod(Request::METHOD_GET)) {
 //            $causeOfDeathViewList   = $this->causeOfDeathFetcher->findAll();
 //            $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll();
@@ -94,14 +111,7 @@ class BurialController extends Controller
                 'funeralCompanyViewList' => [],
             ]);
         }
-        if ($request->isMethod(Request::METHOD_POST)) {
-            $registerNewBurialRequest  = new RegisterNewBurialRequest(...$this->getRequestArgs($request));
-            $burialId             = $this->registerNewBurialService->execute($registerNewBurialRequest)->burialId;
 
-            $response = $this->redirectToRoute('burial_list', [
-                'burialId' => $burialId,
-            ]);
-        }
 
         return $response;
     }
