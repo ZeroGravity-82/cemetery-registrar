@@ -33,18 +33,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminBurialPlaceController extends Controller
 {
-    /**
-     * @param CountCemeteryBlockTotalService    $countCemeteryBlockTotalService
-     * @param ListCemeteryBlocksService         $listCemeteryBlocksService
-     * @param CountGraveSiteTotalService        $countGraveSiteTotalService
-     * @param ListGraveSitesService             $listGraveSitesService
-     * @param CountColumbariumTotalService      $countColumbariumTotalService
-     * @param ListColumbariumService            $listColumbariumService
-     * @param CountColumbariumNicheTotalService $countColumbariumNicheTotalService
-     * @param ListColumbariumNichesService      $listColumbariumNichesService
-     * @param CountMemorialTreeTotalService     $countMemorialTreeTotalService
-     * @param ListMemorialTreesService          $listMemorialTreesService
-     */
     public function __construct(
         private readonly CountCemeteryBlockTotalService    $countCemeteryBlockTotalService,
         private readonly ListCemeteryBlocksService         $listCemeteryBlocksService,

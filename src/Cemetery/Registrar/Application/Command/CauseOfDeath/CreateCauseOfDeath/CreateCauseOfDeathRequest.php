@@ -10,6 +10,6 @@ namespace Cemetery\Registrar\Application\Command\CauseOfDeath\CreateCauseOfDeath
 class CreateCauseOfDeathRequest
 {
     public function __construct(
-        public readonly string $name,
+        public readonly ?string $name,
     ) {}
 }

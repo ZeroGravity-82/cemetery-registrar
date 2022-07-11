@@ -17,10 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminFuneralCompanyController extends Controller
 {
-    /**
-     * @param CountFuneralCompanyTotalService $countFuneralCompanyTotalService
-     * @param ListFuneralCompaniesService     $listFuneralCompaniesService
-     */
     public function __construct(
         private readonly CountFuneralCompanyTotalService $countFuneralCompanyTotalService,
         private readonly ListFuneralCompaniesService     $listFuneralCompaniesService,

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Command\CauseOfDeath\CreateCauseOfDeath;
 
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Command\CauseOfDeath\CauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CreateCauseOfDeathService extends ApplicationService
+class CreateCauseOfDeathService extends CauseOfDeathService
 {
     /**
      * @param CauseOfDeathFactory    $causeOfDeathFactory
@@ -21,10 +21,12 @@ class CreateCauseOfDeathService extends ApplicationService
      * @param EventDispatcher        $eventDispatcher
      */
     public function __construct(
-        private readonly CauseOfDeathFactory    $causeOfDeathFactory,
-        private readonly CauseOfDeathRepository $causeOfDeathRepo,
-        private readonly EventDispatcher        $eventDispatcher,
-    ) {}
+        private readonly CauseOfDeathFactory $causeOfDeathFactory,
+        CauseOfDeathRepository $causeOfDeathRepo,
+        EventDispatcher        $eventDispatcher,
+    ) {
+        parent::__construct($causeOfDeathRepo, $eventDispatcher);
+    }
 
     /**
      * {@inheritdoc}

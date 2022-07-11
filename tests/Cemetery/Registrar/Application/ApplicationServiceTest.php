@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Application;
 
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -12,13 +14,21 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ApplicationServiceTest extends TestCase
 {
-    protected ApplicationService $service;
+    protected MockObject|EventDispatcher $mockEventDispatcher;
+    protected ApplicationService         $service;
+
+    abstract public function testItReturnsSupportedRequestClassName(): void;
+
+    public function setUp(): void
+    {
+        $this->mockEventDispatcher = $this->createMock(EventDispatcher::class);
+    }
 
     public function testItFailsWithUnsupportedRequestClassName(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage(\sprintf(
-            'The only argument of the "%s::execute" method must be instance of "%s" class, "%s" given.',
+            'Единственным аргументом метода "%s::execute" должен быть экземпляр класса "%s", "%s" передан.',
             \get_class($this->service),
             $this->service->supportedRequestClassName(),
             \stdClass::class,

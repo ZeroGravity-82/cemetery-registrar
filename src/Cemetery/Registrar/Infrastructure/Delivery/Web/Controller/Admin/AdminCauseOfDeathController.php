@@ -8,15 +8,14 @@ use Cemetery\Registrar\Application\Command\CauseOfDeath\CreateCauseOfDeath\Creat
 use Cemetery\Registrar\Application\Command\CauseOfDeath\CreateCauseOfDeath\CreateCauseOfDeathService;
 use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath\EditCauseOfDeathService;
+use Cemetery\Registrar\Application\Command\CauseOfDeath\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
+use Cemetery\Registrar\Application\Command\CauseOfDeath\RemoveCauseOfDeath\RemoveCauseOfDeathService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\CountCauseOfDeathTotalRequest;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\CountCauseOfDeathTotal\CountCauseOfDeathTotalService;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\Query\CauseOfDeath\ListCausesOfDeath\ListCausesOfDeathService;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
-use Cemetery\Registrar\Infrastructure\Delivery\Web\Form\Admin\AdminCauseOfDeathForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,26 +26,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminCauseOfDeathController extends Controller
 {
-    /**
-     * @param CountCauseOfDeathTotalService $countCauseOfDeathTotalService
-     * @param ListCausesOfDeathService      $listCausesOfDeathService
-     * @param CreateCauseOfDeathService     $createCauseOfDeathService
-     * @param EditCauseOfDeathService       $editCauseOfDeathService
-     * @param CauseOfDeathRepository        $causeOfDeathRepo
-     * @param CauseOfDeathFetcher           $causeOfDeathFetcher
-     */
     public function __construct(
         private readonly CountCauseOfDeathTotalService $countCauseOfDeathTotalService,
         private readonly ListCausesOfDeathService      $listCausesOfDeathService,
         private readonly CreateCauseOfDeathService     $createCauseOfDeathService,
         private readonly EditCauseOfDeathService       $editCauseOfDeathService,
-        private readonly CauseOfDeathRepository        $causeOfDeathRepo,
+        private readonly RemoveCauseOfDeathService     $removeCauseOfDeathService,
         private readonly CauseOfDeathFetcher           $causeOfDeathFetcher,
     ) {}
 
-    /**
-     * @return Response
-     */
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: Request::METHOD_GET)]
     public function list(): Response
     {
@@ -63,49 +51,37 @@ class AdminCauseOfDeathController extends Controller
         ]);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
     #[Route('/admin/cause-of-death/new', name: 'admin_cause_of_death_new', methods: Request::METHOD_POST)]
-    public function new(Request $request): Response
+    public function new(Request $request): JsonResponse
     {
-        $name                      = $this->getInputString($request, 'name');
-        $createCauseOfDeathRequest = new CreateCauseOfDeathRequest($name);
-        $causeOfDeathId            = $this->editCauseOfDeathService
-            ->execute($createCauseOfDeathRequest)->causeOfDeathId;
+        $createRequest = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
+        $id            = $this->createCauseOfDeathService->execute($createRequest)->id;
+        $view          = $this->causeOfDeathFetcher->getViewById($id);
 
-        return $this->json(['id' => $causeOfDeathId], Response::HTTP_CREATED);
+        return $this->json($view, Response::HTTP_CREATED);
     }
 
-    /**
-     * @param Request $request
-     * @param string  $id
-     *
-     * @return JsonResponse
-     */
     #[Route('/admin/cause-of-death/edit/{id}', name: 'admin_cause_of_death_edit', methods: [
         Request::METHOD_GET,
-        Request::METHOD_POST,
+        Request::METHOD_PUT,
     ])]
     public function edit(Request $request, string $id): JsonResponse
     {
-        $form = $this->createForm(AdminCauseOfDeathForm::class, new EditCauseOfDeathRequest());
-
-        if ($request->isMethod(Request::METHOD_POST)) {
-            $form->handleRequest($request);
-            dump($form->getData());
-//            $this->editCauseOfDeathService->execute(new EditCauseOfDeathRequest());
+        if ($request->isMethod(Request::METHOD_PUT)) {
+            $editRequest = $this->handleJsonRequest($request, EditCauseOfDeathRequest::class);
+            $id          = $this->editCauseOfDeathService->execute($editRequest)->id;
         }
+        $view = $this->causeOfDeathFetcher->getViewById($id);
 
-        if ($request->isMethod(Request::METHOD_GET)) {
-            $causeOfDeathView = $this->causeOfDeathFetcher->getViewById($id);
+        return $this->json($view);
+    }
 
+    #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_remove', methods: Request::METHOD_DELETE)]
+    public function remove(Request $request, string $id): JsonResponse
+    {
+        $removeRequest = $this->handleJsonRequest($request, RemoveCauseOfDeathRequest::class);
+        $this->removeCauseOfDeathService->execute($removeRequest);
 
-            return $this->json([]);
-        }
-
-        return new JsonResponse();
+        return $this->json(null, Response::HTTP_NO_CONTENT);
     }
 }

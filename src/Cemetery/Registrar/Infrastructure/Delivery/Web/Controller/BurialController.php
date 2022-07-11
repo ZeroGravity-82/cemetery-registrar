@@ -31,16 +31,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class BurialController extends Controller
 {
-    /**
-     * @param BurialFetcher               $burialFetcher
-     * @param CountBurialTotalService     $countBurialTotalService
-     * @param ListBurialsService          $listBurialsService
-     * @param ListFuneralCompaniesService $listFuneralCompaniesService
-     * @param ListCausesOfDeathService    $listCausesOfDeathService
-     * @param RegisterNewBurialService    $registerNewBurialService
-     * @param ListCemeteryBlocksService   $listCemeteryBlocksService
-     * @param ListCoffinShapesService     $listCoffinShapesService
-     */
     public function __construct(
         private readonly BurialFetcher               $burialFetcher,
         private readonly CountBurialTotalService     $countBurialTotalService,
@@ -117,7 +107,7 @@ class BurialController extends Controller
     }
     
     #[Route('/burial/edit/{id}', name: 'burial_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function edit(Request $request, string $id): JsonResponse
+    public function edit(Request $request, string $id): Response
     {
         if ($request->isMethod(Request::METHOD_GET)) {
             $burialView = $this->burialFetcher->getViewById($id);
@@ -130,11 +120,6 @@ class BurialController extends Controller
         return $response;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return array
-     */
     private function getRequestArgs(Request $request): array
     {
         return [

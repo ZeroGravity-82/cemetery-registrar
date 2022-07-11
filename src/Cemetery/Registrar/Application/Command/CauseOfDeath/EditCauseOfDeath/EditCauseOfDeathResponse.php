@@ -10,6 +10,6 @@ namespace Cemetery\Registrar\Application\Command\CauseOfDeath\EditCauseOfDeath;
 class EditCauseOfDeathResponse
 {
     public function __construct(
-        public readonly string $causeOfDeathId,
+        public readonly string $id,
     ) {}
 }

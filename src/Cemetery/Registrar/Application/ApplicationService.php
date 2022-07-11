@@ -33,7 +33,7 @@ abstract class ApplicationService
         $supportedRequestClassName = $this->supportedRequestClassName();
         if (!$request instanceof $supportedRequestClassName) {
             throw new \InvalidArgumentException(\sprintf(
-                'The only argument of the "%s::execute" method must be instance of "%s" class, "%s" given.',
+                'Единственным аргументом метода "%s::execute" должен быть экземпляр класса "%s", "%s" передан.',
                 \get_class($this),
                 $supportedRequestClassName,
                 \is_object($request) ? \get_class($request) : \get_debug_type($request),

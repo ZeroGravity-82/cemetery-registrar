@@ -17,10 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminOrganizationController extends Controller
 {
-    /**
-     * @param CountOrganizationTotalService $countOrganizationTotalService
-     * @param ListOrganizationsService      $listOrganizationsService
-     */
     public function __construct(
         private readonly CountOrganizationTotalService $countOrganizationTotalService,
         private readonly ListOrganizationsService      $listOrganizationsService,
