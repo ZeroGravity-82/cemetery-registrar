@@ -63,9 +63,15 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     public function testItCountsBurialsByFuneralCompanyId(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new BurialCollection(
-            [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
-        ));
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
         $this->entityManager->clear();
         $this->assertSame(7, $this->getRowCount(Burial::class));
 
@@ -86,11 +92,15 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     public function testItDoesNotCountRemovedBurialsByFuneralCompanyId(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(
-            new BurialCollection(
-                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
-            )
-        );
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
         $this->entityManager->clear();
         $this->assertSame(7, $this->getRowCount(Burial::class));
 
@@ -107,9 +117,15 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     public function testItCountsBurialsByCustomerId(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new BurialCollection(
-            [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
-        ));
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
         $this->entityManager->clear();
         $this->assertSame(7, $this->getRowCount(Burial::class));
 
@@ -126,11 +142,15 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     public function testItDoesNotCountRemovedBurialsByCustomerId(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(
-            new BurialCollection(
-                [$this->entityA, $this->entityB, $this->entityC, $this->entityD, $this->entityE, $this->entityF, $this->entityG]
-            )
-        );
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
         $this->entityManager->clear();
         $this->assertSame(7, $this->getRowCount(Burial::class));
 
