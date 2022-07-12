@@ -41,25 +41,20 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: Request::METHOD_GET)]
     public function list(): Response
     {
-        $causeOfDeathTotalCount = $this->countCauseOfDeathTotalService
-            ->execute(new CountCauseOfDeathTotalRequest())
-            ->totalCount;
-        $causeOfDeathList = $this->listCausesOfDeathService
-            ->execute(new ListCausesOfDeathRequest())
-            ->list;
+        $totalCount = $this->countCauseOfDeathTotalService->execute(new CountCauseOfDeathTotalRequest())->totalCount;
+        $list       = $this->listCausesOfDeathService->execute(new ListCausesOfDeathRequest())->list;
 
         return $this->render('admin/cause_of_death/list.html.twig', [
-            'causeOfDeathTotalCount' => $causeOfDeathTotalCount,
-            'causeOfDeathList'       => $causeOfDeathList,
+            'causeOfDeathTotalCount' => $totalCount,
+            'causeOfDeathList'       => $list,
         ]);
     }
 
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_show', methods: Request::METHOD_GET)]
-    public function show(string $id): JsonResponse
+    public function show(Request $request): JsonResponse
     {
-        $view = $this->showCauseOfDeathService
-            ->execute(new ShowCauseOfDeathRequest($id))
-            ->view;
+        $queryRequest = $this->handleJsonRequest($request, ShowCauseOfDeathRequest::class);
+        $view         = $this->showCauseOfDeathService->execute($queryRequest)->view;
 
         return $this->json($view);
     }
@@ -67,12 +62,12 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death/create', name: 'admin_cause_of_death_create', methods: Request::METHOD_POST)]
     public function create(Request $request): JsonResponse
     {
-        $createRequest   = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
-        $id              = $this->createCauseOfDeathService->execute($createRequest)->id;
-        $view            = $this->causeOfDeathFetcher->findViewById($id);
-        $response        = $this->json($view, Response::HTTP_CREATED);
-        $causeOfDeathUrl = $this->generateUrl('admin_cause_of_death_show', ['id' => $id]);
-        $response->headers->set('Location', $causeOfDeathUrl);
+        $commandRequest = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
+        $id             = $this->createCauseOfDeathService->execute($commandRequest)->id;
+        $view           = $this->causeOfDeathFetcher->findViewById($id);
+        $response       = $this->json($view, Response::HTTP_CREATED);
+        $locationUrl    = $this->generateUrl('admin_cause_of_death_show', ['id' => $id]);
+        $response->headers->set('Location', $locationUrl);
 
         return $response;
     }
@@ -84,8 +79,8 @@ class AdminCauseOfDeathController extends Controller
     public function edit(Request $request, string $id): JsonResponse
     {
         if ($request->isMethod(Request::METHOD_PUT)) {
-            $editRequest = $this->handleJsonRequest($request, EditCauseOfDeathRequest::class);
-            $id          = $this->editCauseOfDeathService->execute($editRequest)->id;
+            $commandRequest = $this->handleJsonRequest($request, EditCauseOfDeathRequest::class);
+            $id             = $this->editCauseOfDeathService->execute($commandRequest)->id;
         }
         $view = $this->causeOfDeathFetcher->findViewById($id);
 
@@ -93,10 +88,10 @@ class AdminCauseOfDeathController extends Controller
     }
 
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_remove', methods: Request::METHOD_DELETE)]
-    public function remove(Request $request, string $id): JsonResponse
+    public function remove(Request $request): JsonResponse
     {
-        $removeRequest = $this->handleJsonRequest($request, RemoveCauseOfDeathRequest::class);
-        $this->removeCauseOfDeathService->execute($removeRequest);
+        $commandRequest = $this->handleJsonRequest($request, RemoveCauseOfDeathRequest::class);
+        $this->removeCauseOfDeathService->execute($commandRequest);
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
