@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class Controller extends AbstractController
 {
     /**
-     * Creates service request DTO from the JSON request.
+     * Creates command or query service request from the JSON request.
      *
      * @param Request $request
      * @param string  $serviceRequestClassName
@@ -22,17 +22,24 @@ abstract class Controller extends AbstractController
      */
     protected function handleJsonRequest(Request $request, string $serviceRequestClassName): mixed
     {
-        $constructorArgs = [];
-        $requestData     = \json_decode($request->getContent(), true);
-        if ($requestData === null && !$request->isMethod(Request::METHOD_DELETE)) {
+        $constructorArgs       = [];
+        $requestBody           = \json_decode($request->getContent(), true);
+        $isRequestBodyExpected = !\in_array($request->getMethod(), [
+            Request::METHOD_GET,
+            Request::METHOD_DELETE,
+            Request::METHOD_TRACE,
+            Request::METHOD_OPTIONS,
+            Request::METHOD_HEAD,
+        ]);
+        if ($requestBody === null && $isRequestBodyExpected) {
             // TODO add testing
             throw new \RuntimeException(\sprintf('Неверный формат JSON: "%s"', $request->getContent()));
         }
         foreach (\array_keys(\get_class_vars($serviceRequestClassName)) as $propertyName) {
             if ($propertyName === 'id') {
-                $requestData[$propertyName] = $request->attributes->get('id');
+                $requestBody[$propertyName] = $request->attributes->get('id');
             }
-            $constructorArgs[] = $requestData[$propertyName] ?? null;
+            $constructorArgs[] = $requestBody[$propertyName] ?? null;
         }
 
         return new $serviceRequestClassName(...$constructorArgs);
