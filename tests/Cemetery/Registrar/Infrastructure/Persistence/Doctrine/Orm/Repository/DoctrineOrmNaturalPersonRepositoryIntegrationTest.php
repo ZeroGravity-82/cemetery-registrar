@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
@@ -22,6 +23,13 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
     protected string $entityIdClassName         = NaturalPersonId::class;
     protected string $entityCollectionClassName = NaturalPersonCollection::class;
 
+    private NaturalPerson $entityD;
+    private NaturalPerson $entityE;
+    private NaturalPerson $entityF;
+    private NaturalPerson $entityG;
+    private NaturalPerson $entityH;
+    private NaturalPerson $entityI;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -30,6 +38,12 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->entityA = NaturalPersonProvider::getNaturalPersonA();
         $this->entityB = NaturalPersonProvider::getNaturalPersonB();
         $this->entityC = NaturalPersonProvider::getNaturalPersonC();
+        $this->entityD = NaturalPersonProvider::getNaturalPersonD();
+        $this->entityE = NaturalPersonProvider::getNaturalPersonE();
+        $this->entityF = NaturalPersonProvider::getNaturalPersonF();
+        $this->entityG = NaturalPersonProvider::getNaturalPersonG();
+        $this->entityH = NaturalPersonProvider::getNaturalPersonH();
+        $this->entityI = NaturalPersonProvider::getNaturalPersonI();
     }
 
     public function testItReturnsSupportedAggregateRootClassName(): void
@@ -45,6 +59,66 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
     public function testItReturnsSupportedAggregateRootCollectionClassName(): void
     {
         $this->assertSame(NaturalPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
+
+    public function testItCountsNaturalPersonsByCauseOfDeathId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new NaturalPersonCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+            $this->entityH,
+            $this->entityI
+        ]));
+        $this->entityManager->clear();
+        $this->assertSame(9, $this->getRowCount(NaturalPerson::class));
+
+        // Testing itself
+        $knownCauserOfDeathId = new CauseOfDeathId('CD004');
+        $naturalPersonCount   = $this->repo->countByCauseOfDeathId($knownCauserOfDeathId);
+        $this->assertSame(2, $naturalPersonCount);
+
+        $knownCauserOfDeathId = new CauseOfDeathId('CD008');
+        $naturalPersonCount   = $this->repo->countByCauseOfDeathId($knownCauserOfDeathId);
+        $this->assertSame(1, $naturalPersonCount);
+
+        $unknownCauserOfDeathId = new CauseOfDeathId('unknown_id');
+        $naturalPersonCount     = $this->repo->countByCauseOfDeathId($unknownCauserOfDeathId);
+        $this->assertSame(0, $naturalPersonCount);
+    }
+
+    public function testItDoesNotCountRemovedNaturalPersonsByCauseOfDeathId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new NaturalPersonCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+            $this->entityH,
+            $this->entityI
+        ]));
+        $this->entityManager->clear();
+        $this->assertSame(9, $this->getRowCount(NaturalPerson::class));
+
+        // Testing itself
+        /** @var NaturalPerson $persistedEntityF */
+        $persistedEntityF = $this->repo->findById($this->entityF->id());
+        $causeOfDeathIdF  = $persistedEntityF->deceasedDetails()->causeOfDeathId();
+        $this->repo->remove($persistedEntityF);
+        $this->entityManager->clear();
+
+        $naturalPersonCount = $this->repo->countByCauseOfDeathId($causeOfDeathIdF);
+        $this->assertSame(0, $naturalPersonCount);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

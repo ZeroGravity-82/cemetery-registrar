@@ -103,11 +103,12 @@ class NaturalPersonProvider
             '541-001',
         );
         $diedAt          = new \DateTimeImmutable('2010-01-26');
+        $causeOfDeathId  = new CauseOfDeathId('CD004');
         $deceasedDetails = new DeceasedDetails(
             $id,
             $diedAt,
             null,
-            null,
+            $causeOfDeathId,
             null,
             null,
         );
