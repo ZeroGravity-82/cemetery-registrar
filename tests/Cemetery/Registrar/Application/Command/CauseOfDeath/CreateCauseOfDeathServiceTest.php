@@ -37,18 +37,17 @@ class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 
     public function testItCreatesCauseOfDeath(): void
     {
-        $this->mockCauseOfDeathFactory->expects($this->once())->method('create')->with($this->name);
+        $this->mockCauseOfDeathFactory->expects($this->once())->method('create');
         $this->mockCauseOfDeathRepo->expects($this->once())->method('save')->with($this->mockCauseOfDeath);
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return
-                    $arg instanceof CauseOfDeathCreated             &&
-                    $arg->causeOfDeathId()->value()   === $this->id &&
-                    $arg->causeOfDeathName()->value() === $this->name;
+                    $arg instanceof CauseOfDeathCreated &&
+                    $arg->causeOfDeathId()->value() === $this->id;
             }),
         );
 
-        $response = $this->service->execute(new CreateCauseOfDeathRequest($this->name));
+        $response = $this->service->execute(new CreateCauseOfDeathRequest('Панкреатит'));
         $this->assertInstanceOf(CreateCauseOfDeathResponse::class, $response);
         $this->assertSame($this->id, $response->id);
     }
@@ -61,7 +60,7 @@ class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
     private function buildMockCauseOfDeathFactory(): MockObject|CauseOfDeathFactory
     {
         $mockCauseOfDeathFactory = $this->createMock(CauseOfDeathFactory::class);
-        $mockCauseOfDeathFactory->method('create')->with($this->name)->willReturn($this->mockCauseOfDeath);
+        $mockCauseOfDeathFactory->method('create')->willReturn($this->mockCauseOfDeath);
 
         return $mockCauseOfDeathFactory;
     }

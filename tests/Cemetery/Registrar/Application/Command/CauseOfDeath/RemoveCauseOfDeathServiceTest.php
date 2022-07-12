@@ -44,9 +44,8 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return
-                    $arg instanceof CauseOfDeathRemoved             &&
-                    $arg->causeOfDeathId()->value()   === $this->id &&
-                    $arg->causeOfDeathName()->value() === $this->name;
+                    $arg instanceof CauseOfDeathRemoved &&
+                    $arg->causeOfDeathId()->value() === $this->id;
             }),
         );
 

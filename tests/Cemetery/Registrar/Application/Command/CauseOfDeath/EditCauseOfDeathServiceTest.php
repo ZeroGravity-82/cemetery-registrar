@@ -44,13 +44,12 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return
-                    $arg instanceof CauseOfDeathEdited              &&
-                    $arg->causeOfDeathId()->value()   === $this->id &&
-                    $arg->causeOfDeathName()->value() === $this->name;
+                    $arg instanceof CauseOfDeathEdited &&
+                    $arg->causeOfDeathId()->value() === $this->id;
             }),
         );
 
-        $response = $this->service->execute(new EditCauseOfDeathRequest($this->id, $this->name));
+        $response = $this->service->execute(new EditCauseOfDeathRequest($this->id, 'Аста кардиальная'));
         $this->assertInstanceOf(EditCauseOfDeathResponse::class, $response);
         $this->assertSame($this->id, $response->id);
     }
