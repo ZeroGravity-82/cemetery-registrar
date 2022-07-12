@@ -18,14 +18,11 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
     /**
      * {@inheritdoc}
      */
-    public function getViewById(string $id): CauseOfDeathView
+    public function findViewById(string $id): ?CauseOfDeathView
     {
         $viewData = $this->queryViewData($id);
-        if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $id));
-        }
 
-        return $this->hydrateView($viewData);
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     /**

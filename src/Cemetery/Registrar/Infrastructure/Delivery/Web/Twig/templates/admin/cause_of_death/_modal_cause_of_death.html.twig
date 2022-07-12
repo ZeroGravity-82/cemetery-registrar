@@ -6,8 +6,11 @@
         <button type="button" class="btn-close js-close" aria-label="Закрыть"></button>
       </div>
       <div class="modal-body">
+
+
+
         <form
-            data-action-new="{{ path('admin_cause_of_death_new') }}"
+            data-action-new="{{ path('admin_cause_of_death_create') }}"
             data-action-edit="{{ path('admin_cause_of_death_edit', {'id': '{id}'})|url_decode }}"
             data-action-remove="{{ path('admin_cause_of_death_remove', {'id': '{id}'})|url_decode }}">
           <div class="container">
@@ -16,7 +19,11 @@
               <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="name" name="name"></div>
             </div>
           </div>
+
+
+
           <div class="container">
+            <input type="hidden" id="_csrf_token" name="_csrf_token">
             <div class="row pt-3 text-end">
               <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
                 <div class="order-2 order-sm-1 d-none js-remove-wrapper">

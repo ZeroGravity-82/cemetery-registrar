@@ -17,20 +17,17 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
     /**
      * {@inheritdoc}
      */
-    public function getViewById(string $id): CemeteryBlockView
+    public function findViewById(string $id): ?CemeteryBlockView
     {
         $viewData = $this->queryViewData($id);
-        if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Квартал с ID "%s" не найден.', $id));
-        }
 
-        return $this->hydrateView($viewData);
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findAll(): CemeteryBlockList
+    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
     {
         $cemeteryBlockListData = $this->connection->createQueryBuilder()
             ->select(

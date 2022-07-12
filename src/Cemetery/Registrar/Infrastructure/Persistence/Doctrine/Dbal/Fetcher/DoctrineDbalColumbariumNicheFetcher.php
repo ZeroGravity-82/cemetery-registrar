@@ -18,14 +18,11 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
     /**
      * {@inheritdoc}
      */
-    public function getViewById(string $id): ColumbariumNicheView
+    public function findViewById(string $id): ?ColumbariumNicheView
     {
         $viewData = $this->queryViewData($id);
-        if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Колумбарная ниша с ID "%s" не найдена.', $id));
-        }
 
-        return $this->hydrateView($viewData);
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     /**

@@ -14,7 +14,14 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements FuneralCompanyFetcher
 {
-    // TODO implement getViewById() method
+    /**
+     * {@inheritdoc}
+     */
+    public function findViewById(string $id): mixed
+    {
+        // TODO: Implement findViewById() method.
+        return null;
+    }
 
     /**
      * {@inheritdoc}

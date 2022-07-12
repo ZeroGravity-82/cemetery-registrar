@@ -3,6 +3,7 @@ const $modalCauseOfDeath     = $(`#modalCauseOfDeath`);
 const $modalTitle            = $modalCauseOfDeath.find(`.modal-title`)
 const $modalCauseOfDeathForm = $(`#modalCauseOfDeath form`);
 const $modalNameField        = $modalCauseOfDeath.find(`input[id=name]`);
+const $modalCsrfTokenField   = $modalCauseOfDeath.find(`input[id=_csrf_token]`);
 const $modalRemoveBtnWrapper = $modalCauseOfDeath.find(`.js-remove-wrapper`);
 const $modalRemoveBtn        = $modalCauseOfDeath.find(`.js-remove`);
 const $modalTimestamps       = $modalCauseOfDeath.find(`.timestamps`);
@@ -29,7 +30,7 @@ $body.on(`click`, `tr`, function(e) {
   mode = `edit`;
   id   = $(e.target).closest(`tr`).attr(`data-id`);
   $.ajax({
-    // dataType: `json`,
+    dataType: `json`,
     method: `GET`,
     url: getEditActionUrl(id),
     success: function (causeOfDeathView) {
@@ -39,6 +40,7 @@ $body.on(`click`, `tr`, function(e) {
       $modalTimestamps.removeClass(`d-none`);
       $modalTitle.html(`${causeOfDeathView.name} (Причины смерти)`);
       $modalNameField.val(causeOfDeathView.name);
+      $modalCsrfTokenField.val(causeOfDeathView.csrfToken);
       modalCauseOfDeath.show();
     }
   });

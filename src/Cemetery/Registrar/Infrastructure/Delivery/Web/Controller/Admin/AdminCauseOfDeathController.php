@@ -51,14 +51,23 @@ class AdminCauseOfDeathController extends Controller
         ]);
     }
 
-    #[Route('/admin/cause-of-death/new', name: 'admin_cause_of_death_new', methods: Request::METHOD_POST)]
-    public function new(Request $request): JsonResponse
+    #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_show', methods: Request::METHOD_GET)]
+    public function show(string $id): JsonResponse
     {
-        $createRequest = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
-        $id            = $this->createCauseOfDeathService->execute($createRequest)->id;
-        $view          = $this->causeOfDeathFetcher->getViewById($id);
 
-        return $this->json($view, Response::HTTP_CREATED);
+    }
+
+    #[Route('/admin/cause-of-death/new', name: 'admin_cause_of_death_create', methods: Request::METHOD_POST)]
+    public function create(Request $request): JsonResponse
+    {
+        $createRequest   = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
+        $id              = $this->createCauseOfDeathService->execute($createRequest)->id;
+        $view            = $this->causeOfDeathFetcher->findViewById($id);
+        $response        = $this->json($view, Response::HTTP_CREATED);
+        $causeOfDeathUrl = $this->generateUrl('admin_cause_of_death_show', ['id' => $id]);
+        $response->headers->set('Location', $causeOfDeathUrl);
+
+        return $response;
     }
 
     #[Route('/admin/cause-of-death/edit/{id}', name: 'admin_cause_of_death_edit', methods: [
@@ -71,7 +80,7 @@ class AdminCauseOfDeathController extends Controller
             $editRequest = $this->handleJsonRequest($request, EditCauseOfDeathRequest::class);
             $id          = $this->editCauseOfDeathService->execute($editRequest)->id;
         }
-        $view = $this->causeOfDeathFetcher->getViewById($id);
+        $view = $this->causeOfDeathFetcher->findViewById($id);
 
         return $this->json($view);
     }

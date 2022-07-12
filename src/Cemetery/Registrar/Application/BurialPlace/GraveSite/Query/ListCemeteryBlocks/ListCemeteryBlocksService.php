@@ -31,6 +31,6 @@ class ListCemeteryBlocksService extends ApplicationService
      */
     public function execute($request): ListCemeteryBlocksResponse
     {
-        return new ListCemeteryBlocksResponse($this->cemeteryBlockFetcher->findAll());
+        return new ListCemeteryBlocksResponse($this->cemeteryBlockFetcher->findAll(1));
     }
 }

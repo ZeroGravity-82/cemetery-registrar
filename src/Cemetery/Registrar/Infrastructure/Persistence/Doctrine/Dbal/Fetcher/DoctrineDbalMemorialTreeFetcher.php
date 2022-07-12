@@ -18,14 +18,11 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
     /**
      * {@inheritdoc}
      */
-    public function getViewById(string $id): MemorialTreeView
+    public function findViewById(string $id): ?MemorialTreeView
     {
         $viewData = $this->queryViewData($id);
-        if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Памятное дерево с ID "%s" не найдено.', $id));
-        }
 
-        return $this->hydrateView($viewData);
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     /**

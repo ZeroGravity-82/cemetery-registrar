@@ -3,7 +3,7 @@
   <div class="col-md-9">
     <select class="form-select form-select-sm" id="deceasedCauseOfDeathId" name="deceasedCauseOfDeathId" aria-label="Причина смерти">
       <option selected></option>
-      {% for listItem in causeOfDeathList.listItems %}
+      {% for listItem in causeOfDeathList.items %}
         <option value="{{ listItem.id }}">
           {{ listItem.name }}
         </option>

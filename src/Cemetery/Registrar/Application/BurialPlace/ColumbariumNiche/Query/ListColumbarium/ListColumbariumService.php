@@ -31,6 +31,6 @@ class ListColumbariumService extends ApplicationService
      */
     public function execute($request): ListColumbariumResponse
     {
-        return new ListColumbariumResponse($this->columbariumFetcher->findAll());
+        return new ListColumbariumResponse($this->columbariumFetcher->findAll(1));
     }
 }

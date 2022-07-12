@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-          {% for listItem in cemeteryBlockList.listItems %}
+          {% for listItem in cemeteryBlockList.items %}
             {% include 'admin/burial_place/grave_site/_list_item_cemetery_block.html.twig' %}
           {% endfor %}
           </tbody>
@@ -43,7 +43,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for listItem in graveSiteList.listItems %}
+            {% for listItem in graveSiteList.items %}
               {% include 'admin/burial_place/grave_site/_list_item_grave_site.html.twig' %}
             {% endfor %}
             </tbody>

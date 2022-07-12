@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Domain\View\CauseOfDeath;
 class CauseOfDeathList
 {
     /**
-     * @param CauseOfDeathListItem[]|array $listItems
+     * @param CauseOfDeathListItem[]|array $items
      * @param int                          $page
      * @param int                          $pageSize
      * @param string|null                  $term
@@ -18,7 +18,7 @@ class CauseOfDeathList
      * @param int                          $totalPages
      */
     public function __construct(
-        public readonly array   $listItems,
+        public readonly array   $items,
         public readonly int     $page,
         public readonly int     $pageSize,
         public readonly ?string $term,

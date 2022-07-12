@@ -6,7 +6,6 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetc
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepository;
-use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumList;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumView;
@@ -19,17 +18,16 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalColumbariumFetcherIntegrationTest extends FetcherIntegrationTest
+class DoctrineDbalColumbariumFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private ColumbariumRepository $columbariumRepo;
-    private ColumbariumFetcher    $columbariumFetcher;
+    private ColumbariumRepository $repo;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->columbariumRepo    = new DoctrineOrmColumbariumRepository($this->entityManager);
-        $this->columbariumFetcher = new DoctrineDbalColumbariumFetcher($this->connection);
+        $this->repo    = new DoctrineOrmColumbariumRepository($this->entityManager);
+        $this->fetcher = new DoctrineDbalColumbariumFetcher($this->connection);
         $this->loadFixtures();
     }
 
@@ -40,51 +38,45 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends FetcherIntegrationTe
         $this->testItReturnsColumbariumViewForC003();
     }
 
-    public function testItFailsToReturnColumbariumViewByUnknownId(): void
-    {
-        $this->expectExceptionForNotFoundColumbariumById('unknown_id');
-        $this->columbariumFetcher->getViewById('unknown_id');
-    }
-
-    public function testItFailsToReturnColumbariumViewForRemovedColumbarium(): void
+    public function testItReturnsNullForRemovedColumbarium(): void
     {
         // Prepare database table for testing
-        $columbariumToRemove = $this->columbariumRepo->findById(new ColumbariumId('C002'));
-        $this->columbariumRepo->remove($columbariumToRemove);
+        $columbariumToRemove = $this->repo->findById(new ColumbariumId('C002'));
+        $this->repo->remove($columbariumToRemove);
         $removedColumbariumId = $columbariumToRemove->id()->value();
 
         // Testing itself
-        $this->expectExceptionForNotFoundColumbariumById($removedColumbariumId);
-        $this->columbariumFetcher->getViewById($removedColumbariumId);
+        $view = $this->fetcher->findViewById($removedColumbariumId);
+        $this->assertNull($view);
     }
 
     public function testItReturnsColumbariumList(): void
     {
         // All at once
-        $listForAll = $this->columbariumFetcher->findAll();
+        $listForAll = $this->fetcher->findAll(1);
         $this->assertInstanceOf(ColumbariumList::class, $listForAll);
-        $this->assertIsArray($listForAll->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumListItem::class, $listForAll->listItems);
-        $this->assertCount(4, $listForAll->listItems);
-        $this->assertListItemEqualsC003($listForAll->listItems[0]);  // Items are ordered by name
-        $this->assertListItemEqualsC001($listForAll->listItems[1]);
-        $this->assertListItemEqualsC004($listForAll->listItems[2]);
-        $this->assertListItemEqualsC002($listForAll->listItems[3]);
+        $this->assertIsArray($listForAll->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumListItem::class, $listForAll->items);
+        $this->assertCount(4, $listForAll->items);
+        $this->assertListItemEqualsC003($listForAll->items[0]);  // Items are ordered by name
+        $this->assertListItemEqualsC001($listForAll->items[1]);
+        $this->assertListItemEqualsC004($listForAll->items[2]);
+        $this->assertListItemEqualsC002($listForAll->items[3]);
     }
 
     public function testItReturnsColumbariumTotalCount(): void
     {
-        $this->assertSame(4, $this->columbariumFetcher->countTotal());
+        $this->assertSame(4, $this->fetcher->countTotal());
     }
 
     public function testItDoesNotCountRemovedColumbariumWhenCalculatingTotalCount(): void
     {
         // Prepare database table for testing
-        $columbariumToRemove = $this->columbariumRepo->findById(new ColumbariumId('C002'));
-        $this->columbariumRepo->remove($columbariumToRemove);
+        $columbariumToRemove = $this->repo->findById(new ColumbariumId('C002'));
+        $this->repo->remove($columbariumToRemove);
 
         // Testing itself
-        $this->assertSame(3, $this->columbariumFetcher->countTotal());
+        $this->assertSame(3, $this->fetcher->countTotal());
     }
 
     protected function loadFixtures(): void
@@ -120,7 +112,7 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends FetcherIntegrationTe
 
     private function testItReturnsColumbariumViewForC001(): void
     {
-        $view = $this->columbariumFetcher->getViewById('C001');
+        $view = $this->fetcher->findViewById('C001');
         $this->assertInstanceOf(ColumbariumView::class, $view);
         $this->assertSame('C001',     $view->id);
         $this->assertSame('западный', $view->name);
@@ -133,7 +125,7 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends FetcherIntegrationTe
 
     private function testItReturnsColumbariumViewForC002(): void
     {
-        $view = $this->columbariumFetcher->getViewById('C002');
+        $view = $this->fetcher->findViewById('C002');
         $this->assertInstanceOf(ColumbariumView::class, $view);
         $this->assertSame('C002',        $view->id);
         $this->assertSame('южный',       $view->name);
@@ -146,7 +138,7 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends FetcherIntegrationTe
 
     private function testItReturnsColumbariumViewForC003(): void
     {
-        $view = $this->columbariumFetcher->getViewById('C003');
+        $view = $this->fetcher->findViewById('C003');
         $this->assertInstanceOf(ColumbariumView::class, $view);
         $this->assertSame('C003',         $view->id);
         $this->assertSame('восточный',    $view->name);

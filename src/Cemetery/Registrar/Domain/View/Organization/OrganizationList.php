@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Domain\View\Organization;
 class OrganizationList
 {
     /**
-     * @param OrganizationListItem[]|array $listItems
+     * @param OrganizationListItem[]|array $items
      * @param int                          $page
      * @param int                          $pageSize
      * @param string|null                  $term
@@ -18,7 +18,7 @@ class OrganizationList
      * @param int                          $totalPages
      */
     public function __construct(
-        public readonly array   $listItems,
+        public readonly array   $items,
         public readonly int     $page,
         public readonly int     $pageSize,
         public readonly ?string $term,

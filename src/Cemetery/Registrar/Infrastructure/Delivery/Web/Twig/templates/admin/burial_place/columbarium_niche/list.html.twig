@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-          {% for listItem in columbariumList.listItems %}
+          {% for listItem in columbariumList.items %}
             {% include 'admin/burial_place/columbarium_niche/_list_item_columbarium.html.twig' %}
           {% endfor %}
           </tbody>
@@ -42,7 +42,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for listItem in columbariumNicheList.listItems %}
+            {% for listItem in columbariumNicheList.items %}
               {% include 'admin/burial_place/columbarium_niche/_list_item_columbarium_niche.html.twig' %}
             {% endfor %}
             </tbody>

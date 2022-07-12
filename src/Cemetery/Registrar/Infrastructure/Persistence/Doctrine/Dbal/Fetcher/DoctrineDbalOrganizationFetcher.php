@@ -15,7 +15,14 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
  */
 class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
 {
-    // TODO implement getViewById() method
+    /**
+     * {@inheritdoc}
+     */
+    public function findViewById(string $id): mixed
+    {
+        // TODO: Implement findViewById() method.
+        return null;
+    }
 
     /**
      * {@inheritdoc}

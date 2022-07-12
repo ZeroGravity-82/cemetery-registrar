@@ -6,7 +6,6 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetc
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheRepository;
-use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheList;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheView;
@@ -20,25 +19,17 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrationTest
+class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private const DEFAULT_PAGE_SIZE = 20;
-
-    private ColumbariumNicheRepository $columbariumNicheRepo;
-    private ColumbariumNicheFetcher    $columbariumNicheFetcher;
+    private ColumbariumNicheRepository $repo;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->columbariumNicheRepo    = new DoctrineOrmColumbariumNicheRepository($this->entityManager);
-        $this->columbariumNicheFetcher = new DoctrineDbalColumbariumNicheFetcher($this->connection);
+        $this->repo    = new DoctrineOrmColumbariumNicheRepository($this->entityManager);
+        $this->fetcher = new DoctrineDbalColumbariumNicheFetcher($this->connection);
         $this->loadFixtures();
-    }
-
-    public function testItHasValidPageSizeConstant(): void
-    {
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, ColumbariumNicheFetcher::DEFAULT_PAGE_SIZE);
     }
 
     public function testItReturnsColumbariumNicheViewById(): void
@@ -52,22 +43,16 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
         $this->testItReturnsColumbariumNicheViewForCN007();
     }
 
-    public function testItFailsToReturnColumbariumNicheViewByUnknownId(): void
-    {
-        $this->expectExceptionForNotFoundColumbariumNicheById('unknown_id');
-        $this->columbariumNicheFetcher->getViewById('unknown_id');
-    }
-
-    public function testItFailsToReturnColumbariumNicheViewForRemovedColumbariumNiche(): void
+    public function testItReturnsNullForRemovedColumbariumNiche(): void
     {
         // Prepare database table for testing
-        $columbariumNicheToRemove = $this->columbariumNicheRepo->findById(new ColumbariumNicheId('CN004'));
-        $this->columbariumNicheRepo->remove($columbariumNicheToRemove);
+        $columbariumNicheToRemove = $this->repo->findById(new ColumbariumNicheId('CN004'));
+        $this->repo->remove($columbariumNicheToRemove);
         $removedColumbariumNicheId = $columbariumNicheToRemove->id()->value();
 
         // Testing itself
-        $this->expectExceptionForNotFoundColumbariumNicheById($removedColumbariumNicheId);
-        $this->columbariumNicheFetcher->getViewById($removedColumbariumNicheId);
+        $view = $this->fetcher->findViewById($removedColumbariumNicheId);
+        $this->assertNull($view);
     }
 
     public function testItReturnsColumbariumNicheListByPage(): void
@@ -75,55 +60,55 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
         $customPageSize = 3;
 
         // First page
-        $listForFirstPage = $this->columbariumNicheFetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $listForFirstPage);
-        $this->assertIsArray($listForFirstPage->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForFirstPage->listItems);
-        $this->assertCount(3,              $listForFirstPage->listItems);
+        $this->assertIsArray($listForFirstPage->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForFirstPage->items);
+        $this->assertCount(3,              $listForFirstPage->items);
         $this->assertSame(1,               $listForFirstPage->page);
         $this->assertSame($customPageSize, $listForFirstPage->pageSize);
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(7,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsCN003($listForFirstPage->listItems[0]);  // Items are ordered by columbarium name,
-        $this->assertListItemEqualsCN001($listForFirstPage->listItems[1]);  // then by columbarium niche number.
-        $this->assertListItemEqualsCN004($listForFirstPage->listItems[2]);
+        $this->assertListItemEqualsCN003($listForFirstPage->items[0]);  // Items are ordered by columbarium name,
+        $this->assertListItemEqualsCN001($listForFirstPage->items[1]);  // then by columbarium niche number.
+        $this->assertListItemEqualsCN004($listForFirstPage->items[2]);
 
         // Second page
-        $listForSecondPage = $this->columbariumNicheFetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $listForSecondPage);
-        $this->assertIsArray($listForSecondPage->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForSecondPage->listItems);
-        $this->assertCount(3,              $listForSecondPage->listItems);
+        $this->assertIsArray($listForSecondPage->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForSecondPage->items);
+        $this->assertCount(3,              $listForSecondPage->items);
         $this->assertSame(2,               $listForSecondPage->page);
         $this->assertSame($customPageSize, $listForSecondPage->pageSize);
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(7,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsCN006($listForSecondPage->listItems[0]);
-        $this->assertListItemEqualsCN005($listForSecondPage->listItems[1]);
-        $this->assertListItemEqualsCN007($listForSecondPage->listItems[2]);
+        $this->assertListItemEqualsCN006($listForSecondPage->items[0]);
+        $this->assertListItemEqualsCN005($listForSecondPage->items[1]);
+        $this->assertListItemEqualsCN007($listForSecondPage->items[2]);
 
 
         // Third page
-        $listForThirdPage = $this->columbariumNicheFetcher->findAll(3, null, $customPageSize);
+        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $listForThirdPage);
-        $this->assertIsArray($listForThirdPage->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForThirdPage->listItems);
-        $this->assertCount(1,              $listForThirdPage->listItems);
+        $this->assertIsArray($listForThirdPage->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForThirdPage->items);
+        $this->assertCount(1,              $listForThirdPage->items);
         $this->assertSame(3,               $listForThirdPage->page);
         $this->assertSame($customPageSize, $listForThirdPage->pageSize);
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(7,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertListItemEqualsCN002($listForThirdPage->listItems[0]);
+        $this->assertListItemEqualsCN002($listForThirdPage->items[0]);
 
         // Default page size
-        $listForDefaultPageSize = $this->columbariumNicheFetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->findAll(1);
         $this->assertInstanceOf(ColumbariumNicheList::class, $listForDefaultPageSize);
-        $this->assertIsArray($listForDefaultPageSize->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForDefaultPageSize->listItems);
-        $this->assertCount(7,                      $listForDefaultPageSize->listItems);
+        $this->assertIsArray($listForDefaultPageSize->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $listForDefaultPageSize->items);
+        $this->assertCount(7,                      $listForDefaultPageSize->items);
         $this->assertSame(1,                       $listForDefaultPageSize->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
         $this->assertSame(null,                    $listForDefaultPageSize->term);
@@ -135,85 +120,85 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
     {
         $customPageSize = 3;
 
-        $list = $this->columbariumNicheFetcher->findAll(1, 'южн', $customPageSize);
+        $list = $this->fetcher->findAll(1, 'южн', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(1,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('южн',           $list->term);
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->columbariumNicheFetcher->findAll(1, 'СЕВЕРный', $customPageSize);
+        $list = $this->fetcher->findAll(1, 'СЕВЕРный', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(3,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('СЕВЕРный',      $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->columbariumNicheFetcher->findAll(2, 'СЕВЕРный', $customPageSize);
+        $list = $this->fetcher->findAll(2, 'СЕВЕРный', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(1,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('СЕВЕРный',      $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->columbariumNicheFetcher->findAll(1, '7', $customPageSize);
+        $list = $this->fetcher->findAll(1, '7', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(2,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(2,              $list->items);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('7',             $list->term);
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->columbariumNicheFetcher->findAll(1, '00', $customPageSize);
+        $list = $this->fetcher->findAll(1, '00', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(3,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('00',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->columbariumNicheFetcher->findAll(2, '00', $customPageSize);
+        $list = $this->fetcher->findAll(2, '00', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(3,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('00',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->columbariumNicheFetcher->findAll(3, '00', $customPageSize);
+        $list = $this->fetcher->findAll(3, '00', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(1,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
         $this->assertSame(3,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('00',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
 
-        $list = $this->columbariumNicheFetcher->findAll(1, '005', $customPageSize);
+        $list = $this->fetcher->findAll(1, '005', $customPageSize);
         $this->assertInstanceOf(ColumbariumNicheList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->listItems);
-        $this->assertCount(1,              $list->listItems);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(ColumbariumNicheListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('005',           $list->term);
@@ -223,17 +208,17 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     public function testItReturnsColumbariumNicheTotalCount(): void
     {
-        $this->assertSame(7, $this->columbariumNicheFetcher->countTotal());
+        $this->assertSame(7, $this->fetcher->countTotal());
     }
 
     public function testItDoesNotCountRemovedColumbariumNicheWhenCalculatingTotalCount(): void
     {
         // Prepare database table for testing
-        $columbariumNicheToRemove = $this->columbariumNicheRepo->findById(new ColumbariumNicheId('CN004'));
-        $this->columbariumNicheRepo->remove($columbariumNicheToRemove);
+        $columbariumNicheToRemove = $this->repo->findById(new ColumbariumNicheId('CN004'));
+        $this->repo->remove($columbariumNicheToRemove);
 
         // Testing itself
-        $this->assertSame(6, $this->columbariumNicheFetcher->countTotal());
+        $this->assertSame(6, $this->fetcher->countTotal());
     }
 
     protected function loadFixtures(): void
@@ -302,7 +287,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN001(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN001');
+        $view = $this->fetcher->findViewById('CN001');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN001',        $view->id);
         $this->assertSame('C001',         $view->columbariumId);
@@ -317,7 +302,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN002(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN002');
+        $view = $this->fetcher->findViewById('CN002');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN002',        $view->id);
         $this->assertSame('C002',         $view->columbariumId);
@@ -332,7 +317,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN003(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN003');
+        $view = $this->fetcher->findViewById('CN003');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN003',        $view->id);
         $this->assertSame('C003',         $view->columbariumId);
@@ -347,7 +332,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN004(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN004');
+        $view = $this->fetcher->findViewById('CN004');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN004',        $view->id);
         $this->assertSame('C004',         $view->columbariumId);
@@ -362,7 +347,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN005(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN005');
+        $view = $this->fetcher->findViewById('CN005');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN005',        $view->id);
         $this->assertSame('C004',         $view->columbariumId);
@@ -377,7 +362,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN006(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN006');
+        $view = $this->fetcher->findViewById('CN006');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN006',        $view->id);
         $this->assertSame('C004',         $view->columbariumId);
@@ -392,7 +377,7 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends FetcherIntegrat
 
     private function testItReturnsColumbariumNicheViewForCN007(): void
     {
-        $view = $this->columbariumNicheFetcher->getViewById('CN007');
+        $view = $this->fetcher->findViewById('CN007');
         $this->assertInstanceOf(ColumbariumNicheView::class, $view);
         $this->assertSame('CN007',        $view->id);
         $this->assertSame('C004',         $view->columbariumId);

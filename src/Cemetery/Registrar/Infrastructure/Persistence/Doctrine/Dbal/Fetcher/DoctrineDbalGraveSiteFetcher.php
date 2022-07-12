@@ -18,14 +18,11 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     /**
      * {@inheritdoc}
      */
-    public function getViewById(string $id): GraveSiteView
+    public function findViewById(string $id): ?GraveSiteView
     {
         $viewData = $this->queryViewData($id);
-        if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Участок на кладбище с ID "%s" не найден.', $id));
-        }
 
-        return $this->hydrateView($viewData);
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     /**

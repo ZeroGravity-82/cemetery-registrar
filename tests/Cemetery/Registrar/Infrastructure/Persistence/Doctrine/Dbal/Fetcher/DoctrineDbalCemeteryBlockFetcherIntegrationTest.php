@@ -6,7 +6,6 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetc
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockList;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
@@ -19,17 +18,16 @@ use DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegrationTest
+class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private CemeteryBlockRepository $cemeteryBlockRepo;
-    private CemeteryBlockFetcher    $cemeteryBlockFetcher;
+    private CemeteryBlockRepository $repo;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->cemeteryBlockRepo    = new DoctrineOrmCemeteryBlockRepository($this->entityManager);
-        $this->cemeteryBlockFetcher = new DoctrineDbalCemeteryBlockFetcher($this->connection);
+        $this->repo    = new DoctrineOrmCemeteryBlockRepository($this->entityManager);
+        $this->fetcher = new DoctrineDbalCemeteryBlockFetcher($this->connection);
         $this->loadFixtures();
     }
 
@@ -38,51 +36,45 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
         $this->testItReturnsCemeteryBlockViewForCB001();
     }
 
-    public function testItFailsToReturnCemeteryBlockViewByUnknownId(): void
-    {
-        $this->expectExceptionForNotFoundCemeteryBlockById('unknown_id');
-        $this->cemeteryBlockFetcher->getViewById('unknown_id');
-    }
-
-    public function testItFailsToReturnCemeteryBlockViewForRemovedCemeteryBlock(): void
+    public function testItReturnsNullForRemovedCemeteryBlock(): void
     {
         // Prepare database table for testing
-        $cemeteryBlockToRemove = $this->cemeteryBlockRepo->findById(new CemeteryBlockId('CB002'));
-        $this->cemeteryBlockRepo->remove($cemeteryBlockToRemove);
+        $cemeteryBlockToRemove = $this->repo->findById(new CemeteryBlockId('CB002'));
+        $this->repo->remove($cemeteryBlockToRemove);
         $removedCemeteryBlockId = $cemeteryBlockToRemove->id()->value();
 
         // Testing itself
-        $this->expectExceptionForNotFoundCemeteryBlockById($removedCemeteryBlockId);
-        $this->cemeteryBlockFetcher->getViewById($removedCemeteryBlockId);
+        $view = $this->fetcher->findViewById($removedCemeteryBlockId);
+        $this->assertNull($view);
     }
 
     public function testItReturnsCemeteryBlockList(): void
     {
         // All at once
-        $listForAll = $this->cemeteryBlockFetcher->findAll();
+        $listForAll = $this->fetcher->findAll(1);
         $this->assertInstanceOf(CemeteryBlockList::class, $listForAll);
-        $this->assertIsArray($listForAll->listItems);
-        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForAll->listItems);
-        $this->assertCount(4, $listForAll->listItems);
-        $this->assertListItemEqualsCB001($listForAll->listItems[0]);  // Items are ordered by name
-        $this->assertListItemEqualsCB004($listForAll->listItems[1]);
-        $this->assertListItemEqualsCB002($listForAll->listItems[2]);
-        $this->assertListItemEqualsCB003($listForAll->listItems[3]);
+        $this->assertIsArray($listForAll->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForAll->items);
+        $this->assertCount(4, $listForAll->items);
+        $this->assertListItemEqualsCB001($listForAll->items[0]);  // Items are ordered by name
+        $this->assertListItemEqualsCB004($listForAll->items[1]);
+        $this->assertListItemEqualsCB002($listForAll->items[2]);
+        $this->assertListItemEqualsCB003($listForAll->items[3]);
     }
 
     public function testItReturnsCemeteryBlockTotalCount(): void
     {
-        $this->assertSame(4, $this->cemeteryBlockFetcher->countTotal());
+        $this->assertSame(4, $this->fetcher->countTotal());
     }
 
     public function testItDoesNotCountRemovedCemeteryBlockWhenCalculatingTotalCount(): void
     {
         // Prepare database table for testing
-        $cemeteryBlockToRemove = $this->cemeteryBlockRepo->findById(new CemeteryBlockId('CB002'));
-        $this->cemeteryBlockRepo->remove($cemeteryBlockToRemove);
+        $cemeteryBlockToRemove = $this->repo->findById(new CemeteryBlockId('CB002'));
+        $this->repo->remove($cemeteryBlockToRemove);
 
         // Testing itself
-        $this->assertSame(3, $this->cemeteryBlockFetcher->countTotal());
+        $this->assertSame(3, $this->fetcher->countTotal());
     }
 
     protected function loadFixtures(): void
@@ -118,7 +110,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends FetcherIntegration
 
     private function testItReturnsCemeteryBlockViewForCB001(): void
     {
-        $view = $this->cemeteryBlockFetcher->getViewById('CB001');
+        $view = $this->fetcher->findViewById('CB001');
         $this->assertInstanceOf(CemeteryBlockView::class, $view);
         $this->assertSame('CB001',    $view->id);
         $this->assertSame('воинский', $view->name);

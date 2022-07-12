@@ -17,20 +17,17 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     /**
      * {@inheritdoc}
      */
-    public function getViewById(string $id): ColumbariumView
+    public function findViewById(string $id): ?ColumbariumView
     {
         $viewData = $this->queryViewData($id);
-        if ($viewData === false) {
-            throw new \RuntimeException(\sprintf('Колумбарий с ID "%s" не найден.', $id));
-        }
 
-        return $this->hydrateView($viewData);
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function findAll(): ColumbariumList
+    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
         $columbariumListData = $this->connection->createQueryBuilder()
             ->select(

@@ -3,7 +3,7 @@
   <div class="col-md-9">
     <select class="form-select form-select-sm" id="burialContainerCoffinShape" name="burialContainerCoffinShape" aria-label="Форма гроба">
       <option selected></option>
-      {% for listItem in coffinShapeList.listItems %}
+      {% for listItem in coffinShapeList.items %}
         <option value="{{ listItem.value }}">
           {{ listItem.label }}
         </option>

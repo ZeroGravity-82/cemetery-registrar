@@ -10,9 +10,9 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\GraveSite;
 class CemeteryBlockList
 {
     /**
-     * @param CemeteryBlockListItem[]|array $listItems
+     * @param CemeteryBlockListItem[]|array $items
      */
     public function __construct(
-        public readonly array $listItems,
+        public readonly array $items,
     ) {}
 }

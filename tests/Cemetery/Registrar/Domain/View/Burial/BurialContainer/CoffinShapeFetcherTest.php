@@ -19,13 +19,13 @@ class CoffinShapeFetcherTest extends TestCase
     {
         $list = (new CoffinShapeFetcher())->findAll();
         $this->assertInstanceOf(CoffinShapeList::class, $list);
-        $this->assertIsArray($list->listItems);
-        $this->assertContainsOnlyInstancesOf(CoffinShapeListItem::class, $list->listItems);
-        $this->assertCount(4, $list->listItems);
-        $this->assertListItemEqualsTrapezoid($list->listItems[0]);
-        $this->assertListItemEqualsGreekWithHandles($list->listItems[1]);
-        $this->assertListItemEqualsGreekWithoutHandles($list->listItems[2]);
-        $this->assertListItemEqualsAmerican($list->listItems[3]);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CoffinShapeListItem::class, $list->items);
+        $this->assertCount(4, $list->items);
+        $this->assertListItemEqualsTrapezoid($list->items[0]);
+        $this->assertListItemEqualsGreekWithHandles($list->items[1]);
+        $this->assertListItemEqualsGreekWithoutHandles($list->items[2]);
+        $this->assertListItemEqualsAmerican($list->items[3]);
     }
 
     private function assertListItemEqualsTrapezoid(CoffinShapeListItem $listItem): void

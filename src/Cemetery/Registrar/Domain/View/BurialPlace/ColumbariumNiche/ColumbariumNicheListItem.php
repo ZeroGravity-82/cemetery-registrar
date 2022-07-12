@@ -16,9 +16,9 @@ class ColumbariumNicheListItem
      * @param string $nicheNumber
      */
     public function __construct(
-        public readonly string  $id,
-        public readonly string  $columbariumName,
-        public readonly int     $rowInColumbarium,
-        public readonly string  $nicheNumber,
+        public readonly string $id,
+        public readonly string $columbariumName,
+        public readonly int    $rowInColumbarium,
+        public readonly string $nicheNumber,
     ) {}
 }
