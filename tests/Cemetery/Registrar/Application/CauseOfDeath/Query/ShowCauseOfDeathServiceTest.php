@@ -57,7 +57,6 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
 
     public function testItFailsWhenAnCauseOfDeathIsNotFound(): void
     {
-        $this->unknownId = 'unknown_id';
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Причина смерти с ID "%s" не найдена.', $this->unknownId));
         $this->service->execute(new ShowCauseOfDeathRequest($this->unknownId));
@@ -66,16 +65,13 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
     private function buildMockCauseOfDeathFetcher(): MockObject|CauseOfDeathFetcher
     {
         $mockCauseOfDeathFetcher = $this->createMock(CauseOfDeathFetcher::class);
-        $mockCauseOfDeathFetcher->method('findViewById')->with($this->id)->willReturn($this->causeOfDeathView);
-        $mockCauseOfDeathFetcher->method('findViewById')->with($this->unknownId)->willThrowException(
-            $this->buildExceptionForNotFoundCauseOfDeath()
-        );
+        $mockCauseOfDeathFetcher->method('findViewById')->willReturnCallback(function (string $id) {
+            return match ($id) {
+                $this->id        => $this->causeOfDeathView,
+                $this->unknownId => null,
+            };
+        });
 
         return $mockCauseOfDeathFetcher;
-    }
-
-    private function buildExceptionForNotFoundCauseOfDeath(): \Throwable
-    {
-        return new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $this->unknownId));
     }
 }

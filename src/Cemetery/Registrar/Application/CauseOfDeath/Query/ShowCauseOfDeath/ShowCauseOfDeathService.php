@@ -6,6 +6,7 @@ namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath;
 
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -34,8 +35,25 @@ class ShowCauseOfDeathService extends ApplicationService
     {
         $this->assertSupportedRequestClass($request);
 
-        $causeOfDeathView = $this->causeOfDeathFetcher->findViewById($request->id);
+        $causeOfDeathView = $this->getCauseOfDeathView($request->id);
 
         return new ShowCauseOfDeathResponse($causeOfDeathView);
+    }
+
+    /**
+     * @param string $id
+     *
+     * @return CauseOfDeathView
+     *
+     * @throws \RuntimeException when no data was found by the ID
+     */
+    private function getCauseOfDeathView(string $id): CauseOfDeathView
+    {
+        $view = $this->causeOfDeathFetcher->findViewById($id);
+        if ($view === null) {
+            throw new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $id));
+        }
+
+        return $view;
     }
 }
