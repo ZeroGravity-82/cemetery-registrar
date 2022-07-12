@@ -5,14 +5,13 @@ const $modalCauseOfDeathForm = $(`#modalCauseOfDeath form`);
 const $modalNameField        = $modalCauseOfDeath.find(`input[id=name]`);
 const $modalCsrfTokenField   = $modalCauseOfDeath.find(`input[id=_csrf_token]`);
 const $modalRemoveBtnWrapper = $modalCauseOfDeath.find(`.js-remove-wrapper`);
-const $modalRemoveBtn        = $modalCauseOfDeath.find(`.js-remove`);
 const $modalTimestamps       = $modalCauseOfDeath.find(`.timestamps`);
 const modalCauseOfDeath      = new bootstrap.Modal(`#modalCauseOfDeath`, {});
 
 let mode = null;
 let id   = null;
 
-// New
+// Create
 $body.on(`click`, `.js-create-cause-of-death-btn`, function() {
   mode = `new`;
   id   = null;
