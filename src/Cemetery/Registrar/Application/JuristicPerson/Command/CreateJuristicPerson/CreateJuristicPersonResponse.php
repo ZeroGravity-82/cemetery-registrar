@@ -10,6 +10,6 @@ namespace Cemetery\Registrar\Application\JuristicPerson\Command\CreateJuristicPe
 class CreateJuristicPersonResponse
 {
     public function __construct(
-        public readonly string $juristicPersonId,
+        public readonly string $id,
     ) {}
 }

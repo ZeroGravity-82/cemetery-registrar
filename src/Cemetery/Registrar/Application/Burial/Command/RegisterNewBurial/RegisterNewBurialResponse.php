@@ -10,6 +10,6 @@ namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 class RegisterNewBurialResponse
 {
     public function __construct(
-        public readonly string $burialId,
+        public readonly string $id,
     ) {}
 }

@@ -85,7 +85,7 @@ class BurialController extends Controller
         }
         if ($request->isMethod(Request::METHOD_POST)) {
             $registerNewBurialRequest  = new RegisterNewBurialRequest(...$this->getRequestArgs($request));
-            $burialId             = $this->registerNewBurialService->execute($registerNewBurialRequest)->burialId;
+            $burialId             = $this->registerNewBurialService->execute($registerNewBurialRequest)->id;
 
             $response = $this->redirectToRoute('burial_list', [
                 'burialId' => $burialId,

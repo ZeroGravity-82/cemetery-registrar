@@ -10,6 +10,6 @@ namespace Cemetery\Registrar\Application\SoleProprietor\Command\CreateSolePropri
 class CreateSoleProprietorResponse
 {
     public function __construct(
-        public readonly string $soleProprietorId,
+        public readonly string $id,
     ) {}
 }
