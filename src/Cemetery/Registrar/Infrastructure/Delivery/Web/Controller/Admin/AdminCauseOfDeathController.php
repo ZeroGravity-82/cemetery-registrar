@@ -14,6 +14,8 @@ use Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal\Cou
 use Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal\CountCauseOfDeathTotalService;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathService;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathService;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,6 +31,7 @@ class AdminCauseOfDeathController extends Controller
     public function __construct(
         private readonly CountCauseOfDeathTotalService $countCauseOfDeathTotalService,
         private readonly ListCausesOfDeathService      $listCausesOfDeathService,
+        private readonly ShowCauseOfDeathService       $showCauseOfDeathService,
         private readonly CreateCauseOfDeathService     $createCauseOfDeathService,
         private readonly EditCauseOfDeathService       $editCauseOfDeathService,
         private readonly RemoveCauseOfDeathService     $removeCauseOfDeathService,
@@ -54,10 +57,14 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_show', methods: Request::METHOD_GET)]
     public function show(string $id): JsonResponse
     {
+        $view = $this->showCauseOfDeathService
+            ->execute(new ShowCauseOfDeathRequest($id))
+            ->view;
 
+        return $this->json($view);
     }
 
-    #[Route('/admin/cause-of-death/new', name: 'admin_cause_of_death_create', methods: Request::METHOD_POST)]
+    #[Route('/admin/cause-of-death/create', name: 'admin_cause_of_death_create', methods: Request::METHOD_POST)]
     public function create(Request $request): JsonResponse
     {
         $createRequest   = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
