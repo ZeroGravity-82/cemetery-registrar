@@ -382,6 +382,9 @@
     "symfony/options-resolver": {
         "version": "v6.0.3"
     },
+    "symfony/password-hasher": {
+        "version": "v6.0.8"
+    },
     "symfony/phpunit-bridge": {
         "version": "6.0",
         "recipe": {
@@ -436,6 +439,12 @@
     },
     "symfony/runtime": {
         "version": "v6.0.0"
+    },
+    "symfony/security-core": {
+        "version": "v6.0.8"
+    },
+    "symfony/security-csrf": {
+        "version": "v6.0.9"
     },
     "symfony/service-contracts": {
         "version": "v3.0.0"
