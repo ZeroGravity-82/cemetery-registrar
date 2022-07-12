@@ -56,8 +56,7 @@ $modalCauseOfDeath.on(`click`, `.js-save`, function () {
   save(getSaveActionUrl());
 });
 $modalCauseOfDeath.on(`click`, `.js-save-and-close`, function () {
-  save(getSaveActionUrl());
-  close();
+  save(getSaveActionUrl(), true);
 });
 $modalCauseOfDeath.on(`click`, `.js-close`, function () {
   close();
@@ -71,7 +70,7 @@ $modalCauseOfDeath.on(`click`, `.js-remove`, function () {
   }
 });
 
-function save(url)
+function save(url, isReloadRequired = false)
 {
   const method = mode === `new` ? `POST` : `PUT`;
   const data   = {
@@ -84,6 +83,9 @@ function save(url)
     data: JSON.stringify(data),
     contentType: `application/json; charset=utf-8`,
     success: function () {
+      if (isReloadRequired) {
+        location.reload();
+      }
     },
   });
 }
@@ -99,7 +101,7 @@ function remove(url)
 }
 function close()
 {
-  modalCauseOfDeath.hide();
+  location.reload();  // TODO refactor to not reload page
 }
 
 function getSaveActionUrl()
