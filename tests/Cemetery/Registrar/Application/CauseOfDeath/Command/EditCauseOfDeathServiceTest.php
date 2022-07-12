@@ -32,7 +32,6 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 
     public function testItEditsCauseOfDeath(): void
     {
-        // Testing itself
         $this->mockCauseOfDeathRepo->expects($this->once())->method('findById')->with(
             $this->callback(function (object $arg) {
                 return
