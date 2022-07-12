@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
-use Cemetery\Registrar\Application\Query\Organization\CountOrganizationTotal\CountOrganizationTotalRequest;
-use Cemetery\Registrar\Application\Query\Organization\CountOrganizationTotal\CountOrganizationTotalService;
-use Cemetery\Registrar\Application\Query\Organization\ListOrganizations\ListOrganizationsRequest;
-use Cemetery\Registrar\Application\Query\Organization\ListOrganizations\ListOrganizationsService;
+use Cemetery\Registrar\Application\Organization\Query\CountOrganizationTotal\CountOrganizationTotalRequest;
+use Cemetery\Registrar\Application\Organization\Query\CountOrganizationTotal\CountOrganizationTotalService;
+use Cemetery\Registrar\Application\Organization\Query\ListOrganizations\ListOrganizationsRequest;
+use Cemetery\Registrar\Application\Organization\Query\ListOrganizations\ListOrganizationsService;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
