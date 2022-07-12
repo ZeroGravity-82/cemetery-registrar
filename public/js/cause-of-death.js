@@ -37,7 +37,7 @@ $body.on(`click`, `tr`, function(e) {
       $modalCauseOfDeath.removeClass(`edit-form`).addClass(`edit-form`);
       $modalRemoveBtnWrapper.removeClass(`d-none`);
       $modalTimestamps.removeClass(`d-none`);
-      $modalTitle.html(`${causeOfDeathView.name} (Причины смерти)`);
+      $modalTitle.html(`<span id="causeOfDeathViewTitle">${causeOfDeathView.name}</span> (Причины смерти)`);
       $modalNameField.val(causeOfDeathView.name);
       $modalCsrfTokenField.val(causeOfDeathView.csrfToken);
       modalCauseOfDeath.show();
@@ -63,8 +63,12 @@ $modalCauseOfDeath.on(`click`, `.js-close`, function () {
   close();
 });
 $modalCauseOfDeath.on(`click`, `.js-remove`, function () {
-  remove(getRemoveActionUrl());
-  close();
+  const causeOfDeath = $(`#causeOfDeathViewTitle`).html();
+  const isConfirmed  = confirm(`Удалить причину смерти "${causeOfDeath}"?`)
+  if (isConfirmed) {
+    remove(getRemoveActionUrl());
+    close();
+  }
 });
 
 function save(url)
