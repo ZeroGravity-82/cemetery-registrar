@@ -57,10 +57,4 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
     {
         $this->markTestIncomplete();
     }
-
-    public function testItFailsWhenAnCauseOfDeathIsNotFound(): void
-    {
-        $this->expectExceptionForNotFoundCauseOfDeathById();
-        $this->service->execute(new EditCauseOfDeathRequest($this->unknownId, 'Новое наименование'));
-    }
 }
