@@ -49,7 +49,7 @@ class RemoveJuristicPersonService extends ApplicationService
         ));
     }
 
-        /**
+    /**
      * @param string $id
      *
      * @return JuristicPerson
@@ -58,7 +58,8 @@ class RemoveJuristicPersonService extends ApplicationService
      */
     private function getJuristicPerson(string $id): JuristicPerson
     {
-        $id             = new JuristicPersonId($id);
+        $id = new JuristicPersonId($id);
+        /** @var JuristicPerson $juristicPerson */
         $juristicPerson = $this->juristicPersonRepo->findById($id);
         if (!$juristicPerson) {
             throw new \RuntimeException(\sprintf('Юридическое лицо с ID "%s" не найдено.', $id));
