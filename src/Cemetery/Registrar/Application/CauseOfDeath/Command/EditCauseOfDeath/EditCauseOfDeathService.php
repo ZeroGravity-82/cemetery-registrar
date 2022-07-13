@@ -25,6 +25,8 @@ class EditCauseOfDeathService extends CauseOfDeathService
      * @param EditCauseOfDeathRequest $request
      *
      * @return EditCauseOfDeathResponse
+     *
+     * @throws \RuntimeException when the cause of death is not found
      */
     public function execute($request): EditCauseOfDeathResponse
     {
