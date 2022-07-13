@@ -10,6 +10,7 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteFixtures;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeFixtures;
+use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
 use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
 use DataFixtures\NaturalPerson\NaturalPersonFixtures;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonFixtures;
@@ -21,6 +22,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * @group browser
+ * @group functional
+ *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class SmokeFunctionalTest extends WebTestCase
@@ -59,6 +63,8 @@ class SmokeFunctionalTest extends WebTestCase
         yield ['/admin/burial-place/columbarium-niche'];
         yield ['/admin/burial-place/memorial-tree'];
         yield ['/admin/cause-of-death'];
+        yield ['/admin/cause-of-death/CD001'];
+        yield ['/admin/cause-of-death/CD001/edit'];
         yield ['/admin/funeral-company'];
         yield ['/admin/organization'];
     }
@@ -76,6 +82,7 @@ class SmokeFunctionalTest extends WebTestCase
             MemorialTreeFixtures::class,
             FuneralCompanyFixtures::class,
             BurialFixtures::class,
+            CauseOfDeathFixtures::class,
         ]);
     }
 }
