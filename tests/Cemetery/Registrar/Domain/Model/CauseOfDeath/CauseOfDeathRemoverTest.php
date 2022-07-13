@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemover;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -13,75 +16,35 @@ use PHPUnit\Framework\TestCase;
  */
 class CauseOfDeathRemoverTest extends TestCase
 {
-    private MockObject|FuneralCompanyRepository $mockNaturalPersonRepo;
-    private MockObject|BurialRepository         $mockBurialRepo;
-    private MockObject|JuristicPersonRepository $mockJuristicPersonRepo;
-    private MockObject|EventDispatcher          $mockEventDispatcher;
-    private JuristicPersonRemover               $juristicPersonRemover;
-    private MockObject|JuristicPerson           $mockJuristicPerson;
-    private JuristicPersonId                    $juristicPersonId;
-    private MockObject|FuneralCompany           $mockFuneralCompany;
-    private FuneralCompanyId                    $funeralCompanyId;
+    private MockObject|NaturalPersonRepository $mockNaturalPersonRepo;
+    private MockObject|CauseOfDeathRepository  $mockCauseOfDeathRepo;
+    private CauseOfDeathRemover                $causeOfDeathRemover;
+    private MockObject|CauseOfDeath            $mockCauseOfDeath;
 
     public function setUp(): void
     {
-        $this->mockNaturalPersonRepo = $this->createMock(FuneralCompanyRepository::class);
-        $this->mockBurialRepo         = $this->createMock(BurialRepository::class);
-        $this->mockJuristicPersonRepo = $this->createMock(JuristicPersonRepository::class);
-        $this->mockEventDispatcher    = $this->createMock(EventDispatcher::class);
-        $this->juristicPersonRemover  = new JuristicPersonRemover(
+        $this->mockNaturalPersonRepo = $this->createMock(NaturalPersonRepository::class);
+        $this->mockCauseOfDeathRepo  = $this->createMock(CauseOfDeathRepository::class);
+        $this->causeOfDeathRemover   = new CauseOfDeathRemover(
             $this->mockNaturalPersonRepo,
-            $this->mockBurialRepo,
-            $this->mockJuristicPersonRepo,
-            $this->mockEventDispatcher,
+            $this->mockCauseOfDeathRepo,
         );
-        $this->mockJuristicPerson = $this->buildMockJuristicPerson();
-        $this->mockFuneralCompany = $this->buildMockFuneralCompany();
+        $this->mockCauseOfDeath = $this->createMock(CauseOfDeath::class);
     }
 
     public function testItRemovesCauseOfDeathWithoutRelatedEntities(): void
     {
         $this->mockNaturalPersonRepo->method('countByCauseOfDeathId')->willReturn(0);
-        $this->mockJuristicPersonRepo->expects($this->once())->method('remove')->with($this->mockJuristicPerson);
-        $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->callback(function (object $arg) {
-                return
-                    $arg instanceof JuristicPersonRemoved &&
-                    $arg->juristicPersonId()->isEqual($this->juristicPersonId);
-            }),
-        );
-        $this->juristicPersonRemover->remove($this->mockJuristicPerson);
+        $this->mockCauseOfDeathRepo->expects($this->once())->method('remove')->with($this->mockCauseOfDeath);
+        $this->causeOfDeathRemover->remove($this->mockCauseOfDeath);
     }
 
     public function testItFailsToRemoveCauseOfDeathAssociatedWithDeceasedDetails(): void
     {
-        $this->mockNaturalPersonRepo->method('findByOrganizationId')->willReturn($this->mockFuneralCompany);
-        $this->mockBurialRepo->method('countByCustomerId')->willReturn(0);
-        $this->mockJuristicPersonRepo->expects($this->never())->method('remove')->with($this->mockJuristicPerson);
-        $this->mockEventDispatcher->expects($this->never())->method('dispatch');
+        $this->mockNaturalPersonRepo->method('countByCauseOfDeathId')->willReturn(5);
+        $this->mockCauseOfDeathRepo->expects($this->never())->method('remove')->with($this->mockCauseOfDeath);
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой с ID "%s".',
-            $this->funeralCompanyId->value(),
-        ));
-        $this->juristicPersonRemover->remove($this->mockJuristicPerson);
-    }
-
-    private function buildMockJuristicPerson(): MockObject|JuristicPerson
-    {
-        $this->juristicPersonId = new JuristicPersonId('777');
-        $mockJuristicPerson     = $this->createMock(JuristicPerson::class);
-        $mockJuristicPerson->method('id')->willReturn($this->juristicPersonId);
-
-        return $mockJuristicPerson;
-    }
-
-    private function buildMockFuneralCompany(): MockObject|FuneralCompany
-    {
-        $this->funeralCompanyId = new FuneralCompanyId('888');
-        $mockFuneralCompany = $this->createMock(FuneralCompany::class);
-        $mockFuneralCompany->method('id')->willReturn($this->funeralCompanyId);
-
-        return $mockFuneralCompany;
+        $this->expectExceptionMessage('Причина смерти не может быть удалена, т.к. она указана для 5 умерших.');
+        $this->causeOfDeathRemover->remove($this->mockCauseOfDeath);
     }
 }
