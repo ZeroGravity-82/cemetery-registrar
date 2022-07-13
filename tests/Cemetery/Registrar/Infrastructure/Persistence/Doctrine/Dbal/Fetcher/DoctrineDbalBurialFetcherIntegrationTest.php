@@ -895,7 +895,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                                          $view->deceasedNaturalPersonBornAt);
         $this->assertSame('2010-01-26',                                  $view->deceasedNaturalPersonDeceasedDetailsDiedAt);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsAge);
-        $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsCauseOfDeathId);
+        $this->assertSame('CD004',                                       $view->deceasedNaturalPersonDeceasedDetailsCauseOfDeathId);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateSeries);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateNumber);
         $this->assertSame(null,                                          $view->deceasedNaturalPersonDeceasedDetailsDeathCertificateIssuedAt);
