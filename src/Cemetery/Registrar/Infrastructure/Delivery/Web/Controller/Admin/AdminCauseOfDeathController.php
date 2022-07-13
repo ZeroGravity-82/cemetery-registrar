@@ -73,7 +73,7 @@ class AdminCauseOfDeathController extends Controller
         return $response;
     }
 
-    #[Route('/admin/cause-of-death/edit/{id}', name: 'admin_cause_of_death_edit', methods: [
+    #[Route('/admin/cause-of-death/{id}/edit', name: 'admin_cause_of_death_edit', methods: [
         Request::METHOD_GET,
         Request::METHOD_PUT,
     ])]
