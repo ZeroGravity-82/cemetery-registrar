@@ -85,7 +85,7 @@ function save(url, isReloadRequired = false)
     contentType: `application/json; charset=utf-8`,
     success: function () {
       if (isReloadRequired) {
-        location.reload();
+        location.reload();      // TODO refactor not to reload entire page
       }
     },
   });
@@ -101,12 +101,13 @@ function remove(url)
     url: url,
     data: JSON.stringify(data),
     success: function () {
+      location.reload();        // TODO refactor not to reload entire page
     },
   });
 }
 function close()
 {
-  location.reload();  // TODO refactor to not reload page
+  location.reload();            // TODO refactor not to reload entire page
 }
 
 function getSaveActionUrl()
