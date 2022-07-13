@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\RemoveJuristicPerson;
 
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemover;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
 
@@ -18,10 +20,12 @@ class RemoveJuristicPersonService extends ApplicationService
     /**
      * @param JuristicPersonRepository $juristicPersonRepo
      * @param JuristicPersonRemover    $juristicPersonRemover
+     * @param EventDispatcher          $eventDispatcher
      */
     public function __construct(
         private readonly JuristicPersonRepository $juristicPersonRepo,
         private readonly JuristicPersonRemover    $juristicPersonRemover,
+        private readonly EventDispatcher          $eventDispatcher,
     ) {}
 
     /**
@@ -40,6 +44,9 @@ class RemoveJuristicPersonService extends ApplicationService
         $this->assertSupportedRequestClass($request);
         $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRemover->remove($juristicPerson);
+        $this->eventDispatcher->dispatch(new JuristicPersonRemoved(
+            $juristicPerson->id(),
+        ));
     }
 
         /**

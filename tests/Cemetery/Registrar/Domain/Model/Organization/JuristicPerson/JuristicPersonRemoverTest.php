@@ -25,7 +25,6 @@ class JuristicPersonRemoverTest extends TestCase
     private MockObject|FuneralCompanyRepository $mockFuneralCompanyRepo;
     private MockObject|BurialRepository         $mockBurialRepo;
     private MockObject|JuristicPersonRepository $mockJuristicPersonRepo;
-    private MockObject|EventDispatcher          $mockEventDispatcher;
     private JuristicPersonRemover               $juristicPersonRemover;
     private MockObject|JuristicPerson           $mockJuristicPerson;
     private JuristicPersonId                    $juristicPersonId;
@@ -37,12 +36,10 @@ class JuristicPersonRemoverTest extends TestCase
         $this->mockFuneralCompanyRepo = $this->createMock(FuneralCompanyRepository::class);
         $this->mockBurialRepo         = $this->createMock(BurialRepository::class);
         $this->mockJuristicPersonRepo = $this->createMock(JuristicPersonRepository::class);
-        $this->mockEventDispatcher    = $this->createMock(EventDispatcher::class);
         $this->juristicPersonRemover  = new JuristicPersonRemover(
             $this->mockFuneralCompanyRepo,
             $this->mockBurialRepo,
             $this->mockJuristicPersonRepo,
-            $this->mockEventDispatcher,
         );
         $this->mockJuristicPerson = $this->buildMockJuristicPerson();
         $this->mockFuneralCompany = $this->buildMockFuneralCompany();
@@ -53,13 +50,6 @@ class JuristicPersonRemoverTest extends TestCase
         $this->mockFuneralCompanyRepo->method('findByOrganizationId')->willReturn(null);
         $this->mockBurialRepo->method('countByCustomerId')->willReturn(0);
         $this->mockJuristicPersonRepo->expects($this->once())->method('remove')->with($this->mockJuristicPerson);
-        $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
-            $this->callback(function (object $arg) {
-                return
-                    $arg instanceof JuristicPersonRemoved &&
-                    $arg->juristicPersonId()->isEqual($this->juristicPersonId);
-            }),
-        );
         $this->juristicPersonRemover->remove($this->mockJuristicPerson);
     }
 
@@ -68,7 +58,6 @@ class JuristicPersonRemoverTest extends TestCase
         $this->mockFuneralCompanyRepo->method('findByOrganizationId')->willReturn($this->mockFuneralCompany);
         $this->mockBurialRepo->method('countByCustomerId')->willReturn(0);
         $this->mockJuristicPersonRepo->expects($this->never())->method('remove')->with($this->mockJuristicPerson);
-        $this->mockEventDispatcher->expects($this->never())->method('dispatch');
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf(
             'Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой с ID "%s".',
@@ -82,7 +71,6 @@ class JuristicPersonRemoverTest extends TestCase
         $this->mockFuneralCompanyRepo->method('findByOrganizationId')->willReturn(null);
         $this->mockBurialRepo->method('countByCustomerId')->willReturn(5);
         $this->mockJuristicPersonRepo->expects($this->never())->method('remove')->with($this->mockJuristicPerson);
-        $this->mockEventDispatcher->expects($this->never())->method('dispatch');
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(
             'Юридическое лицо не может быть удалено, т.к. оно указано как заказчик для 5 захоронений.'

@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Domain\Model\Organization\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
-use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
 
 /**
@@ -19,13 +18,11 @@ class JuristicPersonRemover
      * @param FuneralCompanyRepository $funeralCompanyRepo
      * @param BurialRepository         $burialRepo
      * @param JuristicPersonRepository $juristicPersonRepo
-     * @param EventDispatcher          $eventDispatcher
      */
     public function __construct(
         private readonly FuneralCompanyRepository $funeralCompanyRepo,
         private readonly BurialRepository         $burialRepo,
         private readonly JuristicPersonRepository $juristicPersonRepo,
-        private readonly EventDispatcher          $eventDispatcher,
     ) {}
 
     /**
@@ -48,6 +45,5 @@ class JuristicPersonRemover
             ));
         }
         $this->juristicPersonRepo->remove($juristicPerson);
-        $this->eventDispatcher->dispatch(new JuristicPersonRemoved($juristicPerson->id()));
     }
 }
