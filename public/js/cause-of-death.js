@@ -1,4 +1,5 @@
 const $body                  = $(`body`);
+const $causeOfDeathTable     = $(`#causeOfDeathList`);
 const $modalCauseOfDeath     = $(`#modalCauseOfDeath`);
 const $modalTitle            = $modalCauseOfDeath.find(`.modal-title`)
 const $modalCauseOfDeathForm = $(`#modalCauseOfDeath form`);
@@ -25,7 +26,7 @@ $body.on(`click`, `.js-create-cause-of-death-btn`, function() {
 });
 
 // Edit
-$body.on(`click`, `tr`, function(e) {
+$causeOfDeathTable.on(`click`, `td`, function(e) {
   mode = `edit`;
   id   = $(e.target).closest(`tr`).attr(`data-id`);
   $.ajax({
