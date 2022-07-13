@@ -8,17 +8,23 @@ use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\Remov
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemover;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 {
+    private MockObject|CauseOfDeathRemover $mockCauseOfDeathRemover;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->service = new RemoveCauseOfDeathService(
+        $this->mockCauseOfDeathRemover = $this->createMock(CauseOfDeathRemover::class);
+        $this->service                 = new RemoveCauseOfDeathService(
+            $this->mockCauseOfDeathRemover,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
         );
@@ -31,7 +37,6 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 
     public function testItRemovesCauseOfDeath(): void
     {
-        // Testing itself
         $this->mockCauseOfDeathRepo->expects($this->once())->method('findById')->with(
             $this->callback(function (object $arg) {
                 return
@@ -39,7 +44,7 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
                     $arg->value() === $this->id;
             }),
         );
-        $this->mockCauseOfDeathRepo->expects($this->once())->method('remove')->with($this->mockCauseOfDeath);
+        $this->mockCauseOfDeathRemover->expects($this->once())->method('remove')->with($this->mockCauseOfDeath);
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return
@@ -51,11 +56,5 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         $this->assertNull(
             $this->service->execute(new RemoveCauseOfDeathRequest($this->id))
         );
-    }
-
-    public function testItFailsWhenAnCauseOfDeathIsNotFound(): void
-    {
-        $this->expectExceptionForNotFoundCauseOfDeathById();
-        $this->service->execute(new RemoveCauseOfDeathRequest($this->unknownId));
     }
 }
