@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\CauseOfDeath\Command;
+namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Command;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
