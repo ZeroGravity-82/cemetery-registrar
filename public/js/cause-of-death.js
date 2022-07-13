@@ -3,7 +3,7 @@ const $modalCauseOfDeath     = $(`#modalCauseOfDeath`);
 const $modalTitle            = $modalCauseOfDeath.find(`.modal-title`)
 const $modalCauseOfDeathForm = $(`#modalCauseOfDeath form`);
 const $modalNameField        = $modalCauseOfDeath.find(`input[id=name]`);
-const $modalCsrfTokenField   = $modalCauseOfDeath.find(`input[id=_csrf_token]`);
+const $modalCsrfTokenField   = $modalCauseOfDeath.find(`input[id=token]`);
 const $modalRemoveBtnWrapper = $modalCauseOfDeath.find(`.js-remove-wrapper`);
 const $modalTimestamps       = $modalCauseOfDeath.find(`.timestamps`);
 const modalCauseOfDeath      = new bootstrap.Modal(`#modalCauseOfDeath`, {});
@@ -39,7 +39,6 @@ $body.on(`click`, `tr`, function(e) {
       $modalTimestamps.removeClass(`d-none`);
       $modalTitle.html(`<span id="causeOfDeathViewTitle">${causeOfDeathView.name}</span> (Причины смерти)`);
       $modalNameField.val(causeOfDeathView.name);
-      $modalCsrfTokenField.val(causeOfDeathView.csrfToken);
       modalCauseOfDeath.show();
     }
   });
@@ -75,6 +74,7 @@ function save(url, isReloadRequired = false)
   const method = mode === `new` ? `POST` : `PUT`;
   const data   = {
     name: $modalNameField.val(),
+    token: $modalCsrfTokenField.val(),
   };
   $.ajax({
     dataType: `json`,
@@ -91,10 +91,14 @@ function save(url, isReloadRequired = false)
 }
 function remove(url)
 {
+  const data = {
+    token: $modalCsrfTokenField.val(),
+  };
   $.ajax({
     dataType: `json`,
     method: `DELETE`,
     url: url,
+    data: JSON.stringify(data),
     success: function () {
     },
   });

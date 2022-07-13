@@ -13,6 +13,23 @@ use Symfony\Component\HttpFoundation\Request;
 abstract class Controller extends AbstractController
 {
     /**
+     * Checks that the CSRF token is valid.
+     *
+     * @param Request $request
+     * @param string  $tokenId
+     *
+     * @throws \RuntimeException when CSRF token is invalid.
+     */
+    protected function assertValidCsrfToken(Request $request, string $tokenId): void
+    {
+        $data  = $this->decodeRequestData($request);
+        $token = $data['token'] ?? null;
+        if (!$this->isCsrfTokenValid($tokenId, $token)) {
+            throw new \RuntimeException('Ошибка проверки CSRF-токена, возможно он устарел. Попробуйте перезагрузить страницу.');
+        }
+    }
+
+    /**
      * Creates command or query service request from the JSON request.
      *
      * @param Request $request
@@ -22,26 +39,31 @@ abstract class Controller extends AbstractController
      */
     protected function handleJsonRequest(Request $request, string $serviceRequestClassName): mixed
     {
-        $constructorArgs       = [];
-        $requestBody           = \json_decode($request->getContent(), true);
-        $isRequestBodyExpected = !\in_array($request->getMethod(), [
-            Request::METHOD_GET,
-            Request::METHOD_DELETE,
-            Request::METHOD_TRACE,
-            Request::METHOD_OPTIONS,
-            Request::METHOD_HEAD,
-        ]);
-        if ($requestBody === null && $isRequestBodyExpected) {
+        $constructorArgs = [];
+        $data            = $this->decodeRequestData($request);
+        if ($data === null && !$request->isMethod(Request::METHOD_GET)) {
             // TODO add testing
             throw new \RuntimeException(\sprintf('Неверный формат JSON: "%s"', $request->getContent()));
         }
         foreach (\array_keys(\get_class_vars($serviceRequestClassName)) as $propertyName) {
             if ($propertyName === 'id') {
-                $requestBody[$propertyName] = $request->attributes->get('id');
+                $data[$propertyName] = $request->attributes->get('id');
             }
-            $constructorArgs[] = $requestBody[$propertyName] ?? null;
+            $constructorArgs[] = $data[$propertyName] ?? null;
         }
 
         return new $serviceRequestClassName(...$constructorArgs);
+    }
+
+    /**
+     * Decodes JSON data of the request body.
+     *
+     * @param Request $request
+     *
+     * @return mixed
+     */
+    private function decodeRequestData(Request $request): mixed
+    {
+        return \json_decode($request->getContent(), true);
     }
 }

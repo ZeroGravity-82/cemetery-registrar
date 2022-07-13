@@ -23,7 +23,7 @@
 
 
           <div class="container">
-            <input type="hidden" id="_csrf_token" name="_csrf_token">
+            <input type="hidden" id="token" name="token" value="{{ csrf_token('cause_of_death') }}">
             <div class="row pt-3 text-end">
               <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
                 <div class="order-2 order-sm-1 d-none js-remove-wrapper">

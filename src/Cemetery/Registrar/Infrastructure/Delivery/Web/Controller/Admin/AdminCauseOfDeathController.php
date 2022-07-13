@@ -62,6 +62,7 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death/create', name: 'admin_cause_of_death_create', methods: Request::METHOD_POST)]
     public function create(Request $request): JsonResponse
     {
+        $this->assertValidCsrfToken($request, 'cause_of_death');
         $commandRequest = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
         $id             = $this->createCauseOfDeathService->execute($commandRequest)->id;
         $view           = $this->causeOfDeathFetcher->findViewById($id);
@@ -79,6 +80,7 @@ class AdminCauseOfDeathController extends Controller
     public function edit(Request $request, string $id): JsonResponse
     {
         if ($request->isMethod(Request::METHOD_PUT)) {
+            $this->assertValidCsrfToken($request, 'cause_of_death');
             $commandRequest = $this->handleJsonRequest($request, EditCauseOfDeathRequest::class);
             $id             = $this->editCauseOfDeathService->execute($commandRequest)->id;
         }
@@ -90,6 +92,7 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_remove', methods: Request::METHOD_DELETE)]
     public function remove(Request $request): JsonResponse
     {
+        $this->assertValidCsrfToken($request, 'cause_of_death');
         $commandRequest = $this->handleJsonRequest($request, RemoveCauseOfDeathRequest::class);
         $this->removeCauseOfDeathService->execute($commandRequest);
 
