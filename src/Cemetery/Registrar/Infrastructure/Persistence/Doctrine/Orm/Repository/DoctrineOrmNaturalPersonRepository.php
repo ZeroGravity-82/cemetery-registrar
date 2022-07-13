@@ -48,7 +48,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
             ->getRepository($this->supportedAggregateRootClassName())
             ->createQueryBuilder('np')
             ->select('COUNT(np.id)')
-            ->andWhere('np.deceased_details->>"$.causeOfDeathId" = :causeOfDeathId')
+            ->andWhere("JSON_EXTRACT(np.deceasedDetails, '$.causeOfDeathId') = :causeOfDeathId")
             ->andWhere('np.removedAt IS NULL')
             ->setParameter('causeOfDeathId', $causeOfDeathId->value())
             ->getQuery()

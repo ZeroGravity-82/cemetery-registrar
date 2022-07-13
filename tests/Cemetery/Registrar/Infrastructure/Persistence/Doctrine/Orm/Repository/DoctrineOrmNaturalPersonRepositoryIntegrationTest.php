@@ -111,13 +111,13 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->assertSame(9, $this->getRowCount(NaturalPerson::class));
 
         // Testing itself
-        /** @var NaturalPerson $persistedEntityF */
-        $persistedEntityF = $this->repo->findById($this->entityF->id());
-        $causeOfDeathIdF  = $persistedEntityF->deceasedDetails()->causeOfDeathId();
-        $this->repo->remove($persistedEntityF);
+        /** @var NaturalPerson $persistedEntityB */
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $causeOfDeathIdB  = $persistedEntityB->deceasedDetails()->causeOfDeathId();
+        $this->repo->remove($persistedEntityB);
         $this->entityManager->clear();
 
-        $naturalPersonCount = $this->repo->countByCauseOfDeathId($causeOfDeathIdF);
+        $naturalPersonCount = $this->repo->countByCauseOfDeathId($causeOfDeathIdB);
         $this->assertSame(0, $naturalPersonCount);
     }
 
