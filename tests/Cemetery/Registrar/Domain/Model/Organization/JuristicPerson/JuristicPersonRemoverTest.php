@@ -6,12 +6,8 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
-use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
-use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemover;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -27,9 +23,7 @@ class JuristicPersonRemoverTest extends TestCase
     private MockObject|JuristicPersonRepository $mockJuristicPersonRepo;
     private JuristicPersonRemover               $juristicPersonRemover;
     private MockObject|JuristicPerson           $mockJuristicPerson;
-    private JuristicPersonId                    $juristicPersonId;
     private MockObject|FuneralCompany           $mockFuneralCompany;
-    private FuneralCompanyId                    $funeralCompanyId;
 
     public function setUp(): void
     {
@@ -41,8 +35,8 @@ class JuristicPersonRemoverTest extends TestCase
             $this->mockBurialRepo,
             $this->mockJuristicPersonRepo,
         );
-        $this->mockJuristicPerson = $this->buildMockJuristicPerson();
-        $this->mockFuneralCompany = $this->buildMockFuneralCompany();
+        $this->mockJuristicPerson = $this->createMock(JuristicPerson::class);
+        $this->mockFuneralCompany = $this->createMock(FuneralCompany::class);
     }
 
     public function testItRemovesJuristicPersonWithoutRelatedEntities(): void
@@ -59,10 +53,7 @@ class JuristicPersonRemoverTest extends TestCase
         $this->mockBurialRepo->method('countByCustomerId')->willReturn(0);
         $this->mockJuristicPersonRepo->expects($this->never())->method('remove')->with($this->mockJuristicPerson);
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой с ID "%s".',
-            $this->funeralCompanyId->value(),
-        ));
+        $this->expectExceptionMessage('Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой.');
         $this->juristicPersonRemover->remove($this->mockJuristicPerson);
     }
 
@@ -76,23 +67,5 @@ class JuristicPersonRemoverTest extends TestCase
             'Юридическое лицо не может быть удалено, т.к. оно указано как заказчик для 5 захоронений.'
         );
         $this->juristicPersonRemover->remove($this->mockJuristicPerson);
-    }
-
-    private function buildMockJuristicPerson(): MockObject|JuristicPerson
-    {
-        $this->juristicPersonId = new JuristicPersonId('777');
-        $mockJuristicPerson     = $this->createMock(JuristicPerson::class);
-        $mockJuristicPerson->method('id')->willReturn($this->juristicPersonId);
-
-        return $mockJuristicPerson;
-    }
-
-    private function buildMockFuneralCompany(): MockObject|FuneralCompany
-    {
-        $this->funeralCompanyId = new FuneralCompanyId('888');
-        $mockFuneralCompany = $this->createMock(FuneralCompany::class);
-        $mockFuneralCompany->method('id')->willReturn($this->funeralCompanyId);
-
-        return $mockFuneralCompany;
     }
 }

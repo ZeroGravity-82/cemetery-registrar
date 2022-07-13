@@ -32,10 +32,7 @@ class JuristicPersonRemover
     {
         $funeralCompany = $this->funeralCompanyRepo->findByOrganizationId(new OrganizationId($juristicPerson->id()));
         if ($funeralCompany) {
-            throw new \RuntimeException(\sprintf(
-                'Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой с ID "%s".',
-                $funeralCompany->id()->value(),
-            ));
+            throw new \RuntimeException('Юридическое лицо не может быть удалено, т.к. оно связано с похоронной фирмой.');
         }
         $burialCount = $this->burialRepo->countByCustomerId(new CustomerId($juristicPerson->id()));
         if ($burialCount > 0) {
