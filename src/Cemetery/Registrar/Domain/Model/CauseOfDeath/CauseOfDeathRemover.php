@@ -32,6 +32,7 @@ class CauseOfDeathRemover
                 $naturalPersonCount,
             ));
         }
+        // TODO add try/catch for domain exception analog of foreign key constraint violation
         $this->causeOfDeathRepo->remove($causeOfDeath);
     }
 }
