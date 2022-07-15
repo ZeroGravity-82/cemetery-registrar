@@ -8,12 +8,28 @@ use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\EntityCollection;
 use Cemetery\Registrar\Domain\Model\EntityId;
 use Cemetery\Registrar\Domain\Model\Repository as RepositoryInterface;
+use Cemetery\Registrar\Domain\Model\RepositoryValidator;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 abstract class Repository implements RepositoryInterface
 {
+    /**
+     * @param RepositoryValidator $repositoryValidator
+     */
+    public function __construct(
+        private readonly RepositoryValidator $repositoryValidator,
+    ) {}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function repositoryValidator(): RepositoryValidator
+    {
+        return $this->repositoryValidator;
+    }
+
     /**
      * Checks whether the aggregate root is of a type supported by the repository.
      *

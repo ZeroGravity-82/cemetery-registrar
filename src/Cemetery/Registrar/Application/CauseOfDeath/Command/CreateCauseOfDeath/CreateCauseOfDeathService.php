@@ -16,16 +16,19 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 class CreateCauseOfDeathService extends CauseOfDeathService
 {
     /**
-     * @param CauseOfDeathFactory    $causeOfDeathFactory
-     * @param CauseOfDeathRepository $causeOfDeathRepo
-     * @param EventDispatcher        $eventDispatcher
+     * @param CreateCauseOfDeathValidator $createCauseOfDeathValidator
+     * @param CauseOfDeathFactory         $causeOfDeathFactory
+     * @param CauseOfDeathRepository      $causeOfDeathRepo
+     * @param EventDispatcher             $eventDispatcher
      */
     public function __construct(
-        private readonly CauseOfDeathFactory $causeOfDeathFactory,
-        CauseOfDeathRepository $causeOfDeathRepo,
-        EventDispatcher        $eventDispatcher,
+        private readonly CreateCauseOfDeathValidator $createCauseOfDeathValidator,
+        private readonly CauseOfDeathFactory         $causeOfDeathFactory,
+        CauseOfDeathRepository                       $causeOfDeathRepo,
+        EventDispatcher                              $eventDispatcher,
     ) {
         parent::__construct($causeOfDeathRepo, $eventDispatcher);
+//        $this->validator = $createCauseOfDeathValidator;
     }
 
     /**

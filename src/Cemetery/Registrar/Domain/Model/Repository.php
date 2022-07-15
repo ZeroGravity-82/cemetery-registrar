@@ -31,6 +31,13 @@ interface Repository
     public function supportedAggregateRootCollectionClassName(): string;
 
     /**
+     * Returns a repository validator.
+     *
+     * @return RepositoryValidator
+     */
+    public function repositoryValidator(): RepositoryValidator;
+
+    /**
      * Adds the aggregate to the repository. If the aggregate is already persisted, it will be updated.
      *
      * @param $aggregateRoot

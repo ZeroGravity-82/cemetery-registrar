@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
 use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
@@ -27,7 +28,11 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmCauseOfDeathRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(CauseOfDeathRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmCauseOfDeathRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = CauseOfDeathProvider::getCauseOfDeathA();
         $this->entityB = CauseOfDeathProvider::getCauseOfDeathB();
         $this->entityC = CauseOfDeathProvider::getCauseOfDeathC();

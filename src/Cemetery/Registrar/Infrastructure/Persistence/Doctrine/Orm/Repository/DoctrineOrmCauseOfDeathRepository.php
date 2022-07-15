@@ -8,12 +8,25 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryValidator;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements CauseOfDeathRepository
 {
+    /**
+     * @param EntityManagerInterface          $entityManager
+     * @param CauseOfDeathRepositoryValidator $repositoryValidator
+     */
+    public function __construct(
+        EntityManagerInterface          $entityManager,
+        CauseOfDeathRepositoryValidator $repositoryValidator,
+    ) {
+        parent::__construct($entityManager, $repositoryValidator);
+    }
+
     /**
      * {@inheritdoc}
      */
