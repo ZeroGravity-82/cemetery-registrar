@@ -9,12 +9,25 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryValidator;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implements NaturalPersonRepository
 {
+    /**
+     * @param EntityManagerInterface           $entityManager
+     * @param NaturalPersonRepositoryValidator $repositoryValidator
+     */
+    public function __construct(
+        EntityManagerInterface           $entityManager,
+        NaturalPersonRepositoryValidator $repositoryValidator,
+    ) {
+        parent::__construct($entityManager, $repositoryValidator);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +57,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
      */
     public function countByCauseOfDeathId(CauseOfDeathId $causeOfDeathId): int
     {
-        return (int) $this->entityManager
+        return $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())
             ->createQueryBuilder('np')
             ->select('COUNT(np.id)')

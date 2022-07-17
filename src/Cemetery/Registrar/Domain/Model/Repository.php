@@ -41,6 +41,10 @@ interface Repository
      * Adds the aggregate to the repository. If the aggregate is already persisted, it will be updated.
      *
      * @param $aggregateRoot
+     *
+     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
+     * @throws \RuntimeException         when unique constraints (if any) are violated
+     * @throws \RuntimeException         when referential integrity constraints (if any) are violated
      */
     public function save($aggregateRoot): void;
 
@@ -49,6 +53,10 @@ interface Repository
      * be updated.
      *
      * @param $aggregateRoots
+     *
+     * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
+     * @throws \RuntimeException         when unique constraints (if any) are violated
+     * @throws \RuntimeException         when referential integrity constraints (if any) are violated
      */
     public function saveAll($aggregateRoots): void;
 
@@ -58,6 +66,8 @@ interface Repository
      * @param $aggregateRootId
      *
      * @return AggregateRoot|null
+     *
+     * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
     public function findById($aggregateRootId): ?AggregateRoot;
 
@@ -65,6 +75,9 @@ interface Repository
      * Removes the aggregate from the repository.
      *
      * @param $aggregateRoot
+     *
+     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
+     * @throws \RuntimeException         when inverse referential integrity constraints (if any) are violated
      */
     public function remove($aggregateRoot): void;
 
@@ -72,6 +85,9 @@ interface Repository
      * Removes the collection of aggregates from the repository.
      *
      * @param $aggregateRoots
+     *
+     * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
+     * @throws \RuntimeException         when inverse referential integrity constraints (if any) are violated
      */
     public function removeAll($aggregateRoots): void;
 }

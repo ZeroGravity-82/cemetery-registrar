@@ -8,14 +8,27 @@ use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
 use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
+use Cemetery\Registrar\Domain\Model\Burial\BurialRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements BurialRepository
 {
+    /**
+     * @param EntityManagerInterface    $entityManager
+     * @param BurialRepositoryValidator $repositoryValidator
+     */
+    public function __construct(
+        EntityManagerInterface    $entityManager,
+        BurialRepositoryValidator $repositoryValidator,
+    ) {
+        parent::__construct($entityManager, $repositoryValidator);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +58,7 @@ class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements Buria
      */
     public function countByFuneralCompanyId(FuneralCompanyId $funeralCompanyId): int
     {
-        return (int) $this->entityManager
+        return $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')
@@ -61,7 +74,7 @@ class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements Buria
      */
     public function countByCustomerId(CustomerId $customerId): int
     {
-        return (int) $this->entityManager
+        return $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())
             ->createQueryBuilder('b')
             ->select('COUNT(b.id)')

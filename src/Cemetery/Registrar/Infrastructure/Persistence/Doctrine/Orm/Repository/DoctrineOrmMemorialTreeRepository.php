@@ -8,12 +8,25 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepositoryValidator;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements MemorialTreeRepository
 {
+    /**
+     * @param EntityManagerInterface          $entityManager
+     * @param MemorialTreeRepositoryValidator $repositoryValidator
+     */
+    public function __construct(
+        EntityManagerInterface          $entityManager,
+        MemorialTreeRepositoryValidator $repositoryValidator,
+    ) {
+        parent::__construct($entityManager, $repositoryValidator);
+    }
+
     /**
      * {@inheritdoc}
      */

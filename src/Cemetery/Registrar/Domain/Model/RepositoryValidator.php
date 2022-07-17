@@ -15,23 +15,23 @@ interface RepositoryValidator
      * @param AggregateRoot $aggregateRoot
      * @param Repository    $repository
      *
-     * @throws \RuntimeException when unique constraints (if any) are violated.
+     * @throws \RuntimeException when unique constraints (if any) are violated
      */
-    public function validateUniqueness(AggregateRoot $aggregateRoot, Repository $repository): void;
+    public function assertUnique(AggregateRoot $aggregateRoot, Repository $repository): void;
 
     /**
      * @param AggregateRoot $aggregateRoot
      * @param Repository    $repository
      *
-     * @throws \RuntimeException when referential integrity constraints (if any) are violated.
+     * @throws \RuntimeException when referential integrity constraints (if any) are violated
      */
-    public function validateReferences(AggregateRoot $aggregateRoot, Repository $repository): void;
+    public function assertReferencesNotBroken(AggregateRoot $aggregateRoot, Repository $repository): void;
 
     /**
      * @param AggregateRoot $aggregateRoot
      * @param Repository    $repository
      *
-     * @throws \RuntimeException when inverse referential integrity constraints (if any) are violated.
+     * @throws \RuntimeException when inverse referential integrity constraints (if any) will be violated after removing
      */
-    public function validateInverseReferences(AggregateRoot $aggregateRoot, Repository $repository): void;
+    public function assertRemovable(AggregateRoot $aggregateRoot, Repository $repository): void;
 }

@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\Model\CauseOfDeath;
+namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Model\Repository;
 use Cemetery\Registrar\Domain\Model\RepositoryValidator;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathRepositoryValidator implements RepositoryValidator
+class CemeteryBlockRepositoryValidator implements RepositoryValidator
 {
     /**
-     * @param NaturalPersonRepository $naturalPersonRepo
+     * @param GraveSiteRepository $graveSiteRepo
      */
     public function __construct(
-        private readonly NaturalPersonRepository $naturalPersonRepo,
+        private readonly GraveSiteRepository $graveSiteRepo,
     ) {}
 
     /**
@@ -26,11 +25,11 @@ class CauseOfDeathRepositoryValidator implements RepositoryValidator
      */
     public function assertUnique(AggregateRoot $aggregateRoot, Repository $repository): void
     {
-        /** @var CauseOfDeath           $aggregateRoot */
-        /** @var CauseOfDeathRepository $repository */
+        /** @var CemeteryBlock           $aggregateRoot */
+        /** @var CemeteryBlockRepository $repository */
         if ($repository->doesSameNameAlreadyUsed($aggregateRoot)) {
             throw new \RuntimeException(\sprintf(
-                'Причина смерти "%s" уже существует.',
+                'Квартал "%s" уже существует.',
                 $aggregateRoot->name()->value(),
             ));
         }
@@ -41,7 +40,7 @@ class CauseOfDeathRepositoryValidator implements RepositoryValidator
      */
     public function assertReferencesNotBroken(AggregateRoot $aggregateRoot, Repository $repository): void
     {
-        // Cause of death entity has no references
+        // Cemetery block entity has no references
     }
 
     /**
@@ -49,14 +48,14 @@ class CauseOfDeathRepositoryValidator implements RepositoryValidator
      */
     public function assertRemovable(AggregateRoot $aggregateRoot, Repository $repository): void
     {
-        /** @var CauseOfDeath           $aggregateRoot */
-        /** @var CauseOfDeathRepository $repository */
-        $relatedNaturalPersonCount = $this->naturalPersonRepo->countByCauseOfDeathId($aggregateRoot->id());
-        if ($relatedNaturalPersonCount > 0) {
+        /** @var CemeteryBlock           $aggregateRoot */
+        /** @var CemeteryBlockRepository $repository */
+        $relatedGraveSiteCount = $this->graveSiteRepo->countByCemeteryBlockId($aggregateRoot->id());
+        if ($relatedGraveSiteCount > 0) {
             throw new \RuntimeException(\sprintf(
-                'Причина смерти "%s" не может быть удалена, т.к. она указана для %d умерших.',
+                'Квартал "%s" не может быть удалён, т.к. он указан для %d участков.',
                 $aggregateRoot->name()->value(),
-                $relatedNaturalPersonCount,
+                $relatedGraveSiteCount,
             ));
         }
     }

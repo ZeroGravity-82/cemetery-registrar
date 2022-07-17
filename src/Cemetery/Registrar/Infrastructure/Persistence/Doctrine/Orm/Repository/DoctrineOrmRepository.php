@@ -19,8 +19,8 @@ abstract class DoctrineOrmRepository extends Repository
      * @param RepositoryValidator    $repositoryValidator
      */
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        RepositoryValidator                     $repositoryValidator,
+        protected readonly EntityManagerInterface $entityManager,
+        RepositoryValidator                       $repositoryValidator,
     ) {
         parent::__construct($repositoryValidator);
     }
@@ -53,6 +53,7 @@ abstract class DoctrineOrmRepository extends Repository
     public function findById($aggregateRootId): ?AggregateRoot
     {
         $this->assertSupportedAggregateRootIdClass($aggregateRootId);
+
         return $this->entityManager->getRepository($this->supportedAggregateRootClassName())->findBy([
             'id'        => $aggregateRootId->value(),
             'removedAt' => null,
@@ -83,46 +84,57 @@ abstract class DoctrineOrmRepository extends Repository
 
     /**
      * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when unique constraints (if any) are violated
+     * @throws \RuntimeException when referential integrity constraints (if any) are violated
      */
     private function doSave(AggregateRoot $aggregateRoot): void
     {
-        $this->validateUniqueness($aggregateRoot);
-        $this->validateReferences($aggregateRoot);
+        $this->assertUnique($aggregateRoot);
+        $this->assertReferencesNotBroken($aggregateRoot);
         $aggregateRoot->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($aggregateRoot);
     }
 
     /**
      * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when inverse referential integrity constraints (if any) are violated
      */
     private function doRemove(AggregateRoot $aggregateRoot): void
     {
-        $this->validateInverseReferences($aggregateRoot);
+        $this->assertRemovable($aggregateRoot);
         $aggregateRoot->refreshRemovedAtTimestamp();
         $this->entityManager->persist($aggregateRoot);
     }
 
     /**
      * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when unique constraints (if any) are violated
      */
-    private function validateUniqueness(AggregateRoot $aggregateRoot): void
+    private function assertUnique(AggregateRoot $aggregateRoot): void
     {
-        $this->repositoryValidator()->validateUniqueness($aggregateRoot, $this);
+        $this->repositoryValidator()->assertUnique($aggregateRoot, $this);
     }
 
     /**
      * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when referential integrity constraints (if any) are violated
      */
-    private function validateReferences(AggregateRoot $aggregateRoot): void
+    private function assertReferencesNotBroken(AggregateRoot $aggregateRoot): void
     {
-        $this->repositoryValidator()->validateReferences($aggregateRoot, $this);
+        $this->repositoryValidator()->assertReferencesNotBroken($aggregateRoot, $this);
     }
 
     /**
      * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when inverse referential integrity constraints (if any) will be violated after removing
      */
-    private function validateInverseReferences(AggregateRoot $aggregateRoot): void
+    private function assertRemovable(AggregateRoot $aggregateRoot): void
     {
-        $this->repositoryValidator()->validateInverseReferences($aggregateRoot, $this);
+        $this->repositoryValidator()->assertRemovable($aggregateRoot, $this);
     }
 }

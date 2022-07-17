@@ -8,23 +8,17 @@ use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\Remov
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemover;
-use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 {
-    private MockObject|CauseOfDeathRemover $mockCauseOfDeathRemover;
-
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->mockCauseOfDeathRemover = $this->createMock(CauseOfDeathRemover::class);
-        $this->service                 = new RemoveCauseOfDeathService(
-            $this->mockCauseOfDeathRemover,
+        $this->service = new RemoveCauseOfDeathService(
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
         );
@@ -44,7 +38,7 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
                     $arg->value() === $this->id;
             }),
         );
-        $this->mockCauseOfDeathRemover->expects($this->once())->method('remove')->with($this->mockCauseOfDeath);
+        $this->mockCauseOfDeathRepo->expects($this->once())->method('remove')->with($this->mockCauseOfDeath);
         $this->mockEventDispatcher->expects($this->once())->method('dispatch')->with(
             $this->callback(function (object $arg) {
                 return

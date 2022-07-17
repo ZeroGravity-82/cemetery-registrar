@@ -53,6 +53,58 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->assertSame(CauseOfDeathCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
     }
 
+    public function testItChecksThatSameNameAlreadyUsed(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new CauseOfDeathCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+        $this->assertSame(3, $this->getRowCount(CauseOfDeath::class));
+
+        // Testing itself
+        $mockEntityWithSameName = $this->createMock(CauseOfDeath::class);
+        $mockEntityWithSameName->method('name')->willReturn($this->entityA->name());
+        $this->assertTrue($this->repo->doesSameNameAlreadyUsed($mockEntityWithSameName));
+    }
+
+    public function testItDoesNotConsiderNameOfProvidedEntity(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new CauseOfDeathCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+        $this->assertSame(3, $this->getRowCount(CauseOfDeath::class));
+
+        // Testing itself
+        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($this->entityA));
+    }
+
+    public function testItDoesNotConsiderNameUsedByRemovedCauseOfDeath(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new CauseOfDeathCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+        $this->assertSame(3, $this->getRowCount(CauseOfDeath::class));
+
+        // Testing itself
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $nameB            = $persistedEntityB->name();
+        $this->repo->remove($persistedEntityB);
+        $this->entityManager->clear();
+
+        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($persistedEntityB));
+    }
+
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var CauseOfDeath $entityOne */
@@ -65,7 +117,7 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newName = new CauseOfDeathName('COVID19');
+        $newName = new CauseOfDeathName('COVID-18');
 
         /** @var CauseOfDeath $entityA */
         $entityA->setName($newName);

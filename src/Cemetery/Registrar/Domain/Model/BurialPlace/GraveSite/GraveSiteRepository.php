@@ -11,4 +11,12 @@ use Cemetery\Registrar\Domain\Model\Repository;
  */
 interface GraveSiteRepository extends Repository
 {
+    /**
+     * Counts grave sites associated with the cemetery block.
+     *
+     * @param CemeteryBlockId $cemeteryBlockId
+     *
+     * @return int
+     */
+    public function countByCemeteryBlockId(CemeteryBlockId $cemeteryBlockId): int;
 }

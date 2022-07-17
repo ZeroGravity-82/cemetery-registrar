@@ -46,8 +46,8 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
 
     public function testItSavesANewEntity(): void
     {
-        $this->mockRepositoryValidator->expects($this->once())->method('validateUniqueness')->with($this->entityA, $this->repo);
-        $this->mockRepositoryValidator->expects($this->once())->method('validateReferences')->with($this->entityA, $this->repo);
+        $this->mockRepositoryValidator->expects($this->once())->method('assertUnique')->with($this->entityA, $this->repo);
+        $this->mockRepositoryValidator->expects($this->once())->method('assertReferencesNotBroken')->with($this->entityA, $this->repo);
         $this->repo->save($this->entityA);
         $this->entityManager->clear();
         $this->assertSame(1, $this->getRowCount($this->entityClassName));
@@ -68,14 +68,28 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->assertNull($entity);
     }
 
+    public function testIfFailsToSaveNonUniqueEntity(): void
+    {
+        $this->mockRepositoryValidator->method('assertUnique')->willThrowException(new \RuntimeException());
+        $this->expectException(\RuntimeException::class);
+        $this->repo->save($this->entityA);
+    }
+
+    public function testIfFailsToSaveEntityWithInvalidReferences(): void
+    {
+        $this->mockRepositoryValidator->method('assertReferencesNotBroken')->willThrowException(new \RuntimeException());
+        $this->expectException(\RuntimeException::class);
+        $this->repo->save($this->entityA);
+    }
+
     public function testItSavesACollectionOfNewEntities(): void
     {
-        $this->mockRepositoryValidator->expects($this->exactly(3))->method('validateUniqueness')->withConsecutive(
+        $this->mockRepositoryValidator->expects($this->exactly(3))->method('assertUnique')->withConsecutive(
             [$this->entityA, $this->repo],
             [$this->entityB, $this->repo],
             [$this->entityC, $this->repo],
         );
-        $this->mockRepositoryValidator->expects($this->exactly(3))->method('validateReferences')->withConsecutive(
+        $this->mockRepositoryValidator->expects($this->exactly(3))->method('assertReferencesNotBroken')->withConsecutive(
             [$this->entityA, $this->repo],
             [$this->entityB, $this->repo],
             [$this->entityC, $this->repo],
@@ -111,8 +125,8 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->updateEntityA($persistedEntityA);
         $updatedEntity = $persistedEntityA;
         sleep(1);                                   // for correct updatedAt timestamp
-        $this->mockRepositoryValidator->expects($this->once())->method('validateUniqueness')->with($persistedEntityA, $this->repo);
-        $this->mockRepositoryValidator->expects($this->once())->method('validateReferences')->with($persistedEntityA, $this->repo);
+        $this->mockRepositoryValidator->expects($this->once())->method('assertUnique')->with($persistedEntityA, $this->repo);
+        $this->mockRepositoryValidator->expects($this->once())->method('assertReferencesNotBroken')->with($persistedEntityA, $this->repo);
         $this->repo->save($persistedEntityA);
         $this->entityManager->clear();
 
@@ -164,7 +178,7 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
 
         // Testing itself
         $persistedEntityA = $this->repo->findById($this->entityA->id());
-        $this->mockRepositoryValidator->expects($this->once())->method('validateInverseReferences')->with($persistedEntityA, $this->repo);
+        $this->mockRepositoryValidator->expects($this->once())->method('assertRemovable')->with($persistedEntityA, $this->repo);
         $this->repo->remove($persistedEntityA);
         $this->entityManager->clear();
 
@@ -172,6 +186,13 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->assertNotNull($this->getRemovedAtTimestampById($this->entityClassName, $this->entityA->id()->value()));
 
         $this->assertSame(1, $this->getRowCount($this->entityClassName));
+    }
+
+    public function testIfFailsToRemoveEntityWithRelatedEntities(): void
+    {
+        $this->mockRepositoryValidator->method('assertRemovable')->willThrowException(new \RuntimeException());
+        $this->expectException(\RuntimeException::class);
+        $this->repo->remove($this->entityA);
     }
 
     public function testItRemovesACollectionOfEntities(): void
@@ -184,7 +205,7 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         // Testing itself
         $persistedEntityB = $this->repo->findById($this->entityB->id());
         $persistedEntityC = $this->repo->findById($this->entityC->id());
-        $this->mockRepositoryValidator->expects($this->exactly(2))->method('validateInverseReferences')->withConsecutive(
+        $this->mockRepositoryValidator->expects($this->exactly(2))->method('assertRemovable')->withConsecutive(
             [$persistedEntityB, $this->repo],
             [$persistedEntityC, $this->repo],
         );

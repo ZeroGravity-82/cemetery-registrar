@@ -11,4 +11,12 @@ use Cemetery\Registrar\Domain\Model\Repository;
  */
 interface ColumbariumRepository extends Repository
 {
+    /**
+     * Checks that a columbarium with the same name already exists.
+     *
+     * @param Columbarium $columbarium
+     *
+     * @return bool
+     */
+    public function doesSameNameAlreadyUsed(Columbarium $columbarium): bool;
 }

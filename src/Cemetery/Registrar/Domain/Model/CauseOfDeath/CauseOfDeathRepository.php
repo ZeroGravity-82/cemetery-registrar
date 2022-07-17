@@ -11,4 +11,12 @@ use Cemetery\Registrar\Domain\Model\Repository;
  */
 interface CauseOfDeathRepository extends Repository
 {
+    /**
+     * Checks that a cause of death with the same name already exists.
+     *
+     * @param CauseOfDeath $causeOfDeath
+     *
+     * @return bool
+     */
+    public function doesSameNameAlreadyUsed(CauseOfDeath $causeOfDeath): bool;
 }

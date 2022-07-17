@@ -8,13 +8,26 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implements FuneralCompanyRepository
 {
+    /**
+     * @param EntityManagerInterface            $entityManager
+     * @param FuneralCompanyRepositoryValidator $repositoryValidator
+     */
+    public function __construct(
+        EntityManagerInterface            $entityManager,
+        FuneralCompanyRepositoryValidator $repositoryValidator,
+    ) {
+        parent::__construct($entityManager, $repositoryValidator);
+    }
+
     /**
      * {@inheritdoc}
      */

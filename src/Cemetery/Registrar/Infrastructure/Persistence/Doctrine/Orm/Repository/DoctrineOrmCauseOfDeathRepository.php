@@ -50,4 +50,22 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     {
         return CauseOfDeathCollection::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function doesSameNameAlreadyUsed(CauseOfDeath $causeOfDeath): bool
+    {
+        return (bool) $this->entityManager
+            ->getRepository($this->supportedAggregateRootClassName())
+            ->createQueryBuilder('cd')
+            ->select('COUNT(cd.id)')
+            ->andWhere('cd.id <> :id')
+            ->andWhere('cd.name = :name')
+            ->andWhere('cd.removedAt IS NULL')
+            ->setParameter('id', $causeOfDeath->id()->value())
+            ->setParameter('name', $causeOfDeath->name()->value())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }
