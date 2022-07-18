@@ -40,17 +40,15 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
         $this->validator                        = new CauseOfDeathRepositoryValidator($mockNaturalPersonRepo);
     }
 
-    public function testItValidatesUniqueName(): void
+    public function testItSuccessfullyValidatesNameUniqueness(): void
     {
-        $this->assertNull(
-            $this->validator->assertUnique($this->mockCauseOfDeathTotallyDifferent, $this->mockCauseOfDeathRepo)
-        );
-    }
-
-    public function testItIgnoresNameOfEntityItself(): void
-    {
+        // Test it ignores the name of the provided entity itself
         $this->assertNull(
             $this->validator->assertUnique($this->mockCauseOfDeath, $this->mockCauseOfDeathRepo)
+        );
+        // Test it successfully validates another name
+        $this->assertNull(
+            $this->validator->assertUnique($this->mockCauseOfDeathTotallyDifferent, $this->mockCauseOfDeathRepo)
         );
     }
 
@@ -61,7 +59,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
         $this->validator->assertUnique($this->mockCauseOfDeathWithSameName, $this->mockCauseOfDeathRepo);
     }
 
-    public function testItValidatesReferencesIntegrity(): void
+    public function testItSuccessfullyValidatesReferencesIntegrity(): void
     {
         $this->assertNull(
             $this->validator->assertReferencesNotBroken($this->mockCauseOfDeath, $this->mockCauseOfDeathRepo)
@@ -71,7 +69,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesRemovability(): void
+    public function testItSuccessfullyValidatesRemovability(): void
     {
         $this->assertNull(
             $this->validator->assertRemovable($this->mockCauseOfDeathTotallyDifferent, $this->mockCauseOfDeathRepo)

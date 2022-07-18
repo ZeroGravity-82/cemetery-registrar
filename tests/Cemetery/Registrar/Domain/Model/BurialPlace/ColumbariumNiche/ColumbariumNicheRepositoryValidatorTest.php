@@ -47,28 +47,27 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
         $this->mockColumbariumNicheRepo                                  = $this->buildMockColumbariumNicheRepo();
         $this->mockColumbariumRepo                                       = $this->buildMockColumbariumRepo();
         $mockBurialRepo                                                  = $this->buildMockBurialRepo();
-        $this->validator                                                 = new ColumbariumNicheRepositoryValidator(
+        $this->validator = new ColumbariumNicheRepositoryValidator(
             $this->mockColumbariumRepo,
             $mockBurialRepo,
         );
     }
 
-    public function testItValidatesUniqueNicheNumber(): void
+    public function testItSuccessfullyValidatesNicheNumberUniqueness(): void
     {
+        // Test it ignores the niche number of the provided entity itself
+        $this->assertNull(
+            $this->validator->assertUnique($this->mockColumbariumNiche, $this->mockColumbariumNicheRepo)
+        );
+        // Test it successfully validates another niche number
         $this->assertNull(
             $this->validator->assertUnique($this->mockColumbariumNicheTotallyDifferent, $this->mockColumbariumNicheRepo)
         );
+        // Test it ignores the same niche number of another columbarium
         $this->assertNull(
             $this->validator->assertUnique(
                 $this->mockColumbariumNicheWithSameNumberButInAnotherColumbarium,
                 $this->mockColumbariumNicheRepo)
-        );
-    }
-
-    public function testItIgnoresNicheNumberOfEntityItself(): void
-    {
-        $this->assertNull(
-            $this->validator->assertUnique($this->mockColumbariumNiche, $this->mockColumbariumNicheRepo)
         );
     }
 
@@ -79,7 +78,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
         $this->validator->assertUnique($this->mockColumbariumNicheWithSameNumber, $this->mockColumbariumNicheRepo);
     }
 
-    public function testItValidatesReferencesIntegrity(): void
+    public function testItSuccessfullyValidatesReferencesIntegrity(): void
     {
         $this->assertNull(
             $this->validator->assertReferencesNotBroken($this->mockColumbariumNiche, $this->mockColumbariumNicheRepo)
@@ -102,7 +101,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesRemovability(): void
+    public function testItSuccessfullyValidatesRemovability(): void
     {
         $this->assertNull(
             $this->validator->assertRemovable(

@@ -40,17 +40,15 @@ class ColumbariumRepositoryValidatorTest extends TestCase
         $this->validator                       = new ColumbariumRepositoryValidator($mockColumbariumNicheRepo);
     }
 
-    public function testItValidatesUniqueName(): void
+    public function testItSuccessfullyValidatesNameUniqueness(): void
     {
-        $this->assertNull(
-            $this->validator->assertUnique($this->mockColumbariumTotallyDifferent, $this->mockColumbariumRepo)
-        );
-    }
-
-    public function testItIgnoresNameOfEntityItself(): void
-    {
+        // Test it ignores the name of the provided entity itself
         $this->assertNull(
             $this->validator->assertUnique($this->mockColumbarium, $this->mockColumbariumRepo)
+        );
+        // Test it successfully validates another columbarium
+        $this->assertNull(
+            $this->validator->assertUnique($this->mockColumbariumTotallyDifferent, $this->mockColumbariumRepo)
         );
     }
 
@@ -61,7 +59,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
         $this->validator->assertUnique($this->mockColumbariumWithSameName, $this->mockColumbariumRepo);
     }
 
-    public function testItValidatesReferencesIntegrity(): void
+    public function testItSuccessfullyValidatesReferencesIntegrity(): void
     {
         $this->assertNull(
             $this->validator->assertReferencesNotBroken($this->mockColumbarium, $this->mockColumbariumRepo)
@@ -74,7 +72,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesRemovability(): void
+    public function testItSuccessfullyValidatesRemovability(): void
     {
         $this->assertNull(
             $this->validator->assertRemovable($this->mockColumbariumTotallyDifferent, $this->mockColumbariumRepo)

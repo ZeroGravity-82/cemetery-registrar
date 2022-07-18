@@ -53,22 +53,21 @@ class GraveSiteRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesUniqueNicheNumber(): void
+    public function testItSuccessfullyValidatesNicheNumberUniqueness(): void
     {
+
+        $this->assertNull(
+            $this->validator->assertUnique($this->mockGraveSite, $this->mockGraveSiteRepo)
+        );
+
         $this->assertNull(
             $this->validator->assertUnique($this->mockGraveSiteTotallyDifferent, $this->mockGraveSiteRepo)
         );
+
         $this->assertNull(
             $this->validator->assertUnique(
                 $this->mockGraveSiteWithSameNumberButInAnotherColumbarium,
                 $this->mockGraveSiteRepo)
-        );
-    }
-
-    public function testItIgnoresNicheNumberOfEntityItself(): void
-    {
-        $this->assertNull(
-            $this->validator->assertUnique($this->mockGraveSite, $this->mockGraveSiteRepo)
         );
     }
 
@@ -79,7 +78,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
         $this->validator->assertUnique($this->mockGraveSiteWithSameNumber, $this->mockGraveSiteRepo);
     }
 
-    public function testItValidatesReferencesIntegrity(): void
+    public function testItSuccessfullyValidatesReferencesIntegrity(): void
     {
         $this->assertNull(
             $this->validator->assertReferencesNotBroken($this->mockGraveSite, $this->mockGraveSiteRepo)
@@ -102,7 +101,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesRemovability(): void
+    public function testItSuccessfullyValidatesRemovability(): void
     {
         $this->assertNull(
             $this->validator->assertRemovable(

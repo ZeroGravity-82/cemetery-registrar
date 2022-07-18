@@ -40,17 +40,15 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
         $this->validator                         = new CemeteryBlockRepositoryValidator($mockGraveSiteRepo);
     }
 
-    public function testItValidatesUniqueName(): void
+    public function testItSuccessfullyValidatesNameUniqueness(): void
     {
-        $this->assertNull(
-            $this->validator->assertUnique($this->mockCemeteryBlockTotallyDifferent, $this->mockCemeteryBlockRepo)
-        );
-    }
-
-    public function testItIgnoresNameOfEntityItself(): void
-    {
+        // Test it ignores the name of the provided entity itself
         $this->assertNull(
             $this->validator->assertUnique($this->mockCemeteryBlock, $this->mockCemeteryBlockRepo)
+        );
+        // Test it successfully validates another name
+        $this->assertNull(
+            $this->validator->assertUnique($this->mockCemeteryBlockTotallyDifferent, $this->mockCemeteryBlockRepo)
         );
     }
 
@@ -61,7 +59,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
         $this->validator->assertUnique($this->mockCemeteryBlockWithSameName, $this->mockCemeteryBlockRepo);
     }
 
-    public function testItValidatesReferencesIntegrity(): void
+    public function testItSuccessfullyValidatesReferencesIntegrity(): void
     {
         $this->assertNull(
             $this->validator->assertReferencesNotBroken($this->mockCemeteryBlock, $this->mockCemeteryBlockRepo)
@@ -74,7 +72,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesRemovability(): void
+    public function testItSuccessfullyValidatesRemovability(): void
     {
         $this->assertNull(
             $this->validator->assertRemovable($this->mockCemeteryBlockTotallyDifferent, $this->mockCemeteryBlockRepo)

@@ -40,17 +40,15 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
         $this->validator                        = new MemorialTreeRepositoryValidator($mockBurialRepo);
     }
 
-    public function testItValidatesUniqueTreeNumber(): void
+    public function testItSuccessfullyValidatesTreeNumberUniqueness(): void
     {
-        $this->assertNull(
-            $this->validator->assertUnique($this->mockMemorialTreeTotallyDifferent, $this->mockMemorialTreeRepo)
-        );
-    }
-
-    public function testItIgnoresTreeNumberOfEntityItself(): void
-    {
+        // Test it ignores the tree number of the provided entity itself
         $this->assertNull(
             $this->validator->assertUnique($this->mockMemorialTree, $this->mockMemorialTreeRepo)
+        );
+        // Test it successfully validates another tree number
+        $this->assertNull(
+            $this->validator->assertUnique($this->mockMemorialTreeTotallyDifferent, $this->mockMemorialTreeRepo)
         );
     }
 
@@ -61,7 +59,7 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
         $this->validator->assertUnique($this->mockMemorialTreeWithSameName, $this->mockMemorialTreeRepo);
     }
 
-    public function testItValidatesReferencesIntegrity(): void
+    public function testItSuccessfullyValidatesReferencesIntegrity(): void
     {
         $this->assertNull(
             $this->validator->assertReferencesNotBroken($this->mockMemorialTree, $this->mockMemorialTreeRepo)
@@ -74,7 +72,7 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItValidatesRemovability(): void
+    public function testItSuccessfullyValidatesRemovability(): void
     {
         $this->assertNull(
             $this->validator->assertRemovable($this->mockMemorialTreeTotallyDifferent, $this->mockMemorialTreeRepo)

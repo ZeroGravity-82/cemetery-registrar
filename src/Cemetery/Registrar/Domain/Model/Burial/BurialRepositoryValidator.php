@@ -18,7 +18,7 @@ class BurialRepositoryValidator implements RepositoryValidator
      */
     public function assertUnique(AggregateRoot $aggregateRoot, Repository $repository): void
     {
-
+        // TODO
     }
 
     /**
@@ -26,7 +26,7 @@ class BurialRepositoryValidator implements RepositoryValidator
      */
     public function assertReferencesNotBroken(AggregateRoot $aggregateRoot, Repository $repository): void
     {
-        // Cause of death entity has no references
+        // TODO
     }
 
     /**
@@ -34,6 +34,6 @@ class BurialRepositoryValidator implements RepositoryValidator
      */
     public function assertRemovable(AggregateRoot $aggregateRoot, Repository $repository): void
     {
-
+        // TODO
     }
 }
