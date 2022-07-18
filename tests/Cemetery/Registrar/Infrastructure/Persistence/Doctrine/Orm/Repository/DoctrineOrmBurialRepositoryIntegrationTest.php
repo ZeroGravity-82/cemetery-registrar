@@ -7,7 +7,11 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repos
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
+use Cemetery\Registrar\Domain\Model\Burial\BurialRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -35,7 +39,11 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmBurialRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(BurialRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmBurialRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = BurialProvider::getBurialA();
         $this->entityB = BurialProvider::getBurialB();
         $this->entityC = BurialProvider::getBurialC();
@@ -73,7 +81,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
             $this->entityG,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $knownFuneralCompanyId = new FuneralCompanyId('FC001');
@@ -102,7 +109,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
             $this->entityG,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $persistedEntityF  = $this->repo->findById($this->entityF->id());
@@ -127,7 +133,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
             $this->entityG,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $knownCustomerId = new CustomerId(new NaturalPersonId('NP005'));
@@ -152,7 +157,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
             $this->entityG,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(7, $this->getRowCount(Burial::class));
 
         // Testing itself
         $persistedEntityB = $this->repo->findById($this->entityB->id());
@@ -162,6 +166,150 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
 
         $burialCount = $this->repo->countByCustomerId($customerIdB);
         $this->assertSame(1, $burialCount);
+    }
+
+    public function testItCountsBurialsByGraveSiteId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $knownGraveSiteId = new GraveSiteId('GS005');
+        $burialCount      = $this->repo->countByGraveSiteId($knownGraveSiteId);
+        $this->assertSame(1, $burialCount);
+
+        $unknownGraveSiteId = new GraveSiteId('unknown_id');
+        $burialCount        = $this->repo->countByGraveSiteId($unknownGraveSiteId);
+        $this->assertSame(0, $burialCount);
+    }
+
+    public function testItDoesNotCountRemovedBurialsByGraveSiteId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $persistedEntityG = $this->repo->findById($this->entityG->id());
+        $graveSiteIdG     = $persistedEntityG->burialPlaceId()->id();
+        $this->repo->remove($persistedEntityG);
+        $this->entityManager->clear();
+
+        $burialCount = $this->repo->countByGraveSiteId($graveSiteIdG);
+        $this->assertSame(0, $burialCount);
+    }
+
+    public function testItCountsBurialsByColumbariumNicheId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $knownColumbariumNicheId = new ColumbariumNicheId('CN002');
+        $burialCount             = $this->repo->countByColumbariumNicheId($knownColumbariumNicheId);
+        $this->assertSame(1, $burialCount);
+
+        $unknownColumbariumNicheId = new ColumbariumNicheId('unknown_id');
+        $burialCount               = $this->repo->countByColumbariumNicheId($unknownColumbariumNicheId);
+        $this->assertSame(0, $burialCount);
+    }
+
+    public function testItDoesNotCountRemovedBurialsByColumbariumNicheId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $persistedEntityA    = $this->repo->findById($this->entityA->id());
+        $columbariumNicheIdA = $persistedEntityA->burialPlaceId()->id();
+        $this->repo->remove($persistedEntityA);
+        $this->entityManager->clear();
+
+        $burialCount = $this->repo->countByColumbariumNicheId($columbariumNicheIdA);
+        $this->assertSame(0, $burialCount);
+    }
+
+    public function testItCountsBurialsByMemorialTreeId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $knownMemorialTreeId = new MemorialTreeId('MT002');
+        $burialCount         = $this->repo->countByMemorialTreeId($knownMemorialTreeId);
+        $this->assertSame(1, $burialCount);
+
+        $unknownMemorialTreeId = new MemorialTreeId('unknown_id');
+        $burialCount           = $this->repo->countByMemorialTreeId($unknownMemorialTreeId);
+        $this->assertSame(0, $burialCount);
+    }
+
+    public function testItDoesNotCountRemovedBurialsByMemorialTreeId(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new BurialCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+            $this->entityE,
+            $this->entityF,
+            $this->entityG,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $persistedEntityC = $this->repo->findById($this->entityC->id());
+        $memorialTreeIdC  = $persistedEntityC->burialPlaceId()->id();
+        $this->repo->remove($persistedEntityC);
+        $this->entityManager->clear();
+
+        $burialCount = $this->repo->countByMemorialTreeId($memorialTreeIdC);
+        $this->assertSame(0, $burialCount);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

@@ -91,4 +91,14 @@ class ColumbariumNicheProvider
 
         return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
     }
+
+    public static function getColumbariumNicheH(): ColumbariumNiche
+    {
+        $id               = new ColumbariumNicheId('CN008');
+        $columbariumId    = new ColumbariumId('C004');
+        $rowInColumbarium = new RowInColumbarium(5);
+        $nicheNumber      = new ColumbariumNicheNumber('001');
+
+        return new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber);
+    }
 }

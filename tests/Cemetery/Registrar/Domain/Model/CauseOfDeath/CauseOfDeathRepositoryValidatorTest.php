@@ -123,7 +123,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
         $mockCauseOfDeathRepo->method('doesSameNameAlreadyUsed')->willReturnCallback(
             function (CauseOfDeath $causeOfDeath) {
                 return match (true) {
-                    $causeOfDeath->id()->isEqual($this->id) => false,   // Ignore name of the entity itself
+                    $causeOfDeath->id()->isEqual($this->id) => false,   // Ignore the entity itself
                     default                                 => $causeOfDeath->name()->isEqual($this->name),
                 };
             }

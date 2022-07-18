@@ -67,4 +67,24 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function doesSameNicheNumberAlreadyUsed(ColumbariumNiche $columbariumNiche): bool
+    {
+        return (bool) $this->entityManager
+            ->getRepository($this->supportedAggregateRootClassName())
+            ->createQueryBuilder('cn')
+            ->select('COUNT(cn.id)')
+            ->andWhere('cn.id <> :id')
+            ->andWhere('cn.columbariumId = :columbariumId')
+            ->andWhere('cn.nicheNumber = :nicheNumber')
+            ->andWhere('cn.removedAt IS NULL')
+            ->setParameter('id', $columbariumNiche->id()->value())
+            ->setParameter('columbariumId', $columbariumNiche->columbariumId()->value())
+            ->setParameter('nicheNumber', $columbariumNiche->nicheNumber()->value())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

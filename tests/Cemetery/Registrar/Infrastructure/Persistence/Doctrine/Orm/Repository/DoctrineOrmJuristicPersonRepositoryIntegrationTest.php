@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryValidator;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmJuristicPersonRepository;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
 
@@ -28,7 +29,11 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmJuristicPersonRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(JuristicPersonRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmJuristicPersonRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = JuristicPersonProvider::getJuristicPersonA();
         $this->entityB = JuristicPersonProvider::getJuristicPersonB();
         $this->entityC = JuristicPersonProvider::getJuristicPersonC();
@@ -47,21 +52,6 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
     public function testItReturnsSupportedAggregateRootCollectionClassName(): void
     {
         $this->assertSame(JuristicPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItHydratesBankDetailsEmbeddable(): void
-    {
-        $this->repo->saveAll(new JuristicPersonCollection([$this->entityA, $this->entityB]));
-        $this->entityManager->clear();
-
-        $persistedEntityA = $this->repo->findById($this->entityA->id());
-        $this->assertInstanceOf(JuristicPerson::class, $persistedEntityA);
-        $this->assertNull($persistedEntityA->bankDetails());
-
-        $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $this->assertInstanceOf(JuristicPerson::class, $persistedEntityB);
-        $this->assertInstanceOf(BankDetails::class, $persistedEntityB->bankDetails());
-        $this->assertTrue($persistedEntityB->bankDetails()->isEqual($this->entityB->bankDetails()));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

@@ -50,4 +50,22 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     {
         return MemorialTreeCollection::class;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function doesSameTreeNumberAlreadyUsed(MemorialTree $memorialTree): bool
+    {
+        return (bool) $this->entityManager
+            ->getRepository($this->supportedAggregateRootClassName())
+            ->createQueryBuilder('mt')
+            ->select('COUNT(mt.id)')
+            ->andWhere('mt.id <> :id')
+            ->andWhere('mt.treeNumber = :treeNumber')
+            ->andWhere('mt.removedAt IS NULL')
+            ->setParameter('id', $memorialTree->id()->value())
+            ->setParameter('treeNumber', $memorialTree->treeNumber()->value())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

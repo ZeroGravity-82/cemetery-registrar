@@ -44,7 +44,7 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
 
     abstract public function testItReturnsSupportedAggregateRootCollectionClassName(): void;
 
-    public function testItSavesANewEntity(): void
+    public function testItSavesNewEntity(): void
     {
         $this->mockRepositoryValidator->expects($this->once())->method('assertUnique')->with($this->entityA, $this->repo);
         $this->mockRepositoryValidator->expects($this->once())->method('assertReferencesNotBroken')->with($this->entityA, $this->repo);
@@ -62,10 +62,21 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame(1, $this->getRowCount($this->entityClassName));
     }
 
-    public function testItReturnsNullIfAnEntityIsNotFoundById(): void
+    public function testItReturnsNullIfEntityIsNotFoundById(): void
     {
         $entity = $this->repo->findById(new $this->entityIdClassName('unknown_id'));
         $this->assertNull($entity);
+    }
+
+    public function testItChecksIfEntityExistsById(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->save($this->entityA);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $this->assertTrue($this->repo->doesExistById($this->entityA->id()));
+        $this->assertFalse($this->repo->doesExistById($this->entityB->id()));
     }
 
     public function testIfFailsToSaveNonUniqueEntity(): void
@@ -82,7 +93,7 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->repo->save($this->entityA);
     }
 
-    public function testItSavesACollectionOfNewEntities(): void
+    public function testItSavesCollectionOfNewEntities(): void
     {
         $this->mockRepositoryValidator->expects($this->exactly(3))->method('assertUnique')->withConsecutive(
             [$this->entityA, $this->repo],
@@ -118,7 +129,6 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         // Prepare the repo for testing
         $this->repo->save($this->entityA);
         $this->entityManager->clear();
-        $this->assertSame(1, $this->getRowCount($this->entityClassName));
 
         // Testing itself
         $persistedEntityA = $this->repo->findById($this->entityA->id());
@@ -144,7 +154,6 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         // Prepare the repo for testing
         $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB]));
         $this->entityManager->clear();
-        $this->assertSame(2, $this->getRowCount($this->entityClassName));
 
         // Testing itself
         $persistedEntityA = $this->repo->findById($this->entityA->id());
@@ -169,12 +178,11 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->assertSame(3, $this->getRowCount($this->entityClassName));
     }
 
-    public function testItRemovesAnEntity(): void
+    public function testItRemovesEntity(): void
     {
         // Prepare the repo for testing
         $this->repo->save($this->entityA);
         $this->entityManager->clear();
-        $this->assertSame(1, $this->getRowCount($this->entityClassName));
 
         // Testing itself
         $persistedEntityA = $this->repo->findById($this->entityA->id());
@@ -195,12 +203,11 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->repo->remove($this->entityA);
     }
 
-    public function testItRemovesACollectionOfEntities(): void
+    public function testItRemovesCollectionOfEntities(): void
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
         $this->entityManager->clear();
-        $this->assertSame(3, $this->getRowCount($this->entityClassName));
 
         // Testing itself
         $persistedEntityB = $this->repo->findById($this->entityB->id());

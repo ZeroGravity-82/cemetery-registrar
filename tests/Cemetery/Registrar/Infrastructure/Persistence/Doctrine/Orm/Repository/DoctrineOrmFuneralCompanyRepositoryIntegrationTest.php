@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyNote;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
@@ -32,7 +33,11 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmFuneralCompanyRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(FuneralCompanyRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmFuneralCompanyRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = FuneralCompanyProvider::getFuneralCompanyA();
         $this->entityB = FuneralCompanyProvider::getFuneralCompanyB();
         $this->entityC = FuneralCompanyProvider::getFuneralCompanyC();

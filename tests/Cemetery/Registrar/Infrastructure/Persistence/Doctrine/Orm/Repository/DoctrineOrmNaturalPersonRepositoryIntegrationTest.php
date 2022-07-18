@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryValidator;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmNaturalPersonRepository;
 use DataFixtures\NaturalPerson\NaturalPersonProvider;
 
@@ -34,7 +35,11 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmNaturalPersonRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(NaturalPersonRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmNaturalPersonRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = NaturalPersonProvider::getNaturalPersonA();
         $this->entityB = NaturalPersonProvider::getNaturalPersonB();
         $this->entityC = NaturalPersonProvider::getNaturalPersonC();
@@ -61,7 +66,6 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->assertSame(NaturalPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
     }
 
-
     public function testItCountsNaturalPersonsByCauseOfDeathId(): void
     {
         // Prepare the repo for testing
@@ -77,7 +81,6 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
             $this->entityI
         ]));
         $this->entityManager->clear();
-        $this->assertSame(9, $this->getRowCount(NaturalPerson::class));
 
         // Testing itself
         $knownCauserOfDeathId = new CauseOfDeathId('CD004');
@@ -108,7 +111,6 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
             $this->entityI
         ]));
         $this->entityManager->clear();
-        $this->assertSame(9, $this->getRowCount(NaturalPerson::class));
 
         // Testing itself
         /** @var NaturalPerson $persistedEntityB */

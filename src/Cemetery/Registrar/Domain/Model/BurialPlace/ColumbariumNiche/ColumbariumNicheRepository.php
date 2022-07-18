@@ -19,4 +19,13 @@ interface ColumbariumNicheRepository extends Repository
      * @return int
      */
     public function countByColumbariumId(ColumbariumId $columbariumId): int;
+
+    /**
+     * Checks that a columbarium niche with the same niche number already exists.
+     *
+     * @param ColumbariumNiche $columbariumNiche
+     *
+     * @return bool
+     */
+    public function doesSameNicheNumberAlreadyUsed(ColumbariumNiche $columbariumNiche): bool;
 }

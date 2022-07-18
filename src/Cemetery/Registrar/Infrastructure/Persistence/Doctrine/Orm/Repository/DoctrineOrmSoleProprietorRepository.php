@@ -27,7 +27,6 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
         parent::__construct($entityManager, $repositoryValidator);
     }
 
-
     /**
      * {@inheritdoc}
      */

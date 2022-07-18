@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCemeteryBlockRepository;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
@@ -27,7 +28,11 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmCemeteryBlockRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(CemeteryBlockRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmCemeteryBlockRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = CemeteryBlockProvider::getCemeteryBlockA();
         $this->entityB = CemeteryBlockProvider::getCemeteryBlockB();
         $this->entityC = CemeteryBlockProvider::getCemeteryBlockC();
@@ -46,6 +51,54 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
     public function testItReturnsSupportedAggregateRootCollectionClassName(): void
     {
         $this->assertSame(CemeteryBlockCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
+    public function testItChecksThatSameNameAlreadyUsed(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new CemeteryBlockCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $mockEntityWithSameName = $this->createMock(CemeteryBlock::class);
+        $mockEntityWithSameName->method('name')->willReturn($this->entityA->name());
+        $this->assertTrue($this->repo->doesSameNameAlreadyUsed($mockEntityWithSameName));
+    }
+
+    public function testItDoesNotConsiderNameUsedByProvidedCemeteryBlockItself(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new CemeteryBlockCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($this->entityA));
+    }
+
+    public function testItDoesNotConsiderNameUsedByRemovedCemeteryBlock(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new CemeteryBlockCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($persistedEntityB);
+        $this->entityManager->clear();
+
+        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($persistedEntityB));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

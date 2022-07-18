@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmMemorialTreeRepository;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
@@ -23,14 +24,21 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
     protected string $entityIdClassName         = MemorialTreeId::class;
     protected string $entityCollectionClassName = MemorialTreeCollection::class;
 
+    private MemorialTree $entityD;
+
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmMemorialTreeRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(MemorialTreeRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmMemorialTreeRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = MemorialTreeProvider::getMemorialTreeA();
         $this->entityB = MemorialTreeProvider::getMemorialTreeB();
         $this->entityC = MemorialTreeProvider::getMemorialTreeC();
+        $this->entityD = MemorialTreeProvider::getMemorialTreeD();
     }
 
     public function testItReturnsSupportedAggregateRootClassName(): void
@@ -46,6 +54,57 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
     public function testItReturnsSupportedAggregateRootCollectionClassName(): void
     {
         $this->assertSame(MemorialTreeCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
+    public function testItChecksThatSameTreeNumberAlreadyUsed(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new MemorialTreeCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $mockEntityWithSameTreeNumber = $this->createMock(MemorialTree::class);
+        $mockEntityWithSameTreeNumber->method('treeNumber')->willReturn($this->entityA->treeNumber());
+        $this->assertTrue($this->repo->doesSameTreeNumberAlreadyUsed($mockEntityWithSameTreeNumber));
+    }
+
+    public function testItDoesNotConsiderTreeNumberUsedByProvidedMemorialTreeItself(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new MemorialTreeCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $this->assertFalse($this->repo->doesSameTreeNumberAlreadyUsed($this->entityA));
+    }
+
+    public function testItDoesNotConsiderTreeNumberUsedByRemovedMemorialTree(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new MemorialTreeCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+            $this->entityD,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($persistedEntityB);
+        $this->entityManager->clear();
+
+        $this->assertFalse($this->repo->doesSameTreeNumberAlreadyUsed($persistedEntityB));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

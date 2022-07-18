@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepositoryValidator;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmSoleProprietorRepository;
 use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 
@@ -28,7 +29,11 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmSoleProprietorRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(SoleProprietorRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmSoleProprietorRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = SoleProprietorProvider::getSoleProprietorA();
         $this->entityB = SoleProprietorProvider::getSoleProprietorB();
         $this->entityC = SoleProprietorProvider::getSoleProprietorC();
@@ -47,21 +52,6 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
     public function testItReturnsSupportedAggregateRootCollectionClassName(): void
     {
         $this->assertSame(SoleProprietorCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItHydratesBankDetailsEmbeddable(): void
-    {
-        $this->repo->saveAll(new SoleProprietorCollection([$this->entityA, $this->entityB]));
-        $this->entityManager->clear();
-
-        $persistedEntityA = $this->repo->findById($this->entityA->id());
-        $this->assertInstanceOf(SoleProprietor::class, $persistedEntityA);
-        $this->assertNull($persistedEntityA->bankDetails());
-
-        $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $this->assertInstanceOf(SoleProprietor::class, $persistedEntityB);
-        $this->assertInstanceOf(BankDetails::class, $persistedEntityB->bankDetails());
-        $this->assertTrue($persistedEntityB->bankDetails()->isEqual($this->entityB->bankDetails()));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

@@ -63,6 +63,24 @@ abstract class DoctrineOrmRepository extends Repository
     /**
      * {@inheritdoc}
      */
+    public function doesExistById($aggregateRootId): bool
+    {
+        $this->assertSupportedAggregateRootIdClass($aggregateRootId);
+
+        return (bool) $this->entityManager
+            ->getRepository($this->supportedAggregateRootClassName())
+            ->createQueryBuilder('ar')
+            ->select('COUNT(ar.id)')
+            ->andWhere('ar.id = :id')
+            ->andWhere('ar.removedAt IS NULL')
+            ->setParameter('id', $aggregateRootId->value())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function remove($aggregateRoot): void
     {
         $this->assertSupportedAggregateRootClass($aggregateRoot);

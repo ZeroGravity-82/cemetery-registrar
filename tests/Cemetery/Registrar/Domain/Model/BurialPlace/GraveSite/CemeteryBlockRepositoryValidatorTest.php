@@ -25,7 +25,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
     private MockObject|CemeteryBlock           $mockCemeteryBlockTotallyDifferent;
     private MockObject|CemeteryBlock           $mockCemeteryBlockWithSameName;
     private MockObject|CemeteryBlockRepository $mockCemeteryBlockRepo;
-    private CemeteryBlockRepositoryValidator     $validator;
+    private CemeteryBlockRepositoryValidator   $validator;
 
     public function setUp(): void
     {
@@ -67,7 +67,10 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
             $this->validator->assertReferencesNotBroken($this->mockCemeteryBlock, $this->mockCemeteryBlockRepo)
         );
         $this->assertNull(
-            $this->validator->assertReferencesNotBroken($this->mockCemeteryBlockTotallyDifferent, $this->mockCemeteryBlockRepo)
+            $this->validator->assertReferencesNotBroken(
+                $this->mockCemeteryBlockTotallyDifferent,
+                $this->mockCemeteryBlockRepo,
+            )
         );
     }
 
@@ -123,7 +126,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
         $mockCemeteryBlockRepo->method('doesSameNameAlreadyUsed')->willReturnCallback(
             function (CemeteryBlock $cemeteryBlock) {
                 return match (true) {
-                    $cemeteryBlock->id()->isEqual($this->id) => false,   // Ignore name of the entity itself
+                    $cemeteryBlock->id()->isEqual($this->id) => false,   // Ignore the entity itself
                     default                                  => $cemeteryBlock->name()->isEqual($this->name),
                 };
             }

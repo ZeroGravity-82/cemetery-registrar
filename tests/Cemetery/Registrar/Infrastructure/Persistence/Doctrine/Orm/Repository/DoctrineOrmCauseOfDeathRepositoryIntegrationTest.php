@@ -62,7 +62,6 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
             $this->entityC,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(3, $this->getRowCount(CauseOfDeath::class));
 
         // Testing itself
         $mockEntityWithSameName = $this->createMock(CauseOfDeath::class);
@@ -70,7 +69,7 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->assertTrue($this->repo->doesSameNameAlreadyUsed($mockEntityWithSameName));
     }
 
-    public function testItDoesNotConsiderNameOfProvidedEntity(): void
+    public function testItDoesNotConsiderNameUsedByProvidedCauseOfDeathItself(): void
     {
         // Prepare the repo for testing
         $this->repo->saveAll(new CauseOfDeathCollection([
@@ -79,7 +78,6 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
             $this->entityC,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(3, $this->getRowCount(CauseOfDeath::class));
 
         // Testing itself
         $this->assertFalse($this->repo->doesSameNameAlreadyUsed($this->entityA));
@@ -94,11 +92,9 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
             $this->entityC,
         ]));
         $this->entityManager->clear();
-        $this->assertSame(3, $this->getRowCount(CauseOfDeath::class));
 
         // Testing itself
         $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $nameB            = $persistedEntityB->name();
         $this->repo->remove($persistedEntityB);
         $this->entityManager->clear();
 

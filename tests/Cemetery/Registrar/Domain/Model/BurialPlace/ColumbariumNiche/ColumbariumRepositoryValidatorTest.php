@@ -67,7 +67,10 @@ class ColumbariumRepositoryValidatorTest extends TestCase
             $this->validator->assertReferencesNotBroken($this->mockColumbarium, $this->mockColumbariumRepo)
         );
         $this->assertNull(
-            $this->validator->assertReferencesNotBroken($this->mockColumbariumTotallyDifferent, $this->mockColumbariumRepo)
+            $this->validator->assertReferencesNotBroken(
+                $this->mockColumbariumTotallyDifferent,
+                $this->mockColumbariumRepo,
+            )
         );
     }
 
@@ -123,7 +126,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
         $mockColumbariumRepo->method('doesSameNameAlreadyUsed')->willReturnCallback(
             function (Columbarium $columbarium) {
                 return match (true) {
-                    $columbarium->id()->isEqual($this->id) => false,   // Ignore name of the entity itself
+                    $columbarium->id()->isEqual($this->id) => false,   // Ignore the entity itself
                     default                                => $columbarium->name()->isEqual($this->name),
                 };
             }

@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumName;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
@@ -27,7 +28,11 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends DoctrineOrmReposit
     {
         parent::setUp();
 
-        $this->repo    = new DoctrineOrmColumbariumRepository($this->entityManager);
+        $this->mockRepositoryValidator = $this->createMock(ColumbariumRepositoryValidator::class);
+        $this->repo                    = new DoctrineOrmColumbariumRepository(
+            $this->entityManager,
+            $this->mockRepositoryValidator,
+        );
         $this->entityA = ColumbariumProvider::getColumbariumA();
         $this->entityB = ColumbariumProvider::getColumbariumB();
         $this->entityC = ColumbariumProvider::getColumbariumC();
@@ -46,6 +51,54 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends DoctrineOrmReposit
     public function testItReturnsSupportedAggregateRootCollectionClassName(): void
     {
         $this->assertSame(ColumbariumCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+    }
+
+    public function testItChecksThatSameNameAlreadyUsed(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new ColumbariumCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $mockEntityWithSameName = $this->createMock(Columbarium::class);
+        $mockEntityWithSameName->method('name')->willReturn($this->entityA->name());
+        $this->assertTrue($this->repo->doesSameNameAlreadyUsed($mockEntityWithSameName));
+    }
+
+    public function testItDoesNotConsiderNameUsedByProvidedColumbariumItself(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new ColumbariumCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($this->entityA));
+    }
+
+    public function testItDoesNotConsiderNameUsedByRemovedColumbarium(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new ColumbariumCollection([
+            $this->entityA,
+            $this->entityB,
+            $this->entityC,
+        ]));
+        $this->entityManager->clear();
+
+        // Testing itself
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($persistedEntityB);
+        $this->entityManager->clear();
+
+        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($persistedEntityB));
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

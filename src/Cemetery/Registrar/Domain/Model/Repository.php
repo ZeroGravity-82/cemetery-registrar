@@ -72,6 +72,17 @@ interface Repository
     public function findById($aggregateRootId): ?AggregateRoot;
 
     /**
+     * Checks that the aggregate root with the ID exists.
+     *
+     * @param $aggregateRootId
+     *
+     * @return bool
+     *
+     * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
+     */
+    public function doesExistById($aggregateRootId): bool;
+
+    /**
      * Removes the aggregate from the repository.
      *
      * @param $aggregateRoot
