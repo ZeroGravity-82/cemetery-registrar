@@ -190,7 +190,7 @@ class BurialController extends Controller
             $this->getInputInt($request,    'burialPlaceGraveSitePositionInRow'),
             $this->getInputString($request, 'burialPlaceGraveSiteSize'),
             $this->getInputString($request, 'burialPlaceColumbariumNicheColumbariumId'),
-            $this->getInputInt($request,    'burialPlaceColumbariumNicheRowInColumbarium') ,
+            $this->getInputInt($request,    'burialPlaceColumbariumNicheRowInColumbarium'),
             $this->getInputString($request, 'burialPlaceColumbariumNicheNicheNumber'),
             $this->getInputString($request, 'burialPlaceMemorialTreeNumber'),
             $this->extractLatitudeFromGeoPosition($this->getInputString($request, 'burialPlaceGeoPosition')),
