@@ -52,7 +52,7 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenTreeNumberAlreadyExists(): void
+    public function testItFailsWhenTreeNumberAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Памятное дерево "%s" уже существует.', $this->treeNumber->value()));
@@ -93,7 +93,7 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
 
     private function buildMockMemorialTree(): MockObject|MemorialTree
     {
-        $mockMemorialTree = $this->createMock(MemorialTree::class);;
+        $mockMemorialTree = $this->createMock(MemorialTree::class);
         $mockMemorialTree->method('id')->willReturn($this->id);
         $mockMemorialTree->method('treeNumber')->willReturn($this->treeNumber);
 
@@ -102,7 +102,7 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
 
     private function buildMockMemorialTreeTotallyDifferent(): MockObject|MemorialTree
     {
-        $mockMemorialTree = $this->createMock(MemorialTree::class);;
+        $mockMemorialTree = $this->createMock(MemorialTree::class);
         $mockMemorialTree->method('id')->willReturn(new MemorialTreeId('MT002'));
         $mockMemorialTree->method('treeNumber')->willReturn(new MemorialTreeNumber('002'));
 
@@ -111,7 +111,7 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
 
     private function buildMockMemorialTreeWithSameName(): MockObject|MemorialTree
     {
-        $mockMemorialTree = $this->createMock(MemorialTree::class);;
+        $mockMemorialTree = $this->createMock(MemorialTree::class);
         $mockMemorialTree->method('id')->willReturn(new MemorialTreeId('MT003'));
         $mockMemorialTree->method('treeNumber')->willReturn($this->treeNumber);
 
@@ -137,8 +137,8 @@ class MemorialTreeRepositoryValidatorTest extends TestCase
     {
         $mockBurialRepo = $this->createMock(BurialRepository::class);
         $mockBurialRepo->method('countByMemorialTreeId')->willReturnCallback(
-            function (MemorialTreeId $id) {
-                return $id->isEqual($this->id) ? $this->relatedBurialCount : 0;
+            function (MemorialTreeId $memorialTreeId) {
+                return $memorialTreeId->isEqual($this->id) ? $this->relatedBurialCount : 0;
             }
         );
 

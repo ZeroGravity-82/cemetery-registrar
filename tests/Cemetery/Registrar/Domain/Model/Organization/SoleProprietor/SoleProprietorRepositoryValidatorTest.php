@@ -46,14 +46,14 @@ class SoleProprietorRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenNameAlreadyExists(): void
+    public function testItFailsWhenNameAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('ИП "%s" уже существует.', $this->existingName->value()));
         $this->validator->assertUnique($this->mockSoleProprietorWithExistingName, $this->mockSoleProprietorRepo);
     }
 
-    public function testItFailsWhenInnAlreadyExists(): void
+    public function testItFailsWhenInnAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('ИП с ИНН "%s" уже существует.', $this->existingName->value()));
@@ -110,7 +110,7 @@ class SoleProprietorRepositoryValidatorTest extends TestCase
 
     private function buildMockSoleProprietorWithExistingName(): MockObject|SoleProprietor
     {
-        $mockSoleProprietor = $this->createMock(SoleProprietor::class);;
+        $mockSoleProprietor = $this->createMock(SoleProprietor::class);
         $mockSoleProprietor->method('id')->willReturn($this->existingId);
         $mockSoleProprietor->method('name')->willReturn($this->existingName);
 

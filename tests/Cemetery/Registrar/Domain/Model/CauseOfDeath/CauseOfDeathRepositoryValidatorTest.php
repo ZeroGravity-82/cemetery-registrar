@@ -52,7 +52,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenNameAlreadyExists(): void
+    public function testItFailsWhenNameAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Причина смерти "%s" уже существует.', $this->name->value()));
@@ -90,7 +90,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
 
     private function buildMockCauseOfDeath(): MockObject|CauseOfDeath
     {
-        $mockCauseOfDeath = $this->createMock(CauseOfDeath::class);;
+        $mockCauseOfDeath = $this->createMock(CauseOfDeath::class);
         $mockCauseOfDeath->method('id')->willReturn($this->id);
         $mockCauseOfDeath->method('name')->willReturn($this->name);
 
@@ -99,7 +99,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
 
     private function buildMockCauseOfDeathTotallyDifferent(): MockObject|CauseOfDeath
     {
-        $mockCauseOfDeath = $this->createMock(CauseOfDeath::class);;
+        $mockCauseOfDeath = $this->createMock(CauseOfDeath::class);
         $mockCauseOfDeath->method('id')->willReturn(new CauseOfDeathId('CD002'));
         $mockCauseOfDeath->method('name')->willReturn(new CauseOfDeathName('Аста кардинальная'));
 
@@ -108,7 +108,7 @@ class CauseOfDeathRepositoryValidatorTest extends TestCase
 
     private function buildMockCauseOfDeathWithSameName(): MockObject|CauseOfDeath
     {
-        $mockCauseOfDeath = $this->createMock(CauseOfDeath::class);;
+        $mockCauseOfDeath = $this->createMock(CauseOfDeath::class);
         $mockCauseOfDeath->method('id')->willReturn(new CauseOfDeathId('CD003'));
         $mockCauseOfDeath->method('name')->willReturn($this->name);
 

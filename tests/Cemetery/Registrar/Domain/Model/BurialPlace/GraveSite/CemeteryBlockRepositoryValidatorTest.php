@@ -52,7 +52,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenNameAlreadyExists(): void
+    public function testItFailsWhenNameAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Квартал "%s" уже существует.', $this->name->value()));
@@ -93,7 +93,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
 
     private function buildMockCemeteryBlock(): MockObject|CemeteryBlock
     {
-        $mockCemeteryBlock = $this->createMock(CemeteryBlock::class);;
+        $mockCemeteryBlock = $this->createMock(CemeteryBlock::class);
         $mockCemeteryBlock->method('id')->willReturn($this->id);
         $mockCemeteryBlock->method('name')->willReturn($this->name);
 
@@ -102,7 +102,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
 
     private function buildMockCemeteryBlockTotallyDifferent(): MockObject|CemeteryBlock
     {
-        $mockCemeteryBlock = $this->createMock(CemeteryBlock::class);;
+        $mockCemeteryBlock = $this->createMock(CemeteryBlock::class);
         $mockCemeteryBlock->method('id')->willReturn(new CemeteryBlockId('CB002'));
         $mockCemeteryBlock->method('name')->willReturn(new CemeteryBlockName('воинский'));
 
@@ -111,7 +111,7 @@ class CemeteryBlockRepositoryValidatorTest extends TestCase
 
     private function buildMockCemeteryBlockWithSameName(): MockObject|CemeteryBlock
     {
-        $mockCemeteryBlock = $this->createMock(CemeteryBlock::class);;
+        $mockCemeteryBlock = $this->createMock(CemeteryBlock::class);
         $mockCemeteryBlock->method('id')->willReturn(new CemeteryBlockId('CB003'));
         $mockCemeteryBlock->method('name')->willReturn($this->name);
 

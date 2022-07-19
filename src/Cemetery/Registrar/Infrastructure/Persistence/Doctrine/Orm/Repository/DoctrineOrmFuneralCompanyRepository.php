@@ -68,4 +68,24 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function doesSameOrganizationIdAlreadyUsed(FuneralCompany $funeralCompany): bool
+    {
+        return (bool) $this->entityManager
+            ->getRepository($this->supportedAggregateRootClassName())
+            ->createQueryBuilder('fc')
+            ->select('COUNT(fc.id)')
+            ->andWhere('fc.id <> :id')
+            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.type') = :type")
+            ->andWhere("JSON_EXTRACT(fc.organizationId, '$.value') = :value")
+            ->andWhere('fc.removedAt IS NULL')
+            ->setParameter('id', $funeralCompany->id()->value())
+            ->setParameter('type', $funeralCompany->organizationId()->idType())
+            ->setParameter('value', $funeralCompany->organizationId()->id()->value())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

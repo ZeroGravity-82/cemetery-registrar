@@ -20,4 +20,13 @@ interface FuneralCompanyRepository extends Repository
      * @return FuneralCompany|null
      */
     public function findByOrganizationId(OrganizationId $organizationId): ?FuneralCompany;
+
+    /**
+     * Checks that a funeral company with the same organization ID already exists.
+     *
+     * @param FuneralCompany $funeralCompany
+     *
+     * @return bool
+     */
+    public function doesSameOrganizationIdAlreadyUsed(FuneralCompany $funeralCompany): bool;
 }

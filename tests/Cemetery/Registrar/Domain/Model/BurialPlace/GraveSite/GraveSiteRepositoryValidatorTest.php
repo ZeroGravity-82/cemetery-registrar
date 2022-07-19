@@ -71,7 +71,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenNicheNumberAlreadyExists(): void
+    public function testItFailsWhenNicheNumberAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Колумбарная ниша "%s" уже существует.', $this->nicheNumber->value()));
@@ -125,7 +125,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
 
     private function buildMockGraveSite(): MockObject|GraveSite
     {
-        $mockGraveSite = $this->createMock(GraveSite::class);;
+        $mockGraveSite = $this->createMock(GraveSite::class);
         $mockGraveSite->method('id')->willReturn($this->id);
         $mockGraveSite->method('nicheNumber')->willReturn($this->nicheNumber);
         $mockGraveSite->method('cemeteryBlockId')->willReturn($this->cemeteryBlockId);
@@ -135,7 +135,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
 
     private function buildMockGraveSiteTotallyDifferent(): MockObject|GraveSite
     {
-        $mockGraveSite = $this->createMock(GraveSite::class);;
+        $mockGraveSite = $this->createMock(GraveSite::class);
         $mockGraveSite->method('id')->willReturn(new GraveSiteId('CN002'));
         $mockGraveSite->method('nicheNumber')->willReturn(new GraveSiteNumber('002'));
         $mockGraveSite->method('cemeteryBlockId')->willReturn($this->cemeteryBlockId);
@@ -145,7 +145,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
 
     private function buildMockGraveSiteWithSameNumber(): MockObject|GraveSite
     {
-        $mockGraveSite = $this->createMock(GraveSite::class);;
+        $mockGraveSite = $this->createMock(GraveSite::class);
         $mockGraveSite->method('id')->willReturn(new GraveSiteId('CN003'));
         $mockGraveSite->method('nicheNumber')->willReturn($this->nicheNumber);
         $mockGraveSite->method('cemeteryBlockId')->willReturn($this->cemeteryBlockId);
@@ -155,7 +155,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
 
     private function buildMockGraveSiteWithSameNumberButInAnotherColumbarium(): MockObject|GraveSite
     {
-        $mockGraveSite = $this->createMock(GraveSite::class);;
+        $mockGraveSite = $this->createMock(GraveSite::class);
         $mockGraveSite->method('id')->willReturn(new GraveSiteId('CN003'));
         $mockGraveSite->method('nicheNumber')->willReturn($this->nicheNumber);
         $mockGraveSite->method('cemeteryBlockId')->willReturn($this->anotherCemeteryBlockId);
@@ -165,7 +165,7 @@ class GraveSiteRepositoryValidatorTest extends TestCase
 
     private function buildMockGraveSiteWithInvalidCemeteryBlockId(): MockObject|GraveSite
     {
-        $mockGraveSite = $this->createMock(GraveSite::class);;
+        $mockGraveSite = $this->createMock(GraveSite::class);
         $mockGraveSite->method('id')->willReturn(new GraveSiteId('CN004'));
         $mockGraveSite->method('nicheNumber')->willReturn(new GraveSiteNumber('004'));
         $mockGraveSite->method('cemeteryBlockId')->willReturn($this->invalidCemeteryBlockId);
@@ -206,8 +206,8 @@ class GraveSiteRepositoryValidatorTest extends TestCase
     {
         $mockBurialRepo = $this->createMock(BurialRepository::class);
         $mockBurialRepo->method('countByGraveSiteId')->willReturnCallback(
-            function (GraveSiteId $id) {
-                return $id->isEqual($this->id) ? $this->relatedBurialCount : 0;
+            function (GraveSiteId $graveSiteId) {
+                return $graveSiteId->isEqual($this->id) ? $this->relatedBurialCount : 0;
             }
         );
 

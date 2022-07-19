@@ -71,7 +71,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenNicheNumberAlreadyExists(): void
+    public function testItFailsWhenNicheNumberAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Колумбарная ниша "%s" уже существует.', $this->nicheNumber->value()));
@@ -125,7 +125,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumNiche(): MockObject|ColumbariumNiche
     {
-        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);;
+        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);
         $mockColumbariumNiche->method('id')->willReturn($this->id);
         $mockColumbariumNiche->method('nicheNumber')->willReturn($this->nicheNumber);
         $mockColumbariumNiche->method('columbariumId')->willReturn($this->columbariumId);
@@ -135,7 +135,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumNicheTotallyDifferent(): MockObject|ColumbariumNiche
     {
-        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);;
+        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);
         $mockColumbariumNiche->method('id')->willReturn(new ColumbariumNicheId('CN002'));
         $mockColumbariumNiche->method('nicheNumber')->willReturn(new ColumbariumNicheNumber('002'));
         $mockColumbariumNiche->method('columbariumId')->willReturn($this->columbariumId);
@@ -145,7 +145,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumNicheWithSameNumber(): MockObject|ColumbariumNiche
     {
-        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);;
+        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);
         $mockColumbariumNiche->method('id')->willReturn(new ColumbariumNicheId('CN003'));
         $mockColumbariumNiche->method('nicheNumber')->willReturn($this->nicheNumber);
         $mockColumbariumNiche->method('columbariumId')->willReturn($this->columbariumId);
@@ -155,7 +155,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumNicheWithSameNumberButInAnotherColumbarium(): MockObject|ColumbariumNiche
     {
-        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);;
+        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);
         $mockColumbariumNiche->method('id')->willReturn(new ColumbariumNicheId('CN003'));
         $mockColumbariumNiche->method('nicheNumber')->willReturn($this->nicheNumber);
         $mockColumbariumNiche->method('columbariumId')->willReturn($this->anotherColumbariumId);
@@ -165,7 +165,7 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumNicheWithInvalidColumbariumId(): MockObject|ColumbariumNiche
     {
-        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);;
+        $mockColumbariumNiche = $this->createMock(ColumbariumNiche::class);
         $mockColumbariumNiche->method('id')->willReturn(new ColumbariumNicheId('CN004'));
         $mockColumbariumNiche->method('nicheNumber')->willReturn(new ColumbariumNicheNumber('004'));
         $mockColumbariumNiche->method('columbariumId')->willReturn($this->invalidColumbariumId);
@@ -206,8 +206,8 @@ class ColumbariumNicheRepositoryValidatorTest extends TestCase
     {
         $mockBurialRepo = $this->createMock(BurialRepository::class);
         $mockBurialRepo->method('countByColumbariumNicheId')->willReturnCallback(
-            function (ColumbariumNicheId $id) {
-                return $id->isEqual($this->id) ? $this->relatedBurialCount : 0;
+            function (ColumbariumNicheId $columbariumNicheId) {
+                return $columbariumNicheId->isEqual($this->id) ? $this->relatedBurialCount : 0;
             }
         );
 

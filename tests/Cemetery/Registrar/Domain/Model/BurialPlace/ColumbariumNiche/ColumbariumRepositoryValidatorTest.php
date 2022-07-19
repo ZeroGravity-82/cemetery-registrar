@@ -52,7 +52,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
         );
     }
 
-    public function testItFailsWhenNameAlreadyExists(): void
+    public function testItFailsWhenNameAlreadyUsed(): void
     {
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage(\sprintf('Колумбарий "%s" уже существует.', $this->name->value()));
@@ -93,7 +93,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbarium(): MockObject|Columbarium
     {
-        $mockColumbarium = $this->createMock(Columbarium::class);;
+        $mockColumbarium = $this->createMock(Columbarium::class);
         $mockColumbarium->method('id')->willReturn($this->id);
         $mockColumbarium->method('name')->willReturn($this->name);
 
@@ -102,7 +102,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumTotallyDifferent(): MockObject|Columbarium
     {
-        $mockColumbarium = $this->createMock(Columbarium::class);;
+        $mockColumbarium = $this->createMock(Columbarium::class);
         $mockColumbarium->method('id')->willReturn(new ColumbariumId('C002'));
         $mockColumbarium->method('name')->willReturn(new ColumbariumName('северный'));
 
@@ -111,7 +111,7 @@ class ColumbariumRepositoryValidatorTest extends TestCase
 
     private function buildMockColumbariumWithSameName(): MockObject|Columbarium
     {
-        $mockColumbarium = $this->createMock(Columbarium::class);;
+        $mockColumbarium = $this->createMock(Columbarium::class);
         $mockColumbarium->method('id')->willReturn(new ColumbariumId('C003'));
         $mockColumbarium->method('name')->willReturn($this->name);
 

@@ -53,7 +53,7 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         $this->assertSame($this->id, $response->id);
     }
 
-    public function testItFailsWhenNameAlreadyExists(): void
+    public function testItFailsWhenNameAlreadyUsed(): void
     {
         $this->markTestIncomplete();
     }
