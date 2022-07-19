@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 
 /**
@@ -16,16 +17,18 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 class CreateCauseOfDeathService extends CauseOfDeathService
 {
     /**
-     * @param CreateCauseOfDeathValidator $createCauseOfDeathValidator
-     * @param CauseOfDeathFactory         $causeOfDeathFactory
-     * @param CauseOfDeathRepository      $causeOfDeathRepo
-     * @param EventDispatcher             $eventDispatcher
+     * @param CreateCauseOfDeathValidator     $createCauseOfDeathValidator
+     * @param CauseOfDeathFactory             $causeOfDeathFactory
+     * @param CauseOfDeathRepositoryValidator $causeOfDeathRepoValidator
+     * @param CauseOfDeathRepository          $causeOfDeathRepo
+     * @param EventDispatcher                 $eventDispatcher
      */
     public function __construct(
-        private readonly CreateCauseOfDeathValidator $createCauseOfDeathValidator,
-        private readonly CauseOfDeathFactory         $causeOfDeathFactory,
-        CauseOfDeathRepository                       $causeOfDeathRepo,
-        EventDispatcher                              $eventDispatcher,
+        private readonly CreateCauseOfDeathValidator     $createCauseOfDeathValidator,
+        private readonly CauseOfDeathFactory             $causeOfDeathFactory,
+        private readonly CauseOfDeathRepositoryValidator $causeOfDeathRepoValidator,
+        CauseOfDeathRepository                           $causeOfDeathRepo,
+        EventDispatcher                                  $eventDispatcher,
     ) {
         parent::__construct($causeOfDeathRepo, $eventDispatcher);
 //        $this->validator = $createCauseOfDeathValidator;
@@ -49,11 +52,11 @@ class CreateCauseOfDeathService extends CauseOfDeathService
         $this->assertSupportedRequestClass($request);       // TODO move to parent class
 //        $this->validate($request);                          // TODO move to parent class
 
-        // TODO add uniqueness check
         $causeOfDeath = $this->causeOfDeathFactory->create(
             $request->name,
         );
-
+        $this->causeOfDeathRepoValidator->assertUnique($causeOfDeath);
+        $this->causeOfDeathRepoValidator->assertReferencesNotBroken($causeOfDeath);
         $this->causeOfDeathRepo->save($causeOfDeath);
         $this->eventDispatcher->dispatch(new CauseOfDeathCreated(
             $causeOfDeath->id(),
