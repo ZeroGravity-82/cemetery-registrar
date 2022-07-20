@@ -16,7 +16,6 @@ use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCaus
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathService;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathService;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +34,6 @@ class AdminCauseOfDeathController extends Controller
         private readonly CreateCauseOfDeathService     $createCauseOfDeathService,
         private readonly EditCauseOfDeathService       $editCauseOfDeathService,
         private readonly RemoveCauseOfDeathService     $removeCauseOfDeathService,
-        private readonly CauseOfDeathFetcher           $causeOfDeathFetcher,
     ) {}
 
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: Request::METHOD_GET)]
@@ -63,11 +61,17 @@ class AdminCauseOfDeathController extends Controller
     public function create(Request $request): JsonResponse
     {
         $this->assertValidCsrfToken($request, 'cause_of_death');
-        $commandRequest = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
-        $id             = $this->createCauseOfDeathService->execute($commandRequest)->id;
-        $view           = $this->causeOfDeathFetcher->findViewById($id);
-        $response       = $this->json($view, Response::HTTP_CREATED);
-        $locationUrl    = $this->generateUrl('admin_cause_of_death_show', ['id' => $id]);
+        $commandRequest  = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
+        $commandResponse = $this->createCauseOfDeathService->execute($commandRequest);
+        if (!$commandResponse->isSuccess()) {
+
+        }
+
+
+        $queryRequest  = new ShowCauseOfDeathRequest($commandResponse->id);
+        $queryResponse = $this->showCauseOfDeathService->execute($queryRequest);
+        $response      = $this->json($queryResponse->view, Response::HTTP_CREATED);
+        $locationUrl   = $this->generateUrl('admin_cause_of_death_show', ['id' => $commandResponse->id]);
         $response->headers->set('Location', $locationUrl);
 
         return $response;
@@ -84,7 +88,9 @@ class AdminCauseOfDeathController extends Controller
             $commandRequest = $this->handleJsonRequest($request, EditCauseOfDeathRequest::class);
             $id             = $this->editCauseOfDeathService->execute($commandRequest)->id;
         }
-        $view = $this->causeOfDeathFetcher->findViewById($id);
+
+        $queryRequest = new ShowCauseOfDeathRequest($id);
+        $view         = $this->showCauseOfDeathService->execute($queryRequest)->view;
 
         return $this->json($view);
     }

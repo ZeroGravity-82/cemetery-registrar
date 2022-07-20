@@ -12,4 +12,8 @@ class CreateCauseOfDeathResponse
     public function __construct(
         public readonly string $id,
     ) {}
+
+
+    // isSuccess
+    // errors
 }

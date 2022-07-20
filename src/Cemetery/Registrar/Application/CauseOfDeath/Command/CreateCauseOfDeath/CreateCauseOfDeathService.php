@@ -17,18 +17,18 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 class CreateCauseOfDeathService extends CauseOfDeathService
 {
     /**
-     * @param CreateCauseOfDeathValidator     $createCauseOfDeathValidator
-     * @param CauseOfDeathFactory             $causeOfDeathFactory
-     * @param CauseOfDeathRepositoryValidator $causeOfDeathRepoValidator
-     * @param CauseOfDeathRepository          $causeOfDeathRepo
-     * @param EventDispatcher                 $eventDispatcher
+     * @param CreateCauseOfDeathRequestValidator $requestValidator
+     * @param CauseOfDeathFactory                $causeOfDeathFactory
+     * @param CauseOfDeathRepositoryValidator    $causeOfDeathRepoValidator
+     * @param CauseOfDeathRepository             $causeOfDeathRepo
+     * @param EventDispatcher                    $eventDispatcher
      */
     public function __construct(
-        private readonly CreateCauseOfDeathValidator     $createCauseOfDeathValidator,
-        private readonly CauseOfDeathFactory             $causeOfDeathFactory,
-        private readonly CauseOfDeathRepositoryValidator $causeOfDeathRepoValidator,
-        CauseOfDeathRepository                           $causeOfDeathRepo,
-        EventDispatcher                                  $eventDispatcher,
+        private readonly CreateCauseOfDeathRequestValidator $requestValidator,
+        private readonly CauseOfDeathFactory                $causeOfDeathFactory,
+        private readonly CauseOfDeathRepositoryValidator    $causeOfDeathRepoValidator,
+        CauseOfDeathRepository                              $causeOfDeathRepo,
+        EventDispatcher                                     $eventDispatcher,
     ) {
         parent::__construct($causeOfDeathRepo, $eventDispatcher);
 //        $this->validator = $createCauseOfDeathValidator;
@@ -49,8 +49,10 @@ class CreateCauseOfDeathService extends CauseOfDeathService
      */
     public function execute($request): CreateCauseOfDeathResponse
     {
-        $this->assertSupportedRequestClass($request);       // TODO move to parent class
-//        $this->validate($request);                          // TODO move to parent class
+        $this->assertSupportedRequestClass($request);                       // TODO move to parent class
+        if ($this->requestValidator->validate($request)->hasErrors()) {     // TODO move to parent class
+
+        }
 
         $causeOfDeath = $this->causeOfDeathFactory->create(
             $request->name,
