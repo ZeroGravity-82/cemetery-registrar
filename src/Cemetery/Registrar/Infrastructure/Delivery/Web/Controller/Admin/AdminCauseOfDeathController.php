@@ -62,11 +62,12 @@ class AdminCauseOfDeathController extends Controller
     {
         $this->assertValidCsrfToken($request, 'cause_of_death');
         $commandRequest  = $this->handleJsonRequest($request, CreateCauseOfDeathRequest::class);
+        // TODO add try-catch for malformed JSON and return 400 error
+
         $commandResponse = $this->createCauseOfDeathService->execute($commandRequest);
-        if (!$commandResponse->isSuccess()) {
-
+        if (!$commandResponse->note->hasErrors()) {
+            return $this->json($commandResponse->note->errors(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
-
 
         $queryRequest  = new ShowCauseOfDeathRequest($commandResponse->id);
         $queryResponse = $this->showCauseOfDeathService->execute($queryRequest);

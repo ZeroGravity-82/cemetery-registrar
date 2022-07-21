@@ -50,14 +50,18 @@ class CreateCauseOfDeathService extends CauseOfDeathService
     public function execute($request): CreateCauseOfDeathResponse
     {
         $this->assertSupportedRequestClass($request);                       // TODO move to parent class
-        if ($this->requestValidator->validate($request)->hasErrors()) {     // TODO move to parent class
-
+        $validationResult = $this->requestValidator->validate($request);    // TODO move to parent class
+        if ($validationResult->hasErrors()) {                               // TODO move to parent class
+            return new CreateCauseOfDeathResponse(
+                null,
+                $validationResult,
+            );
         }
 
         $causeOfDeath = $this->causeOfDeathFactory->create(
             $request->name,
         );
-        $this->causeOfDeathRepoValidator->assertUnique($causeOfDeath);
+        $this->causeOfDeathRepoValidator->assertUnique($causeOfDeath);                  // validateSaving?
         $this->causeOfDeathRepoValidator->assertReferencesNotBroken($causeOfDeath);
         $this->causeOfDeathRepo->save($causeOfDeath);
         $this->eventDispatcher->dispatch(new CauseOfDeathCreated(
@@ -65,6 +69,9 @@ class CreateCauseOfDeathService extends CauseOfDeathService
             $causeOfDeath->name(),
         ));
 
-        return new CreateCauseOfDeathResponse($causeOfDeath->id()->value());
+        return new CreateCauseOfDeathResponse(
+            $causeOfDeath->id()->value(),
+
+        );
     }
 }
