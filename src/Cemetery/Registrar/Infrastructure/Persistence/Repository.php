@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\EntityCollection;
 use Cemetery\Registrar\Domain\Model\EntityId;
 use Cemetery\Registrar\Domain\Model\Repository as RepositoryInterface;
-use Cemetery\Registrar\Domain\Model\RepositoryValidator;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -16,19 +15,34 @@ use Cemetery\Registrar\Domain\Model\RepositoryValidator;
 abstract class Repository implements RepositoryInterface
 {
     /**
-     * @param RepositoryValidator $repositoryValidator
+     * Returns the name of the supported aggregate root class.
+     *
+     * @return string
      */
-    public function __construct(
-        private readonly RepositoryValidator $repositoryValidator,
-    ) {}
+    abstract protected function supportedAggregateRootClassName(): string;
 
     /**
-     * {@inheritdoc}
+     * Returns the name of the supported aggregate root ID class.
+     *
+     * @return string
      */
-    public function repositoryValidator(): RepositoryValidator
-    {
-        return $this->repositoryValidator;
-    }
+    abstract protected function supportedAggregateRootIdClassName(): string;
+
+    /**
+     * Returns the name of the supported aggregate root collection class.
+     *
+     * @return string
+     */
+    abstract protected function supportedAggregateRootCollectionClassName(): string;
+
+    /**
+     * Checks whether the aggregate root meets uniqueness constraints (if any).
+     *
+     * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when uniqueness constraints (if any) are violated
+     */
+    abstract protected function assertUnique(AggregateRoot $aggregateRoot): void;
 
     /**
      * Checks whether the aggregate root is of a type supported by the repository.

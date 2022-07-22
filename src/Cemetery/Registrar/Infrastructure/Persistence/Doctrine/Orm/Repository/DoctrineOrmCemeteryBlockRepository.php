@@ -17,17 +17,6 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implements CemeteryBlockRepository
 {
     /**
-     * @param EntityManagerInterface           $entityManager
-     * @param CemeteryBlockRepositoryValidator $repositoryValidator
-     */
-    public function __construct(
-        EntityManagerInterface           $entityManager,
-        CemeteryBlockRepositoryValidator $repositoryValidator,
-    ) {
-        parent::__construct($entityManager, $repositoryValidator);
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function supportedAggregateRootClassName(): string

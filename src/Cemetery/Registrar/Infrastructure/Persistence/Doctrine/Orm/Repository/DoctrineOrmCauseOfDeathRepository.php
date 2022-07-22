@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
+use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryValidator;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -17,20 +16,9 @@ use Doctrine\ORM\EntityManagerInterface;
 class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements CauseOfDeathRepository
 {
     /**
-     * @param EntityManagerInterface          $entityManager
-     * @param CauseOfDeathRepositoryValidator $repositoryValidator
-     */
-    public function __construct(
-        EntityManagerInterface          $entityManager,
-        CauseOfDeathRepositoryValidator $repositoryValidator,
-    ) {
-        parent::__construct($entityManager, $repositoryValidator);
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return CauseOfDeath::class;
     }
@@ -38,7 +26,7 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return CauseOfDeathId::class;
     }
@@ -46,7 +34,7 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return CauseOfDeathCollection::class;
     }
@@ -54,7 +42,23 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function doesSameNameAlreadyUsed(CauseOfDeath $causeOfDeath): bool
+    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    {
+        /** @var CauseOfDeath $aggregateRoot */
+        if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
+            throw new \RuntimeException(\sprintf(
+                'Причина смерти "%s" уже существует.',
+                $aggregateRoot->name()->value(),
+            ));
+        }
+    }
+
+    /**
+     * @param CauseOfDeath $causeOfDeath
+     *
+     * @return bool
+     */
+    private function doesSameNameAlreadyUsed(CauseOfDeath $causeOfDeath): bool
     {
         return (bool) $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())
@@ -66,6 +70,6 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
             ->setParameter('id', $causeOfDeath->id()->value())
             ->setParameter('name', $causeOfDeath->name()->value())
             ->getQuery()
-            ->getSingleScalarResult();
+            ->getScalarResult();
     }
 }
