@@ -39,11 +39,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(BurialRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmBurialRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmBurialRepository($this->entityManager);
         $this->entityA = BurialProvider::getBurialA();
         $this->entityB = BurialProvider::getBurialB();
         $this->entityC = BurialProvider::getBurialC();

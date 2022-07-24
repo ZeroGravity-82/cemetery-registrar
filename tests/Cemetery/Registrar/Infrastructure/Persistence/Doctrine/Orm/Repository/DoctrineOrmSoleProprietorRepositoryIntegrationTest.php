@@ -5,12 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\Entity;
-use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepositoryValidator;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmSoleProprietorRepository;
 use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 
@@ -29,11 +27,7 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(SoleProprietorRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmSoleProprietorRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmSoleProprietorRepository($this->entityManager);
         $this->entityA = SoleProprietorProvider::getSoleProprietorA();
         $this->entityB = SoleProprietorProvider::getSoleProprietorB();
         $this->entityC = SoleProprietorProvider::getSoleProprietorC();

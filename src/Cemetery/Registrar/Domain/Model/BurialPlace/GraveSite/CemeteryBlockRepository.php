@@ -11,12 +11,4 @@ use Cemetery\Registrar\Domain\Model\Repository;
  */
 interface CemeteryBlockRepository extends Repository
 {
-    /**
-     * Checks that a cemetery block with the same name already exists.
-     *
-     * @param CemeteryBlock $cemeteryBlock
-     *
-     * @return bool
-     */
-    public function doesSameNameAlreadyUsed(CemeteryBlock $cemeteryBlock): bool;
 }

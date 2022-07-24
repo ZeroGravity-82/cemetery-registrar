@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmGraveSiteRepository;
@@ -36,11 +35,7 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(GraveSiteRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmGraveSiteRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmGraveSiteRepository($this->entityManager);
         $this->entityA = GraveSiteProvider::getGraveSiteA();
         $this->entityB = GraveSiteProvider::getGraveSiteB();
         $this->entityC = GraveSiteProvider::getGraveSiteC();

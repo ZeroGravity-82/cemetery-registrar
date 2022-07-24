@@ -70,6 +70,6 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
             ->setParameter('id', $causeOfDeath->id()->value())
             ->setParameter('name', $causeOfDeath->name()->value())
             ->getQuery()
-            ->getScalarResult();
+            ->getSingleScalarResult();
     }
 }

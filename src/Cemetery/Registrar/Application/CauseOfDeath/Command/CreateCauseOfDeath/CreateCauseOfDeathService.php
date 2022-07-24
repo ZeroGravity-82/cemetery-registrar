@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath;
 
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 
 /**
@@ -19,14 +19,12 @@ class CreateCauseOfDeathService extends CauseOfDeathService
     /**
      * @param CreateCauseOfDeathRequestValidator $requestValidator
      * @param CauseOfDeathFactory                $causeOfDeathFactory
-     * @param CauseOfDeathRepositoryValidator    $causeOfDeathRepoValidator
      * @param CauseOfDeathRepository             $causeOfDeathRepo
      * @param EventDispatcher                    $eventDispatcher
      */
     public function __construct(
         private readonly CreateCauseOfDeathRequestValidator $requestValidator,
         private readonly CauseOfDeathFactory                $causeOfDeathFactory,
-        private readonly CauseOfDeathRepositoryValidator    $causeOfDeathRepoValidator,
         CauseOfDeathRepository                              $causeOfDeathRepo,
         EventDispatcher                                     $eventDispatcher,
     ) {
@@ -61,9 +59,7 @@ class CreateCauseOfDeathService extends CauseOfDeathService
         $causeOfDeath = $this->causeOfDeathFactory->create(
             $request->name,
         );
-        $this->causeOfDeathRepoValidator->assertUnique($causeOfDeath);                  // validateSaving?
-        $this->causeOfDeathRepoValidator->assertReferencesNotBroken($causeOfDeath);
-        $this->causeOfDeathRepo->save($causeOfDeath);
+        $this->causeOfDeathRepo->save($causeOfDeath);                       // TODO add try-catch block???
         $this->eventDispatcher->dispatch(new CauseOfDeathCreated(
             $causeOfDeath->id(),
             $causeOfDeath->name(),
@@ -71,7 +67,7 @@ class CreateCauseOfDeathService extends CauseOfDeathService
 
         return new CreateCauseOfDeathResponse(
             $causeOfDeath->id()->value(),
-
+            new Notification(),
         );
     }
 }

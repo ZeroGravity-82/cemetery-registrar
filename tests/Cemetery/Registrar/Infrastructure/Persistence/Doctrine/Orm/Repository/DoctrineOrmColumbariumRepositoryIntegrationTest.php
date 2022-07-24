@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumName;
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
@@ -28,11 +27,7 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends DoctrineOrmReposit
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(ColumbariumRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmColumbariumRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmColumbariumRepository($this->entityManager);
         $this->entityA = ColumbariumProvider::getColumbariumA();
         $this->entityB = ColumbariumProvider::getColumbariumB();
         $this->entityC = ColumbariumProvider::getColumbariumC();

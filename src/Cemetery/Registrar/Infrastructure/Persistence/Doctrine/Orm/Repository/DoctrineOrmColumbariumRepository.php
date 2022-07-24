@@ -4,29 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
+use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepository;
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepositoryValidator;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements ColumbariumRepository
 {
-    /**
-     * @param EntityManagerInterface         $entityManager
-     * @param ColumbariumRepositoryValidator $repositoryValidator
-     */
-    public function __construct(
-        EntityManagerInterface         $entityManager,
-        ColumbariumRepositoryValidator $repositoryValidator,
-    ) {
-        parent::__construct($entityManager, $repositoryValidator);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,7 +42,20 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
     /**
      * {@inheritdoc}
      */
-    public function doesSameNameAlreadyUsed(Columbarium $columbarium): bool
+    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    {
+        /** @var Columbarium $aggregateRoot */
+        if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
+            throw new \RuntimeException('Колумбарий с таким наименованием уже существует.');
+        }
+    }
+
+    /**
+     * @param Columbarium $columbarium
+     *
+     * @return bool
+     */
+    private function doesSameNameAlreadyUsed(Columbarium $columbarium): bool
     {
         return (bool) $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())

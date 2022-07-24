@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
-use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmMemorialTreeRepository;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
@@ -30,11 +29,7 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(MemorialTreeRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmMemorialTreeRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmMemorialTreeRepository($this->entityManager);
         $this->entityA = MemorialTreeProvider::getMemorialTreeA();
         $this->entityB = MemorialTreeProvider::getMemorialTreeB();
         $this->entityC = MemorialTreeProvider::getMemorialTreeC();

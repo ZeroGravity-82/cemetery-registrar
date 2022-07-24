@@ -4,29 +4,17 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
+use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
-use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepositoryValidator;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements MemorialTreeRepository
 {
-    /**
-     * @param EntityManagerInterface          $entityManager
-     * @param MemorialTreeRepositoryValidator $repositoryValidator
-     */
-    public function __construct(
-        EntityManagerInterface          $entityManager,
-        MemorialTreeRepositoryValidator $repositoryValidator,
-    ) {
-        parent::__construct($entityManager, $repositoryValidator);
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -54,7 +42,20 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function doesSameTreeNumberAlreadyUsed(MemorialTree $memorialTree): bool
+    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    {
+        /** @var MemorialTree $aggregateRoot */
+        if ($this->doesSameTreeNumberAlreadyUsed($aggregateRoot)) {
+            throw new \RuntimeException('Памятное дерево с такм номером уже существует.');
+        }
+    }
+
+    /**
+     * @param MemorialTree $memorialTree
+     *
+     * @return bool
+     */
+    private function doesSameTreeNumberAlreadyUsed(MemorialTree $memorialTree): bool
     {
         return (bool) $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())

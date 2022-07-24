@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbarium;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumNicheRepository;
@@ -35,11 +34,7 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(ColumbariumNicheRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmColumbariumNicheRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmColumbariumNicheRepository($this->entityManager);
         $this->entityA = ColumbariumNicheProvider::getColumbariumNicheA();
         $this->entityB = ColumbariumNicheProvider::getColumbariumNicheB();
         $this->entityC = ColumbariumNicheProvider::getColumbariumNicheC();

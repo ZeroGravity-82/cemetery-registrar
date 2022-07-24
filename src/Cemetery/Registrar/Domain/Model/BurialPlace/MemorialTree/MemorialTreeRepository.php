@@ -11,12 +11,4 @@ use Cemetery\Registrar\Domain\Model\Repository;
  */
 interface MemorialTreeRepository extends Repository
 {
-    /**
-     * Checks that a memorial tree with the same tree number already exists.
-     *
-     * @param MemorialTree $memorialTree
-     *
-     * @return bool
-     */
-    public function doesSameTreeNumberAlreadyUsed(MemorialTree $memorialTree): bool;
 }

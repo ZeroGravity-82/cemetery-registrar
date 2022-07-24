@@ -100,4 +100,23 @@ abstract class Repository implements RepositoryInterface
             ));
         }
     }
+
+    /**
+     * @param AggregateRoot $aggregateRoot
+     *
+     * @throws \RuntimeException when unique constraints (if any) are violated
+     */
+    protected function doSave(AggregateRoot $aggregateRoot): void
+    {
+        $this->assertUnique($aggregateRoot);
+        $aggregateRoot->refreshUpdatedAtTimestamp();
+    }
+
+    /**
+     * @param AggregateRoot $aggregateRoot
+     */
+    protected function doRemove(AggregateRoot $aggregateRoot): void
+    {
+        $aggregateRoot->refreshRemovedAtTimestamp();
+    }
 }

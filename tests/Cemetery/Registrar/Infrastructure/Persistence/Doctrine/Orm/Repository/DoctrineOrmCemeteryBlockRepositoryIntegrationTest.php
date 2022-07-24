@@ -8,7 +8,6 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryValidator;
 use Cemetery\Registrar\Domain\Model\Entity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCemeteryBlockRepository;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
@@ -28,11 +27,7 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(CemeteryBlockRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmCemeteryBlockRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmCemeteryBlockRepository($this->entityManager);
         $this->entityA = CemeteryBlockProvider::getCemeteryBlockA();
         $this->entityB = CemeteryBlockProvider::getCemeteryBlockB();
         $this->entityC = CemeteryBlockProvider::getCemeteryBlockC();

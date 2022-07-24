@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryValidator;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmNaturalPersonRepository;
 use DataFixtures\NaturalPerson\NaturalPersonProvider;
 
@@ -24,31 +23,14 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
     protected string $entityIdClassName         = NaturalPersonId::class;
     protected string $entityCollectionClassName = NaturalPersonCollection::class;
 
-    private NaturalPerson $entityD;
-    private NaturalPerson $entityE;
-    private NaturalPerson $entityF;
-    private NaturalPerson $entityG;
-    private NaturalPerson $entityH;
-    private NaturalPerson $entityI;
-
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->mockRepositoryValidator = $this->createMock(NaturalPersonRepositoryValidator::class);
-        $this->repo                    = new DoctrineOrmNaturalPersonRepository(
-            $this->entityManager,
-            $this->mockRepositoryValidator,
-        );
+        $this->repo    = new DoctrineOrmNaturalPersonRepository($this->entityManager);
         $this->entityA = NaturalPersonProvider::getNaturalPersonA();
         $this->entityB = NaturalPersonProvider::getNaturalPersonB();
         $this->entityC = NaturalPersonProvider::getNaturalPersonC();
-        $this->entityD = NaturalPersonProvider::getNaturalPersonD();
-        $this->entityE = NaturalPersonProvider::getNaturalPersonE();
-        $this->entityF = NaturalPersonProvider::getNaturalPersonF();
-        $this->entityG = NaturalPersonProvider::getNaturalPersonG();
-        $this->entityH = NaturalPersonProvider::getNaturalPersonH();
-        $this->entityI = NaturalPersonProvider::getNaturalPersonI();
     }
 
     public function testItReturnsSupportedAggregateRootClassName(): void
@@ -66,61 +48,42 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->assertSame(NaturalPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
     }
 
-    public function testItCountsNaturalPersonsByCauseOfDeathId(): void
+    public function testItSaveNaturalWithSameFullNameButWithoutBornAtAndDiedAt(): void
     {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new NaturalPersonCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-            $this->entityI
-        ]));
-        $this->entityManager->clear();
 
-        // Testing itself
-        $knownCauserOfDeathId = new CauseOfDeathId('CD004');
-        $naturalPersonCount   = $this->repo->countByCauseOfDeathId($knownCauserOfDeathId);
-        $this->assertSame(2, $naturalPersonCount);
-
-        $knownCauserOfDeathId = new CauseOfDeathId('CD008');
-        $naturalPersonCount   = $this->repo->countByCauseOfDeathId($knownCauserOfDeathId);
-        $this->assertSame(1, $naturalPersonCount);
-
-        $unknownCauserOfDeathId = new CauseOfDeathId('unknown_id');
-        $naturalPersonCount     = $this->repo->countByCauseOfDeathId($unknownCauserOfDeathId);
-        $this->assertSame(0, $naturalPersonCount);
     }
 
-    public function testItDoesNotCountRemovedNaturalPersonsByCauseOfDeathId(): void
+    public function testItSaveNaturalWithSameFullNameButAnotherBornAtAndDiedAt(): void
     {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new NaturalPersonCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-            $this->entityI
-        ]));
+
+    }
+
+    public function testIfFailsToSaveNaturalPersonWithSameFullNameAndBornAt(): void
+    {
+        /** @var NaturalPerson $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
-        // Testing itself
-        /** @var NaturalPerson $persistedEntityB */
-        $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $causeOfDeathIdB  = $persistedEntityB->deceasedDetails()->causeOfDeathId();
-        $this->repo->remove($persistedEntityB);
+        $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))
+            ->setBornAt($existingEntity->bornAt());
+
+        $this->expectExceptionForNonUniqueNaturalPerson();
+        $this->repo->save($newEntity);
+    }
+
+    public function testIfFailsToSaveNaturalPersonWithSameFullNameAndDiedAt(): void
+    {
+        /** @var NaturalPerson $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
-        $naturalPersonCount = $this->repo->countByCauseOfDeathId($causeOfDeathIdB);
-        $this->assertSame(0, $naturalPersonCount);
+        $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))
+            ->setDeceasedDetails(new DeceasedDetails());
+
+        $this->expectExceptionForNonUniqueNaturalPerson();
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
@@ -147,5 +110,14 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
 
         /** @var NaturalPerson $entityA */
         $entityA->setBornAt($newBornAt);
+    }
+
+    /**
+     * @return void
+     */
+    private function expectExceptionForNonUniqueNaturalPerson(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Физлицо с таким ФИО и такой датой рождения или датой смерти уже существует.');
     }
 }

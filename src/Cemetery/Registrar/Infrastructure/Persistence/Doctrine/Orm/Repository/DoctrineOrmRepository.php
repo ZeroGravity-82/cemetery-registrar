@@ -27,6 +27,7 @@ abstract class DoctrineOrmRepository extends Repository
     {
         $this->assertSupportedAggregateRootClass($aggregateRoot);
         $this->doSave($aggregateRoot);
+        $this->entityManager->persist($aggregateRoot);
         $this->entityManager->flush();
     }
 
@@ -38,6 +39,7 @@ abstract class DoctrineOrmRepository extends Repository
         $this->assertSupportedAggregateRootCollectionClass($aggregateRoots);
         foreach ($aggregateRoots as $aggregateRoot) {
             $this->doSave($aggregateRoot);
+            $this->entityManager->persist($aggregateRoot);
         }
         $this->entityManager->flush();
     }
@@ -62,6 +64,7 @@ abstract class DoctrineOrmRepository extends Repository
     {
         $this->assertSupportedAggregateRootClass($aggregateRoot);
         $this->doRemove($aggregateRoot);
+        $this->entityManager->persist($aggregateRoot);
         $this->entityManager->flush();
     }
 
@@ -73,28 +76,8 @@ abstract class DoctrineOrmRepository extends Repository
         $this->assertSupportedAggregateRootCollectionClass($aggregateRoots);
         foreach ($aggregateRoots as $aggregateRoot) {
             $this->doRemove($aggregateRoot);
+            $this->entityManager->persist($aggregateRoot);
         }
         $this->entityManager->flush();
-    }
-
-    /**
-     * @param AggregateRoot $aggregateRoot
-     *
-     * @throws \RuntimeException when unique constraints (if any) are violated
-     */
-    private function doSave(AggregateRoot $aggregateRoot): void
-    {
-        $this->assertUnique($aggregateRoot);
-        $aggregateRoot->refreshUpdatedAtTimestamp();
-        $this->entityManager->persist($aggregateRoot);
-    }
-
-    /**
-     * @param AggregateRoot $aggregateRoot
-     */
-    private function doRemove(AggregateRoot $aggregateRoot): void
-    {
-        $aggregateRoot->refreshRemovedAtTimestamp();
-        $this->entityManager->persist($aggregateRoot);
     }
 }

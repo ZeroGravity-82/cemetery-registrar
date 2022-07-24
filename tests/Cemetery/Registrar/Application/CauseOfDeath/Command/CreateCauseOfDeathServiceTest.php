@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Command;
 
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequestValidator;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
@@ -16,14 +17,17 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 {
-    private MockObject|CauseOfDeathFactory $mockCauseOfDeathFactory;
+    private MockObject|CreateCauseOfDeathRequestValidator $mockCreateCauseOfDeathRequestValidator;
+    private MockObject|CauseOfDeathFactory                $mockCauseOfDeathFactory;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->mockCauseOfDeathFactory = $this->buildMockCauseOfDeathFactory();
-        $this->service                 = new CreateCauseOfDeathService(
+        $this->mockCreateCauseOfDeathRequestValidator = $this->createMock(CreateCauseOfDeathRequestValidator::class);
+        $this->mockCauseOfDeathFactory                = $this->buildMockCauseOfDeathFactory();
+        $this->service                                = new CreateCauseOfDeathService(
+            $this->mockCreateCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathFactory,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
