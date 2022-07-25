@@ -9,7 +9,6 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,8 +16,6 @@ use PHPUnit\Framework\TestCase;
  */
 class DeceasedDetailsTest extends TestCase
 {
-    private NaturalPersonId      $naturalPersonIdA;
-    private NaturalPersonId      $naturalPersonIdB;
     private \DateTimeImmutable   $diedAtA;
     private \DateTimeImmutable   $diedAtB;
     private Age                  $ageA;
@@ -32,8 +29,6 @@ class DeceasedDetailsTest extends TestCase
 
     public function setUp(): void
     {
-        $this->naturalPersonIdA      = new NaturalPersonId('NP001');
-        $this->naturalPersonIdB      = new NaturalPersonId('NP002');
         $this->diedAtA               = new \DateTimeImmutable('2011-04-30');
         $this->diedAtB               = new \DateTimeImmutable('2021-12-15');
         $this->ageA                  = new Age(82);
@@ -49,15 +44,12 @@ class DeceasedDetailsTest extends TestCase
     public function testItSuccessfullyCreated(): void
     {
         $deceasedDetails = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageA,
             $this->causeOfDeathIdA,
             $this->deathCertificateA,
             $this->cremationCertificateA,
         );
-        $this->assertInstanceOf(NaturalPersonId::class, $deceasedDetails->naturalPersonId());
-        $this->assertTrue($this->naturalPersonIdA->isEqual($deceasedDetails->naturalPersonId()));
         $this->assertInstanceOf(\DateTimeImmutable::class, $deceasedDetails->diedAt());
         $this->assertSame($this->diedAtA->format('Y-m-d'), $deceasedDetails->diedAt()->format('Y-m-d'));
         $this->assertInstanceOf(Age::class, $deceasedDetails->age());
@@ -73,15 +65,12 @@ class DeceasedDetailsTest extends TestCase
     public function testItSuccessfullyCreatedWithoutOptionalFields(): void
     {
         $deceasedDetails = new DeceasedDetails(
-            $this->naturalPersonIdB,
             $this->diedAtB,
             null,
             null,
             null,
             null,
         );
-        $this->assertInstanceOf(NaturalPersonId::class, $deceasedDetails->naturalPersonId());
-        $this->assertTrue($this->naturalPersonIdB->isEqual($deceasedDetails->naturalPersonId()));
         $this->assertInstanceOf(\DateTimeImmutable::class, $deceasedDetails->diedAt());
         $this->assertSame($this->diedAtB->format('Y-m-d'), $deceasedDetails->diedAt()->format('Y-m-d'));
         $this->assertNull($deceasedDetails->age());
@@ -93,7 +82,6 @@ class DeceasedDetailsTest extends TestCase
     public function testItComparable(): void
     {
         $deceasedDetailsA = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageA,
             $this->causeOfDeathIdA,
@@ -101,7 +89,6 @@ class DeceasedDetailsTest extends TestCase
             $this->cremationCertificateA,
         );
         $deceasedDetailsB = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             null,
             null,
@@ -109,7 +96,6 @@ class DeceasedDetailsTest extends TestCase
             null,
         );
         $deceasedDetailsC = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtB,
             $this->ageA,
             $this->causeOfDeathIdA,
@@ -117,7 +103,6 @@ class DeceasedDetailsTest extends TestCase
             $this->cremationCertificateA,
         );
         $deceasedDetailsD = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageB,
             $this->causeOfDeathIdA,
@@ -125,7 +110,6 @@ class DeceasedDetailsTest extends TestCase
             $this->cremationCertificateA,
         );
         $deceasedDetailsE = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageA,
             $this->causeOfDeathIdB,
@@ -133,7 +117,6 @@ class DeceasedDetailsTest extends TestCase
             $this->cremationCertificateA,
         );
         $deceasedDetailsF = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageA,
             $this->causeOfDeathIdA,
@@ -141,7 +124,6 @@ class DeceasedDetailsTest extends TestCase
             $this->cremationCertificateA,
         );
         $deceasedDetailsG = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageA,
             $this->causeOfDeathIdA,
@@ -149,7 +131,6 @@ class DeceasedDetailsTest extends TestCase
             $this->cremationCertificateB,
         );
         $deceasedDetailsH = new DeceasedDetails(
-            $this->naturalPersonIdA,
             $this->diedAtA,
             $this->ageA,
             $this->causeOfDeathIdA,

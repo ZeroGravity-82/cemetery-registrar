@@ -13,7 +13,6 @@ use PHPUnit\Framework\TestCase;
  */
 class DeceasedDetailsFactoryTest extends TestCase
 {
-    private string                 $naturalPersonId              = 'NP001';
     private string                 $diedAt                       = '2011-04-30';
     private int                    $age                          = 82;
     private string                 $causeOfDeathId               = 'CD001';
@@ -32,7 +31,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     public function testItCreatesDeceasedDetails(): void
     {
         $deceasedDetails = $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             $this->age,
             $this->causeOfDeathId,
@@ -43,7 +41,6 @@ class DeceasedDetailsFactoryTest extends TestCase
             $this->cremationCertificateIssuedAt,
         );
         $this->assertInstanceOf(DeceasedDetails::class, $deceasedDetails);
-        $this->assertSame($this->naturalPersonId, $deceasedDetails->naturalPersonId()->value());
         $this->assertSame($this->diedAt, $deceasedDetails->diedAt()->format('Y-m-d'));
         $this->assertSame($this->age, $deceasedDetails->age()->value());
         $this->assertSame($this->causeOfDeathId, $deceasedDetails->causeOfDeathId()->value());
@@ -57,7 +54,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     public function testItCreatesDeceasedDetailsWithoutOptionalFields(): void
     {
         $deceasedDetails = $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             null,
             null,
@@ -68,7 +64,6 @@ class DeceasedDetailsFactoryTest extends TestCase
             null,
         );
         $this->assertInstanceOf(DeceasedDetails::class, $deceasedDetails);
-        $this->assertSame($this->naturalPersonId, $deceasedDetails->naturalPersonId()->value());
         $this->assertSame($this->diedAt, $deceasedDetails->diedAt()->format('Y-m-d'));
         $this->assertNull($deceasedDetails->age());
         $this->assertNull($deceasedDetails->causeOfDeathId());
@@ -80,7 +75,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     {
         $this->expectExceptionForIncompleteData('свидетельства о смерти', 'серии');
         $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             $this->age,
             $this->causeOfDeathId,
@@ -96,7 +90,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     {
         $this->expectExceptionForIncompleteData('свидетельства о смерти', 'номера');
         $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             $this->age,
             $this->causeOfDeathId,
@@ -112,7 +105,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     {
         $this->expectExceptionForIncompleteData('свидетельства о смерти', 'даты выдачи');
         $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             $this->age,
             $this->causeOfDeathId,
@@ -128,7 +120,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     {
         $this->expectExceptionForIncompleteData('справки о смерти', 'номера');
         $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             $this->age,
             $this->causeOfDeathId,
@@ -144,7 +135,6 @@ class DeceasedDetailsFactoryTest extends TestCase
     {
         $this->expectExceptionForIncompleteData('справки о смерти', 'даты выдачи');
         $this->deceasedDetailsFactory->create(
-            $this->naturalPersonId,
             $this->diedAt,
             $this->age,
             $this->causeOfDeathId,

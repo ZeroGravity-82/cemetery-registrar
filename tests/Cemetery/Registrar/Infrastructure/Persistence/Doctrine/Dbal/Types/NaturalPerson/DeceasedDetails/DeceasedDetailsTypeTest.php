@@ -9,7 +9,6 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails\DeceasedDetailsType;
 use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonTypeTest;
 
@@ -32,13 +31,11 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
         $this->assertJson($resultingDbValue);
         $decodedResultDbValue = \json_decode($resultingDbValue, true);
         $this->assertIsArray($decodedResultDbValue);
-        $this->assertArrayHasKey('naturalPersonId', $decodedResultDbValue);
         $this->assertArrayHasKey('diedAt', $decodedResultDbValue);
         $this->assertArrayHasKey('age', $decodedResultDbValue);
         $this->assertArrayHasKey('causeOfDeathId', $decodedResultDbValue);
         $this->assertArrayHasKey('deathCertificate', $decodedResultDbValue);
         $this->assertArrayHasKey('cremationCertificate', $decodedResultDbValue);
-        $this->assertSame($phpValue->naturalPersonId()->value(), $decodedResultDbValue['naturalPersonId']);
         $this->assertSame($phpValue->diedAt()->format('Y-m-d'), $decodedResultDbValue['diedAt']);
         $this->assertSame($phpValue->age()?->value(), $decodedResultDbValue['age']);
         $this->assertSame($phpValue->causeOfDeathId()?->value(), $decodedResultDbValue['causeOfDeathId']);
@@ -81,7 +78,6 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
         yield [
             <<<JSON_A
 {
-  "naturalPersonId": "NP001",
   "diedAt": "2011-04-30",
   "age": 82,
   "causeOfDeathId": "CD001",
@@ -98,7 +94,6 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
 JSON_A
             ,
             new DeceasedDetails(
-                new NaturalPersonId('NP001'),
                 new \DateTimeImmutable('2011-04-30'),
                 new Age(82),
                 new CauseOfDeathId('CD001'),
@@ -119,7 +114,6 @@ JSON_A
 JSON_B
             ,
             new DeceasedDetails(
-                new NaturalPersonId('NP002'),
                 new \DateTimeImmutable('2021-12-15'),
                 null,
                 null,

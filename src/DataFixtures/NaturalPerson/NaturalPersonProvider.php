@@ -27,7 +27,6 @@ class NaturalPersonProvider
         $age                  = new Age(69);
         $cremationCertificate = new CremationCertificate('12964', new \DateTimeImmutable('2002-10-28'));
         $deceasedDetails      = new DeceasedDetails(
-            $id,
             $diedAt,
             $age,
             null,
@@ -48,7 +47,6 @@ class NaturalPersonProvider
         $causeOfDeathId   = new CauseOfDeathId('CD008');
         $deathCertificate = new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28'));
         $deceasedDetails  = new DeceasedDetails(
-            $id,
             $diedAt,
             null,
             $causeOfDeathId,
@@ -77,7 +75,6 @@ class NaturalPersonProvider
         $causeOfDeathId   = new CauseOfDeathId('CD004');
         $deathCertificate = new DeathCertificate('I-BC', '785066', new \DateTimeImmutable('2011-03-23'));
         $deceasedDetails  = new DeceasedDetails(
-            $id,
             $diedAt,
             null,
             $causeOfDeathId,
@@ -105,7 +102,6 @@ class NaturalPersonProvider
         $diedAt          = new \DateTimeImmutable('2010-01-26');
         $causeOfDeathId  = new CauseOfDeathId('CD004');
         $deceasedDetails = new DeceasedDetails(
-            $id,
             $diedAt,
             null,
             $causeOfDeathId,
@@ -134,7 +130,6 @@ class NaturalPersonProvider
         );
         $diedAt          = new \DateTimeImmutable('2022-03-10');
         $deceasedDetails = new DeceasedDetails(
-            $id,
             $diedAt,
             null,
             null,
@@ -156,7 +151,6 @@ class NaturalPersonProvider
         $fullName        = new FullName('Гришина Устинья Ярославовна');
         $diedAt          = new \DateTimeImmutable('2021-12-03');
         $deceasedDetails = new DeceasedDetails(
-            $id,
             $diedAt,
             null,
             null,
@@ -204,7 +198,6 @@ class NaturalPersonProvider
         $fullName        = new FullName('Никонов Родион Митрофанович');
         $diedAt          = new \DateTimeImmutable('1980-05-26');
         $deceasedDetails = new DeceasedDetails(
-            $id,
             $diedAt,
             null,
             null,

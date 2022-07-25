@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -13,7 +12,6 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 class DeceasedDetails
 {
     /**
-     * @param NaturalPersonId           $naturalPersonId
      * @param \DateTimeImmutable        $diedAt
      * @param Age|null                  $age
      * @param CauseOfDeathId|null       $causeOfDeathId
@@ -21,21 +19,12 @@ class DeceasedDetails
      * @param CremationCertificate|null $cremationCertificate
      */
     public function __construct(
-        private readonly NaturalPersonId       $naturalPersonId,
         private readonly \DateTimeImmutable    $diedAt,
         private readonly ?Age                  $age,
         private readonly ?CauseOfDeathId       $causeOfDeathId,
         private readonly ?DeathCertificate     $deathCertificate,
         private readonly ?CremationCertificate $cremationCertificate,
     ) {}
-
-    /**
-     * @return NaturalPersonId
-     */
-    public function naturalPersonId(): NaturalPersonId
-    {
-        return $this->naturalPersonId;
-    }
 
     /**
      * @return \DateTimeImmutable
@@ -84,9 +73,8 @@ class DeceasedDetails
      */
     public function isEqual(self $bankDetails): bool
     {
-        $isSameNaturalPersonId = $bankDetails->naturalPersonId()->isEqual($this->naturalPersonId());
-        $isSameDiedAt          = $bankDetails->diedAt->format('Y-m-d') === $this->diedAt->format('Y-m-d');
-        $isSameAge             = $bankDetails->age() !== null && $this->age() !== null
+        $isSameDiedAt = $bankDetails->diedAt->format('Y-m-d') === $this->diedAt->format('Y-m-d');
+        $isSameAge    = $bankDetails->age() !== null && $this->age() !== null
             ? $bankDetails->age()->isEqual($this->age())
             : $bankDetails->age() === null && $this->age() === null;
         $isSameCauseOfDeathId = $bankDetails->causeOfDeathId() !== null && $this->causeOfDeathId() !== null
@@ -99,7 +87,7 @@ class DeceasedDetails
             ? $bankDetails->cremationCertificate()->isEqual($this->cremationCertificate())
             : $bankDetails->cremationCertificate() === null && $this->cremationCertificate() === null;
 
-        return $isSameNaturalPersonId && $isSameDiedAt && $isSameAge && $isSameCauseOfDeathId &&
-               $isSameDeathCertificate && $isSameCremationCertificate;
+        return $isSameDiedAt && $isSameAge && $isSameCauseOfDeathId && $isSameDeathCertificate &&
+               $isSameCremationCertificate;
     }
 }

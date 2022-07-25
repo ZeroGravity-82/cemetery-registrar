@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -13,7 +12,6 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 class DeceasedDetailsFactory
 {
     /**
-     * @param string|null $naturalPersonId
      * @param string|null $diedAt
      * @param int|null    $age
      * @param string|null $causeOfDeathId
@@ -24,9 +22,11 @@ class DeceasedDetailsFactory
      * @param string|null $cremationCertificateIssuedAt
      *
      * @return DeceasedDetails
+     *
+     * @throws \RuntimeException when the death certificate data is incomplete (if any)
+     * @throws \RuntimeException when the cremation certificate data is incomplete (if any)
      */
     public function create(
-        ?string $naturalPersonId,
         ?string $diedAt,
         ?int    $age,
         ?string $causeOfDeathId,
@@ -46,11 +46,10 @@ class DeceasedDetailsFactory
             $cremationCertificateIssuedAt,
         );
 
-        $naturalPersonId    = new NaturalPersonId((string) $naturalPersonId);
-        $diedAt             = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
-        $age                = $age            !== null ? new Age($age)                       : null;
-        $causeOfDeathId     = $causeOfDeathId !== null ? new CauseOfDeathId($causeOfDeathId) : null;
-        $deathCertificate   = $deathCertificateSeries   !== null &&
+        $diedAt           = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
+        $age              = $age            !== null ? new Age($age)                       : null;
+        $causeOfDeathId   = $causeOfDeathId !== null ? new CauseOfDeathId($causeOfDeathId) : null;
+        $deathCertificate = $deathCertificateSeries   !== null &&
                               $deathCertificateNumber   !== null &&
                               $deathCertificateIssuedAt !== null
             ? new DeathCertificate(
@@ -67,7 +66,6 @@ class DeceasedDetailsFactory
             : null;
 
         return new DeceasedDetails(
-            $naturalPersonId,
             $diedAt,
             $age,
             $causeOfDeathId,
@@ -80,6 +78,8 @@ class DeceasedDetailsFactory
      * @param string|null $deathCertificateSeries
      * @param string|null $deathCertificateNumber
      * @param string|null $deathCertificateIssuedAt
+     *
+     * @throws \RuntimeException when the death certificate data is incomplete (if any)
      */
     private function assertCompleteDeathCertificateData(
         ?string $deathCertificateSeries,
@@ -107,6 +107,8 @@ class DeceasedDetailsFactory
     /**
      * @param string|null $cremationCertificateNumber
      * @param string|null $cremationCertificateIssuedAt
+     *
+     * @throws \RuntimeException when the cremation certificate data is incomplete (if any)
      */
     private function assertCompleteCremationCertificateData(
         ?string $cremationCertificateNumber,
@@ -127,10 +129,10 @@ class DeceasedDetailsFactory
     }
 
     /**
-     * @param string $documentName Value in the genitive case
-     * @param string $fieldName    Value in the genitive case
+     * @param string $documentName document name in the genitive case
+     * @param string $fieldName    field name in the genitive case
      *
-     * @throws \RuntimeException when the document data is incomplete
+     * @throws \RuntimeException about incomplete document data
      */
     private function throwIncompleteDocumentDataException(string $documentName, string $fieldName): void
     {

@@ -9,7 +9,6 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
 
 /**
@@ -33,7 +32,6 @@ class DeceasedDetailsType extends CustomJsonType
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue =
-            !\array_key_exists('naturalPersonId',      $decodedValue) ||
             !\array_key_exists('diedAt',               $decodedValue) ||
             !\array_key_exists('age',                  $decodedValue) ||
             !\array_key_exists('causeOfDeathId',       $decodedValue) ||
@@ -65,7 +63,6 @@ class DeceasedDetailsType extends CustomJsonType
     {
         /** @var DeceasedDetails $value */
         return [
-            'naturalPersonId'  => $value->naturalPersonId()->value(),
             'diedAt'           => $value->diedAt()->format('Y-m-d'),
             'age'              => $value->age() ? (float) $value->age()->value() : null,
             'causeOfDeathId'   => $value->causeOfDeathId()?->value(),
@@ -91,7 +88,6 @@ class DeceasedDetailsType extends CustomJsonType
     protected function buildPhpValue(array $decodedValue): DeceasedDetails
     {
         return new DeceasedDetails(
-            new NaturalPersonId($decodedValue['naturalPersonId']),
             \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['diedAt']),
             !\is_null($decodedValue['age'])            ? new Age($decodedValue['age'])                       : null,
             !\is_null($decodedValue['causeOfDeathId']) ? new CauseOfDeathId($decodedValue['causeOfDeathId']) : null,
