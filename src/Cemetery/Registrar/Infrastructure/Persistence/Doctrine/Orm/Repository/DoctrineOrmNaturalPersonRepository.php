@@ -18,7 +18,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return NaturalPerson::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return NaturalPersonId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return NaturalPersonCollection::class;
     }
@@ -75,7 +75,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
             $queryBuilder
                 ->andWhere("np.bornAt = :bornAt OR JSON_EXTRACT(np.deceasedDetails, '$.diedAt') = :diedAt")
                 ->setParameter('bornAt', $naturalPerson->bornAt())
-                ->setParameter('diedAt', $naturalPerson->deceasedDetails()->diedAt());
+                ->setParameter('diedAt', $naturalPerson->deceasedDetails()->diedAt()->format('Y-m-d'));
         }
         if ($naturalPerson->bornAt() !== null && $naturalPerson->deceasedDetails()?->diedAt() === null) {
             $queryBuilder
@@ -85,7 +85,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
         if ($naturalPerson->bornAt() === null && $naturalPerson->deceasedDetails()?->diedAt() !== null) {
             $queryBuilder
                 ->andWhere("JSON_EXTRACT(np.deceasedDetails, '$.diedAt') = :diedAt")
-                ->setParameter('diedAt', $naturalPerson->deceasedDetails()?->diedAt());
+                ->setParameter('diedAt', $naturalPerson->deceasedDetails()?->diedAt()->format('Y-m-d'));
         }
 
         return (bool) $queryBuilder

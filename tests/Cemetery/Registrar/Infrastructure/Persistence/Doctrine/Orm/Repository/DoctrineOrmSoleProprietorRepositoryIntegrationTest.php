@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Organization\Name;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCollection;
@@ -33,19 +34,53 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityC = SoleProprietorProvider::getSoleProprietorC();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
+
+    public function testItSavesSoleProprietorWithSameNameAndInnAsRemovedSoleProprietor(): void
     {
-        $this->assertSame(SoleProprietor::class, $this->repo->supportedAggregateRootClassName());
+        // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var SoleProprietor $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = (new SoleProprietor(new SoleProprietorId('SP00X'), $entityToRemove->name()))
+            ->setInn($entityToRemove->inn());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    public function testItFailsToSaveSoleProprietorWithSameName(): void
     {
-        $this->assertSame(SoleProprietorId::class, $this->repo->supportedAggregateRootIdClassName());
+        // Prepare the repo for testing
+        /** @var SoleProprietor $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = new SoleProprietor(new SoleProprietorId('SP00X'), $existingEntity->name());
+        $this->expectExceptionForNonUniqueSoleProprietor();
+        $this->repo->save($newEntity);
     }
 
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    public function testItFailsToSaveSoleProprietorWithSameInn(): void
     {
-        $this->assertSame(SoleProprietorCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+        // Prepare the repo for testing
+        /** @var SoleProprietor $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = (new SoleProprietor(new SoleProprietorId('SP00X'), new Name('ИП Михеев Константин Иванович')))
+            ->setInn($existingEntity->inn());
+        $this->expectExceptionForNonUniqueSoleProprietor();
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
@@ -76,5 +111,14 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
 
         /** @var SoleProprietor $entityA */
         $entityA->setInn($newInn);
+    }
+
+    /**
+     * @return void
+     */
+    private function expectExceptionForNonUniqueSoleProprietor(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('ИП с таким наименованием или ИНН уже существует.');
     }
 }

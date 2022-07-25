@@ -18,7 +18,7 @@ class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return CemeteryBlock::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return CemeteryBlockId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implement
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return CemeteryBlockCollection::class;
     }
@@ -46,7 +46,7 @@ class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implement
     {
         /** @var CemeteryBlock $aggregateRoot */
         if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Квартал с таким именем уже существует.');
+            throw new \RuntimeException('Квартал с таким наименованием уже существует.');
         }
     }
 

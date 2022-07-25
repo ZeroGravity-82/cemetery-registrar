@@ -18,7 +18,7 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return SoleProprietor::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return SoleProprietorId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return SoleProprietorCollection::class;
     }
@@ -66,7 +66,7 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
             ->andWhere('sp.removedAt IS NULL')
             ->setParameter('id', $juristicPerson->id()->value())
             ->setParameter('name', $juristicPerson->name()->value())
-            ->setParameter('inn', $juristicPerson->inn()->value())
+            ->setParameter('inn', $juristicPerson->inn()?->value())
             ->getQuery()
             ->getSingleScalarResult();
     }

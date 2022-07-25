@@ -18,7 +18,7 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return JuristicPerson::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return JuristicPersonId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return JuristicPersonCollection::class;
     }
@@ -66,7 +66,7 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
             ->andWhere('jp.removedAt IS NULL')
             ->setParameter('id', $juristicPerson->id()->value())
             ->setParameter('name', $juristicPerson->name()->value())
-            ->setParameter('inn', $juristicPerson->inn()->value())
+            ->setParameter('inn', $juristicPerson->inn()?->value())
             ->getQuery()
             ->getSingleScalarResult();
     }

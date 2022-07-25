@@ -33,55 +33,91 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->entityC = NaturalPersonProvider::getNaturalPersonC();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
+
+    public function testItSavesNaturalPersonWithSameFullNameButWithoutBornAtAndDiedAt(): void
     {
-        $this->assertSame(NaturalPerson::class, $this->repo->supportedAggregateRootClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
-    {
-        $this->assertSame(NaturalPersonId::class, $this->repo->supportedAggregateRootIdClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
-    {
-        $this->assertSame(NaturalPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItSaveNaturalWithSameFullNameButWithoutBornAtAndDiedAt(): void
-    {
-
-    }
-
-    public function testItSaveNaturalWithSameFullNameButAnotherBornAtAndDiedAt(): void
-    {
-
-    }
-
-    public function testIfFailsToSaveNaturalPersonWithSameFullNameAndBornAt(): void
-    {
+        // Prepare the repo for testing
         /** @var NaturalPerson $existingEntity */
         $existingEntity = $this->entityB;
         $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
+        // Testing itself
+        $newEntity = new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
+    }
+
+    public function testItSavesNaturalPersonWithSameFullNameButAnotherBornAtAndDiedAt(): void
+    {
+        // Prepare the repo for testing
+        /** @var NaturalPerson $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))
+            ->setBornAt($existingEntity->bornAt()->modify('+1 day'))
+            ->setDeceasedDetails(
+                new DeceasedDetails($existingEntity->deceasedDetails()->diedAt()->modify('+1 day'), null, null, null, null)
+            );
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
+    }
+
+    public function testItSavesNaturalPersonWithSameFullNameAndBornAtAndDiedAtAsRemovedNaturalPerson(): void
+    {
+        // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var NaturalPerson $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $entityToRemove->fullName()))
+            ->setBornAt($entityToRemove->bornAt())
+            ->setDeceasedDetails(
+                new DeceasedDetails($entityToRemove->deceasedDetails()->diedAt(), null, null, null, null)
+            );
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
+    }
+
+    public function testItFailsToSaveNaturalPersonWithSameFullNameAndBornAt(): void
+    {
+        // Prepare the repo for testing
+        /** @var NaturalPerson $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
+        $this->entityManager->clear();
+
+        // Testing itself
         $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))
             ->setBornAt($existingEntity->bornAt());
-
         $this->expectExceptionForNonUniqueNaturalPerson();
         $this->repo->save($newEntity);
     }
 
-    public function testIfFailsToSaveNaturalPersonWithSameFullNameAndDiedAt(): void
+    public function testItFailsToSaveNaturalPersonWithSameFullNameAndDiedAt(): void
     {
+        // Prepare the repo for testing
         /** @var NaturalPerson $existingEntity */
         $existingEntity = $this->entityB;
         $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
+        // Testing itself
         $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))
-            ->setDeceasedDetails(new DeceasedDetails());
-
+            ->setDeceasedDetails(
+                new DeceasedDetails($existingEntity->deceasedDetails()->diedAt(), null, null, null, null)
+        );
         $this->expectExceptionForNonUniqueNaturalPerson();
         $this->repo->save($newEntity);
     }

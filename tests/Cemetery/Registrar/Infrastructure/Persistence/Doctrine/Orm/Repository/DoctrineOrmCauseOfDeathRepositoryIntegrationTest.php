@@ -33,67 +33,38 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->entityC = CauseOfDeathProvider::getCauseOfDeathC();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
-    {
-        $this->assertSame(CauseOfDeath::class, $this->repo->supportedAggregateRootClassName());
-    }
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
-    {
-        $this->assertSame(CauseOfDeathId::class, $this->repo->supportedAggregateRootIdClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
-    {
-        $this->assertSame(CauseOfDeathCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItChecksThatSameNameAlreadyUsed(): void
+    public function testItSavesCauseOfDeathWithSameNameAsRemovedCauseOfDeath(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new CauseOfDeathCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-        ]));
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var CauseOfDeath $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
         $this->entityManager->clear();
 
         // Testing itself
-        $mockEntityWithSameName = $this->createMock(CauseOfDeath::class);
-        $mockEntityWithSameName->method('name')->willReturn($this->entityA->name());
-        $this->assertTrue($this->repo->doesSameNameAlreadyUsed($mockEntityWithSameName));
+        $newEntity = new CauseOfDeath(new CauseOfDeathId('CD00X'), $entityToRemove->name());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItDoesNotConsiderNameUsedByProvidedCauseOfDeathItself(): void
+    public function testItFailsToSaveCauseOfDeathWithSameName(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new CauseOfDeathCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-        ]));
+        /** @var CauseOfDeath $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
         // Testing itself
-        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($this->entityA));
-    }
-
-    public function testItDoesNotConsiderNameUsedByRemovedCauseOfDeath(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new CauseOfDeathCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-        ]));
-        $this->entityManager->clear();
-
-        // Testing itself
-        $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $this->repo->remove($persistedEntityB);
-        $this->entityManager->clear();
-
-        $this->assertFalse($this->repo->doesSameNameAlreadyUsed($persistedEntityB));
+        $newEntity = new CauseOfDeath(new CauseOfDeathId('CD00X'), $existingEntity->name());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Причина смерти с таким наименованием уже существует.');
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

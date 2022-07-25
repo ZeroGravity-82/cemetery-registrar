@@ -4,9 +4,9 @@
         <id name="id" column="id" type="columbarium_id">
         </id>
 
-        <unique-constraints>
-            <unique-constraint columns="name" name="columbarium_name_uq" />
-        </unique-constraints>
+<!--        <unique-constraints>-->
+<!--            <unique-constraint columns="name" name="columbarium_name_uq" />-->
+<!--        </unique-constraints>-->
 
         <field name="name"        column="name"         type="columbarium_name"                   />
         <field name="geoPosition" column="geo_position" type="geo_position"       nullable="true" />

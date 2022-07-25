@@ -18,7 +18,7 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return FuneralCompany::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return FuneralCompanyId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return FuneralCompanyCollection::class;
     }

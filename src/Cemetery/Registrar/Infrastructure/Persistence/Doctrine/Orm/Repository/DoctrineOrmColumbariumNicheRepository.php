@@ -18,7 +18,7 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return ColumbariumNiche::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return ColumbariumNicheId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return ColumbariumNicheCollection::class;
     }
@@ -46,7 +46,7 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
     {
         /** @var ColumbariumNiche $aggregateRoot */
         if ($this->doesSameNicheNumberAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Колумбарная ниша с таким номером уже существует в этом колумбарии.');
+            throw new \RuntimeException('Колумбарная ниша с таким номером в этом колумбарии уже существует.');
         }
     }
 

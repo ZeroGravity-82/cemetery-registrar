@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\Name;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmJuristicPersonRepository;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
 
@@ -33,19 +34,53 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityC = JuristicPersonProvider::getJuristicPersonC();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
+
+    public function testItSavesJuristicPersonWithSameNameAndInnAsRemovedJuristicPerson(): void
     {
-        $this->assertSame(JuristicPerson::class, $this->repo->supportedAggregateRootClassName());
+        // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var JuristicPerson $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = (new JuristicPerson(new JuristicPersonId('JP00X'), $entityToRemove->name()))
+            ->setInn($entityToRemove->inn());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
+    public function testItFailsToSaveJuristicPersonWithSameName(): void
     {
-        $this->assertSame(JuristicPersonId::class, $this->repo->supportedAggregateRootIdClassName());
+        // Prepare the repo for testing
+        /** @var JuristicPerson $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = new JuristicPerson(new JuristicPersonId('JP00X'), $existingEntity->name());
+        $this->expectExceptionForNonUniqueJuristicPerson();
+        $this->repo->save($newEntity);
     }
 
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
+    public function testItFailsToSaveJuristicPersonWithSameInn(): void
     {
-        $this->assertSame(JuristicPersonCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
+        // Prepare the repo for testing
+        /** @var JuristicPerson $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
+        $this->entityManager->clear();
+
+        // Testing itself
+        $newEntity = (new JuristicPerson(new JuristicPersonId('JP00X'), new Name('ООО "Авангард"')))
+            ->setInn($existingEntity->inn());
+        $this->expectExceptionForNonUniqueJuristicPerson();
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
@@ -78,5 +113,14 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
 
         /** @var JuristicPerson $entityA */
         $entityA->setInn($newInn);
+    }
+
+    /**
+     * @return void
+     */
+    private function expectExceptionForNonUniqueJuristicPerson(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Юрлицо с таким наименованием или ИНН уже существует.');
     }
 }

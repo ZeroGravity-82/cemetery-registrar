@@ -9,9 +9,6 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyNote;
 use Cemetery\Registrar\Domain\Model\Entity;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmFuneralCompanyRepository;
 use DataFixtures\FuneralCompany\FuneralCompanyProvider;
 
@@ -26,8 +23,6 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
     protected string $entityIdClassName         = FuneralCompanyId::class;
     protected string $entityCollectionClassName = FuneralCompanyCollection::class;
 
-    private FuneralCompany $entityD;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -36,63 +31,40 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityA = FuneralCompanyProvider::getFuneralCompanyA();
         $this->entityB = FuneralCompanyProvider::getFuneralCompanyB();
         $this->entityC = FuneralCompanyProvider::getFuneralCompanyC();
-        $this->entityD = FuneralCompanyProvider::getFuneralCompanyD();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
-    {
-        $this->assertSame(FuneralCompany::class, $this->repo->supportedAggregateRootClassName());
-    }
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
-    {
-        $this->assertSame(FuneralCompanyId::class, $this->repo->supportedAggregateRootIdClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
-    {
-        $this->assertSame(FuneralCompanyCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItFindsFuneralCompanyByOrganizationId(): void
+    public function testItSavesFuneralCompanyWithSameOrganizationIdAsRemovedFuneralCompany(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new FuneralCompanyCollection(
-            [$this->entityA, $this->entityB, $this->entityC, $this->entityD]
-        ));
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
         $this->entityManager->clear();
-        $this->assertSame(4, $this->getRowCount(FuneralCompany::class));
+        /** @var FuneralCompany $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
+        $this->entityManager->clear();
 
         // Testing itself
-        $knownOrganizationId = new OrganizationId(new JuristicPersonId('JP001'));
-        $funeralCompany      = $this->repo->findByOrganizationId($knownOrganizationId);
-        $this->assertInstanceOf(FuneralCompany::class, $funeralCompany);
-        $this->areEqualEntities($funeralCompany, $this->entityA);
-
-        $knownOrganizationId = new OrganizationId(new SoleProprietorId('SP001'));
-        $funeralCompany      = $this->repo->findByOrganizationId($knownOrganizationId);
-        $this->assertInstanceOf(FuneralCompany::class, $funeralCompany);
-        $this->areEqualEntities($funeralCompany, $this->entityB);
-
-        $unknownOrganizationId = new OrganizationId(new SoleProprietorId('unknown_id'));
-        $this->assertNull($this->repo->findByOrganizationId($unknownOrganizationId));
+        $newEntity = new FuneralCompany(new FuneralCompanyId('FC00X'), $entityToRemove->organizationId());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItDoesNotFindRemovedFuneralCompanyByOrganizationId(): void
+    public function testItFailsToSaveFuneralCompanyWithSameOrganizationId(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new FuneralCompanyCollection(
-            [$this->entityA, $this->entityB, $this->entityC, $this->entityD]
-        ));
-        $this->entityManager->clear();
-        $this->assertSame(4, $this->getRowCount(FuneralCompany::class));
-
-        $persistedEntityD = $this->repo->findById($this->entityD->id());
-        $organizationIdD  = $persistedEntityD->organizationId();
-        $this->repo->remove($persistedEntityD);
+        /** @var FuneralCompany $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
-        $this->assertNull($this->repo->findByOrganizationId($organizationIdD));
+        // Testing itself
+        $newEntity = new FuneralCompany(new FuneralCompanyId('FC00X'), $existingEntity->organizationId());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Похоронная фирма, связанная с этой организацией, уже существует.');
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

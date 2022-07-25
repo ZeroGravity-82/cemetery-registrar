@@ -18,7 +18,7 @@ class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements Buria
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return Burial::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements Buria
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return BurialId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements Buria
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return BurialCollection::class;
     }

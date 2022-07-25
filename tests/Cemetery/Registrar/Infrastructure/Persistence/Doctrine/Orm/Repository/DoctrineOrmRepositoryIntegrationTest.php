@@ -35,12 +35,6 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->truncateEntities();
     }
 
-    abstract public function testItReturnsSupportedAggregateRootClassName(): void;
-
-    abstract public function testItReturnsSupportedAggregateRootIdClassName(): void;
-
-    abstract public function testItReturnsSupportedAggregateRootCollectionClassName(): void;
-
     public function testItSavesNewEntity(): void
     {
         $this->repo->save($this->entityA);
@@ -118,7 +112,8 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
         $this->updateEntityA($persistedEntityA);
         $updatedEntityA = $persistedEntityA;
         sleep(1);                                   // for correct updatedAt timestamp
-        $this->repo->saveAll(new $this->entityCollectionClassName([$persistedEntityA, $this->entityC]));
+        $persistedEntityB = $this->repo->findById($this->entityB->id());
+        $this->repo->saveAll(new $this->entityCollectionClassName([$persistedEntityA, $persistedEntityB, $this->entityC]));
         $this->entityManager->clear();
 
         $persistedEntityA = $this->repo->findById($this->entityA->id());

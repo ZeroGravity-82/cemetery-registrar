@@ -18,7 +18,7 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return Columbarium::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return ColumbariumId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return ColumbariumCollection::class;
     }

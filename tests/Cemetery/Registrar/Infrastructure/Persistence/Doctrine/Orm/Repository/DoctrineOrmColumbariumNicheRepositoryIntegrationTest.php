@@ -24,12 +24,6 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
     protected string $entityIdClassName         = ColumbariumNicheId::class;
     protected string $entityCollectionClassName = ColumbariumNicheCollection::class;
 
-    private ColumbariumNiche $entityD;
-    private ColumbariumNiche $entityE;
-    private ColumbariumNiche $entityF;
-    private ColumbariumNiche $entityG;
-    private ColumbariumNiche $entityH;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -38,159 +32,70 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
         $this->entityA = ColumbariumNicheProvider::getColumbariumNicheA();
         $this->entityB = ColumbariumNicheProvider::getColumbariumNicheB();
         $this->entityC = ColumbariumNicheProvider::getColumbariumNicheC();
-        $this->entityD = ColumbariumNicheProvider::getColumbariumNicheD();
-        $this->entityE = ColumbariumNicheProvider::getColumbariumNicheE();
-        $this->entityF = ColumbariumNicheProvider::getColumbariumNicheF();
-        $this->entityG = ColumbariumNicheProvider::getColumbariumNicheG();
-        $this->entityH = ColumbariumNicheProvider::getColumbariumNicheH();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
-    {
-        $this->assertSame(ColumbariumNiche::class, $this->repo->supportedAggregateRootClassName());
-    }
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
-    {
-        $this->assertSame(ColumbariumNicheId::class, $this->repo->supportedAggregateRootIdClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
-    {
-        $this->assertSame(ColumbariumNicheCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItCountsColumbariumNichesByColumbariumId(): void
+    public function testItSavesColumbariumNicheWithSameNumberButAnotherColumbarium(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumNicheCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-        ]));
+        /** @var ColumbariumNiche $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
         // Testing itself
-        $knownColumbariumId    = new ColumbariumId('C004');
-        $columbariumNicheCount = $this->repo->countByColumbariumId($knownColumbariumId);
-        $this->assertSame(5, $columbariumNicheCount);
-
-        $unknownColumbariumId  = new ColumbariumId('unknown_id');
-        $columbariumNicheCount = $this->repo->countByColumbariumId($unknownColumbariumId);
-        $this->assertSame(0, $columbariumNicheCount);
+        $newEntity = new ColumbariumNiche(
+            new ColumbariumNicheId('CN00X'),
+            new ColumbariumId('C00X'),
+            new RowInColumbarium(2),
+            $existingEntity->nicheNumber(),
+        );
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItDoesNotCountRemovedColumbariumNichesByColumbariumId(): void
+    public function testItSavesColumbariumNicheWithSameNumberAndColumbariumAsRemovedColumbariumNiche(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumNicheCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-        ]));
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var ColumbariumNiche $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
         $this->entityManager->clear();
 
         // Testing itself
-        $persistedEntityF = $this->repo->findById($this->entityF->id());
-        $columbariumIdF   = $persistedEntityF->columbariumId();
-        $this->repo->remove($persistedEntityF);
-        $this->entityManager->clear();
-
-        $columbariumNicheCount = $this->repo->countByColumbariumId($columbariumIdF);
-        $this->assertSame(4, $columbariumNicheCount);
+        $newEntity = (new ColumbariumNiche(
+            new ColumbariumNicheId('NP00X'),
+            $entityToRemove->columbariumId(),
+            new RowInColumbarium(2),
+            $entityToRemove->nicheNumber())
+        );
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItChecksThatSameNicheNumberAlreadyUsed(): void
+    public function testItFailsToSaveColumbariumNicheWithSameNumberAndColumbarium(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumNicheCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-        ]));
+        /** @var ColumbariumNiche $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
         // Testing itself
-        $mockEntityWithSameNicheNumber = $this->createMock(ColumbariumNiche::class);
-        $mockEntityWithSameNicheNumber->method('columbariumId')->willReturn($this->entityA->columbariumId());
-        $mockEntityWithSameNicheNumber->method('nicheNumber')->willReturn($this->entityA->nicheNumber());
-        $this->assertTrue($this->repo->doesSameNicheNumberAlreadyUsed($mockEntityWithSameNicheNumber));
-    }
-
-    public function testItDoesNotConsiderNicheNumberUsedByProvidedColumbariumNicheItself(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumNicheCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-        ]));
-        $this->entityManager->clear();
-
-        // Testing itself
-        $this->assertFalse($this->repo->doesSameNicheNumberAlreadyUsed($this->entityA));
-    }
-
-    public function testItDoesNotConsiderNicheNumberUsedFromAnotherColumbarium(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumNicheCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-        ]));
-        $this->entityManager->clear();
-
-        // Testing itself
-        $this->assertFalse($this->repo->doesSameNicheNumberAlreadyUsed($this->entityH));
-    }
-
-    public function testItDoesNotConsiderNicheNumberUsedByRemovedColumbariumNiche(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new ColumbariumNicheCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-        ]));
-        $this->entityManager->clear();
-
-        // Testing itself
-        $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $this->repo->remove($persistedEntityB);
-        $this->entityManager->clear();
-
-        $this->assertFalse($this->repo->doesSameNicheNumberAlreadyUsed($persistedEntityB));
+        $newEntity = (new ColumbariumNiche(
+            new ColumbariumNicheId('NP00X'),
+            $existingEntity->columbariumId(),
+            new RowInColumbarium(20),
+            $existingEntity->nicheNumber())
+        );
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Колумбарная ниша с таким номером в этом колумбарии уже существует.');
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

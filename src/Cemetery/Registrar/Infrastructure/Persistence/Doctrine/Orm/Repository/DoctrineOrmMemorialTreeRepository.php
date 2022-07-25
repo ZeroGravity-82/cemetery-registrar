@@ -18,7 +18,7 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return MemorialTree::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return MemorialTreeId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return MemorialTreeCollection::class;
     }
@@ -46,7 +46,7 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     {
         /** @var MemorialTree $aggregateRoot */
         if ($this->doesSameTreeNumberAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Памятное дерево с такм номером уже существует.');
+            throw new \RuntimeException('Памятное дерево с таким номером уже существует.');
         }
     }
 

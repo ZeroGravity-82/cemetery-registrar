@@ -18,7 +18,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootClassName(): string
+    protected function supportedAggregateRootClassName(): string
     {
         return GraveSite::class;
     }
@@ -26,7 +26,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootIdClassName(): string
+    protected function supportedAggregateRootIdClassName(): string
     {
         return GraveSiteId::class;
     }
@@ -34,7 +34,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
     /**
      * {@inheritdoc}
      */
-    public function supportedAggregateRootCollectionClassName(): string
+    protected function supportedAggregateRootCollectionClassName(): string
     {
         return GraveSiteCollection::class;
     }
@@ -46,7 +46,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
     {
         /** @var GraveSite $aggregateRoot */
         if ($this->doesSameNicheRowAndPositionAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Участок с рядом и местом уже существует в этом квартале.');
+            throw new \RuntimeException('Участок с такими рядом и местом в этом квартале уже существует.');
         }
     }
 
@@ -66,12 +66,14 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
             ->createQueryBuilder('gs')
             ->select('COUNT(gs.id)')
             ->andWhere('gs.id <> :id')
+            ->andWhere('gs.cemeteryBlockId = :cemeteryBlockId')
             ->andWhere('gs.rowInBlock = :rowInBlock')
             ->andWhere('gs.positionInRow = :positionInRow')
             ->andWhere('gs.removedAt IS NULL')
             ->setParameter('id', $graveSite->id()->value())
+            ->setParameter('cemeteryBlockId', $graveSite->cemeteryBlockId()->value())
             ->setParameter('rowInBlock', $graveSite->rowInBlock()->value())
-            ->setParameter('positionInRow', $graveSite->positionInRow()->value())
+            ->setParameter('positionInRow', $graveSite->positionInRow()?->value())
             ->getQuery()
             ->getSingleScalarResult();
     }

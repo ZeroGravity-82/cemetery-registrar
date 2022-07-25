@@ -4,9 +4,9 @@
         <id name="id" column="id" type="memorial_tree_id">
         </id>
 
-        <unique-constraints>
-            <unique-constraint columns="tree_number" name="memorial_tree_tree_number_uq" />
-        </unique-constraints>
+<!--        <unique-constraints>-->
+<!--            <unique-constraint columns="tree_number" name="memorial_tree_tree_number_uq" />-->
+<!--        </unique-constraints>-->
 
         <field name="treeNumber"  column="tree_number"   type="memorial_tree_number"                />
         <field name="geoPosition" column="geo_position"  type="geo_position"        nullable="true" />

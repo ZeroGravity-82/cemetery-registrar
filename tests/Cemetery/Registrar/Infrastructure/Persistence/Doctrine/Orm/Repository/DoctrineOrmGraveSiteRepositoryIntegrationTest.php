@@ -24,13 +24,6 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
     protected string $entityIdClassName         = GraveSiteId::class;
     protected string $entityCollectionClassName = GraveSiteCollection::class;
 
-    private GraveSite $entityD;
-    private GraveSite $entityE;
-    private GraveSite $entityF;
-    private GraveSite $entityG;
-    private GraveSite $entityH;
-    private GraveSite $entityI;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -39,79 +32,70 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
         $this->entityA = GraveSiteProvider::getGraveSiteA();
         $this->entityB = GraveSiteProvider::getGraveSiteB();
         $this->entityC = GraveSiteProvider::getGraveSiteC();
-        $this->entityD = GraveSiteProvider::getGraveSiteD();
-        $this->entityE = GraveSiteProvider::getGraveSiteE();
-        $this->entityF = GraveSiteProvider::getGraveSiteF();
-        $this->entityG = GraveSiteProvider::getGraveSiteG();
-        $this->entityH = GraveSiteProvider::getGraveSiteH();
-        $this->entityI = GraveSiteProvider::getGraveSiteI();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
-    {
-        $this->assertSame(GraveSite::class, $this->repo->supportedAggregateRootClassName());
-    }
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
-    {
-        $this->assertSame(GraveSiteId::class, $this->repo->supportedAggregateRootIdClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
-    {
-        $this->assertSame(GraveSiteCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItCountsGraveSitesByCemeteryBlockId(): void
+    public function testItSavesGraveSiteWithSameRowAndPositionButAnotherCemeteryBlock(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new GraveSiteCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-            $this->entityI,
-        ]));
+        /** @var GraveSite $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
         // Testing itself
-        $knownCemeteryBlockId = new CemeteryBlockId('CB004');
-        $graveSiteCount       = $this->repo->countByCemeteryBlockId($knownCemeteryBlockId);
-        $this->assertSame(3, $graveSiteCount);
-
-        $unknownCemeteryBlockId = new CemeteryBlockId('unknown_id');
-        $graveSiteCount         = $this->repo->countByCemeteryBlockId($unknownCemeteryBlockId);
-        $this->assertSame(0, $graveSiteCount);
+        $newEntity = (new GraveSite(
+            new GraveSiteId('GS00X'),
+            new CemeteryBlockId('CB00X'),
+            $existingEntity->rowInBlock(),
+        ))
+            ->setPositionInRow($existingEntity->positionInRow());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItDoesNotCountRemovedGraveSitesByCemeteryBlockId(): void
+    public function testItSavesGraveSiteWithSameRowAndPositionAndCemeteryBlockAsRemovedGraveSite(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new GraveSiteCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-            $this->entityE,
-            $this->entityF,
-            $this->entityG,
-            $this->entityH,
-            $this->entityI,
-        ]));
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var GraveSite $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
         $this->entityManager->clear();
 
         // Testing itself
-        $persistedEntityF = $this->repo->findById($this->entityF->id());
-        $cemeteryBlockIdF = $persistedEntityF->cemeteryBlockId();
-        $this->repo->remove($persistedEntityF);
+        $newEntity = (new GraveSite(
+            new GraveSiteId('GS00X'),
+            $entityToRemove->cemeteryBlockId(),
+            $entityToRemove->rowInBlock(),
+        ))
+            ->setPositionInRow($entityToRemove->positionInRow());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
+    }
+
+    public function testItFailsToSaveGraveSiteWithSameRowAndPositionAndCemeteryBlock(): void
+    {
+        // Prepare the repo for testing
+        /** @var GraveSite $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
-        $graveSiteCount = $this->repo->countByCemeteryBlockId($cemeteryBlockIdF);
-        $this->assertSame(2, $graveSiteCount);
+        // Testing itself
+        $newEntity = (new GraveSite(
+            new GraveSiteId('GS00X'),
+            $existingEntity->cemeteryBlockId(),
+            $existingEntity->rowInBlock(),
+        ))
+            ->setPositionInRow($existingEntity->positionInRow());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Участок с такими рядом и местом в этом квартале уже существует.');
+        $this->repo->save($newEntity);
     }
 
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool

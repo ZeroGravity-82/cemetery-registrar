@@ -46,10 +46,7 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     {
         /** @var CauseOfDeath $aggregateRoot */
         if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException(\sprintf(
-                'Причина смерти "%s" уже существует.',
-                $aggregateRoot->name()->value(),
-            ));
+            throw new \RuntimeException('Причина смерти с таким наименованием уже существует.');
         }
     }
 

@@ -23,8 +23,6 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
     protected string $entityIdClassName         = MemorialTreeId::class;
     protected string $entityCollectionClassName = MemorialTreeCollection::class;
 
-    private MemorialTree $entityD;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -33,75 +31,42 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->entityA = MemorialTreeProvider::getMemorialTreeA();
         $this->entityB = MemorialTreeProvider::getMemorialTreeB();
         $this->entityC = MemorialTreeProvider::getMemorialTreeC();
-        $this->entityD = MemorialTreeProvider::getMemorialTreeD();
     }
 
-    public function testItReturnsSupportedAggregateRootClassName(): void
-    {
-        $this->assertSame(MemorialTree::class, $this->repo->supportedAggregateRootClassName());
-    }
+    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
 
-    public function testItReturnsSupportedAggregateRootIdClassName(): void
-    {
-        $this->assertSame(MemorialTreeId::class, $this->repo->supportedAggregateRootIdClassName());
-    }
-
-    public function testItReturnsSupportedAggregateRootCollectionClassName(): void
-    {
-        $this->assertSame(MemorialTreeCollection::class, $this->repo->supportedAggregateRootCollectionClassName());
-    }
-
-    public function testItChecksThatSameTreeNumberAlreadyUsed(): void
+    public function testItSavesMemorialTreeWithSameNumberAsRemovedMemorialTree(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new MemorialTreeCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-        ]));
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
+        /** @var MemorialTree $entityToRemove */
+        $entityToRemove = $this->repo->findById($this->entityB->id());
+        $this->repo->remove($entityToRemove);
         $this->entityManager->clear();
 
         // Testing itself
-        $mockEntityWithSameTreeNumber = $this->createMock(MemorialTree::class);
-        $mockEntityWithSameTreeNumber->method('treeNumber')->willReturn($this->entityA->treeNumber());
-        $this->assertTrue($this->repo->doesSameTreeNumberAlreadyUsed($mockEntityWithSameTreeNumber));
+        $newEntity = new MemorialTree(new MemorialTreeId('MT00X'), $entityToRemove->treeNumber());
+        $this->assertNull(
+            $this->repo->save($newEntity)
+        );
     }
 
-    public function testItDoesNotConsiderTreeNumberUsedByProvidedMemorialTreeItself(): void
+    public function testItFailsToSaveMemorialTreeWithSameNumber(): void
     {
         // Prepare the repo for testing
-        $this->repo->saveAll(new MemorialTreeCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-        ]));
+        /** @var MemorialTree $existingEntity */
+        $existingEntity = $this->entityB;
+        $this->repo->save($existingEntity);
         $this->entityManager->clear();
 
         // Testing itself
-        $this->assertFalse($this->repo->doesSameTreeNumberAlreadyUsed($this->entityA));
+        $newEntity = new MemorialTree(new MemorialTreeId('MT00X'), $existingEntity->treeNumber());
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Памятное дерево с таким номером уже существует.');
+        $this->repo->save($newEntity);
     }
-
-    public function testItDoesNotConsiderTreeNumberUsedByRemovedMemorialTree(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new MemorialTreeCollection([
-            $this->entityA,
-            $this->entityB,
-            $this->entityC,
-            $this->entityD,
-        ]));
-        $this->entityManager->clear();
-
-        // Testing itself
-        $persistedEntityB = $this->repo->findById($this->entityB->id());
-        $this->repo->remove($persistedEntityB);
-        $this->entityManager->clear();
-
-        $this->assertFalse($this->repo->doesSameTreeNumberAlreadyUsed($persistedEntityB));
-    }
-
+    
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var MemorialTree $entityOne */
