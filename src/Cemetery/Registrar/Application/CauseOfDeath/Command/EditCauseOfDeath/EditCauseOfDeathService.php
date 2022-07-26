@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath;
 
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 
@@ -30,11 +31,22 @@ class EditCauseOfDeathService extends CauseOfDeathService
      */
     public function execute($request): EditCauseOfDeathResponse
     {
-        $this->assertSupportedRequestClass($request);
+        $this->assertSupportedRequestClass($request);   // TODO move to parent::execute()
+        // TODO validate request DTO
 
-        // TODO add uniqueness check
         $causeOfDeath = $this->getCauseOfDeath($request->id);
-        $causeOfDeath->setName(new CauseOfDeathName($request->name));
+
+        try {
+            $causeOfDeath->setName(new CauseOfDeathName($request->name));
+            // ...
+        } catch (DomainException $e) {
+            return (new Notification())->addError(
+                \get_class($e),
+                $e->getMessage(),
+                $e,
+            );
+        }
+
         $this->causeOfDeathRepo->save($causeOfDeath);
         $this->eventDispatcher->dispatch(new CauseOfDeathEdited(
             $causeOfDeath->id(),

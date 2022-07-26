@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
+use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial\RegisterNewBurialRequest;
-use Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial\RegisterNewBurialService;
 use Cemetery\Registrar\Application\Burial\Query\CountBurialTotal\CountBurialTotalRequest;
-use Cemetery\Registrar\Application\Burial\Query\CountBurialTotal\CountBurialTotalService;
 use Cemetery\Registrar\Application\Burial\Query\ListBurials\ListBurialsRequest;
-use Cemetery\Registrar\Application\Burial\Query\ListBurials\ListBurialsService;
 use Cemetery\Registrar\Application\Burial\Query\ListCoffinShapes\ListCoffinShapesRequest;
-use Cemetery\Registrar\Application\Burial\Query\ListCoffinShapes\ListCoffinShapesService;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListCemeteryBlocks\ListCemeteryBlocksRequest;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListCemeteryBlocks\ListCemeteryBlocksService;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathService;
 use Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies\ListFuneralCompaniesRequest;
-use Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies\ListFuneralCompaniesService;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,37 +24,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class BurialController extends Controller
 {
     public function __construct(
-        private readonly BurialFetcher               $burialFetcher,
-        private readonly CountBurialTotalService     $countBurialTotalService,
-        private readonly ListBurialsService          $listBurialsService,
-        private readonly ListFuneralCompaniesService $listFuneralCompaniesService,
-        private readonly ListCausesOfDeathService    $listCausesOfDeathService,
-        private readonly RegisterNewBurialService    $registerNewBurialService,
-        private readonly ListCemeteryBlocksService   $listCemeteryBlocksService,
-        private readonly ListCoffinShapesService     $listCoffinShapesService,
+        private readonly ApplicationRequestBus $appRequestBus,
+        private readonly BurialFetcher         $burialFetcher,
     ) {}
 
     #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
     public function list(): Response
     {
-        $burialTotalCount = $this->countBurialTotalService
-            ->execute(new CountBurialTotalRequest())
-            ->totalCount;
-        $burialList = $this->listBurialsService
-            ->execute(new ListBurialsRequest())
-            ->list;
-        $funeralCompanyList = $this->listFuneralCompaniesService
-            ->execute(new ListFuneralCompaniesRequest())
-            ->list;
-        $causeOfDeathList = $this->listCausesOfDeathService
-            ->execute(new ListCausesOfDeathRequest())
-            ->list;
-        $cemeteryBlockList = $this->listCemeteryBlocksService
-            ->execute(new ListCemeteryBlocksRequest())
-            ->list;
-        $coffinShapeList = $this->listCoffinShapesService
-            ->execute(new ListCoffinShapesRequest())
-            ->list;
+        $burialTotalCount   = $this->appRequestBus->execute(new CountBurialTotalRequest())->totalCount;
+        $burialList         = $this->appRequestBus->execute(new ListBurialsRequest())->list;
+        $funeralCompanyList = $this->appRequestBus->execute(new ListFuneralCompaniesRequest())->list;
+        $causeOfDeathList   = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->list;
+        $cemeteryBlockList  = $this->appRequestBus->execute(new ListCemeteryBlocksRequest())->list;
+        $coffinShapeList    = $this->appRequestBus->execute(new ListCoffinShapesRequest())->list;
 
         return $this->render('burial/list.html.twig', [
             'burialTotalCount'   => $burialTotalCount,
@@ -84,8 +60,8 @@ class BurialController extends Controller
             ]);
         }
         if ($request->isMethod(Request::METHOD_POST)) {
-            $registerNewBurialRequest  = new RegisterNewBurialRequest(...$this->getRequestArgs($request));
-            $burialId             = $this->registerNewBurialService->execute($registerNewBurialRequest)->id;
+            $registerNewBurialRequest = new RegisterNewBurialRequest(...$this->getRequestArgs($request));
+            $burialId                 = $this->appRequestBus->execute($registerNewBurialRequest)->id;
 
             $response = $this->redirectToRoute('burial_list', [
                 'burialId' => $burialId,
