@@ -55,10 +55,10 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
     public function testItFailsToSaveMemorialTreeWithSameNumber(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var MemorialTree $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new MemorialTree(new MemorialTreeId('MT00X'), $existingEntity->treeNumber());

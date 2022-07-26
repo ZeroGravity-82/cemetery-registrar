@@ -39,10 +39,10 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
     public function testItSavesGraveSiteWithSameRowAndPositionButAnotherCemeteryBlock(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var GraveSite $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new GraveSite(
@@ -81,10 +81,10 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
     public function testItFailsToSaveGraveSiteWithSameRowAndPositionAndCemeteryBlock(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var GraveSite $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new GraveSite(

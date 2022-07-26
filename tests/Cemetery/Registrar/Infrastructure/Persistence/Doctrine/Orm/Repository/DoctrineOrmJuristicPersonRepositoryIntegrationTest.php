@@ -54,13 +54,13 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
         );
     }
 
-    public function testItFailsToSaveJuristicPersonWithSameName(): void
+    public function testItFailsToSaveJuristicPersonWithSameNameOnly(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var JuristicPerson $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new JuristicPerson(new JuristicPersonId('JP00X'), $existingEntity->name());
@@ -68,13 +68,13 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->repo->save($newEntity);
     }
 
-    public function testItFailsToSaveJuristicPersonWithSameInn(): void
+    public function testItFailsToSaveJuristicPersonWithSameInnButAnotherName(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var JuristicPerson $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new JuristicPerson(new JuristicPersonId('JP00X'), new Name('ООО "Авангард"')))

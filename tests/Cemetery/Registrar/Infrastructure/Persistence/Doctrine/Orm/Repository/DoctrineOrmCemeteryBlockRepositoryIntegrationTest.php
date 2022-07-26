@@ -55,10 +55,10 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
     public function testItFailsToSaveCemeteryBlockWithSameName(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var CemeteryBlock $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new CemeteryBlock(new CemeteryBlockId('CB00X'), $existingEntity->name());

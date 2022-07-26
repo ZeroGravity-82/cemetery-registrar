@@ -54,13 +54,13 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
         );
     }
 
-    public function testItFailsToSaveSoleProprietorWithSameName(): void
+    public function testItFailsToSaveSoleProprietorWithSameNameOnly(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var SoleProprietor $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new SoleProprietor(new SoleProprietorId('SP00X'), $existingEntity->name());
@@ -68,13 +68,13 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->repo->save($newEntity);
     }
 
-    public function testItFailsToSaveSoleProprietorWithSameInn(): void
+    public function testItFailsToSaveSoleProprietorWithSameInnButAnotherName(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var SoleProprietor $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new SoleProprietor(new SoleProprietorId('SP00X'), new Name('ИП Михеев Константин Иванович')))
@@ -107,7 +107,7 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newInn = new Inn('772208786091');
+        $newInn = new Inn('391600743661');
 
         /** @var SoleProprietor $entityA */
         $entityA->setInn($newInn);

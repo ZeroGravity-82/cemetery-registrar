@@ -93,10 +93,10 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
     public function testItFailsToSaveNaturalPersonWithSameFullNameAndBornAt(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var NaturalPerson $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))
@@ -108,10 +108,10 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
     public function testItFailsToSaveNaturalPersonWithSameFullNameAndDiedAt(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var NaturalPerson $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new NaturalPerson(new NaturalPersonId('NP00X'), $existingEntity->fullName()))

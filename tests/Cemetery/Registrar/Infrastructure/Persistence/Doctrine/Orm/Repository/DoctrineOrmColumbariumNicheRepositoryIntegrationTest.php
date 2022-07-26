@@ -39,10 +39,10 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
     public function testItSavesColumbariumNicheWithSameNumberButAnotherColumbarium(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var ColumbariumNiche $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new ColumbariumNiche(
@@ -81,10 +81,10 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
     public function testItFailsToSaveColumbariumNicheWithSameNumberAndColumbarium(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var ColumbariumNiche $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = (new ColumbariumNiche(

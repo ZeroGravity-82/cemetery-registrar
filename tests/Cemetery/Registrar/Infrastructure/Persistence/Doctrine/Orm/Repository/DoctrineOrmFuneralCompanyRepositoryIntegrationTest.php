@@ -55,10 +55,10 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
     public function testItFailsToSaveFuneralCompanyWithSameOrganizationId(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var FuneralCompany $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new FuneralCompany(new FuneralCompanyId('FC00X'), $existingEntity->organizationId());

@@ -55,10 +55,10 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends DoctrineOrmReposit
     public function testItFailsToSaveColumbariumWithSameName(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var Columbarium $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new Columbarium(new ColumbariumId('C00X'), $existingEntity->name());

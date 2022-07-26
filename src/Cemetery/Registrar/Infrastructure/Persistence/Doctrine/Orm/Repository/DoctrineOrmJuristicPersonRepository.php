@@ -57,16 +57,26 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
      */
     private function doesSameNameOrInnAlreadyUsed(JuristicPerson $juristicPerson): bool
     {
-        return (bool) $this->entityManager
+        $queryBuilder = $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())
             ->createQueryBuilder('jp')
             ->select('COUNT(jp.id)')
             ->andWhere('jp.id <> :id')
-            ->andWhere('jp.name = :name OR jp.inn = :inn')
             ->andWhere('jp.removedAt IS NULL')
-            ->setParameter('id', $juristicPerson->id()->value())
-            ->setParameter('name', $juristicPerson->name()->value())
-            ->setParameter('inn', $juristicPerson->inn()?->value())
+            ->setParameter('id', $juristicPerson->id()->value());
+
+        if ($juristicPerson->inn() !== null) {
+            $queryBuilder
+                ->andWhere('jp.name = :name OR jp.inn = :inn')
+                ->setParameter('name', $juristicPerson->name()->value())
+                ->setParameter('inn', $juristicPerson->inn()->value());
+        } else {
+            $queryBuilder
+                ->andWhere('jp.name = :name')
+                ->setParameter('name', $juristicPerson->name()->value());
+        }
+
+        return (bool) $queryBuilder
             ->getQuery()
             ->getSingleScalarResult();
     }

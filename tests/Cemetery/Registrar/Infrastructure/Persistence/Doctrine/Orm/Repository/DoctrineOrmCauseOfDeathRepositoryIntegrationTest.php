@@ -55,10 +55,10 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
     public function testItFailsToSaveCauseOfDeathWithSameName(): void
     {
         // Prepare the repo for testing
+        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
+        $this->entityManager->clear();
         /** @var CauseOfDeath $existingEntity */
         $existingEntity = $this->entityB;
-        $this->repo->save($existingEntity);
-        $this->entityManager->clear();
 
         // Testing itself
         $newEntity = new CauseOfDeath(new CauseOfDeathId('CD00X'), $existingEntity->name());

@@ -51,22 +51,33 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
     }
 
     /**
-     * @param SoleProprietor $juristicPerson
+     * @param SoleProprietor $soleProprietor
      *
      * @return bool
      */
-    private function doesSameNameOrInnAlreadyUsed(SoleProprietor $juristicPerson): bool
+    private function doesSameNameOrInnAlreadyUsed(SoleProprietor $soleProprietor): bool
     {
-        return (bool) $this->entityManager
+        $queryBuilder =
+            $this->entityManager
             ->getRepository($this->supportedAggregateRootClassName())
             ->createQueryBuilder('sp')
             ->select('COUNT(sp.id)')
             ->andWhere('sp.id <> :id')
-            ->andWhere('sp.name = :name OR sp.inn = :inn')
             ->andWhere('sp.removedAt IS NULL')
-            ->setParameter('id', $juristicPerson->id()->value())
-            ->setParameter('name', $juristicPerson->name()->value())
-            ->setParameter('inn', $juristicPerson->inn()?->value())
+            ->setParameter('id', $soleProprietor->id()->value());
+
+        if ($soleProprietor->inn() !== null) {
+            $queryBuilder
+                ->andWhere('sp.name = :name OR sp.inn = :inn')
+                ->setParameter('name', $soleProprietor->name()->value())
+                ->setParameter('inn', $soleProprietor->inn()->value());
+        } else {
+            $queryBuilder
+                ->andWhere('sp.name = :name')
+                ->setParameter('name', $soleProprietor->name()->value());
+        }
+
+        return (bool) $queryBuilder
             ->getQuery()
             ->getSingleScalarResult();
     }

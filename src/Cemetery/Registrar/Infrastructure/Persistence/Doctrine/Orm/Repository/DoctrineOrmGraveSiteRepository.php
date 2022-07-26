@@ -73,7 +73,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
             ->setParameter('id', $graveSite->id()->value())
             ->setParameter('cemeteryBlockId', $graveSite->cemeteryBlockId()->value())
             ->setParameter('rowInBlock', $graveSite->rowInBlock()->value())
-            ->setParameter('positionInRow', $graveSite->positionInRow()?->value())
+            ->setParameter('positionInRow', $graveSite->positionInRow()->value())
             ->getQuery()
             ->getSingleScalarResult();
     }
