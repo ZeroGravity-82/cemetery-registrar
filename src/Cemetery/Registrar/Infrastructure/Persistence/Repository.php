@@ -40,7 +40,7 @@ abstract class Repository implements RepositoryInterface
      *
      * @param AggregateRoot $aggregateRoot
      *
-     * @throws \RuntimeException when uniqueness constraints (if any) are violated
+     * @throws \Exception when uniqueness constraints (if any) are violated
      */
     abstract protected function assertUnique(AggregateRoot $aggregateRoot): void;
 
