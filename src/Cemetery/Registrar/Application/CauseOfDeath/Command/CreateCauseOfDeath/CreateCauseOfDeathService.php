@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath;
 
+use Cemetery\Registrar\Application\ApplicationResponse;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
@@ -43,9 +45,9 @@ class CreateCauseOfDeathService extends CauseOfDeathService
     /**
      * @param CreateCauseOfDeathRequest $request
      *
-     * @return CreateCauseOfDeathResponse
+     * @return ApplicationResponse
      */
-    public function execute($request): CreateCauseOfDeathResponse
+    public function execute($request): ApplicationResponse
     {
         $this->assertSupportedRequestClass($request);     // TODO move to parent class
 //        $this->requestValidator->validate($request);    // TODO move to parent class
@@ -59,6 +61,9 @@ class CreateCauseOfDeathService extends CauseOfDeathService
             $causeOfDeath->name(),
         ));
 
-        return new CreateCauseOfDeathResponse($causeOfDeath->id()->value());
+        $data     = new \stdClass();
+        $data->id = $causeOfDeath->id()->value();
+
+        return new ApplicationResponseSuccess($data);
     }
 }

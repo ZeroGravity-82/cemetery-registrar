@@ -4,8 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
+use Cemetery\Registrar\Application\ApplicationResponse;
+use Cemetery\Registrar\Application\ApplicationResponseError;
+use Cemetery\Registrar\Application\ApplicationResponseFail;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -53,6 +59,45 @@ abstract class Controller extends AbstractController
         }
 
         return new $serviceRequestClassName(...$constructorArgs);
+    }
+
+    /**
+     * @param ApplicationResponse $appResponse
+     * @param int                 $successStatus
+     *
+     * @return HttpJsonResponse
+     */
+    protected function buildJsonResponse(ApplicationResponse $appResponse, int $successStatus): HttpJsonResponse
+    {
+        $httpResponseData         = new \stdClass();
+        $httpResponseData->status = $appResponse->status;
+        switch (true) {
+            case $appResponse instanceof ApplicationResponseSuccess:
+                $httpResponseData->data = $appResponse->data;
+                $httpResponse           = $this->json($httpResponseData, $successStatus);
+                break;
+            case $appResponse instanceof ApplicationResponseFail:
+                $httpResponseData->data = $appResponse->data;
+                $httpResponse           = $this->json($httpResponseData, HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+                break;
+            case $appResponse instanceof ApplicationResponseError:
+                $httpResponseData->message = $appResponse->message;
+                if ($appResponse->code !== null) {
+                    $httpResponseData->code = $appResponse->code;
+                }
+                if ($appResponse->data !== null) {
+                    $httpResponseData->data = $appResponse->data;
+                }
+                $httpResponse = $this->json($httpResponseData, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
+                break;
+            default:
+                throw new \InvalidArgumentException(\sprintf(
+                    'Неподдерживаемый тип ответа прикладного сервиса: "%s".',
+                    \get_class($appResponse),
+                ));
+        }
+
+        return $httpResponse;
     }
 
     /**

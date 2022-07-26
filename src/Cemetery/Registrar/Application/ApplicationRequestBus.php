@@ -25,9 +25,6 @@ class ApplicationRequestBus
      * @param $request
      *
      * @return mixed|void
-     *
-     * @throws NotFoundExceptionInterface  when  No entry was found for application identifier.
-     * @throws ContainerExceptionInterface Error while retrieving the entry.
      */
     public function execute($request)
     {

@@ -6,6 +6,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal\CountCauseOfDeathTotalRequest;
@@ -51,22 +52,26 @@ class AdminCauseOfDeathController extends Controller
     public function create(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
-        $commandRequest  = $this->handleJsonRequest($httpRequest, CreateCauseOfDeathRequest::class);
+        $commandRequest = $this->handleJsonRequest($httpRequest, CreateCauseOfDeathRequest::class);
         // TODO add try-catch for malformed JSON and return 400 error
 
+        /** @var CreateCauseOfDeathResponse $commandResponse */
         $commandResponse = $this->appRequestBus->execute($commandRequest);
 //        if (!$commandResponse->note->hasErrors()) {
 //            return $this->json($commandResponse->note->errors(), HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
 //        }
 
-        $queryRequest  = new ShowCauseOfDeathRequest($commandResponse->id);
-        $queryResponse = $this->appRequestBus->execute($queryRequest);
-        $response      = $this->json($queryResponse->view, HttpResponse::HTTP_CREATED);
-        $locationUrl   = $this->generateUrl('admin_cause_of_death_show', ['id' => $commandResponse->id]);
-        $response->headers->set('Location', $locationUrl);
+//        $queryRequest  = new ShowCauseOfDeathRequest($commandResponse->id);
+//        $queryResponse = $this->appRequestBus->execute($queryRequest);
+        $httpResponse = $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
+        $locationUrl  = $this->generateUrl('admin_cause_of_death_show', ['id' => $commandResponse->data->id]);
+        $httpResponse->headers->set('Location', $locationUrl);
 
-        return $response;
+        return $httpResponse;
     }
+
+
+
 
     #[Route('/admin/cause-of-death/{id}/edit', name: 'admin_cause_of_death_edit', methods: [
         HttpRequest::METHOD_GET,
