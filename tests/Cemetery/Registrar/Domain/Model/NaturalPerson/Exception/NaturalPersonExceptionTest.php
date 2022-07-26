@@ -18,9 +18,18 @@ class NaturalPersonExceptionTest extends TestCase
 
     public function testItHasValidMessageConstants(): void
     {
-        $this->assertSame(self::BIRTHDATE_FOLLOWS_DEATH_DATE,           NaturalPersonException::BIRTHDATE_FOLLOWS_DEATH_DATE);
-        $this->assertSame(self::DEATH_DATE_PRECEDES_BIRTHDATE,          NaturalPersonException::DEATH_DATE_PRECEDES_BIRTHDATE);
-        $this->assertSame(self::AGE_FOR_BOTH_BIRTH_AND_DEATH_DATES_SET, NaturalPersonException::AGE_FOR_BOTH_BIRTH_AND_DEATH_DATES_SET);
+        $this->assertSame(
+            self::BIRTHDATE_FOLLOWS_DEATH_DATE,
+            NaturalPersonException::BIRTHDATE_FOLLOWS_DEATH_DATE
+        );
+        $this->assertSame(
+            self::DEATH_DATE_PRECEDES_BIRTHDATE,
+            NaturalPersonException::DEATH_DATE_PRECEDES_BIRTHDATE
+        );
+        $this->assertSame(
+            self::AGE_FOR_BOTH_BIRTH_AND_DEATH_DATES_SET,
+            NaturalPersonException::AGE_FOR_BOTH_BIRTH_AND_DEATH_DATES_SET
+        );
     }
 
     public function testItReturnsExceptionInstanceForBirthdateFollowsDeathDate(): void
