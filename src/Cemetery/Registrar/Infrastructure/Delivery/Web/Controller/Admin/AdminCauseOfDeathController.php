@@ -55,9 +55,9 @@ class AdminCauseOfDeathController extends Controller
         // TODO add try-catch for malformed JSON and return 400 error
 
         $commandResponse = $this->appRequestBus->execute($commandRequest);
-        if (!$commandResponse->note->hasErrors()) {
-            return $this->json($commandResponse->note->errors(), HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
-        }
+//        if (!$commandResponse->note->hasErrors()) {
+//            return $this->json($commandResponse->note->errors(), HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+//        }
 
         $queryRequest  = new ShowCauseOfDeathRequest($commandResponse->id);
         $queryResponse = $this->appRequestBus->execute($queryRequest);

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application;
 
+use Cemetery\Registrar\Domain\Model\Exception as DomainException;
 use Cemetery\Registrar\Infrastructure\DependencyInjection\ApplicationServiceLocator;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -22,6 +25,9 @@ class ApplicationRequestBus
      * @param $request
      *
      * @return mixed|void
+     *
+     * @throws NotFoundExceptionInterface  when  No entry was found for application identifier.
+     * @throws ContainerExceptionInterface Error while retrieving the entry.
      */
     public function execute($request)
     {
@@ -31,7 +37,12 @@ class ApplicationRequestBus
 
         /** @var ApplicationService $appService */
         $appService = $this->appServiceLocator->get($appServiceId);
+        try {
+            $response = $appService->execute($request);
+        } catch (DomainException $e) {
 
-        return $appService->execute($request);
+        }
+
+        return $response;
     }
 }

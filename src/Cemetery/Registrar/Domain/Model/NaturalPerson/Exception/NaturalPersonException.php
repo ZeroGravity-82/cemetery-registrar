@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson\Exception;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * Exceptions for the natural person entity.
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonException extends \Exception
+class NaturalPersonException extends Exception
 {
     public const BIRTHDATE_FOLLOWS_DEATH_DATE           = 'Дата рождения не может следовать за датой смерти.';
     public const DEATH_DATE_PRECEDES_BIRTHDATE          = 'Дата смерти не может предшествовать дате рождения.';

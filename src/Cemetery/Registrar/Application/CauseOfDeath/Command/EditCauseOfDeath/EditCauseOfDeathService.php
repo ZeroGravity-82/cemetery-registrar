@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
+use Cemetery\Registrar\Domain\Model\Exception as DomainException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -35,18 +36,7 @@ class EditCauseOfDeathService extends CauseOfDeathService
         // TODO validate request DTO
 
         $causeOfDeath = $this->getCauseOfDeath($request->id);
-
-        try {
-            $causeOfDeath->setName(new CauseOfDeathName($request->name));
-            // ...
-        } catch (DomainException $e) {
-            return (new Notification())->addError(
-                \get_class($e),
-                $e->getMessage(),
-                $e,
-            );
-        }
-
+        $causeOfDeath->setName(new CauseOfDeathName($request->name));
         $this->causeOfDeathRepo->save($causeOfDeath);
         $this->eventDispatcher->dispatch(new CauseOfDeathEdited(
             $causeOfDeath->id(),

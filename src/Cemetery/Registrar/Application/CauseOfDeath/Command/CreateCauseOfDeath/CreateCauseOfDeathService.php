@@ -47,27 +47,18 @@ class CreateCauseOfDeathService extends CauseOfDeathService
      */
     public function execute($request): CreateCauseOfDeathResponse
     {
-        $this->assertSupportedRequestClass($request);                       // TODO move to parent class
-        $validationResult = $this->requestValidator->validate($request);    // TODO move to parent class
-        if ($validationResult->hasErrors()) {                               // TODO move to parent class
-            return new CreateCauseOfDeathResponse(
-                null,
-                $validationResult,
-            );
-        }
+        $this->assertSupportedRequestClass($request);     // TODO move to parent class
+//        $this->requestValidator->validate($request);    // TODO move to parent class
 
         $causeOfDeath = $this->causeOfDeathFactory->create(
             $request->name,
         );
-        $this->causeOfDeathRepo->save($causeOfDeath);                       // TODO add try-catch block???
+        $this->causeOfDeathRepo->save($causeOfDeath);
         $this->eventDispatcher->dispatch(new CauseOfDeathCreated(
             $causeOfDeath->id(),
             $causeOfDeath->name(),
         ));
 
-        return new CreateCauseOfDeathResponse(
-            $causeOfDeath->id()->value(),
-            new Notification(),
-        );
+        return new CreateCauseOfDeathResponse($causeOfDeath->id()->value());
     }
 }
