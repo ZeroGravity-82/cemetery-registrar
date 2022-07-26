@@ -157,7 +157,6 @@ class NaturalPersonTest extends AggregateRootTest
     public function testItSetsDeceasedDetails(): void
     {
         $deceasedDetails = new DeceasedDetails(
-            new NaturalPersonId('NP001'),
             new \DateTimeImmutable('2011-04-30'),
             new Age(82),
             new CauseOfDeathId('CD001'),
@@ -178,7 +177,6 @@ class NaturalPersonTest extends AggregateRootTest
     {
         // Prepare entity for testing
         $deceasedDetails = new DeceasedDetails(
-            $this->naturalPersonId,
             new \DateTimeImmutable('2001-05-13'),
             null,
             null,
@@ -202,7 +200,6 @@ class NaturalPersonTest extends AggregateRootTest
         $this->expectException(NaturalPersonException::class);
         $this->expectExceptionMessage(NaturalPersonException::DEATH_DATE_PRECEDES_BIRTHDATE);
         $deceasedDetails = new DeceasedDetails(
-            $this->naturalPersonId,
             new \DateTimeImmutable('2001-05-13'),
             null,
             null,
@@ -221,7 +218,6 @@ class NaturalPersonTest extends AggregateRootTest
         $this->expectException(NaturalPersonException::class);
         $this->expectExceptionMessage(NaturalPersonException::AGE_FOR_BOTH_BIRTH_AND_DEATH_DATES_SET);
         $deceasedDetails = new DeceasedDetails(
-            $this->naturalPersonId,
             new \DateTimeImmutable('2010-05-13'),
             new Age(9),
             null,
