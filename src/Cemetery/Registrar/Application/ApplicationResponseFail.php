@@ -12,13 +12,11 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationResponseFail extends ApplicationResponse
 {
-    public readonly string $status;
+    public const FAILURE_TYPE_VALIDATION_ERROR = 'validation error';
+
+    public string $status = 'fail';
 
     public function __construct(
-        public readonly ?\stdClass $data, // Provides the wrapper for the details of why the application request
-                                          // failed. If the reasons for failure correspond to POST values, the response
-                                          // object's keys SHOULD correspond to those POST values.
-    ) {
-        $this->status = 'fail';
-    }
+        public object $data,
+    ) {}
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application;
 
+use Cemetery\Registrar\Domain\Model\Exception as DomainException;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -20,6 +22,9 @@ abstract class ApplicationService
      * @param $request
      *
      * @return mixed|void
+     *
+     * @throws DomainException when there was any issue within the domain
+     * @throws \Throwable      when any error occurred while processing the request
      */
     abstract public function execute($request);
 

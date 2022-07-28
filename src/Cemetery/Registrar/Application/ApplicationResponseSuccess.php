@@ -12,12 +12,9 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationResponseSuccess extends ApplicationResponse
 {
-    public readonly string $status;
+    public string $status = 'success';
 
     public function __construct(
-        public readonly ?\stdClass $data, // Acts as the wrapper for any data returned by the applications service
-                                          // call. If the call returns no data, data should be set to null.
-    ) {
-        $this->status = 'error';
-    }
+        public object $data,
+    ) {}
 }

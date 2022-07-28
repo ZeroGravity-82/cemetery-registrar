@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath;
 
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
@@ -27,17 +28,17 @@ class ShowCauseOfDeathService extends ApplicationService
     /**
      * @param ShowCauseOfDeathRequest $request
      *
-     * @return ShowCauseOfDeathResponse
+     * @return ApplicationResponseSuccess
      *
      * @throws \RuntimeException when the cause of death is not found by ID
      */
-    public function execute($request): ShowCauseOfDeathResponse
+    public function execute($request): ApplicationResponseSuccess
     {
         $this->assertSupportedRequestClass($request);
 
         $causeOfDeathView = $this->getCauseOfDeathView($request->id);
 
-        return new ShowCauseOfDeathResponse($causeOfDeathView);
+        return new ApplicationResponseSuccess($causeOfDeathView);
     }
 
     /**

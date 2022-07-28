@@ -69,8 +69,9 @@ abstract class Controller extends AbstractController
      */
     protected function buildJsonResponse(ApplicationResponse $appResponse, int $successStatus): HttpJsonResponse
     {
-        $httpResponseData         = new \stdClass();
-        $httpResponseData->status = $appResponse->status;
+        $httpResponseData = (object) [
+            'status' => $appResponse->status,
+        ];
         switch (true) {
             case $appResponse instanceof ApplicationResponseSuccess:
                 $httpResponseData->data = $appResponse->data;

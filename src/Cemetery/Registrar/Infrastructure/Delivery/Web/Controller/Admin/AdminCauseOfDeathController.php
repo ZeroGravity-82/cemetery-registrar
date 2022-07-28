@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
@@ -42,10 +43,10 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_show', methods: HttpRequest::METHOD_GET)]
     public function show(HttpRequest $httpRequest): HttpJsonResponse
     {
-        $queryRequest = $this->handleJsonRequest($httpRequest, ShowCauseOfDeathRequest::class);
-        $view         = $this->appRequestBus->execute($queryRequest)->view;
+        $queryRequest  = $this->handleJsonRequest($httpRequest, ShowCauseOfDeathRequest::class);
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
 
-        return $this->json($view);
+        return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
     }
 
     #[Route('/admin/cause-of-death/create', name: 'admin_cause_of_death_create', methods: HttpRequest::METHOD_POST)]

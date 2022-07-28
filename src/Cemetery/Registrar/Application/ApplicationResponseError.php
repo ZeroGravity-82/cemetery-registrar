@@ -12,17 +12,11 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationResponseError extends ApplicationResponse
 {
-    public readonly string $status;
+    public string $status = 'error';
 
     public function __construct(
-        public readonly string     $message, // A meaningful, end-user-readable (or at the least log-worthy) message,
-                                             // explaining what went wrong.
-        public readonly ?string    $code,    // A string code corresponding to the error, if applicable (optional
-                                             // field).
-        public readonly ?\stdClass $data,    // A generic container for any other information about the error, i.e.
-                                             // the conditions that caused the error, stack traces, etc. (optional
-                                             // field).
-    ) {
-        $this->status = 'error';
-    }
+        public string  $message,
+        public ?string $code = null,
+        public ?object $data = null,
+    ) {}
 }
