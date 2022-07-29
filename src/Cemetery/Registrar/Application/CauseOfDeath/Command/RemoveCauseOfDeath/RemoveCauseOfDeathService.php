@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
 
@@ -13,19 +15,13 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
 class RemoveCauseOfDeathService extends CauseOfDeathService
 {
     /**
-     * {@inheritdoc}
-     */
-    public function supportedRequestClassName(): string
-    {
-        return RemoveCauseOfDeathRequest::class;
-    }
-
-    /**
      * @param RemoveCauseOfDeathRequest $request
+     *
+     * @return ApplicationResponseSuccess
      *
      * @throws \RuntimeException when the cause of death is not found
      */
-    public function execute($request): void
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
         $this->assertSupportedRequestClass($request);
 
@@ -35,5 +31,13 @@ class RemoveCauseOfDeathService extends CauseOfDeathService
             $causeOfDeath->id(),
             $causeOfDeath->name(),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportedRequestClassName(): string
+    {
+        return RemoveCauseOfDeathRequest::class;
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\ListColumbariumNiches;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheFetcher;
 
@@ -17,20 +19,20 @@ class ListColumbariumNichesService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListColumbariumNichesRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListColumbariumNichesRequest::class;
+        return new ListColumbariumNichesResponse($this->columbariumNicheFetcher->findAll(1));
     }
 
     /**
-     * @param ListColumbariumNichesRequest $request
-     *
-     * @return ListColumbariumNichesResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListColumbariumNichesResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListColumbariumNichesResponse($this->columbariumNicheFetcher->findAll(1));
+        return ListColumbariumNichesRequest::class;
     }
 }

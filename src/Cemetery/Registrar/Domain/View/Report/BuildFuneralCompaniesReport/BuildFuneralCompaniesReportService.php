@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\View\Report\BuildFuneralCompaniesReport;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 
 /**
@@ -11,15 +13,12 @@ use Cemetery\Registrar\Application\ApplicationService;
  */
 class BuildFuneralCompaniesReportService extends ApplicationService
 {
-    public function supportedRequestClassName(): string
-    {
-        return BuildFuneralCompaniesReportRequest::class;
-    }
-
     /**
-     * {@inheritdoc}
+     * @param BuildFuneralCompaniesReportRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function execute($request): BuildFuneralCompaniesReportResponse
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
         $this->assertSupportedRequestClass($request);
 
@@ -29,5 +28,13 @@ class BuildFuneralCompaniesReportService extends ApplicationService
 
 
 
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportedRequestClassName(): string
+    {
+        return BuildFuneralCompaniesReportRequest::class;
     }
 }

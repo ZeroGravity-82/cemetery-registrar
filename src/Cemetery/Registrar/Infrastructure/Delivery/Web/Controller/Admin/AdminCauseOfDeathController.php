@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal\CountCauseOfDeathTotalRequest;
@@ -31,8 +29,8 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: HttpRequest::METHOD_GET)]
     public function list(): HttpResponse
     {
-        $totalCount = $this->appRequestBus->execute(new CountCauseOfDeathTotalRequest())->totalCount;
-        $list       = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->list;
+        $totalCount = $this->appRequestBus->execute(new CountCauseOfDeathTotalRequest())->data->totalCount;
+        $list       = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->data->list;
 
         return $this->render('admin/cause_of_death/list.html.twig', [
             'causeOfDeathTotalCount' => $totalCount,
@@ -56,7 +54,6 @@ class AdminCauseOfDeathController extends Controller
         $commandRequest = $this->handleJsonRequest($httpRequest, CreateCauseOfDeathRequest::class);
         // TODO add try-catch for malformed JSON and return 400 error
 
-        /** @var CreateCauseOfDeathResponse $commandResponse */
         $commandResponse = $this->appRequestBus->execute($commandRequest);
 //        if (!$commandResponse->note->hasErrors()) {
 //            return $this->json($commandResponse->note->errors(), HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
@@ -83,11 +80,11 @@ class AdminCauseOfDeathController extends Controller
         if ($httpRequest->isMethod(HttpRequest::METHOD_PUT)) {
             $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
             $commandRequest = $this->handleJsonRequest($httpRequest, EditCauseOfDeathRequest::class);
-            $id             = $this->appRequestBus->execute($commandRequest)->id;
+            $id             = $this->appRequestBus->execute($commandRequest)->data->id;
         }
 
         $queryRequest = new ShowCauseOfDeathRequest($id);
-        $view         = $this->appRequestBus->execute($queryRequest)->view;
+        $view         = $this->appRequestBus->execute($queryRequest)->data->view;
 
         return $this->json($view);
     }

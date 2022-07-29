@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\CountCemeteryBlockTotal;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 
@@ -17,20 +19,20 @@ class CountCemeteryBlockTotalService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param CountCemeteryBlockTotalRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return CountCemeteryBlockTotalRequest::class;
+        return new CountCemeteryBlockTotalResponse($this->cemeteryBlockFetcher->countTotal());
     }
 
     /**
-     * @param CountCemeteryBlockTotalRequest $request
-     *
-     * @return CountCemeteryBlockTotalResponse
+     * {@inheritdoc}
      */
-    public function execute($request): CountCemeteryBlockTotalResponse
+    protected function supportedRequestClassName(): string
     {
-        return new CountCemeteryBlockTotalResponse($this->cemeteryBlockFetcher->countTotal());
+        return CountCemeteryBlockTotalRequest::class;
     }
 }

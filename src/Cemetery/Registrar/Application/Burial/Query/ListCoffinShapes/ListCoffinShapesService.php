@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\Query\ListCoffinShapes;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\Burial\BurialContainer\CoffinShapeFetcher;
 
@@ -17,20 +19,20 @@ class ListCoffinShapesService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListCoffinShapesRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListCoffinShapesRequest::class;
+        return new ListCoffinShapesResponse($this->coffinShapeFetcher->findAll());
     }
 
     /**
-     * @param ListCoffinShapesRequest $request
-     *
-     * @return ListCoffinShapesResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListCoffinShapesResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListCoffinShapesResponse($this->coffinShapeFetcher->findAll());
+        return ListCoffinShapesRequest::class;
     }
 }

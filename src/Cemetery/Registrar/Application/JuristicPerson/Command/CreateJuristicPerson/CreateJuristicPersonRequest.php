@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\CreateJuristicPerson;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CreateJuristicPersonRequest
+class CreateJuristicPersonRequest extends ApplicationRequest
 {
     public function __construct(
         public readonly string  $name,

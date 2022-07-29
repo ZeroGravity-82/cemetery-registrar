@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Organization\Query\CountOrganizationTotal;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 
@@ -17,20 +19,20 @@ class CountOrganizationTotalService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param CountOrganizationTotalRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return CountOrganizationTotalRequest::class;
+        return new CountOrganizationTotalResponse($this->organizationFetcher->countTotal());
     }
 
     /**
-     * @param CountOrganizationTotalRequest $request
-     *
-     * @return CountOrganizationTotalResponse
+     * {@inheritdoc}
      */
-    public function execute($request): CountOrganizationTotalResponse
+    protected function supportedRequestClassName(): string
     {
-        return new CountOrganizationTotalResponse($this->organizationFetcher->countTotal());
+        return CountOrganizationTotalRequest::class;
     }
 }

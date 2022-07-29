@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 
@@ -17,20 +19,22 @@ class CountCauseOfDeathTotalService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param CountCauseOfDeathTotalRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return CountCauseOfDeathTotalRequest::class;
+        return new ApplicationResponseSuccess(
+            (object) ['totalCount' => $this->causeOfDeathFetcher->countTotal()],
+        );
     }
 
     /**
-     * @param CountCauseOfDeathTotalRequest $request
-     *
-     * @return CountCauseOfDeathTotalResponse
+     * {@inheritdoc}
      */
-    public function execute($request): CountCauseOfDeathTotalResponse
+    protected function supportedRequestClassName(): string
     {
-        return new CountCauseOfDeathTotalResponse($this->causeOfDeathFetcher->countTotal());
+        return CountCauseOfDeathTotalRequest::class;
     }
 }

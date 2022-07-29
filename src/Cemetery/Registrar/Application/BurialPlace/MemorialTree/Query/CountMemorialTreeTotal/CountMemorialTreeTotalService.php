@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\MemorialTree\Query\CountMemorialTreeTotal;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
 
@@ -17,20 +19,20 @@ class CountMemorialTreeTotalService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param CountMemorialTreeTotalRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return CountMemorialTreeTotalRequest::class;
+        return new CountMemorialTreeTotalResponse($this->memorialTreeFetcher->countTotal());
     }
 
     /**
-     * @param CountMemorialTreeTotalRequest $request
-     *
-     * @return CountMemorialTreeTotalResponse
+     * {@inheritdoc}
      */
-    public function execute($request): CountMemorialTreeTotalResponse
+    protected function supportedRequestClassName(): string
     {
-        return new CountMemorialTreeTotalResponse($this->memorialTreeFetcher->countTotal());
+        return CountMemorialTreeTotalRequest::class;
     }
 }

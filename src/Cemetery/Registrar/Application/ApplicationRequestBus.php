@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application;
 
 use Cemetery\Registrar\Domain\Model\Exception as DomainException;
+use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Infrastructure\DependencyInjection\ApplicationServiceLocator;
 
 /**
@@ -20,11 +21,14 @@ class ApplicationRequestBus
     ) {}
 
     /**
-     * @param $request
+     * Delegates application request execution to the appropriate service. The request is validated first. If any
+     * exceptions are thrown, they will be converted into an application response of the appropriate type.
+     *
+     * @param ApplicationRequest $request
      *
      * @return ApplicationResponse
      */
-    public function execute($request): ApplicationResponse
+    public function execute(ApplicationRequest $request): ApplicationResponse
     {
         $requestClassName = \get_class($request);
         $appRequestName   = \substr(strrchr($requestClassName, '\\'), 1);
@@ -44,14 +48,21 @@ class ApplicationRequestBus
 
         /** @var ApplicationService $appService */
         $appService = $this->appServiceLocator->get($appServiceId);
+        $appService->assertSupportedRequestClass($request);
+
+
+
         try {
-            $response = $appService->execute($request);     // The request was accepted and successfully processed
+            $response = $appService->execute($request);
 
             // TODO dispatch application event with successful response details
         } catch (DomainException $e) {
-
-            $failureType = null;       // TODO from exception sub-type
-            $response    = new ApplicationResponseFail(   // The request was rejected
+            // The request was rejected
+            $failureType = ApplicationResponseFail::FAILURE_TYPE_DOMAIN_ERROR;
+            if ($e instanceof NotFoundException) {
+                $failureType = ApplicationResponseFail::FAILURE_TYPE_NOT_FOUND;
+            }
+            $response = new ApplicationResponseFail(
                 (object) [
                     'type'    => $failureType,
                     'message' => $e->getMessage(),
@@ -59,10 +70,11 @@ class ApplicationRequestBus
             );
 
             // TODO dispatch application event with failure details
-        } catch (\Throwable $e) {                           // An error occurred while processing the request
+        } catch (\Throwable $e) {
+            // An error occurred while processing the request
             $response = new ApplicationResponseError('При обработке запроса произошла внутренняя ошибка сервера.');
 
-            // TODO dispatch application event with exception details
+            // TODO dispatch application event with error details
         }
 
         return $response;

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\RemoveJuristicPerson;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
@@ -16,27 +18,17 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
  */
 class RemoveJuristicPersonService extends ApplicationService
 {
-    /**
-     * @param JuristicPersonRepository $juristicPersonRepo
-     * @param EventDispatcher          $eventDispatcher
-     */
     public function __construct(
         private readonly JuristicPersonRepository $juristicPersonRepo,
         private readonly EventDispatcher          $eventDispatcher,
     ) {}
 
     /**
-     * {@inheritdoc}
-     */
-    public function supportedRequestClassName(): string
-    {
-        return RemoveJuristicPersonRequest::class;
-    }
-
-    /**
      * @param RemoveJuristicPersonRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function execute($request): void
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
         $this->assertSupportedRequestClass($request);
         $juristicPerson = $this->getJuristicPerson($request->id);
@@ -44,6 +36,14 @@ class RemoveJuristicPersonService extends ApplicationService
         $this->eventDispatcher->dispatch(new JuristicPersonRemoved(
             $juristicPerson->id(),
         ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportedRequestClassName(): string
+    {
+        return RemoveJuristicPersonRequest::class;
     }
 
     /**

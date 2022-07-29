@@ -15,10 +15,6 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
  */
 abstract class CauseOfDeathService extends ApplicationService
 {
-    /**
-     * @param CauseOfDeathRepository $causeOfDeathRepo
-     * @param EventDispatcher        $eventDispatcher
-     */
     public function __construct(
         protected readonly CauseOfDeathRepository $causeOfDeathRepo,
         protected readonly EventDispatcher        $eventDispatcher,

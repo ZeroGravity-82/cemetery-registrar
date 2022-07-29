@@ -9,10 +9,6 @@ namespace Cemetery\Registrar\Application;
  */
 abstract class TransactionalApplicationService extends ApplicationService
 {
-    /**
-     * @param ApplicationService   $service
-     * @param TransactionalSession $session
-     */
     public function __construct(
         private readonly ApplicationService   $service,
         private readonly TransactionalSession $session,
@@ -21,7 +17,7 @@ abstract class TransactionalApplicationService extends ApplicationService
     /**
      * {@inheritdoc}
      */
-    public function execute($request): mixed
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
         $operation = function () use ($request) {
             return $this->service->execute($request);

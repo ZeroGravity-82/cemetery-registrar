@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 
@@ -17,20 +19,20 @@ class ListFuneralCompaniesService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListFuneralCompaniesRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListFuneralCompaniesRequest::class;
+        return new ListFuneralCompaniesResponse($this->funeralCompanyFetcher->findAll(1));
     }
 
     /**
-     * @param ListFuneralCompaniesRequest $request
-     *
-     * @return ListFuneralCompaniesResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListFuneralCompaniesResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListFuneralCompaniesResponse($this->funeralCompanyFetcher->findAll(1));
+        return ListFuneralCompaniesRequest::class;
     }
 }

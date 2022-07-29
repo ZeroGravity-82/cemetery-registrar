@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\CreateJuristicPerson;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
@@ -15,11 +17,6 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
  */
 class CreateJuristicPersonService extends ApplicationService
 {
-    /**
-     * @param JuristicPersonRepository $juristicPersonRepo
-     * @param JuristicPersonFactory    $juristicPersonFactory
-     * @param EventDispatcher          $eventDispatcher
-     */
     public function __construct(
         private readonly JuristicPersonRepository $juristicPersonRepo,
         private readonly JuristicPersonFactory    $juristicPersonFactory,
@@ -27,19 +24,11 @@ class CreateJuristicPersonService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
-     */
-    public function supportedRequestClassName(): string
-    {
-        return CreateJuristicPersonRequest::class;
-    }
-
-    /**
      * @param CreateJuristicPersonRequest $request
      *
-     * @return CreateJuristicPersonResponse
+     * @return ApplicationResponseSuccess
      */
-    public function execute($request): CreateJuristicPersonResponse
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
         $this->assertSupportedRequestClass($request);
 
@@ -72,5 +61,13 @@ class CreateJuristicPersonService extends ApplicationService
         ));
 
         return new CreateJuristicPersonResponse($juristicPerson->id()->value());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportedRequestClassName(): string
+    {
+        return CreateJuristicPersonRequest::class;
     }
 }

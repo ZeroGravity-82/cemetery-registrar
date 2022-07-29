@@ -36,7 +36,7 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * Creates command or query service request from the JSON request.
+     * Creates application service request from the JSON request.
      *
      * @param Request $request
      * @param string  $serviceRequestClassName
@@ -62,24 +62,34 @@ abstract class Controller extends AbstractController
     }
 
     /**
+     * Creates JSON HTTP response from the application service response.
+     *
      * @param ApplicationResponse $appResponse
-     * @param int                 $successStatus
+     * @param int                 $httpResponseSuccessStatus
      *
      * @return HttpJsonResponse
      */
-    protected function buildJsonResponse(ApplicationResponse $appResponse, int $successStatus): HttpJsonResponse
-    {
+    protected function buildJsonResponse(
+        ApplicationResponse $appResponse,
+        int                 $httpResponseSuccessStatus,
+    ): HttpJsonResponse {
         $httpResponseData = (object) [
             'status' => $appResponse->status,
         ];
         switch (true) {
             case $appResponse instanceof ApplicationResponseSuccess:
                 $httpResponseData->data = $appResponse->data;
-                $httpResponse           = $this->json($httpResponseData, $successStatus);
+                $httpResponse           = $this->json($httpResponseData, $httpResponseSuccessStatus);
                 break;
             case $appResponse instanceof ApplicationResponseFail:
                 $httpResponseData->data = $appResponse->data;
-                $httpResponse           = $this->json($httpResponseData, HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
+                $httpResponseStatus     = match ($appResponse->data->type) {
+                    ApplicationResponseFail::FAILURE_TYPE_VALIDATION_ERROR => HttpResponse::HTTP_UNPROCESSABLE_ENTITY,
+                    ApplicationResponseFail::FAILURE_TYPE_NOT_FOUND        => HttpResponse::HTTP_NOT_FOUND,
+                    ApplicationResponseFail::FAILURE_TYPE_DOMAIN_ERROR     => HttpResponse::HTTP_CONFLICT,
+                    default                                                => HttpResponse::HTTP_BAD_REQUEST,
+                };
+                $httpResponse = $this->json($httpResponseData, $httpResponseStatus);
                 break;
             case $appResponse instanceof ApplicationResponseError:
                 $httpResponseData->message = $appResponse->message;

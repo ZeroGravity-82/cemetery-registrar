@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Organization\Query\ListOrganizations;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 
@@ -17,20 +19,20 @@ class ListOrganizationsService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListOrganizationsRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListOrganizationsRequest::class;
+        return new ListOrganizationsResponse($this->organizationFetcher->findAll(1));
     }
 
     /**
-     * @param ListOrganizationsRequest $request
-     *
-     * @return ListOrganizationsResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListOrganizationsResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListOrganizationsResponse($this->organizationFetcher->findAll(1));
+        return ListOrganizationsRequest::class;
     }
 }

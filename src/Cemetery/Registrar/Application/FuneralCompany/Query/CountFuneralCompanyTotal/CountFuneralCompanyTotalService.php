@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\FuneralCompany\Query\CountFuneralCompanyTotal;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 
@@ -17,20 +19,20 @@ class CountFuneralCompanyTotalService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ApplicationRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return CountFuneralCompanyTotalRequest::class;
+        return new CountFuneralCompanyTotalResponse($this->funeralCompanyFetcher->countTotal());
     }
 
     /**
-     * @param CountFuneralCompanyTotalRequest $request
-     *
-     * @return CountFuneralCompanyTotalResponse
+     * {@inheritdoc}
      */
-    public function execute($request): CountFuneralCompanyTotalResponse
+    protected function supportedRequestClassName(): string
     {
-        return new CountFuneralCompanyTotalResponse($this->funeralCompanyFetcher->countTotal());
+        return CountFuneralCompanyTotalRequest::class;
     }
 }

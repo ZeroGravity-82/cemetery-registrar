@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 
@@ -17,20 +19,22 @@ class ListCausesOfDeathService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListCausesOfDeathRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListCausesOfDeathRequest::class;
+        return new ApplicationResponseSuccess(
+            (object) ['list' => $this->causeOfDeathFetcher->findAll(1)],
+        );
     }
 
     /**
-     * @param ListCausesOfDeathRequest $request
-     *
-     * @return ListCausesOfDeathResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListCausesOfDeathResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListCausesOfDeathResponse($this->causeOfDeathFetcher->findAll(1));
+        return ListCausesOfDeathRequest::class;
     }
 }

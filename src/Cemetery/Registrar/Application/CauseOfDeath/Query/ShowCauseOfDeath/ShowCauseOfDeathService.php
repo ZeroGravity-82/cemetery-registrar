@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 
@@ -17,28 +19,29 @@ class ShowCauseOfDeathService extends ApplicationService
     public function __construct(
         private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
     ) {}
-    /**
-     * {@inheritdoc}
-     */
-    public function supportedRequestClassName(): string
-    {
-        return ShowCauseOfDeathRequest::class;
-    }
 
     /**
      * @param ShowCauseOfDeathRequest $request
      *
      * @return ApplicationResponseSuccess
      *
-     * @throws \RuntimeException when the cause of death is not found by ID
+     * @throws NotFoundException when no cause of death was found by the ID
      */
-    public function execute($request): ApplicationResponseSuccess
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        $this->assertSupportedRequestClass($request);
-
         $causeOfDeathView = $this->getCauseOfDeathView($request->id);
 
-        return new ApplicationResponseSuccess($causeOfDeathView);
+        return new ApplicationResponseSuccess(
+            (object) ['view' => $causeOfDeathView],
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportedRequestClassName(): string
+    {
+        return ShowCauseOfDeathRequest::class;
     }
 
     /**
@@ -46,13 +49,13 @@ class ShowCauseOfDeathService extends ApplicationService
      *
      * @return CauseOfDeathView
      *
-     * @throws \RuntimeException when no data was found by the ID
+     * @throws NotFoundException when no cause of death was found by the ID
      */
     private function getCauseOfDeathView(string $id): CauseOfDeathView
     {
         $view = $this->causeOfDeathFetcher->findViewById($id);
         if ($view === null) {
-            throw new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $id));
+            throw new NotFoundException(\sprintf('Причина смерти с ID "%s" не найдена.', $id));
         }
 
         return $view;

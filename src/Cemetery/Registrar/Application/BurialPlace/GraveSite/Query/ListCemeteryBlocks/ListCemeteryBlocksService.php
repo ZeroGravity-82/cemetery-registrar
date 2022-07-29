@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListCemeteryBlocks;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 
@@ -17,20 +19,20 @@ class ListCemeteryBlocksService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListCemeteryBlocksRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListCemeteryBlocksRequest::class;
+        return new ListCemeteryBlocksResponse($this->cemeteryBlockFetcher->findAll(1));
     }
 
     /**
-     * @param ListCemeteryBlocksRequest $request
-     *
-     * @return ListCemeteryBlocksResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListCemeteryBlocksResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListCemeteryBlocksResponse($this->cemeteryBlockFetcher->findAll(1));
+        return ListCemeteryBlocksRequest::class;
     }
 }

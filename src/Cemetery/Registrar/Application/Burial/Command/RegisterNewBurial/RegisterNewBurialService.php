@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\Deceased;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\DeceasedId;
@@ -67,19 +69,11 @@ class RegisterNewBurialService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
-     */
-    public function supportedRequestClassName(): string
-    {
-        return RegisterNewBurialRequest::class;
-    }
-
-    /**
      * @param RegisterNewBurialRequest $request
      *
-     * @return RegisterNewBurialResponse
+     * @return ApplicationResponseSuccess
      */
-    public function execute($request): RegisterNewBurialResponse
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
         $this->assertSupportedRequestClass($request);
         $type             = $this->processTypeData($request);
@@ -104,6 +98,14 @@ class RegisterNewBurialService extends ApplicationService
         $this->burialRepo->save($burial);
 
         return new RegisterNewBurialResponse($burial->id()->value());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function supportedRequestClassName(): string
+    {
+        return RegisterNewBurialRequest::class;
     }
 
     /**

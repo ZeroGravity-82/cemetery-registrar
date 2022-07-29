@@ -12,28 +12,25 @@ use Cemetery\Registrar\Domain\Model\Exception as DomainException;
 abstract class ApplicationService
 {
     /**
-     * Returns the name of the supported request class.
+     * Executes the application request.
      *
-     * @return string
-     */
-    abstract public function supportedRequestClassName(): string;
-
-    /**
-     * @param $request
+     * @param ApplicationRequest $request
      *
-     * @return mixed|void
+     * @return ApplicationResponseSuccess
      *
      * @throws DomainException when there was any issue within the domain
      * @throws \Throwable      when any error occurred while processing the request
      */
-    abstract public function execute($request);
+    abstract public function execute(ApplicationRequest $request): ApplicationResponseSuccess;
 
     /**
+     * Checks whether the application request is of a type supported by the service.
+     *
      * @param $request
      *
      * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
-    protected function assertSupportedRequestClass($request): void
+    public function assertSupportedRequestClass($request): void
     {
         $supportedRequestClassName = $this->supportedRequestClassName();
         if (!$request instanceof $supportedRequestClassName) {
@@ -45,4 +42,11 @@ abstract class ApplicationService
             ));
         }
     }
+
+    /**
+     * Returns the name of the supported request class.
+     *
+     * @return string
+     */
+    abstract protected function supportedRequestClassName(): string;
 }

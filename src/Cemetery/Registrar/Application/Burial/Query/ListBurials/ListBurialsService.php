@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\Query\ListBurials;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 
@@ -17,20 +19,20 @@ class ListBurialsService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param ListBurialsRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return ListBurialsRequest::class;
+        return new ListBurialsResponse($this->burialFetcher->findAll(1));
     }
 
     /**
-     * @param ListBurialsRequest $request
-     *
-     * @return ListBurialsResponse
+     * {@inheritdoc}
      */
-    public function execute($request): ListBurialsResponse
+    protected function supportedRequestClassName(): string
     {
-        return new ListBurialsResponse($this->burialFetcher->findAll(1));
+        return ListBurialsRequest::class;
     }
 }

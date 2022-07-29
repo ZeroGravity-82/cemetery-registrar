@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\CountColumbariumTotal;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\ApplicationResponseSuccess;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcher;
 
@@ -17,20 +19,20 @@ class CountColumbariumTotalService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @param CountColumbariumTotalRequest $request
+     *
+     * @return ApplicationResponseSuccess
      */
-    public function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
     {
-        return CountColumbariumTotalRequest::class;
+        return new CountColumbariumTotalResponse($this->columbariumFetcher->countTotal());
     }
 
     /**
-     * @param CountColumbariumTotalRequest $request
-     *
-     * @return CountColumbariumTotalResponse
+     * {@inheritdoc}
      */
-    public function execute($request): CountColumbariumTotalResponse
+    protected function supportedRequestClassName(): string
     {
-        return new CountColumbariumTotalResponse($this->columbariumFetcher->countTotal());
+        return CountColumbariumTotalRequest::class;
     }
 }
