@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\CreateJuristicPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
@@ -26,11 +27,21 @@ class CreateJuristicPersonService extends ApplicationService
     /**
      * @param CreateJuristicPersonRequest $request
      *
-     * @return ApplicationResponseSuccess
+     * @return Notification
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        $this->assertSupportedRequestClass($request);
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * @param CreateJuristicPersonRequest $request
+     *
+     * @return ApplicationSuccessResponse
+     */
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    {
+        $this->assertSupported($request);
 
         // TODO add uniqueness check
         $juristicPerson = $this->juristicPersonFactory->create(

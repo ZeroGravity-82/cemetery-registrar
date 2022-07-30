@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Application;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  * @see    https://github.com/omniti-labs/jsend
  */
-class ApplicationResponseFail extends ApplicationResponse
+class ApplicationFailResponse extends ApplicationResponse
 {
     public const FAILURE_TYPE_VALIDATION_ERROR = 'validation error';
     public const FAILURE_TYPE_NOT_FOUND        = 'not found';
@@ -19,6 +19,6 @@ class ApplicationResponseFail extends ApplicationResponse
     public string $status = 'fail';
 
     public function __construct(
-        public object $data,
+        public array $data,
     ) {}
 }

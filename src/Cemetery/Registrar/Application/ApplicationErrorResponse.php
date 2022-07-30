@@ -10,13 +10,13 @@ namespace Cemetery\Registrar\Application;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  * @see    https://github.com/omniti-labs/jsend
  */
-class ApplicationResponseError extends ApplicationResponse
+class ApplicationErrorResponse extends ApplicationResponse
 {
     public string $status = 'error';
 
     public function __construct(
         public string  $message,
         public ?string $code = null,
-        public ?object $data = null,
+        public ?array  $data = null,
     ) {}
 }

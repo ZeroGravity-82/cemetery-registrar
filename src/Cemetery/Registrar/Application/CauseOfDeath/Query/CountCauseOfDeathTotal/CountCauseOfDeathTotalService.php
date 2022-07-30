@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 
 /**
@@ -15,26 +16,27 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 class CountCauseOfDeathTotalService extends ApplicationService
 {
     public function __construct(
-        private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
+        private readonly CountCauseOfDeathTotalRequestValidator $requestValidator,
+        private readonly CauseOfDeathFetcher                    $causeOfDeathFetcher,
     ) {}
 
     /**
-     * @param CountCauseOfDeathTotalRequest $request
-     *
-     * @return ApplicationResponseSuccess
+     * {@inheritdoc}
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        return new ApplicationResponseSuccess(
-            (object) ['totalCount' => $this->causeOfDeathFetcher->countTotal()],
-        );
+        /** @var CountCauseOfDeathTotalRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return CountCauseOfDeathTotalRequest::class;
+        /** @var CountCauseOfDeathTotalRequest $request */
+        return new ApplicationSuccessResponse(
+            ['totalCount' => $this->causeOfDeathFetcher->countTotal()],
+        );
     }
 }

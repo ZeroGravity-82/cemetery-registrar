@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application;
 
-use Cemetery\Registrar\Domain\Model\Exception as DomainException;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Infrastructure\DependencyInjection\ApplicationServiceLocator;
 
@@ -34,45 +34,42 @@ class ApplicationRequestBus
         $appRequestName   = \substr(strrchr($requestClassName, '\\'), 1);
         $appServiceId     = 'app.service.'.\strtolower(\str_replace('Request', '', $appRequestName));
 
-        // Request DTO validation
-        // $note = ???->validate($request);
-//         if ($note->hasErrors()) {
-//             // TODO dispatch application event with validation failure details
-//             return new ApplicationResponseFail(            // The request was rejected due to validation errors
-//                 (object) [
-//                     'type' => ApplicationResponseFail::FAILURE_TYPE_VALIDATION_ERROR,
-//
-//                 ]
-//             );
-//         }
-
-        /** @var ApplicationService $appService */
-        $appService = $this->appServiceLocator->get($appServiceId);
-        $appService->assertSupportedRequestClass($request);
-
-
-
         try {
+            /** @var ApplicationService $appService */
+            $appService = $this->appServiceLocator->get($appServiceId);
+            $note       = $appService->validate($request);
+            if ($note->hasErrors()) {
+                // The request was rejected due to validation errors
+
+                // TODO dispatch application event with validation failure details
+                return new ApplicationFailResponse(
+                    [
+                        'failType' => ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR,
+                        ...$note->toArray(),
+                    ]
+                );
+            }
+
             $response = $appService->execute($request);
 
             // TODO dispatch application event with successful response details
-        } catch (DomainException $e) {
-            // The request was rejected
-            $failureType = ApplicationResponseFail::FAILURE_TYPE_DOMAIN_ERROR;
-            if ($e instanceof NotFoundException) {
-                $failureType = ApplicationResponseFail::FAILURE_TYPE_NOT_FOUND;
-            }
-            $response = new ApplicationResponseFail(
-                (object) [
-                    'type'    => $failureType,
-                    'message' => $e->getMessage(),
+        } catch (Exception $e) {
+            // The request was rejected due to domain exception
+            $failureType = match (true) {
+                $e instanceof NotFoundException => ApplicationFailResponse::FAILURE_TYPE_NOT_FOUND,
+                default                         => ApplicationFailResponse::FAILURE_TYPE_DOMAIN_ERROR,
+            };
+            $response = new ApplicationFailResponse(
+                [
+                    'failType' => $failureType,
+                    'message'  => $e->getMessage(),
                 ]
             );
 
             // TODO dispatch application event with failure details
         } catch (\Throwable $e) {
             // An error occurred while processing the request
-            $response = new ApplicationResponseError('При обработке запроса произошла внутренняя ошибка сервера.');
+            $response = new ApplicationErrorResponse('При обработке запроса произошла внутренняя ошибка сервера.');
 
             // TODO dispatch application event with error details
         }

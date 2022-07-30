@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\Burial\Query\ListBurials;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 
 /**
@@ -21,9 +22,19 @@ class ListBurialsService extends ApplicationService
     /**
      * @param ListBurialsRequest $request
      *
-     * @return ApplicationResponseSuccess
+     * @return Notification
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
+    {
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * @param ListBurialsRequest $request
+     *
+     * @return ApplicationSuccessResponse
+     */
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListBurialsResponse($this->burialFetcher->findAll(1));
     }

@@ -66,7 +66,6 @@ $modalCauseOfDeath.on(`click`, `.js-remove`, function () {
   const isConfirmed  = confirm(`Удалить причину смерти "${causeOfDeath}"?`)
   if (isConfirmed) {
     remove(getRemoveActionUrl());
-    close();
   }
 });
 

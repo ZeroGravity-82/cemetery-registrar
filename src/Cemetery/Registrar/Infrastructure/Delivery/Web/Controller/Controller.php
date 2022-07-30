@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\ApplicationResponse;
-use Cemetery\Registrar\Application\ApplicationResponseError;
-use Cemetery\Registrar\Application\ApplicationResponseFail;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationErrorResponse;
+use Cemetery\Registrar\Application\ApplicationFailResponse;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,21 +77,22 @@ abstract class Controller extends AbstractController
             'status' => $appResponse->status,
         ];
         switch (true) {
-            case $appResponse instanceof ApplicationResponseSuccess:
+            case $appResponse instanceof ApplicationSuccessResponse:
                 $httpResponseData->data = $appResponse->data;
                 $httpResponse           = $this->json($httpResponseData, $httpResponseSuccessStatus);
+                dump($httpResponse);
                 break;
-            case $appResponse instanceof ApplicationResponseFail:
+            case $appResponse instanceof ApplicationFailResponse:
                 $httpResponseData->data = $appResponse->data;
-                $httpResponseStatus     = match ($appResponse->data->type) {
-                    ApplicationResponseFail::FAILURE_TYPE_VALIDATION_ERROR => HttpResponse::HTTP_UNPROCESSABLE_ENTITY,
-                    ApplicationResponseFail::FAILURE_TYPE_NOT_FOUND        => HttpResponse::HTTP_NOT_FOUND,
-                    ApplicationResponseFail::FAILURE_TYPE_DOMAIN_ERROR     => HttpResponse::HTTP_CONFLICT,
+                $httpResponseStatus     = match ($appResponse->data['failType']) {
+                    ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR => HttpResponse::HTTP_UNPROCESSABLE_ENTITY,
+                    ApplicationFailResponse::FAILURE_TYPE_NOT_FOUND        => HttpResponse::HTTP_NOT_FOUND,
+                    ApplicationFailResponse::FAILURE_TYPE_DOMAIN_ERROR     => HttpResponse::HTTP_CONFLICT,
                     default                                                => HttpResponse::HTTP_BAD_REQUEST,
                 };
                 $httpResponse = $this->json($httpResponseData, $httpResponseStatus);
                 break;
-            case $appResponse instanceof ApplicationResponseError:
+            case $appResponse instanceof ApplicationErrorResponse:
                 $httpResponseData->message = $appResponse->message;
                 if ($appResponse->code !== null) {
                     $httpResponseData->code = $appResponse->code;

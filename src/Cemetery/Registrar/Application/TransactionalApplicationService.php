@@ -17,7 +17,7 @@ abstract class TransactionalApplicationService extends ApplicationService
     /**
      * {@inheritdoc}
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         $operation = function () use ($request) {
             return $this->service->execute($request);

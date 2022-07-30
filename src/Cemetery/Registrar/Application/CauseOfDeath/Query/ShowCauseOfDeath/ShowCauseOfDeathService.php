@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
@@ -17,31 +18,30 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 class ShowCauseOfDeathService extends ApplicationService
 {
     public function __construct(
-        private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
+        private readonly ShowCauseOfDeathRequestValidator $requestValidator,
+        private readonly CauseOfDeathFetcher              $causeOfDeathFetcher,
     ) {}
 
     /**
-     * @param ShowCauseOfDeathRequest $request
-     *
-     * @return ApplicationResponseSuccess
-     *
-     * @throws NotFoundException when no cause of death was found by the ID
+     * {@inheritdoc}
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        $causeOfDeathView = $this->getCauseOfDeathView($request->id);
-
-        return new ApplicationResponseSuccess(
-            (object) ['view' => $causeOfDeathView],
-        );
+        /** @var ShowCauseOfDeathRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return ShowCauseOfDeathRequest::class;
+        /** @var ShowCauseOfDeathRequest $request */
+        $causeOfDeathView = $this->getCauseOfDeathView($request->id);
+
+        return new ApplicationSuccessResponse(
+            ['view' => $causeOfDeathView],
+        );
     }
 
     /**

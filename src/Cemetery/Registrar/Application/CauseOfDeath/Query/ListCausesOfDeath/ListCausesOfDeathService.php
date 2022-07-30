@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 
 /**
@@ -15,26 +16,27 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 class ListCausesOfDeathService extends ApplicationService
 {
     public function __construct(
-        private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
+        private readonly ListCausesOfDeathRequestValidator $requestValidator,
+        private readonly CauseOfDeathFetcher               $causeOfDeathFetcher,
     ) {}
 
     /**
-     * @param ListCausesOfDeathRequest $request
-     *
-     * @return ApplicationResponseSuccess
+     * {@inheritdoc}
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        return new ApplicationResponseSuccess(
-            (object) ['list' => $this->causeOfDeathFetcher->findAll(1)],
-        );
+        /** @var ListCausesOfDeathRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function supportedRequestClassName(): string
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return ListCausesOfDeathRequest::class;
+        /** @var ListCausesOfDeathRequest $request */
+        return new ApplicationSuccessResponse(
+            ['list' => $this->causeOfDeathFetcher->findAll(1)],
+        );
     }
 }

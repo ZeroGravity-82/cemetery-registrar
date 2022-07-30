@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\RemoveJuristicPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
@@ -26,11 +27,21 @@ class RemoveJuristicPersonService extends ApplicationService
     /**
      * @param RemoveJuristicPersonRequest $request
      *
-     * @return ApplicationResponseSuccess
+     * @return Notification
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        $this->assertSupportedRequestClass($request);
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * @param RemoveJuristicPersonRequest $request
+     *
+     * @return ApplicationSuccessResponse
+     */
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    {
+        $this->assertSupported($request);
         $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRepo->remove($juristicPerson);
         $this->eventDispatcher->dispatch(new JuristicPersonRemoved(

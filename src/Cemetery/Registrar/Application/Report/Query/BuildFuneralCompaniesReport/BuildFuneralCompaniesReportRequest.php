@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\View\Report\BuildFuneralCompaniesReport;
+namespace Cemetery\Registrar\Application\Report\Query\BuildFuneralCompaniesReport;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 

@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Domain\View\Report\BuildFuneralCompaniesReport;
+namespace Cemetery\Registrar\Application\Report\Query\BuildFuneralCompaniesReport;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -16,11 +17,21 @@ class BuildFuneralCompaniesReportService extends ApplicationService
     /**
      * @param BuildFuneralCompaniesReportRequest $request
      *
-     * @return ApplicationResponseSuccess
+     * @return Notification
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        $this->assertSupportedRequestClass($request);
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * @param BuildFuneralCompaniesReportRequest $request
+     *
+     * @return ApplicationSuccessResponse
+     */
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    {
+        $this->assertSupported($request);
 
         /** @var BuildFuneralCompaniesReportRequest $request */
         $startDate = $request->startDate;

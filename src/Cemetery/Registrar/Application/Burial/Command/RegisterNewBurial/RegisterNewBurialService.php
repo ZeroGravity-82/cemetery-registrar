@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\Deceased;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\DeceasedId;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainerFactory;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Coffin;
@@ -71,11 +72,21 @@ class RegisterNewBurialService extends ApplicationService
     /**
      * @param RegisterNewBurialRequest $request
      *
-     * @return ApplicationResponseSuccess
+     * @return Notification
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
     {
-        $this->assertSupportedRequestClass($request);
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * @param RegisterNewBurialRequest $request
+     *
+     * @return ApplicationSuccessResponse
+     */
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    {
+        $this->assertSupported($request);
         $type             = $this->processTypeData($request);
         $deceasedId       = $this->processDeceasedData($request);
         $customerId       = $this->processCustomerData($request);

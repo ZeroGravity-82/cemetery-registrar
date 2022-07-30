@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\Burial\Query\CountBurialTotal;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationResponseSuccess;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 
 /**
@@ -21,9 +22,19 @@ class CountBurialTotalService extends ApplicationService
     /**
      * @param CountBurialTotalRequest $request
      *
-     * @return ApplicationResponseSuccess
+     * @return Notification
      */
-    public function execute(ApplicationRequest $request): ApplicationResponseSuccess
+    public function validate(ApplicationRequest $request): Notification
+    {
+        // TODO: Implement validate() method.
+    }
+
+    /**
+     * @param CountBurialTotalRequest $request
+     *
+     * @return ApplicationSuccessResponse
+     */
+    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new CountBurialTotalResponse($this->burialFetcher->countTotal());
     }

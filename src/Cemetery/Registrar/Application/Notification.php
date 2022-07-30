@@ -47,4 +47,18 @@ class Notification
     {
         return \implode(', ', $this->errors()) ?: null;
     }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $result = [];
+
+        foreach ($this->errors() as $error) {
+            $result[$error->code()] = $error->message();
+        }
+
+        return $result;
+    }
 }

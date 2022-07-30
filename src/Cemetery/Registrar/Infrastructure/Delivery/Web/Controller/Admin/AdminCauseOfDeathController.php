@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
@@ -29,8 +30,8 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: HttpRequest::METHOD_GET)]
     public function list(): HttpResponse
     {
-        $totalCount = $this->appRequestBus->execute(new CountCauseOfDeathTotalRequest())->data->totalCount;
-        $list       = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->data->list;
+        $totalCount = $this->appRequestBus->execute(new CountCauseOfDeathTotalRequest())->data['totalCount'];
+        $list       = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->data['list'];
 
         return $this->render('admin/cause_of_death/list.html.twig', [
             'causeOfDeathTotalCount' => $totalCount,
@@ -55,21 +56,9 @@ class AdminCauseOfDeathController extends Controller
         // TODO add try-catch for malformed JSON and return 400 error
 
         $commandResponse = $this->appRequestBus->execute($commandRequest);
-//        if (!$commandResponse->note->hasErrors()) {
-//            return $this->json($commandResponse->note->errors(), HttpResponse::HTTP_UNPROCESSABLE_ENTITY);
-//        }
 
-//        $queryRequest  = new ShowCauseOfDeathRequest($commandResponse->id);
-//        $queryResponse = $this->appRequestBus->execute($queryRequest);
-        $httpResponse = $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
-        $locationUrl  = $this->generateUrl('admin_cause_of_death_show', ['id' => $commandResponse->data->id]);
-        $httpResponse->headers->set('Location', $locationUrl);
-
-        return $httpResponse;
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
     }
-
-
-
 
     #[Route('/admin/cause-of-death/{id}/edit', name: 'admin_cause_of_death_edit', methods: [
         HttpRequest::METHOD_GET,
@@ -80,11 +69,11 @@ class AdminCauseOfDeathController extends Controller
         if ($httpRequest->isMethod(HttpRequest::METHOD_PUT)) {
             $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
             $commandRequest = $this->handleJsonRequest($httpRequest, EditCauseOfDeathRequest::class);
-            $id             = $this->appRequestBus->execute($commandRequest)->data->id;
+            $id             = $this->appRequestBus->execute($commandRequest)->data['id'];
         }
 
         $queryRequest = new ShowCauseOfDeathRequest($id);
-        $view         = $this->appRequestBus->execute($queryRequest)->data->view;
+        $view         = $this->appRequestBus->execute($queryRequest)->data['view'];
 
         return $this->json($view);
     }
