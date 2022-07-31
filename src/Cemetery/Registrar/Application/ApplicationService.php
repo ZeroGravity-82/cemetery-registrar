@@ -18,7 +18,7 @@ abstract class ApplicationService
      *
      * @return Notification
      *
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
+     * @throws \LogicException when the request is not an instance of the supported class
      */
     abstract public function validate(ApplicationRequest $request): Notification;
 

@@ -506,7 +506,7 @@ class RegisterNewBurialService extends ApplicationService
     /**
      * @param RegisterNewBurialRequest $request
      *
-     * @throws \RuntimeException when the customer type is not supported
+     * @throws \LogicException when the customer type is not supported
      */
     private function assertSupportedCustomerType(RegisterNewBurialRequest $request): void
     {
@@ -517,7 +517,7 @@ class RegisterNewBurialService extends ApplicationService
             $request->customerType,
             [NaturalPerson::CLASS_SHORTCUT, SoleProprietor::CLASS_SHORTCUT, JuristicPerson::CLASS_SHORTCUT]
         )) {
-            throw new \RuntimeException(
+            throw new \LogicException(
                 \sprintf('Неподдерживаемый тип заказчика "%s".', $request->customerType)
             );
         }
@@ -526,7 +526,7 @@ class RegisterNewBurialService extends ApplicationService
     /**
      * @param RegisterNewBurialRequest $request
      *
-     * @throws \RuntimeException when the burial place type is not supported
+     * @throws \LogicException when the burial place type is not supported
      */
     private function assertSupportedBurialPlaceType(RegisterNewBurialRequest $request): void
     {
@@ -537,7 +537,7 @@ class RegisterNewBurialService extends ApplicationService
             $request->burialPlaceType,
             [GraveSite::CLASS_SHORTCUT, ColumbariumNiche::CLASS_SHORTCUT, MemorialTree::CLASS_SHORTCUT]
         )) {
-            throw new \RuntimeException(
+            throw new \LogicException(
                 \sprintf('Неподдерживаемый тип места захоронения "%s".', $request->burialPlaceType)
             );
         }
@@ -546,7 +546,7 @@ class RegisterNewBurialService extends ApplicationService
     /**
      * @param RegisterNewBurialRequest $request
      *
-     * @throws \RuntimeException when the burial container type is not supported
+     * @throws \LogicException when the burial container type is not supported
      */
     private function assertSupportedBurialContainerType(RegisterNewBurialRequest $request): void
     {
@@ -557,7 +557,7 @@ class RegisterNewBurialService extends ApplicationService
             $request->burialContainerType,
             [Coffin::CLASS_SHORTCUT, Urn::CLASS_SHORTCUT]
         )) {
-            throw new \RuntimeException(
+            throw new \LogicException(
                 \sprintf('Неподдерживаемый тип контейнера захоронения "%s".', $request->burialContainerType)
             );
         }
@@ -566,12 +566,12 @@ class RegisterNewBurialService extends ApplicationService
     /**
      * @param RegisterNewBurialRequest $request
      *
-     * @throws \RuntimeException when the customer type is not provided for the customer ID
+     * @throws \LogicException when the customer type is not provided for the customer ID
      */
     private function assertCustomerTypeProvidedForId(RegisterNewBurialRequest $request): void
     {
         if ($request->customerId !== null && $request->customerType === null) {
-            throw new \RuntimeException(
+            throw new \LogicException(
                 \sprintf('Не указан тип заказчика для идентификатора "%s".', $request->customerId)
             );
         }
@@ -580,12 +580,12 @@ class RegisterNewBurialService extends ApplicationService
     /**
      * @param RegisterNewBurialRequest $request
      *
-     * @throws \RuntimeException when the burial place type is not provided for the burial place ID
+     * @throws \LogicException when the burial place type is not provided for the burial place ID
      */
     private function assertBurialPlaceTypeProvidedForId(RegisterNewBurialRequest $request): void
     {
         if ($request->burialPlaceId !== null && $request->burialPlaceType === null) {
-            throw new \RuntimeException(
+            throw new \LogicException(
                 \sprintf('Не указан тип места захоронения для идентификатора "%s".', $request->burialPlaceId)
             );
         }

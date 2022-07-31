@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -46,7 +47,7 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
     {
         /** @var Columbarium $aggregateRoot */
         if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Колумбарий с таким наименованием уже существует.');
+            throw new Exception('Колумбарий с таким наименованием уже существует.');
         }
     }
 

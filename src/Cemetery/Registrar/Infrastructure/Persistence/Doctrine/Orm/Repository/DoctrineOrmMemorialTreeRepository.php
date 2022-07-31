@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -46,7 +47,7 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
     {
         /** @var MemorialTree $aggregateRoot */
         if ($this->doesSameTreeNumberAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Памятное дерево с таким номером уже существует.');
+            throw new Exception('Памятное дерево с таким номером уже существует.');
         }
     }
 

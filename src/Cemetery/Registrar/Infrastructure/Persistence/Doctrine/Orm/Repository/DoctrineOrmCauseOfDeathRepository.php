@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -46,7 +47,7 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     {
         /** @var CauseOfDeath $aggregateRoot */
         if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Причина смерти с таким наименованием уже существует.');
+            throw new Exception('Причина смерти с таким наименованием уже существует.');
         }
     }
 

@@ -24,7 +24,8 @@ abstract class Controller extends AbstractController
      * @param Request $request
      * @param string  $tokenId
      *
-     * @throws \RuntimeException when CSRF token is invalid.
+     * @throws \RuntimeException when CSRF token is invalid
+     * @throws \RuntimeException when JSON is invalid
      */
     protected function assertValidCsrfToken(Request $request, string $tokenId): void
     {
@@ -39,26 +40,24 @@ abstract class Controller extends AbstractController
      * Creates application service request from the JSON request.
      *
      * @param Request $request
-     * @param string  $serviceRequestClassName
+     * @param string  $appServiceRequestClassName
      *
      * @return mixed
+     *
+     * @throws \RuntimeException when JSON is invalid
      */
-    protected function handleJsonRequest(Request $request, string $serviceRequestClassName): mixed
+    protected function handleJsonRequest(Request $request, string $appServiceRequestClassName): mixed
     {
         $constructorArgs = [];
         $data            = $this->decodeRequestData($request);
-        if ($data === null && !$request->isMethod(Request::METHOD_GET)) {
-            // TODO add testing
-            throw new \RuntimeException(\sprintf('Неверный формат JSON: "%s"', $request->getContent()));
-        }
-        foreach (\array_keys(\get_class_vars($serviceRequestClassName)) as $propertyName) {
+        foreach (\array_keys(\get_class_vars($appServiceRequestClassName)) as $propertyName) {
             if ($propertyName === 'id') {
                 $data[$propertyName] = $request->attributes->get('id');
             }
             $constructorArgs[] = $data[$propertyName] ?? null;
         }
 
-        return new $serviceRequestClassName(...$constructorArgs);
+        return new $appServiceRequestClassName(...$constructorArgs);
     }
 
     /**
@@ -68,6 +67,8 @@ abstract class Controller extends AbstractController
      * @param int                 $httpResponseSuccessStatus
      *
      * @return HttpJsonResponse
+     *
+     * @throws \InvalidArgumentException when the application response is of an unsupported type
      */
     protected function buildJsonResponse(
         ApplicationResponse $appResponse,
@@ -80,7 +81,6 @@ abstract class Controller extends AbstractController
             case $appResponse instanceof ApplicationSuccessResponse:
                 $httpResponseData->data = $appResponse->data;
                 $httpResponse           = $this->json($httpResponseData, $httpResponseSuccessStatus);
-                dump($httpResponse);
                 break;
             case $appResponse instanceof ApplicationFailResponse:
                 $httpResponseData->data = $appResponse->data;
@@ -118,9 +118,17 @@ abstract class Controller extends AbstractController
      * @param Request $request
      *
      * @return mixed
+     *
+     * @throws \RuntimeException when JSON is invalid
      */
     private function decodeRequestData(Request $request): mixed
     {
-        return \json_decode($request->getContent(), true);
+        $data = \json_decode($request->getContent(), true);
+        if ($data === null && !$request->isMethod(Request::METHOD_GET)) {
+            // TODO add testing
+            throw new \RuntimeException(\sprintf('Неверный формат JSON: "%s".', $request->getContent()));
+        }
+
+        return $data;
     }
 }

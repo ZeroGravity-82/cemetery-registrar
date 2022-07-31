@@ -75,9 +75,9 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         $entityId = (string) $entityId;
         if (!isset($this->entities[$entityId])) {
             throw new \LogicException(\sprintf(
-                'Entity of type "%s" with ID "%s" is not found.',
+                'Сущность с ID "%s" и типом "%s" не найдена.',
+                $entityId,
                 $this->supportedEntityClassName(),
-                $entityId
             ));
         }
 
@@ -213,14 +213,14 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
      *
      * @param Entity $entity
      *
-     * @throws \InvalidArgumentException when the entity type does not match the collection
+     * @throws \LogicException when the entity type does not match the collection
      */
     private function assertSupportedEntityClass(Entity $entity): void
     {
         $supportedEntityClassName = $this->supportedEntityClassName();
         if (!$entity instanceof $supportedEntityClassName) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Invalid type for an entity: expected "%s", "%s" given.',
+            throw new \LogicException(\sprintf(
+                'Неподдерживаемый тип сущности: ожидался "%s", "%s" передан.',
                 $this->supportedEntityClassName(),
                 \get_class($entity)
             ));

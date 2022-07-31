@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -46,7 +47,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
     {
         /** @var GraveSite $aggregateRoot */
         if ($this->doesSameNicheRowAndPositionAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Участок с такими рядом и местом в этом квартале уже существует.');
+            throw new Exception('Участок с такими рядом и местом в этом квартале уже существует.');
         }
     }
 

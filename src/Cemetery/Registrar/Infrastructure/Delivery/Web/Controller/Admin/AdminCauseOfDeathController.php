@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
@@ -52,9 +51,7 @@ class AdminCauseOfDeathController extends Controller
     public function create(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
-        $commandRequest = $this->handleJsonRequest($httpRequest, CreateCauseOfDeathRequest::class);
-        // TODO add try-catch for malformed JSON and return 400 error
-
+        $commandRequest  = $this->handleJsonRequest($httpRequest, CreateCauseOfDeathRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);
 
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);

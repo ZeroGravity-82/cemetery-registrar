@@ -14,8 +14,8 @@ interface Repository
      *
      * @param $aggregateRoot
      *
-     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
-     * @throws \RuntimeException         when uniqueness constraints (if any) are violated
+     * @throws \LogicException when the aggregate root type does not match the repository
+     * @throws Exception       when uniqueness constraints (if any) are violated
      */
     public function save($aggregateRoot): void;
 
@@ -25,8 +25,8 @@ interface Repository
      *
      * @param $aggregateRoots
      *
-     * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
-     * @throws \RuntimeException         when uniqueness constraints (if any) are violated
+     * @throws \LogicException when the aggregate root collection type does not match the repository
+     * @throws Exception       when uniqueness constraints (if any) are violated
      */
     public function saveAll($aggregateRoots): void;
 
@@ -37,7 +37,7 @@ interface Repository
      *
      * @return AggregateRoot|null
      *
-     * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
+     * @throws \LogicException when the aggregate root ID type does not match the repository
      */
     public function findById($aggregateRootId): ?AggregateRoot;
 
@@ -46,7 +46,7 @@ interface Repository
      *
      * @param $aggregateRoot
      *
-     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
+     * @throws \LogicException when the aggregate root type does not match the repository
      */
     public function remove($aggregateRoot): void;
 
@@ -55,7 +55,7 @@ interface Repository
      *
      * @param $aggregateRoots
      *
-     * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
+     * @throws \LogicException when the aggregate root collection type does not match the repository
      */
     public function removeAll($aggregateRoots): void;
 }

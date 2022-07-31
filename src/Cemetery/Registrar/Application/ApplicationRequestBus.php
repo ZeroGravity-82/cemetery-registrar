@@ -22,7 +22,8 @@ class ApplicationRequestBus
 
     /**
      * Delegates application request execution to the appropriate service. The request is validated first. If any
-     * exceptions are thrown, they will be converted into an application response of the appropriate type.
+     * domain exceptions are thrown, they will be converted into application fail response. All other exceptions will
+     * be converted into application error response.
      *
      * @param ApplicationRequest $request
      *

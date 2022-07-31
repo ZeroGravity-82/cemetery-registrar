@@ -55,12 +55,12 @@ abstract class EntityId
     /**
      * @param string $value
      *
-     * @throws \InvalidArgumentException when the ID is an empty string
+     * @throws \LogicException when the ID is an empty string
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('Идентификатор доменной сущности не может иметь пустое значение.');
+            throw new \LogicException('Идентификатор доменной сущности не может иметь пустое значение.');
         }
     }
 }

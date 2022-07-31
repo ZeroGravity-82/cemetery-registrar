@@ -38,7 +38,7 @@ abstract class AggregateRoot extends Entity
     {
         if (\in_array($event, $this->recordedEvents)) {
             throw new \LogicException(
-                \sprintf('The same domain event of type "%s" already recorded.', \get_class($event))
+                \sprintf('Доменное событие с типом "%s" уже зарегистрировано.', \get_class($event))
             );
         }
         $this->recordedEvents[] = $event;

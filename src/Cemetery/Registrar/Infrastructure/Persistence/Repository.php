@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Persistence;
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\EntityCollection;
 use Cemetery\Registrar\Domain\Model\EntityId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Repository as RepositoryInterface;
 
 /**
@@ -40,7 +41,7 @@ abstract class Repository implements RepositoryInterface
      *
      * @param AggregateRoot $aggregateRoot
      *
-     * @throws \Exception when uniqueness constraints (if any) are violated
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     abstract protected function assertUnique(AggregateRoot $aggregateRoot): void;
 
@@ -49,14 +50,14 @@ abstract class Repository implements RepositoryInterface
      *
      * @param AggregateRoot $aggregateRoot
      *
-     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
+     * @throws \LogicException when the aggregate root type does not match the repository
      */
     protected function assertSupportedAggregateRootClass(AggregateRoot $aggregateRoot): void
     {
         $supportedAggregateRootClassName = $this->supportedAggregateRootClassName();
         if (!$aggregateRoot instanceof $supportedAggregateRootClassName) {
-            throw new \InvalidArgumentException(\sprintf(
-                'Invalid type for an aggregate root: expected "%s", "%s" given.',
+            throw new \LogicException(\sprintf(
+                'Неподдерживаемый тип корня агрегата: ожидался "%s", "%s" передан.',
                 $this->supportedAggregateRootClassName(),
                 \get_class($aggregateRoot)
             ));

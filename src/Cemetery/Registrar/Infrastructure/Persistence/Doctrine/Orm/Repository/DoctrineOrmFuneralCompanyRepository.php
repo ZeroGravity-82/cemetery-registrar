@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
@@ -46,7 +47,7 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
     {
         /** @var FuneralCompany $aggregateRoot */
         if ($this->doesSameOrganizationIdAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Похоронная фирма, связанная с этой организацией, уже существует.');
+            throw new Exception('Похоронная фирма, связанная с этой организацией, уже существует.');
         }
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCollection;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
@@ -46,7 +47,7 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
     {
         /** @var SoleProprietor $aggregateRoot */
         if ($this->doesSameNameOrInnAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('ИП с таким наименованием или ИНН уже существует.');
+            throw new Exception('ИП с таким наименованием или ИНН уже существует.');
         }
     }
 

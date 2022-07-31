@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNich
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -46,7 +47,7 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
     {
         /** @var ColumbariumNiche $aggregateRoot */
         if ($this->doesSameNicheNumberAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Колумбарная ниша с таким номером в этом колумбарии уже существует.');
+            throw new Exception('Колумбарная ниша с таким номером в этом колумбарии уже существует.');
         }
     }
 

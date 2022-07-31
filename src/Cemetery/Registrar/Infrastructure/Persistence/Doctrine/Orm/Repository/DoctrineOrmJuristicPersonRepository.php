@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
@@ -46,7 +47,7 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
     {
         /** @var JuristicPerson $aggregateRoot */
         if ($this->doesSameNameOrInnAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Юрлицо с таким наименованием или ИНН уже существует.');
+            throw new Exception('Юрлицо с таким наименованием или ИНН уже существует.');
         }
     }
 

@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -46,7 +47,7 @@ class DoctrineOrmCemeteryBlockRepository extends DoctrineOrmRepository implement
     {
         /** @var CemeteryBlock $aggregateRoot */
         if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {
-            throw new \RuntimeException('Квартал с таким наименованием уже существует.');
+            throw new Exception('Квартал с таким наименованием уже существует.');
         }
     }
 
