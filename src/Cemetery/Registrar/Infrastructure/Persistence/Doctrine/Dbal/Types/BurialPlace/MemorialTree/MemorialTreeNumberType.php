@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class MemorialTreeNumberType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = MemorialTreeNumber::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'memorial_tree_number';
 }

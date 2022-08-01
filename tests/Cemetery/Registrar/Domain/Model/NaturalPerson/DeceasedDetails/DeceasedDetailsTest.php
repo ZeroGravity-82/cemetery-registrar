@@ -79,6 +79,21 @@ class DeceasedDetailsTest extends TestCase
         $this->assertNull($deceasedDetails->cremationCertificate());
     }
 
+    public function testItFailsWithInvalidDiedAtFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidDeathCertificateIssuedAtFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidCremationCertificateIssuedAtFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
     public function testItComparable(): void
     {
         $deceasedDetailsA = new DeceasedDetails(

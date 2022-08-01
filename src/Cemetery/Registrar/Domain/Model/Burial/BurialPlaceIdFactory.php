@@ -7,26 +7,20 @@ namespace Cemetery\Registrar\Domain\Model\Burial;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class BurialPlaceIdFactory
 {
-    /**
-     * @param GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
-     *
-     * @return BurialPlaceId
-     */
     public function create(GraveSiteId|ColumbariumNicheId|MemorialTreeId $id): BurialPlaceId
     {
         return new BurialPlaceId($id);
     }
 
     /**
-     * @param string|null $id
-     *
-     * @return BurialPlaceId
+     * @throws Exception when the ID is empty
      */
     public function createForGraveSite(?string $id): BurialPlaceId
     {
@@ -34,9 +28,7 @@ class BurialPlaceIdFactory
     }
 
     /**
-     * @param string|null $id
-     *
-     * @return BurialPlaceId
+     * @throws Exception when the ID is empty
      */
     public function createForColumbariumNiche(?string $id): BurialPlaceId
     {
@@ -44,9 +36,7 @@ class BurialPlaceIdFactory
     }
 
     /**
-     * @param string|null $id
-     *
-     * @return BurialPlaceId
+     * @throws Exception when the ID is empty
      */
     public function createForMemorialTree(?string $id): BurialPlaceId
     {

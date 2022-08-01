@@ -9,12 +9,8 @@ namespace Cemetery\Registrar\Domain\View\Burial\BurialContainer;
  */
 class CoffinShapeListItem
 {
-    /**
-     * @param string $value
-     * @param string $label
-     */
     public function __construct(
-        public readonly string $value,
-        public readonly string $label,
+        public string $value,
+        public string $label,
     ) {}
 }

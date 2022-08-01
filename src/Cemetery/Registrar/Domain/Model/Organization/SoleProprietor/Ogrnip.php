@@ -15,17 +15,11 @@ class Ogrnip extends AbstractOgrn
 
     private const OGRN_LENGTH = 15;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function ogrnName(): string
     {
         return self::OGRN_NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function ogrnLength(): int
     {
         return self::OGRN_LENGTH;

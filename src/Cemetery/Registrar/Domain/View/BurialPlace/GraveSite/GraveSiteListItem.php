@@ -9,18 +9,11 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\GraveSite;
  */
 class GraveSiteListItem
 {
-    /**
-     * @param string      $id
-     * @param string      $cemeteryBlockName
-     * @param int         $rowInBlock
-     * @param int|null    $positionInRow
-     * @param string|null $size
-     */
     public function __construct(
-        public readonly string  $id,
-        public readonly string  $cemeteryBlockName,
-        public readonly int     $rowInBlock,
-        public readonly ?int    $positionInRow,
-        public readonly ?string $size,
+        public string  $id,
+        public string  $cemeteryBlockName,
+        public int     $rowInBlock,
+        public ?int    $positionInRow,
+        public ?string $size,
     ) {}
 }

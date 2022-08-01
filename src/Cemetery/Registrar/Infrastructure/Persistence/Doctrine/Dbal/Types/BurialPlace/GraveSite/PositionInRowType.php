@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomInte
  */
 class PositionInRowType extends CustomIntegerType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = PositionInRow::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'position_in_row';
 }

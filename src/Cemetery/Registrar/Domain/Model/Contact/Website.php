@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Contact;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -13,42 +15,33 @@ class Website
     private const LABEL_MAX_LENGTH       = 63;
 
     /**
-     * @param string $value
+     * @throws Exception when the website address is empty
+     * @throws Exception about invalid website address format
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $website
-     *
-     * @return bool
-     */
     public function isEqual(self $website): bool
     {
         return $website->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the website address is empty
+     * @throws Exception about invalid website address format
      */
     private function assertValidValue(string $value): void
     {
@@ -59,19 +52,17 @@ class Website
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the website address is empty
+     * @throws Exception when the website address is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('Адрес веб-сайта не может иметь пустое значение.');
+            throw new Exception('Адрес веб-сайта не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $value
+     * @throws Exception when website address format is invalid
      */
     private function assertValidFullLength(string $value): void
     {
@@ -82,7 +73,7 @@ class Website
     }
 
     /**
-     * @param string $value
+     * @throws Exception when website address format is invalid
      */
     private function assertValidLabelsLength(string $value): void
     {
@@ -95,7 +86,7 @@ class Website
     }
 
     /**
-     * @param string $value
+     * @throws Exception when website address format is invalid
      */
     private function assertValidFormat(string $value): void
     {
@@ -115,11 +106,6 @@ class Website
         }
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     private function trim(string $value): string
     {
         $value = \str_replace(['http://', 'https://'], '', $value);
@@ -128,10 +114,10 @@ class Website
     }
 
     /**
-     * @throws \InvalidArgumentException about invalid website address format
+     * @throws Exception about invalid website address format
      */
     private function throwInvalidFormatException(): void
     {
-        throw new \InvalidArgumentException('Адрес веб-сайта имеет неверный формат.');
+        throw new Exception('Неверный формат адреса веб-сайта.');
     }
 }

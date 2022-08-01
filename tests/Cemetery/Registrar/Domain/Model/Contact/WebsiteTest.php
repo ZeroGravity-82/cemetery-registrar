@@ -92,6 +92,6 @@ class WebsiteTest extends TestCase
     private function expectExceptionForInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Адрес веб-сайта имеет неверный формат.');
+        $this->expectExceptionMessage('Неверный формат адрес веб-сайта.');
     }
 }

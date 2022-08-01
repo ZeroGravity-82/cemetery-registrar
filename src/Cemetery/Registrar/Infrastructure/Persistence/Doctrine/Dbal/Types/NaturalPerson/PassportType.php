@@ -34,7 +34,7 @@ class PassportType extends CustomJsonType
             !\array_key_exists('issuedBy',     $decodedValue) ||
             !\array_key_exists('divisionCode', $decodedValue);
         if ($isInvalidValue) {
-            throw new \RuntimeException(\sprintf('Неверный формат паспортных данных: "%s".', $value));
+            throw new \LogicException(\sprintf('Неверный формат паспортных данных: "%s".', $value));
         }
     }
 

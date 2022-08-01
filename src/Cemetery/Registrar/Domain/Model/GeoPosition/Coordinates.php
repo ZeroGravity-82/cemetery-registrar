@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\GeoPosition;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -11,19 +13,16 @@ class Coordinates
 {
     public const VALUE_PATTERN = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
 
-    /**
-     * @var string
-     */
-    private readonly string $latitude;
+    private string $latitude;
+    private string $longitude;
 
     /**
-     * @var string
-     */
-    private readonly string $longitude;
-
-    /**
-     * @param string $latitude
-     * @param string $longitude
+     * @throws Exception when the latitude value is empty
+     * @throws Exception when the latitude value has an invalid format
+     * @throws Exception when the latitude value is out of valid range
+     * @throws Exception when the longitude value is empty
+     * @throws Exception when the longitude value has an invalid format
+     * @throws Exception when the longitude value is out of valid range
      */
     public function __construct(
         string $latitude,
@@ -35,35 +34,21 @@ class Coordinates
         $this->longitude = $this->format($longitude);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return \sprintf('%s, %s', $this->latitude(), $this->longitude());
     }
 
-    /**
-     * @return string
-     */
     public function latitude(): string
     {
         return $this->format($this->latitude);
     }
 
-    /**
-     * @return string
-     */
     public function longitude(): string
     {
         return $this->format($this->longitude);
     }
 
-    /**
-     * @param self $coordinates
-     *
-     * @return bool
-     */
     public function isEqual(self $coordinates): bool
     {
         $isSameLatitude  = $this->format($coordinates->latitude())  === $this->latitude();
@@ -73,65 +58,56 @@ class Coordinates
     }
 
     /**
-     * @param string $latitude
+     * @throws Exception when the latitude value is empty
+     * @throws Exception when the latitude value has an invalid format
+     * @throws Exception when the latitude value is out of valid range
      */
     private function assertValidLatitudeValue(string $latitude): void
     {
-        $name = 'Широта';
-        $this->assertNotEmpty($latitude, $name);
-        $this->assertValidFormat($latitude, $name);
-        $this->assertIsInTheValidRange($latitude, -90.0, 90.0, $name);
+        $this->assertNotEmpty($latitude, 'Широта');
+        $this->assertValidFormat($latitude, 'Широты');
+        $this->assertIsInTheValidRange($latitude, -90.0, 90.0, 'Широта');
     }
 
     /**
-     * @param string $longitude
+     * @throws Exception when the longitude value is empty
+     * @throws Exception when the longitude value has an invalid format
+     * @throws Exception when the longitude value is out of valid range
      */
     private function assertValidLongitudeValue(string $longitude): void
     {
-        $name = 'Долгота';
-        $this->assertNotEmpty($longitude, $name);
-        $this->assertValidFormat($longitude, $name);
-        $this->assertIsInTheValidRange($longitude, -180.0, 180.0, $name);
+        $this->assertNotEmpty($longitude, 'Долгота');
+        $this->assertValidFormat($longitude, 'Долготы');
+        $this->assertIsInTheValidRange($longitude, -180.0, 180.0, 'Долгота');
     }
 
     /**
-     * @param string $value
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException when the value is empty
+     * @throws Exception when the value is empty
      */
     private function assertNotEmpty(string $value, string $name): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
+            throw new Exception(\sprintf('%s не может иметь пустое значение.', $name));
         }
     }
 
     /**
-     * @param string $value
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException when the value has an invalid format
+     * @throws Exception when the value has an invalid format
      */
     private function assertValidFormat(string $value, string $name): void
     {
         if (!\preg_match(self::VALUE_PATTERN, $value)) {
-            throw new \InvalidArgumentException(\sprintf('%s "%s" имеет неверный формат.', $name, $value));
+            throw new Exception(\sprintf('Неверный формат %s.', $name));
         }
     }
 
     /**
-     * @param string $value
-     * @param float  $min
-     * @param float  $max
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException when the value is out of valid range
+     * @throws Exception when the value is out of valid range
      */
     private function assertIsInTheValidRange(string $value, float $min, float $max, string $name): void
     {
         if ((float) $value < $min || (float) $value > $max) {
-            throw new \InvalidArgumentException(\sprintf(
+            throw new Exception(\sprintf(
                 '%s "%s" находится вне допустимого диапазона [%.0f, %.0f].',
                 $name,
                 $value,
@@ -141,11 +117,6 @@ class Coordinates
         }
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     private function format(string $value): string
     {
         $value = $this->addDecimalPoint($value);
@@ -155,11 +126,6 @@ class Coordinates
         return $this->removePlusSign($value);
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     private function addDecimalPoint(string $value): string
     {
         if (!\str_contains($value, '.')) {
@@ -169,11 +135,6 @@ class Coordinates
         return $value;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     private function trimPrecedingZeros(string $value): string
     {
         $plusSignFound  = false;
@@ -200,11 +161,6 @@ class Coordinates
         return $value;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     private function trimTrailingZeros(string $value): string
     {
         $value = \rtrim($value, '0');
@@ -215,11 +171,6 @@ class Coordinates
         return $value;
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     private function removePlusSign(string $value): string
     {
         return \ltrim($value, '+');

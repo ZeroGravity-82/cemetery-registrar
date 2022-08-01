@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\GeoPosition;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
@@ -14,18 +15,11 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJson
  */
 class GeoPositionType extends CustomJsonType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = GeoPosition::class;
+    protected string $typeName  = 'geo_position';
 
     /**
-     * {@inheritdoc}
-     */
-    protected string $typeName = 'geo_position';
-
-    /**
-     * {@inheritdoc}
+     * @throws \LogicException when the geo position decoded value is invalid
      */
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
@@ -35,13 +29,10 @@ class GeoPositionType extends CustomJsonType
             !\array_key_exists('longitude',   $decodedValue['coordinates']) ||
             !\array_key_exists('error',       $decodedValue);
         if ($isInvalidValue) {
-            throw new \RuntimeException(\sprintf('Неверный формат геопозиции: "%s".', $value));
+            throw new \LogicException(\sprintf('Неверный формат геопозиции: "%s".', $value));
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
         /** @var GeoPosition $value */
@@ -57,7 +48,9 @@ class GeoPositionType extends CustomJsonType
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when the latitude decoded value is invalid
+     * @throws Exception when the longitude decoded value is invalid
+     * @throws Exception when the error decoded value is invalid
      */
     protected function buildPhpValue(array $decodedValue): GeoPosition
     {

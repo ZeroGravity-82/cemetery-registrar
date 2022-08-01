@@ -11,26 +11,15 @@ namespace Cemetery\Registrar\Domain\Model\Burial\BurialContainer;
  */
 class BurialContainer
 {
-    /**
-     * @param Coffin|Urn $container
-     */
     public function __construct(
-        private readonly Coffin|Urn $container,
+        private Coffin|Urn $container,
     ) {}
 
-    /**
-     * @return Coffin|Urn
-     */
     public function container(): Coffin|Urn
     {
         return $this->container;
     }
 
-    /**
-     * @param self $container
-     *
-     * @return bool
-     */
     public function isEqual(self $container): bool
     {
         $isSameContainerClass = \get_class($container->container()) === \get_class($this->container());

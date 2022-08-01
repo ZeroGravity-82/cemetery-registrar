@@ -9,15 +9,10 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class AggregateRoot extends Entity
 {
-    /**
-     * @var Event[]|array
-     */
     private array $recordedEvents = [];
 
     /**
      * Returns recorded domain events and removes them from the aggregate root.
-     *
-     * @return array
      */
     public function releaseRecordedEvents(): array
     {
@@ -29,8 +24,6 @@ abstract class AggregateRoot extends Entity
 
     /**
      * Records the domain event of the aggregate root for subsequent release.
-     *
-     * @param Event $event
      *
      * @throws \LogicException when the same event has already been recorded
      */

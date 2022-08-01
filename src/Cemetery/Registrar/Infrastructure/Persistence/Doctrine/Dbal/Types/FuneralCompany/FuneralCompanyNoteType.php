@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class FuneralCompanyNoteType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = FuneralCompanyNote::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'funeral_company_note';
 }

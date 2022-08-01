@@ -9,13 +9,10 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class EntityCollection implements \Countable, \IteratorAggregate
 {
-    /**
-     * @var Entity[]|array
-     */
     private array $entities = [];
 
     /**
-     * @param array $entities
+     * @throws \LogicException when the entity type does not match the collection
      */
     public function __construct(
         array $entities = [],
@@ -26,33 +23,20 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         }
     }
 
-    /**
-     * Returns the name of the supported entity class.
-     *
-     * @return string
-     */
     abstract public function supportedEntityClassName(): string;
 
-    /**
-     * {@inheritdoc}
-     */
     public function count(): int
     {
         return \count($this->entities);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->entities);
     }
 
     /**
-     * Adds the entity to the collection.
-     *
-     * @param Entity $entity
+     * @throws \LogicException when the entity type does not match the collection
      */
     public function add(Entity $entity): void
     {
@@ -62,12 +46,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the entity by ID. If no entity found, then a \LogicException will be thrown.
-     *
-     * @param EntityId $entityId
-     *
-     * @return Entity
-     *
      * @throws \LogicException when the entity is not found by ID
      */
     public function get(EntityId $entityId): Entity
@@ -84,23 +62,11 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         return $this->entities[$entityId];
     }
 
-    /**
-     * Checks whether the entity is contained in the collection.
-     *
-     * @param Entity $entity
-     *
-     * @return bool
-     */
     public function contains(Entity $entity): bool
     {
         return \in_array($entity, $this->entities, true);
     }
 
-    /**
-     * Removes the entity from the collection.
-     *
-     * @param Entity $entity
-     */
     public function remove(Entity $entity): void
     {
         $entityId = (string) $entity->id();
@@ -109,29 +75,17 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
 
     /**
      * Returns all the entities of this collection that satisfy the predicate p. The order of the entities is preserved.
-     *
-     * @param \Closure $p
-     *
-     * @return static
      */
     public function filter(\Closure $p): static
     {
         return new static(\array_filter($this->entities, $p));
     }
 
-    /**
-     * Clears the collection, removing all entities.
-     */
     public function clear(): void
     {
         $this->entities = [];
     }
 
-    /**
-     * Checks whether the collection is empty.
-     *
-     * @return bool
-     */
     public function isEmpty(): bool
     {
         return empty($this->entities);
@@ -139,8 +93,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
 
     /**
      * Returns all keys (entity IDs) of the collection.
-     *
-     * @return array
      */
     public function keys(): array
     {
@@ -152,19 +104,12 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
 
     /**
      * Returns all values (entities) of the collection.
-     *
-     * @return array
      */
     public function values(): array
     {
         return \array_values($this->entities);
     }
 
-    /**
-     * Sets the internal iterator to the first entity in the collection and returns this entity.
-     *
-     * @return Entity|null
-     */
     public function first(): ?Entity
     {
         $first = \reset($this->entities);
@@ -172,11 +117,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         return $first ?: null;
     }
 
-    /**
-     * Moves the internal iterator position to the next entity and returns this entity.
-     *
-     * @return Entity|null
-     */
     public function next(): ?Entity
     {
         $next = \next($this->entities);
@@ -184,11 +124,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         return $next ?: null;
     }
 
-    /**
-     * Returns the entity of the collection at the current iterator position.
-     *
-     * @return Entity|null
-     */
     public function current(): ?Entity
     {
         $current = \current($this->entities);
@@ -196,11 +131,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         return $current ?: null;
     }
 
-    /**
-     * Sets the internal iterator to the last entity in the collection and returns this entity.
-     *
-     * @return Entity|null
-     */
     public function last(): ?Entity
     {
         $last = \end($this->entities);
@@ -209,10 +139,6 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Checks whether the entity is of a type supported by the collection.
-     *
-     * @param Entity $entity
-     *
      * @throws \LogicException when the entity type does not match the collection
      */
     private function assertSupportedEntityClass(Entity $entity): void

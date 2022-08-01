@@ -9,16 +9,10 @@ namespace Cemetery\Registrar\Domain\View\Report\BuildFuneralCompaniesReport;
  */
 class FuneralCompaniesReport
 {
-    /**
-     * @param array  $reportItems
-     * @param string $startDate
-     * @param string $endDate
-     * @param int    $burialTotalCount
-     */
     public function __construct(
-        public readonly array  $reportItems,
-        public readonly string $startDate,
-        public readonly string $endDate,
-        public readonly int    $burialTotalCount,
+        public array  $items,
+        public string $startDate,
+        public string $endDate,
+        public int    $burialTotalCount,
     ) {}
 }

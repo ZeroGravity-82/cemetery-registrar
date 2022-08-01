@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class CemeteryBlockNameType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = CemeteryBlockName::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'cemetery_block_name';
 }

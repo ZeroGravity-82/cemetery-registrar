@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class GraveSiteSizeType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = GraveSiteSize::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'grave_site_size';
 }

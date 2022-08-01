@@ -9,8 +9,5 @@ namespace Cemetery\Registrar\Domain\Model\Burial;
  */
 interface BurialCodeGenerator
 {
-    /**
-     * @return string
-     */
     public function getNextCode(): string;
 }

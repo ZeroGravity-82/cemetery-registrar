@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
@@ -15,14 +16,13 @@ use Cemetery\Registrar\Domain\Model\EntityFactory;
 class ColumbariumNicheFactory extends EntityFactory
 {
     /**
-     * @param string|null $columbariumId
-     * @param int|null    $rowInColumbarium
-     * @param string|null $nicheNumber
-     * @param string|null $geoPositionLatitude
-     * @param string|null $geoPositionLongitude
-     * @param string|null $geoPositionError
-     *
-     * @return ColumbariumNiche
+     * @throws Exception when generating an invalid columbarium niche ID
+     * @throws Exception when the columbarium ID is empty
+     * @throws Exception when the row in columbarium value is invalid
+     * @throws Exception when the niche number is invalid
+     * @throws Exception when the geo position latitude value is invalid (if any)
+     * @throws Exception when the geo position longitude value is invalid (if any)
+     * @throws Exception when the geo position error value is invalid (if any)
      */
     public function create(
         ?string  $columbariumId,

@@ -4,44 +4,35 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class CremationCertificate
 {
     /**
-     * @param string             $number
-     * @param \DateTimeImmutable $issuedAt
+     * @throws Exception when the number is empty
+     * @throws Exception when the issuing date is in the future
      */
     public function __construct(
-        private readonly string             $number,
-        private readonly \DateTimeImmutable $issuedAt,
+        private string             $number,
+        private \DateTimeImmutable $issuedAt,
     ) {
         $this->assertValidNumber($number);
         $this->assertValidIssuedAt($issuedAt);
     }
 
-    /**
-     * @return string
-     */
     public function number(): string
     {
         return $this->number;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function issuedAt(): \DateTimeImmutable
     {
         return $this->issuedAt;
     }
 
-    /**
-     * @param self $cremationCertificate
-     *
-     * @return bool
-     */
     public function isEqual(self $cremationCertificate): bool
     {
         $isSameNumber   = $cremationCertificate->number() === $this->number();
@@ -51,7 +42,7 @@ class CremationCertificate
     }
 
     /**
-     * @param string $number
+     * @throws Exception when the number is empty
      */
     private function assertValidNumber(string $number): void
     {
@@ -59,27 +50,23 @@ class CremationCertificate
     }
 
     /**
-     * @param \DateTimeImmutable $issuedAt
-     *
-     * @throws \RuntimeException when the issuing date is in the future
+     * @throws Exception when the issuing date is in the future
      */
     private function assertValidIssuedAt(\DateTimeImmutable $issuedAt): void
     {
         $now = new \DateTimeImmutable();
         if ($issuedAt > $now) {
-            throw new \RuntimeException('Дата выдачи справки о кремации не может иметь значение из будущего.');
+            throw new Exception('Дата выдачи справки о кремации не может иметь значение из будущего.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \RuntimeException when the value is empty
+     * @throws Exception when the number is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \RuntimeException('Номер справки о кремации не может иметь пустое значение.');
+            throw new Exception('Номер справки о кремации не может иметь пустое значение.');
         }
     }
 }

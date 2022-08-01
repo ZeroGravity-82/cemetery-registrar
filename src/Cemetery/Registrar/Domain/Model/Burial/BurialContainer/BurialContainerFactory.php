@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Burial\BurialContainer;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class BurialContainerFactory
 {
     /**
-     * @param int|null    $size
-     * @param string|null $shape
-     * @param bool|null   $isNonStandard
-     *
-     * @return BurialContainer
+     * @throws Exception       when the coffin size value is out of valid range
+     * @throws \LogicException when the coffin shape is not supported
      */
     public function createForCoffin(?int $size, ?string $shape, ?bool $isNonStandard): BurialContainer
     {
@@ -25,9 +24,6 @@ class BurialContainerFactory
         ));
     }
 
-    /**
-     * @return BurialContainer
-     */
     public function createForUrn(): BurialContainer
     {
         return new BurialContainer(new Urn());

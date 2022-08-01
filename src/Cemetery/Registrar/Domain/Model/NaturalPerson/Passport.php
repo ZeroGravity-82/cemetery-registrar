@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class Passport
 {
     /**
-     * @param string             $series
-     * @param string             $number
-     * @param \DateTimeImmutable $issuedAt
-     * @param string             $issuedBy
-     * @param string|null        $divisionCode
+     * @throws Exception when the series is empty
+     * @throws Exception when the number is empty
+     * @throws Exception when the issuing date is in the future
+     * @throws Exception when the issuing authority name is empty
+     * @throws Exception when the division code is empty
      */
     public function __construct(
-        private readonly string             $series,
-        private readonly string             $number,
-        private readonly \DateTimeImmutable $issuedAt,
-        private readonly string             $issuedBy,
-        private readonly ?string            $divisionCode,
+        private string             $series,
+        private string             $number,
+        private \DateTimeImmutable $issuedAt,
+        private string             $issuedBy,
+        private ?string            $divisionCode,
     ) {
         $this->assertValidSeries($series);
         $this->assertValidNumber($number);
@@ -30,9 +32,6 @@ class Passport
         $this->assertValidDivisionCode($this->divisionCode);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         $string = \sprintf(
@@ -49,51 +48,31 @@ class Passport
         return $string;
     }
 
-    /**
-     * @return string
-     */
     public function series(): string
     {
         return $this->series;
     }
 
-    /**
-     * @return string
-     */
     public function number(): string
     {
         return $this->number;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function issuedAt(): \DateTimeImmutable
     {
         return $this->issuedAt;
     }
 
-    /**
-     * @return string
-     */
     public function issuedBy(): string
     {
         return $this->issuedBy;
     }
 
-    /**
-     * @return string|null
-     */
     public function divisionCode(): ?string
     {
         return $this->divisionCode;
     }
 
-    /**
-     * @param self $passport
-     *
-     * @return bool
-     */
     public function isEqual(self $passport): bool
     {
         $isSameSeries       = $passport->series() === $this->series();
@@ -106,7 +85,7 @@ class Passport
     }
 
     /**
-     * @param string $series
+     * @throws Exception when the series is empty
      */
     private function assertValidSeries(string $series): void
     {
@@ -114,7 +93,7 @@ class Passport
     }
 
     /**
-     * @param string $number
+     * @throws Exception when the number is empty
      */
     private function assertValidNumber(string $number): void
     {
@@ -122,20 +101,18 @@ class Passport
     }
 
     /**
-     * @param \DateTimeImmutable $issuedAt
-     *
-     * @throws \RuntimeException when the issuing date is in the future
+     * @throws Exception when the issuing date is in the future
      */
     private function assertValidIssuedAt(\DateTimeImmutable $issuedAt): void
     {
         $now = new \DateTimeImmutable();
         if ($issuedAt > $now) {
-            throw new \InvalidArgumentException('Дата выдачи паспорта не может иметь значение из будущего.');
+            throw new Exception('Дата выдачи паспорта не может иметь значение из будущего.');
         }
     }
 
     /**
-     * @param string $issuedBy
+     * @throws Exception when the issuing authority name is empty
      */
     private function assertValidIssuedBy(string $issuedBy): void
     {
@@ -143,7 +120,7 @@ class Passport
     }
 
     /**
-     * @param string|null $divisionCode
+     * @throws Exception when the division code is empty
      */
     private function assertValidDivisionCode(?string $divisionCode): void
     {
@@ -154,15 +131,12 @@ class Passport
     }
 
     /**
-     * @param string $value
-     * @param string $name
-     *
-     * @throws \InvalidArgumentException when the value is empty
+     * @throws Exception when the value is empty
      */
     private function assertNotEmpty(string $value, string $name): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $name));
+            throw new Exception(\sprintf('%s не может иметь пустое значение.', $name));
         }
     }
 }

@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMaskingIdType;
 
 /**
@@ -18,18 +19,11 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMask
  */
 class BurialPlaceIdType extends EntityMaskingIdType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = BurialPlaceId::class;
+    protected string $typeName  = 'burial_place_id';
 
     /**
-     * {@inheritdoc}
-     */
-    protected string $typeName = 'burial_place_id';
-
-    /**
-     * {@inheritdoc}
+     * @throws Exception when the ID decoded value is empty
      */
     protected function buildPhpValue(array $decodedValue): BurialPlaceId
     {

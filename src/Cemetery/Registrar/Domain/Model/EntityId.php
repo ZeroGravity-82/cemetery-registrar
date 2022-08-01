@@ -10,42 +10,31 @@ namespace Cemetery\Registrar\Domain\Model;
 abstract class EntityId
 {
     /**
-     * @param string $value
+     * @throws Exception when the ID is empty
      */
     public function __construct(
-        protected readonly string $value,
+        protected string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $id
-     *
-     * @return bool
-     */
     public function isEqual(self $id): bool
     {
         return $id->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the ID is empty
      */
     private function assertValidValue(string $value): void
     {
@@ -53,14 +42,12 @@ abstract class EntityId
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \LogicException when the ID is an empty string
+     * @throws Exception when the ID is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \LogicException('Идентификатор доменной сущности не может иметь пустое значение.');
+            throw new Exception('Идентификатор доменной сущности не может иметь пустое значение.');
         }
     }
 }

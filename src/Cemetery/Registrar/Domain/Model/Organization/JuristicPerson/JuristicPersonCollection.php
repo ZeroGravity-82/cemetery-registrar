@@ -11,9 +11,6 @@ use Cemetery\Registrar\Domain\Model\EntityCollection;
  */
 class JuristicPersonCollection extends EntityCollection
 {
-    /**
-     * {@inheritdoc}
-     */
     public function supportedEntityClassName(): string
     {
         return JuristicPerson::class;

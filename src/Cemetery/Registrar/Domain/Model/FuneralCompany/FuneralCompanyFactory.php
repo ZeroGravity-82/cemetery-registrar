@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\FuneralCompany;
 
 use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
@@ -17,11 +18,9 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId
 class FuneralCompanyFactory extends EntityFactory
 {
     /**
-     * @param string      $organizationId
-     * @param string      $organizationType
-     * @param string|null $note
-     *
-     * @return FuneralCompany
+     * @throws Exception       when generating an invalid funeral company ID
+     * @throws Exception       when the organization ID is empty
+     * @throws \LogicException when organization type is not supported
      */
     public function create(
         string  $organizationId,
@@ -43,14 +42,10 @@ class FuneralCompanyFactory extends EntityFactory
     }
 
     /**
-     * @param string $organizationType
-     *
-     * @throws \RuntimeException about unsupported organization type
+     * @throws \LogicException about unsupported organization type
      */
     private function throwUnsupportedOrganizationTypeException(string $organizationType): void
     {
-        throw new \RuntimeException(
-            \sprintf('Неподдерживаемый тип организации "%s".', $organizationType)
-        );
+        throw new \LogicException(\sprintf('Неподдерживаемый тип организации "%s".', $organizationType));
     }
 }

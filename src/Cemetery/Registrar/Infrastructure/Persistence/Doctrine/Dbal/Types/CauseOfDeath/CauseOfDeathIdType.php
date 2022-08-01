@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class CauseOfDeathIdType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = CauseOfDeathId::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'cause_of_death_id';
 }

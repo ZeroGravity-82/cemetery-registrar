@@ -74,6 +74,6 @@ class EmailTest extends TestCase
     private function expectExceptionForInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Адрес электронной почты имеет неверный формат.');
+        $this->expectExceptionMessage('Неверный формат адрес электронной почты.');
     }
 }

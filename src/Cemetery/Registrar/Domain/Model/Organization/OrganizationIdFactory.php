@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 
@@ -12,20 +13,14 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId
  */
 class OrganizationIdFactory
 {
-    /**
-     * @param SoleProprietorId|JuristicPersonId $id
-     *
-     * @return OrganizationId
-     */
+
     public function create(SoleProprietorId|JuristicPersonId $id): OrganizationId
     {
         return new OrganizationId($id);
     }
 
     /**
-     * @param string|null $id
-     *
-     * @return OrganizationId
+     * @throws Exception when the ID is empty
      */
     public function createForSoleProprietor(?string $id): OrganizationId
     {
@@ -33,9 +28,7 @@ class OrganizationIdFactory
     }
 
     /**
-     * @param string|null $id
-     *
-     * @return OrganizationId
+     * @throws Exception when the ID is empty
      */
     public function createForJuristicPerson(?string $id): OrganizationId
     {

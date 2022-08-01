@@ -28,7 +28,7 @@ class GraveSiteSizeTest extends TestCase
     public function testItFailsWithInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Размер участка "2.5A" имеет неверный формат.');
+        $this->expectExceptionMessage('Неверный формат размера участка.');
         new GraveSiteSize('2.5A');
     }
 

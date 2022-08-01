@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class AddressType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = Address::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'address';
 }

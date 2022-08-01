@@ -11,9 +11,6 @@ class CurrentAccount extends AbstractAccount
 {
     public const ACCOUNT_TYPE = 'Р/счёт';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function accountType(): string
     {
         return self::ACCOUNT_TYPE;

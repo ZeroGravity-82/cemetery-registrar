@@ -16,9 +16,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): ?BurialView
     {
         $viewData = $this->queryViewData($id);
@@ -26,9 +23,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -80,19 +74,11 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return false|array
-     */
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
@@ -223,11 +209,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             ->fetchAssociative();
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return int
-     */
     private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -243,9 +224,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     */
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
@@ -260,10 +238,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value"     = cjp.id');
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string|null  $term
-     */
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
@@ -300,11 +274,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         }
     }
 
-    /**
-     * @param array $viewData
-     *
-     * @return BurialView
-     */
     private function hydrateView(array $viewData): BurialView
     {
         return new BurialView(
@@ -465,16 +434,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         );
     }
 
-    /**
-     * @param array       $listData
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
-     *
-     * @return BurialList
-     */
     private function hydrateList(
         array   $listData,
         int     $page,
@@ -528,11 +487,6 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         return new BurialList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * @param string $code
-     *
-     * @return string
-     */
     private function formatCode(string $code): string
     {
         return \sprintf(BurialCode::CODE_FORMAT, $code);

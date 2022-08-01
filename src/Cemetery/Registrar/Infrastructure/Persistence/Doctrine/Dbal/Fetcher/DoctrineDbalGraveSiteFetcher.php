@@ -15,9 +15,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveSiteFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): ?GraveSiteView
     {
         $viewData = $this->queryViewData($id);
@@ -25,9 +22,6 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -59,19 +53,11 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return false|array
-     */
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
@@ -95,11 +81,6 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
             ->fetchAssociative();
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return int
-     */
     private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -115,19 +96,12 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     */
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
             ->leftJoin('gs', 'cemetery_block', 'cb', 'gs.cemetery_block_id = cb.id');
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string|null  $term
-     */
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
@@ -143,11 +117,6 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         }
     }
 
-    /**
-     * @param array $viewData
-     *
-     * @return GraveSiteView
-     */
     private function hydrateView(array $viewData): GraveSiteView
     {
         return new GraveSiteView(
@@ -167,16 +136,6 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         );
     }
 
-    /**
-     * @param array       $listData
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
-     *
-     * @return GraveSiteList
-     */
     private function hydrateList(
         array   $listData,
         int     $page,

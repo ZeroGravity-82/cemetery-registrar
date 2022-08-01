@@ -19,18 +19,12 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId
  */
 class CustomerId extends EntityMaskingId
 {
-    /**
-     * @param NaturalPersonId|SoleProprietorId|JuristicPersonId $id
-     */
     public function __construct(
         NaturalPersonId|SoleProprietorId|JuristicPersonId $id,
     ) {
         parent::__construct($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function idType(): string
     {
         return match (\get_class($this->id())) {

@@ -15,9 +15,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements ColumbariumNicheFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): ?ColumbariumNicheView
     {
         $viewData = $this->queryViewData($id);
@@ -25,9 +22,6 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -56,19 +50,11 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return false|array
-     */
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
@@ -91,11 +77,6 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
             ->fetchAssociative();
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return int
-     */
     private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -111,19 +92,12 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     */
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
             ->leftJoin('cn', 'columbarium', 'c', 'cn.columbarium_id = c.id');
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string|null  $term
-     */
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
@@ -138,11 +112,6 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         }
     }
 
-    /**
-     * @param array $viewData
-     *
-     * @return ColumbariumNicheView
-     */
     private function hydrateView(array $viewData): ColumbariumNicheView
     {
         return new ColumbariumNicheView(
@@ -161,16 +130,6 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         );
     }
 
-    /**
-     * @param array       $listData
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
-     *
-     * @return ColumbariumNicheList
-     */
     private function hydrateList(
         array   $listData,
         int     $page,

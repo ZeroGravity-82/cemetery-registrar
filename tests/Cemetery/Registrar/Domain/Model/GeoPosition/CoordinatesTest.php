@@ -50,7 +50,7 @@ class CoordinatesTest extends TestCase
     public function testItFailsWithLatitudeValueInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Широта "54.9A" имеет неверный формат.');
+        $this->expectExceptionMessage('Неверный формат широты.');
         new Coordinates('54.9A', '82.7972252');
     }
 
@@ -76,7 +76,7 @@ class CoordinatesTest extends TestCase
     public function testItFailsWithLongitudeValueInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Долгота "-82.7A" имеет неверный формат.');
+        $this->expectExceptionMessage('Неверный формат долготы.');
         new Coordinates('54.950357', '-82.7A');
     }
 

@@ -12,9 +12,6 @@ use Twig\TwigFilter;
  */
 class UrlExtension extends AbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters(): array
     {
         return [
@@ -22,11 +19,6 @@ class UrlExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param string $value
-     *
-     * @return string
-     */
     public function urlDecode(string $value): string
     {
         return \urldecode($value);

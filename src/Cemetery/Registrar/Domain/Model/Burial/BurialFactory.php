@@ -6,6 +6,7 @@ namespace Cemetery\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\IdentityGenerator;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -15,28 +16,19 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
  */
 class BurialFactory extends EntityFactory
 {
-    /**
-     * @param BurialCodeGenerator $burialCodeGenerator
-     * @param IdentityGenerator   $identityGenerator
-     */
     public function __construct(
-        private readonly BurialCodeGenerator $burialCodeGenerator,
-        IdentityGenerator                    $identityGenerator,
+        private BurialCodeGenerator $burialCodeGenerator,
+        IdentityGenerator           $identityGenerator,
     ) {
         parent::__construct($identityGenerator);
     }
 
     /**
-     * @param BurialType              $type
-     * @param NaturalPersonId         $deceasedId
-     * @param CustomerId|null         $customerId
-     * @param BurialPlaceId|null      $burialPlaceId
-     * @param NaturalPersonId|null    $personInChargeId
-     * @param FuneralCompanyId|null   $funeralCompanyId
-     * @param BurialContainer|null    $burialContainer
-     * @param \DateTimeImmutable|null $buriedAt
-     *
-     * @return Burial
+     * @throws Exception when generating an invalid burial ID
+     * @throws Exception when generating an invalid burial code
+     * @throws Exception when the burial place does not match the burial type
+     * @throws Exception when the funeral company not allowed for the burial type
+     * @throws Exception when the burial container does not match the burial type
      */
     public function create(
         BurialType          $type,

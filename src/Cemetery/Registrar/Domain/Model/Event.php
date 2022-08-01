@@ -9,19 +9,13 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class Event
 {
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected readonly \DateTimeImmutable $createdAt;
+    protected \DateTimeImmutable $createdAt;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;

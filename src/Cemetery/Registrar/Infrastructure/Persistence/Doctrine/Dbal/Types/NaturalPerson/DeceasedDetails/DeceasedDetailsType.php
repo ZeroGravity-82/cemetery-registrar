@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
@@ -16,18 +17,11 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJson
  */
 class DeceasedDetailsType extends CustomJsonType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = DeceasedDetails::class;
+    protected string $typeName  = 'deceased_details';
 
     /**
-     * {@inheritdoc}
-     */
-    protected string $typeName = 'deceased_details';
-
-    /**
-     * {@inheritdoc}
+     * @throws \LogicException when the deceased details decoded value is invalid
      */
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
@@ -52,13 +46,10 @@ class DeceasedDetailsType extends CustomJsonType
         }
 
         if ($isInvalidValue) {
-            throw new \RuntimeException(\sprintf('Неверный формат данных умершего: "%s".', $value));
+            throw new \LogicException(\sprintf('Неверный формат данных умершего: "%s".', $value));
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
         /** @var DeceasedDetails $value */
@@ -83,10 +74,15 @@ class DeceasedDetailsType extends CustomJsonType
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when the age decoded value is invalid
+     * @throws Exception when the cause of death ID decoded value is invalid
+     * @throws Exception when the error decoded value is invalid
      */
     protected function buildPhpValue(array $decodedValue): DeceasedDetails
     {
+        /// WIP!!!
+        $deathCertificateIssuedAt = $decodedValue['deathCertificate']['issuedAt'] ?? null;
+
         return new DeceasedDetails(
             \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['diedAt']),
             !\is_null($decodedValue['age'])            ? new Age($decodedValue['age'])                       : null,

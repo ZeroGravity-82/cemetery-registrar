@@ -14,17 +14,10 @@ use Doctrine\DBAL\Statement;
  */
 abstract class DoctrineDbalFetcher extends Fetcher
 {
-    /**
-     * @param Connection $connection
-     */
     public function __construct(
         protected readonly Connection $connection,
     ) {}
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string|null  $term
-     */
     protected function setTermParameter(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
@@ -33,10 +26,6 @@ abstract class DoctrineDbalFetcher extends Fetcher
         }
     }
 
-    /**
-     * @param Statement   $stmt
-     * @param string|null $term
-     */
     protected function bindTermValue(Statement $stmt, ?string $term): void
     {
         if ($term !== null && $term !== '') {

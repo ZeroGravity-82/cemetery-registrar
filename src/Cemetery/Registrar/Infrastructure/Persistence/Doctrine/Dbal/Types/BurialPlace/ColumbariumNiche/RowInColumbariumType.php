@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomInte
  */
 class RowInColumbariumType extends CustomIntegerType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = RowInColumbarium::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'row_in_columbarium';
 }

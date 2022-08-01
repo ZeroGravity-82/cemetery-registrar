@@ -9,10 +9,7 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class EntityFactory
 {
-    /**
-     * @param IdentityGenerator $identityGenerator
-     */
     public function __construct(
-        protected readonly IdentityGenerator $identityGenerator,
+        protected IdentityGenerator $identityGenerator,
     ) {}
 }

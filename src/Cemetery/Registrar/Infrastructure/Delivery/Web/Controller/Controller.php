@@ -21,9 +21,6 @@ abstract class Controller extends AbstractController
     /**
      * Checks that the CSRF token is valid.
      *
-     * @param Request $request
-     * @param string  $tokenId
-     *
      * @throws \RuntimeException when CSRF token is invalid
      * @throws \RuntimeException when JSON is invalid
      */
@@ -32,17 +29,14 @@ abstract class Controller extends AbstractController
         $data  = $this->decodeRequestData($request);
         $token = $data['token'] ?? null;
         if (!$this->isCsrfTokenValid($tokenId, $token)) {
-            throw new \RuntimeException('Ошибка проверки CSRF-токена, возможно он устарел. Попробуйте перезагрузить страницу.');
+            throw new \RuntimeException(
+                'Ошибка проверки CSRF-токена, возможно он устарел. Попробуйте перезагрузить страницу.'
+            );
         }
     }
 
     /**
      * Creates application service request from the JSON request.
-     *
-     * @param Request $request
-     * @param string  $appServiceRequestClassName
-     *
-     * @return mixed
      *
      * @throws \RuntimeException when JSON is invalid
      */
@@ -63,12 +57,7 @@ abstract class Controller extends AbstractController
     /**
      * Creates JSON HTTP response from the application service response.
      *
-     * @param ApplicationResponse $appResponse
-     * @param int                 $httpResponseSuccessStatus
-     *
-     * @return HttpJsonResponse
-     *
-     * @throws \InvalidArgumentException when the application response is of an unsupported type
+     * @throws \LogicException when the application response is of an unsupported type
      */
     protected function buildJsonResponse(
         ApplicationResponse $appResponse,
@@ -103,7 +92,7 @@ abstract class Controller extends AbstractController
                 $httpResponse = $this->json($httpResponseData, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
                 break;
             default:
-                throw new \InvalidArgumentException(\sprintf(
+                throw new \LogicException(\sprintf(
                     'Неподдерживаемый тип ответа прикладного сервиса: "%s".',
                     \get_class($appResponse),
                 ));
@@ -114,10 +103,6 @@ abstract class Controller extends AbstractController
 
     /**
      * Decodes JSON data of the request body.
-     *
-     * @param Request $request
-     *
-     * @return mixed
      *
      * @throws \RuntimeException when JSON is invalid
      */

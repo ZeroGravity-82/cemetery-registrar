@@ -37,7 +37,7 @@ class ErrorTest extends TestCase
     public function testItFailsWithInvalidFormat(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Погрешность "1.7A" имеет неверный формат.');
+        $this->expectExceptionMessage('Неверный формат погрешности.');
         new Error('1.7A');
     }
 

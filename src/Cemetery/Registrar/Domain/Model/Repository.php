@@ -12,8 +12,6 @@ interface Repository
     /**
      * Adds the aggregate to the repository. If the aggregate is already persisted, it will be updated.
      *
-     * @param $aggregateRoot
-     *
      * @throws \LogicException when the aggregate root type does not match the repository
      * @throws Exception       when uniqueness constraints (if any) are violated
      */
@@ -23,8 +21,6 @@ interface Repository
      * Adds the collection of aggregates to the repository. If any of the aggregates are already persisted, they will
      * be updated.
      *
-     * @param $aggregateRoots
-     *
      * @throws \LogicException when the aggregate root collection type does not match the repository
      * @throws Exception       when uniqueness constraints (if any) are violated
      */
@@ -33,10 +29,6 @@ interface Repository
     /**
      * Returns the aggregate by the aggregate root ID. If no aggregate root found, null will be returned.
      *
-     * @param $aggregateRootId
-     *
-     * @return AggregateRoot|null
-     *
      * @throws \LogicException when the aggregate root ID type does not match the repository
      */
     public function findById($aggregateRootId): ?AggregateRoot;
@@ -44,16 +36,12 @@ interface Repository
     /**
      * Removes the aggregate from the repository.
      *
-     * @param $aggregateRoot
-     *
      * @throws \LogicException when the aggregate root type does not match the repository
      */
     public function remove($aggregateRoot): void;
 
     /**
      * Removes the collection of aggregates from the repository.
-     *
-     * @param $aggregateRoots
      *
      * @throws \LogicException when the aggregate root collection type does not match the repository
      */

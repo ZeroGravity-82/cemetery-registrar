@@ -11,9 +11,6 @@ use Cemetery\Registrar\Domain\Model\EntityCollection;
  */
 class SoleProprietorCollection extends EntityCollection
 {
-    /**
-     * {@inheritdoc}
-     */
     public function supportedEntityClassName(): string
     {
         return SoleProprietor::class;

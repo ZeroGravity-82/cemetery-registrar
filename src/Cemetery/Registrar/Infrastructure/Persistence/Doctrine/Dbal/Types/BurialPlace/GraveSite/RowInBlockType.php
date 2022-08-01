@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomInte
  */
 class RowInBlockType extends CustomIntegerType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = RowInBlock::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'row_in_block';
 }

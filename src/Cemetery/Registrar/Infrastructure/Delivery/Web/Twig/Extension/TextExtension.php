@@ -13,9 +13,6 @@ use Twig\TwigFilter;
  */
 class TextExtension extends AbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getFilters(): array
     {
         return [
@@ -23,12 +20,6 @@ class TextExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * @param Environment $environment
-     * @param string      $value
-     *
-     * @return string
-     */
     public function ucfirst(Environment $environment, string $value): string
     {
         $charset = $environment->getCharset();

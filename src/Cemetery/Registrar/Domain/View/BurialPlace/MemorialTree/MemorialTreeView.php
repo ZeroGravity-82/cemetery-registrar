@@ -9,22 +9,13 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree;
  */
 class MemorialTreeView
 {
-    /**
-     * @param string      $id
-     * @param string      $treeNumber
-     * @param string|null $geoPositionLatitude
-     * @param string|null $geoPositionLongitude
-     * @param string|null $geoPositionError
-     * @param string      $createdAt
-     * @param string      $updatedAt
-     */
     public function __construct(
-        public readonly string  $id,
-        public readonly string  $treeNumber,
-        public readonly ?string $geoPositionLatitude,
-        public readonly ?string $geoPositionLongitude,
-        public readonly ?string $geoPositionError,
-        public readonly string  $createdAt,
-        public readonly string  $updatedAt,
+        public string  $id,
+        public string  $treeNumber,
+        public ?string $geoPositionLatitude,
+        public ?string $geoPositionLongitude,
+        public ?string $geoPositionError,
+        public string  $createdAt,
+        public string  $updatedAt,
     ) {}
 }

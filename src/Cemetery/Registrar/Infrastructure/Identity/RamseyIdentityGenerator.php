@@ -12,16 +12,10 @@ use Ramsey\Uuid\UuidFactory;
  */
 class RamseyIdentityGenerator implements IdentityGenerator
 {
-    /**
-     * @param UuidFactory $uuidFactory
-     */
     public function __construct(
         private readonly UuidFactory $uuidFactory,
     ) {}
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNextIdentity(): string
     {
         return $this->uuidFactory->uuid4()->toString();

@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,20 +16,19 @@ use Cemetery\Registrar\Domain\Model\EntityFactory;
 class NaturalPersonFactory extends EntityFactory
 {
     /**
-     * @param string|null $fullName
-     * @param string|null $phone
-     * @param string|null $phoneAdditional
-     * @param string|null $email
-     * @param string|null $address
-     * @param string|null $bornAt
-     * @param string|null $placeOfBirth
-     * @param string|null $passportSeries
-     * @param string|null $passportNumber
-     * @param string|null $passportIssuedAt
-     * @param string|null $passportIssuedBy
-     * @param string|null $passportDivisionCode
-     *
-     * @return NaturalPerson
+     * @throws Exception       when generating an invalid natural person ID
+     * @throws Exception       when the full name is invalid
+     * @throws Exception       when the phone number is invalid (if any)
+     * @throws Exception       when the phone number additional is invalid (if any)
+     * @throws Exception       when the e-mail address is invalid (if any)
+     * @throws Exception       when the address is invalid (if any)
+     * @throws \LogicException when the birthdate has invalid format (if any)
+     * @throws Exception       when the place of birth is invalid (if any)
+     * @throws Exception       when the passport series is invalid (if any)
+     * @throws Exception       when the passport number is invalid (if any)
+     * @throws \LogicException when the passport issue date has invalid format
+     * @throws Exception       when the passport issuing authority name is invalid (if any)
+     * @throws Exception       when the passport division code is invalid (if any)
      */
     public function create(
         ?string $fullName,
@@ -45,21 +45,33 @@ class NaturalPersonFactory extends EntityFactory
         ?string $passportDivisionCode,
     ): NaturalPerson {
         $fullName        = new FullName((string) $fullName);
-        $phone           = $phone !== null           ? new PhoneNumber($phone)                                : null;
+        $phone           = $phone           !== null ? new PhoneNumber($phone)                                : null;
         $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional)                      : null;
-        $email           = $email !== null           ? new Email($email)                                      : null;
-        $address         = $address !== null         ? new Address($address)                                  : null;
-        $bornAt          = $bornAt !== null          ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
-        $placeOfBirth    = $placeOfBirth !== null    ? new PlaceOfBirth($placeOfBirth)                        : null;
-        $passport        = $passportSeries !== null && $passportNumber !== null && $passportIssuedAt !== null && $passportIssuedBy !== null
-            ? new Passport(
+        $email           = $email           !== null ? new Email($email)                                      : null;
+        $address         = $address         !== null ? new Address($address)                                  : null;
+        $bornAt          = $bornAt          !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
+        if ($bornAt === false) {
+            $this->throwInvalidDateFormatException('рождения');
+        }
+        $placeOfBirth = $placeOfBirth !== null ? new PlaceOfBirth($placeOfBirth) : null;
+        $passport     = null;
+        if ($passportSeries   !== null &&
+            $passportNumber   !== null &&
+            $passportIssuedAt !== null &&
+            $passportIssuedBy !== null
+        ) {
+            $passportIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $passportIssuedAt);
+            if ($passportIssuedAt === false) {
+                $this->throwInvalidDateFormatException('выдачи паспорта');
+            }
+            $passport = new Passport(
                 $passportSeries,
                 $passportNumber,
-                \DateTimeImmutable::createFromFormat('Y-m-d', $passportIssuedAt),
+                $passportIssuedAt,
                 $passportIssuedBy,
                 $passportDivisionCode
-            )
-            : null;
+            );
+        }
 
         return (new NaturalPerson(
             new NaturalPersonId($this->identityGenerator->getNextIdentity()),
@@ -72,5 +84,13 @@ class NaturalPersonFactory extends EntityFactory
             ->setBornAt($bornAt)
             ->setPlaceOfBirth($placeOfBirth)
             ->setPassport($passport);
+    }
+
+    /**
+     * @throws \LogicException about invalid date format
+     */
+    private function throwInvalidDateFormatException(string $name): void
+    {
+        throw new \LogicException(\sprintf('Неверный формат даты %s.', $name));
     }
 }

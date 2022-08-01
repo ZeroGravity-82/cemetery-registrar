@@ -180,11 +180,6 @@ class BurialController extends Controller
         ];
     }
 
-    /**
-     * @param string|null $geoPosition
-     *
-     * @return string|null
-     */
     private function extractLatitudeFromGeoPosition(?string $geoPosition): ?string
     {
         $latitude = null;
@@ -198,11 +193,6 @@ class BurialController extends Controller
         return $latitude;
     }
 
-    /**
-     * @param string|null $geoPosition
-     *
-     * @return string|null
-     */
     private function extractLongitudeFromGeoPosition(?string $geoPosition): ?string
     {
         $longitude = null;
@@ -217,8 +207,6 @@ class BurialController extends Controller
     }
 
     /**
-     * @param string $geoPosition
-     *
      * @throws \RuntimeException when the geo position string has invalid format
      */
     private function assertValidGeoPositionFormat(string $geoPosition): void

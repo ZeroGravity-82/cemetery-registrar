@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\Exception\NaturalPersonRepositoryException;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
@@ -47,7 +48,7 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
     {
         /** @var NaturalPerson $aggregateRoot */
         if ($this->doesSameFullNameAndBornAtOrDiedAtAlreadyUsed($aggregateRoot)) {
-            throw NaturalPersonRepositoryException::sameFullNameAndBornAtOrDiedAtAlreadyUsed();
+            throw new Exception('Физлицо с таким ФИО и такой датой рождения или датой смерти уже существует.');
         }
     }
 

@@ -14,18 +14,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements FuneralCompanyFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): mixed
     {
         // TODO: Implement findViewById() method.
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -63,19 +57,11 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return int
-     */
     private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -91,9 +77,6 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     */
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
@@ -101,10 +84,6 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             ->leftJoin('fc', 'sole_proprietor', 'osp', 'fc.organization_id->>"$.value" = osp.id');
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string|null  $term
-     */
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
@@ -127,16 +106,6 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         }
     }
 
-    /**
-     * @param array       $listData
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
-     *
-     * @return FuneralCompanyList
-     */
     private function hydrateList(
         array   $listData,
         int     $page,

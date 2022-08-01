@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization\BankDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\Name;
 
 /**
@@ -11,31 +12,19 @@ use Cemetery\Registrar\Domain\Model\Organization\Name;
  */
 class BankDetails
 {
-    /**
-     * @var Name
-     */
-    private readonly Name $bankName;
+    private Name                  $bankName;
+    private Bik                   $bik;
+    private ?CorrespondentAccount $correspondentAccount;
+    private CurrentAccount        $currentAccount;
 
     /**
-     * @var Bik
-     */
-    private readonly Bik $bik;
-
-    /**
-     * @var CorrespondentAccount|null
-     */
-    private readonly ?CorrespondentAccount $correspondentAccount;
-
-    /**
-     * @var CurrentAccount
-     */
-    private readonly CurrentAccount $currentAccount;
-
-    /**
-     * @param string      $bankName
-     * @param string      $bik
-     * @param string|null $correspondentAccount
-     * @param string      $currentAccount
+     * @throws Exception when the bank name is invalid
+     * @throws Exception when the BIK is invalid
+     * @throws Exception when the BIK belongs to Central Bank of Russia
+     * @throws Exception when the correspondent account is invalid
+     * @throws Exception when the correspondent account doesn't match the BIK
+     * @throws Exception when the current account is invalid
+     * @throws Exception when the current account doesn't match the BIK
      */
     public function __construct(
         string  $bankName,
@@ -55,9 +44,6 @@ class BankDetails
         $this->currentAccount = new CurrentAccount($currentAccount);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         $bankDetailsString = $this->bankName();
@@ -69,43 +55,26 @@ class BankDetails
         return $bankDetailsString . ', БИК ' . $this->bik();
     }
 
-    /**
-     * @return Name
-     */
     public function bankName(): Name
     {
         return $this->bankName;
     }
 
-    /**
-     * @return Bik
-     */
     public function bik(): Bik
     {
         return $this->bik;
     }
 
-    /**
-     * @return CorrespondentAccount|null
-     */
     public function correspondentAccount(): ?CorrespondentAccount
     {
         return $this->correspondentAccount;
     }
 
-    /**
-     * @return CurrentAccount
-     */
     public function currentAccount(): CurrentAccount
     {
         return $this->currentAccount;
     }
 
-    /**
-     * @param self $bankDetails
-     *
-     * @return bool
-     */
     public function isEqual(self $bankDetails): bool
     {
         $isSameBankName             = $bankDetails->bankName()->isEqual($this->bankName());
@@ -119,7 +88,9 @@ class BankDetails
     }
 
     /**
-     * @param string $correspondentAccount
+     * @throws Exception when the BIK belongs to Central Bank of Russia
+     * @throws Exception when the correspondent account is empty
+     * @throws Exception when the correspondent account doesn't match the BIK
      */
     private function assertValidCorrespondentAccount(string $correspondentAccount): void
     {
@@ -129,7 +100,8 @@ class BankDetails
     }
 
     /**
-     * @param string $currentAccount
+     * @throws Exception when the current account is empty
+     * @throws Exception when the current account doesn't match the BIK
      */
     private function assertValidCurrentAccount(string $currentAccount): void
     {
@@ -138,54 +110,38 @@ class BankDetails
     }
 
     /**
-     * @param Bik $bik
-     *
-     * @throws \InvalidArgumentException when the BIK belongs to Central Bank of Russia
+     * @throws Exception when the BIK belongs to Central Bank of Russia
      */
     private function assertBikNotBelongsToCentralBankOfRussia(Bik $bik): void
     {
         if ($bik->isBelongToCentralBankOfRussia()) {
-            throw new \InvalidArgumentException('К/счёт не может быть указан для данного БИК.');
+            throw new Exception('К/счёт не может быть указан для данного БИК.');
         }
     }
 
     /**
-     * @param string $value
-     * @param string $type
-     *
-     * @throws \InvalidArgumentException when the value is empty
+     * @throws Exception when the value is empty
      */
     private function assertNotEmpty(string $value, string $type): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException(\sprintf('%s не может иметь пустое значение.', $type));
+            throw new Exception(\sprintf('%s не может иметь пустое значение.', $type));
         }
     }
 
     /**
-     * @param string $value
-     * @param string $accountType
-     * @param Bik    $bik
-     *
-     * @throws \InvalidArgumentException when the account doesn't match the BIK
+     * @throws Exception when the account doesn't match the BIK
      */
     private function assertMatchesTheBik(string $value, string $accountType, Bik $bik): void
     {
         $checkValue = $this->calculateCheckValue($value, $accountType, $bik);
         if ($checkValue !== 0) {
-            throw new \InvalidArgumentException(
+            throw new Exception(
                 \sprintf('%s недействителен (не соответствует БИК).', $accountType)
             );
         }
     }
 
-    /**
-     * @param string $value
-     * @param string $accountType
-     * @param Bik    $bik
-     *
-     * @return int
-     */
     private function calculateCheckValue(string $value, string $accountType, Bik $bik): int
     {
         $checkSum          = 0;
@@ -198,13 +154,6 @@ class BankDetails
         return $checkSum % 10;
     }
 
-    /**
-     * @param string $value
-     * @param string $accountType
-     * @param Bik    $bik
-     *
-     * @return string
-     */
     private function getStringForCheckSum(string $value, string $accountType, Bik $bik): string
     {
         return match ($accountType) {
@@ -216,23 +165,11 @@ class BankDetails
         };
     }
 
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @return string
-     */
     private function getStringForCurrentAccountCheckSum(string $value, Bik $bik): string
     {
         return \substr($bik->value(), -3) . $value;
     }
 
-    /**
-     * @param string $value
-     * @param Bik    $bik
-     *
-     * @return string
-     */
     private function getStringForCorrespondentAccountCheckSum(string $value, Bik $bik): string
     {
         return '0' . \substr($bik->value(), -5, 2) . $value;

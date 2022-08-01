@@ -15,9 +15,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements CauseOfDeathFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): ?CauseOfDeathView
     {
         $viewData = $this->queryViewData($id);
@@ -25,9 +22,6 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -52,19 +46,11 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
     }
 
-    /**
-     * @param string $id
-     *
-     * @return false|array
-     */
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
@@ -82,11 +68,6 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
             ->fetchAssociative();
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return int
-     */
     private function doCountTotal(?string $term): int
     {
         $queryBuilder = $this->connection->createQueryBuilder()
@@ -101,10 +82,6 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string|null  $term
-     */
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
@@ -115,11 +92,6 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         }
     }
 
-    /**
-     * @param array $viewData
-     *
-     * @return CauseOfDeathView
-     */
     private function hydrateView(array $viewData): CauseOfDeathView
     {
         return new CauseOfDeathView(
@@ -130,16 +102,6 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         );
     }
 
-    /**
-     * @param array       $listData
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
-     *
-     * @return CauseOfDeathList
-     */
     private function hydrateList(
         array   $listData,
         int     $page,

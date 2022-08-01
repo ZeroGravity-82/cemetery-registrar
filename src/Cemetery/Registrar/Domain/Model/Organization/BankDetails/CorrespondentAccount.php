@@ -11,9 +11,6 @@ class CorrespondentAccount extends AbstractAccount
 {
     public const ACCOUNT_TYPE = 'К/счёт';
 
-    /**
-     * {@inheritdoc}
-     */
     protected function accountType(): string
     {
         return self::ACCOUNT_TYPE;

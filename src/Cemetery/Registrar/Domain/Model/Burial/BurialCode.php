@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Burial;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -13,42 +15,37 @@ class BurialCode
     private const CODE_MAX_LENGTH = 9;
 
     /**
-     * @param string $value
+     * @throws Exception when the code is an empty string
+     * @throws Exception when the code has non-numeric value
+     * @throws Exception when the length of the code is wrong
+     * @throws Exception when the code has leading zeros
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return \sprintf(self::CODE_FORMAT, $this->value());
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $code
-     *
-     * @return bool
-     */
     public function isEqual(self $code): bool
     {
         return $code->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the code is an empty string
+     * @throws Exception when the code has non-numeric value
+     * @throws Exception when the length of the code is wrong
+     * @throws Exception when the code has leading zeros
      */
     private function assertValidValue(string $value): void
     {
@@ -59,38 +56,32 @@ class BurialCode
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \RuntimeException when the code is an empty string
+     * @throws Exception when the code is an empty string
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \RuntimeException('Код захоронения не может иметь пустое значение.');
+            throw new Exception('Код захоронения не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \RuntimeException when the code has non-numeric value
+     * @throws Exception when the code has non-numeric value
      */
     private function assertNumeric(string $value): void
     {
         if (!\preg_match('~^\d+$~', $value)) {
-            throw new \RuntimeException('Код захоронения должен состоять только из цифр.');
+            throw new Exception('Код захоронения должен состоять только из цифр.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \RuntimeException when the length of the code is wrong
+     * @throws Exception when the length of the code is wrong
      */
     private function assertValidLength(string $value): void
     {
         if (\strlen($value) > self::CODE_MAX_LENGTH) {
-            throw new \RuntimeException(\sprintf(
+            throw new Exception(\sprintf(
                 'Код захоронения должен состоять не более, чем из %d цифр.',
                 self::CODE_MAX_LENGTH
             ));
@@ -98,15 +89,13 @@ class BurialCode
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \RuntimeException when the code has leading zeros
+     * @throws Exception when the code has leading zeros
      */
     private function assertHasNoLeadingZeros(string $value): void
     {
         $significantDigitCount = \strlen((string) \abs((int) $value));
         if (\strlen($value) !== $significantDigitCount) {
-            throw new \RuntimeException('Код захоронения не должен содержать ведущие нули.');
+            throw new Exception('Код захоронения не должен содержать ведущие нули.');
         }
     }
 }

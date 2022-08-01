@@ -4,48 +4,39 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class PlaceOfBirth
 {
     /**
-     * @param string $value
+     * @throws Exception when the place of birth is empty
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $placeOfBirth
-     *
-     * @return bool
-     */
     public function isEqual(self $placeOfBirth): bool
     {
         return $placeOfBirth->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the place of birth is empty
      */
     private function assertValidValue(string $value): void
     {
@@ -53,14 +44,12 @@ class PlaceOfBirth
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the place of birth is empty
+     * @throws Exception when the place of birth is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('Место рождения не может иметь пустое значение.');
+            throw new Exception('Место рождения не может иметь пустое значение.');
         }
     }
 }

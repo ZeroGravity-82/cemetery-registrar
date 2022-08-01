@@ -11,28 +11,18 @@ use Cemetery\Registrar\Domain\Model\Event;
  */
 class CauseOfDeathCreated extends Event
 {
-    /**
-     * @param CauseOfDeathId   $causeOfDeathId
-     * @param CauseOfDeathName $causeOfDeathName
-     */
     public function __construct(
-        private readonly CauseOfDeathId   $causeOfDeathId,
-        private readonly CauseOfDeathName $causeOfDeathName,
+        private CauseOfDeathId   $causeOfDeathId,
+        private CauseOfDeathName $causeOfDeathName,
     ) {
         parent::__construct();
     }
 
-    /**
-     * @return CauseOfDeathId
-     */
     public function causeOfDeathId(): CauseOfDeathId
     {
         return $this->causeOfDeathId;
     }
 
-    /**
-     * @return CauseOfDeathName
-     */
     public function causeOfDeathName(): CauseOfDeathName
     {
         return $this->causeOfDeathName;

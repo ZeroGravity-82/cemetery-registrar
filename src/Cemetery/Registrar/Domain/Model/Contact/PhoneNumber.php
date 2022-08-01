@@ -4,48 +4,39 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Contact;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class PhoneNumber
 {
     /**
-     * @param string $value
+     * @throws Exception when the phone number is empty
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $phoneNumber
-     *
-     * @return bool
-     */
     public function isEqual(self $phoneNumber): bool
     {
         return $phoneNumber->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the phone number is empty
      */
     private function assertValidValue(string $value): void
     {
@@ -53,14 +44,12 @@ class PhoneNumber
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the phone number is empty
+     * @throws Exception when the phone number is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('Номер телефона не может иметь пустое значение.');
+            throw new Exception('Номер телефона не может иметь пустое значение.');
         }
     }
 }

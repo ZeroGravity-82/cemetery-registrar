@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
@@ -15,15 +16,14 @@ use Cemetery\Registrar\Domain\Model\EntityFactory;
 class GraveSiteFactory extends EntityFactory
 {
     /**
-     * @param string|null $cemeteryBlockId
-     * @param int|null    $rowInBlock
-     * @param int|null    $positionInRow
-     * @param string|null $geoPositionLatitude
-     * @param string|null $geoPositionLongitude
-     * @param string|null $geoPositionError
-     * @param string|null $size
-     *
-     * @return GraveSite
+     * @throws Exception when generating an invalid grave site ID
+     * @throws Exception when the cemetery block ID is empty
+     * @throws Exception when the row in block value is invalid
+     * @throws Exception when the position in row value is invalid (if any)
+     * @throws Exception when the geo position latitude value is invalid (if any)
+     * @throws Exception when the geo position longitude value is invalid (if any)
+     * @throws Exception when the geo position error value is invalid (if any)
+     * @throws Exception when the grave site size value is invalid (if any)
      */
     public function create(
         ?string $cemeteryBlockId,

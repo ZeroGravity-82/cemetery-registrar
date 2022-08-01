@@ -9,26 +9,15 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche;
  */
 class ColumbariumNicheView
 {
-    /**
-     * @param string      $id
-     * @param string      $columbariumId
-     * @param int         $rowInColumbarium
-     * @param string      $nicheNumber
-     * @param string|null $geoPositionLatitude
-     * @param string|null $geoPositionLongitude
-     * @param string|null $geoPositionError
-     * @param string      $createdAt
-     * @param string      $updatedAt
-     */
     public function __construct(
-        public readonly string  $id,
-        public readonly string  $columbariumId,
-        public readonly int     $rowInColumbarium,
-        public readonly string  $nicheNumber,
-        public readonly ?string $geoPositionLatitude,
-        public readonly ?string $geoPositionLongitude,
-        public readonly ?string $geoPositionError,
-        public readonly string  $createdAt,
-        public readonly string  $updatedAt,
+        public string  $id,
+        public string  $columbariumId,
+        public int     $rowInColumbarium,
+        public string  $nicheNumber,
+        public ?string $geoPositionLatitude,
+        public ?string $geoPositionLongitude,
+        public ?string $geoPositionError,
+        public string  $createdAt,
+        public string  $updatedAt,
     ) {}
 }

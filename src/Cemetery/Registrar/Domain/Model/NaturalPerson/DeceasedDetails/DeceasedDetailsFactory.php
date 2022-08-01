@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -12,19 +13,11 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 class DeceasedDetailsFactory
 {
     /**
-     * @param string|null $diedAt
-     * @param int|null    $age
-     * @param string|null $causeOfDeathId
-     * @param string|null $deathCertificateSeries
-     * @param string|null $deathCertificateNumber
-     * @param string|null $deathCertificateIssuedAt
-     * @param string|null $cremationCertificateNumber
-     * @param string|null $cremationCertificateIssuedAt
-     *
-     * @return DeceasedDetails
-     *
-     * @throws \RuntimeException when the death certificate data is incomplete (if any)
-     * @throws \RuntimeException when the cremation certificate data is incomplete (if any)
+     * @throws Exception       when the death certificate data is incomplete (if any)
+     * @throws Exception       when the cremation certificate data is incomplete (if any)
+     * @throws \LogicException when the date of death has invalid format
+     * @throws \LogicException when the death certificate issue date has invalid format (if any)
+     * @throws \LogicException when the cremation certificate issue date has invalid format (if any)
      */
     public function create(
         ?string $diedAt,
@@ -46,24 +39,38 @@ class DeceasedDetailsFactory
             $cremationCertificateIssuedAt,
         );
 
-        $diedAt           = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
+        $diedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
+        if ($diedAt === false) {
+            $this->throwInvalidDateFormatException('смерти');
+        }
         $age              = $age            !== null ? new Age($age)                       : null;
         $causeOfDeathId   = $causeOfDeathId !== null ? new CauseOfDeathId($causeOfDeathId) : null;
-        $deathCertificate = $deathCertificateSeries   !== null &&
-                              $deathCertificateNumber   !== null &&
-                              $deathCertificateIssuedAt !== null
-            ? new DeathCertificate(
+        $deathCertificate = null;
+        if ($deathCertificateSeries   !== null &&
+            $deathCertificateNumber   !== null &&
+            $deathCertificateIssuedAt !== null) {
+            $deathCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $deathCertificateIssuedAt);
+            if ($deathCertificateIssuedAt === false) {
+                $this->throwInvalidDateFormatException('свидетельства о смерти');
+            }
+            $deathCertificate = new DeathCertificate(
                 $deathCertificateSeries,
                 $deathCertificateNumber,
-                \DateTimeImmutable::createFromFormat('Y-m-d', $deathCertificateIssuedAt)
-            )
-            : null;
-        $cremationCertificate = $cremationCertificateNumber !== null && $cremationCertificateIssuedAt !== null
-            ? new CremationCertificate(
+                $deathCertificateIssuedAt,
+            );
+        }
+        $cremationCertificate = null;
+        if ($cremationCertificateNumber !== null &&
+            $cremationCertificateIssuedAt !== null) {
+            $cremationCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $cremationCertificateIssuedAt);
+            if ($cremationCertificateIssuedAt === false) {
+                $this->throwInvalidDateFormatException('справки о кремации');
+            }
+            $cremationCertificate = new CremationCertificate(
                 $cremationCertificateNumber,
-                \DateTimeImmutable::createFromFormat('Y-m-d', $cremationCertificateIssuedAt)
-            )
-            : null;
+                $cremationCertificateIssuedAt,
+             );
+        }
 
         return new DeceasedDetails(
             $diedAt,
@@ -75,11 +82,7 @@ class DeceasedDetailsFactory
     }
 
     /**
-     * @param string|null $deathCertificateSeries
-     * @param string|null $deathCertificateNumber
-     * @param string|null $deathCertificateIssuedAt
-     *
-     * @throws \RuntimeException when the death certificate data is incomplete (if any)
+     * @throws Exception when the death certificate data is incomplete (if any)
      */
     private function assertCompleteDeathCertificateData(
         ?string $deathCertificateSeries,
@@ -105,10 +108,7 @@ class DeceasedDetailsFactory
     }
 
     /**
-     * @param string|null $cremationCertificateNumber
-     * @param string|null $cremationCertificateIssuedAt
-     *
-     * @throws \RuntimeException when the cremation certificate data is incomplete (if any)
+     * @throws Exception when the cremation certificate data is incomplete (if any)
      */
     private function assertCompleteCremationCertificateData(
         ?string $cremationCertificateNumber,
@@ -129,17 +129,22 @@ class DeceasedDetailsFactory
     }
 
     /**
-     * @param string $documentName document name in the genitive case
-     * @param string $fieldName    field name in the genitive case
-     *
-     * @throws \RuntimeException about incomplete document data
+     * @throws Exception about incomplete document data
      */
     private function throwIncompleteDocumentDataException(string $documentName, string $fieldName): void
     {
-        throw new \RuntimeException(\sprintf(
+        throw new Exception(\sprintf(
             'Неполные данные %s: не указано значение для %s.',
             $documentName,
             $fieldName,
         ));
+    }
+
+    /**
+     * @throws \LogicException about invalid date format
+     */
+    private function throwInvalidDateFormatException(string $name): void
+    {
+        throw new \LogicException(\sprintf('Неверный формат даты %s.', $name));
     }
 }

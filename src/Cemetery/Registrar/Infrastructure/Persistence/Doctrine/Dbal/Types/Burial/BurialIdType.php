@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class BurialIdType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = BurialId::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'burial_id';
 }

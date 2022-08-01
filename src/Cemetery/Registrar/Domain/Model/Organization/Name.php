@@ -4,48 +4,39 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class Name
 {
     /**
-     * @param string $value
+     * @throws Exception when the name is empty
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $name
-     *
-     * @return bool
-     */
     public function isEqual(self $name): bool
     {
         return $name->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the name is empty
      */
     private function assertValidValue(string $value): void
     {
@@ -53,14 +44,12 @@ class Name
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the name is empty
+     * @throws Exception when the name is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('Наименование не может иметь пустое значение.');
+            throw new Exception('Наименование не может иметь пустое значение.');
         }
     }
 }

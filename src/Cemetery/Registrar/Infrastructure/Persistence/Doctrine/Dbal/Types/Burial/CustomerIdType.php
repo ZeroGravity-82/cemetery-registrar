@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
@@ -18,18 +19,11 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMask
  */
 class CustomerIdType extends EntityMaskingIdType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = CustomerId::class;
+    protected string $typeName  = 'customer_id';
 
     /**
-     * {@inheritdoc}
-     */
-    protected string $typeName = 'customer_id';
-
-    /**
-     * {@inheritdoc}
+     * @throws Exception when the ID decoded value is empty
      */
     protected function buildPhpValue(array $decodedValue): CustomerId
     {

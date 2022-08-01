@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class ColumbariumNicheNumberType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = ColumbariumNicheNumber::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'columbarium_niche_number';
 }

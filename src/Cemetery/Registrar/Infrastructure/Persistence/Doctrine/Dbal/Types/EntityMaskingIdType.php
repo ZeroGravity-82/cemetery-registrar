@@ -21,7 +21,7 @@ abstract class EntityMaskingIdType extends CustomJsonType
             !\array_key_exists('type', $decodedValue) ||
             !\array_key_exists('value', $decodedValue);
         if ($isInvalidValue) {
-            throw new \RuntimeException(\sprintf('Неверный формат идентификатора: "%s".', $value));
+            throw new \LogicException(\sprintf('Неверный формат идентификатора: "%s".', $value));
         }
     }
 

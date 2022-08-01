@@ -9,38 +9,17 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class EntityMaskingId
 {
-    /**
-     * @var EntityId
-     */
-    protected readonly EntityId $id;
-
-    /**
-     * @param EntityId $id
-     */
     public function __construct(
-        EntityId $id,
-    ) {
-        $this->id = $id;
-    }
+        protected EntityId $id,
+    ) {}
 
-    /**
-     * @return string
-     */
     abstract public function idType(): string;
 
-    /**
-     * @return EntityId
-     */
     public function id(): EntityId
     {
         return $this->id;
     }
 
-    /**
-     * @param self $id
-     *
-     * @return bool
-     */
     public function isEqual(self $id): bool
     {
         $isSameIdClass = \get_class($id->id()) === \get_class($this->id());

@@ -4,63 +4,51 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 abstract class AbstractOkpo
 {
     /**
-     * @param string $value
+     * @throws Exception when the OKPO is empty
+     * @throws Exception when the OKPO has non-numeric value
+     * @throws Exception when the length of the OKPO is wrong
+     * @throws Exception when the OKPO contains an incorrect check digit
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return int
-     */
     abstract protected function okpoLength(): int;
 
-    /**
-     * @return array
-     */
     abstract protected function coefficientsForFirstCheck(): array;
 
-    /**
-     * @return array
-     */
     abstract protected function coefficientsForSecondCheck(): array;
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $okpo
-     *
-     * @return bool
-     */
     public function isEqual(self $okpo): bool
     {
         return $okpo->value() === $this->value();
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the OKPO is empty
+     * @throws Exception when the OKPO has non-numeric value
+     * @throws Exception when the length of the OKPO is wrong
+     * @throws Exception when the OKPO contains an incorrect check digit
      */
     private function assertValidValue(string $value): void
     {
@@ -71,44 +59,38 @@ abstract class AbstractOkpo
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the OKPO is empty
+     * @throws Exception when the OKPO is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('ОКПО не может иметь пустое значение.');
+            throw new Exception('ОКПО не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the OKPO has non-numeric value
+     * @throws Exception when the OKPO has non-numeric value
      */
     private function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException('ОКПО должен состоять только из цифр.');
+            throw new Exception('ОКПО должен состоять только из цифр.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the length of the OKPO is wrong
+     * @throws Exception when the length of the OKPO is wrong
      */
     private function assertValidLength(string $value): void
     {
         $okpoLength = $this->okpoLength();
         if (\strlen($value) !== $okpoLength) {
-            throw new \InvalidArgumentException(\sprintf('ОКПО должен состоять из %d цифр.', $okpoLength));
+            throw new Exception(\sprintf('ОКПО должен состоять из %d цифр.', $okpoLength));
         }
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the OKPO contains an incorrect check digit
      */
     private function assertValidCheckDigit(string $value): void
     {
@@ -125,12 +107,6 @@ abstract class AbstractOkpo
         }
     }
 
-    /**
-     * @param string $value
-     * @param array  $coefficients
-     *
-     * @return int
-     */
     private function calculateCheckSum(string $value, array $coefficients): int
     {
         $checkSum = 0;
@@ -142,10 +118,10 @@ abstract class AbstractOkpo
     }
 
     /**
-     * @throws \InvalidArgumentException about invalid check digit
+     * @throws Exception about invalid check digit
      */
     private function throwInvalidCheckDigitException(): void
     {
-        throw new \InvalidArgumentException('ОКПО недействителен.');
+        throw new Exception('ОКПО недействителен.');
     }
 }

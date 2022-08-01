@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Burial\BurialContainer;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
@@ -13,42 +15,31 @@ class CoffinSize
     private const MAX_SIZE = 225;
 
     /**
-     * @param int $value
+     * @throws Exception when the value is out of valid range
      */
     public function __construct(
-        private readonly int $value,
+        private int $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return (string) $this->value();
     }
 
-    /**
-     * @return int
-     */
     public function value(): int
     {
         return $this->value;
     }
 
-    /**
-     * @param self $coffinSize
-     *
-     * @return bool
-     */
     public function isEqual(self $coffinSize): bool
     {
         return $coffinSize->value() === $this->value();
     }
 
     /**
-     * @param int $value
+     * @throws Exception when the value is out of valid range
      */
     private function assertValidValue(int $value): void
     {
@@ -56,14 +47,12 @@ class CoffinSize
     }
 
     /**
-     * @param int $value
-     *
-     * @throws \RuntimeException when the value is out of valid range
+     * @throws Exception when the value is out of valid range
      */
     private function assertIsInTheValidRange(int $value): void
     {
         if ($value < self::MIN_SIZE || $value > self::MAX_SIZE) {
-            throw new \RuntimeException(\sprintf(
+            throw new Exception(\sprintf(
                 'Размер гроба %d см находится вне допустимого диапазона [%d, %d] см.',
                 $value,
                 self::MIN_SIZE,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\AbstractInn;
 
 /**
@@ -13,16 +14,13 @@ class Inn extends AbstractInn
 {
     private const INN_LENGTH = 10;
 
-    /**
-     * {@inheritdoc}
-     */
     protected function innLength(): int
     {
         return self::INN_LENGTH;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when the check digits are invalid
      */
     protected function assertValidCheckDigits(string $value): void
     {

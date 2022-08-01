@@ -9,8 +9,5 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 interface IdentityGenerator
 {
-    /**
-     * @return string
-     */
     public function getNextIdentity(): string;
 }

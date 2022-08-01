@@ -9,12 +9,8 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree;
  */
 class MemorialTreeListItem
 {
-    /**
-     * @param string $id
-     * @param string $treeNumber
-     */
     public function __construct(
-        public readonly string $id,
-        public readonly string $treeNumber,
+        public string $id,
+        public string $treeNumber,
     ) {}
 }

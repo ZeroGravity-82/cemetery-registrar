@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 
@@ -19,84 +20,42 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
  */
 class Burial extends AggregateRoot
 {
-    /**
-     * @var CustomerId|null
-     */
-    private ?CustomerId $customerId = null;
-
-    /**
-     * @var BurialPlaceId|null
-     */
-    private ?BurialPlaceId $burialPlaceId = null;
-
-    /**
-     * @var NaturalPersonId|null
-     */
-    private ?NaturalPersonId $personInChargeId = null;
-
-    /**
-     * @var FuneralCompanyId|null
-     */
-    private ?FuneralCompanyId $funeralCompanyId = null;
-
-    /**
-     * @var BurialContainer|null
-     */
-    private ?BurialContainer $burialContainer = null;
-
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    private ?CustomerId         $customerId = null;
+    private ?BurialPlaceId      $burialPlaceId = null;
+    private ?NaturalPersonId    $personInChargeId = null;
+    private ?FuneralCompanyId   $funeralCompanyId = null;
+    private ?BurialContainer    $burialContainer = null;
     private ?\DateTimeImmutable $buriedAt = null;
+    private ?BurialChainId      $burialChainId = null;
 
-    /**
-     * @var BurialChainId|null
-     */
-    private ?BurialChainId $burialChainId = null;
-
-    /**
-     * @param BurialId        $id
-     * @param BurialCode      $code
-     * @param BurialType      $type
-     * @param NaturalPersonId $deceasedId
-     */
     public function __construct(
-        private readonly BurialId   $id,
-        private readonly BurialCode $code,
-        private BurialType          $type,
-        private NaturalPersonId     $deceasedId,
+        private BurialId        $id,
+        private BurialCode      $code,
+        private BurialType      $type,
+        private NaturalPersonId $deceasedId,
     ) {
         parent::__construct();
     }
 
-    /**
-     * @return BurialId
-     */
     public function id(): BurialId
     {
         return $this->id;
     }
 
-    /**
-     * @return BurialCode
-     */
     public function code(): BurialCode
     {
         return $this->code;
     }
 
-    /**
-     * @return BurialType
-     */
     public function type(): BurialType
     {
         return $this->type;
     }
 
     /**
-     * @param BurialType $type
-     *
-     * @return $this
+     * @throws Exception when the burial place does not match the burial type
+     * @throws Exception when the funeral company not allowed for the burial type
+     * @throws Exception when the burial container does not match the burial type
      */
     public function setType(BurialType $type): self
     {
@@ -111,19 +70,11 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return NaturalPersonId
-     */
     public function deceasedId(): NaturalPersonId
     {
         return $this->deceasedId;
     }
 
-    /**
-     * @param NaturalPersonId $deceasedId
-     *
-     * @return $this
-     */
     public function setDeceasedId(NaturalPersonId $deceasedId): self
     {
         // $this->assertDeceasedMatchesBurialType($deceasedId);
@@ -132,19 +83,11 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return CustomerId|null
-     */
     public function customerId(): ?CustomerId
     {
         return $this->customerId;
     }
 
-    /**
-     * @param CustomerId|null $customerId
-     *
-     * @return $this
-     */
     public function setCustomerId(?CustomerId $customerId): self
     {
         $this->customerId = $customerId;
@@ -152,18 +95,13 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return BurialPlaceId|null
-     */
     public function burialPlaceId(): ?BurialPlaceId
     {
         return $this->burialPlaceId;
     }
 
     /**
-     * @param BurialPlaceId|null $burialPlaceId
-     *
-     * @return $this
+     * @throws Exception when the burial place does not match the burial type
      */
     public function setBurialPlaceId(?BurialPlaceId $burialPlaceId): self
     {
@@ -173,19 +111,11 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return NaturalPersonId|null
-     */
     public function personInChargeId(): ?NaturalPersonId
     {
         return $this->personInChargeId;
     }
 
-    /**
-     * @param NaturalPersonId|null $personInChargeId
-     *
-     * @return $this
-     */
     public function setPersonInChargeId(?NaturalPersonId $personInChargeId): self
     {
         $this->personInChargeId = $personInChargeId;
@@ -193,18 +123,13 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return FuneralCompanyId|null
-     */
     public function funeralCompanyId(): ?FuneralCompanyId
     {
         return $this->funeralCompanyId;
     }
 
     /**
-     * @param FuneralCompanyId|null $funeralCompanyId
-     *
-     * @return $this
+     * @throws Exception when the funeral company not allowed for the burial type
      */
     public function setFuneralCompanyId(?FuneralCompanyId $funeralCompanyId): self
     {
@@ -214,18 +139,13 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return BurialContainer|null
-     */
     public function burialContainer(): ?BurialContainer
     {
         return $this->burialContainer;
     }
 
     /**
-     * @param BurialContainer|null $burialContainer
-     *
-     * @return $this
+     * @throws Exception when the burial container does not match the burial type
      */
     public function setBurialContainer(?BurialContainer $burialContainer): self
     {
@@ -235,19 +155,11 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return \DateTimeImmutable|null
-     */
     public function buriedAt(): ?\DateTimeImmutable
     {
         return $this->buriedAt;
     }
 
-    /**
-     * @param \DateTimeImmutable|null $buriedAt
-     *
-     * @return $this
-     */
     public function setBuriedAt(?\DateTimeImmutable $buriedAt): self
     {
         $this->buriedAt = $buriedAt;
@@ -255,19 +167,11 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    /**
-     * @return BurialChainId|null
-     */
     public function burialChainId(): ?BurialChainId
     {
         return $this->burialChainId;
     }
 
-    /**
-     * @param BurialChainId|null $burialChainId
-     *
-     * @return $this
-     */
     public function setBurialChainId(?BurialChainId $burialChainId): self
     {
         $this->burialChainId = $burialChainId;
@@ -276,11 +180,7 @@ class Burial extends AggregateRoot
     }
 
     /**
-     * Checks that the burial place matches the burial type.
-     *
-     * @param BurialPlaceId|null $burialPlaceId
-     *
-     * @throws \RuntimeException when the burial place does not match the burial type
+     * @throws Exception when the burial place does not match the burial type
      */
     private function assertBurialPlaceMatchesBurialType(?BurialPlaceId $burialPlaceId): void
     {
@@ -293,7 +193,7 @@ class Burial extends AggregateRoot
             default => false,
         };
         if (!$isMatch) {
-            throw new \RuntimeException(\sprintf(
+            throw new Exception(\sprintf(
                 'Место захоронения "%s" не соответствует типу захороненния "%s".',
                 $this->getBurialPlaceLabel($burialPlaceId),
                 $this->type()->label(),
@@ -302,11 +202,7 @@ class Burial extends AggregateRoot
     }
 
     /**
-     * Checks that the burial container matches the burial type.
-     *
-     * @param BurialContainer|null $burialContainer
-     *
-     * @throws \RuntimeException when the burial container does not match the burial type
+     * @throws Exception when the burial container does not match the burial type
      */
     private function assertBurialContainerMatchesBurialType(?BurialContainer $burialContainer): void
     {
@@ -319,7 +215,7 @@ class Burial extends AggregateRoot
             default => false,
         };
         if (!$isMatch) {
-            throw new \RuntimeException(\sprintf(
+            throw new Exception(\sprintf(
                 'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
                 $container::CLASS_LABEL,
                 $this->type()->label(),
@@ -328,11 +224,7 @@ class Burial extends AggregateRoot
     }
 
     /**
-     * Checks that the funeral company allowed for the burial type.
-     *
-     * @param FuneralCompanyId|null $funeralCompanyId
-     *
-     * @throws \RuntimeException when the funeral company not allowed for the burial type
+     * @throws Exception when the funeral company not allowed for the burial type
      */
     private function assertFuneralCompanyAllowedForBurialType(?FuneralCompanyId $funeralCompanyId): void
     {
@@ -344,20 +236,13 @@ class Burial extends AggregateRoot
             default => false,
         };
         if (!$isAllowed) {
-            throw new \RuntimeException(\sprintf(
+            throw new Exception(\sprintf(
                 'Похоронная фирма не может быть задана для типа захороненния "%s".',
                 $this->type()->label(),
             ));
         }
     }
 
-    /**
-     * Returns burial place label for the burial place ID.
-     *
-     * @param BurialPlaceId $burialPlaceId
-     *
-     * @return string
-     */
     private function getBurialPlaceLabel(BurialPlaceId $burialPlaceId): string
     {
         $id = $burialPlaceId->id();

@@ -19,18 +19,12 @@ use Cemetery\Registrar\Domain\Model\EntityMaskingId;
  */
 class BurialPlaceId extends EntityMaskingId
 {
-    /**
-     * @param GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
-     */
     public function __construct(
         GraveSiteId|ColumbariumNicheId|MemorialTreeId $id
     ) {
         parent::__construct($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function idType(): string
     {
         return match (\get_class($this->id())) {

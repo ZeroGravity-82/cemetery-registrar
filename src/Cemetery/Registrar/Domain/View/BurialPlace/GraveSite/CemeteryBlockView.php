@@ -9,16 +9,10 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\GraveSite;
  */
 class CemeteryBlockView
 {
-    /**
-     * @param string $id
-     * @param string $name
-     * @param string $createdAt
-     * @param string $updatedAt
-     */
     public function __construct(
-        public readonly string $id,
-        public readonly string $name,
-        public readonly string $createdAt,
-        public readonly string $updatedAt,
+        public string $id,
+        public string $name,
+        public string $createdAt,
+        public string $updatedAt,
     ) {}
 }

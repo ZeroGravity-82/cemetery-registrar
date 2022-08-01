@@ -14,9 +14,6 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
  */
 class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements CemeteryBlockFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): ?CemeteryBlockView
     {
         $viewData = $this->queryViewData($id);
@@ -24,9 +21,6 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
     {
         $cemeteryBlockListData = $this->connection->createQueryBuilder()
@@ -43,19 +37,11 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         return $this->hydrateList($cemeteryBlockListData);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal();
     }
 
-    /**
-     * @param string $id
-     *
-     * @return false|array
-     */
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
@@ -73,9 +59,6 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
             ->fetchAssociative();
     }
 
-    /**
-     * @return int
-     */
     private function doCountTotal(): int
     {
         return $this->connection->createQueryBuilder()
@@ -86,11 +69,6 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param array $viewData
-     *
-     * @return CemeteryBlockView
-     */
     private function hydrateView(array $viewData): CemeteryBlockView
     {
         return new CemeteryBlockView(
@@ -101,11 +79,6 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         );
     }
 
-    /**
-     * @param array $listData
-     *
-     * @return CemeteryBlockList
-     */
     private function hydrateList(
         array $listData,
     ): CemeteryBlockList {

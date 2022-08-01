@@ -9,10 +9,7 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche;
  */
 class ColumbariumList
 {
-    /**
-     * @param ColumbariumListItem[]|array $items
-     */
     public function __construct(
-        public readonly array $items,
+        public array $items,
     ) {}
 }

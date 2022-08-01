@@ -4,62 +4,47 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization;
 
+use Cemetery\Registrar\Domain\Model\Exception;
+
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 abstract class AbstractInn
 {
     /**
-     * @param string $value
+     * @throws Exception when the INN is empty
+     * @throws Exception when the INN has non-numeric value
+     * @throws Exception when the length of the INN is wrong
+     * @throws Exception when the check digits are invalid
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return int
-     */
     abstract protected function innLength(): int;
 
     /**
-     * @param string $value
+     * @throws Exception when the check digits are invalid
      */
     abstract protected function assertValidCheckDigits(string $value): void;
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->value();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @param self $inn
-     *
-     * @return bool
-     */
     public function isEqual(self $inn): bool
     {
         return $inn->value() === $this->value();
     }
 
-    /**
-     * @param string $value
-     * @param array  $coefficients
-     *
-     * @return int
-     */
     protected function calculateCheckDigit(string $value, array $coefficients): int
     {
         $checkSum = 0;
@@ -71,15 +56,18 @@ abstract class AbstractInn
     }
 
     /**
-     * @throws \InvalidArgumentException about invalid check digits
+     * @throws Exception about invalid check digits
      */
     protected function throwInvalidCheckDigitsException(): void
     {
-        throw new \InvalidArgumentException('ИНН недействителен.');
+        throw new Exception('ИНН недействителен.');
     }
 
     /**
-     * @param string $value
+     * @throws Exception when the INN is empty
+     * @throws Exception when the INN has non-numeric value
+     * @throws Exception when the length of the INN is wrong
+     * @throws Exception when the check digits are invalid
      */
     private function assertValidValue(string $value): void
     {
@@ -90,39 +78,33 @@ abstract class AbstractInn
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the INN is empty
+     * @throws Exception when the INN is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new \InvalidArgumentException('ИНН не может иметь пустое значение.');
+            throw new Exception('ИНН не может иметь пустое значение.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the INN has non-numeric value
+     * @throws Exception when the INN has non-numeric value
      */
     private function assertNumeric(string $value): void
     {
         if (!\is_numeric($value)) {
-            throw new \InvalidArgumentException('ИНН должен состоять только из цифр.');
+            throw new Exception('ИНН должен состоять только из цифр.');
         }
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the length of the INN is wrong
+     * @throws Exception when the length of the INN is wrong
      */
     private function assertValidLength(string $value): void
     {
         $innLength = $this->innLength();
         if (\strlen($value) !== $innLength) {
-            throw new \InvalidArgumentException(\sprintf('ИНН должен состоять из %d цифр.', $innLength));
+            throw new Exception(\sprintf('ИНН должен состоять из %d цифр.', $innLength));
         }
     }
 }

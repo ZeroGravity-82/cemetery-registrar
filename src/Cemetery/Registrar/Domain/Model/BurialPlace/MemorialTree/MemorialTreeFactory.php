@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
@@ -15,12 +16,11 @@ use Cemetery\Registrar\Domain\Model\EntityFactory;
 class MemorialTreeFactory extends EntityFactory
 {
     /**
-     * @param string|null $treeNumber
-     * @param string|null $geoPositionLatitude
-     * @param string|null $geoPositionLongitude
-     * @param string|null $geoPositionError
-     *
-     * @return MemorialTree
+     * @throws Exception when generating an invalid memorial tree ID
+     * @throws Exception when the memorial tree number is invalid
+     * @throws Exception when the geo position latitude value is invalid (if any)
+     * @throws Exception when the geo position longitude value is invalid (if any)
+     * @throws Exception when the geo position error value is invalid (if any)
      */
     public function create(
         ?string $treeNumber,

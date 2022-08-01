@@ -15,18 +15,12 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
  */
 class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): mixed
     {
         // TODO: Implement findViewById() method.
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
@@ -41,19 +35,11 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return int
-     */
     private function doCountTotal(?string $term): int
     {
         $sql  = $this->buildCountTotalSql($term);
@@ -64,11 +50,6 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return $result->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param string|null $term
-     *
-     * @return string
-     */
     private function buildCountTotalSql(?string $term): string
     {
         $sql = \sprintf('SELECT COUNT(*) FROM (%s) AS unionTable WHERE removedAt IS NULL', $this->buildUnionSql());
@@ -76,13 +57,6 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
 
-    /**
-     * @param int $page
-     * @param string|null $term
-     * @param int $pageSize
-     *
-     * @return string
-     */
     private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
     {
         $sql = \sprintf(<<<FIND_ALL_SQL
@@ -112,9 +86,6 @@ FIND_ALL_SQL
         return $this->appendLimitOffset($sql, $page, $pageSize);
     }
 
-    /**
-     * @return string
-     */
     private function buildUnionSql(): string
     {
         return \sprintf(<<<UNION_SQL
@@ -230,12 +201,6 @@ UNION_SQL
         );
     }
 
-    /**
-     * @param string $sql
-     * @param string|null $term
-     *
-     * @return string
-     */
     private function appendAndWhereLikeTermSql(string $sql, ?string $term): string
     {
         if ($this->isTermNotEmpty($term)) {
@@ -257,38 +222,16 @@ LIKE_TERM_SQL;
         return $sql;
     }
 
-    /**
-     * @param string $sql
-     *
-     * @return string
-     */
     private function appendOrderByName(string $sql): string
     {
         return \sprintf('%s ORDER BY name', $sql);
     }
 
-    /**
-     * @param string $sql
-     * @param int    $page
-     * @param int    $pageSize
-     *
-     * @return string
-     */
     private function appendLimitOffset(string $sql, int $page, int $pageSize): string
     {
         return \sprintf('%s LIMIT %d OFFSET %d', $sql, $pageSize, ($page - 1) * $pageSize);
     }
 
-    /**
-     * @param array       $listData
-     * @param int         $page
-     * @param int         $pageSize
-     * @param string|null $term
-     * @param int         $totalCount
-     * @param int         $totalPages
-     *
-     * @return OrganizationList
-     */
     private function hydrateList(
         array   $listData,
         int     $page,

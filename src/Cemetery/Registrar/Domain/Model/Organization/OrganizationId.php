@@ -17,18 +17,12 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId
  */
 class OrganizationId extends EntityMaskingId
 {
-    /**
-     * @param JuristicPersonId|SoleProprietorId $id
-     */
     public function __construct(
         JuristicPersonId|SoleProprietorId $id,
     ) {
         parent::__construct($id);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function idType(): string
     {
         return match (\get_class($this->id())) {

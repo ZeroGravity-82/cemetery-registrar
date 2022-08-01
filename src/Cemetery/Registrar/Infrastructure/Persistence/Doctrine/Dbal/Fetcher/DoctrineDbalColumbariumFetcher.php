@@ -14,9 +14,6 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumView;
  */
 class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements ColumbariumFetcher
 {
-    /**
-     * {@inheritdoc}
-     */
     public function findViewById(string $id): ?ColumbariumView
     {
         $viewData = $this->queryViewData($id);
@@ -24,9 +21,6 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
         $columbariumListData = $this->connection->createQueryBuilder()
@@ -43,19 +37,11 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         return $this->hydrateList($columbariumListData);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function countTotal(): int
     {
         return $this->doCountTotal();
     }
 
-    /**
-     * @param string $id
-     *
-     * @return false|array
-     */
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
@@ -76,9 +62,6 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
             ->fetchAssociative();
     }
 
-    /**
-     * @return int
-     */
     private function doCountTotal(): int
     {
         return $this->connection->createQueryBuilder()
@@ -89,11 +72,6 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
             ->fetchFirstColumn()[0];
     }
 
-    /**
-     * @param array $viewData
-     *
-     * @return ColumbariumView
-     */
     private function hydrateView(array $viewData): ColumbariumView
     {
         return new ColumbariumView(
@@ -110,11 +88,6 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         );
     }
 
-    /**
-     * @param array $listData
-     *
-     * @return ColumbariumList
-     */
     private function hydrateList(
         array $listData,
     ): ColumbariumList {

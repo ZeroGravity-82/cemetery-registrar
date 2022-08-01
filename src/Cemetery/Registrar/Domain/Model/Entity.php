@@ -9,19 +9,8 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class Entity
 {
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected \DateTimeImmutable $createdAt;
-
-    /**
-     * @var \DateTimeImmutable
-     */
-    protected \DateTimeImmutable $updatedAt;
-
-    /**
-     * @var \DateTimeImmutable|null
-     */
+    protected \DateTimeImmutable  $createdAt;
+    protected \DateTimeImmutable  $updatedAt;
     protected ?\DateTimeImmutable $removedAt = null;
 
     public function __construct()
@@ -31,32 +20,18 @@ abstract class Entity
         $this->updatedAt = $now;
     }
 
-    /**
-     * Returns the identity of the domain entity.
-     *
-     * @return EntityId
-     */
     abstract public function id(): EntityId;
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function createdAt(): \DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    /**
-     * @return \DateTimeImmutable
-     */
     public function updatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    /**
-     * @return \DateTimeImmutable|null
-     */
     public function removedAt(): ?\DateTimeImmutable
     {
         return $this->removedAt;

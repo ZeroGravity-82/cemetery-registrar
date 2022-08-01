@@ -9,10 +9,7 @@ namespace Cemetery\Registrar\Domain\View\Burial\BurialContainer;
  */
 class CoffinShapeList
 {
-    /**
-     * @param CoffinShapeListItem[]|array $items
-     */
     public function __construct(
-        public readonly array $items,
+        public array $items,
     ) {}
 }

@@ -22,117 +22,76 @@ class BurialType
     ];
 
     /**
-     * @param string $value
+     * @throws \LogicException when the burial type is not supported
      */
     public function __construct(
-        private readonly string $value,
+        private string $value,
     ) {
         $this->assertValidValue($value);
     }
 
-    /**
-     * @return self
-     */
     public static function coffinInGraveSite(): self
     {
         return new self(self::COFFIN_IN_GRAVE_SITE);
     }
 
-    /**
-     * @return self
-     */
     public static function urnInGraveSite(): self
     {
         return new self(self::URN_IN_GRAVE_SITE);
     }
 
-    /**
-     * @return self
-     */
     public static function urnInColumbariumNiche(): self
     {
         return new self(self::URN_IN_COLUMBARIUM_NICHE);
     }
 
-    /**
-     * @return self
-     */
     public static function ashesUnderMemorialTree(): self
     {
         return new self(self::ASHES_UNDER_MEMORIAL_TREE);
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
         return $this->label();
     }
 
-    /**
-     * @return string
-     */
     public function value(): string
     {
         return $this->value;
     }
 
-    /**
-     * @return string
-     */
     public function label(): string
     {
         return self::LABELS[$this->value()];
     }
 
-
-    /**
-     * @param self $type
-     *
-     * @return bool
-     */
     public function isEqual(self $type): bool
     {
         return $type->value() === $this->value();
     }
 
-    /**
-     * @return bool
-     */
     public function isCoffinInGraveSite(): bool
     {
         return $this->value === self::COFFIN_IN_GRAVE_SITE;
     }
 
-    /**
-     * @return bool
-     */
     public function isUrnInGraveSite(): bool
     {
         return $this->value === self::URN_IN_GRAVE_SITE;
     }
 
-    /**
-     * @return bool
-     */
     public function isUrnInColumbariumNiche(): bool
     {
         return $this->value === self::URN_IN_COLUMBARIUM_NICHE;
     }
 
-    /**
-     * @return bool
-     */
     public function isAshesUnderMemorialTree(): bool
     {
         return $this->value === self::ASHES_UNDER_MEMORIAL_TREE;
     }
 
     /**
-     * @param string $value
-     *
-     * @throws \InvalidArgumentException when the burial type is not supported
+     * @throws \LogicException when the burial type is not supported
      */
     private function assertValidValue(string $value): void
     {
@@ -143,7 +102,7 @@ class BurialType
             self::ASHES_UNDER_MEMORIAL_TREE,
         ];
         if (!\in_array($value, $supportedBurialTypes)) {
-            throw new \RuntimeException(\sprintf(
+            throw new \LogicException(\sprintf(
                 'Неподдерживаемый тип захоронения "%s", должен быть один из %s.',
                 $value,
                 \implode(', ', \array_map(function ($item) { return \sprintf('"%s"', $item); }, $supportedBurialTypes))

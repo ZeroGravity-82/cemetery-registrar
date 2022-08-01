@@ -33,7 +33,7 @@ class BankDetailsType extends CustomJsonType
             !\array_key_exists('correspondentAccount', $decodedValue) ||
             !\array_key_exists('currentAccount',       $decodedValue);
         if ($isInvalidValue) {
-            throw new \RuntimeException(\sprintf('Неверный формат банковских реквизитов: "%s".', $value));
+            throw new \LogicException(\sprintf('Неверный формат банковских реквизитов: "%s".', $value));
         }
     }
 
