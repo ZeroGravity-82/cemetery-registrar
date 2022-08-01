@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class OkvedType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = Okved::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'okved';
 }

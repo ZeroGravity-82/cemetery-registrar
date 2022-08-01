@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class KppType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = Kpp::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'kpp';
 }

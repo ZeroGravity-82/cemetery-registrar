@@ -41,7 +41,7 @@ class DeceasedDetailsFactory
 
         $diedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt);
         if ($diedAt === false) {
-            $this->throwInvalidDateFormatException('смерти');
+            $this->throwInvalidDateFormatException('даты смерти');
         }
         $age              = $age            !== null ? new Age($age)                       : null;
         $causeOfDeathId   = $causeOfDeathId !== null ? new CauseOfDeathId($causeOfDeathId) : null;
@@ -51,7 +51,7 @@ class DeceasedDetailsFactory
             $deathCertificateIssuedAt !== null) {
             $deathCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $deathCertificateIssuedAt);
             if ($deathCertificateIssuedAt === false) {
-                $this->throwInvalidDateFormatException('свидетельства о смерти');
+                $this->throwInvalidDateFormatException('даты выдачи свидетельства о смерти');
             }
             $deathCertificate = new DeathCertificate(
                 $deathCertificateSeries,
@@ -64,7 +64,7 @@ class DeceasedDetailsFactory
             $cremationCertificateIssuedAt !== null) {
             $cremationCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $cremationCertificateIssuedAt);
             if ($cremationCertificateIssuedAt === false) {
-                $this->throwInvalidDateFormatException('справки о кремации');
+                $this->throwInvalidDateFormatException('даты выдачи справки о кремации');
             }
             $cremationCertificate = new CremationCertificate(
                 $cremationCertificateNumber,
@@ -145,6 +145,6 @@ class DeceasedDetailsFactory
      */
     private function throwInvalidDateFormatException(string $name): void
     {
-        throw new \LogicException(\sprintf('Неверный формат даты %s.', $name));
+        throw new \LogicException(\sprintf('Неверный формат %s.', $name));
     }
 }

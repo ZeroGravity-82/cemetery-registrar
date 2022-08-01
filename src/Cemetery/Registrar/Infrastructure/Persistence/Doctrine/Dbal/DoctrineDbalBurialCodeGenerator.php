@@ -12,16 +12,10 @@ use Doctrine\DBAL\Connection;
  */
 class DoctrineDbalBurialCodeGenerator implements BurialCodeGenerator
 {
-    /**
-     * @param Connection $connection
-     */
     public function __construct(
         protected readonly Connection $connection,
     ) {}
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNextCode(): string
     {
         $result = $this->connection->createQueryBuilder()

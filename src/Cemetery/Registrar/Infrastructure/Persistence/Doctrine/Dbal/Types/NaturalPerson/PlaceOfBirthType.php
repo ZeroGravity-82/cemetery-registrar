@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class PlaceOfBirthType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = PlaceOfBirth::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'place_of_birth';
 }

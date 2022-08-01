@@ -21,11 +21,12 @@ class DeceasedDetailsType extends CustomJsonType
     protected string $typeName  = 'deceased_details';
 
     /**
-     * @throws \LogicException when the deceased details decoded value is invalid
+     * @throws \UnexpectedValueException when the decoded value has invalid format
      */
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue =
+            !\is_array($decodedValue)                                 ||
             !\array_key_exists('diedAt',               $decodedValue) ||
             !\array_key_exists('age',                  $decodedValue) ||
             !\array_key_exists('causeOfDeathId',       $decodedValue) ||
@@ -46,7 +47,10 @@ class DeceasedDetailsType extends CustomJsonType
         }
 
         if ($isInvalidValue) {
-            throw new \LogicException(\sprintf('Неверный формат данных умершего: "%s".', $value));
+            throw new \UnexpectedValueException(\sprintf(
+                'Неверный формат декодированного значения для данных умершего: "%s".',
+                $value,
+            ));
         }
     }
 
@@ -74,32 +78,71 @@ class DeceasedDetailsType extends CustomJsonType
     }
 
     /**
-     * @throws Exception when the age decoded value is invalid
-     * @throws Exception when the cause of death ID decoded value is invalid
-     * @throws Exception when the error decoded value is invalid
+     * @throws \UnexpectedValueException when the date of death has invalid format
+     * @throws \UnexpectedValueException when the death certificate issue date has invalid format
+     * @throws \UnexpectedValueException when the cremation certificate issue date has invalid format
+     * @throws Exception                 when the age is invalid
+     * @throws Exception                 when the cause of death ID is invalid
+     * @throws Exception                 when the death certificate details is invalid
+     * @throws Exception                 when the cremation certificate details is invalid
      */
     protected function buildPhpValue(array $decodedValue): DeceasedDetails
     {
-        /// WIP!!!
-        $deathCertificateIssuedAt = $decodedValue['deathCertificate']['issuedAt'] ?? null;
+        $diedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['diedAt']);
+        if ($diedAt === false) {
+            $this->throwInvalidDateFormatException(
+                'даты смерти',
+                $decodedValue['diedAt'],
+            );
+        }
+        $deathCertificateIssuedAt = isset($decodedValue['deathCertificate']['issuedAt'])
+            ? \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['deathCertificate']['issuedAt'])
+            : null;
+        if ($deathCertificateIssuedAt === false) {
+            $this->throwInvalidDateFormatException(
+                'даты выдачи свидетельства о смерти',
+                $decodedValue['deathCertificate']['issuedAt'],
+            );
+        }
+        $cremationCertificateIssuedAt = $decodedValue['cremationCertificate']['issuedAt']
+            ? \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['cremationCertificate']['issuedAt'])
+            : null;
+        if ($cremationCertificateIssuedAt === false) {
+            $this->throwInvalidDateFormatException(
+                'даты выдачи справки о кремации',
+                $decodedValue['cremationCertificate']['issuedAt'],
+            );
+        }
 
         return new DeceasedDetails(
-            \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['diedAt']),
+            $diedAt,
             !\is_null($decodedValue['age'])            ? new Age($decodedValue['age'])                       : null,
             !\is_null($decodedValue['causeOfDeathId']) ? new CauseOfDeathId($decodedValue['causeOfDeathId']) : null,
             !\is_null($decodedValue['deathCertificate'])
                 ? new DeathCertificate(
                     $decodedValue['deathCertificate']['series'],
                     $decodedValue['deathCertificate']['number'],
-                    \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['deathCertificate']['issuedAt']),
+                    $deathCertificateIssuedAt,
                 )
                 : null,
             !\is_null($decodedValue['cremationCertificate'])
                 ? new CremationCertificate(
                     $decodedValue['cremationCertificate']['number'],
-                    \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['cremationCertificate']['issuedAt']),
+                    $cremationCertificateIssuedAt,
                 )
                 : null,
         );
+    }
+
+    /**
+     * @throws \UnexpectedValueException about invalid date format
+     */
+    private function throwInvalidDateFormatException(string $name, string $value): void
+    {
+        throw new \UnexpectedValueException(\sprintf(
+            'Неверный формат декодированного значения для %s: "%s".',
+            $name,
+            $value,
+        ));
     }
 }

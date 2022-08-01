@@ -92,4 +92,9 @@ JSON_B
             )
         ];
     }
+
+    public function testItFailsWithInvalidIssuedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
 }

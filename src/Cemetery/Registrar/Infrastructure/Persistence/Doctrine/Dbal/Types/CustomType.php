@@ -12,27 +12,14 @@ use Doctrine\DBAL\Types\Type;
  */
 abstract class CustomType extends Type
 {
-    /**
-     * @var string
-     */
     protected string $className;
-
-    /**
-     * @var string
-     */
     protected string $typeName;
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->typeName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool
     {
         return true;

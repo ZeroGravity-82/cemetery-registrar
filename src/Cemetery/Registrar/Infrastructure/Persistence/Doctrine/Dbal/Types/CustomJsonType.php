@@ -13,7 +13,8 @@ use Doctrine\DBAL\Types\ConversionException;
 abstract class CustomJsonType extends CustomType
 {
     /**
-     * {@inheritdoc}
+     * @throws ConversionException when the value to be converted is not of the expected type
+     * @throws ConversionException when the value cannot be serialized
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
@@ -37,7 +38,8 @@ abstract class CustomJsonType extends CustomType
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \UnexpectedValueException when the decoded value has invalid format
+     * @throws ConversionException       when a database to Doctrine type conversion fails
      */
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
@@ -55,9 +57,6 @@ abstract class CustomJsonType extends CustomType
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getJsonTypeDeclarationSQL($column);
@@ -65,10 +64,6 @@ abstract class CustomJsonType extends CustomType
 
     /**
      * Prepares the PHP value for JSON encoding as part of the conversion to a database value.
-     *
-     * @param mixed $value
-     *
-     * @return array
      */
     abstract protected function preparePhpValueForJsonEncoding(mixed $value): array;
 
@@ -77,19 +72,12 @@ abstract class CustomJsonType extends CustomType
      *
      * @see buildPhpValue
      *
-     * @param mixed $decodedValue
-     * @param mixed $value
-     *
-     * @throws \RuntimeException when the decoded value has invalid format.
+     * @throws \UnexpectedValueException when the decoded value has invalid format
      */
     abstract protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void;
 
     /**
      * Builds a PHP value from the decoded database value.
-     *
-     * @param array $decodedValue
-     *
-     * @return mixed
      */
     abstract protected function buildPhpValue(array $decodedValue): mixed;
 }

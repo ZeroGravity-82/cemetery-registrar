@@ -17,29 +17,21 @@ abstract class Repository implements RepositoryInterface
 {
     /**
      * Returns the name of the supported aggregate root class.
-     *
-     * @return string
      */
     abstract protected function supportedAggregateRootClassName(): string;
 
     /**
      * Returns the name of the supported aggregate root ID class.
-     *
-     * @return string
      */
     abstract protected function supportedAggregateRootIdClassName(): string;
 
     /**
      * Returns the name of the supported aggregate root collection class.
-     *
-     * @return string
      */
     abstract protected function supportedAggregateRootCollectionClassName(): string;
 
     /**
      * Checks whether the aggregate root meets uniqueness constraints (if any).
-     *
-     * @param AggregateRoot $aggregateRoot
      *
      * @throws Exception when uniqueness constraints (if any) are violated
      */
@@ -47,8 +39,6 @@ abstract class Repository implements RepositoryInterface
 
     /**
      * Checks whether the aggregate root is of a type supported by the repository.
-     *
-     * @param AggregateRoot $aggregateRoot
      *
      * @throws \LogicException when the aggregate root type does not match the repository
      */
@@ -67,8 +57,6 @@ abstract class Repository implements RepositoryInterface
     /**
      * Checks whether the aggregate root ID is of a type supported by the repository.
      *
-     * @param EntityId $aggregateRootId
-     *
      * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
     protected function assertSupportedAggregateRootIdClass(EntityId $aggregateRootId): void
@@ -86,8 +74,6 @@ abstract class Repository implements RepositoryInterface
     /**
      * Checks whether the aggregate root collection is of a type supported by the repository.
      *
-     * @param EntityCollection $aggregateRoots
-     *
      * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
      */
     protected function assertSupportedAggregateRootCollectionClass(EntityCollection $aggregateRoots): void
@@ -103,8 +89,6 @@ abstract class Repository implements RepositoryInterface
     }
 
     /**
-     * @param AggregateRoot $aggregateRoot
-     *
      * @throws \RuntimeException when unique constraints (if any) are violated
      */
     protected function doSave(AggregateRoot $aggregateRoot): void
@@ -113,9 +97,6 @@ abstract class Repository implements RepositoryInterface
         $aggregateRoot->refreshUpdatedAtTimestamp();
     }
 
-    /**
-     * @param AggregateRoot $aggregateRoot
-     */
     protected function doRemove(AggregateRoot $aggregateRoot): void
     {
         $aggregateRoot->refreshRemovedAtTimestamp();

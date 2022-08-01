@@ -21,12 +21,12 @@ class BurialContainerType extends CustomJsonType
     protected string $typeName  = 'burial_container';
 
     /**
-     * @throws \LogicException when the burial container decoded value is invalid
+     * @throws \UnexpectedValueException when the decoded value has invalid format
      */
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue = false;
-        if (!\array_key_exists('type', $decodedValue)) {
+        if (!\is_array($decodedValue) || !\array_key_exists('type', $decodedValue)) {
             $isInvalidValue = true;
         }
         $isInvalidValue = $isInvalidValue || match ($decodedValue['type']) {
@@ -40,7 +40,10 @@ class BurialContainerType extends CustomJsonType
                 $decodedValue['value'] !== null,
         };
         if ($isInvalidValue) {
-            throw new \LogicException(\sprintf('Неверный формат для контейнера захоронения: "%s".', $value));
+            throw new \UnexpectedValueException(\sprintf(
+                'Неверный формат декодированного значения для контейнера захоронения: "%s".',
+                $value,
+            ));
         }
     }
 
@@ -66,8 +69,8 @@ class BurialContainerType extends CustomJsonType
     }
 
     /**
-     * @throws Exception       when the coffin size decoded value is invalid
-     * @throws \LogicException when the coffin shape decoded value is not supported
+     * @throws Exception       when the coffin size is invalid
+     * @throws \LogicException when the coffin shape is not supported
      */
     protected function buildPhpValue(array $decodedValue): BurialContainer
     {

@@ -97,12 +97,12 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $this->assertNull($naturalPerson->passport());
     }
 
-    public function testItFailsWithInvalidBornAtFormat(): void
+    public function testItFailsWithInvalidBornAtDateFormat(): void
     {
         $this->markTestIncomplete();
     }
 
-    public function testItFailsWithInvalidPassportIssuedAtFormat(): void
+    public function testItFailsWithInvalidPassportIssuedAtDateFormat(): void
     {
         $this->markTestIncomplete();
     }

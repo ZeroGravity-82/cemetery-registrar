@@ -12,13 +12,6 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStri
  */
 class JuristicPersonIdType extends CustomStringType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = JuristicPersonId::class;
-
-    /**
-     * {@inheritdoc}
-     */
     protected string $typeName  = 'juristic_person_id';
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
@@ -16,18 +17,11 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\EntityMask
  */
 class OrganizationIdType extends EntityMaskingIdType
 {
-    /**
-     * {@inheritdoc}
-     */
     protected string $className = OrganizationId::class;
+    protected string $typeName  = 'organization_id';
 
     /**
-     * {@inheritdoc}
-     */
-    protected string $typeName = 'organization_id';
-
-    /**
-     * {@inheritdoc}
+     * @throws Exception when the ID is invalid
      */
     protected function buildPhpValue(array $decodedValue): OrganizationId
     {

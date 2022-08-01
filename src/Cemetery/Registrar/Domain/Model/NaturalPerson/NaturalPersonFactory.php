@@ -51,7 +51,7 @@ class NaturalPersonFactory extends EntityFactory
         $address         = $address         !== null ? new Address($address)                                  : null;
         $bornAt          = $bornAt          !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
         if ($bornAt === false) {
-            $this->throwInvalidDateFormatException('рождения');
+            $this->throwInvalidDateFormatException('даты рождения');
         }
         $placeOfBirth = $placeOfBirth !== null ? new PlaceOfBirth($placeOfBirth) : null;
         $passport     = null;
@@ -62,7 +62,7 @@ class NaturalPersonFactory extends EntityFactory
         ) {
             $passportIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $passportIssuedAt);
             if ($passportIssuedAt === false) {
-                $this->throwInvalidDateFormatException('выдачи паспорта');
+                $this->throwInvalidDateFormatException('даты выдачи паспорта');
             }
             $passport = new Passport(
                 $passportSeries,
@@ -91,6 +91,6 @@ class NaturalPersonFactory extends EntityFactory
      */
     private function throwInvalidDateFormatException(string $name): void
     {
-        throw new \LogicException(\sprintf('Неверный формат даты %s.', $name));
+        throw new \LogicException(\sprintf('Неверный формат %s.', $name));
     }
 }

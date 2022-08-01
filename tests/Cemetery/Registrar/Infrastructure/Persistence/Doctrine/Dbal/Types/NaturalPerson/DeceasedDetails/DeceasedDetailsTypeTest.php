@@ -122,4 +122,19 @@ JSON_B
             )
         ];
     }
+
+    public function testItFailsWithInvalidDiedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidDeathCertificateIssuedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidCremationCertificateIssuedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
 }

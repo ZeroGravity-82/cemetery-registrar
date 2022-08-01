@@ -23,7 +23,7 @@ class CustomerIdType extends EntityMaskingIdType
     protected string $typeName  = 'customer_id';
 
     /**
-     * @throws Exception when the ID decoded value is empty
+     * @throws Exception when the ID is invalid
      */
     protected function buildPhpValue(array $decodedValue): CustomerId
     {

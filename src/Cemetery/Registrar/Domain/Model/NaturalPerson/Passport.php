@@ -16,7 +16,7 @@ class Passport
      * @throws Exception when the number is empty
      * @throws Exception when the issuing date is in the future
      * @throws Exception when the issuing authority name is empty
-     * @throws Exception when the division code is empty
+     * @throws Exception when the division code is empty (if any)
      */
     public function __construct(
         private string             $series,

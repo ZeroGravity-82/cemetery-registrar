@@ -11,25 +11,16 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
  */
 abstract class CustomStringType extends CustomType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {
         return $value instanceof $this->className ? $value->value() : $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function convertToPHPValue($value, AbstractPlatform $platform): mixed
     {
         return !empty($value) ? new $this->className($value) : null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSQLDeclaration(array $column, AbstractPlatform $platform): string
     {
         return $platform->getVarcharTypeDeclarationSQL($column);

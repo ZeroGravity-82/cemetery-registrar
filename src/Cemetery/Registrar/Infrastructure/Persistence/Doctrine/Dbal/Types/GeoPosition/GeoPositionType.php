@@ -19,17 +19,21 @@ class GeoPositionType extends CustomJsonType
     protected string $typeName  = 'geo_position';
 
     /**
-     * @throws \LogicException when the geo position decoded value is invalid
+     * @throws \UnexpectedValueException when the decoded value has invalid format
      */
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue =
+            !\is_array($decodedValue)                                       ||
             !\array_key_exists('coordinates', $decodedValue)                ||
             !\array_key_exists('latitude',    $decodedValue['coordinates']) ||
             !\array_key_exists('longitude',   $decodedValue['coordinates']) ||
             !\array_key_exists('error',       $decodedValue);
         if ($isInvalidValue) {
-            throw new \LogicException(\sprintf('Неверный формат геопозиции: "%s".', $value));
+            throw new \UnexpectedValueException(\sprintf(
+                'Неверный формат декодированного значения для геопозиции: "%s".',
+                $value,
+            ));
         }
     }
 
@@ -48,9 +52,9 @@ class GeoPositionType extends CustomJsonType
     }
 
     /**
-     * @throws Exception when the latitude decoded value is invalid
-     * @throws Exception when the longitude decoded value is invalid
-     * @throws Exception when the error decoded value is invalid
+     * @throws Exception when the latitude is invalid
+     * @throws Exception when the longitude is invalid
+     * @throws Exception when the error is invalid
      */
     protected function buildPhpValue(array $decodedValue): GeoPosition
     {

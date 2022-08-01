@@ -11,23 +11,23 @@ use Cemetery\Registrar\Domain\Model\EntityMaskingId;
  */
 abstract class EntityMaskingIdType extends CustomJsonType
 {
-
     /**
-     * {@inheritdoc}
+     * @throws \UnexpectedValueException when the decoded value has invalid format
      */
     protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void
     {
         $isInvalidValue =
+            !\is_array($decodedValue)                 ||
             !\array_key_exists('type', $decodedValue) ||
             !\array_key_exists('value', $decodedValue);
         if ($isInvalidValue) {
-            throw new \LogicException(\sprintf('Неверный формат идентификатора: "%s".', $value));
+            throw new \UnexpectedValueException(\sprintf(
+                'Неверный формат декодированного значения для идентификатора: "%s".',
+                $value,
+            ));
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function preparePhpValueForJsonEncoding(mixed $value): array
     {
         /** @var EntityMaskingId $value */
