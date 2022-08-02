@@ -11,11 +11,6 @@ use Cemetery\Registrar\Application\Notification;
  */
 class CreateCauseOfDeathRequestValidator
 {
-    /**
-     * @param CreateCauseOfDeathRequest $request
-     *
-     * @return Notification
-     */
     public function validate(CreateCauseOfDeathRequest $request): Notification
     {
         $note = new Notification();

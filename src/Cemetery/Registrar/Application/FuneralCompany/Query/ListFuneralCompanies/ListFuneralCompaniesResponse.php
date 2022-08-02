@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyList;
 class ListFuneralCompaniesResponse
 {
     public function __construct(
-        public readonly FuneralCompanyList $list,
+        public FuneralCompanyList $list,
     ) {}
 }

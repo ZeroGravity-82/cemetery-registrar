@@ -21,16 +21,18 @@ class ListCausesOfDeathService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
+        $this->assertSupportedRequestClass($request);
+
         /** @var ListCausesOfDeathRequest $request */
         return $this->requestValidator->validate($request);
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
@@ -38,5 +40,10 @@ class ListCausesOfDeathService extends ApplicationService
         return new ApplicationSuccessResponse(
             ['list' => $this->causeOfDeathFetcher->findAll(1)],
         );
+    }
+
+    protected function supportedRequestClassName(): string
+    {
+        return ListCausesOfDeathRequest::class;
     }
 }

@@ -18,9 +18,9 @@ class MemorialTreeFactory extends EntityFactory
     /**
      * @throws Exception when generating an invalid memorial tree ID
      * @throws Exception when the memorial tree number is invalid
-     * @throws Exception when the geo position latitude value is invalid (if any)
-     * @throws Exception when the geo position longitude value is invalid (if any)
-     * @throws Exception when the geo position error value is invalid (if any)
+     * @throws Exception when the geo position latitude value (if any) is invalid
+     * @throws Exception when the geo position longitude value (if any) is invalid
+     * @throws Exception when the geo position error value (if any) is invalid
      */
     public function create(
         ?string $treeNumber,

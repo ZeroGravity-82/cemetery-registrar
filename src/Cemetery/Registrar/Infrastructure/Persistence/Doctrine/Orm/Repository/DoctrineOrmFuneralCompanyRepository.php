@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
  */
 class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implements FuneralCompanyRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return FuneralCompany::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return FuneralCompanyId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return FuneralCompanyCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implemen
         }
     }
 
-    /**
-     * @param FuneralCompany $funeralCompany
-     *
-     * @return bool
-     */
     private function doesSameOrganizationIdAlreadyUsed(FuneralCompany $funeralCompany): bool
     {
         return (bool) $this->entityManager

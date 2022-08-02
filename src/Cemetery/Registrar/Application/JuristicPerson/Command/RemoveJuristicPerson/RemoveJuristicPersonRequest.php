@@ -12,6 +12,6 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class RemoveJuristicPersonRequest extends ApplicationRequest
 {
     public function __construct(
-        public readonly string $id,
+        public string $id,
     ) {}
 }

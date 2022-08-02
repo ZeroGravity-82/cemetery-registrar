@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
  */
 class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implements SoleProprietorRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return SoleProprietor::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return SoleProprietorId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return SoleProprietorCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmSoleProprietorRepository extends DoctrineOrmRepository implemen
         }
     }
 
-    /**
-     * @param SoleProprietor $soleProprietor
-     *
-     * @return bool
-     */
     private function doesSameNameOrInnAlreadyUsed(SoleProprietor $soleProprietor): bool
     {
         $queryBuilder =

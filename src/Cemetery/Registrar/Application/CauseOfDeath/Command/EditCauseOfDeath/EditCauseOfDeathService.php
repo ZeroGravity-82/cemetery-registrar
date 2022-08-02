@@ -12,6 +12,8 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\Exception;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -27,16 +29,20 @@ class EditCauseOfDeathService extends CauseOfDeathService
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
+        $this->assertSupportedRequestClass($request);
+
         /** @var EditCauseOfDeathRequest $request */
         return $this->requestValidator->validate($request);
     }
 
     /**
-     * {@inheritdoc}
+     * @throws NotFoundHttpException when the cause of death is not found
+     * @throws Exception             when there was any issue within the domain
+     * @throws \Throwable            when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
@@ -52,5 +58,10 @@ class EditCauseOfDeathService extends CauseOfDeathService
         return new ApplicationSuccessResponse(
             ['id' => $causeOfDeath->id()->value()],
         );
+    }
+
+    protected function supportedRequestClassName(): string
+    {
+        return EditCauseOfDeathRequest::class;
     }
 }

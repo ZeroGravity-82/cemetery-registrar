@@ -9,6 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
@@ -25,25 +26,22 @@ class CreateJuristicPersonService extends ApplicationService
     ) {}
 
     /**
-     * @param CreateJuristicPersonRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var CreateJuristicPersonRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param CreateJuristicPersonRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws Exception  when there was any issue within the domain
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        $this->assertSupported($request);
-
-        // TODO add uniqueness check
         $juristicPerson = $this->juristicPersonFactory->create(
             $request->name,
             $request->inn,
@@ -74,9 +72,6 @@ class CreateJuristicPersonService extends ApplicationService
         return new CreateJuristicPersonResponse($juristicPerson->id()->value());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return CreateJuristicPersonRequest::class;

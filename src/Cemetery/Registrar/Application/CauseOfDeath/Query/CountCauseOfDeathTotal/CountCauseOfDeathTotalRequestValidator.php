@@ -11,13 +11,9 @@ use Cemetery\Registrar\Application\Notification;
  */
 class CountCauseOfDeathTotalRequestValidator
 {
-    /**
-     * @param CountCauseOfDeathTotalRequest $request
-     *
-     * @return Notification
-     */
     public function validate(CountCauseOfDeathTotalRequest $request): Notification
     {
+        // TODO add validation
         return new Notification();
     }
 }

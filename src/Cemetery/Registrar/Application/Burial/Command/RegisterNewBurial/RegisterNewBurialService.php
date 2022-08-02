@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\Deceased;
 use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\DeceasedId;
 use Cemetery\Registrar\Application\Notification;
@@ -30,6 +31,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFactory;
@@ -70,23 +72,22 @@ class RegisterNewBurialService extends ApplicationService
     ) {}
 
     /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var RegisterNewBurialRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws Exception  when there was any issue within the domain
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        $this->assertSupported($request);
         $type             = $this->processTypeData($request);
         $deceasedId       = $this->processDeceasedData($request);
         $customerId       = $this->processCustomerData($request);
@@ -111,19 +112,11 @@ class RegisterNewBurialService extends ApplicationService
         return new RegisterNewBurialResponse($burial->id()->value());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return RegisterNewBurialRequest::class;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return DeceasedId
-     */
     private function processDeceasedData(RegisterNewBurialRequest $request): DeceasedId
     {
         $deceasedNaturalPersonId = $request->deceasedNaturalPersonId;
@@ -138,21 +131,11 @@ class RegisterNewBurialService extends ApplicationService
         return $deceased->id();
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return BurialType
-     */
     private function processTypeData(RegisterNewBurialRequest $request): BurialType
     {
         return new BurialType((string) $request->type);
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return CustomerId|null
-     */
     private function processCustomerData(RegisterNewBurialRequest $request): ?CustomerId
     {
         $customerId = null;
@@ -191,11 +174,6 @@ class RegisterNewBurialService extends ApplicationService
         return $customerId;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return BurialPlaceId|null
-     */
     private function processBurialPlaceData(RegisterNewBurialRequest $request): ?BurialPlaceId
     {
         $burialPlaceId = null;
@@ -234,11 +212,6 @@ class RegisterNewBurialService extends ApplicationService
         return $burialPlaceId;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return NaturalPersonId|null
-     */
     private function processPersonInChargeData(RegisterNewBurialRequest $request): ?NaturalPersonId
     {
         $personInChargeId = null;
@@ -255,11 +228,6 @@ class RegisterNewBurialService extends ApplicationService
         return $personInChargeId;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return FuneralCompanyId|null
-     */
     private function processFuneralCompanyData(RegisterNewBurialRequest $request): ?FuneralCompanyId
     {
         $funeralCompanyId = null;
@@ -271,11 +239,6 @@ class RegisterNewBurialService extends ApplicationService
         return $funeralCompanyId;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return BurialContainer|null
-     */
     private function processBurialContainerData(RegisterNewBurialRequest $request): ?BurialContainer
     {
         $burialContainer = null;
@@ -295,11 +258,6 @@ class RegisterNewBurialService extends ApplicationService
         return $burialContainer;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return \DateTimeImmutable|null
-     */
     private function processBuriedAtData(RegisterNewBurialRequest $request): ?\DateTimeImmutable
     {
         $buriedAt = null;
@@ -311,11 +269,6 @@ class RegisterNewBurialService extends ApplicationService
         return $buriedAt;
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return NaturalPerson
-     */
     private function createNaturalPersonForDeceased(RegisterNewBurialRequest $request): NaturalPerson
     {
         return $this->naturalPersonFactory->create(
@@ -334,12 +287,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     * @param string              $naturalPersonId
-     *
-     * @return Deceased
-     */
     private function createDeceased(RegisterNewBurialRequest $request, string $naturalPersonId): Deceased
     {
         return $this->deceasedFactory->create(
@@ -351,11 +298,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return NaturalPerson
-     */
     private function createNaturalPersonForCustomer(RegisterNewBurialRequest $request): NaturalPerson
     {
         return $this->naturalPersonFactory->create(
@@ -374,11 +316,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return SoleProprietor
-     */
     private function createSoleProprietorForCustomer(RegisterNewBurialRequest $request): SoleProprietor
     {
         return $this->soleProprietorFactory->create(
@@ -401,11 +338,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return JuristicPerson
-     */
     private function createJuristicPersonForCustomer(RegisterNewBurialRequest $request): JuristicPerson
     {
         return $this->juristicPersonFactory->create(
@@ -430,11 +362,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return GraveSite
-     */
     private function createGraveSite(RegisterNewBurialRequest $request): GraveSite
     {
         return $this->graveSiteFactory->create(
@@ -448,11 +375,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return ColumbariumNiche
-     */
     private function createColumbariumNiche(RegisterNewBurialRequest $request): ColumbariumNiche
     {
         return $this->columbariumNicheFactory->create(
@@ -465,11 +387,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return MemorialTree
-     */
     private function createMemorialTree(RegisterNewBurialRequest $request): MemorialTree
     {
         return $this->memorialTreeFactory->create(
@@ -480,11 +397,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @return NaturalPerson
-     */
     private function createNaturalPersonForPersonInCharge(RegisterNewBurialRequest $request): NaturalPerson
     {
         return $this->naturalPersonFactory->create(
@@ -503,11 +415,6 @@ class RegisterNewBurialService extends ApplicationService
         );
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @throws \LogicException when the customer type is not supported
-     */
     private function assertSupportedCustomerType(RegisterNewBurialRequest $request): void
     {
         if ($request->customerType === null) {
@@ -523,11 +430,6 @@ class RegisterNewBurialService extends ApplicationService
         }
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @throws \LogicException when the burial place type is not supported
-     */
     private function assertSupportedBurialPlaceType(RegisterNewBurialRequest $request): void
     {
         if ($request->burialPlaceType === null) {
@@ -543,11 +445,6 @@ class RegisterNewBurialService extends ApplicationService
         }
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @throws \LogicException when the burial container type is not supported
-     */
     private function assertSupportedBurialContainerType(RegisterNewBurialRequest $request): void
     {
         if ($request->burialContainerType === null) {
@@ -563,11 +460,6 @@ class RegisterNewBurialService extends ApplicationService
         }
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @throws \LogicException when the customer type is not provided for the customer ID
-     */
     private function assertCustomerTypeProvidedForId(RegisterNewBurialRequest $request): void
     {
         if ($request->customerId !== null && $request->customerType === null) {
@@ -577,11 +469,6 @@ class RegisterNewBurialService extends ApplicationService
         }
     }
 
-    /**
-     * @param RegisterNewBurialRequest $request
-     *
-     * @throws \LogicException when the burial place type is not provided for the burial place ID
-     */
     private function assertBurialPlaceTypeProvidedForId(RegisterNewBurialRequest $request): void
     {
         if ($request->burialPlaceId !== null && $request->burialPlaceType === null) {

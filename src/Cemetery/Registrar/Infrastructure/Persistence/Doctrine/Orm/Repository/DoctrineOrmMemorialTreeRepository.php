@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements MemorialTreeRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return MemorialTree::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return MemorialTreeId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return MemorialTreeCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmMemorialTreeRepository extends DoctrineOrmRepository implements
         }
     }
 
-    /**
-     * @param MemorialTree $memorialTree
-     *
-     * @return bool
-     */
     private function doesSameTreeNumberAlreadyUsed(MemorialTree $memorialTree): bool
     {
         return (bool) $this->entityManager

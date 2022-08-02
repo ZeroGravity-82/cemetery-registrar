@@ -14,9 +14,6 @@ abstract class TransactionalApplicationService extends ApplicationService
         private readonly TransactionalSession $session,
     ) {}
 
-    /**
-     * {@inheritdoc}
-     */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         $operation = function () use ($request) {

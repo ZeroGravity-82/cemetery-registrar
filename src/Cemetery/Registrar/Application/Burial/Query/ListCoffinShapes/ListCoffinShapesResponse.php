@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\Burial\BurialContainer\CoffinShapeList;
 class ListCoffinShapesResponse
 {
     public function __construct(
-        public readonly CoffinShapeList $list,
+        public CoffinShapeList $list,
     ) {}
 }

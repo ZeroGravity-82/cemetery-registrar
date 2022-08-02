@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeList;
 class ListMemorialTreesResponse
 {
     public function __construct(
-        public readonly MemorialTreeList $list,
+        public MemorialTreeList $list,
     ) {}
 }

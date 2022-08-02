@@ -11,6 +11,7 @@ use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -23,16 +24,19 @@ class ShowCauseOfDeathService extends ApplicationService
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
+        $this->assertSupportedRequestClass($request);
+
         /** @var ShowCauseOfDeathRequest $request */
         return $this->requestValidator->validate($request);
     }
 
     /**
-     * {@inheritdoc}
+     * @throws NotFoundHttpException when the cause of death is not found
+     * @throws \Throwable            when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
@@ -44,12 +48,13 @@ class ShowCauseOfDeathService extends ApplicationService
         );
     }
 
+    protected function supportedRequestClassName(): string
+    {
+        return ShowCauseOfDeathRequest::class;
+    }
+
     /**
-     * @param string $id
-     *
-     * @return CauseOfDeathView
-     *
-     * @throws NotFoundException when no cause of death was found by the ID
+     * @throws NotFoundException when the cause of death is not found
      */
     private function getCauseOfDeathView(string $id): CauseOfDeathView
     {

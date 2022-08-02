@@ -9,10 +9,7 @@ namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\Coun
  */
 class CountColumbariumNicheTotalResponse
 {
-    /**
-     * @param int $totalCount
-     */
     public function __construct(
-        public readonly int $totalCount,
+        public int $totalCount,
     ) {}
 }

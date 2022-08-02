@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements ColumbariumRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return Columbarium::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return ColumbariumId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return ColumbariumCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmColumbariumRepository extends DoctrineOrmRepository implements 
         }
     }
 
-    /**
-     * @param Columbarium $columbarium
-     *
-     * @return bool
-     */
     private function doesSameNameAlreadyUsed(Columbarium $columbarium): bool
     {
         return (bool) $this->entityManager

@@ -6,7 +6,6 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\Exception\NaturalPersonRepositoryException;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -17,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
  */
 class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implements NaturalPersonRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return NaturalPerson::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return NaturalPersonId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return NaturalPersonCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -52,11 +42,6 @@ class DoctrineOrmNaturalPersonRepository extends DoctrineOrmRepository implement
         }
     }
 
-    /**
-     * @param NaturalPerson $naturalPerson
-     *
-     * @return bool
-     */
     private function doesSameFullNameAndBornAtOrDiedAtAlreadyUsed(NaturalPerson $naturalPerson): bool
     {
         if ($naturalPerson->bornAt() === null && $naturalPerson->deceasedDetails()?->diedAt() === null) {

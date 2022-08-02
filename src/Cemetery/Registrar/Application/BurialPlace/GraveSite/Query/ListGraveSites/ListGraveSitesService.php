@@ -20,28 +20,24 @@ class ListGraveSitesService extends ApplicationService
     ) {}
 
     /**
-     * @param ListGraveSitesRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var ListGraveSitesRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param ListGraveSitesRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListGraveSitesResponse($this->graveSiteFetcher->findAll(1));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return ListGraveSitesRequest::class;

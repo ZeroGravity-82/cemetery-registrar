@@ -12,8 +12,8 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class BuildFuneralCompaniesReportRequest extends ApplicationRequest
 {
     public function __construct(
-        public readonly ?string $startDate,
-        public readonly ?string $endDate,
+        public ?string $startDate,
+        public ?string $endDate,
         // TODO add burial type selection
     ) {}
 }

@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Domain\Model;
 abstract class EntityId
 {
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function __construct(
         protected string $value,
@@ -34,7 +34,7 @@ abstract class EntityId
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     private function assertValidValue(string $value): void
     {

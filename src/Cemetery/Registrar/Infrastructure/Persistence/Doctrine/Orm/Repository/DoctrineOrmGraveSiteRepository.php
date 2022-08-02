@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements GraveSiteRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return GraveSite::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return GraveSiteId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return GraveSiteCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
         }
     }
 
-    /**
-     * @param GraveSite $graveSite
-     *
-     * @return bool
-     */
     private function doesSameNicheRowAndPositionAlreadyUsed(GraveSite $graveSite): bool
     {
         if ($graveSite->positionInRow() === null) {

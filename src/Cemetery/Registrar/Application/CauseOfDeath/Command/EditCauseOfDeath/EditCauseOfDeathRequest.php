@@ -12,7 +12,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class EditCauseOfDeathRequest extends ApplicationRequest
 {
     public function __construct(
-        public readonly ?string $id,
-        public readonly ?string $name,
+        public ?string $id,
+        public ?string $name,
     ) {}
 }

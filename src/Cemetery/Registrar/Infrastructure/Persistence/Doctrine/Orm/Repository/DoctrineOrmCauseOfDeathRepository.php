@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements CauseOfDeathRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return CauseOfDeath::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return CauseOfDeathId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return CauseOfDeathCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
         }
     }
 
-    /**
-     * @param CauseOfDeath $causeOfDeath
-     *
-     * @return bool
-     */
     private function doesSameNameAlreadyUsed(CauseOfDeath $causeOfDeath): bool
     {
         return (bool) $this->entityManager

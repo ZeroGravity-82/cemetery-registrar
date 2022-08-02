@@ -20,7 +20,7 @@ class OrganizationIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForSoleProprietor(?string $id): OrganizationId
     {
@@ -28,7 +28,7 @@ class OrganizationIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForJuristicPerson(?string $id): OrganizationId
     {

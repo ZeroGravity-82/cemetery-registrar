@@ -28,10 +28,6 @@ class NaturalPerson extends AggregateRoot
     private ?Passport           $passport = null;
     private ?DeceasedDetails    $deceasedDetails = null;
 
-    /**
-     * @param NaturalPersonId $id
-     * @param FullName        $fullName
-     */
     public function __construct(
         private NaturalPersonId $id,
         private FullName        $fullName,
@@ -150,7 +146,7 @@ class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @throws Exception when the death date precedes the birthdate (if any)
+     * @throws Exception when the death date (if any) precedes the birthdate
      * @throws Exception when the age is provided when both birthdate and death date are set
      */
     public function setDeceasedDetails(?DeceasedDetails $deceasedDetails): self
@@ -175,7 +171,7 @@ class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @throws Exception when the death date precedes the birthdate (if any)
+     * @throws Exception when the death date (if any) precedes the birthdate
      * @throws Exception when the age is provided when both birthdate and death date are set
      */
     private function assertValidDeceasedDetails(?DeceasedDetails $deceasedDetails): void
@@ -185,7 +181,7 @@ class NaturalPerson extends AggregateRoot
     }
 
     /**
-     * @throws Exception when the death date precedes the birthdate (if any)
+     * @throws Exception when the death date (if any) precedes the birthdate
      */
     private function assertDeathDateNotPrecedesBirthdate(?DeceasedDetails $deceasedDetails): void
     {

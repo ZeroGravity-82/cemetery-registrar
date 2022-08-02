@@ -9,10 +9,7 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\CountGraveS
  */
 class CountGraveSiteTotalResponse
 {
-    /**
-     * @param int $totalCount
-     */
     public function __construct(
-        public readonly int $totalCount,
+        public int $totalCount,
     ) {}
 }

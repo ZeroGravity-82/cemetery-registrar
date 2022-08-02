@@ -12,25 +12,30 @@ use Cemetery\Registrar\Domain\Model\Exception;
 abstract class ApplicationService
 {
     /**
-     * Validates the application request.
-     *
-     * @param ApplicationRequest $request
-     *
-     * @return Notification
-     *
-     * @throws \LogicException when the request is not an instance of the supported class
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     abstract public function validate(ApplicationRequest $request): Notification;
 
     /**
-     * Executes the application request.
-     *
-     * @param ApplicationRequest $request
-     *
-     * @return ApplicationSuccessResponse
-     *
-     * @throws Exception  when there was any issue within the domain
      * @throws \Throwable when any error occurred while processing the request
      */
     abstract public function execute(ApplicationRequest $request): ApplicationSuccessResponse;
+
+    abstract protected function supportedRequestClassName(): string;
+
+    /**
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
+     */
+    protected function assertSupportedRequestClass($request): void
+    {
+        $supportedRequestClassName = $this->supportedRequestClassName();
+        if (!$request instanceof $supportedRequestClassName) {
+            throw new \InvalidArgumentException(\sprintf(
+                'Единственным аргументом метода "%s::execute" должен быть экземпляр класса "%s", "%s" передан.',
+                \get_class($this),
+                $supportedRequestClassName,
+                \is_object($request) ? \get_class($request) : \get_debug_type($request),
+            ));
+        }
+    }
 }

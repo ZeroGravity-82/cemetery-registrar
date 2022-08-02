@@ -20,28 +20,24 @@ class CountBurialTotalService extends ApplicationService
     ) {}
 
     /**
-     * @param CountBurialTotalRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var CountBurialTotalRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param CountBurialTotalRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new CountBurialTotalResponse($this->burialFetcher->countTotal());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return CountBurialTotalRequest::class;

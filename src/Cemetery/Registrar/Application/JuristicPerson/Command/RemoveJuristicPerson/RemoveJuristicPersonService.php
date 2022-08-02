@@ -9,10 +9,12 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -25,23 +27,22 @@ class RemoveJuristicPersonService extends ApplicationService
     ) {}
 
     /**
-     * @param RemoveJuristicPersonRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var RemoveJuristicPersonRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param RemoveJuristicPersonRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws Exception  when there was any issue within the domain
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        $this->assertSupported($request);
         $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRepo->remove($juristicPerson);
         $this->eventDispatcher->dispatch(new JuristicPersonRemoved(
@@ -49,20 +50,14 @@ class RemoveJuristicPersonService extends ApplicationService
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return RemoveJuristicPersonRequest::class;
     }
 
     /**
-     * @param string $id
-     *
-     * @return JuristicPerson
-     *
-     * @throws \RuntimeException when the juristic person does not exist
+     * @throws Exception             when the ID is invalid
+     * @throws NotFoundHttpException when the juristic person is not found
      */
     private function getJuristicPerson(string $id): JuristicPerson
     {
@@ -70,7 +65,7 @@ class RemoveJuristicPersonService extends ApplicationService
         /** @var JuristicPerson $juristicPerson */
         $juristicPerson = $this->juristicPersonRepo->findById($id);
         if (!$juristicPerson) {
-            throw new \RuntimeException(\sprintf('Юридическое лицо с ID "%s" не найдено.', $id));
+            throw new NotFoundHttpException(\sprintf('Юридическое лицо с ID "%s" не найдено.', $id));
         }
 
         return $juristicPerson;

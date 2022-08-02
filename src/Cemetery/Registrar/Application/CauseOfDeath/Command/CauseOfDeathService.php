@@ -9,6 +9,8 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\Exception;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -21,11 +23,8 @@ abstract class CauseOfDeathService extends ApplicationService
     ) {}
 
     /**
-     * @param string $id
-     *
-     * @return CauseOfDeath
-     *
-     * @throws \RuntimeException when the cause of death is not found
+     * @throws Exception             when the ID is invalid
+     * @throws NotFoundHttpException when the cause of death is not found
      */
     protected function getCauseOfDeath(string $id): CauseOfDeath
     {
@@ -33,7 +32,7 @@ abstract class CauseOfDeathService extends ApplicationService
         /** @var CauseOfDeath $causeOfDeath */
         $causeOfDeath = $this->causeOfDeathRepo->findById($id);
         if ($causeOfDeath === null) {
-            throw new \RuntimeException(\sprintf('Причина смерти с ID "%s" не найдена.', $id->value()));
+            throw new NotFoundHttpException(\sprintf('Причина смерти с ID "%s" не найдена.', $id->value()));
         }
 
         return $causeOfDeath;

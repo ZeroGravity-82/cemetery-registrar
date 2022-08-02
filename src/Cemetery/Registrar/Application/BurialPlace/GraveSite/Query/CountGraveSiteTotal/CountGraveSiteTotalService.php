@@ -20,28 +20,24 @@ class CountGraveSiteTotalService extends ApplicationService
     ) {}
 
     /**
-     * @param CountGraveSiteTotalRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var CountGraveSiteTotalRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param CountGraveSiteTotalRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new CountGraveSiteTotalResponse($this->graveSiteFetcher->countTotal());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return CountGraveSiteTotalRequest::class;

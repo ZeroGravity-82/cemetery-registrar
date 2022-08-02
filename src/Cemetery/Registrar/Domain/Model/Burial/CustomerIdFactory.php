@@ -20,7 +20,7 @@ class CustomerIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForNaturalPerson(?string $id): CustomerId
     {
@@ -28,7 +28,7 @@ class CustomerIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForSoleProprietor(?string $id): CustomerId
     {
@@ -36,7 +36,7 @@ class CustomerIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForJuristicPerson(?string $id): CustomerId
     {

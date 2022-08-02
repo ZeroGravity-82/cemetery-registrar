@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implements ColumbariumNicheRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return ColumbariumNiche::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return ColumbariumNicheId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return ColumbariumNicheCollection::class;
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
         }
     }
 
-    /**
-     * @param ColumbariumNiche $columbariumNiche
-     *
-     * @return bool
-     */
     private function doesSameNicheNumberAlreadyUsed(ColumbariumNiche $columbariumNiche): bool
     {
         return (bool) $this->entityManager

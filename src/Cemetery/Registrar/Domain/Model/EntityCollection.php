@@ -12,7 +12,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     private array $entities = [];
 
     /**
-     * @throws \LogicException when the entity type does not match the collection
+     * @throws \InvalidArgumentException when the entity type does not match the collection
      */
     public function __construct(
         array $entities = [],
@@ -36,7 +36,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @throws \LogicException when the entity type does not match the collection
+     * @throws \InvalidArgumentException when the entity type does not match the collection
      */
     public function add(Entity $entity): void
     {
@@ -139,13 +139,13 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     }
 
     /**
-     * @throws \LogicException when the entity type does not match the collection
+     * @throws \InvalidArgumentException when the entity type does not match the collection
      */
     private function assertSupportedEntityClass(Entity $entity): void
     {
         $supportedEntityClassName = $this->supportedEntityClassName();
         if (!$entity instanceof $supportedEntityClassName) {
-            throw new \LogicException(\sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'Неподдерживаемый тип сущности: ожидался "%s", "%s" передан.',
                 $this->supportedEntityClassName(),
                 \get_class($entity)

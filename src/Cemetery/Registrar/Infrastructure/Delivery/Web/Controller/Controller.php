@@ -57,7 +57,7 @@ abstract class Controller extends AbstractController
     /**
      * Creates JSON HTTP response from the application service response.
      *
-     * @throws \LogicException when the application response is of an unsupported type
+     * @throws \InvalidArgumentException when the application response is of an unsupported type
      */
     protected function buildJsonResponse(
         ApplicationResponse $appResponse,
@@ -76,7 +76,7 @@ abstract class Controller extends AbstractController
                 $httpResponseStatus     = match ($appResponse->data['failType']) {
                     ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR => HttpResponse::HTTP_UNPROCESSABLE_ENTITY,
                     ApplicationFailResponse::FAILURE_TYPE_NOT_FOUND        => HttpResponse::HTTP_NOT_FOUND,
-                    ApplicationFailResponse::FAILURE_TYPE_DOMAIN_ERROR     => HttpResponse::HTTP_CONFLICT,
+                    ApplicationFailResponse::FAILURE_TYPE_DOMAIN_EXCEPTION     => HttpResponse::HTTP_CONFLICT,
                     default                                                => HttpResponse::HTTP_BAD_REQUEST,
                 };
                 $httpResponse = $this->json($httpResponseData, $httpResponseStatus);
@@ -92,7 +92,7 @@ abstract class Controller extends AbstractController
                 $httpResponse = $this->json($httpResponseData, HttpResponse::HTTP_INTERNAL_SERVER_ERROR);
                 break;
             default:
-                throw new \LogicException(\sprintf(
+                throw new \InvalidArgumentException(\sprintf(
                     'Неподдерживаемый тип ответа прикладного сервиса: "%s".',
                     \get_class($appResponse),
                 ));

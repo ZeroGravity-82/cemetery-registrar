@@ -13,11 +13,11 @@ use Cemetery\Registrar\Domain\Model\Exception;
 class DeceasedDetailsFactory
 {
     /**
-     * @throws Exception       when the death certificate data is incomplete (if any)
-     * @throws Exception       when the cremation certificate data is incomplete (if any)
+     * @throws Exception       when the death certificate data (if any) is incomplete
+     * @throws Exception       when the cremation certificate data (if any) is incomplete
      * @throws \LogicException when the date of death has invalid format
-     * @throws \LogicException when the death certificate issue date has invalid format (if any)
-     * @throws \LogicException when the cremation certificate issue date has invalid format (if any)
+     * @throws \LogicException when the death certificate issue date (if any) has invalid format
+     * @throws \LogicException when the cremation certificate issue date (if any) has invalid format
      */
     public function create(
         ?string $diedAt,
@@ -82,7 +82,7 @@ class DeceasedDetailsFactory
     }
 
     /**
-     * @throws Exception when the death certificate data is incomplete (if any)
+     * @throws Exception when the death certificate data (if any) is incomplete
      */
     private function assertCompleteDeathCertificateData(
         ?string $deathCertificateSeries,
@@ -108,7 +108,7 @@ class DeceasedDetailsFactory
     }
 
     /**
-     * @throws Exception when the cremation certificate data is incomplete (if any)
+     * @throws Exception when the cremation certificate data (if any) is incomplete
      */
     private function assertCompleteCremationCertificateData(
         ?string $cremationCertificateNumber,

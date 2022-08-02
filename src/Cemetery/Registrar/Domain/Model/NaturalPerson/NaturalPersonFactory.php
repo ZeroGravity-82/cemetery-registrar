@@ -18,17 +18,17 @@ class NaturalPersonFactory extends EntityFactory
     /**
      * @throws Exception       when generating an invalid natural person ID
      * @throws Exception       when the full name is invalid
-     * @throws Exception       when the phone number is invalid (if any)
-     * @throws Exception       when the phone number additional is invalid (if any)
-     * @throws Exception       when the e-mail address is invalid (if any)
-     * @throws Exception       when the address is invalid (if any)
-     * @throws \LogicException when the birthdate has invalid format (if any)
-     * @throws Exception       when the place of birth is invalid (if any)
-     * @throws Exception       when the passport series is invalid (if any)
-     * @throws Exception       when the passport number is invalid (if any)
+     * @throws Exception       when the phone number (if any) is invalid
+     * @throws Exception       when the phone number additional (if any) is invalid
+     * @throws Exception       when the e-mail address (if any) is invalid
+     * @throws Exception       when the address (if any) is invalid
+     * @throws \LogicException when the birthdate (if any) has invalid format
+     * @throws Exception       when the place of birth (if any) is invalid
+     * @throws Exception       when the passport series (if any) is invalid
+     * @throws Exception       when the passport number (if any) is invalid
      * @throws \LogicException when the passport issue date has invalid format
-     * @throws Exception       when the passport issuing authority name is invalid (if any)
-     * @throws Exception       when the passport division code is invalid (if any)
+     * @throws Exception       when the passport issuing authority name (if any) is invalid
+     * @throws Exception       when the passport division code (if any) is invalid
      */
     public function create(
         ?string $fullName,

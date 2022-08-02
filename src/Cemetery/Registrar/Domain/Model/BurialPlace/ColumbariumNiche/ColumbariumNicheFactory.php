@@ -20,9 +20,9 @@ class ColumbariumNicheFactory extends EntityFactory
      * @throws Exception when the columbarium ID is empty
      * @throws Exception when the row in columbarium value is invalid
      * @throws Exception when the niche number is invalid
-     * @throws Exception when the geo position latitude value is invalid (if any)
-     * @throws Exception when the geo position longitude value is invalid (if any)
-     * @throws Exception when the geo position error value is invalid (if any)
+     * @throws Exception when the geo position latitude value (if any) is invalid
+     * @throws Exception when the geo position longitude value (if any) is invalid
+     * @throws Exception when the geo position error value (if any) is invalid
      */
     public function create(
         ?string  $columbariumId,

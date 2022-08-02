@@ -13,9 +13,6 @@ use Cemetery\Registrar\Infrastructure\DependencyInjection\ApplicationServiceLoca
  */
 class ApplicationRequestBus
 {
-    /**
-     * @param ApplicationServiceLocator $appServiceLocator
-     */
     public function __construct(
         private readonly ApplicationServiceLocator $appServiceLocator,
     ) {}
@@ -24,10 +21,6 @@ class ApplicationRequestBus
      * Delegates application request execution to the appropriate service. The request is validated first. If any
      * domain exceptions are thrown, they will be converted into application fail response. All other exceptions will
      * be converted into application error response.
-     *
-     * @param ApplicationRequest $request
-     *
-     * @return ApplicationResponse
      */
     public function execute(ApplicationRequest $request): ApplicationResponse
     {
@@ -58,7 +51,7 @@ class ApplicationRequestBus
             // The request was rejected due to domain exception
             $failureType = match (true) {
                 $e instanceof NotFoundException => ApplicationFailResponse::FAILURE_TYPE_NOT_FOUND,
-                default                         => ApplicationFailResponse::FAILURE_TYPE_DOMAIN_ERROR,
+                default                         => ApplicationFailResponse::FAILURE_TYPE_DOMAIN_EXCEPTION,
             };
             $response = new ApplicationFailResponse(
                 [

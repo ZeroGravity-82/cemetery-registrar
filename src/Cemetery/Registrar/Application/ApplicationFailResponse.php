@@ -14,7 +14,7 @@ class ApplicationFailResponse extends ApplicationResponse
 {
     public const FAILURE_TYPE_VALIDATION_ERROR = 'validation error';
     public const FAILURE_TYPE_NOT_FOUND        = 'not found';
-    public const FAILURE_TYPE_DOMAIN_ERROR     = 'domain error';
+    public const FAILURE_TYPE_DOMAIN_EXCEPTION = 'domain exception';
 
     public string $status = 'fail';
 

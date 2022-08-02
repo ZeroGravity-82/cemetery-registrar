@@ -20,7 +20,7 @@ class BurialPlaceIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForGraveSite(?string $id): BurialPlaceId
     {
@@ -28,7 +28,7 @@ class BurialPlaceIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForColumbariumNiche(?string $id): BurialPlaceId
     {
@@ -36,7 +36,7 @@ class BurialPlaceIdFactory
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws Exception when the ID is invalid
      */
     public function createForMemorialTree(?string $id): BurialPlaceId
     {

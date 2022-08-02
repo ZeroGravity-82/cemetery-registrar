@@ -19,11 +19,11 @@ class GraveSiteFactory extends EntityFactory
      * @throws Exception when generating an invalid grave site ID
      * @throws Exception when the cemetery block ID is empty
      * @throws Exception when the row in block value is invalid
-     * @throws Exception when the position in row value is invalid (if any)
-     * @throws Exception when the geo position latitude value is invalid (if any)
-     * @throws Exception when the geo position longitude value is invalid (if any)
-     * @throws Exception when the geo position error value is invalid (if any)
-     * @throws Exception when the grave site size value is invalid (if any)
+     * @throws Exception when the position in row value (if any) is invalid
+     * @throws Exception when the geo position latitude value (if any) is invalid
+     * @throws Exception when the geo position longitude value (if any) is invalid
+     * @throws Exception when the geo position error value (if any) is invalid
+     * @throws Exception when the grave site size value (if any) is invalid
      */
     public function create(
         ?string $cemeteryBlockId,

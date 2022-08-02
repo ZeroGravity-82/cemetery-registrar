@@ -11,9 +11,6 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinShape;
  */
 class CoffinShapeFetcher
 {
-    /**
-     * @return CoffinShapeList
-     */
     public function findAll(): CoffinShapeList
     {
         $coffinShapes = [

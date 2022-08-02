@@ -12,6 +12,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
+use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -28,16 +29,19 @@ class CreateCauseOfDeathService extends CauseOfDeathService
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
+        $this->assertSupportedRequestClass($request);
+
         /** @var CreateCauseOfDeathRequest $request */
         return $this->requestValidator->validate($request);
     }
 
     /**
-     * {@inheritdoc}
+     * @throws Exception  when there was any issue within the domain
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
@@ -54,5 +58,10 @@ class CreateCauseOfDeathService extends CauseOfDeathService
         return new ApplicationSuccessResponse(
             ['id' => $causeOfDeath->id()->value()],
         );
+    }
+
+    protected function supportedRequestClassName(): string
+    {
+        return CreateCauseOfDeathRequest::class;
     }
 }

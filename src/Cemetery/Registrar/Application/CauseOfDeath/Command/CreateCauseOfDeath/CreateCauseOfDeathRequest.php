@@ -12,6 +12,6 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class CreateCauseOfDeathRequest extends ApplicationRequest
 {
     public function __construct(
-        public readonly ?string $name,
+        public ?string $name,
     ) {}
 }

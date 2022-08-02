@@ -16,32 +16,23 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
  */
 class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implements JuristicPersonRepository
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootClassName(): string
     {
         return JuristicPerson::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootIdClassName(): string
     {
         return JuristicPersonId::class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedAggregateRootCollectionClassName(): string
     {
         return JuristicPersonCollection::class;
     }
 
-    /**
-     * {@inheritdoc}
+     /**
+     * @throws Exception when uniqueness constraints (if any) are violated
      */
     protected function assertUnique(AggregateRoot $aggregateRoot): void
     {
@@ -51,11 +42,6 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
         }
     }
 
-    /**
-     * @param JuristicPerson $juristicPerson
-     *
-     * @return bool
-     */
     private function doesSameNameOrInnAlreadyUsed(JuristicPerson $juristicPerson): bool
     {
         $queryBuilder = $this->entityManager

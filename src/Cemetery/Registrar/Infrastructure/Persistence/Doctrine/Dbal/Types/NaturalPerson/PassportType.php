@@ -53,7 +53,7 @@ class PassportType extends CustomJsonType
      * @throws Exception                 when the series is invalid
      * @throws Exception                 when the number is invalid
      * @throws Exception                 when the issuing authority name is invalid
-     * @throws Exception                 when the division code is invalid (if any)
+     * @throws Exception                 when the division code (if any) is invalid
      */
     protected function buildPhpValue(array $decodedValue): Passport
     {

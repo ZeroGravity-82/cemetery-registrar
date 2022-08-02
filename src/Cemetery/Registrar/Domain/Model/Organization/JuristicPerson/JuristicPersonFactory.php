@@ -23,20 +23,20 @@ class JuristicPersonFactory extends EntityFactory
     /**
      * @throws Exception when generating an invalid juristic person ID
      * @throws Exception when the name is invalid
-     * @throws Exception when the INN is invalid (if any)
-     * @throws Exception when the KPP is invalid (if any)
-     * @throws Exception when the OGRN is invalid (if any)
-     * @throws Exception when the OKPO is invalid (if any)
-     * @throws Exception when the OKVED is invalid (if any)
-     * @throws Exception when the legal address is invalid (if any)
-     * @throws Exception when the postal address is invalid (if any)
-     * @throws Exception when the bank details are invalid (if any)
-     * @throws Exception when the phone number is invalid (if any)
-     * @throws Exception when the phone number additional is invalid (if any)
-     * @throws Exception when the fax is invalid (if any)
-     * @throws Exception when the general director is invalid (if any)
-     * @throws Exception when the email is invalid (if any)
-     * @throws Exception when the website is invalid (if any)
+     * @throws Exception when the INN (if any) is invalid
+     * @throws Exception when the KPP (if any) is invalid
+     * @throws Exception when the OGRN (if any) is invalid
+     * @throws Exception when the OKPO (if any) is invalid
+     * @throws Exception when the OKVED (if any) is invalid
+     * @throws Exception when the legal address (if any) is invalid
+     * @throws Exception when the postal address (if any) is invalid
+     * @throws Exception when the bank details (if any) are invalid
+     * @throws Exception when the phone number (if any) is invalid
+     * @throws Exception when the phone number additional (if any) is invalid
+     * @throws Exception when the fax (if any) is invalid
+     * @throws Exception when the general director (if any) is invalid
+     * @throws Exception when the email (if any) is invalid
+     * @throws Exception when the website (if any) is invalid
      */
     public function create(
         ?string $name,

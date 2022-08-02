@@ -15,24 +15,21 @@ use Cemetery\Registrar\Application\Notification;
 class BuildFuneralCompaniesReportService extends ApplicationService
 {
     /**
-     * @param BuildFuneralCompaniesReportRequest $request
-     *
-     * @return Notification
+     * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
-        // TODO: Implement validate() method.
+        $this->assertSupportedRequestClass($request);
+
+        /** @var BuildFuneralCompaniesReportRequest $request */
+        return $this->requestValidator->validate($request);
     }
 
     /**
-     * @param BuildFuneralCompaniesReportRequest $request
-     *
-     * @return ApplicationSuccessResponse
+     * @throws \Throwable when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        $this->assertSupported($request);
-
         /** @var BuildFuneralCompaniesReportRequest $request */
         $startDate = $request->startDate;
 
@@ -41,9 +38,6 @@ class BuildFuneralCompaniesReportService extends ApplicationService
 
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function supportedRequestClassName(): string
     {
         return BuildFuneralCompaniesReportRequest::class;

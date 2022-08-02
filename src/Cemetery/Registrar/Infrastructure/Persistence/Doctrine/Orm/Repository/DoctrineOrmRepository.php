@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Repository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -18,7 +19,8 @@ abstract class DoctrineOrmRepository extends Repository
     ) {}
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
+     * @throws Exception                 when unique constraints (if any) are violated
      */
     public function save($aggregateRoot): void
     {
@@ -29,7 +31,8 @@ abstract class DoctrineOrmRepository extends Repository
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
+     * @throws Exception                 when unique constraints (if any) are violated
      */
     public function saveAll($aggregateRoots): void
     {
@@ -42,7 +45,7 @@ abstract class DoctrineOrmRepository extends Repository
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
     public function findById($aggregateRootId): ?AggregateRoot
     {
@@ -55,7 +58,7 @@ abstract class DoctrineOrmRepository extends Repository
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
      */
     public function remove($aggregateRoot): void
     {
@@ -66,7 +69,7 @@ abstract class DoctrineOrmRepository extends Repository
     }
 
     /**
-     * {@inheritdoc}
+     * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
      */
     public function removeAll($aggregateRoots): void
     {

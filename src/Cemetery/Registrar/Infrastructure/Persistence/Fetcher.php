@@ -9,11 +9,6 @@ namespace Cemetery\Registrar\Infrastructure\Persistence;
  */
 abstract class Fetcher
 {
-    /**
-     * @param string|null $term
-     *
-     * @return bool
-     */
     protected function isTermNotEmpty(?string $term): bool
     {
         return $term !== null && $term !== '';

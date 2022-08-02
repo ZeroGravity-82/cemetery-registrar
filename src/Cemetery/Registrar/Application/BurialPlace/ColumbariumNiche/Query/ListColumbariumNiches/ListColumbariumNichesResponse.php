@@ -12,6 +12,6 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNiche
 class ListColumbariumNichesResponse
 {
     public function __construct(
-        public readonly ColumbariumNicheList $list,
+        public ColumbariumNicheList $list,
     ) {}
 }

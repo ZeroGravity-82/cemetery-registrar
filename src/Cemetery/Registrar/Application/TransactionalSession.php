@@ -9,10 +9,5 @@ namespace Cemetery\Registrar\Application;
  */
 interface TransactionalSession
 {
-    /**
-     * @param callable $operation
-     *
-     * @return mixed
-     */
    public function executeAtomically(callable $operation): mixed;
 }

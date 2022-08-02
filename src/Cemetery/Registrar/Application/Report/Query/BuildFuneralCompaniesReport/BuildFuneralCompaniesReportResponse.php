@@ -11,10 +11,7 @@ use Cemetery\Registrar\Domain\View\Report\BuildFuneralCompaniesReport\FuneralCom
  */
 class BuildFuneralCompaniesReportResponse
 {
-    /**
-     * @param FuneralCompaniesReport $report
-     */
     public function __construct(
-        public readonly FuneralCompaniesReport $report,
+        public FuneralCompaniesReport $report,
     ) {}
 }

@@ -15,38 +15,25 @@ use Cemetery\Registrar\Domain\Model\Repository as RepositoryInterface;
  */
 abstract class Repository implements RepositoryInterface
 {
-    /**
-     * Returns the name of the supported aggregate root class.
-     */
     abstract protected function supportedAggregateRootClassName(): string;
 
-    /**
-     * Returns the name of the supported aggregate root ID class.
-     */
     abstract protected function supportedAggregateRootIdClassName(): string;
 
-    /**
-     * Returns the name of the supported aggregate root collection class.
-     */
     abstract protected function supportedAggregateRootCollectionClassName(): string;
 
     /**
-     * Checks whether the aggregate root meets uniqueness constraints (if any).
-     *
      * @throws Exception when uniqueness constraints (if any) are violated
      */
     abstract protected function assertUnique(AggregateRoot $aggregateRoot): void;
 
     /**
-     * Checks whether the aggregate root is of a type supported by the repository.
-     *
-     * @throws \LogicException when the aggregate root type does not match the repository
+     * @throws \InvalidArgumentException when the aggregate root type does not match the repository
      */
     protected function assertSupportedAggregateRootClass(AggregateRoot $aggregateRoot): void
     {
         $supportedAggregateRootClassName = $this->supportedAggregateRootClassName();
         if (!$aggregateRoot instanceof $supportedAggregateRootClassName) {
-            throw new \LogicException(\sprintf(
+            throw new \InvalidArgumentException(\sprintf(
                 'Неподдерживаемый тип корня агрегата: ожидался "%s", "%s" передан.',
                 $this->supportedAggregateRootClassName(),
                 \get_class($aggregateRoot)
@@ -55,8 +42,6 @@ abstract class Repository implements RepositoryInterface
     }
 
     /**
-     * Checks whether the aggregate root ID is of a type supported by the repository.
-     *
      * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
     protected function assertSupportedAggregateRootIdClass(EntityId $aggregateRootId): void
@@ -64,7 +49,7 @@ abstract class Repository implements RepositoryInterface
         $supportedAggregateRootIdClassName = $this->supportedAggregateRootIdClassName();
         if (!$aggregateRootId instanceof $supportedAggregateRootIdClassName) {
             throw new \InvalidArgumentException(\sprintf(
-                'Invalid type for an aggregate root ID: expected "%s", "%s" given.',
+                'Неподдерживаемый тип идентификатора корня агрегата: ожидался "%s", "%s" передан.',
                 $this->supportedAggregateRootIdClassName(),
                 \get_class($aggregateRootId)
             ));
@@ -72,8 +57,6 @@ abstract class Repository implements RepositoryInterface
     }
 
     /**
-     * Checks whether the aggregate root collection is of a type supported by the repository.
-     *
      * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
      */
     protected function assertSupportedAggregateRootCollectionClass(EntityCollection $aggregateRoots): void
@@ -81,7 +64,7 @@ abstract class Repository implements RepositoryInterface
         $supportedAggregateRootCollectionClassName = $this->supportedAggregateRootCollectionClassName();
         if (!$aggregateRoots instanceof $supportedAggregateRootCollectionClassName) {
             throw new \InvalidArgumentException(\sprintf(
-                'Invalid type for an aggregate root collection: expected "%s", "%s" given.',
+                'Неподдерживаемый тип коллекции корней агрегатов: ожидался "%s", "%s" передан.',
                 $this->supportedAggregateRootCollectionClassName(),
                 \get_class($aggregateRoots)
             ));
@@ -89,7 +72,7 @@ abstract class Repository implements RepositoryInterface
     }
 
     /**
-     * @throws \RuntimeException when unique constraints (if any) are violated
+     * @throws Exception when unique constraints (if any) are violated
      */
     protected function doSave(AggregateRoot $aggregateRoot): void
     {
