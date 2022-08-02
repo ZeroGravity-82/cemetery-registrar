@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollect
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmMemorialTreeRepository;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
 
@@ -62,7 +63,7 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
 
         // Testing itself
         $newEntity = new MemorialTree(new MemorialTreeId('MT00X'), $existingEntity->treeNumber());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Памятное дерево с таким номером уже существует.');
         $this->repo->save($newEntity);
     }

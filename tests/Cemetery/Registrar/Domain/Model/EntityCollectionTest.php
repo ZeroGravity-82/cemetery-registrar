@@ -66,9 +66,9 @@ abstract class EntityCollectionTest extends TestCase
 
         $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(\sprintf(
-            'Entity of type "%s" with ID "%s" is not found.',
+            'Сущность с ID "%s" и типом "%s" не найдена.',
+            $this->idC,
             $this->collection->supportedEntityClassName(),
-            $this->idC
         ));
         $this->collection->get($this->idC);
     }
@@ -208,32 +208,22 @@ abstract class EntityCollectionTest extends TestCase
         $this->assertNull($this->collection->last());
     }
 
-    public function testItFailsWhenCreatedWithInvalidEntityType(): void
+    public function testItFailsWhenCreatedWithUnsupportedEntityType(): void
     {
         $entity          = $this->getFakeEntity();
         $entityClassName = \get_class($entity);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Invalid type for an entity: expected "%s", "%s" given',
-            $this->collection->supportedEntityClassName(),
-            $entityClassName
-        ));
+        $this->expectExceptionForUnsupportedEntityType($entityClassName);
         $collectionClassName = \get_class($this->collection);
         new $collectionClassName([$entity]);
     }
 
-    public function testItFailsWhenAddsEntityOfInvalidType(): void
+    public function testItFailsWhenAddsEntityOfUnsupportedType(): void
     {
-        $entity      = $this->getFakeEntity();
-        $entityClass = \get_class($entity);
+        $entity          = $this->getFakeEntity();
+        $entityClassName = \get_class($entity);
 
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Invalid type for an entity: expected "%s", "%s" given',
-            $this->collection->supportedEntityClassName(),
-            $entityClass
-        ));
+        $this->expectExceptionForUnsupportedEntityType($entityClassName);
         $this->collection->add($entity);
     }
 
@@ -254,5 +244,15 @@ abstract class EntityCollectionTest extends TestCase
                 return $this->id;
             }
         };
+    }
+
+    private function expectExceptionForUnsupportedEntityType(string $entityClassName): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+                $this->expectExceptionMessage(\sprintf(
+            'Неподдерживаемый тип сущности: ожидался "%s", "%s" передан',
+            $this->collection->supportedEntityClassName(),
+            $entityClassName
+        ));
     }
 }

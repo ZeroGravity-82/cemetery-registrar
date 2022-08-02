@@ -4,29 +4,30 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Command;
 
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequestValidator;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 {
+    private MockObject|RemoveCauseOfDeathRequestValidator $mockRemoveCauseOfDeathRequestValidator;
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->service = new RemoveCauseOfDeathService(
+        $this->mockRemoveCauseOfDeathRequestValidator = $this->createMock(RemoveCauseOfDeathRequestValidator::class);
+        $this->service                                = new RemoveCauseOfDeathService(
+            $this->mockRemoveCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
         );
-    }
-
-    public function testItReturnsSupportedRequestClassName(): void
-    {
-        $this->assertSame(RemoveCauseOfDeathRequest::class, $this->service->supportedRequestClassName());
     }
 
     public function testItRemovesCauseOfDeath(): void
@@ -47,8 +48,13 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
             }),
         );
 
-        $this->assertNull(
-            $this->service->execute(new RemoveCauseOfDeathRequest($this->id))
-        );
+        $response = $this->service->execute(new RemoveCauseOfDeathRequest($this->id));
+        $this->assertInstanceOf(ApplicationSuccessResponse::class, $response);
+        $this->assertNull($response->data);
+    }
+
+    protected function supportedRequestClassName(): string
+    {
+        return RemoveCauseOfDeathRequest::class;
     }
 }

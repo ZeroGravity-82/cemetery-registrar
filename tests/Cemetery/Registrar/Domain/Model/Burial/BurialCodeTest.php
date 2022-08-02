@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialCode;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -99,25 +100,25 @@ class BurialCodeTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Код захоронения не может иметь пустое значение.');
     }
 
     private function expectExceptionForNonNumericValue(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Код захоронения должен состоять только из цифр.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Код захоронения должен состоять не более, чем из 9 цифр.');
     }
 
     private function expectExceptionForLeadingZeros(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Код захоронения не должен содержать ведущие нули.');
     }
 }

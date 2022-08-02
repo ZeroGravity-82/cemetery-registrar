@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Kpp;
 use PHPUnit\Framework\TestCase;
 
@@ -76,19 +77,19 @@ class KppTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('КПП не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('КПП должен состоять из 9 символов.');
     }
 
     private function expectExceptionForInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Неверный формат КПП.');
     }
 }

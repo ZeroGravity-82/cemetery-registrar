@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson;
 
-use Cemetery\Registrar\Domain\Model\NaturalPerson\Exception\FullNameException;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use PHPUnit\Framework\TestCase;
 
@@ -21,13 +21,13 @@ class FullNameTest extends TestCase
 
     public function testItFailsWithEmptyValue(): void
     {
-        $this->expectFullNameExceptionForEmptyValue();
+        $this->expectExceptionForEmptyValue();
         new FullName('');
     }
 
     public function testItFailsWithSpacesOnly(): void
     {
-        $this->expectFullNameExceptionForEmptyValue();
+        $this->expectExceptionForEmptyValue();
         new FullName('   ');
     }
 
@@ -48,9 +48,9 @@ class FullNameTest extends TestCase
         $this->assertFalse($fullNameB->isEqual($fullNameC));
     }
 
-    private function expectFullNameExceptionForEmptyValue(): void
+    private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(FullNameException::class);
-        $this->expectExceptionMessage(FullNameException::EMPTY_FULL_NAME);
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('ФИО не может иметь пустое значение.');
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Contact;
 
 use Cemetery\Registrar\Domain\Model\Contact\Website;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -85,13 +86,13 @@ class WebsiteTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Адрес веб-сайта не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Неверный формат адрес веб-сайта.');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Неверный формат адреса веб-сайта.');
     }
 }

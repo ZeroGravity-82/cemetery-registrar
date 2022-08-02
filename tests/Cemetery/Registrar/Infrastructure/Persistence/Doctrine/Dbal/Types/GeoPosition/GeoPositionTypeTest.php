@@ -18,7 +18,7 @@ class GeoPositionTypeTest extends CustomJsonTypeTest
     protected string $className                                  = GeoPositionType::class;
     protected string $typeName                                   = 'geo_position';
     protected string $phpValueClassName                          = GeoPosition::class;
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат геопозиции';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для геопозиции';
 
     /**
      * @dataProvider getConversionData

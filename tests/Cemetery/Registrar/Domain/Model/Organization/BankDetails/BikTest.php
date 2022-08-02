@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\BankDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\Bik;
 use PHPUnit\Framework\TestCase;
 
@@ -41,7 +42,7 @@ class BikTest extends TestCase
 
     public function testItFailsWithNonNumericValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('БИК должен состоять только из цифр.');
         new Bik('04500477A');
     }
@@ -77,13 +78,13 @@ class BikTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('БИК не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('БИК должен состоять из 9 цифр.');
     }
 }

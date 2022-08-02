@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use PHPUnit\Framework\TestCase;
 
@@ -83,7 +84,7 @@ class DeathCertificateTest extends TestCase
 
     public function testItFailsWithFutureIssuedAtValue(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Дата выдачи свидетельства о смерти не может иметь значение из будущего.');
         new DeathCertificate(
             $this->seriesA,
@@ -134,7 +135,7 @@ class DeathCertificateTest extends TestCase
 
     private function expectExceptionForEmptyValue(string $name): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             \sprintf('%s не может иметь пустое значение.', $name)
         );

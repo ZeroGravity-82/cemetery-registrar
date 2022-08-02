@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\EntityMaskingId;
  */
 abstract class EntityMaskingIdTypeTest extends CustomJsonTypeTest
 {
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат идентификатора';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для идентификатора';
 
     /**
      * @dataProvider getConversionData

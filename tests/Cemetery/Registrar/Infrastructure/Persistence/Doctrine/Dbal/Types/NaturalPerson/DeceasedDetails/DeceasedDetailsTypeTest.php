@@ -20,7 +20,7 @@ class DeceasedDetailsTypeTest extends CustomJsonTypeTest
     protected string $className                                  = DeceasedDetailsType::class;
     protected string $typeName                                   = 'deceased_details';
     protected string $phpValueClassName                          = DeceasedDetails::class;
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат данных умершего';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для данных умершего';
 
     /**
      * @dataProvider getConversionData

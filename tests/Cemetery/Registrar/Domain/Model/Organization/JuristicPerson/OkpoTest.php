@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Okpo;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +33,7 @@ class OkpoTest extends TestCase
 
     public function testItFailsWithNonNumericValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОКПО должен состоять только из цифр.');
         new Okpo('2358473A');
     }
@@ -51,7 +52,7 @@ class OkpoTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОКПО недействителен.');
         new Okpo('23584737');
     }
@@ -75,13 +76,13 @@ class OkpoTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОКПО не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОКПО должен состоять из 8 цифр.');
     }
 }

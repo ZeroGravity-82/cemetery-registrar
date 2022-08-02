@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\Passport;
 use PHPUnit\Framework\TestCase;
 
@@ -106,7 +107,7 @@ class PassportTest extends TestCase
 
     public function testItFailsWithFutureIssuedAtValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Дата выдачи паспорта не может иметь значение из будущего.');
         new Passport(
             $this->seriesA,
@@ -280,7 +281,7 @@ class PassportTest extends TestCase
 
     private function expectExceptionForEmptyValue(string $name): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             \sprintf('%s не может иметь пустое значение.', $name)
         );

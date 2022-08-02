@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Ogrn;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +33,7 @@ class OgrnTest extends TestCase
 
     public function testItFailsWithNonNumericValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРН должен состоять только из цифр.');
         new Ogrn('102770013219A');
     }
@@ -51,7 +52,7 @@ class OgrnTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРН недействителен.');
         new Ogrn('1027700132194');
     }
@@ -75,13 +76,13 @@ class OgrnTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРН не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРН должен состоять из 13 цифр.');
     }
 }

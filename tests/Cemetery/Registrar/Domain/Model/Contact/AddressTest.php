@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Contact;
 
 use Cemetery\Registrar\Domain\Model\Contact\Address;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -49,7 +50,7 @@ class AddressTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Адрес не может иметь пустое значение.');
     }
 }

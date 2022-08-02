@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNich
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbarium;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumNicheRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 
@@ -93,7 +94,7 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
             new RowInColumbarium(20),
             $existingEntity->nicheNumber())
         );
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Колумбарная ниша с таким номером в этом колумбарии уже существует.');
         $this->repo->save($newEntity);
     }

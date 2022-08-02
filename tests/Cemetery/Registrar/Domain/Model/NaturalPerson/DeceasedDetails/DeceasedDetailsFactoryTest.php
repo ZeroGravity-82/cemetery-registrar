@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetailsFactory;
 use PHPUnit\Framework\TestCase;
@@ -148,7 +149,7 @@ class DeceasedDetailsFactoryTest extends TestCase
 
     private function expectExceptionForIncompleteData(string $documentName, string $fieldName): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf(
             'Неполные данные %s: не указано значение для %s.',
             $documentName,

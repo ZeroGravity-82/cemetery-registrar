@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\PlaceOfBirth;
 use PHPUnit\Framework\TestCase;
 
@@ -49,7 +50,7 @@ class PlaceOfBirthTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Место рождения не может иметь пустое значение.');
     }
 }

@@ -16,7 +16,7 @@ class PassportTypeTest extends CustomJsonTypeTest
     protected string $className                                  = PassportType::class;
     protected string $typeName                                   = 'passport';
     protected string $phpValueClassName                          = Passport::class;
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат паспортных данных';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для паспортных данных';
 
     /**
      * @dataProvider getConversionData

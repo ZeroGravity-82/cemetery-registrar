@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Burial\BurialContainer;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinSize;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,26 +32,14 @@ class CoffinSizeTest extends TestCase
     public function testItFailsWithValueBelowAllowedRange(): void
     {
         $coffinSizeBelowAllowedRange = self::MIN_SIZE - 1;
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Размер гроба %d см находится вне допустимого диапазона [%d, %d] см.',
-            $coffinSizeBelowAllowedRange,
-            self::MIN_SIZE,
-            self::MAX_SIZE
-        ));
+        $this->expectExceptionForValueOutOfRange($coffinSizeBelowAllowedRange);
         new CoffinSize($coffinSizeBelowAllowedRange);
     }
 
     public function testItFailsWithValueAboveAllowedRange(): void
     {
         $coffinSizeAboveAllowedRange = self::MAX_SIZE + 1;
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf(
-            'Размер гроба %d см находится вне допустимого диапазона [%d, %d] см.',
-            $coffinSizeAboveAllowedRange,
-            self::MIN_SIZE,
-            self::MAX_SIZE
-        ));
+        $this->expectExceptionForValueOutOfRange($coffinSizeAboveAllowedRange);
         new CoffinSize($coffinSizeAboveAllowedRange);
     }
 
@@ -68,5 +57,16 @@ class CoffinSizeTest extends TestCase
         $this->assertFalse($coffinSizeA->isEqual($coffinSizeB));
         $this->assertTrue($coffinSizeA->isEqual($coffinSizeC));
         $this->assertFalse($coffinSizeB->isEqual($coffinSizeC));
+    }
+
+    private function expectExceptionForValueOutOfRange(int $value): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(\sprintf(
+            'Размер гроба %d см находится вне допустимого диапазона [%d, %d] см.',
+            $value,
+            self::MIN_SIZE,
+            self::MAX_SIZE
+        ));
     }
 }

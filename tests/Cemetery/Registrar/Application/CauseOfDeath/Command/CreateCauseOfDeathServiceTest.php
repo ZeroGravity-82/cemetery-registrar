@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Command;
 
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequestValidator;
-use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
@@ -34,11 +34,6 @@ class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         );
     }
 
-    public function testItReturnsSupportedRequestClassName(): void
-    {
-        $this->assertSame(CreateCauseOfDeathRequest::class, $this->service->supportedRequestClassName());
-    }
-
     public function testItCreatesCauseOfDeath(): void
     {
         $this->mockCauseOfDeathFactory->expects($this->once())->method('create');
@@ -52,13 +47,20 @@ class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         );
 
         $response = $this->service->execute(new CreateCauseOfDeathRequest('Панкреатит'));
-        $this->assertInstanceOf(CreateCauseOfDeathResponse::class, $response);
-        $this->assertSame($this->id, $response->id);
+        $this->assertInstanceOf(ApplicationSuccessResponse::class, $response);
+        $this->assertIsArray($response->data);
+        $this->assertArrayHasKey('id', $response->data);
+        $this->assertSame($this->id, $response->data['id']);
     }
 
     public function testItFailsWhenNameAlreadyUsed(): void
     {
         $this->markTestIncomplete();
+    }
+
+    protected function supportedRequestClassName(): string
+    {
+        return CreateCauseOfDeathRequest::class;
     }
 
     private function buildMockCauseOfDeathFactory(): MockObject|CauseOfDeathFactory

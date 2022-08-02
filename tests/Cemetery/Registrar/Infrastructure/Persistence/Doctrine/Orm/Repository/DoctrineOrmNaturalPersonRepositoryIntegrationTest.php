@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCollection;
@@ -153,7 +154,7 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
      */
     private function expectExceptionForNonUniqueNaturalPerson(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Физлицо с таким ФИО и такой датой рождения или датой смерти уже существует.');
     }
 }

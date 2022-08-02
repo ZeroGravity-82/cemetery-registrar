@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +33,7 @@ class InnTest extends TestCase
 
     public function testItFailsWithNonNumericValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ИНН должен состоять только из цифр.');
         new Inn('77220878609A');
     }
@@ -51,7 +52,7 @@ class InnTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ИНН недействителен.');
         new Inn('772208786093');
     }
@@ -75,13 +76,13 @@ class InnTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ИНН не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ИНН должен состоять из 12 цифр.');
     }
 }

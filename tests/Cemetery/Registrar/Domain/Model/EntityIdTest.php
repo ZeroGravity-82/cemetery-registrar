@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model;
 
 use Cemetery\Registrar\Domain\Model\EntityId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -55,7 +56,7 @@ abstract class EntityIdTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Идентификатор доменной сущности не может иметь пустое значение.');
     }
 }

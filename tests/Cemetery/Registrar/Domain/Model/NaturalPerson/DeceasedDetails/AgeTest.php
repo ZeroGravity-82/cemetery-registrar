@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson\DeceasedDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use PHPUnit\Framework\TestCase;
 
@@ -47,14 +48,14 @@ class AgeTest extends TestCase
 
     public function testItFailsWithNegativeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Возраст не может иметь отрицательное значение.');
         new Age(-1);
     }
 
     public function testItFailsWithTooMuchValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf('Возраст не может превышать %d лет.', self::MAX_AGE));
         new Age(self::MAX_AGE + 1);
     }
@@ -63,7 +64,7 @@ class AgeTest extends TestCase
     {
         $bornAt     = new \DateTimeImmutable('2021-01-05');
         $targetDate = new \DateTimeImmutable('1968-10-24');
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Конечная дата не может предшествовать дате рождения.');
         Age::fromDates($bornAt, $targetDate);
     }

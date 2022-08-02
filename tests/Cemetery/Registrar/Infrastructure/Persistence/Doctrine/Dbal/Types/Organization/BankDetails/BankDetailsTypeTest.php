@@ -16,7 +16,7 @@ class BankDetailsTypeTest extends CustomJsonTypeTest
     protected string $className                                  = BankDetailsType::class;
     protected string $typeName                                   = 'bank_details';
     protected string $phpValueClassName                          = BankDetails::class;
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат банковских реквизитов';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для банковских реквизитов';
 
     /**
      * @dataProvider getConversionData

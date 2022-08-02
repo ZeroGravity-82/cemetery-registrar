@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,21 +30,21 @@ final class RowInBlockTest extends TestCase
 
     public function testItFailsWithNegativeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Ряд в квартале не может иметь отрицательное значение.');
         new RowInBlock(-2);
     }
 
     public function testItFailsWithZeroValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Ряд в квартале не может иметь нулевое значение.');
         new RowInBlock(0);
     }
 
     public function testItFailsWithTooMuchValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf('Ряд в квартале не может иметь значение больше %d.', self::MAX_ROW));
         new RowInBlock(self::MAX_ROW + 1);
     }

@@ -31,10 +31,10 @@ class AdminBurialPlaceController extends Controller
     #[Route('/admin/burial-place/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
     public function graveSiteList(): Response
     {
-        $cemeteryBlockTotalCount = $this->appRequestBus->execute(new CountCemeteryBlockTotalRequest())->totalCount;
-        $cemeteryBlockList       = $this->appRequestBus->execute(new ListCemeteryBlocksRequest())->list;
-        $graveSiteTotalCount     = $this->appRequestBus->execute(new CountGraveSiteTotalRequest())->totalCount;
-        $graveSiteList           = $this->appRequestBus->execute(new ListGraveSitesRequest())->list;
+        $cemeteryBlockTotalCount = $this->appRequestBus->execute(new CountCemeteryBlockTotalRequest())->data['totalCount'];
+        $cemeteryBlockList       = $this->appRequestBus->execute(new ListCemeteryBlocksRequest())->data['list'];
+        $graveSiteTotalCount     = $this->appRequestBus->execute(new CountGraveSiteTotalRequest())->data['totalCount'];
+        $graveSiteList           = $this->appRequestBus->execute(new ListGraveSitesRequest())->data['list'];
 
         return $this->render('admin/burial_place/grave_site/list.html.twig', [
             'cemeteryBlockTotalCount' => $cemeteryBlockTotalCount,

@@ -68,7 +68,7 @@ class CoffinShapeTest extends TestCase
     public function testItFailsWithNotSupportedValue(): void
     {
         $unsupportedShape = 'UNSUPPORTED_SHAPE';
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(\sprintf(
             'Неподдерживаемая форма гроба "%s", должна быть одна из "%s", "%s", "%s", "%s".',
             $unsupportedShape,

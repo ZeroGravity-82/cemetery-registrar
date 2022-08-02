@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\BankDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\Bik;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\CorrespondentAccount;
@@ -171,7 +172,7 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithCorrespondentAccountMismatchedTheBikValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('К/счёт недействителен (не соответствует БИК).');
         new BankDetails(
             $this->bankNameA,
@@ -183,7 +184,7 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithCurrentAccountMismatchedTheBikValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Р/счёт недействителен (не соответствует БИК).');
         new BankDetails(
             $this->bankNameA,
@@ -195,7 +196,7 @@ class BankDetailsTest extends TestCase
 
     public function testItFailsWithCorrespondentAccountProvidedForCentralBankOfRussia(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('К/счёт не может быть указан для данного БИК.');
         new BankDetails(
             $this->bankNameC,
@@ -288,7 +289,7 @@ class BankDetailsTest extends TestCase
 
     private function expectExceptionForEmptyValue(string $name): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(
             \sprintf('%s не может иметь пустое значение.', $name)
         );

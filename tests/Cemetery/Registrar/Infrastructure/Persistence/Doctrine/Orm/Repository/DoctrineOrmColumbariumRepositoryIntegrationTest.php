@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumColl
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumName;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 
@@ -62,7 +63,7 @@ class DoctrineOrmColumbariumRepositoryIntegrationTest extends DoctrineOrmReposit
 
         // Testing itself
         $newEntity = new Columbarium(new ColumbariumId('C00X'), $existingEntity->name());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Колумбарий с таким наименованием уже существует.');
         $this->repo->save($newEntity);
     }

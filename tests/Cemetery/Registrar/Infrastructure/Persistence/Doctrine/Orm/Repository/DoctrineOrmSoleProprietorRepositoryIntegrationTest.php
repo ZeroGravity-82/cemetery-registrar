@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\Name;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
@@ -118,7 +119,7 @@ class DoctrineOrmSoleProprietorRepositoryIntegrationTest extends DoctrineOrmRepo
      */
     private function expectExceptionForNonUniqueSoleProprietor(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ИП с таким наименованием или ИНН уже существует.');
     }
 }

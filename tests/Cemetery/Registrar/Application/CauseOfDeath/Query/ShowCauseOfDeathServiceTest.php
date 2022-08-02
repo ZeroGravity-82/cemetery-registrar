@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Query;
 
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathResponse;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequestValidator;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathService;
+use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 use Cemetery\Tests\Registrar\Application\ApplicationServiceTest;
@@ -17,10 +19,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
 {
-    private string                         $id;
-    private string                         $unknownId;
-    private CauseOfDeathView               $causeOfDeathView;
-    private MockObject|CauseOfDeathFetcher $mockCauseOfDeathFetcher;
+    private string                                      $id;
+    private string                                      $unknownId;
+    private CauseOfDeathView                            $causeOfDeathView;
+    private MockObject|ShowCauseOfDeathRequestValidator $mockShowCauseOfDeathRequestValidator;
+    private MockObject|CauseOfDeathFetcher              $mockCauseOfDeathFetcher;
 
     public function setUp(): void
     {
@@ -34,32 +37,36 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
             '2022-06-14 22:34:01',
             '2022-12-01 02:12:34',
         );
-        $this->mockCauseOfDeathFetcher = $this->buildMockCauseOfDeathFetcher();
-        $this->service = new ShowCauseOfDeathService(
+        $this->mockShowCauseOfDeathRequestValidator = $this->createMock(ShowCauseOfDeathRequestValidator::class);
+        $this->mockCauseOfDeathFetcher              = $this->buildMockCauseOfDeathFetcher();
+        $this->service                              = new ShowCauseOfDeathService(
+            $this->mockShowCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathFetcher,
         );
     }
 
-    public function testItReturnsSupportedRequestClassName(): void
-    {
-        $this->assertSame(ShowCauseOfDeathRequest::class, $this->service->supportedRequestClassName());
-    }
-    
     public function testItShowsCauseOfDeath(): void
     {
         $this->mockCauseOfDeathFetcher->expects($this->once())->method('findViewById')->with($this->id);
 
         $response = $this->service->execute(new ShowCauseOfDeathRequest($this->id));
-        $this->assertInstanceOf(ShowCauseOfDeathResponse::class, $response);
-        $this->assertInstanceOf(CauseOfDeathView::class, $response->view);
-        $this->assertSame($this->id, $response->view->id);
+        $this->assertInstanceOf(ApplicationSuccessResponse::class, $response);
+        $this->assertIsArray($response->data);
+        $this->assertArrayHasKey('view', $response->data);
+        $this->assertInstanceOf(CauseOfDeathView::class, $response->data['view']);
+        $this->assertSame($this->id, $response->data['view']->id);
     }
 
     public function testItFailsWhenAnCauseOfDeathIsNotFound(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(NotFoundException::class);
         $this->expectExceptionMessage(\sprintf('Причина смерти с ID "%s" не найдена.', $this->unknownId));
         $this->service->execute(new ShowCauseOfDeathRequest($this->unknownId));
+    }
+
+    protected function supportedRequestClassName(): string
+    {
+        return ShowCauseOfDeathRequest::class;
     }
 
     private function buildMockCauseOfDeathFetcher(): MockObject|CauseOfDeathFetcher

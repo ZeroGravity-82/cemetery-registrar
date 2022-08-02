@@ -98,7 +98,7 @@ class BurialContainerTypeTest extends CustomTypeTest
     public function testItFailsToConvertDatabaseIncompleteValueToPhpValue(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Неверный формат для контейнера захоронения: "{}".');
+        $this->expectExceptionMessage('Неверный формат декодированного значения для контейнера захоронения: "{}".');
         $this->type->convertToPHPValue('{}', $this->mockPlatform);
     }
 }

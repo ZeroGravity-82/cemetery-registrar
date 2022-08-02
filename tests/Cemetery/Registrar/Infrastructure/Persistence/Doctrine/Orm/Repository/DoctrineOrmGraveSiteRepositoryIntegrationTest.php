@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmGraveSiteRepository;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 
@@ -93,7 +94,7 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
             $existingEntity->rowInBlock(),
         ))
             ->setPositionInRow($existingEntity->positionInRow());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Участок с такими рядом и местом в этом квартале уже существует.');
         $this->repo->save($newEntity);
     }

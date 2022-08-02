@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,14 +21,14 @@ class GraveSiteSizeTest extends TestCase
 
     public function testItFailsWithNegativeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Размер участка не может иметь отрицательное значение.');
         new GraveSiteSize('-1.5');
     }
 
     public function testItFailsWithInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Неверный формат размера участка.');
         new GraveSiteSize('2.5A');
     }
@@ -63,7 +64,7 @@ class GraveSiteSizeTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Размер участка не может иметь пустое значение.');
     }
 }

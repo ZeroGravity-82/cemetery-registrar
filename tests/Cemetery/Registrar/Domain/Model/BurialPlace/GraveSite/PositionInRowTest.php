@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,21 +30,21 @@ final class PositionInRowTest extends TestCase
 
     public function testItFailsWithNegativeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Место в ряду не может иметь отрицательное значение.');
         new PositionInRow(-2);
     }
 
     public function testItFailsWithZeroValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Место в ряду не может иметь нулевое значение.');
         new PositionInRow(0);
     }
 
     public function testItFailsWithTooMuchValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf('Место в ряду не может иметь значение больше %d.', self::MAX_POSITION));
         new PositionInRow(self::MAX_POSITION + 1);
     }

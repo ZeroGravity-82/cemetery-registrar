@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Contact;
 
 use Cemetery\Registrar\Domain\Model\Contact\Email;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -67,13 +68,13 @@ class EmailTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Адрес электронной почты не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Неверный формат адрес электронной почты.');
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Неверный формат адреса электронной почты.');
     }
 }

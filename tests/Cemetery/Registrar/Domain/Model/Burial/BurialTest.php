@@ -19,6 +19,7 @@ use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
@@ -544,7 +545,7 @@ class BurialTest extends AggregateRootTest
         string $burialPlace,
         string $burialType,
     ): void {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf(
             'Место захоронения "%s" не соответствует типу захороненния "%s".',
             $burialPlace,
@@ -556,7 +557,7 @@ class BurialTest extends AggregateRootTest
         string $burialContainer,
         string $burialType,
     ): void {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf(
             'Контейнер захоронения "%s" не соответствует типу захороненния "%s".',
             $burialContainer,
@@ -567,7 +568,7 @@ class BurialTest extends AggregateRootTest
     private function expectExceptionForFuneralCompanyIdNotNotAllowedForBurialType(
         string $burialType,
     ): void {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf(
             'Похоронная фирма не может быть задана для типа захороненния "%s".',
             $burialType,

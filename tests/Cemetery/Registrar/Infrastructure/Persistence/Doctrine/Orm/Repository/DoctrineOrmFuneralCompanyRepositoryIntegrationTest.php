@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
@@ -62,7 +63,7 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
 
         // Testing itself
         $newEntity = new FuneralCompany(new FuneralCompanyId('FC00X'), $existingEntity->organizationId());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Похоронная фирма, связанная с этой организацией, уже существует.');
         $this->repo->save($newEntity);
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\SoleProprietor;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Ogrnip;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +33,7 @@ class OgrnipTest extends TestCase
 
     public function testItFailsWithNonNumericValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРНИП должен состоять только из цифр.');
         new Ogrnip('31554760002437A');
     }
@@ -51,7 +52,7 @@ class OgrnipTest extends TestCase
 
     public function testItFailsWithWrongCheckDigit(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРНИП недействителен.');
         new Ogrnip('315547600024378');
     }
@@ -75,13 +76,13 @@ class OgrnipTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРНИП не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('ОГРНИП должен состоять из 15 цифр.');
     }
 }

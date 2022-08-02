@@ -104,7 +104,7 @@ class DeceasedDetailsType extends CustomJsonType
                 $decodedValue['deathCertificate']['issuedAt'],
             );
         }
-        $cremationCertificateIssuedAt = $decodedValue['cremationCertificate']['issuedAt']
+        $cremationCertificateIssuedAt = isset($decodedValue['cremationCertificate']['issuedAt'])
             ? \DateTimeImmutable::createFromFormat('Y-m-d', $decodedValue['cremationCertificate']['issuedAt'])
             : null;
         if ($cremationCertificateIssuedAt === false) {

@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
 use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
 
@@ -62,7 +63,7 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
 
         // Testing itself
         $newEntity = new CauseOfDeath(new CauseOfDeathId('CD00X'), $existingEntity->name());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Причина смерти с таким наименованием уже существует.');
         $this->repo->save($newEntity);
     }

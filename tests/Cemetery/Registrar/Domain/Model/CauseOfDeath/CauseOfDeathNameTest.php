@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -50,7 +51,7 @@ class CauseOfDeathNameTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Причина смерти не может иметь пустое значение.');
     }
 }

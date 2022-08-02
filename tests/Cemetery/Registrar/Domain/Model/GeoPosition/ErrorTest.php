@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\GeoPosition;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use PHPUnit\Framework\TestCase;
 
@@ -29,14 +30,14 @@ class ErrorTest extends TestCase
 
     public function testItFailsWithNegativeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Погрешность не может иметь отрицательное значение.');
         new Error('-1.2');
     }
 
     public function testItFailsWithInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Неверный формат погрешности.');
         new Error('1.7A');
     }
@@ -72,7 +73,7 @@ class ErrorTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Погрешность не может иметь пустое значение.');
     }
 }

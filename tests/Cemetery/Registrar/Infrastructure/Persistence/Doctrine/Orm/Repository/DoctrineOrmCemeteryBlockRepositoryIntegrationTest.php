@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollectio
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCemeteryBlockRepository;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 
@@ -62,7 +63,7 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
 
         // Testing itself
         $newEntity = new CemeteryBlock(new CemeteryBlockId('CB00X'), $existingEntity->name());
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Квартал с таким наименованием уже существует.');
         $this->repo->save($newEntity);
     }

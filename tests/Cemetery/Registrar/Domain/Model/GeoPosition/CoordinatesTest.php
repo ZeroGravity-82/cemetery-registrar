@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\GeoPosition;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use PHPUnit\Framework\TestCase;
 
@@ -42,14 +43,14 @@ class CoordinatesTest extends TestCase
 
     public function testItFailsWithLatitudeValueOutOfRange(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Широта "91.5" находится вне допустимого диапазона [-90, 90].');
         new Coordinates('91.5', '82.7972252');
     }
 
     public function testItFailsWithLatitudeValueInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Неверный формат широты.');
         new Coordinates('54.9A', '82.7972252');
     }
@@ -68,14 +69,14 @@ class CoordinatesTest extends TestCase
 
     public function testItFailsLongitudeValueOutOfRange(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Долгота "182.7" находится вне допустимого диапазона [-180, 180].');
         new Coordinates('54.950357', '182.7');
     }
 
     public function testItFailsWithLongitudeValueInvalidFormat(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Неверный формат долготы.');
         new Coordinates('54.950357', '-82.7A');
     }
@@ -117,7 +118,7 @@ class CoordinatesTest extends TestCase
 
     private function expectExceptionForEmptyValue(string $name): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf('%s не может иметь пустое значение.', $name));
     }
 }

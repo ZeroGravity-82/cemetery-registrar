@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\BankDetails;
 
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\CorrespondentAccount;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +33,7 @@ class CorrespondentAccountTest extends TestCase
 
     public function testItFailsWithNonNumericValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('К/счёт должен состоять только из цифр.');
         new CorrespondentAccount('3010181060000000077A');
     }
@@ -68,13 +69,13 @@ class CorrespondentAccountTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('К/счёт не может иметь пустое значение.');
     }
 
     private function expectExceptionForInvalidLength(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('К/счёт должен состоять из 20 цифр.');
     }
 }

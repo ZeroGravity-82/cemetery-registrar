@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbarium;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -20,14 +21,14 @@ final class RowInColumbariumTest extends TestCase
 
     public function testItFailsWithNegativeValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Ряд в колумбарии не может иметь отрицательное значение.');
         new RowInColumbarium(-2);
     }
 
     public function testItFailsWithZeroValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Ряд в колумбарии не может иметь нулевое значение.');
         new RowInColumbarium(0);
     }

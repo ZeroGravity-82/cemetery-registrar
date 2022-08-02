@@ -65,7 +65,7 @@ class Coordinates
     private function assertValidLatitudeValue(string $latitude): void
     {
         $this->assertNotEmpty($latitude, 'Широта');
-        $this->assertValidFormat($latitude, 'Широты');
+        $this->assertValidFormat($latitude, 'широты');
         $this->assertIsInTheValidRange($latitude, -90.0, 90.0, 'Широта');
     }
 
@@ -77,7 +77,7 @@ class Coordinates
     private function assertValidLongitudeValue(string $longitude): void
     {
         $this->assertNotEmpty($longitude, 'Долгота');
-        $this->assertValidFormat($longitude, 'Долготы');
+        $this->assertValidFormat($longitude, 'долготы');
         $this->assertIsInTheValidRange($longitude, -180.0, 180.0, 'Долгота');
     }
 

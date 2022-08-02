@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
 use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
@@ -120,7 +121,7 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
      */
     private function expectExceptionForNonUniqueJuristicPerson(): void
     {
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Юрлицо с таким наименованием или ИНН уже существует.');
     }
 }

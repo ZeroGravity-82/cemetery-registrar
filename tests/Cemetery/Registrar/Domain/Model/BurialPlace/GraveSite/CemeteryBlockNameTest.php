@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
+use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -51,7 +52,7 @@ class CemeteryBlockNameTest extends TestCase
 
     private function expectExceptionForEmptyValue(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(Exception::class);
         $this->expectExceptionMessage('Название квартала не может иметь пустое значение.');
     }
 }

@@ -71,7 +71,7 @@ class BurialTypeTest extends TestCase
     public function testItFailsWithUnsupportedValue(): void
     {
         $unsupportedType = 'UNSUPPORTED_TYPE';
-        $this->expectException(\RuntimeException::class);
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage(\sprintf(
             'Неподдерживаемый тип захоронения "%s", должен быть один из "%s", "%s", "%s", "%s".',
             $unsupportedType,
