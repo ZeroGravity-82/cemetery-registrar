@@ -36,9 +36,11 @@ class ListCausesOfDeathService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        /** @var ListCausesOfDeathRequest $request */
-        return new ApplicationSuccessResponse(
-            ['list' => $this->causeOfDeathFetcher->findAll(1)],
+        return new ApplicationSuccessResponse((object)
+            [
+                'list'       => $this->causeOfDeathFetcher->findAll(1),
+                'totalCount' => $this->causeOfDeathFetcher->countTotal(),
+            ],
         );
     }
 

@@ -12,9 +12,12 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationSuccessResponse extends ApplicationResponse
 {
-    public string $status = 'success';
+    public string  $status = 'success';
+    public ?object $data;
 
     public function __construct(
-        public ?array $data,
-    ) {}
+        ?object $data,
+    ) {
+        $this->data = $data;
+    }
 }

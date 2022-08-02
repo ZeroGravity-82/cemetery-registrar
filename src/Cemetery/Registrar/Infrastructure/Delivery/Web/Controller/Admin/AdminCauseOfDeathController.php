@@ -8,7 +8,6 @@ use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\Query\CountCauseOfDeathTotal\CountCauseOfDeathTotalRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
@@ -29,12 +28,14 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: HttpRequest::METHOD_GET)]
     public function list(): HttpResponse
     {
-        $totalCount = $this->appRequestBus->execute(new CountCauseOfDeathTotalRequest())->data['totalCount'];
-        $list       = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->data['list'];
+        $queryRequest  = new ListCausesOfDeathRequest();
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+        $list          = $queryResponse->data->list;
+        $totalCount    = $queryResponse->data->totalCount;
 
         return $this->render('admin/cause_of_death/list.html.twig', [
-            'causeOfDeathTotalCount' => $totalCount,
             'causeOfDeathList'       => $list,
+            'causeOfDeathTotalCount' => $totalCount,
         ]);
     }
 

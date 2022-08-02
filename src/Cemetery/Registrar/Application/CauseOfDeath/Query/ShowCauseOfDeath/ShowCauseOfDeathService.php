@@ -43,8 +43,10 @@ class ShowCauseOfDeathService extends ApplicationService
         /** @var ShowCauseOfDeathRequest $request */
         $causeOfDeathView = $this->getCauseOfDeathView($request->id);
 
-        return new ApplicationSuccessResponse(
-            ['view' => $causeOfDeathView],
+        return new ApplicationSuccessResponse((object)
+            [
+                'view' => $causeOfDeathView,
+            ],
         );
     }
 

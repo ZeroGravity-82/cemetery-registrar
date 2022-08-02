@@ -12,11 +12,18 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationErrorResponse extends ApplicationResponse
 {
-    public string $status = 'error';
+    public string  $status = 'error';
+    public string  $message;
+    public ?string $code;
+    public ?object $data;
 
     public function __construct(
-        public string  $message,
-        public ?string $code = null,
-        public ?array  $data = null,
-    ) {}
+        string  $message,
+        ?string $code = null,
+        ?object $data = null,
+    ) {
+        $this->message = $message;
+        $this->code    = $code;
+        $this->data    = $data;
+    }
 }
