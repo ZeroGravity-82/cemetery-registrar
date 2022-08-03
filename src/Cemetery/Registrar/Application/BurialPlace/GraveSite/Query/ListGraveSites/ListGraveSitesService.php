@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\Notification;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 
 /**
@@ -16,7 +17,9 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 class ListGraveSitesService extends ApplicationService
 {
     public function __construct(
-        private readonly GraveSiteFetcher $graveSiteFetcher,
+        private readonly ListGraveSitesRequestValidator $requestValidator,
+        private readonly GraveSiteFetcher               $graveSiteFetcher,
+        private readonly CemeteryBlockFetcher           $cemeteryBlockFetcher,
     ) {}
 
     /**
@@ -35,7 +38,12 @@ class ListGraveSitesService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new ListGraveSitesResponse($this->graveSiteFetcher->findAll(1));
+        return new ListGraveSitesResponse(
+            $this->graveSiteFetcher->findAll(1),
+            $this->graveSiteFetcher->countTotal(),
+            $this->cemeteryBlockFetcher->findAll(1),
+            $this->cemeteryBlockFetcher->countTotal(),
+        );
     }
 
     protected function supportedRequestClassName(): string

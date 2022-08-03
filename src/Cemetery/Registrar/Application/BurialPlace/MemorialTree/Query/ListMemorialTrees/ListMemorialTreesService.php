@@ -16,7 +16,8 @@ use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
 class ListMemorialTreesService extends ApplicationService
 {
     public function __construct(
-        private readonly MemorialTreeFetcher $memorialTreeFetcher,
+        private readonly ListMemorialTreesRequestValidator $requestValidator,
+        private readonly MemorialTreeFetcher               $memorialTreeFetcher,
     ) {}
 
     /**
@@ -35,7 +36,10 @@ class ListMemorialTreesService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new ListMemorialTreesResponse($this->memorialTreeFetcher->findAll(1));
+        return new ListMemorialTreesResponse(
+            $this->memorialTreeFetcher->findAll(1),
+            $this->memorialTreeFetcher->countTotal(),
+        );
     }
 
     protected function supportedRequestClassName(): string

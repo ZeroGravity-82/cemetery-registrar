@@ -5,15 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\CountColumbariumNicheTotal\CountColumbariumNicheTotalRequest;
-use Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\CountColumbariumTotal\CountColumbariumTotalRequest;
-use Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\ListColumbarium\ListColumbariumRequest;
 use Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\ListColumbariumNiches\ListColumbariumNichesRequest;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\CountCemeteryBlockTotal\CountCemeteryBlockTotalRequest;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\CountGraveSiteTotal\CountGraveSiteTotalRequest;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListCemeteryBlocks\ListCemeteryBlocksRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSites\ListGraveSitesRequest;
-use Cemetery\Registrar\Application\BurialPlace\MemorialTree\Query\CountMemorialTreeTotal\CountMemorialTreeTotalRequest;
 use Cemetery\Registrar\Application\BurialPlace\MemorialTree\Query\ListMemorialTrees\ListMemorialTreesRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,44 +24,50 @@ class AdminBurialPlaceController extends Controller
     #[Route('/admin/burial-place/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
     public function graveSiteList(): Response
     {
-        $cemeteryBlockTotalCount = $this->appRequestBus->execute(new CountCemeteryBlockTotalRequest())->data['totalCount'];
-        $cemeteryBlockList       = $this->appRequestBus->execute(new ListCemeteryBlocksRequest())->data['list'];
-        $graveSiteTotalCount     = $this->appRequestBus->execute(new CountGraveSiteTotalRequest())->data['totalCount'];
-        $graveSiteList           = $this->appRequestBus->execute(new ListGraveSitesRequest())->data['list'];
+        $queryRequest            = new ListGraveSitesRequest();
+        $queryResponse           = $this->appRequestBus->execute($queryRequest);
+        $list                    = $queryResponse->data->list;
+        $totalCount              = $queryResponse->data->totalCount;
+        $cemeteryBlockList       = $queryResponse->data->cemeteryBlockList;
+        $cemeteryBlockTotalCount = $queryResponse->data->cemeteryBlockTotalCount;
 
         return $this->render('admin/burial_place/grave_site/list.html.twig', [
-            'cemeteryBlockTotalCount' => $cemeteryBlockTotalCount,
+            'list'                    => $list,
+            'totalCount'              => $totalCount,
             'cemeteryBlockList'       => $cemeteryBlockList,
-            'graveSiteTotalCount'     => $graveSiteTotalCount,
-            'graveSiteList'           => $graveSiteList,
+            'cemeteryBlockTotalCount' => $cemeteryBlockTotalCount,
         ]);
     }
 
     #[Route('/admin/burial-place/columbarium-niche', name: 'admin_burial_place_columbarium_niche_list', methods: 'GET')]
     public function columbariumNicheList(): Response
     {
-        $columbariumTotalCount      = $this->appRequestBus->execute(new CountColumbariumTotalRequest())->totalCount;
-        $columbariumList            = $this->appRequestBus->execute(new ListColumbariumRequest())->list;
-        $columbariumNicheTotalCount = $this->appRequestBus->execute(new CountColumbariumNicheTotalRequest())->totalCount;
-        $columbariumNicheList       = $this->appRequestBus->execute(new ListColumbariumNichesRequest())->list;
+        $queryRequest          = new ListColumbariumNichesRequest();
+        $queryResponse         = $this->appRequestBus->execute($queryRequest);
+        $list                  = $queryResponse->data->list;
+        $totalCount            = $queryResponse->data->totalCount;
+        $columbariumList       = $queryResponse->data->columbariumList;
+        $columbariumTotalCount = $queryResponse->data->columbariumTotalCount;
 
         return $this->render('admin/burial_place/columbarium_niche/list.html.twig', [
-            'columbariumTotalCount'      => $columbariumTotalCount,
-            'columbariumList'            => $columbariumList,
-            'columbariumNicheTotalCount' => $columbariumNicheTotalCount,
-            'columbariumNicheList'       => $columbariumNicheList,
+            'list'                  => $list,
+            'totalCount'            => $totalCount,
+            'columbariumList'       => $columbariumList,
+            'columbariumTotalCount' => $columbariumTotalCount,
         ]);
     }
 
     #[Route('/admin/burial-place/memorial-tree', name: 'admin_burial_place_memorial_tree_list', methods: 'GET')]
     public function memorialTreeList(): Response
     {
-        $memorialTreeTotalCount = $this->appRequestBus->execute(new CountMemorialTreeTotalRequest())->totalCount;
-        $memorialTreeList       = $this->appRequestBus->execute(new ListMemorialTreesRequest())->list;
+        $queryRequest  = new ListMemorialTreesRequest();
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+        $list          = $queryResponse->data->list;
+        $totalCount    = $queryResponse->data->totalCount;
 
         return $this->render('admin/burial_place/memorial_tree/list.html.twig', [
-            'memorialTreeTotalCount' => $memorialTreeTotalCount,
-            'memorialTreeList'       => $memorialTreeList,
+            'list'       => $list,
+            'totalCount' => $totalCount,
         ]);
     }
 }

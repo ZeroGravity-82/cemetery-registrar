@@ -6,7 +6,7 @@
   {{ parent() }}
 
   <div class="mb-2 mb-lg-2">
-    <p class="pt-2 fs-5 fw-bold text-success">Памятные деревья <span class="text-muted fw-normal fs-6">({{ memorialTreeTotalCount }})</span></p>
+    <p class="pt-2 fs-5 fw-bold text-success">Памятные деревья <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
     {% include 'admin/burial_place/memorial_tree/_toolbar.html.twig' %}
 
@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for listItem in memorialTreeList.items %}
+        {% for listItem in list.items %}
           {% include 'admin/burial_place/memorial_tree/_list_item.html.twig' %}
         {% endfor %}
         </tbody>

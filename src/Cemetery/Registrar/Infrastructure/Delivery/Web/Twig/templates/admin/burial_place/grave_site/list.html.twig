@@ -28,7 +28,7 @@
     </div>
     <div class="col-md-9">
       <div class="mb-2 mb-lg-2">
-        <p class="pt-2 fs-5 fw-bold text-success">Участки <span class="text-muted fw-normal fs-6">({{ graveSiteTotalCount }})</span></p>
+        <p class="pt-2 fs-5 fw-bold text-success">Участки <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
         {% include 'admin/burial_place/grave_site/_toolbar_grave_site.html.twig' %}
 
@@ -43,7 +43,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for listItem in graveSiteList.items %}
+            {% for listItem in list.items %}
               {% include 'admin/burial_place/grave_site/_list_item_grave_site.html.twig' %}
             {% endfor %}
             </tbody>

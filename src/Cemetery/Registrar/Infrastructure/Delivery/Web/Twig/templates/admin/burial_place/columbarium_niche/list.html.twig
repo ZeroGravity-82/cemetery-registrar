@@ -28,7 +28,7 @@
     </div>
     <div class="col-md-9">
       <div class="mb-2 mb-lg-2">
-        <p class="pt-2 fs-5 fw-bold text-success">Ниши <span class="text-muted fw-normal fs-6">({{ columbariumNicheTotalCount }})</span></p>
+        <p class="pt-2 fs-5 fw-bold text-success">Ниши <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
         {% include 'admin/burial_place/columbarium_niche/_toolbar_columbarium_niche.html.twig' %}
 
@@ -42,7 +42,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for listItem in columbariumNicheList.items %}
+            {% for listItem in list.items %}
               {% include 'admin/burial_place/columbarium_niche/_list_item_columbarium_niche.html.twig' %}
             {% endfor %}
             </tbody>
