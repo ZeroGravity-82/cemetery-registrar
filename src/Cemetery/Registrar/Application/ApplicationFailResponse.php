@@ -12,9 +12,9 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationFailResponse extends ApplicationResponse
 {
-    public const FAILURE_TYPE_VALIDATION_ERROR = 'validation error';
-    public const FAILURE_TYPE_NOT_FOUND        = 'not found';
-    public const FAILURE_TYPE_DOMAIN_EXCEPTION = 'domain exception';
+    public const FAILURE_TYPE_VALIDATION_ERROR = 'VALIDATION_ERROR';
+    public const FAILURE_TYPE_NOT_FOUND        = 'NOT_FOUND';
+    public const FAILURE_TYPE_DOMAIN_EXCEPTION = 'DOMAIN_EXCEPTION';
 
     public string $status = 'fail';
 

@@ -12,7 +12,7 @@ namespace Cemetery\Registrar\Application;
  */
 class ApplicationErrorResponse extends ApplicationResponse
 {
-    public string  $status = 'error';
+    public string $status = 'error';
 
     public function __construct(
         public string  $message,

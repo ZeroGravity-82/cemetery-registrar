@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -40,9 +40,9 @@ class EditCauseOfDeathService extends CauseOfDeathService
     }
 
     /**
-     * @throws NotFoundHttpException when the cause of death is not found
-     * @throws Exception             when there was any issue within the domain
-     * @throws \Throwable            when any error occurred while processing the request
+     * @throws NotFoundException when the cause of death is not found
+     * @throws Exception         when there was any issue within the domain
+     * @throws \Throwable        when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {

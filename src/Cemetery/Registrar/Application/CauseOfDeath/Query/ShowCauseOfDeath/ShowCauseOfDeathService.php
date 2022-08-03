@@ -11,7 +11,6 @@ use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -38,8 +37,8 @@ class ShowCauseOfDeathService extends ApplicationService
     /**
      * @param ShowCauseOfDeathRequest $request
      *
-     * @throws NotFoundHttpException when the cause of death is not found
-     * @throws \Throwable            when any error occurred while processing the request
+     * @throws NotFoundException when the cause of death is not found
+     * @throws \Throwable        when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {

@@ -82,9 +82,9 @@ class AdminCauseOfDeathController extends Controller
     public function remove(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
-        $commandRequest = $this->handleJsonRequest($httpRequest, RemoveCauseOfDeathRequest::class);
-        $this->appRequestBus->execute($commandRequest);
+        $commandRequest  = $this->handleJsonRequest($httpRequest, RemoveCauseOfDeathRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
 
-        return $this->json(null, HttpResponse::HTTP_NO_CONTENT);
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_NO_CONTENT);
     }
 }

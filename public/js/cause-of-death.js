@@ -33,16 +33,17 @@ $causeOfDeathTable.on(`click`, `td`, function(e) {
     dataType: `json`,
     method: `GET`,
     url: getEditActionUrl(id),
-    success: function (causeOfDeathView) {
-      $modalCauseOfDeath.data(`id`, id);
-      $modalCauseOfDeath.removeClass(`edit-form`).addClass(`edit-form`);
-      $modalRemoveBtnWrapper.removeClass(`d-none`);
-      $modalTimestamps.removeClass(`d-none`);
-      $modalTitle.html(`<span id="causeOfDeathViewTitle">${causeOfDeathView.name}</span> (Причины смерти)`);
-      $modalNameField.val(causeOfDeathView.name);
-      modalCauseOfDeath.show();
-    }
-  });
+  })
+  .done(function (causeOfDeathView) {
+    $modalCauseOfDeath.data(`id`, id);
+    $modalCauseOfDeath.removeClass(`edit-form`).addClass(`edit-form`);
+    $modalRemoveBtnWrapper.removeClass(`d-none`);
+    $modalTimestamps.removeClass(`d-none`);
+    $modalTitle.html(`<span id="causeOfDeathViewTitle">${causeOfDeathView.name}</span> (Причины смерти)`);
+    $modalNameField.val(causeOfDeathView.name);
+    modalCauseOfDeath.show();
+  })
+  .fail(onAjaxFailure);
 });
 
 // Autofocus
@@ -82,12 +83,13 @@ function save(url, isReloadRequired = false)
     url: url,
     data: JSON.stringify(data),
     contentType: `application/json; charset=utf-8`,
-    success: function () {
-      if (isReloadRequired) {
-        location.reload();      // TODO refactor not to reload entire page
-      }
-    },
-  });
+  })
+  .done(function () {
+    if (isReloadRequired) {
+      location.reload();      // TODO refactor not to reload entire page
+    }
+  })
+  .fail(onAjaxFailure);
 }
 function remove(url)
 {
@@ -99,10 +101,11 @@ function remove(url)
     method: `DELETE`,
     url: url,
     data: JSON.stringify(data),
-    success: function () {
-      location.reload();        // TODO refactor not to reload entire page
-    },
-  });
+  })
+  .done(function () {
+    location.reload();        // TODO refactor not to reload entire page
+  })
+  .fail(onAjaxFailure);
 }
 function close()
 {
@@ -139,3 +142,44 @@ function getEditActionUrl(id)
 {
   return $modalCauseOfDeathForm.data(`action-edit`).replace(`{id}`, id);
 }
+
+
+
+
+
+// --------------------------- Common code section (not only for cause of death entity) --------------------------------
+function onAjaxFailure(jqXHR)
+{
+  const responseJson = JSON.parse(jqXHR.responseText);
+  switch (responseJson.status) {
+    case `fail`:
+      processApplicationFailResponse(responseJson);
+      break;
+    case `error`:
+      processApplicationErrorResponse(responseJson);
+      break;
+    default:
+      throw `Неподдерживаемый статус ответа прикладного сервиса: "${responseJson.status}".`;
+  }
+}
+function processApplicationFailResponse(responseJson)
+{
+  // TODO refactor to get rid of dependency on notify-bootstrap
+  const failType      = responseJson.data.failType;
+  switch (failType) {
+    case `VALIDATION_ERROR`:
+      // TODO implement
+      break;
+    case `NOT_FOUND`:
+    case `DOMAIN_EXCEPTION`:
+      notify(`warning`, `Запрос не выполнен!`, responseJson.data.message);
+      break;
+    default:
+      throw `Неподдерживаемый тип отказа выполнения запроса прикладного сервиса: "${failType}".`;
+  }
+}
+function processApplicationErrorResponse(responseJson)
+{
+  notify(`error`, `Ошибка!`, responseJson.message);
+}
+// ----------------------- End of common code section (not only for cause of death entity) -----------------------------

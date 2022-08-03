@@ -10,11 +10,11 @@ use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -56,8 +56,8 @@ class RemoveJuristicPersonService extends ApplicationService
     }
 
     /**
-     * @throws Exception             when the ID is invalid
-     * @throws NotFoundHttpException when the juristic person is not found
+     * @throws Exception         when the ID is invalid
+     * @throws NotFoundException when the juristic person is not found
      */
     private function getJuristicPerson(string $id): JuristicPerson
     {
@@ -65,7 +65,7 @@ class RemoveJuristicPersonService extends ApplicationService
         /** @var JuristicPerson $juristicPerson */
         $juristicPerson = $this->juristicPersonRepo->findById($id);
         if (!$juristicPerson) {
-            throw new NotFoundHttpException(\sprintf('Юридическое лицо с ID "%s" не найдено.', $id));
+            throw new NotFoundException(\sprintf('Юридическое лицо с ID "%s" не найдено.', $id));
         }
 
         return $juristicPerson;

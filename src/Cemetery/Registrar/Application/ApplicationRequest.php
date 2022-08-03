@@ -10,5 +10,4 @@ namespace Cemetery\Registrar\Application;
  */
 abstract class ApplicationRequest
 {
-    public string $status;
 }
