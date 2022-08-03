@@ -17,11 +17,8 @@ class ApplicationFailResponse extends ApplicationResponse
     public const FAILURE_TYPE_DOMAIN_EXCEPTION = 'domain exception';
 
     public string $status = 'fail';
-    public object $data;
 
     public function __construct(
-        object $data,
-    ) {
-        $this->data = $data;
-    }
+        public object $data,
+    ) {}
 }

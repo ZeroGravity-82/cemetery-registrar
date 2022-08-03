@@ -53,7 +53,7 @@ class RemoveCauseOfDeathService extends CauseOfDeathService
             $causeOfDeath->name(),
         ));
 
-        return new ApplicationSuccessResponse(null);
+        return new ApplicationSuccessResponse();
     }
 
     protected function supportedRequestClassName(): string

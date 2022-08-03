@@ -73,10 +73,10 @@ abstract class Controller extends AbstractController
                 break;
             case $appResponse instanceof ApplicationFailResponse:
                 $httpResponseData->data = $appResponse->data;
-                $httpResponseStatus     = match ($appResponse->data['failType']) {
+                $httpResponseStatus     = match ($appResponse->data->failType) {
                     ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR => HttpResponse::HTTP_UNPROCESSABLE_ENTITY,
                     ApplicationFailResponse::FAILURE_TYPE_NOT_FOUND        => HttpResponse::HTTP_NOT_FOUND,
-                    ApplicationFailResponse::FAILURE_TYPE_DOMAIN_EXCEPTION     => HttpResponse::HTTP_CONFLICT,
+                    ApplicationFailResponse::FAILURE_TYPE_DOMAIN_EXCEPTION => HttpResponse::HTTP_CONFLICT,
                     default                                                => HttpResponse::HTTP_BAD_REQUEST,
                 };
                 $httpResponse = $this->json($httpResponseData, $httpResponseStatus);

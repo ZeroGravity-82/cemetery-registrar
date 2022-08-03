@@ -13,17 +13,10 @@ namespace Cemetery\Registrar\Application;
 class ApplicationErrorResponse extends ApplicationResponse
 {
     public string  $status = 'error';
-    public string  $message;
-    public ?string $code;
-    public ?object $data;
 
     public function __construct(
-        string  $message,
-        ?string $code = null,
-        ?object $data = null,
-    ) {
-        $this->message = $message;
-        $this->code    = $code;
-        $this->data    = $data;
-    }
+        public string  $message,
+        public ?string $code = null,
+        public ?object $data = null,
+    ) {}
 }

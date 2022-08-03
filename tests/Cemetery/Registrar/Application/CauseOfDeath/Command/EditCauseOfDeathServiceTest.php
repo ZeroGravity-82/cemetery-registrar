@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Command;
 
-use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequestValidator;
+use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
@@ -50,10 +50,10 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         );
 
         $response = $this->service->execute(new EditCauseOfDeathRequest($this->id, 'Аста кардиальная'));
-        $this->assertInstanceOf(ApplicationSuccessResponse::class, $response);
-        $this->assertIsArray($response->data);
-        $this->assertArrayHasKey('id', $response->data);
-        $this->assertSame($this->id, $response->data['id']);
+        $this->assertInstanceOf(EditCauseOfDeathResponse::class, $response);
+        $this->assertNotNull($response->data);
+        $this->assertObjectHasAttribute('id', $response->data);
+        $this->assertSame($this->id, $response->data->id);
     }
 
     public function testItFailsWhenNameAlreadyUsed(): void

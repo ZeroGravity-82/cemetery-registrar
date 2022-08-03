@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Query;
 
-use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequestValidator;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
@@ -50,11 +50,11 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
         $this->mockCauseOfDeathFetcher->expects($this->once())->method('findViewById')->with($this->id);
 
         $response = $this->service->execute(new ShowCauseOfDeathRequest($this->id));
-        $this->assertInstanceOf(ApplicationSuccessResponse::class, $response);
-        $this->assertIsArray($response->data);
-        $this->assertArrayHasKey('view', $response->data);
-        $this->assertInstanceOf(CauseOfDeathView::class, $response->data['view']);
-        $this->assertSame($this->id, $response->data['view']->id);
+        $this->assertInstanceOf(ShowCauseOfDeathResponse::class, $response);
+        $this->assertNotNull($response->data);
+        $this->assertObjectHasAttribute('view', $response->data);
+        $this->assertInstanceOf(CauseOfDeathView::class, $response->data->view);
+        $this->assertSame($this->id, $response->data->view->id);
     }
 
     public function testItFailsWhenAnCauseOfDeathIsNotFound(): void

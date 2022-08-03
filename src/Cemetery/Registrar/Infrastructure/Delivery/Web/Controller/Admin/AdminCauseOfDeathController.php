@@ -9,6 +9,7 @@ use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\Creat
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
@@ -66,12 +67,14 @@ class AdminCauseOfDeathController extends Controller
     {
         if ($httpRequest->isMethod(HttpRequest::METHOD_PUT)) {
             $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
-            $commandRequest = $this->handleJsonRequest($httpRequest, EditCauseOfDeathRequest::class);
-            $id             = $this->appRequestBus->execute($commandRequest)->data['id'];
+            $commandRequest  = $this->handleJsonRequest($httpRequest, EditCauseOfDeathRequest::class);
+            $commandResponse = $this->appRequestBus->execute($commandRequest);
+            $id              = $commandResponse->data->id;
         }
 
-        $queryRequest = new ShowCauseOfDeathRequest($id);
-        $view         = $this->appRequestBus->execute($queryRequest)->data['view'];
+        $queryRequest  = new ShowCauseOfDeathRequest($id);
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+        $view          = $queryResponse->data->view;
 
         return $this->json($view);
     }

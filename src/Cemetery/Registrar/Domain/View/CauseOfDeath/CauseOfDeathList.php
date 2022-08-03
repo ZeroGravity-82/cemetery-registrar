@@ -11,10 +11,10 @@ class CauseOfDeathList
 {
     public function __construct(
         public array   $items,
-
         public int     $page,
         public int     $pageSize,
-        public int     $totalPages,
+        public ?string $term,
         public int     $totalCount,
+        public int     $totalPages,
     ) {}
 }

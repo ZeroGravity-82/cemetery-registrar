@@ -55,8 +55,8 @@ class CreateCauseOfDeathService extends CauseOfDeathService
             $causeOfDeath->name(),
         ));
 
-        return new ApplicationSuccessResponse(
-            ['id' => $causeOfDeath->id()->value()],
+        return new CreateCauseOfDeathResponse(
+            $causeOfDeath->id()->value(),
         );
     }
 

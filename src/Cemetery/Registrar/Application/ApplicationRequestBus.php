@@ -36,7 +36,7 @@ class ApplicationRequestBus
                 // The request was rejected due to validation errors
 
                 // TODO dispatch application event with validation failure details
-                return new ApplicationFailResponse(
+                return new ApplicationFailResponse((object)
                     [
                         'failType' => ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR,
                         ...$note->toArray(),
@@ -53,7 +53,7 @@ class ApplicationRequestBus
                 $e instanceof NotFoundException => ApplicationFailResponse::FAILURE_TYPE_NOT_FOUND,
                 default                         => ApplicationFailResponse::FAILURE_TYPE_DOMAIN_EXCEPTION,
             };
-            $response = new ApplicationFailResponse(
+            $response = new ApplicationFailResponse((object)
                 [
                     'failType' => $failureType,
                     'message'  => $e->getMessage(),

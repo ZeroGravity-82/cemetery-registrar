@@ -24,29 +24,27 @@ class ShowCauseOfDeathService extends ApplicationService
     ) {}
 
     /**
+     * @param ShowCauseOfDeathRequest $request
+     *
      * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
     public function validate(ApplicationRequest $request): Notification
     {
         $this->assertSupportedRequestClass($request);
 
-        /** @var ShowCauseOfDeathRequest $request */
         return $this->requestValidator->validate($request);
     }
 
     /**
+     * @param ShowCauseOfDeathRequest $request
+     *
      * @throws NotFoundHttpException when the cause of death is not found
      * @throws \Throwable            when any error occurred while processing the request
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        /** @var ShowCauseOfDeathRequest $request */
-        $causeOfDeathView = $this->getCauseOfDeathView($request->id);
-
-        return new ApplicationSuccessResponse((object)
-            [
-                'view' => $causeOfDeathView,
-            ],
+        return new ShowCauseOfDeathResponse(
+            $this->getCauseOfDeathView($request->id),
         );
     }
 
