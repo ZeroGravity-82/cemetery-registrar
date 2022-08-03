@@ -64,11 +64,22 @@ $modalCauseOfDeath.on(`click`, `.js-close`, function () {
   close();
 });
 $modalCauseOfDeath.on(`click`, `.js-remove`, function () {
-  const causeOfDeath = $(`#causeOfDeathViewTitle`).html();
-  const isConfirmed  = confirm(`Удалить причину смерти "${causeOfDeath}"?`)
-  if (isConfirmed) {
-    remove(getRemoveActionUrl());
-  }
+  const name = $(`#causeOfDeathViewTitle`).html();
+  Swal.fire({
+    title: `Удалить причину смерти "${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, удалить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      remove(getRemoveActionUrl());
+    }
+  });
 });
 
 function save(url, isReloadRequired = false)
