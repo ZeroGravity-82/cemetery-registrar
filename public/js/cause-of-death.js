@@ -1,5 +1,3 @@
-const $body                  = $(`body`);
-const $spinner               = $(`#spinner-div`);
 const $causeOfDeathTable     = $(`#causeOfDeathList`);
 const $modalCauseOfDeath     = $(`#modalCauseOfDeath`);
 const $modalTitle            = $modalCauseOfDeath.find(`.modal-title`)
@@ -90,6 +88,7 @@ function save(url, isReloadRequired = false)
   })
   .done(function () {
     if (isReloadRequired) {
+      modalCauseOfDeath.hide();
       location.reload();      // TODO refactor not to reload entire page
     }
   })
@@ -109,6 +108,7 @@ function remove(url)
     data: JSON.stringify(data),
   })
   .done(function () {
+    modalCauseOfDeath.hide();
     location.reload();        // TODO refactor not to reload entire page
   })
   .fail(onAjaxFailure)
@@ -116,6 +116,7 @@ function remove(url)
 }
 function close()
 {
+  modalCauseOfDeath.hide();
   location.reload();            // TODO refactor not to reload entire page
 }
 
@@ -149,70 +150,3 @@ function getEditActionUrl(id)
 {
   return $modalCauseOfDeathForm.data(`action-edit`).replace(`{id}`, id);
 }
-
-
-
-
-
-// --------------------------- Common code section (not only for cause of death entity) --------------------------------
-function onAjaxFailure(jqXHR)
-{
-  const responseJson = JSON.parse(jqXHR.responseText);
-  switch (responseJson.status) {
-    case `fail`:
-      processApplicationFailResponse(responseJson);
-      break;
-    case `error`:
-      processApplicationErrorResponse(responseJson);
-      break;
-    default:
-      throw `Неподдерживаемый статус ответа прикладного сервиса: "${responseJson.status}".`;
-  }
-}
-function onAjaxAlways()
-{
-  $spinner.hide();
-}
-function processApplicationFailResponse(responseJson)
-{
-  // TODO refactor to get rid of dependency on sweetalert2
-  const failType      = responseJson.data.failType;
-  switch (failType) {
-    case `VALIDATION_ERROR`:
-      // TODO implement
-      break;
-    case `NOT_FOUND`:
-    case `DOMAIN_EXCEPTION`:
-      // notify(`warning`, `Запрос не выполнен!`, responseJson.data.message);
-      buildToast().fire({
-        icon: `warning`,
-        title: responseJson.data.message,
-      })
-      break;
-    default:
-      throw `Неподдерживаемый тип отказа выполнения запроса прикладного сервиса: "${failType}".`;
-  }
-}
-function processApplicationErrorResponse(responseJson)
-{
-  // notify(`error`, `Ошибка!`, responseJson.message);
-  buildToast().fire({
-    icon: `error`,
-    title: responseJson.message,
-  })
-}
-function buildToast()
-{
-  return Swal.mixin({
-    toast: true,
-    position: `top-end`,
-    showConfirmButton: false,
-    timer: 3000,
-    timerProgressBar: true,
-    didOpen: (toast) => {
-      toast.addEventListener(`mouseenter`, Swal.stopTimer)
-      toast.addEventListener(`mouseleave`, Swal.resumeTimer)
-    }
-  })
-}
-// ----------------------- End of common code section (not only for cause of death entity) -----------------------------
