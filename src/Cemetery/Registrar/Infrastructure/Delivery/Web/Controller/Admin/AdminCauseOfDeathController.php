@@ -81,6 +81,7 @@ class AdminCauseOfDeathController extends Controller
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_remove', methods: HttpRequest::METHOD_DELETE)]
     public function remove(HttpRequest $httpRequest): HttpJsonResponse
     {
+        sleep(5);
         $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
         $commandRequest  = $this->handleJsonRequest($httpRequest, RemoveCauseOfDeathRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);

@@ -1,4 +1,5 @@
 const $body                  = $(`body`);
+const $spinner               = $(`#spinner-div`);
 const $causeOfDeathTable     = $(`#causeOfDeathList`);
 const $modalCauseOfDeath     = $(`#modalCauseOfDeath`);
 const $modalTitle            = $modalCauseOfDeath.find(`.modal-title`)
@@ -27,6 +28,7 @@ $body.on(`click`, `.js-create-cause-of-death-btn`, function() {
 
 // Edit
 $causeOfDeathTable.on(`click`, `td`, function(e) {
+  $spinner.show();
   mode = `edit`;
   id   = $(e.target).closest(`tr`).attr(`data-id`);
   $.ajax({
@@ -43,7 +45,8 @@ $causeOfDeathTable.on(`click`, `td`, function(e) {
     $modalNameField.val(causeOfDeathView.name);
     modalCauseOfDeath.show();
   })
-  .fail(onAjaxFailure);
+  .fail(onAjaxFailure)
+  .always(onAjaxAlways);
 });
 
 // Autofocus
@@ -72,6 +75,7 @@ $modalCauseOfDeath.on(`click`, `.js-remove`, function () {
 
 function save(url, isReloadRequired = false)
 {
+  $spinner.show();
   const method = mode === `new` ? `POST` : `PUT`;
   const data   = {
     name: $modalNameField.val(),
@@ -89,10 +93,12 @@ function save(url, isReloadRequired = false)
       location.reload();      // TODO refactor not to reload entire page
     }
   })
-  .fail(onAjaxFailure);
+  .fail(onAjaxFailure)
+  .always(onAjaxAlways);
 }
 function remove(url)
 {
+  $spinner.show();
   const data = {
     token: $modalCsrfTokenField.val(),
   };
@@ -105,7 +111,8 @@ function remove(url)
   .done(function () {
     location.reload();        // TODO refactor not to reload entire page
   })
-  .fail(onAjaxFailure);
+  .fail(onAjaxFailure)
+  .always(onAjaxAlways);
 }
 function close()
 {
@@ -162,9 +169,13 @@ function onAjaxFailure(jqXHR)
       throw `Неподдерживаемый статус ответа прикладного сервиса: "${responseJson.status}".`;
   }
 }
+function onAjaxAlways()
+{
+  $spinner.hide();
+}
 function processApplicationFailResponse(responseJson)
 {
-  // TODO refactor to get rid of dependency on notify-bootstrap
+  // TODO refactor to get rid of dependency on sweetalert2
   const failType      = responseJson.data.failType;
   switch (failType) {
     case `VALIDATION_ERROR`:
@@ -172,7 +183,11 @@ function processApplicationFailResponse(responseJson)
       break;
     case `NOT_FOUND`:
     case `DOMAIN_EXCEPTION`:
-      notify(`warning`, `Запрос не выполнен!`, responseJson.data.message);
+      // notify(`warning`, `Запрос не выполнен!`, responseJson.data.message);
+      buildToast().fire({
+        icon: `warning`,
+        title: responseJson.data.message,
+      })
       break;
     default:
       throw `Неподдерживаемый тип отказа выполнения запроса прикладного сервиса: "${failType}".`;
@@ -180,6 +195,24 @@ function processApplicationFailResponse(responseJson)
 }
 function processApplicationErrorResponse(responseJson)
 {
-  notify(`error`, `Ошибка!`, responseJson.message);
+  // notify(`error`, `Ошибка!`, responseJson.message);
+  buildToast().fire({
+    icon: `error`,
+    title: responseJson.message,
+  })
+}
+function buildToast()
+{
+  return Swal.mixin({
+    toast: true,
+    position: `top-end`,
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener(`mouseenter`, Swal.stopTimer)
+      toast.addEventListener(`mouseleave`, Swal.resumeTimer)
+    }
+  })
 }
 // ----------------------- End of common code section (not only for cause of death entity) -----------------------------

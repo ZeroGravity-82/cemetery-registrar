@@ -63,7 +63,7 @@ class ApplicationRequestBus
             // TODO dispatch application event with failure details
         } catch (\Throwable $e) {
             // An error occurred while processing the request
-            $response = new ApplicationErrorResponse('При обработке запроса произошла внутренняя ошибка сервера.');
+            $response = new ApplicationErrorResponse('Внутренняя ошибка сервера.');
 
             // TODO dispatch application event with error details
         }
