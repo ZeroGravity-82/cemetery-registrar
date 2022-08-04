@@ -1,6 +1,24 @@
 const $body    = $(`body`);
 const $spinner = $(`#spinner-div`);
 
+$(document).ready(() => {
+  fireFlashMessages();
+});
+
+// -------------------------------------------- Flash messages ---------------------------------------------------------
+function fireFlashMessages()
+{
+  $(`.js-flash-message`).each((index, flashMessage) => {
+    const $flashMessage = $(flashMessage);
+    const flashLabel    = $flashMessage.data(`flash-label`);
+    const flashText     = $flashMessage.html();
+    buildToast().fire({
+      icon: flashLabel,
+      title: flashText,
+    });
+  });
+}
+
 // ------------------------------------------------- Forms -------------------------------------------------------------
 $(`form`).on(`submit`, (e) => e.preventDefault());
 

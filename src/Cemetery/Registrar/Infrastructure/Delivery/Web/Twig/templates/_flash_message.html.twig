@@ -1,0 +1,5 @@
+{% for label, messages in app.flashes %}
+  {% for message in messages %}
+    <span class="js-flash-message d-none" data-flash-label="{{ label }}">{{ message }}</span>
+  {% endfor %}
+{% endfor %}
