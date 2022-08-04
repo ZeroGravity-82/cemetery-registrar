@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Domain\Model;
 abstract class EntityId
 {
     /**
-     * @throws Exception when the ID is invalid
+     * @throws \LengthException when the ID is invalid
      */
     public function __construct(
         protected string $value,
@@ -34,7 +34,7 @@ abstract class EntityId
     }
 
     /**
-     * @throws Exception when the ID is invalid
+     * @throws \LengthException when the ID is invalid
      */
     private function assertValidValue(string $value): void
     {
@@ -42,12 +42,12 @@ abstract class EntityId
     }
 
     /**
-     * @throws Exception when the ID is empty
+     * @throws \LengthException when the ID is empty
      */
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new Exception('Идентификатор доменной сущности не может иметь пустое значение.');
+            throw new \LengthException('Идентификатор доменной сущности не может иметь пустое значение.');
         }
     }
 }
