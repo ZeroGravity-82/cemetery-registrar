@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Application;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Infrastructure\DependencyInjection\ApplicationServiceLocator;
+use Psr\Log\LoggerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,6 +16,7 @@ class ApplicationRequestBus
 {
     public function __construct(
         private readonly ApplicationServiceLocator $appServiceLocator,
+        private readonly LoggerInterface           $logger,             // TODO remove in favour of events
     ) {}
 
     /**
@@ -36,6 +38,7 @@ class ApplicationRequestBus
                 // The request was rejected due to validation errors
 
                 // TODO dispatch application event with validation failure details
+                $this->logger->warning($note);
                 return new ApplicationFailResponse((object)
                     [
                         'failType' => ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR,
@@ -66,6 +69,7 @@ class ApplicationRequestBus
             $response = new ApplicationErrorResponse('Внутренняя ошибка сервера.');
 
             // TODO dispatch application event with error details
+            $this->logger->error($e->getMessage(), $e->getTrace());
         }
 
         return $response;

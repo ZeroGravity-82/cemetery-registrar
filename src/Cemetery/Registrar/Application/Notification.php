@@ -11,6 +11,11 @@ class Notification
 {
     private array $errors = [];
 
+    public function __toString(): string
+    {
+        return \implode(', ', $this->errors()) ?: '';
+    }
+
     public function addError(string $code, string $message, ?\Exception $exception = null): void
     {
         $this->errors[] = new Error($code, $message, $exception);
@@ -24,11 +29,6 @@ class Notification
     public function errors(): array
     {
         return $this->errors;
-    }
-
-    public function errorMessage(): ?string
-    {
-        return \implode(', ', $this->errors()) ?: null;
     }
 
     public function toArray(): array
