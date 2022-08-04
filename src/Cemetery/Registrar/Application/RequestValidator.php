@@ -10,12 +10,12 @@ namespace Cemetery\Registrar\Application;
 class RequestValidator
 {
     /**
-     * @throw \InvalidArgumentException when the ID is null
+     * @throw \InvalidArgumentException when the entity ID is not provided or empty
      */
     protected function assertValidEntityId(?string $id): void
     {
-        if ($id === null) {
-            throw new \InvalidArgumentException('Идентификатор доменной сущности не указан.');
+        if ($id === null || empty(\trim($id))) {
+            throw new \InvalidArgumentException('Идентификатор доменной сущности не задан или пуст.');
         }
     }
 }
