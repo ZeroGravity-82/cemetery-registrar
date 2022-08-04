@@ -5,6 +5,7 @@ const $modalCauseOfDeathForm = $(`#modalCauseOfDeath form`);
 const $modalNameField        = $modalCauseOfDeath.find(`input[id=name]`);
 const $modalCsrfTokenField   = $modalCauseOfDeath.find(`input[id=token]`);
 const $modalRemoveBtnWrapper = $modalCauseOfDeath.find(`.js-remove-wrapper`);
+const $modalSaveBtn          = $modalCauseOfDeath.find(`.js-save`);
 const $modalTimestamps       = $modalCauseOfDeath.find(`.timestamps`);
 const modalCauseOfDeath      = new bootstrap.Modal(`#modalCauseOfDeath`, {});
 
@@ -12,35 +13,40 @@ let mode = null;
 let id   = null;
 
 // Create
-$body.on(`click`, `.js-create-cause-of-death-btn`, function() {
+$body.on(`click`, `.js-create-cause-of-death-btn`, () => {
   mode = `new`;
   id   = null;
   $modalCauseOfDeath.data(`id`, id);
   $modalCauseOfDeath.removeClass(`edit-form`);
   $modalRemoveBtnWrapper.removeClass(`d-none`).addClass(`d-none`);
+  $modalSaveBtn.removeClass(`d-none`).addClass(`d-none`);
   $modalTimestamps.removeClass(`d-none`).addClass(`d-none`);
   $modalTitle.html(`Причины смерти (создание)`);
   $modalNameField.val(null);
+  hideAllValidationErrors();
   modalCauseOfDeath.show();
 });
 
 // Edit
-$causeOfDeathTable.on(`click`, `td`, function(e) {
+$causeOfDeathTable.on(`click`, `td`, (e) => {
   $spinner.show();
   mode = `edit`;
   id   = $(e.target).closest(`tr`).attr(`data-id`);
   $.ajax({
     dataType: `json`,
     method: `GET`,
-    url: getEditActionUrl(id),
+    url: getShowActionUrl(id),
   })
-  .done(function (causeOfDeathView) {
+  .done((responseJson) => {
+    const causeOfDeathView = responseJson.data.view;
     $modalCauseOfDeath.data(`id`, id);
     $modalCauseOfDeath.removeClass(`edit-form`).addClass(`edit-form`);
     $modalRemoveBtnWrapper.removeClass(`d-none`);
+    $modalSaveBtn.removeClass(`d-none`);
     $modalTimestamps.removeClass(`d-none`);
     $modalTitle.html(`<span id="causeOfDeathViewTitle">${causeOfDeathView.name}</span> (Причины смерти)`);
     $modalNameField.val(causeOfDeathView.name);
+    hideAllValidationErrors();
     modalCauseOfDeath.show();
   })
   .fail(onAjaxFailure)
@@ -48,22 +54,23 @@ $causeOfDeathTable.on(`click`, `td`, function(e) {
 });
 
 // Autofocus
-$(document).ready(function () {
-  $(`#modalCauseOfDeath`).on(`shown.bs.modal`, function () {
-    $(this).find(`#name`).select();
+$(document).ready(() => {
+  $(`#modalCauseOfDeath`).on(`shown.bs.modal`, (e) => {
+    const $modal = $(e.target);
+    $modal.find(`#name`).select();
   });
 });
 
-$modalCauseOfDeath.on(`click`, `.js-save`, function () {
+$modalCauseOfDeath.on(`click`, `.js-save`, () => {
   save(getSaveActionUrl());
 });
-$modalCauseOfDeath.on(`click`, `.js-save-and-close`, function () {
+$modalCauseOfDeath.on(`click`, `.js-save-and-close`, () => {
   save(getSaveActionUrl(), true);
 });
-$modalCauseOfDeath.on(`click`, `.js-close`, function () {
+$modalCauseOfDeath.on(`click`, `.js-close`, () => {
   close();
 });
-$modalCauseOfDeath.on(`click`, `.js-remove`, function () {
+$modalCauseOfDeath.on(`click`, `.js-remove`, () => {
   const name = $(`#causeOfDeathViewTitle`).html();
   Swal.fire({
     title: `Удалить причину смерти "${name}"?`,
@@ -97,7 +104,11 @@ function save(url, isReloadRequired = false)
     data: JSON.stringify(data),
     contentType: `application/json; charset=utf-8`,
   })
-  .done(function () {
+  .done(() => {
+    buildToast().fire({
+      icon: `success`,
+      title: `Причина смерти успешно ${mode === `new` ? `создана` : `отредактирована`}.`,
+    });
     if (isReloadRequired) {
       modalCauseOfDeath.hide();
       location.reload();      // TODO refactor not to reload entire page
@@ -118,7 +129,11 @@ function remove(url)
     url: url,
     data: JSON.stringify(data),
   })
-  .done(function () {
+  .done(() => {
+      buildToast().fire({
+      icon: `success`,
+      title: `Причина смерти успешно удалена.`,
+    });
     modalCauseOfDeath.hide();
     location.reload();        // TODO refactor not to reload entire page
   })
@@ -144,7 +159,7 @@ function getSaveActionUrl()
   }
 
   if (url === null) {
-    throw `The operation mode is not set!`;
+    throw `Режим сохранения не задан!`;
   }
 
   return url;
@@ -157,7 +172,41 @@ function getNewActionUrl()
 {
   return $modalCauseOfDeathForm.data(`action-new`);
 }
+function getShowActionUrl(id)
+{
+  return $modalCauseOfDeathForm.data(`action-show`).replace(`{id}`, id);
+}
 function getEditActionUrl(id)
 {
   return $modalCauseOfDeathForm.data(`action-edit`).replace(`{id}`, id);
+}
+
+
+// ------------------------------------------------- Validation errors -------------------------------------------------
+// TODO refactor to extract to common file
+function displayValidationErrors(data)
+{
+  for (const [fieldId, validationError] of Object.entries(data)) {
+    const $field = $modalCauseOfDeathForm.find(`#${fieldId}`);
+    $field.removeClass(`is-invalid`).addClass(`is-invalid`);
+    const ariaDescribedby  = $field.attr(`aria-describedby`);
+    const $invalidFeedback = $modalCauseOfDeathForm.find(`#${ariaDescribedby}`);
+    $invalidFeedback.html(validationError);
+    $invalidFeedback.removeClass(`d-none`);
+  }
+}
+function hideAllValidationErrors()
+{
+  $modalCauseOfDeathForm.find(`.is-invalid`).removeClass(`is-invalid`);
+}
+$modalCauseOfDeathForm.on(`change`, `.is-invalid`, (e) => {
+  removeValidationError(e);
+});
+$modalCauseOfDeathForm.on(`input`, `.is-invalid`, (e) => {
+  removeValidationError(e);
+});
+function removeValidationError(e)
+{
+  const $field = $(e.target);
+  $field.removeClass(`is-invalid`);
 }

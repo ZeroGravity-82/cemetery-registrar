@@ -18,6 +18,7 @@
 
         <form
             data-action-new="{{ path('admin_cause_of_death_create') }}"
+            data-action-show="{{ path('admin_cause_of_death_show', {'id': '{id}'})|url_decode }}"
             data-action-edit="{{ path('admin_cause_of_death_edit', {'id': '{id}'})|url_decode }}"
             data-action-remove="{{ path('admin_cause_of_death_remove', {'id': '{id}'})|url_decode }}">
           <div class="container">
@@ -26,8 +27,8 @@
                 <label for="name" class="form-label">Наименование</label>
               </div>
               <div class="col-md-9">
-                <input type="text" class="form-control form-control-sm is-invalid" id="name" name="name" aria-describedby="nameFeedback">
-                <div id="nameFeedback" class="invalid-feedback d-none"></div>
+                <input type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="nameFeedback">
+                <div id="nameFeedback" class="invalid-feedback d-none">23r23r</div>
               </div>
             </div>
           </div>
@@ -43,7 +44,7 @@
                 </div>
                 <div class="order-1 order-sm-2">
                   <button type="button" class="btn btn-warning btn-sm js-save-and-close" aria-label="Записать и закрыть">Записать и закрыть</button>
-                  <button type="button" class="btn btn-secondary btn-sm js-save" aria-label="Записать">Записать</button>
+                  <button type="button" class="btn btn-secondary btn-sm d-none js-save" aria-label="Записать">Записать</button>
                   <button type="button" class="btn btn-secondary btn-sm js-close" aria-label="Закрыть">Закрыть</button>
                 </div>
               </div>

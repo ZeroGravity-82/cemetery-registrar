@@ -67,7 +67,7 @@ function processApplicationFailResponse(responseJson) {
   const failType = responseJson.data.failType;
   switch (failType) {
     case `VALIDATION_ERROR`:
-      // TODO implement
+      displayValidationErrors(responseJson.data)
       break;
     case `NOT_FOUND`:
     case `DOMAIN_EXCEPTION`:

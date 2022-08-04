@@ -55,34 +55,18 @@ class AdminCauseOfDeathController extends Controller
         $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
         $commandRequest  = $this->handleJsonRequest($httpRequest, CreateCauseOfDeathRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);
-        if ($commandResponse instanceof ApplicationSuccessResponse) {
-            $this->addFlash('success', 'Причина смерти успешно создана.');
-        }
 
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
     }
 
-    #[Route('/admin/cause-of-death/{id}/edit', name: 'admin_cause_of_death_edit', methods: [
-        HttpRequest::METHOD_GET,
-        HttpRequest::METHOD_PUT,
-    ])]
+    #[Route('/admin/cause-of-death/{id}/edit', name: 'admin_cause_of_death_edit', methods: HttpRequest::METHOD_PUT)]
     public function edit(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
-        if ($httpRequest->isMethod(HttpRequest::METHOD_PUT)) {
-            $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
-            $commandRequest  = $this->handleJsonRequest($httpRequest, EditCauseOfDeathRequest::class);
-            $commandResponse = $this->appRequestBus->execute($commandRequest);
-            if ($commandResponse instanceof ApplicationSuccessResponse) {
-                $this->addFlash('success', 'Причина смерти успешно отредактиварована.');
-            }
-            $id = $commandResponse->data->id;
-        }
+        $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, EditCauseOfDeathRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
 
-        $queryRequest  = new ShowCauseOfDeathRequest($id);
-        $queryResponse = $this->appRequestBus->execute($queryRequest);
-        $view          = $queryResponse->data->view;
-
-        return $this->json($view);
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
     #[Route('/admin/cause-of-death/{id}', name: 'admin_cause_of_death_remove', methods: HttpRequest::METHOD_DELETE)]
@@ -91,9 +75,6 @@ class AdminCauseOfDeathController extends Controller
         $this->assertValidCsrfToken($httpRequest, 'cause_of_death');
         $commandRequest  = $this->handleJsonRequest($httpRequest, RemoveCauseOfDeathRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);
-        if ($commandResponse instanceof ApplicationSuccessResponse) {
-            $this->addFlash('success', 'Причина смерти успешно удалена.');
-        }
 
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_NO_CONTENT);
     }
