@@ -4,24 +4,29 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application;
 
-use Cemetery\Registrar\Domain\Model\Exception;
-
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 abstract class ApplicationService
 {
+    public function __construct(
+        private ApplicationRequestValidator $requestValidator,
+    ) {}
+
     /**
      * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
-    abstract public function validate(ApplicationRequest $request): Notification;
+    public function validate(ApplicationRequest $request): Notification
+    {
+        $this->assertSupportedRequestClass($request);
+
+        return $this->requestValidator->validate($request);
+    }
 
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
     abstract public function execute(ApplicationRequest $request): ApplicationSuccessResponse;
-
-    abstract protected function supportedRequestClassName(): string;
 
     /**
      * @throws \InvalidArgumentException when the request is not an instance of the supported class
@@ -38,4 +43,6 @@ abstract class ApplicationService
             ));
         }
     }
+
+    abstract protected function supportedRequestClassName(): string;
 }

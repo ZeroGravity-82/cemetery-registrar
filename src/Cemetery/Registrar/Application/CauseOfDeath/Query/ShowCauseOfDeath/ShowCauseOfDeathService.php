@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
@@ -18,20 +17,10 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 class ShowCauseOfDeathService extends ApplicationService
 {
     public function __construct(
-        private readonly ShowCauseOfDeathRequestValidator $requestValidator,
-        private readonly CauseOfDeathFetcher              $causeOfDeathFetcher,
-    ) {}
-
-    /**
-     * @param ShowCauseOfDeathRequest $request
-     *
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        return $this->requestValidator->validate($request);
+        private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
+        ShowCauseOfDeathRequestValidator     $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**

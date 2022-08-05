@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command;
 
 use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\CauseOfDeath\CauseOfDeathRequestValidator;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
@@ -20,7 +21,10 @@ abstract class CauseOfDeathService extends ApplicationService
     public function __construct(
         protected readonly CauseOfDeathRepository $causeOfDeathRepo,
         protected readonly EventDispatcher        $eventDispatcher,
-    ) {}
+        CauseOfDeathRequestValidator              $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
+    }
 
     /**
      * @throws Exception         when the ID is invalid

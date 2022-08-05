@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
@@ -20,22 +19,11 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class RemoveCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
-        private readonly RemoveCauseOfDeathRequestValidator $requestValidator,
-        CauseOfDeathRepository                              $causeOfDeathRepo,
-        EventDispatcher                                     $eventDispatcher,
+        CauseOfDeathRepository             $causeOfDeathRepo,
+        EventDispatcher                    $eventDispatcher,
+        RemoveCauseOfDeathRequestValidator $requestValidator,
     ) {
-        parent::__construct($causeOfDeathRepo, $eventDispatcher);
-    }
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var RemoveCauseOfDeathRequest $request */
-        return $this->requestValidator->validate($request);
+        parent::__construct($causeOfDeathRepo, $eventDispatcher, $requestValidator);
     }
 
     /**

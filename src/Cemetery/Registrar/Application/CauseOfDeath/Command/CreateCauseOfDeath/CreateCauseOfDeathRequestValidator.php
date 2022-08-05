@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath;
 
+use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\CauseOfDeathRequestValidator;
 use Cemetery\Registrar\Application\Notification;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CreateCauseOfDeathRequestValidator
+class CreateCauseOfDeathRequestValidator extends CauseOfDeathRequestValidator
 {
-    public function validate(CreateCauseOfDeathRequest $request): Notification
+    /**
+     * @param CreateCauseOfDeathRequest $request
+     */
+    public function validate(ApplicationRequest $request): Notification
     {
-        $note = new Notification();
-        if (empty(\trim($request->name))) {
-            $note->addError('name', 'Причина смерти не может иметь пустое значение.');
-        }
-
-        return $note;
+        return $this
+            ->validateName($request)
+            ->note();
     }
 }
