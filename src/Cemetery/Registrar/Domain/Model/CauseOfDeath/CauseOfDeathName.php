@@ -49,7 +49,7 @@ class CauseOfDeathName
     private function assertNotEmpty(string $value): void
     {
         if (\trim($value) === '') {
-            throw new Exception('Причина смерти не может иметь пустое значение.');
+            throw new Exception('Причина смерти не может иметь пустое наименование.');
         }
     }
 }
