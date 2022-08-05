@@ -67,6 +67,7 @@ function processApplicationFailResponse(responseJson) {
   const failType = responseJson.data.failType;
   switch (failType) {
     case `VALIDATION_ERROR`:
+      delete responseJson.data.failType;
       displayValidationErrors(responseJson.data)
       break;
     case `NOT_FOUND`:

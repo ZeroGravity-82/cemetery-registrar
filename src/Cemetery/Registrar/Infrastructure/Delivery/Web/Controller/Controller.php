@@ -45,10 +45,7 @@ abstract class Controller extends AbstractController
         $constructorArgs = [];
         $data            = $this->decodeRequestData($request);
         foreach (\array_keys(\get_class_vars($appServiceRequestClassName)) as $propertyName) {
-            if ($propertyName === 'id') {
-                $data[$propertyName] = $request->attributes->get('id');
-            }
-            $constructorArgs[] = $data[$propertyName] ?? null;
+            $constructorArgs[] = $data[$propertyName] ?? $request->attributes->get($propertyName) ?? null;
         }
 
         return new $appServiceRequestClassName(...$constructorArgs);

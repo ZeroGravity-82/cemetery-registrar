@@ -39,6 +39,7 @@ class ApplicationRequestBus
 
                 // TODO dispatch application event with validation failure details
                 $this->logger->warning($note);
+
                 return new ApplicationFailResponse((object)
                     [
                         'failType' => ApplicationFailResponse::FAILURE_TYPE_VALIDATION_ERROR,

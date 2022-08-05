@@ -188,6 +188,14 @@ function displayValidationErrors(data)
 {
   for (const [fieldId, validationError] of Object.entries(data)) {
     const $field = $modalCauseOfDeathForm.find(`#${fieldId}`);
+    if ($field.length === 0) {
+      buildToast().fire({
+        icon: `error`,
+        title: validationError,
+      });
+      continue;
+    }
+
     $field.removeClass(`is-invalid`).addClass(`is-invalid`);
     const ariaDescribedby  = $field.attr(`aria-describedby`);
     const $invalidFeedback = $modalCauseOfDeathForm.find(`#${ariaDescribedby}`);
