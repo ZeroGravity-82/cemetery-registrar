@@ -13,20 +13,20 @@ use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
  */
 class CauseOfDeathFactoryTest extends EntityFactoryTest
 {
-    private CauseOfDeathFactory $deceasedFactory;
+    private CauseOfDeathFactory $causeOfDeathFactory;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->deceasedFactory = new CauseOfDeathFactory($this->mockIdentityGenerator);
+        $this->causeOfDeathFactory = new CauseOfDeathFactory($this->mockIdentityGenerator);
     }
 
     public function testItCreatesCauseOfDeath(): void
     {
         $name = 'Некоторая причина смерти';
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
-        $causeOfDeath = $this->deceasedFactory->create(
+        $causeOfDeath = $this->causeOfDeathFactory->create(
             $name,
         );
         $this->assertInstanceOf(CauseOfDeath::class, $causeOfDeath);
