@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\Organization\Query\ListOrganizations;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 
 /**
@@ -17,17 +16,9 @@ class ListOrganizationsService extends ApplicationService
 {
     public function __construct(
         private readonly OrganizationFetcher $organizationFetcher,
-    ) {}
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var ListOrganizationsRequest $request */
-        return $this->requestValidator->validate($request);
+        ListOrganizationsRequestValidator    $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**
@@ -35,7 +26,10 @@ class ListOrganizationsService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new ListOrganizationsResponse($this->organizationFetcher->findAll(1));
+        return new ListOrganizationsResponse(
+            $this->organizationFetcher->findAll(1),
+            $this->organizationFetcher->countTotal(),
+        );
     }
 
     protected function supportedRequestClassName(): string

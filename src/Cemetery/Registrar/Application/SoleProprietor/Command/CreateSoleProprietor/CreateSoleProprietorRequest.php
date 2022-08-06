@@ -12,7 +12,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class CreateSoleProprietorRequest extends ApplicationRequest
 {
     public function __construct(
-        public string  $name,
+        public ?string $name,
         public ?string $inn,
         public ?string $ogrnip,
         public ?string $okpo,

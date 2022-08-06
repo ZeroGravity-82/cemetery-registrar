@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\FuneralCompany\Query\CountFuneralCompanyTotal\CountFuneralCompanyTotalRequest;
 use Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies\ListFuneralCompaniesRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,12 +22,15 @@ class AdminFuneralCompanyController extends Controller
     #[Route('/admin/funeral-company', name: 'admin_funeral_company_list', methods: 'GET')]
     public function list(): Response
     {
-        $funeralCompanyTotalCount = $this->appRequestBus->execute(new CountFuneralCompanyTotalRequest())->totalCount;
-        $funeralCompanyList       = $this->appRequestBus->execute(new ListFuneralCompaniesRequest())->list;
+        $queryRequest  = new ListFuneralCompaniesRequest();
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+
+        $list       = $queryResponse->data->list;
+        $totalCount = $queryResponse->data->totalCount;
 
         return $this->render('admin/funeral_company/list.html.twig', [
-            'funeralCompanyTotalCount' => $funeralCompanyTotalCount,
-            'funeralCompanyList'       => $funeralCompanyList,
+            'list'       => $list,
+            'totalCount' => $totalCount,
         ]);
     }
 }

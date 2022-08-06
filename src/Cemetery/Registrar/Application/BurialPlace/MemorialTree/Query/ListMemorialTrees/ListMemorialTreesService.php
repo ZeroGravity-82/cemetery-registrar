@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\BurialPlace\MemorialTree\Query\ListMemo
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
 
 /**
@@ -16,19 +15,10 @@ use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
 class ListMemorialTreesService extends ApplicationService
 {
     public function __construct(
-        private readonly ListMemorialTreesRequestValidator $requestValidator,
-        private readonly MemorialTreeFetcher               $memorialTreeFetcher,
-    ) {}
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var ListMemorialTreesRequest $request */
-        return $this->requestValidator->validate($request);
+        private readonly MemorialTreeFetcher $memorialTreeFetcher,
+        ListMemorialTreesRequestValidator    $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**

@@ -4,14 +4,33 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\Query\ListBurials;
 
+use Cemetery\Registrar\Application\ApplicationSuccessResponse;
+use Cemetery\Registrar\Domain\View\Burial\BurialContainer\CoffinShapeList;
 use Cemetery\Registrar\Domain\View\Burial\BurialList;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockList;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
+use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyList;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListBurialsResponse
+class ListBurialsResponse extends ApplicationSuccessResponse
 {
     public function __construct(
-        public BurialList $list,
-    ) {}
+        BurialList         $list,
+        int                $totalCount,
+        FuneralCompanyList $funeralCompanyList,
+        CauseOfDeathList   $causeOfDeathList,
+        CemeteryBlockList  $cemeteryBlockList,
+        CoffinShapeList    $coffinShapeList,
+    ) {
+        $this->data = (object) [
+            'list'               => $list,
+            'totalCount'         => $totalCount,
+            'funeralCompanyList' => $funeralCompanyList,
+            'causeOfDeathList'   => $causeOfDeathList,
+            'cemeteryBlockList'  => $cemeteryBlockList,
+            'coffinShapeList'    => $coffinShapeList,
+        ];
+    }
 }

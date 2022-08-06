@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\List
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheFetcher;
 
@@ -17,20 +16,11 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNiche
 class ListColumbariumNichesService extends ApplicationService
 {
     public function __construct(
-        private readonly ListColumbariumNichesRequestValidator $requestValidator,
-        private readonly ColumbariumNicheFetcher               $columbariumNicheFetcher,
-        private readonly ColumbariumFetcher                    $columbariumFetcher
-    ) {}
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var ListColumbariumNichesRequest $request */
-        return $this->requestValidator->validate($request);
+        private readonly ColumbariumNicheFetcher $columbariumNicheFetcher,
+        private readonly ColumbariumFetcher      $columbariumFetcher,
+        ListColumbariumNichesRequestValidator    $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**

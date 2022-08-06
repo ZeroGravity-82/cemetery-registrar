@@ -12,7 +12,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class CreateJuristicPersonRequest extends ApplicationRequest
 {
     public function __construct(
-        public string  $name,
+        public ?string $name,
         public ?string $inn,
         public ?string $kpp,
         public ?string $ogrn,

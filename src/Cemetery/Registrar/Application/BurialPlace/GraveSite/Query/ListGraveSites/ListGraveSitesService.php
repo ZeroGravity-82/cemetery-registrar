@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSi
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 
@@ -17,20 +16,11 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 class ListGraveSitesService extends ApplicationService
 {
     public function __construct(
-        private readonly ListGraveSitesRequestValidator $requestValidator,
-        private readonly GraveSiteFetcher               $graveSiteFetcher,
-        private readonly CemeteryBlockFetcher           $cemeteryBlockFetcher,
-    ) {}
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var ListGraveSitesRequest $request */
-        return $this->requestValidator->validate($request);
+        private readonly GraveSiteFetcher     $graveSiteFetcher,
+        private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
+        ListGraveSitesRequestValidator        $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**

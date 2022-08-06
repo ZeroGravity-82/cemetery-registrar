@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
+use Cemetery\Registrar\Domain\Model\Organization\Name;
 use Cemetery\Tests\Registrar\Domain\Model\EventTest;
 
 /**
@@ -14,15 +16,25 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
 class JuristicPersonRemovedTest extends EventTest
 {
     private JuristicPersonId $juristicPersonId;
+    private Name             $juristicPersonName;
+    private Inn              $juristicPersonInn;
 
     public function setUp(): void
     {
-        $this->juristicPersonId = new JuristicPersonId('888');
-        $this->event            = new JuristicPersonRemoved($this->juristicPersonId);
+        $this->juristicPersonId   = new JuristicPersonId('888');
+        $this->juristicPersonName = new Name('ООО Рога и копыта');
+        $this->juristicPersonInn  = new Inn('7728168971');
+        $this->event              = new JuristicPersonRemoved(
+            $this->juristicPersonId,
+            $this->juristicPersonName,
+            $this->juristicPersonInn,
+        );
     }
 
     public function testItSuccessfullyCreated(): void
     {
         $this->assertSame($this->juristicPersonId, $this->event->juristicPersonId());
+        $this->assertSame($this->juristicPersonName, $this->event->juristicPersonName());
+        $this->assertSame($this->juristicPersonInn, $this->event->juristicPersonInn());
     }
 }

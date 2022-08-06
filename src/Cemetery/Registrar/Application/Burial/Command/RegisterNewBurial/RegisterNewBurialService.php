@@ -7,9 +7,6 @@ namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
-use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\Deceased;
-use Cemetery\Registrar\Application\Command\Burial\RegisterNewBurial\DeceasedId;
 use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainerFactory;
@@ -69,17 +66,9 @@ class RegisterNewBurialService extends ApplicationService
         private readonly GraveSiteRepository        $graveSiteRepo,
         private readonly ColumbariumNicheRepository $columbariumNicheRepo,
         private readonly MemorialTreeRepository     $memorialTreeRepo,
-    ) {}
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var RegisterNewBurialRequest $request */
-        return $this->requestValidator->validate($request);
+        RegisterNewBurialRequestValidator           $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**

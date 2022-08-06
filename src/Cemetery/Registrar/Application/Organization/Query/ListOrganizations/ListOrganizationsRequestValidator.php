@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\ListColumbariumNiches;
+namespace Cemetery\Registrar\Application\Organization\Query\ListOrganizations;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
@@ -11,10 +11,10 @@ use Cemetery\Registrar\Application\Notification;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListColumbariumNichesRequestValidator extends ApplicationRequestValidator
+class ListOrganizationsRequestValidator extends ApplicationRequestValidator
 {
     /**
-     * @param ListColumbariumNichesRequest $request
+     * @param ListOrganizationsRequest $request
      */
     public function validate(ApplicationRequest $request): Notification
     {

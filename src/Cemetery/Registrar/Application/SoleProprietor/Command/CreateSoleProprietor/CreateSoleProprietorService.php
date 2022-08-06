@@ -2,29 +2,29 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\JuristicPerson\Command\CreateJuristicPerson;
+namespace Cemetery\Registrar\Application\SoleProprietor\Command\CreateSoleProprietor;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\JuristicPerson\Command\JuristicPersonService;
+use Cemetery\Registrar\Application\SoleProprietor\Command\SoleProprietorService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCreated;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorFactory;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CreateJuristicPersonService extends JuristicPersonService
+class CreateSoleProprietorService extends SoleProprietorService
 {
     public function __construct(
-        private readonly JuristicPersonFactory    $juristicPersonFactory,
-        JuristicPersonRepository                  $juristicPersonRepo,
-        EventDispatcher                           $eventDispatcher,
-        CreateJuristicPersonRequestValidator      $requestValidator,
+        private readonly SoleProprietorFactory $juristicPersonFactory,
+        SoleProprietorRepository               $soleProprietorRepo,
+        EventDispatcher                        $eventDispatcher,
+        CreateSoleProprietorRequestValidator   $requestValidator,
     ) {
-        parent::__construct($juristicPersonRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($soleProprietorRepo, $eventDispatcher, $requestValidator);
     }
 
     /**
@@ -33,16 +33,15 @@ class CreateJuristicPersonService extends JuristicPersonService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        /** @var CreateJuristicPersonRequest $request */
+        /** @var CreateSoleProprietorRequest $request */
         $juristicPerson = $this->juristicPersonFactory->create(
             $request->name,
             $request->inn,
-            $request->kpp,
-            $request->ogrn,
+            $request->ogrnip,
             $request->okpo,
             $request->okved,
-            $request->legalAddress,
-            $request->postalAddress,
+            $request->registrationAddress,
+            $request->actualLocationAddress,
             $request->bankDetailsBankName,
             $request->bankDetailsBik,
             $request->bankDetailsCorrespondentAccount,
@@ -50,24 +49,23 @@ class CreateJuristicPersonService extends JuristicPersonService
             $request->phone,
             $request->phoneAdditional,
             $request->fax,
-            $request->generalDirector,
             $request->email,
             $request->website,
         );
-        $this->juristicPersonRepo->save($juristicPerson);
-        $this->eventDispatcher->dispatch(new JuristicPersonCreated(
+        $this->soleProprietorRepo->save($juristicPerson);
+        $this->eventDispatcher->dispatch(new SoleProprietorCreated(
             $juristicPerson->id(),
             $juristicPerson->name(),
             $juristicPerson->inn(),
         ));
 
-        return new CreateJuristicPersonResponse(
+        return new CreateSoleProprietorResponse(
             $juristicPerson->id()->value(),
         );
     }
 
     protected function supportedRequestClassName(): string
     {
-        return CreateJuristicPersonRequest::class;
+        return CreateSoleProprietorRequest::class;
     }
 }

@@ -6,12 +6,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial\RegisterNewBurialRequest;
-use Cemetery\Registrar\Application\Burial\Query\CountBurialTotal\CountBurialTotalRequest;
 use Cemetery\Registrar\Application\Burial\Query\ListBurials\ListBurialsRequest;
-use Cemetery\Registrar\Application\Burial\Query\ListCoffinShapes\ListCoffinShapesRequest;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListCemeteryBlocks\ListCemeteryBlocksRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
-use Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies\ListFuneralCompaniesRequest;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,16 +26,18 @@ class BurialController extends Controller
     #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
     public function list(): Response
     {
-        $burialTotalCount   = $this->appRequestBus->execute(new CountBurialTotalRequest())->totalCount;
-        $burialList         = $this->appRequestBus->execute(new ListBurialsRequest())->list;
-        $funeralCompanyList = $this->appRequestBus->execute(new ListFuneralCompaniesRequest())->list;
-        $causeOfDeathList   = $this->appRequestBus->execute(new ListCausesOfDeathRequest())->list;
-        $cemeteryBlockList  = $this->appRequestBus->execute(new ListCemeteryBlocksRequest())->list;
-        $coffinShapeList    = $this->appRequestBus->execute(new ListCoffinShapesRequest())->list;
+        $queryRequest       = new ListBurialsRequest();
+        $queryResponse      = $this->appRequestBus->execute($queryRequest);
+        $list               = $queryResponse->data->list;
+        $totalCount         = $queryResponse->data->totalCount;
+        $funeralCompanyList = $queryResponse->data->funeralCompanyList;
+        $causeOfDeathList   = $queryResponse->data->causeOfDeathList;
+        $cemeteryBlockList  = $queryResponse->data->cemeteryBlockList;
+        $coffinShapeList    = $queryResponse->data->coffinShapeList;
 
         return $this->render('burial/list.html.twig', [
-            'burialTotalCount'   => $burialTotalCount,
-            'burialList'         => $burialList,
+            'list'               => $list,
+            'totalCount'         => $totalCount,
             'funeralCompanyList' => $funeralCompanyList,
             'causeOfDeathList'   => $causeOfDeathList,
             'cemeteryBlockList'  => $cemeteryBlockList,

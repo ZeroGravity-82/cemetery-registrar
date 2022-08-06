@@ -35,8 +35,8 @@ class AdminCauseOfDeathController extends Controller
         $totalCount    = $queryResponse->data->totalCount;
 
         return $this->render('admin/cause_of_death/list.html.twig', [
-            'causeOfDeathList'       => $list,
-            'causeOfDeathTotalCount' => $totalCount,
+            'list'       => $list,
+            'totalCount' => $totalCount,
         ]);
     }
 

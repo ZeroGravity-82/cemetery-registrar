@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompani
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\Notification;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 
 /**
@@ -17,17 +16,9 @@ class ListFuneralCompaniesService extends ApplicationService
 {
     public function __construct(
         private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
-    ) {}
-
-    /**
-     * @throws \InvalidArgumentException when the request is not an instance of the supported class
-     */
-    public function validate(ApplicationRequest $request): Notification
-    {
-        $this->assertSupportedRequestClass($request);
-
-        /** @var ListFuneralCompaniesRequest $request */
-        return $this->requestValidator->validate($request);
+        ListFuneralCompaniesRequestValidator   $requestValidator,
+    ) {
+        parent::__construct($requestValidator);
     }
 
     /**
@@ -35,7 +26,10 @@ class ListFuneralCompaniesService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new ListFuneralCompaniesResponse($this->funeralCompanyFetcher->findAll(1));
+        return new ListFuneralCompaniesResponse(
+            $this->funeralCompanyFetcher->findAll(1),
+            $this->funeralCompanyFetcher->countTotal(),
+        );
     }
 
     protected function supportedRequestClassName(): string
