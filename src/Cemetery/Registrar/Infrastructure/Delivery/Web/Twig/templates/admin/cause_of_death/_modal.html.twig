@@ -1,0 +1,23 @@
+{% extends '_modal.html.twig' %}
+
+{% block form %}
+  <form
+      data-action-new="{{ path('admin_cause_of_death_create') }}"
+      data-action-show="{{ path('admin_cause_of_death_show', {'id': '{id}'})|url_decode }}"
+      data-action-edit="{{ path('admin_cause_of_death_edit', {'id': '{id}'})|url_decode }}"
+      data-action-remove="{{ path('admin_cause_of_death_remove', {'id': '{id}'})|url_decode }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 text-start">
+          <label for="name" class="form-label">Наименование</label>
+        </div>
+        <div class="col-md-9">
+          <input type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="nameFeedback">
+          <div id="nameFeedback" class="invalid-feedback d-none"></div>
+        </div>
+      </div>
+    </div>
+    <input type="hidden" id="token" name="token" value="{{ csrf_token('cause_of_death') }}">
+    {% include '_modal_buttons.html.twig' %}
+  </form>
+{% endblock %}

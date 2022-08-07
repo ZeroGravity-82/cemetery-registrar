@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\CauseOfDeath;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;

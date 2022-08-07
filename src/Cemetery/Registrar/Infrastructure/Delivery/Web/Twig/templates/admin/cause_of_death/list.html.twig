@@ -26,18 +26,12 @@
     </div>
   </div>
 
-  {% include 'admin/cause_of_death/_modal_cause_of_death.html.twig' %}
+  {% include 'admin/cause_of_death/_modal.html.twig' with {'context': 'CauseOfDeath'} %}
 
-{% endblock %}
-
-{% block stylesheets %}
-  {{ parent() }}
-
-  <link href="/css/cause-of-death.css" rel="stylesheet">
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
-  <script src="/js/cause-of-death.js"></script>
+  <script src="/js/admin/cause-of-death/cause-of-death.js"></script>
 {% endblock %}

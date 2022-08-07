@@ -26,18 +26,12 @@
     </div>
   </div>
 
-{#  {% include 'admin/burial_place/memorial_tree/_modal_new.html.twig' %}#}
+  {% include 'admin/burial_place/memorial_tree/_modal.html.twig' with {'context': 'MemorialTree'} %}
 
-{% endblock %}
-
-{% block stylesheets %}
-  {{ parent() }}
-
-  <link href="/css/burial-place.css" rel="stylesheet">
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
-  <script src="/js/burial-place.js"></script>
+  <script src="/js/admin/burial-place/memorial-tree/memorial-tree.js"></script>
 {% endblock %}

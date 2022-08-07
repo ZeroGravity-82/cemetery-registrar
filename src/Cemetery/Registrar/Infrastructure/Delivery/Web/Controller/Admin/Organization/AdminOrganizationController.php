@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\Organization;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\Organization\Query\ListOrganizations\ListOrganizationsRequest;
