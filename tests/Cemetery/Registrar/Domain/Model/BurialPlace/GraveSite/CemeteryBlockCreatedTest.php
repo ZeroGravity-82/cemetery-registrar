@@ -19,8 +19,8 @@ class CemeteryBlockCreatedTest extends EventTest
 
     public function setUp(): void
     {
-        $this->cemeteryBlockId   = new CemeteryBlockId('CD001');
-        $this->cemeteryBlockName = new CemeteryBlockName('Асфиксия');
+        $this->cemeteryBlockId   = new CemeteryBlockId('CB001');
+        $this->cemeteryBlockName = new CemeteryBlockName('южный');
         $this->event             = new CemeteryBlockCreated(
             $this->cemeteryBlockId,
             $this->cemeteryBlockName,
