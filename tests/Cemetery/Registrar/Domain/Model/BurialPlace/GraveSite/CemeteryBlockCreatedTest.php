@@ -30,6 +30,6 @@ class CemeteryBlockCreatedTest extends EventTest
     public function testItSuccessfullyCreated(): void
     {
         $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
-        $this->assertTrue($this->cemeteryBlockName->isEqual($this->event->cemeteryBlockId()));
+        $this->assertTrue($this->cemeteryBlockName->isEqual($this->event->cemeteryBlockName()));
     }
 }
