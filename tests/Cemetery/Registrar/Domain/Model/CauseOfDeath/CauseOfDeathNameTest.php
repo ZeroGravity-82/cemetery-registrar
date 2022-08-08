@@ -52,6 +52,6 @@ class CauseOfDeathNameTest extends TestCase
     private function expectExceptionForEmptyValue(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Причина смерти не может иметь пустое значение.');
+        $this->expectExceptionMessage('Причина смерти не может иметь пустое наименование.');
     }
 }
