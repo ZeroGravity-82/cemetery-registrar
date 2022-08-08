@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class Error
 {
-    private const VALUE_PATTERN = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 0, 12.5, 1, etc.
+    private const FORMAT = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 0, 12.5, 1, etc.
 
     private string $value;
 
@@ -79,7 +79,7 @@ class Error
      */
     private function assertValidFormat(string $value): void
     {
-        if (!\preg_match(self::VALUE_PATTERN, $value)) {
+        if (!\preg_match(self::FORMAT, $value)) {
             throw new Exception('Неверный формат погрешности.');
         }
     }
