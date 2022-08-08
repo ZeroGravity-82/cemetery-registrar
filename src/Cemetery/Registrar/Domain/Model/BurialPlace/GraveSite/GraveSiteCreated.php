@@ -15,7 +15,7 @@ class GraveSiteCreated extends Event
         private GraveSiteId     $graveSiteId,
         private CemeteryBlockId $cemeteryBlockId,
         private RowInBlock      $rowInBlock,
-        private PositionInRow   $positionInRow,
+        private ?PositionInRow  $positionInRow,
     ) {
         parent::__construct();
     }
@@ -35,7 +35,7 @@ class GraveSiteCreated extends Event
         return $this->rowInBlock;
     }
 
-    public function positionInRow(): PositionInRow
+    public function positionInRow(): ?PositionInRow
     {
         return $this->positionInRow;
     }
