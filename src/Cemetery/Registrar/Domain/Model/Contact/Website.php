@@ -93,7 +93,7 @@ class Website
         $value              = $this->trim($value);
         $alphanumericSymbol = '[a-z\p{Cyrillic}\d]';
         $alphabetSymbol     = '[a-z\p{Cyrillic}]';
-        $pattern            = \sprintf(
+        $format             = \sprintf(
             '/^(%s(-*%s)*)(\.(%s(-*%s)*))*\.%s{2,}$/iu',
             $alphanumericSymbol,
             $alphanumericSymbol,
@@ -101,7 +101,7 @@ class Website
             $alphanumericSymbol,
             $alphabetSymbol
         );
-        if (!\preg_match($pattern, $value)) {
+        if (!\preg_match($format, $value)) {
             $this->throwInvalidFormatException();
         }
     }
