@@ -13,9 +13,9 @@ use PHPUnit\Framework\TestCase;
  */
 class CoordinatesTest extends TestCase
 {
-    public function testItHasValidValuePatternConstant(): void
+    public function testItHasValidFormatConstant(): void
     {
-        $this->assertSame('~^[+|\-]?\d+(?:\.\d+)?$~', Coordinates::VALUE_PATTERN);
+        $this->assertSame('~^[+|\-]?\d+(?:\.\d+)?$~', Coordinates::FORMAT);
     }
 
     public function testItSuccessfullyCreated(): void
@@ -114,6 +114,14 @@ class CoordinatesTest extends TestCase
         $this->assertTrue($coordinatesA->isEqual($coordinatesD));
         $this->assertFalse($coordinatesB->isEqual($coordinatesD));
         $this->assertFalse($coordinatesC->isEqual($coordinatesD));
+    }
+
+    public function testItChecksFormat(): void
+    {
+        $this->assertTrue(Coordinates::isValidFormat('-054.950357'));
+        $this->assertTrue(Coordinates::isValidFormat('82.7972252'));
+        $this->assertFalse(Coordinates::isValidFormat('-82.7A'));
+        $this->assertFalse(Coordinates::isValidFormat('54..9503'));
     }
 
     private function expectExceptionForEmptyValue(string $name): void

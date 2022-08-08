@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class Coordinates
 {
-    public const VALUE_PATTERN = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
+    public const FORMAT = '~^[+|\-]?\d+(?:\.\d+)?$~';    // examples: 54.950357, 0, -165.1282, 90, etc.
 
     private string $latitude;
     private string $longitude;
@@ -57,6 +57,11 @@ class Coordinates
         return $isSameLatitude && $isSameLongitude;
     }
 
+    public static function isValidFormat(string $value): bool
+    {
+        return \preg_match(self::FORMAT, $value) === 1;
+    }
+
     /**
      * @throws Exception when the latitude value is empty
      * @throws Exception when the latitude value has an invalid format
@@ -96,7 +101,7 @@ class Coordinates
      */
     private function assertValidFormat(string $value, string $name): void
     {
-        if (!\preg_match(self::VALUE_PATTERN, $value)) {
+        if (!\preg_match(self::FORMAT, $value)) {
             throw new Exception(\sprintf('Неверный формат %s.', $name));
         }
     }
