@@ -33,8 +33,8 @@ class JuristicPersonCreatedTest extends EventTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertSame($this->juristicPersonId, $this->event->juristicPersonId());
-        $this->assertSame($this->juristicPersonName, $this->event->juristicPersonName());
-        $this->assertSame($this->juristicPersonInn, $this->event->juristicPersonInn());
+        $this->assertTrue($this->juristicPersonId->isEqual($this->event->juristicPersonId()));
+        $this->assertTrue($this->juristicPersonName->isEqual($this->event->juristicPersonName()));
+        $this->assertTrue($this->juristicPersonInn->isEqual($this->event->juristicPersonInn()));
     }
 }
