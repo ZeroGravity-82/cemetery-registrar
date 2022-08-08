@@ -60,10 +60,11 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
 
     private function queryViewData(string $id): false|array
     {
-        return $this->connection->createQueryBuilder()
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
                 'gs.id                                       AS id',
                 'gs.cemetery_block_id                        AS cemeteryBlockId',
+                'cb.name                                     AS cemeteryBlockName',
                 'gs.row_in_block                             AS rowInBlock',
                 'gs.position_in_row                          AS positionInRow',
                 'gs.geo_position->>"$.coordinates.latitude"  AS geoPositionLatitude',
@@ -76,7 +77,10 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
             ->from('grave_site', 'gs')
             ->andWhere('gs.id = :id')
             ->andWhere('gs.removed_at IS NULL')
-            ->setParameter('id', $id)
+            ->setParameter('id', $id);
+        $this->appendJoins($queryBuilder);
+
+        return $queryBuilder
             ->executeQuery()
             ->fetchAssociative();
     }
@@ -122,6 +126,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return new GraveSiteView(
             $viewData['id'],
             $viewData['cemeteryBlockId'],
+            $viewData['cemeteryBlockName'],
             $viewData['rowInBlock'],
             $viewData['positionInRow'],
             $viewData['geoPositionLatitude'],

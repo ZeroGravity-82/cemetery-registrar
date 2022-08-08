@@ -12,6 +12,7 @@ class GraveSiteView
     public function __construct(
         public string  $id,
         public string  $cemeteryBlockId,
+        public string  $cemeteryBlockName,
         public int     $rowInBlock,
         public ?int    $positionInRow,
         public ?string $geoPositionLatitude,
