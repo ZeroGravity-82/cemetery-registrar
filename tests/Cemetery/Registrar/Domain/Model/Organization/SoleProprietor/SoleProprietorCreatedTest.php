@@ -33,8 +33,8 @@ class SoleProprietorCreatedTest extends EventTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertSame($this->soleProprietorId, $this->event->soleProprietorId());
-        $this->assertSame($this->soleProprietorName, $this->event->soleProprietorName());
-        $this->assertSame($this->soleProprietorInn, $this->event->soleProprietorInn());
+        $this->assertTrue($this->soleProprietorId->isEqual($this->event->soleProprietorId()));
+        $this->assertTrue($this->soleProprietorName->isEqual($this->event->soleProprietorName()));
+        $this->assertTrue($this->soleProprietorInn->isEqual($this->event->soleProprietorInn()));
     }
 }
