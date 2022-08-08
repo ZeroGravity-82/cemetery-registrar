@@ -7,15 +7,35 @@
       data-action-edit="{{ path('admin_grave_site_edit', {'id': '{id}'})|url_decode }}"
       data-action-remove="{{ path('admin_grave_site_remove', {'id': '{id}'})|url_decode }}">
     <div class="container">
-{#      <div class="row">#}
-{#        <div class="col-md-3 text-start">#}
-{#          <label for="name" class="form-label">Наименование</label>#}
-{#        </div>#}
-{#        <div class="col-md-9">#}
-{#          <input type="text" class="form-control form-control-sm" id="name" name="name" aria-describedby="nameFeedback">#}
-{#          <div id="nameFeedback" class="invalid-feedback d-none"></div>#}
-{#        </div>#}
-{#      </div>#}
+      <div class="row">
+        <div class="col-md-3 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
+        <div class="col-md-9">
+          <select class="form-select form-select-sm" id="cemeteryBlockId" name="cemeteryBlockId" aria-label="Квартал">
+            <option selected>
+            {% for listItem in cemeteryBlockList.items %}
+              <option value="{{ listItem.id }}">
+                {{- listItem.name -}}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label for="rowInBlock" class="form-label">Ряд</label></div>
+        <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="rowInBlock" name="rowInBlock"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label for="positionInRow" class="form-label">Место</label></div>
+        <div class="col-md-9"><input type="number" min="1" class="form-control form-control-sm" id="positionInRow" name="positionInRow"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label for="size" class="form-label">Размер</label></div>
+        <div class="col-md-9"><input type="number" min="0.1" max="100.0" step="0.1" class="form-control form-control-sm" id="size" name="size"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label for="geoPosition" class="form-label">Геопозиция</label></div>
+        <div class="col-md-9"><input type="text" class="form-control form-control-sm" id="geoPosition" name="geoPosition"></div>
+      </div>
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
     {% include '_modal_buttons.html.twig' %}

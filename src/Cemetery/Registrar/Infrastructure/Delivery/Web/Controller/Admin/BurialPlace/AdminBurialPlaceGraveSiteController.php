@@ -6,10 +6,12 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\Burial
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateCemeteryBlock\CreateCemeteryBlockRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditCemeteryBlock\EditCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveCemeteryBlock\RemoveCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSites\ListGraveSitesRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowCemeteryBlock\ShowCemeteryBlockRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowGraveSite\ShowGraveSiteRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
@@ -46,7 +48,10 @@ class AdminBurialPlaceGraveSiteController extends Controller
     #[Route('/admin/grave-site/{id}', name: 'admin_grave_site_show', methods: HttpRequest::METHOD_GET)]
     public function showGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
-        // TODO implement
+        $queryRequest  = $this->handleJsonRequest($httpRequest, ShowGraveSiteRequest::class);
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+
+        return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
     }
 
     #[Route('/admin/cemetery-block/{id}', name: 'admin_cemetery_block_show', methods: HttpRequest::METHOD_GET)]
@@ -61,7 +66,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
     #[Route('/admin/grave-site/create', name: 'admin_grave_site_create', methods: HttpRequest::METHOD_POST)]
     public function createGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
-        // TODO implement
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, CreateGraveSiteRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
     }
 
     #[Route('/admin/cemetery-block/create', name: 'admin_cemetery_block_create', methods: HttpRequest::METHOD_POST)]

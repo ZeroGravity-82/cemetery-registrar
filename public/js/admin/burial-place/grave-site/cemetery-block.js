@@ -1,77 +1,77 @@
-const $table                 = $(`#cemeteryBlockList`);
-const $modal                 = $(`#modalCemeteryBlock`);
-const $modalTitle            = $modal.find(`.modal-title`)
-const $modalForm             = $(`#modalCemeteryBlock form`);
-const $modalNameField        = $modal.find(`input[id=name]`);
-const $modalCsrfTokenField   = $modal.find(`input[id=token]`);
-const $modalRemoveBtnWrapper = $modal.find(`.js-remove-wrapper`);
-const $modalSaveBtn          = $modal.find(`.js-save`);
-const $modalTimestamps       = $modal.find(`.timestamps`);
-const modalObject            = new bootstrap.Modal(`#modalCemeteryBlock`, {});
+const $tableCemeteryBlock                 = $(`#cemeteryBlockList`);
+const $modalCemeteryBlock                 = $(`#modalCemeteryBlock`);
+const $modalCemeteryBlockTitle            = $modalCemeteryBlock.find(`.modal-title`)
+const $modalCemeteryBlockForm             = $modalCemeteryBlock.find(`form`);
+const $modalCemeteryBlockNameField        = $modalCemeteryBlock.find(`input[id=name]`);
+const $modalCemeteryBlockCsrfTokenField   = $modalCemeteryBlock.find(`input[id=token]`);
+const $modalCemeteryBlockRemoveBtnWrapper = $modalCemeteryBlock.find(`.js-remove-wrapper`);
+const $modalCemeteryBlockSaveBtn          = $modalCemeteryBlock.find(`.js-save`);
+const $modalCemeteryBlockTimestamps       = $modalCemeteryBlock.find(`.timestamps`);
+const modalCemeteryBlockObject            = new bootstrap.Modal(`#modalCemeteryBlock`, {});
 
-let mode = null;
-let id   = null;
+let modeCemeteryBlock = null;
+let idCemeteryBlock   = null;
 
 // Create
 $body.on(`click`, `.js-create-cemetery-block-btn`, () => {
-  mode = `new`;
-  id   = null;
-  $modal.data(`id`, id);
-  $modal.removeClass(`edit-form`);
-  $modalRemoveBtnWrapper.removeClass(`d-none`).addClass(`d-none`);
-  $modalSaveBtn.removeClass(`d-none`).addClass(`d-none`);
-  $modalTimestamps.removeClass(`d-none`).addClass(`d-none`);
-  $modalTitle.html(`Кварталы (создание)`);
-  $modalNameField.val(null);
-  hideAllValidationErrors();
-  modalObject.show();
+  modeCemeteryBlock = `new`;
+  idCemeteryBlock   = null;
+  $modalCemeteryBlock.data(`id`, idCemeteryBlock);
+  $modalCemeteryBlock.removeClass(`edit-form`);
+  $modalCemeteryBlockRemoveBtnWrapper.removeClass(`d-none`).addClass(`d-none`);
+  $modalCemeteryBlockSaveBtn.removeClass(`d-none`).addClass(`d-none`);
+  $modalCemeteryBlockTimestamps.removeClass(`d-none`).addClass(`d-none`);
+  $modalCemeteryBlockTitle.html(`Кварталы (создание)`);
+  $modalCemeteryBlockNameField.val(null);
+  hideAllValidationErrorsCemeteryBlock();
+  modalCemeteryBlockObject.show();
 });
 
 // Edit
-$table.on(`click`, `td`, (e) => {
+$tableCemeteryBlock.on(`click`, `td`, (e) => {
   $spinner.show();
-  mode = `edit`;
-  id   = $(e.target).closest(`tr`).attr(`data-id`);
+  modeCemeteryBlock = `edit`;
+  idCemeteryBlock   = $(e.target).closest(`tr`).attr(`data-id`);
   $.ajax({
     dataType: `json`,
     method: `GET`,
-    url: getShowActionUrl(id),
+    url: getShowActionUrlCemeteryBlock(idCemeteryBlock),
   })
   .done((responseJson) => {
     const view = responseJson.data.view;
-    $modal.data(`id`, id);
-    $modal.removeClass(`edit-form`).addClass(`edit-form`);
-    $modalRemoveBtnWrapper.removeClass(`d-none`);
-    $modalSaveBtn.removeClass(`d-none`);
-    $modalTimestamps.removeClass(`d-none`);
-    $modalTitle.html(`<span>${view.name}</span> (Кварталы)`);
-    $modalNameField.val(view.name);
-    hideAllValidationErrors();
-    modalObject.show();
+    $modalCemeteryBlock.data(`id`, idCemeteryBlock);
+    $modalCemeteryBlock.removeClass(`edit-form`).addClass(`edit-form`);
+    $modalCemeteryBlockRemoveBtnWrapper.removeClass(`d-none`);
+    $modalCemeteryBlockSaveBtn.removeClass(`d-none`);
+    $modalCemeteryBlockTimestamps.removeClass(`d-none`);
+    $modalCemeteryBlockTitle.html(`<span>${view.name}</span> (Кварталы)`);
+    $modalCemeteryBlockNameField.val(view.name);
+    hideAllValidationErrorsCemeteryBlock();
+    modalCemeteryBlockObject.show();
   })
-  .fail(onAjaxFailure)
+  .fail(onAjaxFailureCemeteryBlock)
   .always(onAjaxAlways);
 });
 
 // Autofocus
 $(document).ready(() => {
   $(`#modalCemeteryBlock`).on(`shown.bs.modal`, (e) => {
-    const $modal = $(e.target);
-    $modal.find(`#name`).select();
+    const $modalCemeteryBlock = $(e.target);
+    $modalCemeteryBlock.find(`#name`).select();
   });
 });
 
-$modal.on(`click`, `.js-save`, () => {
-  save(getSaveActionUrl());
+$modalCemeteryBlock.on(`click`, `.js-save`, () => {
+  saveCemeteryBlock(getSaveActionUrlCemeteryBlock());
 });
-$modal.on(`click`, `.js-save-and-close`, () => {
-  save(getSaveActionUrl(), true);
+$modalCemeteryBlock.on(`click`, `.js-save-and-close`, () => {
+  saveCemeteryBlock(getSaveActionUrlCemeteryBlock(), true);
 });
-$modal.on(`click`, `.js-close`, () => {
-  close();
+$modalCemeteryBlock.on(`click`, `.js-close`, () => {
+  closeCemeteryBlock();
 });
-$modal.on(`click`, `.js-remove`, () => {
-  const name = $modalTitle.find(`span`).html();
+$modalCemeteryBlock.on(`click`, `.js-remove`, () => {
+  const name = $modalCemeteryBlockTitle.find(`span`).html();
   Swal.fire({
     title: `Удалить квартал "${name}"?`,
     icon: `warning`,
@@ -84,18 +84,18 @@ $modal.on(`click`, `.js-remove`, () => {
   })
   .then((result) => {
     if (result.isConfirmed) {
-      remove(getRemoveActionUrl());
+      removeCemeteryBlock(getRemoveActionUrlCemeteryBlock());
     }
   });
 });
 
-function save(url, isReloadRequired = false)
+function saveCemeteryBlock(url, isReloadRequired = false)
 {
   $spinner.show();
-  const method = mode === `new` ? `POST` : `PUT`;
+  const method = modeCemeteryBlock === `new` ? `POST` : `PUT`;
   const data   = {
-    name: $modalNameField.val(),
-    token: $modalCsrfTokenField.val(),
+    name: $modalCemeteryBlockNameField.val(),
+    token: $modalCemeteryBlockCsrfTokenField.val(),
   };
   $.ajax({
     dataType: `json`,
@@ -107,21 +107,21 @@ function save(url, isReloadRequired = false)
   .done(() => {
     buildToast().fire({
       icon: `success`,
-      title: `Квартал успешно ${mode === `new` ? `создан` : `отредактирован`}.`,
+      title: `Квартал успешно ${modeCemeteryBlock === `new` ? `создан` : `отредактирован`}.`,
     });
     if (isReloadRequired) {
-      modalObject.hide();
+      modalCemeteryBlockObject.hide();
       location.reload();      // TODO refactor not to reload entire page
     }
   })
-  .fail(onAjaxFailure)
+  .fail(onAjaxFailureCemeteryBlock)
   .always(onAjaxAlways);
 }
-function remove(url)
+function removeCemeteryBlock(url)
 {
   $spinner.show();
   const data = {
-    token: $modalCsrfTokenField.val(),
+    token: $modalCemeteryBlockCsrfTokenField.val(),
   };
   $.ajax({
     dataType: `json`,
@@ -134,28 +134,28 @@ function remove(url)
       icon: `success`,
       title: `Квартал успешно удалён.`,
     });
-    modalObject.hide();
+    modalCemeteryBlockObject.hide();
     location.reload();        // TODO refactor not to reload entire page
   })
-  .fail(onAjaxFailure)
+  .fail(onAjaxFailureCemeteryBlock)
   .always(onAjaxAlways);
 }
-function close()
+function closeCemeteryBlock()
 {
-  modalObject.hide();
+  modalCemeteryBlockObject.hide();
   location.reload();            // TODO refactor not to reload entire page
 }
 
-function getSaveActionUrl()
+function getSaveActionUrlCemeteryBlock()
 {
   let url = null;
 
-  if (mode === `new`) {
-    url = getNewActionUrl();
+  if (modeCemeteryBlock === `new`) {
+    url = getNewActionUrlCemeteryBlock();
   }
-  if (mode === `edit`) {
-    const id = $modal.data(`id`);
-    url      = getEditActionUrl(id);
+  if (modeCemeteryBlock === `edit`) {
+    const idCemeteryBlock = $modalCemeteryBlock.data(`id`);
+    url                   = getEditActionUrlCemeteryBlock(idCemeteryBlock);
   }
 
   if (url === null) {
@@ -164,30 +164,30 @@ function getSaveActionUrl()
 
   return url;
 }
-function getRemoveActionUrl()
+function getRemoveActionUrlCemeteryBlock()
 {
-  return $modalForm.data(`action-remove`).replace(`{id}`, id);
+  return $modalCemeteryBlockForm.data(`action-remove`).replace(`{id}`, idCemeteryBlock);
 }
-function getNewActionUrl()
+function getNewActionUrlCemeteryBlock()
 {
-  return $modalForm.data(`action-new`);
+  return $modalCemeteryBlockForm.data(`action-new`);
 }
-function getShowActionUrl(id)
+function getShowActionUrlCemeteryBlock(idCemeteryBlock)
 {
-  return $modalForm.data(`action-show`).replace(`{id}`, id);
+  return $modalCemeteryBlockForm.data(`action-show`).replace(`{id}`, idCemeteryBlock);
 }
-function getEditActionUrl(id)
+function getEditActionUrlCemeteryBlock(idCemeteryBlock)
 {
-  return $modalForm.data(`action-edit`).replace(`{id}`, id);
+  return $modalCemeteryBlockForm.data(`action-edit`).replace(`{id}`, idCemeteryBlock);
 }
 
 
 // ------------------------------------------------- Validation errors -------------------------------------------------
 // TODO refactor to extract to common file
-function displayValidationErrors(data)
+function displayValidationErrorsCemeteryBlock(data)
 {
   for (const [fieldId, validationError] of Object.entries(data)) {
-    const $field = $modalForm.find(`#${fieldId}`);
+    const $field = $modalCemeteryBlockForm.find(`#${fieldId}`);
     if ($field.length === 0) {
       buildToast().fire({
         icon: `error`,
@@ -198,23 +198,72 @@ function displayValidationErrors(data)
 
     $field.removeClass(`is-invalid`).addClass(`is-invalid`);
     const ariaDescribedby  = $field.attr(`aria-describedby`);
-    const $invalidFeedback = $modalForm.find(`#${ariaDescribedby}`);
+    const $invalidFeedback = $modalCemeteryBlockForm.find(`#${ariaDescribedby}`);
     $invalidFeedback.html(validationError);
     $invalidFeedback.removeClass(`d-none`);
   }
 }
-function hideAllValidationErrors()
+function hideAllValidationErrorsCemeteryBlock()
 {
-  $modalForm.find(`.is-invalid`).removeClass(`is-invalid`);
+  $modalCemeteryBlockForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
-$modalForm.on(`change`, `.is-invalid`, (e) => {
-  removeValidationError(e);
+$modalCemeteryBlockForm.on(`change`, `.is-invalid`, (e) => {
+  removeValidationErrorCemeteryBlock(e);
 });
-$modalForm.on(`input`, `.is-invalid`, (e) => {
-  removeValidationError(e);
+$modalCemeteryBlockForm.on(`input`, `.is-invalid`, (e) => {
+  removeValidationErrorCemeteryBlock(e);
 });
-function removeValidationError(e)
+function removeValidationErrorCemeteryBlock(e)
 {
   const $field = $(e.target);
   $field.removeClass(`is-invalid`);
+}
+
+
+// ----------------------------------------- Application services ------------------------------------------------------
+function onAjaxFailureCemeteryBlock(jqXHR) {
+  if (jqXHR.responseText === undefined) {
+    buildToast().fire({
+      icon: `error`,
+      title: `Сервер не отвечает.`,
+    });
+    return;
+  }
+  const responseJson = JSON.parse(jqXHR.responseText);
+  switch (responseJson.status) {
+    case `fail`:
+      processApplicationFailResponseCemeteryBlock(responseJson);
+      break;
+    case `error`:
+      processApplicationErrorResponseCemeteryBlock(responseJson);
+      break;
+    default:
+      throw `Неподдерживаемый статус ответа прикладного сервиса: "${responseJson.status}".`;
+  }
+}
+
+function processApplicationFailResponseCemeteryBlock(responseJson) {
+  const failType = responseJson.data.failType;
+  switch (failType) {
+    case `VALIDATION_ERROR`:
+      delete responseJson.data.failType;
+      displayValidationErrorsCemeteryBlock(responseJson.data)
+      break;
+    case `NOT_FOUND`:
+    case `DOMAIN_EXCEPTION`:
+      buildToast().fire({
+        icon: `warning`,
+        title: responseJson.data.message,
+      })
+      break;
+    default:
+      throw `Неподдерживаемый тип отказа выполнения запроса прикладного сервиса: "${failType}".`;
+  }
+}
+
+function processApplicationErrorResponseCemeteryBlock(responseJson) {
+  buildToast().fire({
+    icon: `error`,
+    title: responseJson.message,
+  })
 }

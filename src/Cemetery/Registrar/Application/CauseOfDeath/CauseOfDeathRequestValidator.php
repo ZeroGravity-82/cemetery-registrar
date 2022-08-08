@@ -14,7 +14,10 @@ abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
 {
     protected function validateId(ApplicationRequest $request): self
     {
-        if ($this->hasProperty($request, 'id') && $this->isEmpty($request->id)) {
+        if (
+            $this->hasProperty($request, 'id') &&
+            ($request->id === null || empty(\trim($request->id)))
+        ) {
             $this->note->addError('id', 'Идентификатор причины смерти не задан.');
         }
 
@@ -23,7 +26,10 @@ abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
 
     protected function validateName(ApplicationRequest $request): self
     {
-        if ($this->hasProperty($request, 'name') && $this->isEmpty($request->name)) {
+        if (
+            $this->hasProperty($request, 'name') &&
+            ($request->name === null || empty(\trim($request->name)))
+        ) {
             $this->note->addError('name', 'Причина смерти не может иметь пустое наименование.');
         }
 

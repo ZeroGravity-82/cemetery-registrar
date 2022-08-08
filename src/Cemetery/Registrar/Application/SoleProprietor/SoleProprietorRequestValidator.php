@@ -14,7 +14,10 @@ abstract class SoleProprietorRequestValidator extends ApplicationRequestValidato
 {
     protected function validateId(ApplicationRequest $request): self
     {
-        if ($this->hasProperty($request, 'id') && $this->isEmpty($request->id)) {
+        if (
+            $this->hasProperty($request, 'id') &&
+            ($request->id === null || empty(\trim($request->id)))
+        ) {
             $this->note->addError('id', 'Идентификатор ИП не задан.');
         }
 
@@ -23,7 +26,10 @@ abstract class SoleProprietorRequestValidator extends ApplicationRequestValidato
 
     protected function validateName(ApplicationRequest $request): self
     {
-        if ($this->hasProperty($request, 'name') && $this->isEmpty($request->name)) {
+        if (
+            $this->hasProperty($request, 'name') &&
+            ($request->name === null || empty(\trim($request->name)))
+        ) {
             $this->note->addError('name', 'ИП не может иметь пустое наименование.');
         }
 

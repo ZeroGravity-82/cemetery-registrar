@@ -213,9 +213,9 @@ class BurialController extends Controller
             [$latitudeRaw, $longitudeRaw] = \explode(',', $geoPosition);
             $latitude                     = \trim($latitudeRaw);
             $longitude                    = \trim($longitudeRaw);
-            $coordinateValuePattern       = Coordinates::VALUE_PATTERN;
-            $isLatitudeHasValidFormat     = \preg_match($coordinateValuePattern, $latitude)  === 1;
-            $isLongitudeHasValidFormat    = \preg_match($coordinateValuePattern, $longitude) === 1;
+            $coordinateFormat             = Coordinates::FORMAT;
+            $isLatitudeHasValidFormat     = \preg_match($coordinateFormat, $latitude)  === 1;
+            $isLongitudeHasValidFormat    = \preg_match($coordinateFormat, $longitude) === 1;
         }
         if (!$hasComma || !$isLatitudeHasValidFormat || !$isLongitudeHasValidFormat) {
             throw new \RuntimeException(\sprintf('Неверный формат геопозиции "%s".', $geoPosition));

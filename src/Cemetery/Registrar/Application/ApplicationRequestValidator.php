@@ -34,9 +34,4 @@ abstract class ApplicationRequestValidator
 
         return $hasProperty;
     }
-
-    protected function isEmpty(mixed $value): bool
-    {
-        return $value === null || empty(\trim($value));
-    }
 }
