@@ -71,6 +71,14 @@ class ErrorTest extends TestCase
         $this->assertFalse($errorB->isEqual($errorC));
     }
 
+    public function testItChecksFormat(): void
+    {
+        $this->assertTrue(Error::isValidFormat('0.89'));
+        $this->assertFalse(Error::isValidFormat('-1.2'));
+        $this->assertFalse(Error::isValidFormat('0..89'));
+        $this->assertFalse(Error::isValidFormat('.89'));
+    }
+
     private function expectExceptionForEmptyValue(): void
     {
         $this->expectException(Exception::class);

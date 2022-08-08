@@ -42,6 +42,11 @@ class Error
         return $this->format($error->value()) === $this->value();
     }
 
+    public static function isValidFormat(string $value): bool
+    {
+        return \preg_match(self::FORMAT, $value) === 1;
+    }
+
     /**
      * @throws Exception when the error value is empty
      * @throws Exception when the error value is negative
