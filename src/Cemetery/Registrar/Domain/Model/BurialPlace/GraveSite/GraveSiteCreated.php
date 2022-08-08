@@ -12,10 +12,10 @@ use Cemetery\Registrar\Domain\Model\Event;
 class GraveSiteCreated extends Event
 {
     public function __construct(
-        private GraveSiteId       $graveSiteId,
-        private CemeteryBlockName $cemeteryBlockName,
-        private RowInBlock        $rowInBlock,
-        private PositionInRow     $positionInRow,
+        private GraveSiteId     $graveSiteId,
+        private CemeteryBlockId $cemeteryBlockId,
+        private RowInBlock      $rowInBlock,
+        private PositionInRow   $positionInRow,
     ) {
         parent::__construct();
     }
@@ -25,9 +25,9 @@ class GraveSiteCreated extends Event
         return $this->graveSiteId;
     }
 
-    public function cemeteryBlockName(): CemeteryBlockName
+    public function cemeteryBlockId(): CemeteryBlockId
     {
-        return $this->cemeteryBlockName;
+        return $this->cemeteryBlockId;
     }
 
     public function rowInBlock(): RowInBlock
