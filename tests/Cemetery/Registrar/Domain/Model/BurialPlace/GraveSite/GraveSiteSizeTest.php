@@ -62,6 +62,16 @@ class GraveSiteSizeTest extends TestCase
         $this->assertFalse($graveSiteSizeB->isEqual($graveSiteSizeC));
     }
 
+    public function testItChecksFormat(): void
+    {
+        $this->assertTrue(GraveSiteSize::isValidFormat('2.5'));
+        $this->assertTrue(GraveSiteSize::isValidFormat('3.125'));
+        $this->assertFalse(GraveSiteSize::isValidFormat('-2.5'));
+        $this->assertFalse(GraveSiteSize::isValidFormat('2.7A'));
+        $this->assertFalse(GraveSiteSize::isValidFormat('.75'));
+        $this->assertFalse(GraveSiteSize::isValidFormat('2..5'));
+    }
+
     private function expectExceptionForEmptyValue(): void
     {
         $this->expectException(Exception::class);

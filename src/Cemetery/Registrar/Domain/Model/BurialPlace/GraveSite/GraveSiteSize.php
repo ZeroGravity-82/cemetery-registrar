@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class GraveSiteSize
 {
-    private const VALUE_PATTERN = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
+    private const FORMAT = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
 
     /**
      * @throws Exception when the grave site size value is empty
@@ -37,6 +37,11 @@ class GraveSiteSize
     public function isEqual(self $graveSiteSize): bool
     {
         return $graveSiteSize->value() === $this->value();
+    }
+
+    public static function isValidFormat(string $value): bool
+    {
+        return \preg_match(self::FORMAT, $value) === 1;
     }
 
     /**
@@ -76,7 +81,7 @@ class GraveSiteSize
      */
     private function assertValidFormat(string $value): void
     {
-        if (!\preg_match(self::VALUE_PATTERN, $value)) {
+        if (!\preg_match(self::FORMAT, $value)) {
             throw new Exception('Неверный формат размера участка.');
         }
     }
