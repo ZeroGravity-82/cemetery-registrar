@@ -29,7 +29,7 @@ class CauseOfDeathEditedTest extends EventTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertSame($this->causeOfDeathId, $this->event->causeOfDeathId());
-        $this->assertSame($this->causeOfDeathName, $this->event->causeOfDeathName());
+        $this->assertTrue($this->causeOfDeathId->isEqual($this->event->causeOfDeathId()));
+        $this->assertTrue($this->causeOfDeathName->isEqual($this->event->causeOfDeathName()));
     }
 }
