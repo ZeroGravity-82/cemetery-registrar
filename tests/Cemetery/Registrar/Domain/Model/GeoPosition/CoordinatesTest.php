@@ -120,6 +120,7 @@ class CoordinatesTest extends TestCase
     {
         $this->assertTrue(Coordinates::isValidFormat('-054.950357'));
         $this->assertTrue(Coordinates::isValidFormat('82.7972252'));
+        $this->assertTrue(Coordinates::isValidFormat(' 82.0'));
         $this->assertFalse(Coordinates::isValidFormat('-82.7A'));
         $this->assertFalse(Coordinates::isValidFormat('54..9503'));
     }

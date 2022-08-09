@@ -23,6 +23,7 @@ class Error
     public function __construct(
         string $value,
     ) {
+        $value = \trim($value);
         $this->assertValidValue($value);
         $this->value = $this->format($value);
     }
@@ -44,7 +45,7 @@ class Error
 
     public static function isValidFormat(string $value): bool
     {
-        return \preg_match(self::FORMAT, $value) === 1;
+        return \preg_match(self::FORMAT, \trim($value)) === 1;
     }
 
     /**

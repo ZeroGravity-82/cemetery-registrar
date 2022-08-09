@@ -74,6 +74,7 @@ class ErrorTest extends TestCase
     public function testItChecksFormat(): void
     {
         $this->assertTrue(Error::isValidFormat('0.89'));
+        $this->assertTrue(Error::isValidFormat(' 1.25'));
         $this->assertFalse(Error::isValidFormat('-1.2'));
         $this->assertFalse(Error::isValidFormat('0..89'));
         $this->assertFalse(Error::isValidFormat('.89'));
