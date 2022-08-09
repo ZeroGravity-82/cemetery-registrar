@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 class Name
 {
     /**
-     * @throws Exception when the name is empty
+     * @throws Exception when the name is an empty string
      */
     public function __construct(
         private string $value,
