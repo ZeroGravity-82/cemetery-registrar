@@ -16,6 +16,7 @@ class GraveSiteSize
     /**
      * @throws Exception when the grave site size value is empty
      * @throws Exception when the grave site size value is negative
+     * @throws Exception when the grave site size value is zero
      * @throws Exception when the grave site size value has an invalid format
      */
     public function __construct(
@@ -53,6 +54,7 @@ class GraveSiteSize
     {
         $this->assertNotEmpty($value);
         $this->assertNotNegative($value);
+        $this->assertNotZero($value);
         $this->assertValidFormat($value);
     }
 
@@ -73,6 +75,16 @@ class GraveSiteSize
     {
         if (\is_numeric($value) && (float) $value < 0.0) {
             throw new Exception('Размер участка не может иметь отрицательное значение.');
+        }
+    }
+
+    /**
+     * @throws Exception when the grave site size value is zero
+     */
+    private function assertNotZero(string $value): void
+    {
+        if (\is_numeric($value) && (int) $value === 0) {
+            throw new Exception('Размер участка не может иметь нулевое значение.');
         }
     }
 

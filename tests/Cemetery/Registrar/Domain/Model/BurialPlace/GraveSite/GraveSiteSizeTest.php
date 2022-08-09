@@ -26,6 +26,20 @@ class GraveSiteSizeTest extends TestCase
         new GraveSiteSize('-1.5');
     }
 
+    public function testItFailsWithZeroValue(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Размер участка не может иметь нулевое значение.');
+        new GraveSiteSize('000');
+    }
+
+    public function testItFailsWithZeroValueWithDot(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Размер участка не может иметь нулевое значение.');
+        new GraveSiteSize('0.0');
+    }
+
     public function testItFailsWithInvalidFormat(): void
     {
         $this->expectException(Exception::class);
