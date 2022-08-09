@@ -11,11 +11,10 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class GraveSiteSize
 {
-    private const FORMAT = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 2, 12.5, etc.
+    private const FORMAT = '~^\d+(?:\.\d)?$~';            // examples: 0.2, 2, 12.5, etc.
 
     /**
      * @throws Exception when the grave site size value is empty
-     * @throws Exception when the grave site size value is negative
      * @throws Exception when the grave site size value is zero
      * @throws Exception when the grave site size value has an invalid format
      */
@@ -47,13 +46,12 @@ class GraveSiteSize
 
     /**
      * @throws Exception when the grave site size value is empty
-     * @throws Exception when the grave site size value is negative
+     * @throws Exception when the grave site size value is zero
      * @throws Exception when the grave site size value has an invalid format
      */
     private function assertValidValue(string $value): void
     {
         $this->assertNotEmpty($value);
-        $this->assertNotNegative($value);
         $this->assertNotZero($value);
         $this->assertValidFormat($value);
     }
@@ -69,21 +67,11 @@ class GraveSiteSize
     }
 
     /**
-     * @throws Exception when the grave site size value is negative
-     */
-    private function assertNotNegative(string $value): void
-    {
-        if (\is_numeric($value) && (float) $value < 0.0) {
-            throw new Exception('Размер участка не может иметь отрицательное значение.');
-        }
-    }
-
-    /**
      * @throws Exception when the grave site size value is zero
      */
     private function assertNotZero(string $value): void
     {
-        if (\is_numeric($value) && (int) $value === 0) {
+        if (\is_numeric($value) && (int) ((float) $value * 10) === 0) {
             throw new Exception('Размер участка не может иметь нулевое значение.');
         }
     }

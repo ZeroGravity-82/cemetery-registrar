@@ -17,34 +17,42 @@ class GraveSiteSizeTest extends TestCase
     {
         $graveSiteSize = new GraveSiteSize('2.5');
         $this->assertSame('2.5', $graveSiteSize->value());
-    }
 
-    public function testItFailsWithNegativeValue(): void
-    {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Размер участка не может иметь отрицательное значение.');
-        new GraveSiteSize('-1.5');
+        $graveSiteSize = new GraveSiteSize('0.1');
+        $this->assertSame('0.1', $graveSiteSize->value());
+
+        $graveSiteSize = new GraveSiteSize('3');
+        $this->assertSame('3', $graveSiteSize->value());
     }
 
     public function testItFailsWithZeroValue(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Размер участка не может иметь нулевое значение.');
-        new GraveSiteSize('000');
+        $this->expectExceptionForZeroValue();
+        new GraveSiteSize('0');
     }
 
     public function testItFailsWithZeroValueWithDot(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Размер участка не может иметь нулевое значение.');
+        $this->expectExceptionForZeroValue();
         new GraveSiteSize('0.0');
     }
 
-    public function testItFailsWithInvalidFormat(): void
+    public function testItFailsWithAlmostZeroValue(): void
     {
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Неверный формат размера участка.');
+        $this->expectExceptionForZeroValue();
+        new GraveSiteSize('0.09');
+    }
+
+    public function testItFailsWithInvalidFormatRelatedToLetters(): void
+    {
+        $this->expectExceptionForInvalidFormat();
         new GraveSiteSize('2.5A');
+    }
+
+    public function testItFailsWithInvalidFormatRelatedToNegativeValue(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new GraveSiteSize('-1.5');
     }
 
     public function testItFailsWithEmptyValue(): void
@@ -61,14 +69,14 @@ class GraveSiteSizeTest extends TestCase
 
     public function testItStringifyable(): void
     {
-        $graveSiteSize = new GraveSiteSize('3.125');
-        $this->assertSame('3.125', (string) $graveSiteSize);
+        $graveSiteSize = new GraveSiteSize('3.1');
+        $this->assertSame('3.1', (string) $graveSiteSize);
     }
 
     public function testItComparable(): void
     {
         $graveSiteSizeA = new GraveSiteSize('2.5');
-        $graveSiteSizeB = new GraveSiteSize('3.125');
+        $graveSiteSizeB = new GraveSiteSize('3.1');
         $graveSiteSizeC = new GraveSiteSize('2.5');
 
         $this->assertFalse($graveSiteSizeA->isEqual($graveSiteSizeB));
@@ -79,11 +87,24 @@ class GraveSiteSizeTest extends TestCase
     public function testItChecksFormat(): void
     {
         $this->assertTrue(GraveSiteSize::isValidFormat('2.5'));
-        $this->assertTrue(GraveSiteSize::isValidFormat('3.125'));
+        $this->assertTrue(GraveSiteSize::isValidFormat('100'));
+        $this->assertFalse(GraveSiteSize::isValidFormat('3.125'));
         $this->assertFalse(GraveSiteSize::isValidFormat('-2.5'));
         $this->assertFalse(GraveSiteSize::isValidFormat('2.7A'));
         $this->assertFalse(GraveSiteSize::isValidFormat('.75'));
         $this->assertFalse(GraveSiteSize::isValidFormat('2..5'));
+    }
+
+    private function expectExceptionForZeroValue(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Размер участка не может иметь нулевое значение.');
+    }
+
+    private function expectExceptionForInvalidFormat(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Неверный формат размера участка.');
     }
 
     private function expectExceptionForEmptyValue(): void
