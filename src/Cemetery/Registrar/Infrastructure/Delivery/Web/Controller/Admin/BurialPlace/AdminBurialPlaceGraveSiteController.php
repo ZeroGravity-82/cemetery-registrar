@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateCemeteryBlock\CreateCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditCemeteryBlock\EditCemeteryBlockRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditGraveSite\EditGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveCemeteryBlock\RemoveCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSites\ListGraveSitesRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowCemeteryBlock\ShowCemeteryBlockRequest;
@@ -86,7 +87,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
     #[Route('/admin/grave-site/{id}/edit', name: 'admin_grave_site_edit', methods: HttpRequest::METHOD_PUT)]
     public function editGraveSite(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
-        // TODO implement
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, EditGraveSiteRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
     #[Route('/admin/cemetery-block/{id}/edit', name: 'admin_cemetery_block_edit', methods: HttpRequest::METHOD_PUT)]

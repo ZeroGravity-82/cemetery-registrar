@@ -570,7 +570,7 @@ class BurialTest extends AggregateRootTest
     ): void {
         $this->expectException(Exception::class);
         $this->expectExceptionMessage(\sprintf(
-            'Похоронная фирма не может быть задана для типа захороненния "%s".',
+            'Похоронная фирма не может быть указана для типа захороненния "%s".',
             $burialType,
         ));
     }

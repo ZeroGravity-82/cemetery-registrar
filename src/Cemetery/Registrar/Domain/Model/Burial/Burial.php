@@ -237,7 +237,7 @@ class Burial extends AggregateRoot
         };
         if (!$isAllowed) {
             throw new Exception(\sprintf(
-                'Похоронная фирма не может быть задана для типа захороненния "%s".',
+                'Похоронная фирма не может быть указана для типа захороненния "%s".',
                 $this->type()->label(),
             ));
         }

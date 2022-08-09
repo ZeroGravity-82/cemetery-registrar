@@ -216,7 +216,7 @@ class NaturalPersonTest extends AggregateRootTest
 
         // Testing itself
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Возраст не может быть задан, т.к. уже заданы даты рождения и смерти.');
+        $this->expectExceptionMessage('Возраст не может быть указана, т.к. уже указаны даты рождения и смерти.');
         $deceasedDetails = new DeceasedDetails(
             new \DateTimeImmutable('2010-05-13'),
             new Age(9),

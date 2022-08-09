@@ -36,7 +36,7 @@ class EditCemeteryBlockService extends CemeteryBlockService
     {
         /** @var EditCemeteryBlockRequest $request */
         $cemeteryBlock = $this->getCemeteryBlock($request->id);
-        $cemeteryBlock->setName(new CemeteryBlockName($request->name));
+        $cemeteryBlock->setName($this->buildName($request));
         $this->cemeteryBlockRepo->save($cemeteryBlock);
         $this->eventDispatcher->dispatch(new CemeteryBlockEdited(
             $cemeteryBlock->id(),
@@ -51,5 +51,14 @@ class EditCemeteryBlockService extends CemeteryBlockService
     protected function supportedRequestClassName(): string
     {
         return EditCemeteryBlockRequest::class;
+    }
+
+    /**
+     * @throws Exception when the name has invalid value
+     */
+    private function buildName(ApplicationRequest $request): CemeteryBlockName
+    {
+        /** @var EditCemeteryBlockRequest $request */
+        return new CemeteryBlockName($request->name);
     }
 }

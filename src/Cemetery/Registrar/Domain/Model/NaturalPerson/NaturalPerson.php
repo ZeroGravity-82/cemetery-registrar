@@ -202,7 +202,7 @@ class NaturalPerson extends AggregateRoot
             return;
         }
         if ($deceasedDetails?->age()) {
-            throw new Exception('Возраст не может быть задан, т.к. уже заданы даты рождения и смерти.');
+            throw new Exception('Возраст не может быть указан, т.к. уже указаны даты рождения и смерти.');
         }
     }
 }

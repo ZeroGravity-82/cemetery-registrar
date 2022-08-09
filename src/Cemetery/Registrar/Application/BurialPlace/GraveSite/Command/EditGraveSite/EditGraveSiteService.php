@@ -15,6 +15,9 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
+use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
+use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
@@ -39,11 +42,11 @@ class EditGraveSiteService extends GraveSiteService
     {
         /** @var EditGraveSiteRequest $request */
         $graveSite = $this->getGraveSite($request->id);
-        $graveSite->setCemeteryBlockId(new CemeteryBlockId($request->cemeteryBlockId));
-        $graveSite->setRowInBlock(new RowInBlock($request->rowInBlock));
-        $graveSite->setPositionInRow($request->positionInRow ? new PositionInRow($request->positionInRow) : null);
-//        $graveSite->setGeoPosition(new GraveSiteName($request->ge));
-        $graveSite->setSize($request->size ? new GraveSiteSize($request->size) : null);
+        $graveSite->setCemeteryBlockId($this->buildCemeteryBlockId($request));
+        $graveSite->setRowInBlock($this->buildRowInBlocks($request));
+        $graveSite->setPositionInRow($this->buildPositionInRow($request));
+        $graveSite->setGeoPosition($this->buildGeoPosition($request));
+        $graveSite->setSize($this->buildSize($request));
         $this->graveSiteRepo->save($graveSite);
         $this->eventDispatcher->dispatch(new GraveSiteEdited(
             $graveSite->id(),
@@ -60,5 +63,57 @@ class EditGraveSiteService extends GraveSiteService
     protected function supportedRequestClassName(): string
     {
         return EditGraveSiteRequest::class;
+    }
+
+    /**
+     * @throws Exception when the cemetery block ID has invalid value
+     */
+    private function buildCemeteryBlockId(ApplicationRequest $request): CemeteryBlockId
+    {
+        /** @var EditGraveSiteRequest $request */
+        return new CemeteryBlockId($request->cemeteryBlockId);
+    }
+
+    /**
+     * @throws Exception when the row in block has invalid value
+     */
+    private function buildRowInBlocks(ApplicationRequest $request): RowInBlock
+    {
+        /** @var EditGraveSiteRequest $request */
+        return new RowInBlock($request->rowInBlock);
+    }
+
+    /**
+     * @throws Exception when the position in row has invalid value
+     */
+    private function buildPositionInRow(ApplicationRequest $request): ?PositionInRow
+    {
+        /** @var EditGraveSiteRequest $request */
+        return $request->positionInRow ? new PositionInRow($request->positionInRow) : null;
+    }
+
+    /**
+     * @throws Exception when the geo position latitude, longitude or error have invalid value
+     */
+    private function buildGeoPosition(ApplicationRequest $request): ?GeoPosition
+    {
+        /** @var EditGraveSiteRequest $request */
+        if ($request->geoPositionLatitude === null && $request->geoPositionLongitude === null) {
+            return null;
+        }
+        /** @var EditGraveSiteRequest $request */
+        return new GeoPosition(
+            new Coordinates($request->geoPositionLatitude, $request->geoPositionLongitude),
+            $request->geoPositionError !== null ? new Error($request->geoPositionError) : null,
+        );
+    }
+
+    /**
+     * @throws Exception when the size has invalid value
+     */
+    private function buildSize(ApplicationRequest $request): ?GraveSiteSize
+    {
+        /** @var EditGraveSiteRequest $request */
+        return $request->size ? new GraveSiteSize($request->size) : null;
     }
 }

@@ -22,16 +22,12 @@ abstract class ApplicationRequestValidator
         return $this->note;
     }
 
-    protected function hasProperty(ApplicationRequest $request, string $name): bool
+    protected function validateId(ApplicationRequest $request): self
     {
-        $hasProperty = false;
-        foreach (\array_keys(\get_class_vars(\get_class($request))) as $propertyName) {
-            if ($propertyName === $name) {
-                $hasProperty = true;
-                break;
-            }
+        if (\property_exists($request, 'id') && ($request->id === null || empty(\trim($request->id)))) {
+            $this->note->addError('id', 'Идентификатор доменной сущности не указан.');
         }
 
-        return $hasProperty;
+        return $this;
     }
 }

@@ -36,7 +36,7 @@ class EditCauseOfDeathService extends CauseOfDeathService
     {
         /** @var EditCauseOfDeathRequest $request */
         $causeOfDeath = $this->getCauseOfDeath($request->id);
-        $causeOfDeath->setName(new CauseOfDeathName($request->name));
+        $causeOfDeath->setName($this->buildName($request));
         $this->causeOfDeathRepo->save($causeOfDeath);
         $this->eventDispatcher->dispatch(new CauseOfDeathEdited(
             $causeOfDeath->id(),
@@ -51,5 +51,14 @@ class EditCauseOfDeathService extends CauseOfDeathService
     protected function supportedRequestClassName(): string
     {
         return EditCauseOfDeathRequest::class;
+    }
+
+    /**
+     * @throws Exception when the name has invalid value
+     */
+    private function buildName(ApplicationRequest $request): CauseOfDeathName
+    {
+        /** @var EditCauseOfDeathRequest $request */
+        return new CauseOfDeathName($request->name);
     }
 }

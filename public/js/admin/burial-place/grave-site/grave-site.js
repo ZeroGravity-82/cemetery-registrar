@@ -1,17 +1,18 @@
-const $tableGraveSite                     = $(`#graveSiteList`);
-const $modalGraveSite                     = $(`#modalGraveSite`);
-const $modalGraveSiteTitle                = $modalGraveSite.find(`.modal-title`)
-const $modalGraveSiteForm                 = $modalGraveSite.find(`form`);
-const $modalGraveSiteCemeteryBlockIdField = $modalGraveSite.find(`select[id=cemeteryBlockId]`);
-const $modalGraveSiteRowInBlockField      = $modalGraveSite.find(`input[id=rowInBlock]`);
-const $modalGraveSitePositionInRowField   = $modalGraveSite.find(`input[id=positionInRow]`);
-const $modalGraveSiteSizeField            = $modalGraveSite.find(`input[id=size]`);
-const $modalGraveSiteGeoPositionField     = $modalGraveSite.find(`input[id=geoPosition]`);
-const $modalGraveSiteCsrfTokenField       = $modalGraveSite.find(`input[id=token]`);
-const $modalGraveSiteRemoveBtnWrapper     = $modalGraveSite.find(`.js-remove-wrapper`);
-const $modalGraveSiteSaveBtn              = $modalGraveSite.find(`.js-save`);
-const $modalGraveSiteTimestamps           = $modalGraveSite.find(`.timestamps`);
-const modalGraveSiteObject                = new bootstrap.Modal(`#modalGraveSite`, {});
+const $tableGraveSite                      = $(`#graveSiteList`);
+const $modalGraveSite                      = $(`#modalGraveSite`);
+const $modalGraveSiteTitle                 = $modalGraveSite.find(`.modal-title`)
+const $modalGraveSiteForm                  = $modalGraveSite.find(`form`);
+const $modalGraveSiteCemeteryBlockIdField  = $modalGraveSite.find(`select[id=cemeteryBlockId]`);
+const $modalGraveSiteRowInBlockField       = $modalGraveSite.find(`input[id=rowInBlock]`);
+const $modalGraveSitePositionInRowField    = $modalGraveSite.find(`input[id=positionInRow]`);
+const $modalGraveSiteSizeField             = $modalGraveSite.find(`input[id=size]`);
+const $modalGraveSiteGeoPositionField      = $modalGraveSite.find(`input[id=geoPosition]`);
+const $modalGraveSiteGeoPositionErrorField = $modalGraveSite.find(`input[id=geoPositionError]`);
+const $modalGraveSiteCsrfTokenField        = $modalGraveSite.find(`input[id=token]`);
+const $modalGraveSiteRemoveBtnWrapper      = $modalGraveSite.find(`.js-remove-wrapper`);
+const $modalGraveSiteSaveBtn               = $modalGraveSite.find(`.js-save`);
+const $modalGraveSiteTimestamps            = $modalGraveSite.find(`.timestamps`);
+const modalGraveSiteObject                 = new bootstrap.Modal(`#modalGraveSite`, {});
 
 let modeGraveSite = null;
 let idGraveSite   = null;
@@ -31,6 +32,7 @@ $body.on(`click`, `.js-create-grave-site-btn`, () => {
   $modalGraveSitePositionInRowField.val(null);
   $modalGraveSiteSizeField.val(null);
   $modalGraveSiteGeoPositionField.val(null);
+  $modalGraveSiteGeoPositionErrorField.val(null);
   hideAllValidationErrorsGraveSite();
   modalGraveSiteObject.show();
 });
@@ -60,13 +62,21 @@ $tableGraveSite.on(`click`, `td`, (e) => {
     $modalGraveSiteCemeteryBlockIdField.val(view.cemeteryBlockId).change();
     $modalGraveSiteRowInBlockField.val(view.rowInBlock);
     $modalGraveSitePositionInRowField.val(view.positionInRow);
+    $modalGraveSiteGeoPositionField.val(
+        view.geoPositionLatitude !== null || view.geoPositionLongitude !== null
+          ? [view.geoPositionLatitude, view.geoPositionLongitude].join(`, `)
+          : ``
+    );
+    $modalGraveSiteGeoPositionErrorField.val(view.geoPositionError);
     $modalGraveSiteSizeField.val(view.size);
-    $modalGraveSiteGeoPositionField.val(view.geoPosition);
     hideAllValidationErrorsGraveSite();
     modalGraveSiteObject.show();
   })
   .fail(onAjaxFailureGraveSite)
   .always(onAjaxAlways);
+});
+$modalGraveSiteGeoPositionField.on(`change`, () => {
+  $modalGraveSiteGeoPositionErrorField.val(``);
 });
 
 // Autofocus
@@ -108,13 +118,32 @@ $modalGraveSite.on(`click`, `.js-remove`, () => {
 function saveGraveSite(url, isReloadRequired = false)
 {
   $spinner.show();
-  const method = modeGraveSite === `new` ? `POST` : `PUT`;
-  const data   = {
-    cemeteryBlockId: $modalGraveSiteCemeteryBlockIdField.val(),
-    rowInBlock: $modalGraveSiteRowInBlockField.val(),
-    positionInRow: $modalGraveSitePositionInRowField.val(),
-    size: $modalGraveSiteSizeField.val(),
-    geoPosition: $modalGraveSiteGeoPositionField.val(),
+  const method               = modeGraveSite === `new` ? `POST` : `PUT`;
+  const geoPositionLatitude  = $modalGraveSiteGeoPositionField.val().split(`,`)[0];
+  const geoPositionLongitude = $modalGraveSiteGeoPositionField.val().split(`,`)[1];
+  console.log();
+  const data                 = {
+    cemeteryBlockId: $modalGraveSiteCemeteryBlockIdField.val() !== ``
+        ? $modalGraveSiteCemeteryBlockIdField.val()
+        : null,
+    rowInBlock: $modalGraveSiteRowInBlockField.val() !== ``
+        ? parseInt($modalGraveSiteRowInBlockField.val())
+        : null,
+    positionInRow: $modalGraveSitePositionInRowField.val() !== ``
+        ? parseInt($modalGraveSitePositionInRowField.val())
+        : null,
+    geoPositionLatitude: $modalGraveSiteGeoPositionField.val() !== ``
+        ? geoPositionLatitude !== undefined ? geoPositionLatitude.trim() : null
+        : null,
+    geoPositionLongitude: $modalGraveSiteGeoPositionField.val() !== ``
+        ? geoPositionLongitude !== undefined ? geoPositionLongitude.trim() : null
+        : null,
+    geoPositionError: $modalGraveSiteGeoPositionErrorField.val() !== ``
+        ? $modalGraveSiteGeoPositionErrorField.val()
+        : null,
+    size: $modalGraveSiteSizeField.val() !== ``
+        ? $modalGraveSiteSizeField.val()
+        : null,
     token: $modalGraveSiteCsrfTokenField.val(),
   };
   $.ajax({

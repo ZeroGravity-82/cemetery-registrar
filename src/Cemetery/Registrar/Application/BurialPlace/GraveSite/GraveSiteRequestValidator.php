@@ -15,25 +15,10 @@ use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
  */
 abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 {
-    protected function validateId(ApplicationRequest $request): self
-    {
-        if (
-            $this->hasProperty($request, 'id') &&
-            ($request->id === null || empty(\trim($request->id)))
-        ) {
-            $this->note->addError('id', 'Идентификатор участка не задан.');
-        }
-
-        return $this;
-    }
-
     protected function validateCemeteryBlockId(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'cemeteryBlockId') &&
-            ($request->cemeteryBlockId === null || empty(\trim($request->cemeteryBlockId)))
-        ) {
-            $this->note->addError('cemeteryBlockId', 'Квартал не выбран.');
+        if ($request->cemeteryBlockId === null || empty(\trim($request->cemeteryBlockId))) {
+            $this->note->addError('cemeteryBlockId', 'Квартал не указан.');
         }
 
         return $this;
@@ -41,16 +26,10 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validateRowInBlock(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'rowInBlock') &&
-            $request->rowInBlock === null
-        ) {
-            $this->note->addError('id', 'Ряд не задан.');
+        if ($request->rowInBlock === null) {
+            $this->note->addError('rowInBlock', 'Ряд не указан.');
         }
-        if (
-            $this->hasProperty($request, 'rowInBlock') &&
-            $request->rowInBlock <= 0
-        ) {
+        if ($request->rowInBlock !== null && $request->rowInBlock <= 0) {
             $this->note->addError('rowInBlock', 'Номер ряда должен быть положительным.');
         }
 
@@ -59,11 +38,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validatePositionInRow(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'positionInRow') &&
-            $request->positionInRow !== null              &&
-            $request->positionInRow <= 0
-        ) {
+        if ($request->positionInRow !== null && $request->positionInRow <= 0) {
             $this->note->addError('positionInRow', 'Номер места в ряду должен быть положительным.');
         }
 
@@ -72,19 +47,15 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validateGeoPositionLatitude(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'geoPositionLatitude') &&
-            $request->geoPositionLatitude !== null              &&
-            empty(\trim($request->geoPositionLatitude))
-        ) {
-            $this->note->addError('geoPositionLatitude', 'Широта не может иметь пустое значение.');
+        if ($request->geoPositionLatitude !== null && empty(\trim($request->geoPositionLatitude))) {
+            $this->note->addError('geoPosition', 'Широта не может иметь пустое значение.');
         }
-        if (
-            $this->hasProperty($request, 'geoPositionLatitude') &&
-            $request->geoPositionLatitude !== null              &&
-            !Coordinates::isValidFormat($request->geoPositionLatitude)
-        ) {
-            $this->note->addError('geoPositionLatitude', 'Неверный формат широты.');
+        if ($request->geoPositionLatitude !== null && !Coordinates::isValidFormat($request->geoPositionLatitude)) {
+            $this->note->addError('geoPosition', 'Неверный формат широты.');
+        }
+        if ($request->geoPositionLatitude === null &&
+            ($request->geoPositionLongitude !== null || $request->geoPositionError !== null)) {
+            $this->note->addError('geoPosition', 'Геопозиция не содержит данных о широте.');
         }
 
         return $this;
@@ -92,19 +63,15 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validateGeoPositionLongitude(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'geoPositionLongitude') &&
-            $request->geoPositionLongitude !== null              &&
-            empty(\trim($request->geoPositionLongitude))
-        ) {
-            $this->note->addError('geoPositionLongitude', 'Долгота не может иметь пустое значение.');
+        if ($request->geoPositionLongitude !== null && empty(\trim($request->geoPositionLongitude))) {
+            $this->note->addError('geoPosition', 'Долгота не может иметь пустое значение.');
         }
-        if (
-            $this->hasProperty($request, 'geoPositionLongitude') &&
-            $request->geoPositionLongitude !== null              &&
-            !Coordinates::isValidFormat($request->geoPositionLongitude)
-        ) {
-            $this->note->addError('geoPositionLongitude', 'Неверный формат долготы.');
+        if ($request->geoPositionLongitude !== null && !Coordinates::isValidFormat($request->geoPositionLongitude)) {
+            $this->note->addError('geoPosition', 'Неверный формат долготы.');
+        }
+        if ($request->geoPositionLongitude === null &&
+            ($request->geoPositionLatitude !== null || $request->geoPositionError !== null)) {
+            $this->note->addError('geoPosition', 'Геопозиция не содержит данных о долготе.');
         }
 
         return $this;
@@ -112,19 +79,11 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validateGeoPositionError(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'geoPositionError') &&
-            $request->geoPositionError !== null              &&
-            empty(\trim($request->geoPositionError))
-        ) {
-            $this->note->addError('geoPositionError', 'Погрешность не может иметь пустое значение.');
+        if ($request->geoPositionError !== null && empty(\trim($request->geoPositionError))) {
+            $this->note->addError('geoPosition', 'Погрешность не может иметь пустое значение.');
         }
-        if (
-            $this->hasProperty($request, 'geoPositionError') &&
-            $request->geoPositionError !== null              &&
-            !Error::isValidFormat($request->geoPositionError)
-        ) {
-            $this->note->addError('geoPositionError', 'Неверный формат погрешности.');
+        if ($request->geoPositionError !== null && !Error::isValidFormat($request->geoPositionError)) {
+            $this->note->addError('geoPosition', 'Неверный формат погрешности.');
         }
 
         return $this;
@@ -132,18 +91,10 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validateSize(ApplicationRequest $request): self
     {
-        if (
-            $this->hasProperty($request, 'size') &&
-            $request->size !== null              &&
-            empty(\trim($request->size))
-        ) {
+        if ($request->size !== null && empty(\trim($request->size))) {
             $this->note->addError('size', 'Размер участка не может иметь пустое значение.');
         }
-        if (
-            $this->hasProperty($request, 'size') &&
-            $request->size !== null              &&
-            !GraveSiteSize::isValidFormat($request->size)
-        ) {
+        if ($request->size !== null && !GraveSiteSize::isValidFormat($request->size)) {
             $this->note->addError('size', 'Неверный формат размера участка.');
         }
 
