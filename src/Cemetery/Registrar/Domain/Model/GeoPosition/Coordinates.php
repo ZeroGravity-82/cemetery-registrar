@@ -28,8 +28,6 @@ class Coordinates
         string $latitude,
         string $longitude,
     ) {
-        $latitude  = \trim($latitude);
-        $longitude = \trim($longitude);
         $this->assertValidLatitudeValue($latitude);
         $this->assertValidLongitudeValue($longitude);
         $this->latitude  = $this->format($latitude);
@@ -61,7 +59,7 @@ class Coordinates
 
     public static function isValidFormat(string $value): bool
     {
-        return \preg_match(self::FORMAT, \trim($value)) === 1;
+        return \preg_match(self::FORMAT, $value) === 1;
     }
 
     /**
