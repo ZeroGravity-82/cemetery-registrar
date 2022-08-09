@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class GraveSiteSize
 {
-    private const FORMAT = '~^\d+\.\d+$~';            // examples: 0.25, 12.5, etc.
+    private const FORMAT = '~^\d+(?:\.\d+)?$~';            // examples: 0.25, 2, 12.5, etc.
 
     /**
      * @throws Exception when the grave site size value is empty
