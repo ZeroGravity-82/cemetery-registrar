@@ -27,6 +27,11 @@ abstract class Repository implements RepositoryInterface
     abstract protected function assertUnique(AggregateRoot $aggregateRoot): void;
 
     /**
+     * @throws Exception when dependent aggregates exist
+     */
+    abstract protected function assertNothingRefersTo(AggregateRoot $aggregateRoot): void;
+
+    /**
      * @throws \InvalidArgumentException when the aggregate root type does not match the repository
      */
     protected function assertSupportedAggregateRootClass(AggregateRoot $aggregateRoot): void
@@ -82,6 +87,7 @@ abstract class Repository implements RepositoryInterface
 
     protected function doRemove(AggregateRoot $aggregateRoot): void
     {
+        $this->assertNothingRefersTo($aggregateRoot);
         $aggregateRoot->refreshRemovedAtTimestamp();
     }
 }

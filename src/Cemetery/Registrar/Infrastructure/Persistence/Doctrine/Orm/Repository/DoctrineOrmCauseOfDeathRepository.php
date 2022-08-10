@@ -42,6 +42,15 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
         }
     }
 
+    /**
+     * @throws Exception when dependent aggregates exist
+     */
+    protected function assertNothingRefersTo(AggregateRoot $aggregateRoot): void
+    {
+        // TODO: Implement assertNothingRefersTo() method.
+        // count
+    }
+
     private function doesSameNameAlreadyUsed(CauseOfDeath $causeOfDeath): bool
     {
         return (bool) $this->entityManager
