@@ -10,6 +10,7 @@ use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditCemeteryBlock\EditCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditGraveSite\EditGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveCemeteryBlock\RemoveCemeteryBlockRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveGraveSite\RemoveGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSites\ListGraveSitesRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowCemeteryBlock\ShowCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowGraveSite\ShowGraveSiteRequest;
@@ -107,7 +108,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
     #[Route('/admin/grave-site/{id}', name: 'admin_grave_site_remove', methods: HttpRequest::METHOD_DELETE)]
     public function removeGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
-        // TODO implement
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, RemoveGraveSiteRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_NO_CONTENT);
     }
 
     #[Route('/admin/cemetery-block/{id}', name: 'admin_cemetery_block_remove', methods: HttpRequest::METHOD_DELETE)]
