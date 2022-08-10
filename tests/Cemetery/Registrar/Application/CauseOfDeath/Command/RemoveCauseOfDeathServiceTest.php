@@ -24,9 +24,9 @@ class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 
         $this->mockRemoveCauseOfDeathRequestValidator = $this->createMock(RemoveCauseOfDeathRequestValidator::class);
         $this->service                                = new RemoveCauseOfDeathService(
-            $this->mockRemoveCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
+            $this->mockRemoveCauseOfDeathRequestValidator,
         );
     }
 

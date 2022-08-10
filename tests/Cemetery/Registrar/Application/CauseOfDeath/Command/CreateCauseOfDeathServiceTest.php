@@ -17,20 +17,20 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 {
-    private MockObject|CreateCauseOfDeathRequestValidator $mockCreateCauseOfDeathRequestValidator;
     private MockObject|CauseOfDeathFactory                $mockCauseOfDeathFactory;
+    private MockObject|CreateCauseOfDeathRequestValidator $mockCreateCauseOfDeathRequestValidator;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->mockCreateCauseOfDeathRequestValidator = $this->createMock(CreateCauseOfDeathRequestValidator::class);
         $this->mockCauseOfDeathFactory                = $this->buildMockCauseOfDeathFactory();
+        $this->mockCreateCauseOfDeathRequestValidator = $this->createMock(CreateCauseOfDeathRequestValidator::class);
         $this->service                                = new CreateCauseOfDeathService(
-            $this->mockCreateCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathFactory,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
+            $this->mockCreateCauseOfDeathRequestValidator,
         );
     }
 

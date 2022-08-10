@@ -22,8 +22,8 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
     private string                                      $id;
     private string                                      $unknownId;
     private CauseOfDeathView                            $causeOfDeathView;
-    private MockObject|ShowCauseOfDeathRequestValidator $mockShowCauseOfDeathRequestValidator;
     private MockObject|CauseOfDeathFetcher              $mockCauseOfDeathFetcher;
+    private MockObject|ShowCauseOfDeathRequestValidator $mockShowCauseOfDeathRequestValidator;
 
     public function setUp(): void
     {
@@ -37,11 +37,11 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
             '2022-06-14 22:34:01',
             '2022-12-01 02:12:34',
         );
-        $this->mockShowCauseOfDeathRequestValidator = $this->createMock(ShowCauseOfDeathRequestValidator::class);
         $this->mockCauseOfDeathFetcher              = $this->buildMockCauseOfDeathFetcher();
+        $this->mockShowCauseOfDeathRequestValidator = $this->createMock(ShowCauseOfDeathRequestValidator::class);
         $this->service                              = new ShowCauseOfDeathService(
-            $this->mockShowCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathFetcher,
+            $this->mockShowCauseOfDeathRequestValidator,
         );
     }
 
