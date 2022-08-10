@@ -23,9 +23,7 @@ class EditGraveSiteRequestValidator extends GraveSiteRequestValidator
             ->validateCemeteryBlockId($request)
             ->validateRowInBlock($request)
             ->validatePositionInRow($request)
-            ->validateGeoPositionLatitude($request)
-            ->validateGeoPositionLongitude($request)
-            ->validateGeoPositionError($request)
+            ->validateGeoPosition($request)
             ->validateSize($request)
             ->note();
     }
