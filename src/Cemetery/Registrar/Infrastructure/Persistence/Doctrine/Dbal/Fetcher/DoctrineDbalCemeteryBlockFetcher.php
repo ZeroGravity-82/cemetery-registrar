@@ -21,6 +21,11 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
+    public function doesExistById(string $id): bool
+    {
+        // TODO implement
+    }
+
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
     {
         $cemeteryBlockListData = $this->connection->createQueryBuilder()

@@ -21,6 +21,11 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
+    public function doesExistById(string $id): bool
+    {
+        // TODO implement
+    }
+
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
         $columbariumListData = $this->connection->createQueryBuilder()

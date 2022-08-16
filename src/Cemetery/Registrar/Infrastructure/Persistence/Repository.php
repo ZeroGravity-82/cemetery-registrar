@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Infrastructure\Persistence;
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\EntityCollection;
 use Cemetery\Registrar\Domain\Model\EntityId;
-use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Repository as RepositoryInterface;
 
 /**
@@ -20,16 +19,6 @@ abstract class Repository implements RepositoryInterface
     abstract protected function supportedAggregateRootIdClassName(): string;
 
     abstract protected function supportedAggregateRootCollectionClassName(): string;
-
-    /**
-     * @throws Exception when uniqueness constraints (if any) are violated
-     */
-    abstract protected function assertUnique(AggregateRoot $aggregateRoot): void;
-
-    /**
-     * @throws Exception when dependent aggregates exist
-     */
-    abstract protected function assertNothingRefersTo(AggregateRoot $aggregateRoot): void;
 
     /**
      * @throws \InvalidArgumentException when the aggregate root type does not match the repository
@@ -74,20 +63,5 @@ abstract class Repository implements RepositoryInterface
                 \get_class($aggregateRoots)
             ));
         }
-    }
-
-    /**
-     * @throws Exception when unique constraints (if any) are violated
-     */
-    protected function doSave(AggregateRoot $aggregateRoot): void
-    {
-        $this->assertUnique($aggregateRoot);
-        $aggregateRoot->refreshUpdatedAtTimestamp();
-    }
-
-    protected function doRemove(AggregateRoot $aggregateRoot): void
-    {
-        $this->assertNothingRefersTo($aggregateRoot);
-        $aggregateRoot->refreshRemovedAtTimestamp();
     }
 }

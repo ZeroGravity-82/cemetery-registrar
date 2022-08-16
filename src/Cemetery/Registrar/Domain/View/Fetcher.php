@@ -17,6 +17,11 @@ interface Fetcher
     public function findViewById(string $id): mixed;
 
     /**
+     * Checks if the entity exists by the ID.
+     */
+    public function doesExistById(string $id): bool;
+
+    /**
      * Returns a list of items according to the given criteria.
      */
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): mixed;

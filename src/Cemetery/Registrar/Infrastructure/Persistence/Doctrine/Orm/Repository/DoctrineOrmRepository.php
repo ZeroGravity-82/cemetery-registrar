@@ -25,7 +25,7 @@ abstract class DoctrineOrmRepository extends Repository
     public function save($aggregateRoot): void
     {
         $this->assertSupportedAggregateRootClass($aggregateRoot);
-        $this->doSave($aggregateRoot);
+        $aggregateRoot->refreshUpdatedAtTimestamp();
         $this->entityManager->persist($aggregateRoot);
         $this->entityManager->flush();
     }
@@ -38,7 +38,7 @@ abstract class DoctrineOrmRepository extends Repository
     {
         $this->assertSupportedAggregateRootCollectionClass($aggregateRoots);
         foreach ($aggregateRoots as $aggregateRoot) {
-            $this->doSave($aggregateRoot);
+            $aggregateRoot->refreshUpdatedAtTimestamp();
             $this->entityManager->persist($aggregateRoot);
         }
         $this->entityManager->flush();
@@ -63,7 +63,7 @@ abstract class DoctrineOrmRepository extends Repository
     public function remove($aggregateRoot): void
     {
         $this->assertSupportedAggregateRootClass($aggregateRoot);
-        $this->doRemove($aggregateRoot);
+        $aggregateRoot->refreshRemovedAtTimestamp();
         $this->entityManager->persist($aggregateRoot);
         $this->entityManager->flush();
     }
@@ -75,7 +75,7 @@ abstract class DoctrineOrmRepository extends Repository
     {
         $this->assertSupportedAggregateRootCollectionClass($aggregateRoots);
         foreach ($aggregateRoots as $aggregateRoot) {
-            $this->doRemove($aggregateRoot);
+            $aggregateRoot->refreshRemovedAtTimestamp();
             $this->entityManager->persist($aggregateRoot);
         }
         $this->entityManager->flush();

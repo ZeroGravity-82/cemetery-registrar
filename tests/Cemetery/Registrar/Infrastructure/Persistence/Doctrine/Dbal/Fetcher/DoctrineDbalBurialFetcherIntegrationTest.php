@@ -73,6 +73,12 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceById(): void
+    {
+        $this->assertTrue($this->fetcher->doesExistById('CD001'));
+        $this->assertFalse($this->fetcher->doesExistById('CD00X'));
+    }
+
     public function testItReturnsBurialListByPage(): void
     {
         $customPageSize = 4;

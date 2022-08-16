@@ -22,6 +22,18 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
+    public function doesExistById(string $id): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(cod.id)')
+            ->from('cause_of_death', 'cod')
+            ->andWhere('cod.id = :id')
+            ->andWhere('cod.removed_at IS NULL')
+            ->setParameter('id', $id)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
     {
         $queryBuilder = $this->connection->createQueryBuilder()

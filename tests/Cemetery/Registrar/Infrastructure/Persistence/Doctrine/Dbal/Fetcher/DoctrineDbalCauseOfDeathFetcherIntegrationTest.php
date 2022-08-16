@@ -48,6 +48,12 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceById(): void
+    {
+        $this->assertTrue($this->fetcher->doesExistById('CD001'));
+        $this->assertFalse($this->fetcher->doesExistById('CD00X'));
+    }
+
     public function testItReturnsCauseOfDeathListByPage(): void
     {
         $customPageSize = 3;

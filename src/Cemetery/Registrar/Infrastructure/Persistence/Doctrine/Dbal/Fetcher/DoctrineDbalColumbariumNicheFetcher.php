@@ -22,6 +22,11 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
+    public function doesExistById(string $id): bool
+    {
+        // TODO implement
+    }
+
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
     {
         $queryBuilder = $this->connection->createQueryBuilder()

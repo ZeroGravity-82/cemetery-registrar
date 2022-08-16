@@ -20,6 +20,11 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         return null;
     }
 
+    public function doesExistById(string $id): bool
+    {
+        // TODO implement
+    }
+
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
