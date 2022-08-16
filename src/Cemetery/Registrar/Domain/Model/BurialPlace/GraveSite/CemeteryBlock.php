@@ -34,15 +34,4 @@ class CemeteryBlock extends AggregateRoot
 
         return $this;
     }
-
-    public function createGraveSite(
-        int     $rowInBlock,
-        ?int    $positionInRow,
-        ?string $geoPositionLatitude,
-        ?string $geoPositionLongitude,
-        ?string $geoPositionError,
-        ?string $size,
-    ): GraveSite {
-        // TODO implement creation
-    }
 }
