@@ -14,15 +14,12 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements FuneralCompanyFetcher
 {
+    protected string $tableName = 'funeral_company';
+
     public function findViewById(string $id): mixed
     {
         // TODO: Implement findViewById() method.
         return null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        // TODO implement
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
@@ -43,7 +40,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
                 'osp.phone                     AS organizationSoleProprietorPhone',
                 'fc.note                       AS note'
             )
-            ->from('funeral_company', 'fc')
+            ->from($this->tableName, 'fc')
             ->andWhere('fc.removed_at IS NULL')
             ->orderBy('ojp.name')
             ->addOrderBy('osp.name')
@@ -71,7 +68,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(fc.id)')
-            ->from('funeral_company', 'fc')
+            ->from($this->tableName, 'fc')
             ->andWhere('fc.removed_at IS NULL');
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);

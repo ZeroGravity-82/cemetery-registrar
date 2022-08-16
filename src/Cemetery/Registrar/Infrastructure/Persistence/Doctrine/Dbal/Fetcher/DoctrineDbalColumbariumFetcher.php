@@ -14,16 +14,13 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumView;
  */
 class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements ColumbariumFetcher
 {
+    protected string $tableName = 'columbarium';
+
     public function findViewById(string $id): ?ColumbariumView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        // TODO implement
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
@@ -33,7 +30,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
                 'c.id   AS id',
                 'c.name AS name',
             )
-            ->from('columbarium', 'c')
+            ->from($this->tableName, 'c')
             ->andWhere('c.removed_at IS NULL')
             ->orderBy('c.name')
             ->executeQuery()
@@ -59,7 +56,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
                 'c.created_at                               AS createdAt',
                 'c.updated_at                               AS updatedAt',
             )
-            ->from('columbarium', 'c')
+            ->from($this->tableName, 'c')
             ->andWhere('c.id = :id')
             ->andWhere('c.removed_at IS NULL')
             ->setParameter('id', $id)
@@ -71,7 +68,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     {
         return $this->connection->createQueryBuilder()
             ->select('COUNT(c.id)')
-            ->from('columbarium', 'c')
+            ->from($this->tableName, 'c')
             ->andWhere('c.removed_at IS NULL')
             ->executeQuery()
             ->fetchFirstColumn()[0];

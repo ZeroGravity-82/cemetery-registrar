@@ -50,6 +50,18 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends DoctrineDbalFetcherI
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceById(): void
+    {
+        // Prepare database table for testing
+        $columbariumToRemove = $this->repo->findById(new ColumbariumId('C002'));
+        $this->repo->remove($columbariumToRemove);
+        $removedColumbariumId = $columbariumToRemove->id()->value();
+
+        $this->assertTrue($this->fetcher->doesExistById('C001'));
+        $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
+        $this->assertFalse($this->fetcher->doesExistById($removedColumbariumId));
+    }
+
     public function testItReturnsColumbariumList(): void
     {
         // All at once

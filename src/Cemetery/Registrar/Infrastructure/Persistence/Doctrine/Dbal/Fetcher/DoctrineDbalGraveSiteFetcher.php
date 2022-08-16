@@ -15,16 +15,13 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveSiteFetcher
 {
+    protected string $tableName = 'grave_site';
+
     public function findViewById(string $id): ?GraveSiteView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        // TODO implement
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
@@ -37,7 +34,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 'gs.position_in_row AS positionInRow',
                 'gs.size            AS size',
             )
-            ->from('grave_site', 'gs')
+            ->from($this->tableName, 'gs')
             ->andWhere('gs.removed_at IS NULL')
             ->orderBy('cb.name')
             ->addOrderBy('gs.row_in_block')
@@ -79,7 +76,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 'gs.created_at                               AS createdAt',
                 'gs.updated_at                               AS updatedAt',
             )
-            ->from('grave_site', 'gs')
+            ->from($this->tableName, 'gs')
             ->andWhere('gs.id = :id')
             ->andWhere('gs.removed_at IS NULL')
             ->setParameter('id', $id);
@@ -94,7 +91,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(gs.id)')
-            ->from('grave_site', 'gs')
+            ->from($this->tableName, 'gs')
             ->andWhere('gs.removed_at IS NULL');
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);

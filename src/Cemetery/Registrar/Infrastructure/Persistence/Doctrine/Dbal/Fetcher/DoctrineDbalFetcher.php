@@ -14,9 +14,23 @@ use Doctrine\DBAL\Statement;
  */
 abstract class DoctrineDbalFetcher extends Fetcher
 {
+    protected string $tableName;
+
     public function __construct(
         protected readonly Connection $connection,
     ) {}
+
+    public function doesExistById(string $id): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(entity.id)')
+            ->from($this->tableName, 'entity')
+            ->andWhere('entity.id = :id')
+            ->andWhere('entity.removed_at IS NULL')
+            ->setParameter('id', $id)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
 
     protected function setTermParameter(QueryBuilder $queryBuilder, ?string $term): void
     {

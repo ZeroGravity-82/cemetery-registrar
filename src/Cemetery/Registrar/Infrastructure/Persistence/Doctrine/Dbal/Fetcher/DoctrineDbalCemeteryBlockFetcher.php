@@ -14,16 +14,13 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
  */
 class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements CemeteryBlockFetcher
 {
+    protected string $tableName = 'cemetery_block';
+
     public function findViewById(string $id): ?CemeteryBlockView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        // TODO implement
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
@@ -33,7 +30,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
                 'cb.id   AS id',
                 'cb.name AS name',
             )
-            ->from('cemetery_block', 'cb')
+            ->from($this->tableName, 'cb')
             ->andWhere('cb.removed_at IS NULL')
             ->orderBy('cb.name')
             ->executeQuery()
@@ -56,7 +53,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
                 'cb.created_at AS createdAt',
                 'cb.updated_at AS updatedAt',
             )
-            ->from('cemetery_block', 'cb')
+            ->from($this->tableName, 'cb')
             ->andWhere('cb.id = :id')
             ->andWhere('cb.removed_at IS NULL')
             ->setParameter('id', $id)
@@ -68,7 +65,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
     {
         return $this->connection->createQueryBuilder()
             ->select('COUNT(cb.id)')
-            ->from('cemetery_block', 'cb')
+            ->from($this->tableName, 'cb')
             ->andWhere('cb.removed_at IS NULL')
             ->executeQuery()
             ->fetchFirstColumn()[0];

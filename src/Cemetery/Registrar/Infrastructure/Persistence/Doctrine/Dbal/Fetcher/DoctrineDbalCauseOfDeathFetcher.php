@@ -15,23 +15,13 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements CauseOfDeathFetcher
 {
+    protected string $tableName = 'cause_of_death';
+
     public function findViewById(string $id): ?CauseOfDeathView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        return (bool) $this->connection->createQueryBuilder()
-            ->select('COUNT(cod.id)')
-            ->from('cause_of_death', 'cod')
-            ->andWhere('cod.id = :id')
-            ->andWhere('cod.removed_at IS NULL')
-            ->setParameter('id', $id)
-            ->executeQuery()
-            ->fetchFirstColumn()[0];
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
@@ -41,7 +31,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
                 'cod.id   AS id',
                 'cod.name AS name',
             )
-            ->from('cause_of_death', 'cod')
+            ->from($this->tableName, 'cod')
             ->andWhere('cod.removed_at IS NULL')
             ->orderBy('cod.name')
             ->setFirstResult(($page - 1) * $pageSize)
@@ -72,7 +62,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
                 'cod.created_at AS createdAt',
                 'cod.updated_at AS updatedAt',
             )
-            ->from('cause_of_death', 'cod')
+            ->from($this->tableName, 'cod')
             ->andWhere('cod.id = :id')
             ->andWhere('cod.removed_at IS NULL')
             ->setParameter('id', $id)
@@ -84,7 +74,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(cod.id)')
-            ->from('cause_of_death', 'cod')
+            ->from($this->tableName, 'cod')
             ->andWhere('cod.removed_at IS NULL');
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);

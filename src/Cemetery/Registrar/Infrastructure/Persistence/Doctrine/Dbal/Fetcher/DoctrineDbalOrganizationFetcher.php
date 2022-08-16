@@ -15,6 +15,8 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
  */
 class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
 {
+    protected string $tableName = 'memorial_tree';
+
     public function findViewById(string $id): mixed
     {
         // TODO: Implement findViewById() method.

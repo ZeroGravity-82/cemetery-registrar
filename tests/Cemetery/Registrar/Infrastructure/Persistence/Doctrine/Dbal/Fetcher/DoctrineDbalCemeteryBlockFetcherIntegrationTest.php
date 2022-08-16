@@ -48,6 +48,18 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceById(): void
+    {
+        // Prepare database table for testing
+        $cemeteryBlockToRemove = $this->repo->findById(new CemeteryBlockId('CB002'));
+        $this->repo->remove($cemeteryBlockToRemove);
+        $removedCemeteryBlockId = $cemeteryBlockToRemove->id()->value();
+
+        $this->assertTrue($this->fetcher->doesExistById('CB001'));
+        $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
+        $this->assertFalse($this->fetcher->doesExistById($removedCemeteryBlockId));
+    }
+
     public function testItReturnsCemeteryBlockList(): void
     {
         // All at once

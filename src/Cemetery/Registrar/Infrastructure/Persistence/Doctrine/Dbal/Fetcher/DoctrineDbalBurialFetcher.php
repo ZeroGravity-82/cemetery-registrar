@@ -16,16 +16,13 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFetcher
 {
+    protected string $tableName = 'burial';
+
     public function findViewById(string $id): ?BurialView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        // TODO implement
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
@@ -61,7 +58,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 'cjp.postal_address                                                  AS customerJuristicPersonPostalAddress',
                 'cjp.phone                                                           AS customerJuristicPersonPhone',
             )
-            ->from('burial', 'b')
+            ->from($this->tableName, 'b')
             ->andWhere('b.removed_at IS NULL')
             ->orderBy('b.code')
             ->setFirstResult(($page - 1) * $pageSize)
@@ -195,7 +192,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 'b.created_at                                                        AS createdAt',
                 'b.updated_at                                                        AS updatedAt',
             )
-            ->from('burial', 'b')
+            ->from($this->tableName, 'b')
             ->leftJoin('b',    'natural_person',    'dnp',    'b.deceased_id                 = dnp.id')
             ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value"     = cnp.id')
             ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value"     = csp.id')
@@ -218,7 +215,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(b.id)')
-            ->from('burial', 'b')
+            ->from($this->tableName, 'b')
             ->andWhere('b.removed_at IS NULL');
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);

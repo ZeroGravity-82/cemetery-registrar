@@ -75,8 +75,14 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
 
     public function testItChecksExistenceById(): void
     {
-        $this->assertTrue($this->fetcher->doesExistById('CD001'));
-        $this->assertFalse($this->fetcher->doesExistById('CD00X'));
+        // Prepare database table for testing
+        $burialToRemove = $this->repo->findById(new BurialId('B004'));
+        $this->repo->remove($burialToRemove);
+        $removedBurialId = $burialToRemove->id()->value();
+
+        $this->assertTrue($this->fetcher->doesExistById('B001'));
+        $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
+        $this->assertFalse($this->fetcher->doesExistById($removedBurialId));
     }
 
     public function testItReturnsBurialListByPage(): void

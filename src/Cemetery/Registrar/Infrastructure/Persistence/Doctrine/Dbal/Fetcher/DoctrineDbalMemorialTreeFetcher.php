@@ -15,6 +15,8 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements MemorialTreeFetcher
 {
+    protected string $tableName = 'memorial_tree';
+
     public function findViewById(string $id): ?MemorialTreeView
     {
         $viewData = $this->queryViewData($id);
@@ -34,7 +36,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
                 'mt.id          AS id',
                 'mt.tree_number AS treeNumber',
             )
-            ->from('memorial_tree', 'mt')
+            ->from($this->tableName, 'mt')
             ->andWhere('mt.removed_at IS NULL')
             ->orderBy('mt.tree_number')
             ->setFirstResult(($page - 1) * $pageSize)
@@ -68,7 +70,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
                 'mt.created_at                               AS createdAt',
                 'mt.updated_at                               AS updatedAt',
             )
-            ->from('memorial_tree', 'mt')
+            ->from($this->tableName, 'mt')
             ->andWhere('mt.id = :id')
             ->andWhere('mt.removed_at IS NULL')
             ->setParameter('id', $id)
@@ -80,7 +82,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(mt.id)')
-            ->from('memorial_tree', 'mt')
+            ->from($this->tableName, 'mt')
             ->andWhere('mt.removed_at IS NULL');
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);

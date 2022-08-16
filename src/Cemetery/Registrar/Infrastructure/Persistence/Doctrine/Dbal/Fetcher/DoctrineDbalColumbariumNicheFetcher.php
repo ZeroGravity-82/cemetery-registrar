@@ -15,16 +15,13 @@ use Doctrine\DBAL\Query\QueryBuilder;
  */
 class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements ColumbariumNicheFetcher
 {
+    protected string $tableName = 'columbarium_niche';
+
     public function findViewById(string $id): ?ColumbariumNicheView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function doesExistById(string $id): bool
-    {
-        // TODO implement
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
@@ -36,7 +33,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
                 'cn.row_in_columbarium AS rowInColumbarium',
                 'cn.niche_number       AS nicheNumber',
             )
-            ->from('columbarium_niche', 'cn')
+            ->from($this->tableName, 'cn')
             ->andWhere('cn.removed_at IS NULL')
             ->orderBy('c.name')
             ->addOrderBy('cn.niche_number')
@@ -74,7 +71,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
                 'cn.created_at                               AS createdAt',
                 'cn.updated_at                               AS updatedAt',
             )
-            ->from('columbarium_niche', 'cn')
+            ->from($this->tableName, 'cn')
             ->andWhere('cn.id = :id')
             ->andWhere('cn.removed_at IS NULL')
             ->setParameter('id', $id)
@@ -86,7 +83,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(cn.id)')
-            ->from('columbarium_niche', 'cn')
+            ->from($this->tableName, 'cn')
             ->andWhere('cn.removed_at IS NULL');
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
