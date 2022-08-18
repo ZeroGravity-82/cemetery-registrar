@@ -18,6 +18,7 @@ class GraveSite extends AggregateRoot
     private ?PositionInRow $positionInRow = null;
     private ?GeoPosition   $geoPosition = null;
     private ?GraveSiteSize $size = null;
+    // TODO add person in charge
 
     public function __construct(
         private GraveSiteId     $id,

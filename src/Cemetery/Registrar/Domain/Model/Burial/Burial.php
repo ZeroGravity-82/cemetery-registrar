@@ -20,9 +20,9 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
  */
 class Burial extends AggregateRoot
 {
-    private ?CustomerId         $customerId = null;
-    private ?BurialPlaceId      $burialPlaceId = null;
-    private ?NaturalPersonId    $personInChargeId = null;
+    private ?CustomerId         $customerId = null;             // Sales BC
+    private ?BurialPlaceId      $burialPlaceId = null;          // Cadastre BC
+//    private ?NaturalPersonId    $personInChargeId = null;
     private ?FuneralCompanyId   $funeralCompanyId = null;
     private ?BurialContainer    $burialContainer = null;
     private ?\DateTimeImmutable $buriedAt = null;

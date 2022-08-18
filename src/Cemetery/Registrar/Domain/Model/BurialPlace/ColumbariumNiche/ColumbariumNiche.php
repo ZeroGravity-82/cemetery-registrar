@@ -22,6 +22,7 @@ class ColumbariumNiche extends AggregateRoot
         private ColumbariumId          $columbariumId,
         private RowInColumbarium       $rowInColumbarium,
         private ColumbariumNicheNumber $nicheNumber,
+        // TODO add person in charge
     ) {
         parent::__construct();
     }

@@ -20,6 +20,7 @@ class MemorialTree extends AggregateRoot
     public function __construct(
         private MemorialTreeId     $id,
         private MemorialTreeNumber $treeNumber,
+        // TODO add person in charge
     ) {
         parent::__construct();
     }
