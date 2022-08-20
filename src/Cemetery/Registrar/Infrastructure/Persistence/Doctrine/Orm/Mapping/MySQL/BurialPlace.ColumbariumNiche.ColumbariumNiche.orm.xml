@@ -4,13 +4,14 @@
         <id name="id" column="id" type="columbarium_niche_id">
         </id>
 
-        <field name="columbariumId"    column="columbarium_id"     type="columbarium_id"                           />
-        <field name="rowInColumbarium" column="row_in_columbarium" type="row_in_columbarium"                       />
-        <field name="nicheNumber"      column="niche_number"       type="columbarium_niche_number"                 />
-        <field name="geoPosition"      column="geo_position"       type="geo_position"             nullable="true" />
-        <field name="createdAt"        column="created_at"         type="datetime_immutable"                       />
-        <field name="updatedAt"        column="updated_at"         type="datetime_immutable"                       />
-        <field name="removedAt"        column="removed_at"         type="datetime_immutable"       nullable="true" />
+        <field name="columbariumId"    column="columbarium_id"      type="columbarium_id"                           />
+        <field name="rowInColumbarium" column="row_in_columbarium"  type="row_in_columbarium"                       />
+        <field name="nicheNumber"      column="niche_number"        type="columbarium_niche_number"                 />
+        <field name="personInChargeId" column="person_in_charge_id" type="natural_person_id"        nullable="true" />
+        <field name="geoPosition"      column="geo_position"        type="geo_position"             nullable="true" />
+        <field name="createdAt"        column="created_at"          type="datetime_immutable"                       />
+        <field name="updatedAt"        column="updated_at"          type="datetime_immutable"                       />
+        <field name="removedAt"        column="removed_at"          type="datetime_immutable"       nullable="true" />
     </entity>
 
 </doctrine-mapping>

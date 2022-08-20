@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
+use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
@@ -34,8 +35,7 @@ class BurialFactory extends EntityFactory
         BurialType          $type,
         NaturalPersonId     $deceasedId,
         ?CustomerId         $customerId,
-        ?BurialPlaceId      $burialPlaceId,
-        ?NaturalPersonId    $personInChargeId,
+        ?BurialPlace        $burialPlace,
         ?FuneralCompanyId   $funeralCompanyId,
         ?BurialContainer    $burialContainer,
         ?\DateTimeImmutable $buriedAt,
@@ -47,8 +47,7 @@ class BurialFactory extends EntityFactory
             $deceasedId,
         ))
             ->setCustomerId($customerId)
-            ->setBurialPlaceId($burialPlaceId)
-            ->setPersonInChargeId($personInChargeId)
+            ->setBurialPlace($burialPlace)
             ->setFuneralCompanyId($funeralCompanyId)
             ->setBurialContainer($burialContainer)
             ->setBuriedAt($buriedAt);

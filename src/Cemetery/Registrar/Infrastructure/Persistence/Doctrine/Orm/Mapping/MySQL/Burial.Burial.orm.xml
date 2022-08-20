@@ -9,7 +9,6 @@
         <field name="deceasedId"       column="deceased_id"         type="natural_person_id"                  />
         <field name="customerId"       column="customer_id"         type="customer_id"        nullable="true" />
         <field name="burialPlaceId"    column="burial_place_id"     type="burial_place_id"    nullable="true" />
-        <field name="personInChargeId" column="person_in_charge_id" type="natural_person_id"  nullable="true" />
         <field name="funeralCompanyId" column="funeral_company_id"  type="funeral_company_id" nullable="true" />
         <field name="burialContainer"  column="burial_container"    type="burial_container"   nullable="true" />
         <field name="buriedAt"         column="buried_at"           type="datetime_immutable" nullable="true" />

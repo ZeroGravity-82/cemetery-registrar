@@ -148,19 +148,45 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 'cjp.general_director                                                AS customerJuristicPersonGeneralDirector',
                 'cjp.email                                                           AS customerJuristicPersonEmail',
                 'cjp.website                                                         AS customerJuristicPersonWebsite',
-                'picnp.id                                                            AS personInChargeId',
-                'picnp.full_name                                                     AS personInChargeFullName',
-                'picnp.phone                                                         AS personInChargePhone',
-                'picnp.phone_additional                                              AS personInChargePhoneAdditional',
-                'picnp.email                                                         AS personInChargeEmail',
-                'picnp.address                                                       AS personInChargeAddress',
-                'picnp.born_at                                                       AS personInChargeBornAt',
-                'picnp.place_of_birth                                                AS personInChargePlaceOfBirth',
-                'picnp.passport->>"$.series"                                         AS personInChargePassportSeries',
-                'picnp.passport->>"$.number"                                         AS personInChargePassportNumber',
-                'picnp.passport->>"$.issuedAt"                                       AS personInChargePassportIssuedAt',
-                'picnp.passport->>"$.issuedBy"                                       AS personInChargePassportIssuedBy',
-                'picnp.passport->>"$.divisionCode"                                   AS personInChargePassportDivisionCode',
+                'bpgspic.id                                                          AS graveSitePersonInChargeId',
+                'bpgspic.full_name                                                   AS graveSitePersonInChargeFullName',
+                'bpgspic.phone                                                       AS graveSitePersonInChargePhone',
+                'bpgspic.phone_additional                                            AS graveSitePersonInChargePhoneAdditional',
+                'bpgspic.email                                                       AS graveSitePersonInChargeEmail',
+                'bpgspic.address                                                     AS graveSitePersonInChargeAddress',
+                'bpgspic.born_at                                                     AS graveSitePersonInChargeBornAt',
+                'bpgspic.place_of_birth                                              AS graveSitePersonInChargePlaceOfBirth',
+                'bpgspic.passport->>"$.series"                                       AS graveSitePersonInChargePassportSeries',
+                'bpgspic.passport->>"$.number"                                       AS graveSitePersonInChargePassportNumber',
+                'bpgspic.passport->>"$.issuedAt"                                     AS graveSitePersonInChargePassportIssuedAt',
+                'bpgspic.passport->>"$.issuedBy"                                     AS graveSitePersonInChargePassportIssuedBy',
+                'bpgspic.passport->>"$.divisionCode"                                 AS graveSitePersonInChargePassportDivisionCode',
+                'bpcnpic.id                                                          AS columbariumNichePersonInChargeId',
+                'bpcnpic.full_name                                                   AS columbariumNichePersonInChargeFullName',
+                'bpcnpic.phone                                                       AS columbariumNichePersonInChargePhone',
+                'bpcnpic.phone_additional                                            AS columbariumNichePersonInChargePhoneAdditional',
+                'bpcnpic.email                                                       AS columbariumNichePersonInChargeEmail',
+                'bpcnpic.address                                                     AS columbariumNichePersonInChargeAddress',
+                'bpcnpic.born_at                                                     AS columbariumNichePersonInChargeBornAt',
+                'bpcnpic.place_of_birth                                              AS columbariumNichePersonInChargePlaceOfBirth',
+                'bpcnpic.passport->>"$.series"                                       AS columbariumNichePersonInChargePassportSeries',
+                'bpcnpic.passport->>"$.number"                                       AS columbariumNichePersonInChargePassportNumber',
+                'bpcnpic.passport->>"$.issuedAt"                                     AS columbariumNichePersonInChargePassportIssuedAt',
+                'bpcnpic.passport->>"$.issuedBy"                                     AS columbariumNichePersonInChargePassportIssuedBy',
+                'bpcnpic.passport->>"$.divisionCode"                                 AS columbariumNichePersonInChargePassportDivisionCode',
+                'bpmtpic.id                                                          AS memorialTreePersonInChargeId',
+                'bpmtpic.full_name                                                   AS memorialTreePersonInChargeFullName',
+                'bpmtpic.phone                                                       AS memorialTreePersonInChargePhone',
+                'bpmtpic.phone_additional                                            AS memorialTreePersonInChargePhoneAdditional',
+                'bpmtpic.email                                                       AS memorialTreePersonInChargeEmail',
+                'bpmtpic.address                                                     AS memorialTreePersonInChargeAddress',
+                'bpmtpic.born_at                                                     AS memorialTreePersonInChargeBornAt',
+                'bpmtpic.place_of_birth                                              AS memorialTreePersonInChargePlaceOfBirth',
+                'bpmtpic.passport->>"$.series"                                       AS memorialTreePersonInChargePassportSeries',
+                'bpmtpic.passport->>"$.number"                                       AS memorialTreePersonInChargePassportNumber',
+                'bpmtpic.passport->>"$.issuedAt"                                     AS memorialTreePersonInChargePassportIssuedAt',
+                'bpmtpic.passport->>"$.issuedBy"                                     AS memorialTreePersonInChargePassportIssuedBy',
+                'bpmtpic.passport->>"$.divisionCode"                                 AS memorialTreePersonInChargePassportDivisionCode',
                 'fc.id                                                               AS funeralCompanyId',
                 'b.burial_chain_id                                                   AS burialChainId',
                 'b.burial_place_id->>"$.value"                                       AS burialPlaceId',
@@ -193,17 +219,19 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
                 'b.updated_at                                                        AS updatedAt',
             )
             ->from($this->tableName, 'b')
-            ->leftJoin('b',    'natural_person',    'dnp',    'b.deceased_id                 = dnp.id')
-            ->leftJoin('b',    'natural_person',    'cnp',    'b.customer_id->>"$.value"     = cnp.id')
-            ->leftJoin('b',    'sole_proprietor',   'csp',    'b.customer_id->>"$.value"     = csp.id')
-            ->leftJoin('b',    'juristic_person',   'cjp',    'b.customer_id->>"$.value"     = cjp.id')
-            ->leftJoin('b',    'natural_person',    'picnp',  'b.person_in_charge_id         = picnp.id')
-            ->leftJoin('b',    'funeral_company',   'fc',     'b.funeral_company_id          = fc.id')
-            ->leftJoin('b',    'grave_site',        'bpgs',   'b.burial_place_id->>"$.value" = bpgs.id')
-            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb', 'bpgs.cemetery_block_id        = bpgscb.id')
-            ->leftJoin('b',    'columbarium_niche', 'bpcn',   'b.burial_place_id->>"$.value" = bpcn.id')
-            ->leftJoin('bpcn', 'columbarium',       'bpcnc',  'bpcn.columbarium_id           = bpcnc.id')
-            ->leftJoin('b',    'memorial_tree',     'bpmt',   'b.burial_place_id->>"$.value" = bpmt.id')
+            ->leftJoin('b',    'natural_person',    'dnp',     'b.deceased_id                 = dnp.id')
+            ->leftJoin('b',    'natural_person',    'cnp',     'b.customer_id->>"$.value"     = cnp.id')
+            ->leftJoin('b',    'sole_proprietor',   'csp',     'b.customer_id->>"$.value"     = csp.id')
+            ->leftJoin('b',    'juristic_person',   'cjp',     'b.customer_id->>"$.value"     = cjp.id')
+            ->leftJoin('b',    'funeral_company',   'fc',      'b.funeral_company_id          = fc.id')
+            ->leftJoin('b',    'grave_site',        'bpgs',    'b.burial_place_id->>"$.value" = bpgs.id')
+            ->leftJoin('bpgs', 'cemetery_block',    'bpgscb',  'bpgs.cemetery_block_id        = bpgscb.id')
+            ->leftJoin('bpgs', 'natural_person',    'bpgspic', 'bpgs.person_in_charge_id      = bpgspic.id')
+            ->leftJoin('b',    'columbarium_niche', 'bpcn',    'b.burial_place_id->>"$.value" = bpcn.id')
+            ->leftJoin('bpcn', 'columbarium',       'bpcnc',   'bpcn.columbarium_id           = bpcnc.id')
+            ->leftJoin('bpcn', 'natural_person',    'bpcnpic', 'bpcn.person_in_charge_id      = bpcnpic.id')
+            ->leftJoin('b',    'memorial_tree',     'bpmt',    'b.burial_place_id->>"$.value" = bpmt.id')
+            ->leftJoin('bpmt', 'natural_person',    'bpmtpic', 'bpmt.person_in_charge_id      = bpmtpic.id')
             ->andWhere('b.id = :id')
             ->andWhere('b.removed_at IS NULL')
             ->setParameter('id', $id)
@@ -371,21 +399,53 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             $viewData['customerJuristicPersonGeneralDirector'],
             $viewData['customerJuristicPersonEmail'],
             $viewData['customerJuristicPersonWebsite'],
-            $viewData['personInChargeId'],
-            $viewData['personInChargeFullName'],
-            $viewData['personInChargePhone'],
-            $viewData['personInChargePhoneAdditional'],
-            $viewData['personInChargeEmail'],
-            $viewData['personInChargeAddress'],
-            $viewData['personInChargeBornAt'],
-            $viewData['personInChargePlaceOfBirth'],
-            $viewData['personInChargePassportSeries'],
-            $viewData['personInChargePassportNumber'],
-            $viewData['personInChargePassportIssuedAt'],
-            $viewData['personInChargePassportIssuedBy'],
-            match ($viewData['personInChargePassportDivisionCode']) {
+            $viewData['graveSitePersonInChargeId'],
+            $viewData['graveSitePersonInChargeFullName'],
+            $viewData['graveSitePersonInChargePhone'],
+            $viewData['graveSitePersonInChargePhoneAdditional'],
+            $viewData['graveSitePersonInChargeEmail'],
+            $viewData['graveSitePersonInChargeAddress'],
+            $viewData['graveSitePersonInChargeBornAt'],
+            $viewData['graveSitePersonInChargePlaceOfBirth'],
+            $viewData['graveSitePersonInChargePassportSeries'],
+            $viewData['graveSitePersonInChargePassportNumber'],
+            $viewData['graveSitePersonInChargePassportIssuedAt'],
+            $viewData['graveSitePersonInChargePassportIssuedBy'],
+            match ($viewData['graveSitePersonInChargePassportDivisionCode']) {
                 'null'  => null,
-                default => $viewData['personInChargePassportDivisionCode'],
+                default => $viewData['graveSitePersonInChargePassportDivisionCode'],
+            },
+            $viewData['columbariumNichePersonInChargeId'],
+            $viewData['columbariumNichePersonInChargeFullName'],
+            $viewData['columbariumNichePersonInChargePhone'],
+            $viewData['columbariumNichePersonInChargePhoneAdditional'],
+            $viewData['columbariumNichePersonInChargeEmail'],
+            $viewData['columbariumNichePersonInChargeAddress'],
+            $viewData['columbariumNichePersonInChargeBornAt'],
+            $viewData['columbariumNichePersonInChargePlaceOfBirth'],
+            $viewData['columbariumNichePersonInChargePassportSeries'],
+            $viewData['columbariumNichePersonInChargePassportNumber'],
+            $viewData['columbariumNichePersonInChargePassportIssuedAt'],
+            $viewData['columbariumNichePersonInChargePassportIssuedBy'],
+            match ($viewData['columbariumNichePersonInChargePassportDivisionCode']) {
+                'null'  => null,
+                default => $viewData['columbariumNichePersonInChargePassportDivisionCode'],
+            },
+            $viewData['memorialTreePersonInChargeId'],
+            $viewData['memorialTreePersonInChargeFullName'],
+            $viewData['memorialTreePersonInChargePhone'],
+            $viewData['memorialTreePersonInChargePhoneAdditional'],
+            $viewData['memorialTreePersonInChargeEmail'],
+            $viewData['memorialTreePersonInChargeAddress'],
+            $viewData['memorialTreePersonInChargeBornAt'],
+            $viewData['memorialTreePersonInChargePlaceOfBirth'],
+            $viewData['memorialTreePersonInChargePassportSeries'],
+            $viewData['memorialTreePersonInChargePassportNumber'],
+            $viewData['memorialTreePersonInChargePassportIssuedAt'],
+            $viewData['memorialTreePersonInChargePassportIssuedBy'],
+            match ($viewData['memorialTreePersonInChargePassportDivisionCode']) {
+                'null'  => null,
+                default => $viewData['memorialTreePersonInChargePassportDivisionCode'],
             },
             $viewData['funeralCompanyId'],
             $viewData['burialChainId'],

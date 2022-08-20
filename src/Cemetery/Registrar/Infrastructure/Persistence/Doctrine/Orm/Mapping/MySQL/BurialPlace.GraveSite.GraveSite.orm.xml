@@ -4,14 +4,15 @@
         <id name="id" column="id" type="grave_site_id">
         </id>
 
-        <field name="cemeteryBlockId" column="cemetery_block_id" type="cemetery_block_id"                   />
-        <field name="rowInBlock"      column="row_in_block"      type="row_in_block"                        />
-        <field name="positionInRow"   column="position_in_row"   type="position_in_row"     nullable="true" />
-        <field name="geoPosition"     column="geo_position"      type="geo_position"        nullable="true" />
-        <field name="size"            column="size"              type="grave_site_size"     nullable="true" />
-        <field name="createdAt"       column="created_at"        type="datetime_immutable"                  />
-        <field name="updatedAt"       column="updated_at"        type="datetime_immutable"                  />
-        <field name="removedAt"       column="removed_at"        type="datetime_immutable"  nullable="true" />
+        <field name="cemeteryBlockId"  column="cemetery_block_id"   type="cemetery_block_id"                  />
+        <field name="rowInBlock"       column="row_in_block"        type="row_in_block"                       />
+        <field name="personInChargeId" column="person_in_charge_id" type="natural_person_id"  nullable="true" />
+        <field name="geoPosition"      column="geo_position"        type="geo_position"       nullable="true" />
+        <field name="positionInRow"    column="position_in_row"     type="position_in_row"    nullable="true" />
+        <field name="size"             column="size"                type="grave_site_size"    nullable="true" />
+        <field name="createdAt"        column="created_at"          type="datetime_immutable"                 />
+        <field name="updatedAt"        column="updated_at"          type="datetime_immutable"                 />
+        <field name="removedAt"        column="removed_at"          type="datetime_immutable" nullable="true" />
     </entity>
 
 </doctrine-mapping>

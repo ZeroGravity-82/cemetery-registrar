@@ -12,12 +12,13 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbariu
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\BurialPlaceTest;
+use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheTest extends AggregateRootTest
+class ColumbariumNicheTest extends BurialPlaceTest
 {
     private ColumbariumNicheId     $id;
     private ColumbariumId          $columbariumId;
@@ -37,7 +38,8 @@ class ColumbariumNicheTest extends AggregateRootTest
             $this->rowInColumbarium,
             $this->nicheNumber
         );
-        $this->entity = $this->columbariumNiche;
+        $this->burialPlace = $this->columbariumNiche;
+        $this->entity      = $this->columbariumNiche;
     }
 
     public function testItHasValidClassShortcutConstant(): void
@@ -65,10 +67,10 @@ class ColumbariumNicheTest extends AggregateRootTest
 
     public function testItSetsColumbariumId(): void
     {
-        $columbariumId = new ColumbariumId('C002');
-        $this->columbariumNiche->setColumbariumId($columbariumId);
+        $columbarium = ColumbariumProvider::getColumbariumB();
+        $this->columbariumNiche->setColumbarium($columbarium);
         $this->assertInstanceOf(ColumbariumId::class, $this->columbariumNiche->columbariumId());
-        $this->assertTrue($this->columbariumNiche->columbariumId()->isEqual($columbariumId));
+        $this->assertTrue($this->columbariumNiche->columbariumId()->isEqual($columbarium->id()));
     }
 
     public function testItSetsRowInColumbarium(): void

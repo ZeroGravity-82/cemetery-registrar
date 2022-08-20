@@ -10,12 +10,12 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\BurialPlaceTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTreeTest extends AggregateRootTest
+class MemorialTreeTest extends BurialPlaceTest
 {
     private MemorialTreeId     $id;
     private MemorialTreeNumber $treeNumber;
@@ -25,8 +25,12 @@ class MemorialTreeTest extends AggregateRootTest
     {
         $this->id           = new MemorialTreeId('MT001');
         $this->treeNumber   = new MemorialTreeNumber('001');
-        $this->memorialTree = new MemorialTree($this->id, $this->treeNumber);
-        $this->entity       = $this->memorialTree;
+        $this->memorialTree = new MemorialTree(
+            $this->id,
+            $this->treeNumber,
+        );
+        $this->burialPlace = $this->memorialTree;
+        $this->entity      = $this->memorialTree;
     }
 
     public function testItHasValidClassShortcutConstant(): void

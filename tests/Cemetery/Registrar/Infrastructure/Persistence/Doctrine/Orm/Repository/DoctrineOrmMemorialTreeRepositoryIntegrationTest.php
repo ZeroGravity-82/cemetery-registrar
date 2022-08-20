@@ -76,6 +76,7 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
             $this->areSameClasses($entityOne, $entityTwo) &&
             $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
             $this->areEqualValueObjects($entityOne->treeNumber(), $entityTwo->treeNumber()) &&
+            $this->areEqualValueObjects($entityOne->personInChargeId(), $entityTwo->personInChargeId()) &&
             $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 

@@ -42,7 +42,7 @@ class EditGraveSiteService extends GraveSiteService
     {
         /** @var EditGraveSiteRequest $request */
         $graveSite = $this->getGraveSite($request->id);
-        $graveSite->setCemeteryBlockId($this->buildCemeteryBlockId($request));
+        $graveSite->setCemeteryBlock($this->buildCemeteryBlockId($request));
         $graveSite->setRowInBlock($this->buildRowInBlocks($request));
         $graveSite->setPositionInRow($this->buildPositionInRow($request));
         $graveSite->setGeoPosition($this->buildGeoPosition($request));

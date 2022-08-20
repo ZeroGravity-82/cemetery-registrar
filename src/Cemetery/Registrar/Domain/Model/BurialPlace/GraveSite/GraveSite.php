@@ -4,21 +4,18 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSite extends AggregateRoot
+class GraveSite extends BurialPlace
 {
     public const CLASS_SHORTCUT = 'GRAVE_SITE';
-    public const CLASS_LABEL    = 'участок на кладбище';
+    public const CLASS_LABEL    = 'участок';
 
     private ?PositionInRow $positionInRow = null;
-    private ?GeoPosition   $geoPosition = null;
     private ?GraveSiteSize $size = null;
-    // TODO add person in charge
 
     public function __construct(
         private GraveSiteId     $id,
@@ -38,9 +35,9 @@ class GraveSite extends AggregateRoot
         return $this->cemeteryBlockId;
     }
 
-    public function setCemeteryBlockId(CemeteryBlockId $cemeteryBlockId): self
+    public function setCemeteryBlock(CemeteryBlock $cemeteryBlock): self
     {
-        $this->cemeteryBlockId = $cemeteryBlockId;
+        $this->cemeteryBlockId = $cemeteryBlock->id();
 
         return $this;
     }
@@ -65,18 +62,6 @@ class GraveSite extends AggregateRoot
     public function setPositionInRow(?PositionInRow $positionInRow): self
     {
         $this->positionInRow = $positionInRow;
-
-        return $this;
-    }
-
-    public function geoPosition(): ?GeoPosition
-    {
-        return $this->geoPosition;
-    }
-
-    public function setGeoPosition(?GeoPosition $geoPosition): self
-    {
-        $this->geoPosition = $geoPosition;
 
         return $this;
     }

@@ -108,8 +108,9 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
             $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
             $this->areEqualValueObjects($entityOne->cemeteryBlockId(), $entityTwo->cemeteryBlockId()) &&
             $this->areEqualValueObjects($entityOne->rowInBlock(), $entityTwo->rowInBlock()) &&
-            $this->areEqualValueObjects($entityOne->positionInRow(), $entityTwo->positionInRow()) &&
+            $this->areEqualValueObjects($entityOne->personInChargeId(), $entityTwo->personInChargeId()) &&
             $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition()) &&
+            $this->areEqualValueObjects($entityOne->positionInRow(), $entityTwo->positionInRow()) &&
             $this->areEqualValueObjects($entityOne->size(), $entityTwo->size());
     }
 

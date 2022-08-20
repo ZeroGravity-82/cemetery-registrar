@@ -35,7 +35,8 @@ class BurialCollectionTest extends EntityCollectionTest
     protected function getClosureForCollectionFiltering(): \Closure
     {
         return function (Burial $burial) {
-            return $burial->personInChargeId() !== null;
+            return $burial->type()->isCoffinInGraveSite() && $burial->burialContainer() !== null ||
+                   $burial->type()->isAshesUnderMemorialTree();
         };
     }
 }

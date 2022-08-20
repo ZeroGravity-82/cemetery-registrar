@@ -481,6 +481,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
     private function expectExceptionForNotFoundGraveSiteById(string $graveSiteId): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Участок на кладбище с ID "%s" не найден.', $graveSiteId));
+        $this->expectExceptionMessage(\sprintf('Участок с ID "%s" не найден.', $graveSiteId));
     }
 }

@@ -13,12 +13,13 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\BurialPlaceTest;
+use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteTest extends AggregateRootTest
+class GraveSiteTest extends BurialPlaceTest
 {
     private GraveSiteId     $id;
     private CemeteryBlockId $cemeteryBlockId;
@@ -30,8 +31,13 @@ class GraveSiteTest extends AggregateRootTest
         $this->id              = new GraveSiteId('GS001');
         $this->cemeteryBlockId = new CemeteryBlockId('CB001');
         $this->rowInBlock      = new RowInBlock(5);
-        $this->graveSite       = new GraveSite($this->id, $this->cemeteryBlockId, $this->rowInBlock);
-        $this->entity          = $this->graveSite;
+        $this->graveSite       = new GraveSite(
+            $this->id,
+            $this->cemeteryBlockId,
+            $this->rowInBlock,
+        );
+        $this->burialPlace = $this->graveSite;
+        $this->entity      = $this->graveSite;
     }
 
     public function testItHasValidClassShortcutConstant(): void
@@ -41,7 +47,7 @@ class GraveSiteTest extends AggregateRootTest
 
     public function testItHasValidClassLabelConstant(): void
     {
-        $this->assertSame('участок на кладбище', GraveSite::CLASS_LABEL);
+        $this->assertSame('участок', GraveSite::CLASS_LABEL);
     }
 
     public function testItSuccessfullyCreated(): void
@@ -59,10 +65,10 @@ class GraveSiteTest extends AggregateRootTest
 
     public function testItSetsCemeteryBlockId(): void
     {
-        $cemeteryBlockId = new CemeteryBlockId('CB002');
-        $this->graveSite->setCemeteryBlockId($cemeteryBlockId);
+        $cemeteryBlock = CemeteryBlockProvider::getCemeteryBlockB();
+        $this->graveSite->setCemeteryBlock($cemeteryBlock);
         $this->assertInstanceOf(CemeteryBlockId::class, $this->graveSite->cemeteryBlockId());
-        $this->assertTrue($this->graveSite->cemeteryBlockId()->isEqual($cemeteryBlockId));
+        $this->assertTrue($this->graveSite->cemeteryBlockId()->isEqual($cemeteryBlock->id()));
     }
 
     public function testItSetsRowInBlock(): void

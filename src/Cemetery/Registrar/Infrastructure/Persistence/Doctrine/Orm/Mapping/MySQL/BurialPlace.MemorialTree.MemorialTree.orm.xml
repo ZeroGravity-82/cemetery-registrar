@@ -8,11 +8,12 @@
 <!--            <unique-constraint columns="tree_number" name="memorial_tree_tree_number_uq" />-->
 <!--        </unique-constraints>-->
 
-        <field name="treeNumber"  column="tree_number"   type="memorial_tree_number"                />
-        <field name="geoPosition" column="geo_position"  type="geo_position"        nullable="true" />
-        <field name="createdAt"   column="created_at"    type="datetime_immutable"                  />
-        <field name="updatedAt"   column="updated_at"    type="datetime_immutable"                  />
-        <field name="removedAt"   column="removed_at"    type="datetime_immutable"  nullable="true" />
+        <field name="treeNumber"       column="tree_number"         type="memorial_tree_number"                 />
+        <field name="personInChargeId" column="person_in_charge_id" type="natural_person_id"    nullable="true" />
+        <field name="geoPosition"      column="geo_position"        type="geo_position"         nullable="true" />
+        <field name="createdAt"        column="created_at"          type="datetime_immutable"                   />
+        <field name="updatedAt"        column="updated_at"          type="datetime_immutable"                   />
+        <field name="removedAt"        column="removed_at"          type="datetime_immutable"   nullable="true" />
     </entity>
 
 </doctrine-mapping>

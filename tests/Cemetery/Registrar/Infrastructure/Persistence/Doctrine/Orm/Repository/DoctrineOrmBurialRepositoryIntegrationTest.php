@@ -46,7 +46,6 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
             $this->areEqualValueObjects($entityOne->type(), $entityTwo->type()) &&
             $this->areEqualValueObjects($entityOne->customerId(), $entityTwo->customerId()) &&
             $this->areEqualValueObjects($entityOne->burialPlaceId(), $entityTwo->burialPlaceId()) &&
-            $this->areEqualValueObjects($entityOne->personInChargeId(), $entityTwo->personInChargeId()) &&
             $this->areEqualValueObjects($entityOne->funeralCompanyId(), $entityTwo->funeralCompanyId()) &&
             $this->areEqualValueObjects($entityOne->burialContainer(), $entityTwo->burialContainer()) &&
             $this->areEqualDateTimeValues($entityOne->buriedAt(), $entityTwo->buriedAt());

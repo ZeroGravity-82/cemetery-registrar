@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche;
 
-use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNiche extends AggregateRoot
+class ColumbariumNiche extends BurialPlace
 {
     public const CLASS_SHORTCUT = 'COLUMBARIUM_NICHE';
     public const CLASS_LABEL    = 'колумбарная ниша';
-
-    private ?GeoPosition $geoPosition = null;
 
     public function __construct(
         private ColumbariumNicheId     $id,
         private ColumbariumId          $columbariumId,
         private RowInColumbarium       $rowInColumbarium,
         private ColumbariumNicheNumber $nicheNumber,
-        // TODO add person in charge
     ) {
         parent::__construct();
     }
@@ -37,9 +33,9 @@ class ColumbariumNiche extends AggregateRoot
         return $this->columbariumId;
     }
 
-    public function setColumbariumId(ColumbariumId $columbariumId): self
+    public function setColumbarium(Columbarium $columbarium): self
     {
-        $this->columbariumId = $columbariumId;
+        $this->columbariumId = $columbarium->id();
 
         return $this;
     }
@@ -64,18 +60,6 @@ class ColumbariumNiche extends AggregateRoot
     public function setNicheNumber(ColumbariumNicheNumber $nicheNumber): self
     {
         $this->nicheNumber = $nicheNumber;
-
-        return $this;
-    }
-
-    public function geoPosition(): ?GeoPosition
-    {
-        return $this->geoPosition;
-    }
-
-    public function setGeoPosition(?GeoPosition $geoPosition): self
-    {
-        $this->geoPosition = $geoPosition;
 
         return $this;
     }

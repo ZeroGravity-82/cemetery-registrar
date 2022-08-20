@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Tests\Registrar\Domain\Model\Burial;
+namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace;
 
-use Cemetery\Registrar\Domain\Model\Burial\BurialPlaceId;
-use Cemetery\Registrar\Domain\Model\Burial\BurialPlaceIdFactory;
+use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceIdFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;

@@ -109,6 +109,7 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
             $this->areEqualValueObjects($entityOne->columbariumId(), $entityTwo->columbariumId()) &&
             $this->areEqualValueObjects($entityOne->rowInColumbarium(), $entityTwo->rowInColumbarium()) &&
             $this->areEqualValueObjects($entityOne->nicheNumber(), $entityTwo->nicheNumber()) &&
+            $this->areEqualValueObjects($entityOne->personInChargeId(), $entityTwo->personInChargeId()) &&
             $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
