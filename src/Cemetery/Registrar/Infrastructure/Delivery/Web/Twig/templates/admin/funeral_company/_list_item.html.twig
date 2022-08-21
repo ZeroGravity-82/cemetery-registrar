@@ -1,24 +1,4 @@
 <tr data-id="{{ listItem.id }}">
-  {% if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') %}
-    <td>{{- listItem.organizationJuristicPersonName is empty ? '' : listItem.organizationJuristicPersonName -}}</td>
-    <td>{{- listItem.organizationJuristicPersonInn  is empty ? '' : listItem.organizationJuristicPersonInn -}}</td>
-    <td>
-      {{- listItem.organizationJuristicPersonLegalAddress is empty
-          ? listItem.organizationJuristicPersonPostalAddress is empty ? '' : listItem.organizationJuristicPersonPostalAddress
-          : listItem.organizationJuristicPersonLegalAddress -}}
-    </td>
-    <td>{{- listItem.organizationJuristicPersonPhone is empty ? '' : listItem.organizationJuristicPersonPhone -}}</td>
-  {% elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') %}
-    <td>{{- listItem.organizationSoleProprietorName is empty ? '' : listItem.organizationSoleProprietorName -}}</td>
-    <td>{{- listItem.organizationSoleProprietorInn  is empty ? '' : listItem.organizationSoleProprietorInn -}}</td>
-    <td>
-      {{- listItem.organizationSoleProprietorRegistrationAddress is empty
-          ? listItem.organizationSoleProprietorActualLocationAddress is empty ? '' : listItem.organizationSoleProprietorActualLocationAddress
-          : listItem.organizationSoleProprietorRegistrationAddress -}}
-    </td>
-    <td>{{- listItem.organizationSoleProprietorPhone is empty ? '' : listItem.organizationSoleProprietorPhone -}}</td>
-  {% endif %}
-  <td>
-    {{- listItem.note is empty ? '' : listItem.note -}}
-  </td>
+  <td>{{- listItem.name -}}</td>
+  <td>{{- listItem.note is empty ? '' : listItem.note -}}</td>
 </tr>

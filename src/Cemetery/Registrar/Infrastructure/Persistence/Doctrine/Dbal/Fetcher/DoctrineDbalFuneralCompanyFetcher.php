@@ -26,27 +26,15 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
-                'fc.id                         AS id',
-                'fc.organization_id->>"$.type" AS organizationType',
-                'ojp.name                      AS organizationJuristicPersonName',
-                'ojp.inn                       AS organizationJuristicPersonInn',
-                'ojp.legal_address             AS organizationJuristicPersonLegalAddress',
-                'ojp.postal_address            AS organizationJuristicPersonPostalAddress',
-                'ojp.phone                     AS organizationJuristicPersonPhone',
-                'osp.name                      AS organizationSoleProprietorName',
-                'osp.inn                       AS organizationSoleProprietorInn',
-                'osp.registration_address      AS organizationSoleProprietorRegistrationAddress',
-                'osp.actual_location_address   AS organizationSoleProprietorActualLocationAddress',
-                'osp.phone                     AS organizationSoleProprietorPhone',
-                'fc.note                       AS note'
+                'fc.id   AS id',
+                'fc.name AS name',
+                'fc.note AS note'
             )
             ->from($this->tableName, 'fc')
             ->andWhere('fc.removed_at IS NULL')
-            ->orderBy('ojp.name')
-            ->addOrderBy('osp.name')
+            ->orderBy('fc.name')
             ->setFirstResult(($page - 1) * $pageSize)
             ->setMaxResults($pageSize);
-        $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
@@ -70,7 +58,6 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             ->select('COUNT(fc.id)')
             ->from($this->tableName, 'fc')
             ->andWhere('fc.removed_at IS NULL');
-        $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
@@ -79,29 +66,13 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             ->fetchFirstColumn()[0];
     }
 
-    private function appendJoins(QueryBuilder $queryBuilder): void
-    {
-        $queryBuilder
-            ->leftJoin('fc', 'juristic_person', 'ojp', 'fc.organization_id->>"$.value" = ojp.id')
-            ->leftJoin('fc', 'sole_proprietor', 'osp', 'fc.organization_id->>"$.value" = osp.id');
-    }
-
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
             $queryBuilder
                 ->andWhere(
                     $queryBuilder->expr()->or(
-                        $queryBuilder->expr()->like('ojp.name', ':term'),
-                        $queryBuilder->expr()->like('ojp.inn', ':term'),
-                        $queryBuilder->expr()->like('ojp.legal_address', ':term'),
-                        $queryBuilder->expr()->like('ojp.postal_address', ':term'),
-                        $queryBuilder->expr()->like('ojp.phone', ':term'),
-                        $queryBuilder->expr()->like('osp.name', ':term'),
-                        $queryBuilder->expr()->like('osp.inn', ':term'),
-                        $queryBuilder->expr()->like('osp.registration_address', ':term'),
-                        $queryBuilder->expr()->like('osp.actual_location_address', ':term'),
-                        $queryBuilder->expr()->like('osp.phone', ':term'),
+                        $queryBuilder->expr()->like('fc.name', ':term'),
                         $queryBuilder->expr()->like('fc.note', ':term'),
                     )
                 );
@@ -120,17 +91,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         foreach ($listData as $listItemData) {
             $listItems[] = new FuneralCompanyListItem(
                 $listItemData['id'],
-                $listItemData['organizationType'],
-                $listItemData['organizationJuristicPersonName'],
-                $listItemData['organizationJuristicPersonInn'],
-                $listItemData['organizationJuristicPersonLegalAddress'],
-                $listItemData['organizationJuristicPersonPostalAddress'],
-                $listItemData['organizationJuristicPersonPhone'],
-                $listItemData['organizationSoleProprietorName'],
-                $listItemData['organizationSoleProprietorInn'],
-                $listItemData['organizationSoleProprietorRegistrationAddress'],
-                $listItemData['organizationSoleProprietorActualLocationAddress'],
-                $listItemData['organizationSoleProprietorPhone'],
+                $listItemData['name'],
                 $listItemData['note'],
             );
         }

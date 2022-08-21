@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\FuneralCompany;
 
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
-use Cemetery\Registrar\Domain\Model\Organization\OrganizationId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,8 +14,8 @@ class FuneralCompany extends AggregateRoot
     private ?FuneralCompanyNote $note = null;
 
     public function __construct(
-        private FuneralCompanyId $id,
-        private OrganizationId   $organizationId,
+        private FuneralCompanyId   $id,
+        private FuneralCompanyName $name,
     ) {
         parent::__construct();
     }
@@ -26,9 +25,16 @@ class FuneralCompany extends AggregateRoot
         return $this->id;
     }
 
-    public function organizationId(): OrganizationId
+    public function name(): FuneralCompanyName
     {
-        return $this->organizationId;
+        return $this->name;
+    }
+
+    public function setName(FuneralCompanyName $name): self
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function note(): ?FuneralCompanyNote

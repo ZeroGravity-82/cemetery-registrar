@@ -5,11 +5,7 @@
       <option selected></option>
       {% for listItem in funeralCompanyList.items %}
         <option value="{{ listItem.id }}">
-          {%- if listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\JuristicPerson\\JuristicPerson::CLASS_SHORTCUT') -%}
-            {{ listItem.organizationJuristicPersonName }}
-          {%- elseif listItem.organizationType == constant('Cemetery\\Registrar\\Domain\\Model\\Organization\\SoleProprietor\\SoleProprietor::CLASS_SHORTCUT') -%}
-            {{ listItem.organizationSoleProprietorName }}
-          {%- endif -%}
+          {{ listItem.name }}
         </option>
       {% endfor %}
     </select>

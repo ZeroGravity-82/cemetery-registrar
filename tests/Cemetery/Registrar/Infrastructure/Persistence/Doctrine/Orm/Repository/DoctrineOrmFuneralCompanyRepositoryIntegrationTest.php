@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
@@ -34,40 +36,6 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityC = FuneralCompanyProvider::getFuneralCompanyC();
     }
 
-    // -------------------------------------- Uniqueness constraints testing ---------------------------------------
-
-    public function testItSavesFuneralCompanyWithSameOrganizationIdAsRemovedFuneralCompany(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
-        $this->entityManager->clear();
-        /** @var FuneralCompany $entityToRemove */
-        $entityToRemove = $this->repo->findById($this->entityB->id());
-        $this->repo->remove($entityToRemove);
-        $this->entityManager->clear();
-
-        // Testing itself
-        $newEntity = new FuneralCompany(new FuneralCompanyId('FC00X'), $entityToRemove->organizationId());
-        $this->assertNull(
-            $this->repo->save($newEntity)
-        );
-    }
-
-    public function testItFailsToSaveFuneralCompanyWithSameOrganizationId(): void
-    {
-        // Prepare the repo for testing
-        $this->repo->saveAll(new $this->entityCollectionClassName([$this->entityA, $this->entityB, $this->entityC]));
-        $this->entityManager->clear();
-        /** @var FuneralCompany $existingEntity */
-        $existingEntity = $this->entityB;
-
-        // Testing itself
-        $newEntity = new FuneralCompany(new FuneralCompanyId('FC00X'), $existingEntity->organizationId());
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Похоронная фирма, связанная с этой организацией, уже существует.');
-        $this->repo->save($newEntity);
-    }
-
     protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
     {
         /** @var FuneralCompany $entityOne */
@@ -75,7 +43,7 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
         return
             $this->areSameClasses($entityOne, $entityTwo) &&
             $this->areEqualValueObjects($entityOne->id(), $entityTwo->id()) &&
-            $this->areEqualValueObjects($entityOne->organizationId(), $entityTwo->organizationId()) &&
+            $this->areEqualValueObjects($entityOne->name(), $entityTwo->name()) &&
             $this->areEqualValueObjects($entityOne->note(), $entityTwo->note());
     }
 

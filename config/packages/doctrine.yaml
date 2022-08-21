@@ -40,6 +40,7 @@ doctrine:
             website:                    Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType
             # FuneralCompany
             funeral_company_id:         Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyIdType
+            funeral_company_name:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNameType
             funeral_company_note:       Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\FuneralCompany\FuneralCompanyNoteType
             # GeoPosition
             geo_position:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\GeoPosition\GeoPositionType
