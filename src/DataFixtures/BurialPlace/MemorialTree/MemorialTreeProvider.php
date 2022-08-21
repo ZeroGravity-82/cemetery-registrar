@@ -30,7 +30,7 @@ class MemorialTreeProvider
         $id             = new MemorialTreeId('MT002');
         $treeNumber     = new MemorialTreeNumber('002');
         $geoPosition    = new GeoPosition(new Coordinates('54.950457', '82.7972252'), new Error('0.5'));
-        $personInCharge = NaturalPersonProvider::getNaturalPersonF();
+        $personInCharge = NaturalPersonProvider::getNaturalPersonG();
 
         return (new MemorialTree($id, $treeNumber))
             ->setGeoPosition($geoPosition)

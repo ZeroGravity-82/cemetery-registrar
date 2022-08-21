@@ -15,5 +15,7 @@ class GraveSiteListItem
         public int     $rowInBlock,
         public ?int    $positionInRow,
         public ?string $size,
+        public ?string $personInChargeId,
+        public ?string $personInChargeFullName,
     ) {}
 }

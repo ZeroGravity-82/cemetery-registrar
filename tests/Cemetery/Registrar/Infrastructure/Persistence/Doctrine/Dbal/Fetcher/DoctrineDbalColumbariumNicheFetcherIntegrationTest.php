@@ -13,6 +13,7 @@ use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\Doctrine
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumNicheRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheFixtures;
+use DataFixtures\NaturalPerson\NaturalPersonFixtures;
 
 /**
  * @group database
@@ -238,23 +239,28 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFet
         $this->databaseTool->loadFixtures([
             ColumbariumFixtures::class,
             ColumbariumNicheFixtures::class,
+            NaturalPersonFixtures::class,
         ]);
     }
 
     private function assertListItemEqualsCN001(ColumbariumNicheListItem $listItem): void
     {
-        $this->assertSame('CN001',     $listItem->id);
-        $this->assertSame('западный',  $listItem->columbariumName);
-        $this->assertSame(1,           $listItem->rowInColumbarium);
-        $this->assertSame('001',       $listItem->nicheNumber);
+        $this->assertSame('CN001',    $listItem->id);
+        $this->assertSame('западный', $listItem->columbariumName);
+        $this->assertSame(1,          $listItem->rowInColumbarium);
+        $this->assertSame('001',      $listItem->nicheNumber);
+        $this->assertSame(null,       $listItem->personInChargeId);
+        $this->assertSame(null,       $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsCN002(ColumbariumNicheListItem $listItem): void
     {
-        $this->assertSame('CN002',     $listItem->id);
-        $this->assertSame('южный',     $listItem->columbariumName);
-        $this->assertSame(2,           $listItem->rowInColumbarium);
-        $this->assertSame('002',       $listItem->nicheNumber);
+        $this->assertSame('CN002',                      $listItem->id);
+        $this->assertSame('южный',                      $listItem->columbariumName);
+        $this->assertSame(2,                            $listItem->rowInColumbarium);
+        $this->assertSame('002',                        $listItem->nicheNumber);
+        $this->assertSame('NP007',                      $listItem->personInChargeId);
+        $this->assertSame('Громов Никифор Рудольфович', $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsCN003(ColumbariumNicheListItem $listItem): void
@@ -263,6 +269,8 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFet
         $this->assertSame('восточный', $listItem->columbariumName);
         $this->assertSame(3,           $listItem->rowInColumbarium);
         $this->assertSame('003',       $listItem->nicheNumber);
+        $this->assertSame(null,        $listItem->personInChargeId);
+        $this->assertSame(null,        $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsCN004(ColumbariumNicheListItem $listItem): void
@@ -271,30 +279,38 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFet
         $this->assertSame('северный',  $listItem->columbariumName);
         $this->assertSame(4,           $listItem->rowInColumbarium);
         $this->assertSame('004',       $listItem->nicheNumber);
+        $this->assertSame(null,        $listItem->personInChargeId);
+        $this->assertSame(null,        $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsCN005(ColumbariumNicheListItem $listItem): void
     {
-        $this->assertSame('CN005',     $listItem->id);
-        $this->assertSame('северный',  $listItem->columbariumName);
-        $this->assertSame(5,           $listItem->rowInColumbarium);
-        $this->assertSame('006',       $listItem->nicheNumber);
+        $this->assertSame('CN005',    $listItem->id);
+        $this->assertSame('северный', $listItem->columbariumName);
+        $this->assertSame(5,          $listItem->rowInColumbarium);
+        $this->assertSame('006',      $listItem->nicheNumber);
+        $this->assertSame(null,       $listItem->personInChargeId);
+        $this->assertSame(null,       $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsCN006(ColumbariumNicheListItem $listItem): void
     {
-        $this->assertSame('CN006',     $listItem->id);
-        $this->assertSame('северный',  $listItem->columbariumName);
-        $this->assertSame(7,           $listItem->rowInColumbarium);
-        $this->assertSame('005',       $listItem->nicheNumber);
+        $this->assertSame('CN006',    $listItem->id);
+        $this->assertSame('северный', $listItem->columbariumName);
+        $this->assertSame(7,          $listItem->rowInColumbarium);
+        $this->assertSame('005',      $listItem->nicheNumber);
+        $this->assertSame(null,       $listItem->personInChargeId);
+        $this->assertSame(null,       $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsCN007(ColumbariumNicheListItem $listItem): void
     {
-        $this->assertSame('CN007',     $listItem->id);
-        $this->assertSame('северный',  $listItem->columbariumName);
-        $this->assertSame(7,           $listItem->rowInColumbarium);
-        $this->assertSame('007',       $listItem->nicheNumber);
+        $this->assertSame('CN007',    $listItem->id);
+        $this->assertSame('северный', $listItem->columbariumName);
+        $this->assertSame(7,          $listItem->rowInColumbarium);
+        $this->assertSame('007',      $listItem->nicheNumber);
+        $this->assertSame(null,       $listItem->personInChargeId);
+        $this->assertSame(null,       $listItem->personInChargeFullName);
     }
 
     private function testItReturnsColumbariumNicheViewForCN001(): void

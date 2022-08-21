@@ -11,6 +11,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbariu
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
+use DataFixtures\NaturalPerson\NaturalPersonProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -33,11 +34,12 @@ class ColumbariumNicheProvider
         $columbariumId    = (ColumbariumProvider::getColumbariumB())->id();
         $rowInColumbarium = new RowInColumbarium(2);
         $nicheNumber      = new ColumbariumNicheNumber('002');
-
         $geoPosition      = new GeoPosition(new Coordinates('+54.95035712', '082.7925200'), new Error('0.5'));
+        $personInCharge   = NaturalPersonProvider::getNaturalPersonG();
 
         return (new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber))
-            ->setGeoPosition($geoPosition);
+            ->setGeoPosition($geoPosition)
+            ->setPersonInCharge($personInCharge);
     }
 
     public static function getColumbariumNicheC(): ColumbariumNiche

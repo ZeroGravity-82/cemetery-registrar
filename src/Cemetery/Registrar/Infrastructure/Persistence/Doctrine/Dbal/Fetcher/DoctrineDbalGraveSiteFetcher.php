@@ -33,6 +33,8 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 'gs.row_in_block    AS rowInBlock',
                 'gs.position_in_row AS positionInRow',
                 'gs.size            AS size',
+                'gspic.id           AS personInChargeId',
+                'gspic.full_name    AS personInChargeFullName',
             )
             ->from($this->tableName, 'gs')
             ->andWhere('gs.removed_at IS NULL')
@@ -105,7 +107,8 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
-            ->leftJoin('gs', 'cemetery_block', 'cb', 'gs.cemetery_block_id = cb.id');
+            ->leftJoin('gs', 'cemetery_block', 'cb',    'gs.cemetery_block_id = cb.id')
+            ->leftJoin('gs', 'natural_person', 'gspic', 'gs.person_in_charge_id = gspic.id');
     }
 
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
@@ -118,6 +121,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                         $queryBuilder->expr()->like('gs.row_in_block', ':term'),
                         $queryBuilder->expr()->like('gs.position_in_row', ':term'),
                         $queryBuilder->expr()->like('gs.size', ':term'),
+                        $queryBuilder->expr()->like('gspic.full_name', ':term'),
                     )
                 );
         }
@@ -159,6 +163,8 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 $listItemData['rowInBlock'],
                 $listItemData['positionInRow'],
                 $listItemData['size'],
+                $listItemData['personInChargeId'],
+                $listItemData['personInChargeFullName'],
             );
         }
 

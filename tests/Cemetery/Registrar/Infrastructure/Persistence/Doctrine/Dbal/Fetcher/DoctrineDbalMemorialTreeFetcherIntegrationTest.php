@@ -12,6 +12,7 @@ use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeView;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalMemorialTreeFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmMemorialTreeRepository;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeFixtures;
+use DataFixtures\NaturalPerson\NaturalPersonFixtures;
 
 /**
  * @group database
@@ -152,6 +153,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
     {
         $this->databaseTool->loadFixtures([
             MemorialTreeFixtures::class,
+            NaturalPersonFixtures::class,
         ]);
     }
 
@@ -159,24 +161,32 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
     {
         $this->assertSame('MT001', $listItem->id);
         $this->assertSame('001',   $listItem->treeNumber);
+        $this->assertSame(null,    $listItem->personInChargeId);
+        $this->assertSame(null,    $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsMT002(MemorialTreeListItem $listItem): void
     {
-        $this->assertSame('MT002', $listItem->id);
-        $this->assertSame('002',   $listItem->treeNumber);
+        $this->assertSame('MT002',                      $listItem->id);
+        $this->assertSame('002',                        $listItem->treeNumber);
+        $this->assertSame('NP007',                      $listItem->personInChargeId);
+        $this->assertSame('Громов Никифор Рудольфович', $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsMT003(MemorialTreeListItem $listItem): void
     {
         $this->assertSame('MT003', $listItem->id);
         $this->assertSame('004',   $listItem->treeNumber);
+        $this->assertSame(null,    $listItem->personInChargeId);
+        $this->assertSame(null,    $listItem->personInChargeFullName);
     }
 
     private function assertListItemEqualsMT004(MemorialTreeListItem $listItem): void
     {
         $this->assertSame('MT004', $listItem->id);
         $this->assertSame('003',   $listItem->treeNumber);
+        $this->assertSame(null,    $listItem->personInChargeId);
+        $this->assertSame(null,    $listItem->personInChargeFullName);
     }
 
     private function testItReturnsMemorialTreeViewForMT001(): void

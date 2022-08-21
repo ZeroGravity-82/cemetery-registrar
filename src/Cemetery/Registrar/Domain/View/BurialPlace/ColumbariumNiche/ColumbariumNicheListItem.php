@@ -10,9 +10,11 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche;
 class ColumbariumNicheListItem
 {
     public function __construct(
-        public string $id,
-        public string $columbariumName,
-        public int    $rowInColumbarium,
-        public string $nicheNumber,
+        public string  $id,
+        public string  $columbariumName,
+        public int     $rowInColumbarium,
+        public string  $nicheNumber,
+        public ?string $personInChargeId,
+        public ?string $personInChargeFullName,
     ) {}
 }

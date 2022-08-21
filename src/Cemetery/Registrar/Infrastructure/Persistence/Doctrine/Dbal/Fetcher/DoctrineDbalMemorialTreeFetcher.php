@@ -28,14 +28,17 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
-                'mt.id          AS id',
-                'mt.tree_number AS treeNumber',
+                'mt.id           AS id',
+                'mt.tree_number  AS treeNumber',
+                'mtpic.id        AS personInChargeId',
+                'mtpic.full_name AS personInChargeFullName',
             )
             ->from($this->tableName, 'mt')
             ->andWhere('mt.removed_at IS NULL')
             ->orderBy('mt.tree_number')
             ->setFirstResult(($page - 1) * $pageSize)
             ->setMaxResults($pageSize);
+        $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
@@ -79,12 +82,19 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
             ->select('COUNT(mt.id)')
             ->from($this->tableName, 'mt')
             ->andWhere('mt.removed_at IS NULL');
+        $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
         return $queryBuilder
             ->executeQuery()
             ->fetchFirstColumn()[0];
+    }
+
+    private function appendJoins(QueryBuilder $queryBuilder): void
+    {
+        $queryBuilder
+            ->leftJoin('mt', 'natural_person', 'mtpic', 'mt.person_in_charge_id = mtpic.id');
     }
 
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
@@ -94,6 +104,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
                 ->andWhere(
                     $queryBuilder->expr()->or(
                         $queryBuilder->expr()->like('mt.tree_number', ':term'),
+                        $queryBuilder->expr()->like('mtpic.full_name', ':term'),
                     )
                 );
         }
@@ -128,6 +139,8 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
             $listItems[] = new MemorialTreeListItem(
                 $listItemData['id'],
                 $listItemData['treeNumber'],
+                $listItemData['personInChargeId'],
+                $listItemData['personInChargeFullName'],
             );
         }
 

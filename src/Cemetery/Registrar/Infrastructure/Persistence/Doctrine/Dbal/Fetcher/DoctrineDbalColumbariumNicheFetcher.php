@@ -32,6 +32,8 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
                 'c.name                AS columbariumName',
                 'cn.row_in_columbarium AS rowInColumbarium',
                 'cn.niche_number       AS nicheNumber',
+                'cnpic.id              AS personInChargeId',
+                'cnpic.full_name       AS personInChargeFullName',
             )
             ->from($this->tableName, 'cn')
             ->andWhere('cn.removed_at IS NULL')
@@ -97,7 +99,8 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
-            ->leftJoin('cn', 'columbarium', 'c', 'cn.columbarium_id = c.id');
+            ->leftJoin('cn', 'columbarium',    'c',     'cn.columbarium_id = c.id')
+            ->leftJoin('cn', 'natural_person', 'cnpic', 'cn.person_in_charge_id = cnpic.id');
     }
 
     private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
@@ -109,6 +112,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
                         $queryBuilder->expr()->like('c.name', ':term'),
                         $queryBuilder->expr()->like('cn.row_in_columbarium', ':term'),
                         $queryBuilder->expr()->like('cn.niche_number', ':term'),
+                        $queryBuilder->expr()->like('cnpic.full_name', ':term'),
                     )
                 );
         }
@@ -147,6 +151,8 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
                 $listItemData['columbariumName'],
                 $listItemData['rowInColumbarium'],
                 $listItemData['nicheNumber'],
+                $listItemData['personInChargeId'],
+                $listItemData['personInChargeFullName'],
             );
         }
 
