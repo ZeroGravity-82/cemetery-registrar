@@ -4,7 +4,7 @@
         <id name="id" column="id" type="natural_person_id">
         </id>
 
-        <field name="fullName"        column="full_name"        type="full_name" />
+        <field name="fullName"        column="full_name"        type="full_name"                          />
         <field name="phone"           column="phone"            type="phone_number"       nullable="true" />
         <field name="phoneAdditional" column="phone_additional" type="phone_number"       nullable="true" />
         <field name="email"           column="email"            type="email"              nullable="true" />
