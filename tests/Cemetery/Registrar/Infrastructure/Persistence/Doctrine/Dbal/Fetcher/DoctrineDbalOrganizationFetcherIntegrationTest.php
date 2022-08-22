@@ -10,7 +10,6 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
-use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationList;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmJuristicPersonRepository;
@@ -39,63 +38,23 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->loadFixtures();
     }
 
-    public function testItReturnsOrganizationViewById(): void
+    public function testItDoesNotReturnViewById(): void
     {
-        $this->markTestIncomplete();
-        return;
+        $view = $this->fetcher->findViewById('JP001');
+        $this->assertNull($view);
 
-//        $this->testItReturnsOrganizationViewForFC001();
-//        $this->testItReturnsOrganizationViewForFC002();
-//        $this->testItReturnsOrganizationViewForFC003();
-//        $this->testItReturnsOrganizationViewForFC004();
+        $view = $this->fetcher->findViewById('SP001');
+        $this->assertNull($view);
+
+        $view = $this->fetcher->findViewById('unknown_id');
+        $this->assertNull($view);
     }
 
-    public function testItReturnsNullByUnknownIdForJuristicPerson(): void
+    public function testItDoesNotCheckExistenceById(): void
     {
-        $this->markTestIncomplete();
-        return;
-
-//        $view = $this->funeralCompanyFetcher->findViewById('unknown_id', JuristicPerson::CLASS_LABEL);
-//        $this->assertNull($view);
-    }
-
-    public function testItReturnsNullByUnknownIdForSoleProprietor(): void
-    {
-        $this->markTestIncomplete();
-        return;
-
-//        $view = $this->funeralCompanyFetcher->findViewById('unknown_id', SoleProprietor::CLASS_LABEL);
-//        $this->assertNull($view);
-    }
-
-    public function testItReturnsNullForRemovedJuristicPerson(): void
-    {
-        $this->markTestIncomplete();
-        return;
-
-        // Prepare database table for testing
-//        $juristicPersonToRemove = $this->juristicPersonRepo->findById(new JuristicPersonId('JP003'));
-//        $this->juristicPersonRepo->remove($juristicPersonToRemove);
-//        $removedJuristicPersonId = $juristicPersonToRemove->id()->value();
-//
-        // Testing itself
-//        $view = $this->fetcher->findViewById($removedJuristicPersonId);
-//        $this->assertNull($view);
-    }
-
-    public function testItReturnsNullForRemovedSoleProprietor(): void
-    {
-        $this->markTestIncomplete();
-        return;
-
-        // Prepare database table for testing
-//        $soleProprietorToRemove = $this->soleProprietorRepo->findById(new SoleProprietorId('SP002'));
-//        $this->soleProprietorRepo->remove($soleProprietorToRemove);
-//        $removedSoleProprietorId = $soleProprietorToRemove->id()->value();
-//
-        // Testing itself
-//        $view = $this->fetcher->findViewById($removedSoleProprietorId);
-//        $this->assertNull($view);
+        $this->assertFalse($this->fetcher->doesExistById('JP001'));
+        $this->assertFalse($this->fetcher->doesExistById('SP001'));
+        $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
     }
 
     public function testItReturnsOrganizationListByPage(): void

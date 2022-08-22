@@ -15,17 +15,14 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
  */
 class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
 {
-    protected string $tableName = 'memorial_tree';
-
     public function findViewById(string $id): mixed
     {
-        // TODO: Implement findViewById() method.
         return null;
     }
 
     public function doesExistById(string $id): bool
     {
-        // TODO implement
+        return false;
     }
 
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
