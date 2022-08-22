@@ -36,7 +36,6 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
-use Cemetery\Registrar\Domain\Model\Organization\OrganizationIdFactory;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorFactory;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
@@ -57,7 +56,6 @@ class RegisterNewBurialService extends ApplicationService
         private readonly MemorialTreeFactory        $memorialTreeFactory,
         private readonly BurialContainerFactory     $burialContainerFactory,
         private readonly BurialPlaceIdFactory       $burialPlaceIdFactory,
-        private readonly OrganizationIdFactory      $organizationIdFactory,
         private readonly CustomerIdFactory          $customerIdFactory,
         private readonly NaturalPersonRepository    $naturalPersonRepo,
         private readonly SoleProprietorRepository   $soleProprietorRepo,

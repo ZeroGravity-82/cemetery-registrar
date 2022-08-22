@@ -53,7 +53,6 @@ doctrine:
             deceased_details:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\DeceasedDetails\DeceasedDetailsType
             # Organization
             okved:                      Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType
-            organization_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OrganizationIdType
             organization_name:          Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\NameType
             # Organization/BankDetails
             bank_details:               Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\BankDetails\BankDetailsType
