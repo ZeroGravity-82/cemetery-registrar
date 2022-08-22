@@ -1,7 +1,4 @@
 <li class="nav-item">
-  <a class="nav-link disabled" href="#">Номенклатура</a>
-</li>
-<li class="nav-item">
   <a class="nav-link {% if currentRoute == 'admin_organization_list' %}active{% endif %}"
      href="{{ path('admin_organization_list') }}">Организации</a>
 </li>
@@ -24,6 +21,9 @@
     <li><a class="dropdown-item" href="{{ path('admin_burial_place_columbarium_niche_list') }}">Колумбарные ниши</a></li>
     <li><a class="dropdown-item" href="{{ path('admin_burial_place_memorial_tree_list') }}">Памятные деревья</a></li>
   </ul>
+</li>
+<li class="nav-item">
+  <a class="nav-link disabled" href="#">Номенклатура</a>
 </li>
 <li class="nav-item">
   <a class="nav-link disabled" href="#">Типы цен</a>
