@@ -14,7 +14,6 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
-use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
@@ -25,6 +24,9 @@ use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
+use DataFixtures\NaturalPerson\NaturalPersonProvider;
+use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
+use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -85,31 +87,37 @@ class BurialTest extends AggregateRootTest
         $this->assertTrue($this->burial->deceasedId()->isEqual($deceasedId));
     }
 
-    public function testItSetsCustomerId(): void
+    public function testItAssignsCustomer(): void
     {
-        $naturalPersonId = new NaturalPersonId('NP001');
-        $customerId      = new CustomerId($naturalPersonId);
-        $this->burial->setCustomerId($customerId);
-        $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
-        $this->assertTrue($this->burial->customerId()->isEqual($customerId));
+        $customer = NaturalPersonProvider::getNaturalPersonA();
+        $this->burial->assignCustomer($customer);
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->customerId());
+        $this->assertTrue($this->burial->customerId()->isEqual($customer->id()));
 
-        $juristicPersonId = new JuristicPersonId('JP001');
-        $customerId       = new CustomerId($juristicPersonId);
-        $this->burial->setCustomerId($customerId);
-        $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
-        $this->assertTrue($this->burial->customerId()->isEqual($customerId));
+        $customer = JuristicPersonProvider::getJuristicPersonA();
+        $this->burial->assignCustomer($customer);
+        $this->assertInstanceOf(JuristicPersonId::class, $this->burial->customerId());
+        $this->assertTrue($this->burial->customerId()->isEqual($customer->id()));
 
-        $soleProprietorId = new SoleProprietorId('SP001');
-        $customerId       = new CustomerId($soleProprietorId);
-        $this->burial->setCustomerId($customerId);
-        $this->assertInstanceOf(CustomerId::class, $this->burial->customerId());
-        $this->assertTrue($this->burial->customerId()->isEqual($customerId));
+        $customer = SoleProprietorProvider::getSoleProprietorA();
+        $this->burial->assignCustomer($customer);
+        $this->assertInstanceOf(SoleProprietorId::class, $this->burial->customerId());
+        $this->assertTrue($this->burial->customerId()->isEqual($customer->id()));
 
-        $this->burial->setCustomerId(null);
+    }
+
+    public function testItDiscardsCustomer(): void
+    {
+        // Prepare entity for testing
+        $customer = NaturalPersonProvider::getNaturalPersonA();
+        $this->burial->assignCustomer($customer);
+        $this->assertInstanceOf(NaturalPersonId::class, $this->burial->customerId());
+
+        $this->burial->discardCustomer();
         $this->assertNull($this->burial->customerId());
     }
 
-    public function testItSetsBurialPlaceId(): void
+    public function testItAssignsBurialPlace(): void
     {
         $this->burial->setType(BurialType::coffinInGraveSite());
         $burialPlace = GraveSiteProvider::getGraveSiteA();
@@ -128,7 +136,17 @@ class BurialTest extends AggregateRootTest
         $this->burial->assignBurialPlace($burialPlace);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
+    }
 
+    public function testItDiscardBurialPlace(): void
+    {
+        // Prepare entity for testing
+        $this->burial->setType(BurialType::coffinInGraveSite());
+        $burialPlace = GraveSiteProvider::getGraveSiteA();
+        $this->burial->assignBurialPlace($burialPlace);
+        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+
+        // Testing itself
         $this->burial->discardBurialPlace();
         $this->assertNull($this->burial->burialPlaceId());
     }
@@ -290,7 +308,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->assignBurialPlace($burialPlace);
     }
 
-    public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeA(): void
+    public function testItDiscardsBurialPlaceAfterChangingBurialTypeA(): void
     {
         // Prepare entity for testing
         $this->burial->setType(BurialType::coffinInGraveSite());
@@ -302,7 +320,7 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->burialPlaceId());
     }
 
-    public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeB(): void
+    public function testItDiscardsBurialPlaceAfterChangingBurialTypeB(): void
     {
         // Prepare entity for testing
         $this->burial->setType(BurialType::urnInColumbariumNiche());
@@ -314,7 +332,7 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->burialPlaceId());
     }
 
-    public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeC(): void
+    public function testItDiscardsBurialPlaceAfterChangingBurialTypeC(): void
     {
         // Prepare entity for testing
         $this->burial->setType(BurialType::ashesUnderMemorialTree());

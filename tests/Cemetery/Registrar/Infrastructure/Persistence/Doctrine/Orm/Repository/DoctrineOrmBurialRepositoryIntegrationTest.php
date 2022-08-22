@@ -7,11 +7,10 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repos
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
-use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
 use Cemetery\Registrar\Domain\Model\Entity;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmBurialRepository;
 use DataFixtures\Burial\BurialProvider;
+use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 
 /**
  * @group database
@@ -53,9 +52,9 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newCustomerId = new CustomerId(new SoleProprietorId('SP001'));
+        $newCustomer = SoleProprietorProvider::getSoleProprietorA();
 
         /** @var Burial $entityA */
-        $entityA->setCustomerId($newCustomerId);
+        $entityA->assignCustomer($newCustomer);
     }
 }

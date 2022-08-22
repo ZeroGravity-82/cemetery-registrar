@@ -63,11 +63,6 @@ abstract class CustomJsonType extends CustomType
     }
 
     /**
-     * Prepares the PHP value for JSON encoding as part of the conversion to a database value.
-     */
-    abstract protected function preparePhpValueForJsonEncoding(mixed $value): array;
-
-    /**
      * Checks that the decoded value has valid format that is compatible with PHP value building process.
      *
      * @see buildPhpValue
@@ -75,6 +70,11 @@ abstract class CustomJsonType extends CustomType
      * @throws \UnexpectedValueException when the decoded value has invalid format
      */
     abstract protected function assertValidDecodedValue(mixed $decodedValue, mixed $value): void;
+
+    /**
+     * Prepares the PHP value for JSON encoding as part of the conversion to a database value.
+     */
+    abstract protected function preparePhpValueForJsonEncoding(mixed $value): array;
 
     /**
      * Builds a PHP value from the decoded database value.

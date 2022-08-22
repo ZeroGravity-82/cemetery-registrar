@@ -14,8 +14,6 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialFactory;
 use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
-use Cemetery\Registrar\Domain\Model\Burial\CustomerId;
-use Cemetery\Registrar\Domain\Model\Burial\CustomerIdFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceIdFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
@@ -56,7 +54,6 @@ class RegisterNewBurialService extends ApplicationService
         private readonly MemorialTreeFactory        $memorialTreeFactory,
         private readonly BurialContainerFactory     $burialContainerFactory,
         private readonly BurialPlaceIdFactory       $burialPlaceIdFactory,
-        private readonly CustomerIdFactory          $customerIdFactory,
         private readonly NaturalPersonRepository    $naturalPersonRepo,
         private readonly SoleProprietorRepository   $soleProprietorRepo,
         private readonly JuristicPersonRepository   $juristicPersonRepo,

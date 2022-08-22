@@ -15,19 +15,24 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class Burial extends AggregateRoot
 {
-    private ?CustomerId         $customerId = null;
-    private ?BurialPlaceId      $burialPlaceId = null;
-    private ?FuneralCompanyId   $funeralCompanyId = null;
-    private ?BurialContainer    $burialContainer = null;
-    private ?\DateTimeImmutable $buriedAt = null;
-    private ?BurialChainId      $burialChainId = null;
+    private NaturalPersonId|JuristicPersonId|SoleProprietorId|null $customerId = null;
+    private ?BurialPlaceId                                         $burialPlaceId = null;
+    private ?FuneralCompanyId                                      $funeralCompanyId = null;
+    private ?BurialContainer                                       $burialContainer = null;
+    private ?\DateTimeImmutable                                    $buriedAt = null;
+    private ?BurialChainId                                         $burialChainId = null;
 
     public function __construct(
         private BurialId        $id,
@@ -84,14 +89,21 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    public function customerId(): ?CustomerId
+    public function customerId(): NaturalPersonId|JuristicPersonId|SoleProprietorId|null
     {
         return $this->customerId;
     }
 
-    public function setCustomerId(?CustomerId $customerId): self
+    public function assignCustomer(NaturalPerson|JuristicPerson|SoleProprietor $customer): self
     {
-        $this->customerId = $customerId;
+        $this->customerId = $customer->id();
+
+        return $this;
+    }
+
+    public function discardCustomer(): self
+    {
+        $this->customerId = null;
 
         return $this;
     }

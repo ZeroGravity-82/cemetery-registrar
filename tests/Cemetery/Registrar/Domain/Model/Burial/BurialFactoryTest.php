@@ -20,6 +20,7 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId
 use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
+use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
@@ -48,7 +49,7 @@ class BurialFactoryTest extends EntityFactoryTest
     {
         $deceasedId       = new NaturalPersonId('NP002');
         $type             = new BurialType(BurialType::COFFIN_IN_GRAVE_SITE);
-        $customerId       = new CustomerId(new JuristicPersonId('JP001'));
+        $customer         = JuristicPersonProvider::getJuristicPersonA();
         $burialPlace      = GraveSiteProvider::getGraveSiteA();
         $funeralCompanyId = new FuneralCompanyId('FC003');
         $burialContainer  = new BurialContainer(new Coffin(new CoffinSize(180), CoffinShape::greekWithoutHandles(), false));
@@ -58,7 +59,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $burial = $this->burialFactory->create(
             $type,
             $deceasedId,
-            $customerId,
+            $customer,
             $burialPlace,
             $funeralCompanyId,
             $burialContainer,
@@ -69,7 +70,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertSame(self::BURIAL_CODE, $burial->code()->value());
         $this->assertTrue($deceasedId->isEqual($burial->deceasedId()));
         $this->assertTrue($type->isEqual($burial->type()));
-        $this->assertTrue($customerId->isEqual($burial->customerId()));
+        $this->assertTrue($customer->id()->isEqual($burial->customerId()));
         $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()));
         $this->assertTrue($funeralCompanyId->isEqual($burial->funeralCompanyId()));
         $this->assertTrue($burialContainer->isEqual($burial->burialContainer()));
@@ -81,18 +82,18 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialForUrn(): void
     {
-        $deceasedId       = new NaturalPersonId('NP002');
-        $type             = new BurialType(BurialType::URN_IN_GRAVE_SITE);
-        $customerId       = new CustomerId(new JuristicPersonId('JP001'));
-        $burialPlace      = GraveSiteProvider::getGraveSiteA();
-        $burialContainer  = new BurialContainer(new Urn());
-        $buriedAt         = new \DateTimeImmutable('2018-01-24');
+        $deceasedId      = new NaturalPersonId('NP002');
+        $type            = new BurialType(BurialType::URN_IN_GRAVE_SITE);
+        $customer        = JuristicPersonProvider::getJuristicPersonA();
+        $burialPlace     = GraveSiteProvider::getGraveSiteA();
+        $burialContainer = new BurialContainer(new Urn());
+        $buriedAt        = new \DateTimeImmutable('2018-01-24');
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');
         $burial = $this->burialFactory->create(
             $type,
             $deceasedId,
-            $customerId,
+            $customer,
             $burialPlace,
             null,
             $burialContainer,
@@ -103,7 +104,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertSame(self::BURIAL_CODE, $burial->code()->value());
         $this->assertTrue($deceasedId->isEqual($burial->deceasedId()));
         $this->assertTrue($type->isEqual($burial->type()));
-        $this->assertTrue($customerId->isEqual($burial->customerId()));
+        $this->assertTrue($customer->id()->isEqual($burial->customerId()));
         $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()));
         $this->assertNull($burial->funeralCompanyId());
         $this->assertTrue($burialContainer->isEqual($burial->burialContainer()));
@@ -115,17 +116,17 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialForAshes(): void
     {
-        $deceasedId       = new NaturalPersonId('NP002');
-        $type             = new BurialType(BurialType::ASHES_UNDER_MEMORIAL_TREE);
-        $customerId       = new CustomerId(new JuristicPersonId('JP001'));
-        $burialPlace      = MemorialTreeProvider::getMemorialTreeA();
-        $buriedAt         = new \DateTimeImmutable('1998-11-11');
+        $deceasedId  = new NaturalPersonId('NP002');
+        $type        = new BurialType(BurialType::ASHES_UNDER_MEMORIAL_TREE);
+        $customer    = JuristicPersonProvider::getJuristicPersonA();
+        $burialPlace = MemorialTreeProvider::getMemorialTreeA();
+        $buriedAt    = new \DateTimeImmutable('1998-11-11');
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');
         $burial = $this->burialFactory->create(
             $type,
             $deceasedId,
-            $customerId,
+            $customer,
             $burialPlace,
             null,
             null,
@@ -136,7 +137,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertSame(self::BURIAL_CODE, $burial->code()->value());
         $this->assertTrue($deceasedId->isEqual($burial->deceasedId()));
         $this->assertTrue($type->isEqual($burial->type()));
-        $this->assertTrue($customerId->isEqual($burial->customerId()));
+        $this->assertTrue($customer->id()->isEqual($burial->customerId()));
         $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()));
         $this->assertNull($burial->funeralCompanyId());
         $this->assertNull($burial->burialContainer());
@@ -148,8 +149,8 @@ class BurialFactoryTest extends EntityFactoryTest
 
     public function testItCreatesBurialWithoutOptionalFields(): void
     {
-        $deceasedId         = new NaturalPersonId('NP002');
-        $type               = new BurialType(BurialType::ASHES_UNDER_MEMORIAL_TREE);
+        $deceasedId = new NaturalPersonId('NP002');
+        $type       = new BurialType(BurialType::ASHES_UNDER_MEMORIAL_TREE);
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $this->mockBurialCodeGenerator->expects($this->once())->method('getNextCode');
         $burial = $this->burialFactory->create(
