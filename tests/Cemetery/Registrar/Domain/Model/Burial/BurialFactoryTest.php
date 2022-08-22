@@ -70,7 +70,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertTrue($deceasedId->isEqual($burial->deceasedId()));
         $this->assertTrue($type->isEqual($burial->type()));
         $this->assertTrue($customerId->isEqual($burial->customerId()));
-        $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()->id()));
+        $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()));
         $this->assertTrue($funeralCompanyId->isEqual($burial->funeralCompanyId()));
         $this->assertTrue($burialContainer->isEqual($burial->burialContainer()));
         $this->assertSame(
@@ -104,7 +104,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertTrue($deceasedId->isEqual($burial->deceasedId()));
         $this->assertTrue($type->isEqual($burial->type()));
         $this->assertTrue($customerId->isEqual($burial->customerId()));
-        $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()->id()));
+        $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()));
         $this->assertNull($burial->funeralCompanyId());
         $this->assertTrue($burialContainer->isEqual($burial->burialContainer()));
         $this->assertSame(
@@ -137,7 +137,7 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->assertTrue($deceasedId->isEqual($burial->deceasedId()));
         $this->assertTrue($type->isEqual($burial->type()));
         $this->assertTrue($customerId->isEqual($burial->customerId()));
-        $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()->id()));
+        $this->assertTrue($burialPlace->id()->isEqual($burial->burialPlaceId()));
         $this->assertNull($burial->funeralCompanyId());
         $this->assertNull($burial->burialContainer());
         $this->assertSame(

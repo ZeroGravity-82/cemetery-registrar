@@ -62,7 +62,7 @@ class Burial extends AggregateRoot
     {
         // $this->assertBurialTypeMatchesDeceased($type);
         if ($this->type !== $type) {
-            $this->setBurialPlace(null);
+            $this->discardBurialPlace();
             $this->setFuneralCompanyId(null);
             $this->setBurialContainer(null);
         }
@@ -104,12 +104,19 @@ class Burial extends AggregateRoot
     /**
      * @throws Exception when the burial place does not match the burial type
      */
-    public function setBurialPlace(?BurialPlace $burialPlace): self
+    public function assignBurialPlace(BurialPlace $burialPlace): self
     {
         $this->assertBurialPlaceMatchesBurialType($burialPlace);
-        /** @var ColumbariumNicheId|GraveSiteId|MemorialTreeId $burialPlaceId */
-        $burialPlaceId       = $burialPlace?->id();
-        $this->burialPlaceId = $burialPlaceId ? new BurialPlaceId($burialPlaceId) : null;
+        /** @var BurialPlaceId $burialPlaceId */
+        $burialPlaceId       = $burialPlace->id();
+        $this->burialPlaceId = $burialPlaceId;
+
+        return $this;
+    }
+
+    public function discardBurialPlace(): self
+    {
+        $this->burialPlaceId = null;
 
         return $this;
     }
@@ -173,14 +180,14 @@ class Burial extends AggregateRoot
     /**
      * @throws Exception when the burial place does not match the burial type
      */
-    private function assertBurialPlaceMatchesBurialType(?BurialPlace $burialPlace): void
+    private function assertBurialPlaceMatchesBurialType(BurialPlace $burialPlace): void
     {
-        $id      = $burialPlace?->id();
+        $id      = $burialPlace->id();
         $isMatch = match (true) {
             $this->type()->isCoffinInGraveSite(),
-            $this->type()->isUrnInGraveSite()         => $id === null || $id instanceof GraveSiteId,
-            $this->type()->isUrnInColumbariumNiche()  => $id === null || $id instanceof ColumbariumNicheId,
-            $this->type()->isAshesUnderMemorialTree() => $id === null || $id instanceof MemorialTreeId,
+            $this->type()->isUrnInGraveSite()         => $id instanceof GraveSiteId,
+            $this->type()->isUrnInColumbariumNiche()  => $id instanceof ColumbariumNicheId,
+            $this->type()->isAshesUnderMemorialTree() => $id instanceof MemorialTreeId,
             default => false,
         };
         if (!$isMatch) {

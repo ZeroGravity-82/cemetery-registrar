@@ -113,23 +113,23 @@ class BurialTest extends AggregateRootTest
     {
         $this->burial->setType(BurialType::coffinInGraveSite());
         $burialPlace = GraveSiteProvider::getGraveSiteA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
-        $this->assertTrue($this->burial->burialPlaceId()->id()->isEqual($burialPlace->id()));
+        $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
 
         $this->burial->setType(BurialType::urnInColumbariumNiche());
         $burialPlace = ColumbariumNicheProvider::getColumbariumNicheA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
-        $this->assertTrue($this->burial->burialPlaceId()->id()->isEqual($burialPlace->id()));
+        $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
 
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
         $burialPlace = MemorialTreeProvider::getMemorialTreeA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
         $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
-        $this->assertTrue($this->burial->burialPlaceId()->id()->isEqual($burialPlace->id()));
+        $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
 
-        $this->burial->setBurialPlace(null);
+        $this->burial->discardBurialPlace();
         $this->assertNull($this->burial->burialPlaceId());
     }
 
@@ -189,7 +189,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
         );
         $burialPlace = ColumbariumNicheProvider::getColumbariumNicheA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingMemorialTreeForCoffinInGraveSiteBurialType(): void
@@ -203,7 +203,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL,
         );
         $burialPlace = MemorialTreeProvider::getMemorialTreeA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingColumbariumNicheForUrnInGraveSiteBurialType(): void
@@ -217,7 +217,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
         );
         $burialPlace = ColumbariumNicheProvider::getColumbariumNicheA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingMemorialTreeForUrnInGraveSiteBurialType(): void
@@ -231,7 +231,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL,
         );
         $burialPlace = MemorialTreeProvider::getMemorialTreeA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingGraveSiteForUrnInColumbariumNicheBurialType(): void
@@ -245,7 +245,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
         );
         $burialPlace = GraveSiteProvider::getGraveSiteA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingMemorialTreeForUrnInColumbariumNicheBurialType(): void
@@ -259,7 +259,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_URN_IN_COLUMBARIUM_NICHE_LABEL,
         );
         $burialPlace = MemorialTreeProvider::getMemorialTreeA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingGraveSiteForAshesUnderMemorialTreeBurialType(): void
@@ -273,7 +273,7 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
         $burialPlace = GraveSiteProvider::getGraveSiteA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItFailsWhenSettingColumbariumNicheForAshesUnderMemorialTreeBurialType(): void
@@ -287,14 +287,14 @@ class BurialTest extends AggregateRootTest
             self::BURIAL_TYPE_ASHES_UNDER_MEMORIAL_TREE_LABEL,
         );
         $burialPlace = ColumbariumNicheProvider::getColumbariumNicheA();
-        $this->burial->setBurialPlace($burialPlace);
+        $this->burial->assignBurialPlace($burialPlace);
     }
 
     public function testItDiscardsBurialPlaceIdAfterChangingBurialTypeA(): void
     {
         // Prepare entity for testing
         $this->burial->setType(BurialType::coffinInGraveSite());
-        $this->burial->setBurialPlace(GraveSiteProvider::getGraveSiteA());
+        $this->burial->assignBurialPlace(GraveSiteProvider::getGraveSiteA());
         $this->assertNotNull($this->burial->burialPlaceId());
 
         // Testing itself
@@ -306,7 +306,7 @@ class BurialTest extends AggregateRootTest
     {
         // Prepare entity for testing
         $this->burial->setType(BurialType::urnInColumbariumNiche());
-        $this->burial->setBurialPlace(ColumbariumNicheProvider::getColumbariumNicheA());
+        $this->burial->assignBurialPlace(ColumbariumNicheProvider::getColumbariumNicheA());
         $this->assertNotNull($this->burial->burialPlaceId());
 
         // Testing itself
@@ -318,7 +318,7 @@ class BurialTest extends AggregateRootTest
     {
         // Prepare entity for testing
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
-        $this->burial->setBurialPlace(MemorialTreeProvider::getMemorialTreeA());
+        $this->burial->assignBurialPlace(MemorialTreeProvider::getMemorialTreeA());
         $this->assertNotNull($this->burial->burialPlaceId());
 
         // Testing itself

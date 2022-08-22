@@ -40,16 +40,21 @@ class BurialFactory extends EntityFactory
         ?BurialContainer    $burialContainer,
         ?\DateTimeImmutable $buriedAt,
     ): Burial {
-        return (new Burial(
+        $burial = (new Burial(
             new BurialId($this->identityGenerator->getNextIdentity()),
             new BurialCode($this->burialCodeGenerator->getNextCode()),
             $type,
             $deceasedId,
         ))
             ->setCustomerId($customerId)
-            ->setBurialPlace($burialPlace)
             ->setFuneralCompanyId($funeralCompanyId)
             ->setBurialContainer($burialContainer)
             ->setBuriedAt($buriedAt);
+
+        if ($burialPlace) {
+            $burial->assignBurialPlace($burialPlace);
+        }
+
+        return $burial;
     }
 }

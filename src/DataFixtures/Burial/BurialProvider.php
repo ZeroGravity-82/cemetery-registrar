@@ -37,7 +37,7 @@ class BurialProvider
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
-            ->setBurialPlace($burialPlace)
+            ->assignBurialPlace($burialPlace)
             ->setBurialContainer($burialContainer)
             ->setBuriedAt($buriedAt);
     }
@@ -54,7 +54,7 @@ class BurialProvider
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
-            ->setBurialPlace($burialPlace)
+            ->assignBurialPlace($burialPlace)
             ->setBurialContainer($burialContainer);
     }
 
@@ -69,7 +69,7 @@ class BurialProvider
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
-            ->setBurialPlace($burialPlace);
+            ->assignBurialPlace($burialPlace);
 
     }
 
@@ -85,7 +85,7 @@ class BurialProvider
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
-            ->setBurialPlace($burialPlace)
+            ->assignBurialPlace($burialPlace)
             ->setFuneralCompanyId($funeralCompanyId);
     }
 
@@ -102,7 +102,7 @@ class BurialProvider
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
             ->setCustomerId($customerId)
-            ->setBurialPlace($burialPlace)
+            ->assignBurialPlace($burialPlace)
             ->setFuneralCompanyId($funeralCompanyId)
             ->setBuriedAt($buriedAt);
     }
@@ -131,7 +131,7 @@ class BurialProvider
         $funeralCompanyId = new FuneralCompanyId('FC001');
 
         return (new Burial($id, $burialCode, $burialType, $deceasedId))
-            ->setBurialPlace($burialPlace)
+            ->assignBurialPlace($burialPlace)
             ->setFuneralCompanyId($funeralCompanyId);
     }
 }

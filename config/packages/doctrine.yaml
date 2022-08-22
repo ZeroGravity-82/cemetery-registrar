@@ -9,11 +9,12 @@ doctrine:
             burial_chain_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialChainIdType
             burial_code:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialCodeType
             burial_id:                  Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialIdType
-            burial_place_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialPlaceIdType
             burial_type:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialTypeType
             customer_id:                Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType
             # BurialContainer
             burial_container:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialContainer\BurialContainerType
+            # BurialPlace
+            burial_place_id:            Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\BurialPlaceIdType
             # BurialPlace/ColumbariumNiche
             columbarium_id:             Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumIdType
             columbarium_name:           Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\ColumbariumNiche\ColumbariumNameType
