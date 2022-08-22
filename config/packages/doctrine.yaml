@@ -76,7 +76,7 @@ doctrine:
             Cemetery\Registrar:
                 is_bundle: false
                 type: xml
-                dir: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Persistence/Doctrine/Orm/Mapping/MySQL'
+                dir: '%kernel.project_dir%/src/Cemetery/Registrar/Infrastructure/Persistence/Doctrine/Orm/Mapping/MySql'
                 prefix: Cemetery\Registrar\Domain\Model
         dql:
             string_functions:
