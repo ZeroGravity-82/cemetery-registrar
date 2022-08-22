@@ -58,10 +58,10 @@ class JuristicPersonProvider
     public static function getJuristicPersonE(): JuristicPerson
     {
         $id              = new JuristicPersonId('JP005');
-        $name            = new Name('МУП Похоронный Дом "ИМИ"');
-        $inn             = new Inn('5402103598');
-        $kpp             = new Kpp('540201001');
-        $generalDirector = new FullName('Бондаренко Сергей Валентинович');
+        $name            = new Name('ООО "Интернет Решения"');
+        $inn             = new Inn('7704217370');
+        $kpp             = new Kpp('770301001');
+        $generalDirector = new FullName('Паньков Сергей Владимирович');
 
         return (new JuristicPerson($id, $name))
             ->setInn($inn)
