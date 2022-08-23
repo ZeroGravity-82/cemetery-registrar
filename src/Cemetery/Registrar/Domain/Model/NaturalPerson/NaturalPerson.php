@@ -19,13 +19,13 @@ class NaturalPerson extends AggregateRoot
     public const CLASS_SHORTCUT = 'NATURAL_PERSON';
     public const CLASS_LABEL    = 'физлицо';
 
-    private ?PhoneNumber        $phone = null;
+    private ?PhoneNumber        $phone           = null;
     private ?PhoneNumber        $phoneAdditional = null;
-    private ?Email              $email = null;
-    private ?Address            $address = null;
-    private ?\DateTimeImmutable $bornAt = null;
-    private ?PlaceOfBirth       $placeOfBirth = null;
-    private ?Passport           $passport = null;
+    private ?Email              $email           = null;
+    private ?Address            $address         = null;
+    private ?\DateTimeImmutable $bornAt          = null;
+    private ?PlaceOfBirth       $placeOfBirth    = null;
+    private ?Passport           $passport        = null;
     private ?DeceasedDetails    $deceasedDetails = null;
 
     public function __construct(
