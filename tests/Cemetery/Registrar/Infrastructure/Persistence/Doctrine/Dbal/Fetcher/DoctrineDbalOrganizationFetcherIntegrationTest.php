@@ -323,7 +323,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                                          $listItem->okved);
         $this->assertSame('г. Кемерово, пр. Строителей, д. 5, офис 102', $listItem->address);
         $this->assertSame(null,                                          $listItem->bankDetails);
-        $this->assertSame(null,                                          $listItem->phone);
+        $this->assertSame(null,                                          $listItem->phoneFax);
         $this->assertSame(null,                                          $listItem->generalDirector);
         $this->assertSame(null,                                          $listItem->emailWebsite);
     }
@@ -343,7 +343,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
             'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ, р/счёт 40601810900001000022, БИК 044106001',
             $listItem->bankDetails
         );
-        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneFax);
         $this->assertSame(null,                           $listItem->generalDirector);
         $this->assertSame(null,                           $listItem->emailWebsite);
     }
@@ -360,7 +360,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->okved);
         $this->assertSame(null,                           $listItem->address);
         $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneFax);
         $this->assertSame(null,                           $listItem->generalDirector);
         $this->assertSame(null,                           $listItem->emailWebsite);
     }
@@ -377,7 +377,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                               $listItem->okved);
         $this->assertSame(null,                               $listItem->address);
         $this->assertSame(null,                               $listItem->bankDetails);
-        $this->assertSame(null,                               $listItem->phone);
+        $this->assertSame(null,                               $listItem->phoneFax);
         $this->assertSame(null,                               $listItem->generalDirector);
         $this->assertSame(null,                               $listItem->emailWebsite);
     }
@@ -394,7 +394,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                               $listItem->okved);
         $this->assertSame(null,                               $listItem->address);
         $this->assertSame(null,                               $listItem->bankDetails);
-        $this->assertSame(null,                               $listItem->phone);
+        $this->assertSame(null,                               $listItem->phoneFax);
         $this->assertSame('Паньков Сергей Владимирович',   $listItem->generalDirector);
         $this->assertSame(null,                               $listItem->emailWebsite);
     }
@@ -411,7 +411,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->okved);
         $this->assertSame(null,                           $listItem->address);
         $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneFax);
         $this->assertSame(null,                           $listItem->generalDirector);
         $this->assertSame(null,                           $listItem->emailWebsite);
     }
@@ -433,7 +433,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         );
         $this->assertSame(
             '8(383)133-22-33, 8(383)133-22-44, 8(383)133-22-55 (факс)',
-            $listItem->phone
+            $listItem->phoneFax
         );
         $this->assertSame(
             'info@funeral54.ru, funeral54.ru',
@@ -453,7 +453,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->okved);
         $this->assertSame('с. Каменка, д. 14',            $listItem->address);
         $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame('8(383)147-22-33',              $listItem->phone);
+        $this->assertSame('8(383)147-22-33',              $listItem->phoneFax);
         $this->assertSame(null,                           $listItem->generalDirector);
         $this->assertSame(null,                           $listItem->emailWebsite);
     }
@@ -470,7 +470,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->okved);
         $this->assertSame(null,                           $listItem->address);
         $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneFax);
         $this->assertSame(null,                           $listItem->generalDirector);
         $this->assertSame(null,                           $listItem->emailWebsite);
     }

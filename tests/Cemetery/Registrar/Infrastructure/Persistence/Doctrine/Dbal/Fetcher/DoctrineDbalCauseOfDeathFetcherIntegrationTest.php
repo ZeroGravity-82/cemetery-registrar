@@ -249,10 +249,4 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundCauseOfDeathById(string $causeOfDeathId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Причина смерти с ID "%s" не найдена.', $causeOfDeathId));
-    }
 }

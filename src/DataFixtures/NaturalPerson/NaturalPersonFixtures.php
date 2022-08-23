@@ -18,6 +18,10 @@ class NaturalPersonFixtures extends Fixture
         $manager->persist(NaturalPersonProvider::getNaturalPersonG());
         $manager->persist(NaturalPersonProvider::getNaturalPersonH());
         $manager->persist(NaturalPersonProvider::getNaturalPersonI());
+        $manager->persist(NaturalPersonProvider::getNaturalPersonJ());
+        $manager->persist(NaturalPersonProvider::getNaturalPersonK());
+        $manager->persist(NaturalPersonProvider::getNaturalPersonL());
+        $manager->persist(NaturalPersonProvider::getNaturalPersonM());
         $manager->flush();
     }
 }

@@ -18,7 +18,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
 
     public function findViewById(string $id): mixed
     {
-        // TODO: Implement findViewById() method.
+        // TODO: implement + fix return type
         return null;
     }
 

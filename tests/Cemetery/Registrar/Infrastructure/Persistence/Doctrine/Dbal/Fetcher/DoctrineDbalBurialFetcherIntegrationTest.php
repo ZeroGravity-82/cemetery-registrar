@@ -1409,10 +1409,4 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundBurialById(string $burialId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Захоронение с ID "%s" не найдено.', $burialId));
-    }
 }

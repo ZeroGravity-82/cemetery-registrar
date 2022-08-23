@@ -497,10 +497,4 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundGraveSiteById(string $graveSiteId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Участок с ID "%s" не найден.', $graveSiteId));
-    }
 }

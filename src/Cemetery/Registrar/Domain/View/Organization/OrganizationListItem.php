@@ -20,7 +20,7 @@ class OrganizationListItem
         public ?string $okved,
         public ?string $address,
         public ?string $bankDetails,
-        public ?string $phone,
+        public ?string $phoneFax,
         public ?string $generalDirector,
         public ?string $emailWebsite,
     ) {}

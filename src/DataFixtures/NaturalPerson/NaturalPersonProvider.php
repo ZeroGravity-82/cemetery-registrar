@@ -25,7 +25,7 @@ class NaturalPersonProvider
         $fullName             = new FullName('Егоров Абрам Даниилович');
         $diedAt               = new \DateTimeImmutable('2021-12-01');
         $age                  = new Age(69);
-        $cremationCertificate = new CremationCertificate('12964', new \DateTimeImmutable('2002-10-28'));
+        $cremationCertificate = new CremationCertificate('12964', new \DateTimeImmutable('2021-12-03'));
         $deceasedDetails      = new DeceasedDetails(
             $diedAt,
             $age,
@@ -45,7 +45,7 @@ class NaturalPersonProvider
         $bornAt           = new \DateTimeImmutable('1918-12-30');
         $diedAt           = new \DateTimeImmutable('2001-02-12');
         $causeOfDeathId   = new CauseOfDeathId('CD008');
-        $deathCertificate = new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2002-10-28'));
+        $deathCertificate = new DeathCertificate('V-МЮ', '532515', new \DateTimeImmutable('2001-02-15'));
         $deceasedDetails  = new DeceasedDetails(
             $diedAt,
             null,
@@ -95,7 +95,7 @@ class NaturalPersonProvider
         $passport = new Passport(
             '1235',
             '567891',
-            new \DateTimeImmutable('2011-03-23'),
+            new \DateTimeImmutable('2001-02-23'),
             'Отделом УФМС России по Новосибирской области в Заельцовском районе',
             '541-001',
         );
@@ -118,8 +118,8 @@ class NaturalPersonProvider
     {
         $id       = new NaturalPersonId('NP005');
         $fullName = new FullName('Жданова Инга Григорьевна');
-        $phone    = new PhoneNumber('+7-913-771-22-33');
-        $address  = new Address('Новосибирск, ул. Ленина, д. 1');
+        $phone    = new PhoneNumber('8-913-771-22-33');
+        $address  = new Address('Новосибирск, Ленина 1');
         $bornAt   = new \DateTimeImmutable('1980-02-12');
         $passport = new Passport(
             '1234',
@@ -166,7 +166,7 @@ class NaturalPersonProvider
     {
         $id       = new NaturalPersonId('NP007');
         $fullName = new FullName('Громов Никифор Рудольфович');
-        $address  = new Address('Новосибирск, ул. Н.-Данченко, д. 18, кв. 17');
+        $address  = new Address('Новосибирск, Н.-Данченко 18 - 17');
         $bornAt   = new \DateTimeImmutable('1915-09-24');
 
         return (new NaturalPerson($id, $fullName))
@@ -207,5 +207,70 @@ class NaturalPersonProvider
 
         return (new NaturalPerson($id, $fullName))
             ->setDeceasedDetails($deceasedDetails);
+    }
+
+    public static function getNaturalPersonJ(): NaturalPerson
+    {
+        $id              = new NaturalPersonId('NP010');
+        $fullName        = new FullName('Иванов Иван Иванович');
+        $bornAt          = new \DateTimeImmutable('1930-11-04');
+        $diedAt          = new \DateTimeImmutable('2002-11-22');
+        $deceasedDetails = new DeceasedDetails(
+            $diedAt,
+            null,
+            null,
+            null,
+            null,
+        );
+
+        return (new NaturalPerson($id, $fullName))
+            ->setBornAt($bornAt)
+            ->setDeceasedDetails($deceasedDetails);
+    }
+
+    public static function getNaturalPersonK(): NaturalPerson
+    {
+        $id              = new NaturalPersonId('NP011');
+        $fullName        = new FullName('Иванов Иван Иванович');
+        $bornAt          = new \DateTimeImmutable('1925-04-12');
+        $diedAt          = new \DateTimeImmutable('2004-05-11');
+        $deceasedDetails = new DeceasedDetails(
+            $diedAt,
+            null,
+            null,
+            null,
+            null,
+        );
+
+        return (new NaturalPerson($id, $fullName))
+            ->setBornAt($bornAt)
+            ->setDeceasedDetails($deceasedDetails);
+    }
+
+    public static function getNaturalPersonL(): NaturalPerson
+    {
+        $id              = new NaturalPersonId('NP012');
+        $fullName        = new FullName('Иванов Иван Иванович');
+        $bornAt          = new \DateTimeImmutable('1925-04-12');
+        $diedAt          = new \DateTimeImmutable('2005-10-29');
+        $deceasedDetails = new DeceasedDetails(
+            $diedAt,
+            null,
+            null,
+            null,
+            null,
+        );
+
+        return (new NaturalPerson($id, $fullName))
+            ->setBornAt($bornAt)
+            ->setDeceasedDetails($deceasedDetails);
+    }
+
+    public static function getNaturalPersonM(): NaturalPerson
+    {
+        $id       = new NaturalPersonId('NP013');
+        $fullName = new FullName('Петров Пётр Петрович');
+
+        return new NaturalPerson($id, $fullName);
     }
 }

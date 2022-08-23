@@ -129,10 +129,4 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundCemeteryBlockById(string $cemeteryBlockId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Квартал с ID "%s" не найден.', $cemeteryBlockId));
-    }
 }

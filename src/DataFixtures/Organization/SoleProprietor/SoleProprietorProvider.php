@@ -30,9 +30,9 @@ class SoleProprietorProvider
         $name            = new Name('ИП Петров Пётр Петрович');
         $inn             = new Inn('772208786091');
         $bankDetails     = new BankDetails('АО "АЛЬФА-БАНК"', '044525593', '30101810200000000593', '40701810401400000014');
-        $phone           = new PhoneNumber('8(383)133-22-33');
-        $phoneAdditional = new PhoneNumber('8(383)133-22-44');
-        $fax             = new PhoneNumber('8(383)133-22-55');
+        $phone           = new PhoneNumber('8-383-133-22-33');
+        $phoneAdditional = new PhoneNumber('8-383-133-22-44');
+        $fax             = new PhoneNumber('8-383-133-22-55');
         $email           = new Email('info@funeral54.ru');
         $website         = new Website('funeral54.ru');
 
@@ -51,8 +51,8 @@ class SoleProprietorProvider
         $id                    = new SoleProprietorId('SP003');
         $name                  = new Name('ИП Сидоров Сидр Сидорович');
         $inn                   = new Inn('391600743661');
-        $actualLocationAddress = new Address('с. Каменка, д. 14');
-        $phone                 = new PhoneNumber('8(383)147-22-33');
+        $actualLocationAddress = new Address('с. Каменка, Заводская 14');
+        $phone                 = new PhoneNumber('8-383-147-22-33');
 
         return (new SoleProprietor($id, $name))
             ->setInn($inn)

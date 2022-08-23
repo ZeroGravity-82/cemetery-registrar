@@ -19,7 +19,7 @@ class JuristicPersonProvider
     {
         $id            = new JuristicPersonId('JP001');
         $name          = new Name('ООО "Рога и копыта"');
-        $postalAddress = new Address('г. Кемерово, пр. Строителей, д. 5, офис 102');
+        $postalAddress = new Address('Кемерово, пр. Строителей, 5 - 102');
 
         return (new JuristicPerson($id, $name))
             ->setPostalAddress($postalAddress);

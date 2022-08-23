@@ -204,10 +204,4 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
         $this->assertSame('Похоронный Дом "Некрополь"', $listItem->name);
         $this->assertSame(null,                         $listItem->note);
     }
-
-    private function expectExceptionForNotFoundFuneralCompanyById(string $funeralCompanyId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Похоронная фирма с ID "%s" не найдена.', $funeralCompanyId));
-    }
 }

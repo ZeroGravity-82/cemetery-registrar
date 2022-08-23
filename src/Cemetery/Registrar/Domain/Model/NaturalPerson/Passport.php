@@ -32,22 +32,6 @@ class Passport
         $this->assertValidDivisionCode($this->divisionCode);
     }
 
-    public function __toString(): string
-    {
-        $string = \sprintf(
-            'Паспорт серия %s номер %s, выдан %s %s',
-            $this->series(),
-            $this->number(),
-            $this->issuedBy(),
-            $this->issuedAt()->format('d.m.Y'),
-        );
-        if ($this->divisionCode) {
-            $string = \sprintf('%s (код подразделения %s)', $string, $this->divisionCode());
-        }
-
-        return $string;
-    }
-
     public function series(): string
     {
         return $this->series;

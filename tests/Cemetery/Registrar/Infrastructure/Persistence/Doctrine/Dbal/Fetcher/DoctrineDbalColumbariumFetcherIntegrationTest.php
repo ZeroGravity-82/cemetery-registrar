@@ -160,10 +160,4 @@ class DoctrineDbalColumbariumFetcherIntegrationTest extends DoctrineDbalFetcherI
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundColumbariumById(string $columbariumId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Колумбарий с ID "%s" не найден.', $columbariumId));
-    }
 }

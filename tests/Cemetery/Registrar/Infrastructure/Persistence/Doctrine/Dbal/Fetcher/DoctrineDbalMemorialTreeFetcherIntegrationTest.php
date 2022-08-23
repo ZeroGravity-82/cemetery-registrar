@@ -240,10 +240,4 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundMemorialTreeById(string $memorialTreeId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Памятное дерево с ID "%s" не найдено.', $memorialTreeId));
-    }
 }

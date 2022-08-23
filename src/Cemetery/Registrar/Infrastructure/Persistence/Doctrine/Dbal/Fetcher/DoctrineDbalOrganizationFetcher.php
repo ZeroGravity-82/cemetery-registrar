@@ -17,6 +17,7 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
 {
     public function findViewById(string $id): mixed
     {
+        // TODO implement + fix return type
         return null;
     }
 
@@ -74,7 +75,7 @@ SELECT id,
        okved,
        address,
        bankDetails,
-       phone,
+       phoneFax,
        generalDirector,
        emailWebsite
 FROM (%s) AS unionTable
@@ -135,7 +136,7 @@ SELECT id                                                 AS id,
                IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
            ),
            NULL
-       )                                                  AS phone,
+       )                                                  AS phoneFax,
        general_director                                   AS generalDirector,
        IF(
            email IS NOT NULL OR website IS NOT NULL,
@@ -187,7 +188,7 @@ SELECT id                                                 AS id,
                IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
            ),
            NULL
-       )                                                  AS phone,
+       )                                                  AS phoneFax,
        NULL                                               AS generalDirector,
        IF(
            email IS NOT NULL OR website IS NOT NULL,
@@ -257,7 +258,7 @@ LIKE_TERM_SQL;
                 $listItemData['okved'],
                 $listItemData['address'],
                 $listItemData['bankDetails'],
-                $listItemData['phone'],
+                $listItemData['phoneFax'],
                 $listItemData['generalDirector'],
                 $listItemData['emailWebsite'],
             );

@@ -417,10 +417,4 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFet
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
-
-    private function expectExceptionForNotFoundColumbariumNicheById(string $columbariumNicheId): void
-    {
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('Колумбарная ниша с ID "%s" не найдена.', $columbariumNicheId));
-    }
 }
