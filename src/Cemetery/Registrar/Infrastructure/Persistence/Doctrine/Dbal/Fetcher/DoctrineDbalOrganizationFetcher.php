@@ -218,7 +218,7 @@ UNION_SQL
     OR okved              LIKE :term
     OR address            LIKE :term
     OR LOWER(bankDetails) LIKE LOWER(:term)
-    OR phone              LIKE :term
+    OR phoneFax           LIKE :term
     OR generalDirector    LIKE :term
     OR emailWebsite       LIKE :term)
 LIKE_TERM_SQL;
