@@ -221,16 +221,16 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
     protected function loadFixtures(): void
     {
         $this->databaseTool->loadFixtures([
-            NaturalPersonFixtures::class,
-            JuristicPersonFixtures::class,
-            SoleProprietorFixtures::class,
+            BurialFixtures::class,
             CemeteryBlockFixtures::class,
-            GraveSiteFixtures::class,
             ColumbariumFixtures::class,
             ColumbariumNicheFixtures::class,
-            MemorialTreeFixtures::class,
             FuneralCompanyFixtures::class,
-            BurialFixtures::class,
+            GraveSiteFixtures::class,
+            JuristicPersonFixtures::class,
+            MemorialTreeFixtures::class,
+            NaturalPersonFixtures::class,
+            SoleProprietorFixtures::class,
         ]);
     }
 
