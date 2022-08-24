@@ -9,16 +9,29 @@ use Cemetery\Registrar\Application\ApplicationRequestValidator;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 {
+    public function __construct(
+        private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
+    ) {
+        parent::__construct();
+    }
+
     protected function validateCemeteryBlockId(ApplicationRequest $request): self
     {
         if ($request->cemeteryBlockId === null || empty(\trim($request->cemeteryBlockId))) {
             $this->note->addError('cemeteryBlockId', 'Квартал не указан.');
+        }
+        if (
+            $request->cemeteryBlockId !== null &&
+            !$this->cemeteryBlockFetcher->doesExistById($request->cemeteryBlockId)
+        ) {
+            $this->note->addError('cemeteryBlockId', 'Квартал не найден.');
         }
 
         return $this;
