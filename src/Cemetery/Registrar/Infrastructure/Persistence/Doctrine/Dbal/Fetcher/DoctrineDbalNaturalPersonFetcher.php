@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonListItem;
-use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -25,44 +24,11 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
     public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
+        $result = $stmt->executeQuery();
 
-
-        $queryBuilder = $this->connection->createQueryBuilder()
-            ->select(
-                'np.id                                                             AS id',
-                'np.full_name                                                      AS fullName',
-                'np.address                                                        AS address',
-                'np.phone                                                          AS phone',
-                'IF(
-                    np.phone IS NOT NULL OR np.phone_additional IS NOT NULL,
-                    CONCAT_WS(', ', np.phone, np.phone_additional),
-                    NULL
-                )                                                                  AS phone',
-                'np.email                                                          AS email',
-                'np.born_at                                                        AS bornAt',           // TODO fix format
-                'np.place_of_birth                                                 AS placeOfBirth',
-                'np.passport->>"$.series"                                          AS passport',
-                'np.deceased_details->>"$.diedAt"                                  AS diedAt',
-                'np.deceased_details->>"$.age"                                     AS age',
-                'TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt") AS age',
-                'cd.name                                                           AS causeOfDeathName',
-                'np.deceased_details->>"$.deathCertificate.series"                 AS deathCertificate',
-                'np.deceased_details->>"$.cremationCertificate.number"             AS cremationCertificate',
-            )
-            ->from($this->tableName, 'np')
-            ->andWhere('np.removed_at IS NULL')
-            ->orderBy('np.full_name')
-            ->addOrderBy('np.born_at')
-            ->addOrderBy('np.deceased_details->>"$.diedAt"')
-            ->setFirstResult(($page - 1) * $pageSize)
-            ->setMaxResults($pageSize);
-        $this->appendJoinsSql($sql);
-        $this->appendAndWhereLikeTerm($sql, $term);
-        $this->setTermParameter($queryBuilder, $term);
-
-        $listData = $queryBuilder
-            ->executeQuery()
-            ->fetchAllAssociative();
+        $listData   = $result->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
@@ -76,23 +42,22 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 
     private function doCountTotal(?string $term): int
     {
-        $queryBuilder = $this->connection->createQueryBuilder()
-            ->select('COUNT(np.id)')
-            ->from($this->tableName, 'np')
-            ->andWhere('np.removed_at IS NULL');
-        $this->appendJoins($queryBuilder);
-        $this->appendAndWhereLikeTerm($queryBuilder, $term);
-        $this->setTermParameter($queryBuilder, $term);
+        $sql  = $this->buildCountTotalSql($term);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
+        $result = $stmt->executeQuery();
 
-        return $queryBuilder
-            ->executeQuery()
-            ->fetchFirstColumn()[0];
+        return $result->fetchFirstColumn()[0];
     }
 
+    private function buildCountTotalSql(?string $term): string
+    {
+        $sql = 'SELECT COUNT(np.id) FROM natural_person AS np';
+        $sql = $this->appendJoinsSql($sql);
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
 
-
-
-
+        return $this->appendAndWhereLikeTermSql($sql, $term);
+    }
 
     private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
     {
@@ -108,64 +73,48 @@ SELECT np.id                                                                    
           NULL
        )                                                                                      AS phoneComposed,
        np.email                                                                               AS email,
-       IF(np.born_at IS NOT NULL, DATE_FORMAT(np.born_at, '%d.%m.%Y'), NULL)                  AS bornAtFormatted,
+       DATE_FORMAT(np.born_at, '%d.%m.%Y')                                                    AS bornAtFormatted,
        np.place_of_birth                                                                      AS placeOfBirth,
-       IF(np.passport IS NOT NULL, np.passport->>"$.series", NULL)                            AS passportSeries,
-       IF(np.passport IS NOT NULL, np.passport->>"$.number", NULL)                            AS passportNumber,
+       np.passport->>"$.series"                                                               AS passportSeries,
+       np.passport->>"$.number"                                                               AS passportNumber,
+       DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y')                                    AS passportIssuedAtFormatted,
+       np.passport->>"$.issuedBy"                                                             AS passportIssuedBy,
        IF(
-          np.passport IS NOT NULL AND np.passport->>"$.issuedAt" IS NOT NULL,
-          DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y'),
+          np.passport->>"$.divisionCode" <> 'null',
+          np.passport->>"$.divisionCode",
           NULL
-       )                                                                                      AS passportIssuedAtFormatted,
-       IF(np.passport IS NOT NULL, np.passport->>"$.issuedBy", NULL)                          AS passportIssuedBy,
-       IF(np.passport IS NOT NULL, np.passport->>"$.divisionCode", NULL)                      AS passportDivisionCode,
+       )                                                                                      AS passportDivisionCode,
        IF(
           np.passport IS NOT NULL,
           CONCAT(
              np.passport->>"$.series",
              ' № ',
              np.passport->>"$.number",
-             ' выдан ',
+             ', выдан ',
              np.passport->>"$.issuedBy",
              ' ',
              DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y'),
              IF(
-                np.passport->>"$.divisionCode" IS NOT NULL,
+                np.passport->>"$.divisionCode" <> 'null',
                 CONCAT(' (', np.passport->>"$.divisionCode", ')'),
                 ''
              )
           ),
           NULL
        )                                                                                      AS passportComposed,
+       DATE_FORMAT(np.deceased_details->>"$.diedAt", '%d.%m.%Y')                              AS diedAtFormatted,
        IF(
-          np.deceased_details IS NOT NULL AND np.deceased_details->>"$.diedAt" IS NOT NULL,
-          DATE_FORMAT(np.deceased_details->>"$.diedAt", '%d.%m.%Y'),
+          np.deceased_details->>"$.age" <> 'null',
+          np.deceased_details->>"$.age",
           NULL
-       )                                                                                      AS diedAtFormatted,
-       IF(np.deceased_details IS NOT NULL, np.deceased_details->>"$.age", NULL)               AS age,
-       IF(
-          np.born_at IS NOT NULL AND np.deceased_details IS NOT NULL AND np.deceased_details->>"$.diedAt" IS NOT NULL,
-          TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt"),
-          NULL
-       )                                                                                      AS ageCalculated,
+       )                                                                                      AS age,
+       TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt")                      AS ageCalculated,
        cd.name                                                                                AS causeOfDeathName,
+       np.deceased_details->>"$.deathCertificate.series"                                      AS deathCertificateSeries,
+       np.deceased_details->>"$.deathCertificate.number"                                      AS deathCertificateNumber,
+       DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y')           AS deathCertificateIssuedAtFormatted,
        IF(
-          np.deceased_details IS NOT NULL AND np.deceased_details->>"$.deathCertificate" IS NOT NULL,
-          np.deceased_details->>"$.deathCertificate.series",
-          NULL
-       )                                                                                      AS deathCertificateSeries,
-       IF(
-          np.deceased_details IS NOT NULL AND np.deceased_details->>"$.deathCertificate" IS NOT NULL,
-          np.deceased_details->>"$.deathCertificate.number",
-          NULL
-       )                                                                                      AS deathCertificateNumber,
-       IF(
-          np.deceased_details IS NOT NULL AND np.deceased_details->>"$.deathCertificate" IS NOT NULL,
-          DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y'),
-          NULL
-       )                                                                                      AS deathCertificateIssuedAtFormatted,
-       IF(
-           np.deceased_details IS NOT NULL AND np.deceased_details->>"$.deathCertificate" IS NOT NULL,
+           np.deceased_details->>"$.deathCertificate" IS NOT NULL,
            CONCAT(
                np.deceased_details->>"$.deathCertificate.series",
                ' № ',
@@ -175,19 +124,12 @@ SELECT np.id                                                                    
            ),
            NULL
        )                                                                                      AS deathCertificateComposed,
+       np.deceased_details->>"$.cremationCertificate.number"                                  AS cremationCertificateNumber,
+       DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y')       AS cremationCertificateIssuedAtFormatted,
        IF(
-          np.deceased_details IS NOT NULL AND np.deceased_details->>"$.cremationCertificate" IS NOT NULL,
-          np.deceased_details->>"$.cremationCertificate.number",
-          NULL
-       )                                                                                      AS cremationCertificateNumber,
-       IF(
-          np.deceased_details IS NOT NULL AND np.deceased_details->>"$.cremationCertificate" IS NOT NULL,
-          DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y'),
-          NULL
-       )                                                                                      AS cremationCertificateIssuedAtFormatted,
-       IF(
-           np.deceased_details IS NOT NULL AND np.deceased_details->>"$.cremationCertificate" IS NOT NULL,
+           np.deceased_details->>"$.cremationCertificate" IS NOT NULL,
            CONCAT(
+               '№ ',
                np.deceased_details->>"$.cremationCertificate.number",
                ' от ',
                DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y')
@@ -200,7 +142,7 @@ FIND_ALL_SQL;
         $sql = $this->appendJoinsSql($sql);
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
         $sql = $this->appendAndWhereLikeTermSql($sql, $term);
-        $sql = $this->appendOrderByName($sql);
+        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
         return $this->appendLimitOffset($sql, $page, $pageSize);
     }
@@ -212,61 +154,56 @@ FIND_ALL_SQL;
 
     private function appendWhereRemovedAtIsNullSql(string $sql): string
     {
-        return $sql . ' WHERE removedAt IS NULL';
+        return $sql . ' WHERE np.removed_at IS NULL';
     }
 
     private function appendAndWhereLikeTermSql(string $sql, ?string $term): string
     {
         if ($this->isTermNotEmpty($term)) {
             $sql .= <<<LIKE_TERM_SQL
-  AND (fullName                              LIKE :term
-    OR address                               LIKE :term
-    OR phone                                 LIKE :term
-    OR phoneAdditional                       LIKE :term
-    OR email                                 LIKE :term
-    OR bornAtFormatted                       LIKE :term
-    OR placeOfBirth                          LIKE :term
-    OR passportSeries                        LIKE :term
-    OR passportNumber                        LIKE :term
-    OR passportIssuedAtFormatted             LIKE :term
-    OR passportIssuedBy                      LIKE :term
-    OR passportDivisionCode                  LIKE :term
-    OR diedAtFormatted                       LIKE :term
-    OR age                                   LIKE :term
-    OR ageCalculated                         LIKE :term
-    OR causeOfDeathName                      LIKE :term
-    OR deathCertificateSeries                LIKE :term
-    OR deathCertificateNumber                LIKE :term
-    OR deathCertificateIssuedAtFormatted     LIKE :term
-    OR cremationCertificateNumber            LIKE :term
-    OR cremationCertificateIssuedAtFormatted LIKE :term)
+  AND (np.full_name                                                                     LIKE :term
+    OR np.address                                                                       LIKE :term
+    OR np.phone                                                                         LIKE :term
+    OR np.phone_additional                                                              LIKE :term
+    OR np.email                                                                         LIKE :term
+    OR DATE_FORMAT(np.born_at, '%d.%m.%Y')                                              LIKE :term
+    OR np.place_of_birth                                                                LIKE :term
+    OR np.passport->>"$.series"                                                         LIKE :term
+    OR np.passport->>"$.number"                                                         LIKE :term
+    OR DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y')                              LIKE :term
+    OR np.passport->>"$.issuedBy"                                                       LIKE :term
+    OR IF(
+          np.passport->>"$.divisionCode" <> 'null',
+          np.passport->>"$.divisionCode",
+          NULL
+       )                                                                                LIKE :term
+    OR DATE_FORMAT(np.deceased_details->>"$.diedAt", '%d.%m.%Y')                        LIKE :term
+    OR IF(
+          np.deceased_details->>"$.age" <> 'null',
+          np.deceased_details->>"$.age",
+          NULL
+       )                                                                                LIKE :term
+    OR TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt")                LIKE :term
+    OR cd.name                                                                          LIKE :term
+    OR np.deceased_details->>"$.deathCertificate.series"                                LIKE :term
+    OR np.deceased_details->>"$.deathCertificate.number"                                LIKE :term
+    OR DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y')     LIKE :term
+    OR np.deceased_details->>"$.cremationCertificate.number"                            LIKE :term
+    OR DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y') LIKE :term)
 LIKE_TERM_SQL;
         }
 
         return $sql;
     }
 
-
-    private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
+    private function appendOrderByFullNameThenByBornAtThenByDiedAtSql(string $sql): string
     {
-        if ($this->isTermNotEmpty($term)) {
-            $queryBuilder
-                ->andWhere(
-                    $queryBuilder->expr()->like('full_name', ':term'),
-//                    $queryBuilder->expr()->like('address', ':term'),
-//                    $queryBuilder->expr()->like('phone', ':term'),
-//                    $queryBuilder->expr()->like('email.', ':term'),
-//                    $queryBuilder->expr()->like('bornAt', ':term'),
-                    $queryBuilder->expr()->like('place_of_birth', ':term'),
-//                    $queryBuilder->expr()->like('passport', ':term'),
-//                    $queryBuilder->expr()->like('diedAt', ':term'),
-//                    $queryBuilder->expr()->like('age', ':term'),
-//                    $queryBuilder->expr()->like('ageCalculated', ':term'),
-//                    $queryBuilder->expr()->like('causeOfDeathName', ':term'),
-//                    $queryBuilder->expr()->like('deathCertificate', ':term'),
-//                    $queryBuilder->expr()->like('cremationCertificate', ':term'),
-                );
-        }
+        return $sql . ' ORDER BY np.full_name, np.born_at, np.deceased_details->>"$.diedAt"';
+    }
+
+    private function appendLimitOffset(string $sql, int $page, int $pageSize): string
+    {
+        return $sql . \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
     }
 
     private function hydrateList(
@@ -290,10 +227,7 @@ LIKE_TERM_SQL;
                 $listItemData['passportComposed'],
                 $listItemData['diedAtFormatted'],
                 match ($listItemData['age']) {
-                    'null'  => match ($listItemData['ageCalculated']) {
-                            'null'  => null,
-                            default => $listItemData['ageCalculated'],
-                        },
+                    null    => $listItemData['ageCalculated'],
                     default => (int) $listItemData['age'],
                 },
                 $listItemData['causeOfDeathName'],

@@ -1,0 +1,14 @@
+<tr data-id="{{ listItem.id }}">
+  <td>{{- listItem.fullName -}}</td>
+  <td>{{- listItem.address              is empty ? '' : listItem.address -}}</td>
+  <td>{{- listItem.phone                is empty ? '' : listItem.phone -}}</td>
+  <td>{{- listItem.email                is empty ? '' : listItem.email -}}</td>
+  <td>{{- listItem.bornAt               is empty ? '' : listItem.bornAt -}}</td>
+  <td>{{- listItem.placeOfBirth         is empty ? '' : listItem.placeOfBirth -}}</td>
+  <td>{{- listItem.passport             is empty ? '' : listItem.passport -}}</td>
+  <td>{{- listItem.diedAt               is empty ? '' : listItem.diedAt -}}</td>
+  <td>{{- listItem.age                  is empty ? '' : listItem.age -}}</td>
+  <td>{{- listItem.causeOfDeathName     is empty ? '' : listItem.causeOfDeathName -}}</td>
+  <td>{{- listItem.deathCertificate     is empty ? '' : listItem.deathCertificate -}}</td>
+  <td>{{- listItem.cremationCertificate is empty ? '' : listItem.cremationCertificate -}}</td>
+</tr>

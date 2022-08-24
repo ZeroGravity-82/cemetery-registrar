@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonList;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListNaturalPersonResponse extends ApplicationSuccessResponse
+class ListNaturalPersonsResponse extends ApplicationSuccessResponse
 {
     public function __construct(
         NaturalPersonList $list,

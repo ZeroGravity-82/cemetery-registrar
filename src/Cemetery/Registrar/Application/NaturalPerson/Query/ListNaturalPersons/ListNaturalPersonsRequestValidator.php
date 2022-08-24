@@ -11,10 +11,10 @@ use Cemetery\Registrar\Application\Notification;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListNaturalPersonRequestValidator extends ApplicationRequestValidator
+class ListNaturalPersonsRequestValidator extends ApplicationRequestValidator
 {
     /**
-     * @param ListNaturalPersonRequest $request
+     * @param ListNaturalPersonsRequest $request
      */
     public function validate(ApplicationRequest $request): Notification
     {

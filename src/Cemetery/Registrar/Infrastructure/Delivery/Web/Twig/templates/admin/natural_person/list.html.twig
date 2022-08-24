@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Админка - Физлица{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+
+  <div class="mb-2 mb-lg-2">
+    <p class="pt-2 fs-5 fw-bold text-success">Физлица <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
+
+    {% include 'admin/natural_person/_toolbar.html.twig' %}
+
+    <div class="table-responsive">
+      <table class="table table-sm table-hover caption-top" id="naturalPersonList">
+        <thead class="table-light align-middle">
+          <tr>
+            <th>ФИО</th>
+            <th>Адрес</th>
+            <th>Телефон</th>
+            <th>Эл. почта</th>
+            <th>Дата рождения</th>
+            <th>Место рождения</th>
+            <th>Паспорт</th>
+            <th>Дата смерти</th>
+            <th>Возраст</th>
+            <th>Причина смерти</th>
+            <th>Свидетельство о смерти</th>
+            <th>Справка о кремации</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for listItem in list.items %}
+            {% include 'admin/natural_person/_list_item.html.twig' %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+{#  {% include 'admin/natural_person/_modal.html.twig' with {'context': 'NaturalPerson'} %}#}
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script src="/js/admin/natural-person/natural-person.js"></script>
+{% endblock %}

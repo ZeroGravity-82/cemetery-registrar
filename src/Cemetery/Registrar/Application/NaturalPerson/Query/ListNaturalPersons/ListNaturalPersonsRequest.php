@@ -9,6 +9,6 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListNaturalPersonRequest extends ApplicationRequest
+class ListNaturalPersonsRequest extends ApplicationRequest
 {
 }

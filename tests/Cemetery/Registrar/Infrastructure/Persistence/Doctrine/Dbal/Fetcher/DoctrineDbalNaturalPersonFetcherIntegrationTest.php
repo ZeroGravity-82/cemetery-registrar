@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonListItem;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalNaturalPersonFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmNaturalPersonRepository;
+use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
 use DataFixtures\NaturalPerson\NaturalPersonFixtures;
 
 /**
@@ -102,9 +103,9 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(13,              $listForThirdPage->totalCount);
         $this->assertSame(4,               $listForThirdPage->totalPages);
         $this->assertListItemEqualsNP009($listForThirdPage->items[0]);
-        $this->assertListItemEqualsNP004($listForThirdPage->items[1]);
-        $this->assertListItemEqualsNP002($listForThirdPage->items[2]);
-        $this->assertListItemEqualsNP003($listForThirdPage->items[3]);
+        $this->assertListItemEqualsNP013($listForThirdPage->items[1]);
+        $this->assertListItemEqualsNP004($listForThirdPage->items[2]);
+        $this->assertListItemEqualsNP002($listForThirdPage->items[3]);
 
         // Fourth page
         $listForFourthPage = $this->fetcher->findAll(4, null, $customPageSize);
@@ -116,7 +117,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForFourthPage->term);
         $this->assertSame(13,              $listForFourthPage->totalCount);
         $this->assertSame(4,               $listForFourthPage->totalPages);
-        $this->assertListItemEqualsNP013($listForFourthPage->items[0]);
+        $this->assertListItemEqualsNP003($listForFourthPage->items[0]);
 
         // Default page size
         $listForDefaultPageSize = $this->fetcher->findAll(1);
@@ -240,17 +241,17 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('03',            $list->term);
-        $this->assertSame(5,               $list->totalCount);
+        $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
         $list = $this->fetcher->findAll(2, '03', $customPageSize);
         $this->assertInstanceOf(NaturalPersonList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
-        $this->assertCount(2,              $list->items);
+        $this->assertCount(1,              $list->items);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('03',            $list->term);
-        $this->assertSame(5,               $list->totalCount);
+        $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
         $list = $this->fetcher->findAll(1, '69', $customPageSize);
@@ -283,6 +284,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
     protected function loadFixtures(): void
     {
         $this->databaseTool->loadFixtures([
+            CauseOfDeathFixtures::class,
             NaturalPersonFixtures::class,
         ]);
     }
@@ -315,7 +317,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                    $listItem->placeOfBirth);
         $this->assertSame(null,                                    $listItem->passport);
         $this->assertSame('12.02.2001',                            $listItem->diedAt);
-        $this->assertSame(null,                                    $listItem->age);
+        $this->assertSame(82,                                      $listItem->age);
         $this->assertSame('Болезнь сердечно-легочная хроническая', $listItem->causeOfDeathName);
         $this->assertSame('V-МЮ № 532515 от 15.02.2001',           $listItem->deathCertificate);
         $this->assertSame(null,                                    $listItem->cremationCertificate);
@@ -335,7 +337,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
             $listItem->passport
         );
         $this->assertSame('13.05.2012',                  $listItem->diedAt);
-        $this->assertSame(null,                          $listItem->age);
+        $this->assertSame(42,                            $listItem->age);
         $this->assertSame('Онкология',                   $listItem->causeOfDeathName);
         $this->assertSame('I-BC № 785066 от 23.03.2011', $listItem->deathCertificate);
         $this->assertSame(null,                          $listItem->cremationCertificate);
@@ -375,7 +377,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
             $listItem->passport
         );
         $this->assertSame('10.03.2022',               $listItem->diedAt);
-        $this->assertSame(null,                       $listItem->age);
+        $this->assertSame(42,                         $listItem->age);
         $this->assertSame(null,                       $listItem->causeOfDeathName);
         $this->assertSame(null,                       $listItem->deathCertificate);
         $this->assertSame(null,                       $listItem->cremationCertificate);
@@ -463,7 +465,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->placeOfBirth);
         $this->assertSame(null,                   $listItem->passport);
         $this->assertSame('22.11.2002',           $listItem->diedAt);
-        $this->assertSame(null,                   $listItem->age);
+        $this->assertSame(72,                     $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
         $this->assertSame(null,                   $listItem->deathCertificate);
         $this->assertSame(null,                   $listItem->cremationCertificate);
@@ -480,7 +482,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->placeOfBirth);
         $this->assertSame(null,                   $listItem->passport);
         $this->assertSame('11.05.2004',           $listItem->diedAt);
-        $this->assertSame(null,                   $listItem->age);
+        $this->assertSame(79,                     $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
         $this->assertSame(null,                   $listItem->deathCertificate);
         $this->assertSame(null,                   $listItem->cremationCertificate);
@@ -497,7 +499,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->placeOfBirth);
         $this->assertSame(null,                   $listItem->passport);
         $this->assertSame('29.10.2005',           $listItem->diedAt);
-        $this->assertSame(null,                   $listItem->age);
+        $this->assertSame(80,                     $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
         $this->assertSame(null,                   $listItem->deathCertificate);
         $this->assertSame(null,                   $listItem->cremationCertificate);

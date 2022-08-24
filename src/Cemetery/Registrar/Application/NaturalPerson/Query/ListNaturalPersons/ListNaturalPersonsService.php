@@ -12,11 +12,11 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListNaturalPersonService extends ApplicationService
+class ListNaturalPersonsService extends ApplicationService
 {
     public function __construct(
         private readonly NaturalPersonFetcher $naturalPersonFetcher,
-        ListNaturalPersonRequestValidator     $requestValidator,
+        ListNaturalPersonsRequestValidator     $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }
@@ -26,7 +26,7 @@ class ListNaturalPersonService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new ListNaturalPersonResponse(
+        return new ListNaturalPersonsResponse(
             $this->naturalPersonFetcher->findAll(1),
             $this->naturalPersonFetcher->countTotal(),
         );
@@ -34,6 +34,6 @@ class ListNaturalPersonService extends ApplicationService
 
     protected function supportedRequestClassName(): string
     {
-        return ListNaturalPersonRequest::class;
+        return ListNaturalPersonsRequest::class;
     }
 }
