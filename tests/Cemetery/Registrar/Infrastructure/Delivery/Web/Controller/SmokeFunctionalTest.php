@@ -59,29 +59,30 @@ class SmokeFunctionalTest extends WebTestCase
         yield ['/burial'];
         yield ['/burial/edit/B001'];
         yield ['/admin/dashboard'];
-        yield ['/admin/burial-place/grave-site'];
-//        yield ['/admin/burial-place/columbarium-niche'];
-//        yield ['/admin/burial-place/memorial-tree'];
+        yield ['/admin/organization'];
+        yield ['/admin/funeral-company'];
         yield ['/admin/cause-of-death'];
         yield ['/admin/cause-of-death/CD001'];
-        yield ['/admin/funeral-company'];
-        yield ['/admin/organization'];
+        yield ['/admin/burial-place/grave-site'];
+        yield ['/admin/burial-place/grave-site/GS001'];
+        yield ['/admin/burial-place/columbarium-niche'];
+        yield ['/admin/burial-place/memorial-tree'];
     }
 
     private function loadFixtures(): void
     {
         $this->databaseTool->loadFixtures([
-            NaturalPersonFixtures::class,
-            JuristicPersonFixtures::class,
-            SoleProprietorFixtures::class,
-            CemeteryBlockFixtures::class,
-            GraveSiteFixtures::class,
-            ColumbariumFixtures::class,
-            ColumbariumNicheFixtures::class,
-            MemorialTreeFixtures::class,
-            FuneralCompanyFixtures::class,
             BurialFixtures::class,
             CauseOfDeathFixtures::class,
+            CemeteryBlockFixtures::class,
+            ColumbariumFixtures::class,
+            ColumbariumNicheFixtures::class,
+            FuneralCompanyFixtures::class,
+            GraveSiteFixtures::class,
+            JuristicPersonFixtures::class,
+            MemorialTreeFixtures::class,
+            NaturalPersonFixtures::class,
+            SoleProprietorFixtures::class,
         ]);
     }
 }
