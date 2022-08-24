@@ -166,27 +166,6 @@ class PassportTest extends TestCase
         );
     }
 
-    public function testItStringifyableWithoutDivisionCode(): void
-    {
-        $passport = new Passport(
-            $this->seriesA,
-            $this->numberA,
-            $this->issuedAtA,
-            $this->issuedByA,
-            null,
-        );
-        $this->assertSame(
-            \sprintf(
-                'Паспорт серия %s номер %s, выдан %s %s',
-                $this->seriesA,
-                $this->numberA,
-                $this->issuedByA,
-                $this->issuedAtA->format('d.m.Y'),
-            ),
-            (string) $passport
-        );
-    }
-
     public function testItComparable(): void
     {
         $passportA = new Passport(
