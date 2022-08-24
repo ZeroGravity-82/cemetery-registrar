@@ -10,6 +10,7 @@
              type="radio"
              class="form-check-input"
              name="burialType"
+             checked
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::COFFIN_IN_GRAVE_SITE') -}}">
       <label class="form-check-label"
              for="burialTypeCoffinInGraveSite">
@@ -21,6 +22,7 @@
              type="radio"
              class="form-check-input"
              name="burialType"
+             disabled
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_GRAVE_SITE') -}}">
       <label class="form-check-label"
              for="burialTypeUrnInGraveSite">
@@ -32,6 +34,7 @@
              type="radio"
              class="form-check-input"
              name="burialType"
+             disabled
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::URN_IN_COLUMBARIUM_NICHE') -}}">
       <label class="form-check-label"
              for="burialTypeUrnInColumbariumNiche">
@@ -43,6 +46,7 @@
              type="radio"
              class="form-check-input"
              name="burialType"
+             disabled
              value="{{- constant('Cemetery\\Registrar\\Domain\\Model\\Burial\\BurialType::ASHES_UNDER_MEMORIAL_TREE') -}}">
       <label class="form-check-label"
              for="burialTypeAshesUnderMemorialTree">
