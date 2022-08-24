@@ -47,7 +47,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         ]);
     }
 
-    #[Route('/admin/grave-site/{id}', name: 'admin_grave_site_show', methods: HttpRequest::METHOD_GET)]
+    #[Route('/admin/burial-place/grave-site/{id}', name: 'admin_grave_site_show', methods: HttpRequest::METHOD_GET)]
     public function showGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
         $queryRequest  = $this->handleJsonRequest($httpRequest, ShowGraveSiteRequest::class);
@@ -56,7 +56,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/cemetery-block/{id}', name: 'admin_cemetery_block_show', methods: HttpRequest::METHOD_GET)]
+    #[Route('/admin/burial-place/cemetery-block/{id}', name: 'admin_cemetery_block_show', methods: HttpRequest::METHOD_GET)]
     public function showCemeteryBlock(HttpRequest $httpRequest): HttpJsonResponse
     {
         $queryRequest  = $this->handleJsonRequest($httpRequest, ShowCemeteryBlockRequest::class);
@@ -65,7 +65,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/grave-site/create', name: 'admin_grave_site_create', methods: HttpRequest::METHOD_POST)]
+    #[Route('/admin/burial-place/grave-site/create', name: 'admin_grave_site_create', methods: HttpRequest::METHOD_POST)]
     public function createGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -75,7 +75,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
     }
 
-    #[Route('/admin/cemetery-block/create', name: 'admin_cemetery_block_create', methods: HttpRequest::METHOD_POST)]
+    #[Route('/admin/burial-place/cemetery-block/create', name: 'admin_cemetery_block_create', methods: HttpRequest::METHOD_POST)]
     public function createCemeteryBlock(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'cemetery_block');
@@ -85,7 +85,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
     }
 
-    #[Route('/admin/grave-site/{id}/edit', name: 'admin_grave_site_edit', methods: HttpRequest::METHOD_PUT)]
+    #[Route('/admin/burial-place/grave-site/{id}/edit', name: 'admin_grave_site_edit', methods: HttpRequest::METHOD_PUT)]
     public function editGraveSite(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -95,7 +95,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/cemetery-block/{id}/edit', name: 'admin_cemetery_block_edit', methods: HttpRequest::METHOD_PUT)]
+    #[Route('/admin/burial-place/cemetery-block/{id}/edit', name: 'admin_cemetery_block_edit', methods: HttpRequest::METHOD_PUT)]
     public function editCemeteryBlock(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'cemetery_block');
@@ -105,7 +105,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/grave-site/{id}', name: 'admin_grave_site_remove', methods: HttpRequest::METHOD_DELETE)]
+    #[Route('/admin/burial-place/grave-site/{id}', name: 'admin_grave_site_remove', methods: HttpRequest::METHOD_DELETE)]
     public function removeGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -115,7 +115,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_NO_CONTENT);
     }
 
-    #[Route('/admin/cemetery-block/{id}', name: 'admin_cemetery_block_remove', methods: HttpRequest::METHOD_DELETE)]
+    #[Route('/admin/burial-place/cemetery-block/{id}', name: 'admin_cemetery_block_remove', methods: HttpRequest::METHOD_DELETE)]
     public function removeCemeteryBlock(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'cemetery_block');
