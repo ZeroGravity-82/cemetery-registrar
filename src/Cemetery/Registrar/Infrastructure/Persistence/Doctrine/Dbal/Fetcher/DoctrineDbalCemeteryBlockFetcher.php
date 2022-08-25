@@ -44,6 +44,18 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         return $this->doCountTotal();
     }
 
+    public function doesExistByName(string $name): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(cb.id)')
+            ->from($this->tableName, 'cb')
+            ->andWhere('cb.name = :name')
+            ->andWhere('cb.removed_at IS NULL')
+            ->setParameter('name', $name)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()
