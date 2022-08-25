@@ -51,6 +51,18 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
 //        $this->assertNull($view);
     }
 
+    public function testItChecksExistenceById(): void
+    {
+        // Prepare database table for testing
+        $funeralCompanyToRemove = $this->repo->findById(new FuneralCompanyId('FC004'));
+        $this->repo->remove($funeralCompanyToRemove);
+        $removedFuneralCompanyId = $funeralCompanyToRemove->id()->value();
+
+        $this->assertTrue($this->fetcher->doesExistById('FC001'));
+        $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
+        $this->assertFalse($this->fetcher->doesExistById($removedFuneralCompanyId));
+    }
+
     public function testItReturnsFuneralCompanyListByPage(): void
     {
         $customPageSize = 3;
