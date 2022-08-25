@@ -20,6 +20,7 @@ class CreateCauseOfDeathRequestValidator extends CauseOfDeathRequestValidator
     {
         return $this
             ->validateName($request)
+            ->validateUniquenessConstraints($request)
             ->note();
     }
 }

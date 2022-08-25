@@ -21,6 +21,7 @@ class EditCauseOfDeathRequestValidator extends CauseOfDeathRequestValidator
         return $this
             ->validateId($request)
             ->validateName($request)
+            ->validateUniquenessConstraints($request)
             ->note();
     }
 }

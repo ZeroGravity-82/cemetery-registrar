@@ -24,6 +24,12 @@ abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
         if ($request->name === null || empty(\trim($request->name))) {
             $this->note->addError('name', 'Причина смерти не может иметь пустое наименование.');
         }
+
+        return $this;
+    }
+
+    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    {
         if (
             $request->name !== null &&
             $this->causeOfDeathFetcher->doesExistByName($request->name)
