@@ -26,6 +26,8 @@ abstract class DoctrineDbalFetcherIntegrationTest extends KernelTestCase
 
     abstract protected function loadFixtures();
 
+    abstract public function testItChecksExistenceById(): void;
+
     public function setUp(): void
     {
         self::bootKernel();
