@@ -31,7 +31,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
             $request->cemeteryBlockId !== null &&
             !$this->cemeteryBlockFetcher->doesExistById($request->cemeteryBlockId)
         ) {
-            $this->note->addError('cemeteryBlockId', 'Квартал не найден.');
+            $this->note->addError('cemeteryBlockId', 'Квартал не существует.');
         }
 
         return $this;
