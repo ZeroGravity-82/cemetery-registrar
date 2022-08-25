@@ -58,6 +58,18 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceById(): void
+    {
+        // Prepare database table for testing
+        $graveSiteToRemove = $this->repo->findById(new GraveSiteId('GS004'));
+        $this->repo->remove($graveSiteToRemove);
+        $removedGraveSiteId = $graveSiteToRemove->id()->value();
+
+        $this->assertTrue($this->fetcher->doesExistById('GS001'));
+        $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
+        $this->assertFalse($this->fetcher->doesExistById($removedGraveSiteId));
+    }
+
     public function testItChecksExistenceByCemeteryBlockIdAndRowInBlockAndPositionInRow(): void
     {
         $graveSiteToRemove = $this->repo->findById(new GraveSiteId('GS004'));
