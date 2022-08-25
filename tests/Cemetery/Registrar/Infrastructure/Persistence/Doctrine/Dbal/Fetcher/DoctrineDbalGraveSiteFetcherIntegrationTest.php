@@ -58,6 +58,42 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceByCemeteryBlockIdAndRowInBlockAndPositionInRow(): void
+    {
+        $graveSiteToRemove = $this->repo->findById(new GraveSiteId('GS004'));
+        $this->repo->remove($graveSiteToRemove);
+        $removedGraveSiteCemeteryBlockId = $graveSiteToRemove->cemeteryBlockId()->value();
+        $removedGraveSiteRowInBlock      = $graveSiteToRemove->rowInBlock()->value();
+        $removedGraveSitePositionInRow   = $graveSiteToRemove->positionInRow()?->value();
+
+        $this->assertTrue($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow('CB002', 3, 4));
+        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+            'unknown_cemetery_block_id',
+            3,
+            4,
+        ));
+        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+            'CB002',
+            777,        // non-existing row in block
+            4,
+        ));
+        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+            'CB002',
+            3,
+            777,        // non-existing position in row
+        ));
+        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+            $removedGraveSiteCemeteryBlockId,
+            $removedGraveSiteRowInBlock,
+            $removedGraveSitePositionInRow,
+        ));
+        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+            'CB002',
+            3,
+            null,
+        ));
+    }
+
     public function testItReturnsGraveSiteListByPage(): void
     {
         $customPageSize = 4;

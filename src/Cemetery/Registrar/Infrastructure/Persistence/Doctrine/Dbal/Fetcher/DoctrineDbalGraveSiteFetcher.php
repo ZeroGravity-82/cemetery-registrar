@@ -62,6 +62,29 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return $this->doCountTotal(null);
     }
 
+    public function doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        string $cemeteryBlockId,
+        int    $rowInBlock,
+        ?int   $positionInRow,
+    ): bool {
+        if ($positionInRow === null) {  // It is impossible to say with certainty whether a grave site exists,
+            return false;               // because position in row data not provided.
+        }
+
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(gs.id)')
+            ->from($this->tableName, 'gs')
+            ->andWhere('gs.cemetery_block_id = :cemeteryBlockId')
+            ->andWhere('gs.row_in_block = :rowInBlock')
+            ->andWhere('gs.position_in_row = :positionInRow')
+            ->andWhere('gs.removed_at IS NULL')
+            ->setParameter('cemeteryBlockId', $cemeteryBlockId)
+            ->setParameter('rowInBlock', $rowInBlock)
+            ->setParameter('positionInRow', $positionInRow)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     private function queryViewData(string $id): false|array
     {
         $queryBuilder = $this->connection->createQueryBuilder()
