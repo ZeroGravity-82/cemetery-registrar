@@ -38,8 +38,10 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->loadFixtures();
     }
 
-    public function testItDoesNotReturnViewById(): void
+    public function testItReturnsViewById(): void
     {
+        // Organization fetcher's findViewById() method must always return null because there is no such entity
+        // as an organization.
         $view = $this->fetcher->findViewById('JP001');
         $this->assertNull($view);
 
@@ -50,8 +52,10 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertNull($view);
     }
 
-    public function testItDoesNotCheckExistenceById(): void
+    public function testItChecksExistenceById(): void
     {
+        // Organization fetcher's doesExistById() method must always return false because there is no such entity
+        // as an organization.
         $this->assertFalse($this->fetcher->doesExistById('JP001'));
         $this->assertFalse($this->fetcher->doesExistById('SP001'));
         $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
