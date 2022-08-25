@@ -18,11 +18,18 @@ abstract class CemeteryBlockRequestValidator extends ApplicationRequestValidator
     ) {
         parent::__construct();
     }
+
     protected function validateName(ApplicationRequest $request): self
     {
         if ($request->name === null || empty(\trim($request->name))) {
             $this->note->addError('name', 'Квартал не может иметь пустое наименование.');
         }
+
+        return $this;
+    }
+
+    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    {
         if (
             $request->name !== null &&
             $this->cemeteryBlockFetcher->doesExistByName($request->name)

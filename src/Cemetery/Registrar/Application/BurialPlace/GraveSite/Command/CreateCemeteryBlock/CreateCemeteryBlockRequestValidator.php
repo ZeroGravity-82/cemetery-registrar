@@ -20,6 +20,7 @@ class CreateCemeteryBlockRequestValidator extends CemeteryBlockRequestValidator
     {
         return $this
             ->validateName($request)
+            ->validateUniquenessConstraints($request)
             ->note();
     }
 }
