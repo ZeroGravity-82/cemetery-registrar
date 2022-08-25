@@ -56,6 +56,18 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         return $this->doCountTotal(null);
     }
 
+    public function doesExistByTreeNumber(string $treeNumber): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(mt.id)')
+            ->from($this->tableName, 'mt')
+            ->andWhere('mt.tree_number = :treeNumber')
+            ->andWhere('mt.removed_at IS NULL')
+            ->setParameter('treeNumber', $treeNumber)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()

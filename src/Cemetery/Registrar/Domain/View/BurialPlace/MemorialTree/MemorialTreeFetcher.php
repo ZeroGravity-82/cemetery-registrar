@@ -11,4 +11,8 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface MemorialTreeFetcher extends Fetcher
 {
+    /**
+     * Checks if the memorial tree exists by the tree number.
+     */
+    public function doesExistByTreeNumber(string $treeNumber): bool;
 }

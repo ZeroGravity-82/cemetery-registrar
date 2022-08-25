@@ -52,6 +52,18 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertNull($view);
     }
 
+    public function testItChecksExistenceByTreeNumber(): void
+    {
+        // Prepare database table for testing
+        $memorialTreeToRemove = $this->repo->findById(new MemorialTreeId('MT004'));
+        $this->repo->remove($memorialTreeToRemove);
+        $removedMemorialTreeNumber = $memorialTreeToRemove->treeNumber()->value();
+
+        $this->assertTrue($this->fetcher->doesExistByTreeNumber('002'));
+        $this->assertFalse($this->fetcher->doesExistByTreeNumber('unknown_number'));
+        $this->assertFalse($this->fetcher->doesExistByTreeNumber($removedMemorialTreeNumber));
+    }
+
     public function testItReturnsMemorialTreeListByPage(): void
     {
         $customPageSize = 3;
