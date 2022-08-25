@@ -59,6 +59,20 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         return $this->doCountTotal(null);
     }
 
+    public function doesExistByColumbariumIdAndNicheNumber(string $columbariumId, string $nicheNumber): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(cn.id)')
+            ->from($this->tableName, 'cn')
+            ->andWhere('cn.columbarium_id = :columbariumId')
+            ->andWhere('cn.niche_number = :nicheNumber')
+            ->andWhere('cn.removed_at IS NULL')
+            ->setParameter('columbariumId', $columbariumId)
+            ->setParameter('nicheNumber', $nicheNumber)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()

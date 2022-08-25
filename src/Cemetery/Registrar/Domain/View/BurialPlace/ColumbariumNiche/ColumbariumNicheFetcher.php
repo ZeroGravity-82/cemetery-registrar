@@ -11,4 +11,8 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface ColumbariumNicheFetcher extends Fetcher
 {
+    /**
+     * Checks if the columbarium niche exists by the columbarium ID and the niche number.
+     */
+    public function doesExistByColumbariumIdAndNicheNumber(string $columbariumId, string $nicheNumber): bool;
 }

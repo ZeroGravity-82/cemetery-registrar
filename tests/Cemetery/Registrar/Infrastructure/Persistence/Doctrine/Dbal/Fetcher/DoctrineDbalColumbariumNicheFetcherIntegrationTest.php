@@ -68,6 +68,22 @@ class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFet
         $this->assertFalse($this->fetcher->doesExistById($removedColumbariumNicheId));
     }
 
+    public function testItChecksExistenceByColumbariumIdAndNicheNumber(): void
+    {
+        $columbariumNicheToRemove = $this->repo->findById(new ColumbariumNicheId('CN004'));
+        $this->repo->remove($columbariumNicheToRemove);
+        $removedColumbariumNicheColumbariumId = $columbariumNicheToRemove->columbariumId()->value();
+        $removedColumbariumNicheNumber        = $columbariumNicheToRemove->nicheNumber()->value();
+
+        $this->assertTrue($this->fetcher->doesExistByColumbariumIdAndNicheNumber('C001', '001'));
+        $this->assertFalse($this->fetcher->doesExistByColumbariumIdAndNicheNumber('unknown_columbarium_id', '001'));
+        $this->assertFalse($this->fetcher->doesExistByColumbariumIdAndNicheNumber('C001', 'unknown_niche_number'));
+        $this->assertFalse($this->fetcher->doesExistByColumbariumIdAndNicheNumber(
+            $removedColumbariumNicheColumbariumId,
+            $removedColumbariumNicheNumber,
+        ));
+    }
+
     public function testItReturnsColumbariumNicheListByPage(): void
     {
         $customPageSize = 3;
