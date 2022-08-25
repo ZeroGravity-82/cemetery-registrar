@@ -60,6 +60,18 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertFalse($this->fetcher->doesExistById($removedCauseOfDeathId));
     }
 
+    public function testItChecksExistenceByName(): void
+    {
+        // Prepare database table for testing
+        $causeOfDeathToRemove = $this->repo->findById(new CauseOfDeathId('CD004'));
+        $this->repo->remove($causeOfDeathToRemove);
+        $removedCauseOfDeathName = $causeOfDeathToRemove->name()->value();
+
+        $this->assertTrue($this->fetcher->doesExistByName('COVID-19'));
+        $this->assertFalse($this->fetcher->doesExistByName('unknown_name'));
+        $this->assertFalse($this->fetcher->doesExistByName($removedCauseOfDeathName));
+    }
+
     public function testItReturnsCauseOfDeathListByPage(): void
     {
         $customPageSize = 3;

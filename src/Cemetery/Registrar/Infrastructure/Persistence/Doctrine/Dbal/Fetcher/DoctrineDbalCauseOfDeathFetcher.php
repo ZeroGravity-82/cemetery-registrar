@@ -53,6 +53,18 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         return $this->doCountTotal(null);
     }
 
+    public function doesExistByName(string $name): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(cod.id)')
+            ->from($this->tableName, 'cod')
+            ->andWhere('cod.name = :name')
+            ->andWhere('cod.removed_at IS NULL')
+            ->setParameter('name', $name)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()

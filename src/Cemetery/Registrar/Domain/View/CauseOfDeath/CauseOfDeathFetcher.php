@@ -11,4 +11,8 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface CauseOfDeathFetcher extends Fetcher
 {
+    /**
+     * Checks if the entity exists by the name.
+     */
+    public function doesExistByName(string $name): bool;
 }
