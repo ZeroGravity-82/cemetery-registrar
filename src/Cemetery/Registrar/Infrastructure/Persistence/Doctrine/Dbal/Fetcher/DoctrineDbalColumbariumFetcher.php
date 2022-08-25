@@ -44,6 +44,18 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         return $this->doCountTotal();
     }
 
+    public function doesExistByName(string $name): bool
+    {
+        return (bool) $this->connection->createQueryBuilder()
+            ->select('COUNT(c.id)')
+            ->from($this->tableName, 'c')
+            ->andWhere('c.name = :name')
+            ->andWhere('c.removed_at IS NULL')
+            ->setParameter('name', $name)
+            ->executeQuery()
+            ->fetchFirstColumn()[0];
+    }
+
     private function queryViewData(string $id): false|array
     {
         return $this->connection->createQueryBuilder()

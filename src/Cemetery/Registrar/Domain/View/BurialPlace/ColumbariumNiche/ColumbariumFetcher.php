@@ -11,4 +11,8 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface ColumbariumFetcher extends Fetcher
 {
+    /**
+     * Checks if the columbarium exists by the name.
+     */
+    public function doesExistByName(string $name): bool;
 }
