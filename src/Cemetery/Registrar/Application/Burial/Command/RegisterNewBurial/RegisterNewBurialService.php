@@ -447,7 +447,7 @@ class RegisterNewBurialService extends ApplicationService
     {
         if ($request->customerId !== null && $request->customerType === null) {
             throw new \LogicException(
-                \sprintf('Не указан тип заказчика для идентификатора "%s".', $request->customerId)
+                \sprintf('Не указан тип заказчика для ID "%s".', $request->customerId)
             );
         }
     }
@@ -456,7 +456,7 @@ class RegisterNewBurialService extends ApplicationService
     {
         if ($request->burialPlaceId !== null && $request->burialPlaceType === null) {
             throw new \LogicException(
-                \sprintf('Не указан тип места захоронения для идентификатора "%s".', $request->burialPlaceId)
+                \sprintf('Не указан тип места захоронения для ID "%s".', $request->burialPlaceId)
             );
         }
     }

@@ -33,7 +33,7 @@ class BurialPlaceIdType extends CustomJsonType
             !\array_key_exists('value', $decodedValue);
         if ($isInvalidValue) {
             throw new \UnexpectedValueException(\sprintf(
-                'Неверный формат декодированного значения для идентификатора: "%s".',
+                'Неверный формат декодированного значения для ID: "%s".',
                 $value,
             ));
         }

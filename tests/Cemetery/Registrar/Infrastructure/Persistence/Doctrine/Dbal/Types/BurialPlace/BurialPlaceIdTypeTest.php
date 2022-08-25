@@ -22,7 +22,7 @@ class BurialPlaceIdTypeTest extends CustomJsonTypeTest
     protected string $className                                  = BurialPlaceIdType::class;
     protected string $typeName                                   = 'burial_place_id';
     protected string $phpValueClassName                          = BurialPlaceId::class;
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для идентификатора';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для ID';
 
     /**
      * @dataProvider getConversionData

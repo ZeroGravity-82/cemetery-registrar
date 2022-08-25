@@ -43,7 +43,7 @@ abstract class Repository implements RepositoryInterface
         $supportedAggregateRootIdClassName = $this->supportedAggregateRootIdClassName();
         if (!$aggregateRootId instanceof $supportedAggregateRootIdClassName) {
             throw new \InvalidArgumentException(\sprintf(
-                'Неподдерживаемый тип идентификатора корня агрегата: ожидался "%s", "%s" передан.',
+                'Неподдерживаемый тип ID корня агрегата: ожидался "%s", "%s" передан.',
                 $this->supportedAggregateRootIdClassName(),
                 \get_class($aggregateRootId)
             ));

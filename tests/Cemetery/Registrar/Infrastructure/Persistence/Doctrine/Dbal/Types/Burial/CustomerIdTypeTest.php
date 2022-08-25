@@ -21,7 +21,7 @@ class CustomerIdTypeTest extends CustomJsonTypeTest
 {
     protected string $className                                  = CustomerIdType::class;
     protected string $typeName                                   = 'customer_id';
-    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для идентификатора';
+    protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для ID';
 
     private array $phpValueClassNames = [
         NaturalPersonId::class,
