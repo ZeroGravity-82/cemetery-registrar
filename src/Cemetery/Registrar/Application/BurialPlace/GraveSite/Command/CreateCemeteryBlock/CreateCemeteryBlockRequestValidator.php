@@ -19,8 +19,8 @@ class CreateCemeteryBlockRequestValidator extends CemeteryBlockRequestValidator
     public function validate(ApplicationRequest $request): Notification
     {
         return $this
-            ->validateName($request)
             ->validateUniquenessConstraints($request)
+            ->validateName($request)
             ->note();
     }
 }

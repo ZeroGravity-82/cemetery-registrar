@@ -20,8 +20,8 @@ class EditCemeteryBlockRequestValidator extends CemeteryBlockRequestValidator
     {
         return $this
             ->validateId($request)
-            ->validateName($request)
             ->validateUniquenessConstraints($request)
+            ->validateName($request)
             ->note();
     }
 }

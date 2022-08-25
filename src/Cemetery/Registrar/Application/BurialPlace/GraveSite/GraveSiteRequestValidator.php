@@ -10,6 +10,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -18,8 +19,27 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
         private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
+        private readonly GraveSiteFetcher     $graveSiteFetcher,
     ) {
         parent::__construct();
+    }
+
+    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    {
+        if (
+            $request->cemeteryBlockId !== null &&
+            $request->rowInBlock      !== null &&
+            $this->graveSiteFetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
+                $request->id,
+                $request->cemeteryBlockId,
+                $request->rowInBlock,
+                $request->positionInRow,
+            )
+        ) {
+            $this->note->addError('uniqueness', 'Участок с такими кварталом, рядом и местом уже существует.');
+        }
+
+        return $this;
     }
 
     protected function validateCemeteryBlockId(ApplicationRequest $request): self
@@ -31,7 +51,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
             $request->cemeteryBlockId !== null &&
             !$this->cemeteryBlockFetcher->doesExistById($request->cemeteryBlockId)
         ) {
-            $this->note->addError('cemeteryBlockId', 'Квартал не существует.');
+            $this->note->addError('cemeteryBlockId', 'Квартал не найден.');
         }
 
         return $this;

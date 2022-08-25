@@ -35,7 +35,7 @@ class GraveSite extends BurialPlace
         return $this->cemeteryBlockId;
     }
 
-    public function setCemeteryBlock(CemeteryBlock $cemeteryBlock): self
+    public function assignCemeteryBlock(CemeteryBlock $cemeteryBlock): self
     {
         $this->cemeteryBlockId = $cemeteryBlock->id();
 

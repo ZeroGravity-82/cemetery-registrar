@@ -19,6 +19,7 @@ class CreateGraveSiteRequestValidator extends GraveSiteRequestValidator
     public function validate(ApplicationRequest $request): Notification
     {
         return $this
+            ->validateUniquenessConstraints($request)
             ->validateCemeteryBlockId($request)
             ->validateRowInBlock($request)
             ->validatePositionInRow($request)

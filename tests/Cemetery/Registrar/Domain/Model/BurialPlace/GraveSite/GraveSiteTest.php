@@ -63,10 +63,10 @@ class GraveSiteTest extends BurialPlaceTest
         $this->assertNull($this->graveSite->size());
     }
 
-    public function testItSetsCemeteryBlockId(): void
+    public function testItAssignsCemeteryBlock(): void
     {
         $cemeteryBlock = CemeteryBlockProvider::getCemeteryBlockB();
-        $this->graveSite->setCemeteryBlock($cemeteryBlock);
+        $this->graveSite->assignCemeteryBlock($cemeteryBlock);
         $this->assertInstanceOf(CemeteryBlockId::class, $this->graveSite->cemeteryBlockId());
         $this->assertTrue($this->graveSite->cemeteryBlockId()->isEqual($cemeteryBlock->id()));
     }

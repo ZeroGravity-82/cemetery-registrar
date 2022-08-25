@@ -62,7 +62,8 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return $this->doCountTotal(null);
     }
 
-    public function doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+    public function doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        string $id,
         string $cemeteryBlockId,
         int    $rowInBlock,
         ?int   $positionInRow,
@@ -74,10 +75,12 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return (bool) $this->connection->createQueryBuilder()
             ->select('COUNT(gs.id)')
             ->from($this->tableName, 'gs')
+            ->andWhere('gs.id <> :id')
             ->andWhere('gs.cemetery_block_id = :cemeteryBlockId')
             ->andWhere('gs.row_in_block = :rowInBlock')
             ->andWhere('gs.position_in_row = :positionInRow')
             ->andWhere('gs.removed_at IS NULL')
+            ->setParameter('id', $id)
             ->setParameter('cemeteryBlockId', $cemeteryBlockId)
             ->setParameter('rowInBlock', $rowInBlock)
             ->setParameter('positionInRow', $positionInRow)

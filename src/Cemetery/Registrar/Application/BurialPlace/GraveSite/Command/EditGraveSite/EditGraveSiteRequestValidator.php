@@ -20,6 +20,7 @@ class EditGraveSiteRequestValidator extends GraveSiteRequestValidator
     {
         return $this
             ->validateId($request)
+            ->validateUniquenessConstraints($request)
             ->validateCemeteryBlockId($request)
             ->validateRowInBlock($request)
             ->validatePositionInRow($request)

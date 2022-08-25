@@ -19,15 +19,6 @@ abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
         parent::__construct();
     }
 
-    protected function validateName(ApplicationRequest $request): self
-    {
-        if ($request->name === null || empty(\trim($request->name))) {
-            $this->note->addError('name', 'Причина смерти не может иметь пустое наименование.');
-        }
-
-        return $this;
-    }
-
     protected function validateUniquenessConstraints(ApplicationRequest $request): self
     {
         if (
@@ -35,6 +26,15 @@ abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
             $this->causeOfDeathFetcher->doesExistByName($request->name)
         ) {
             $this->note->addError('name', 'Причина смерти с таким наименованием уже существует.');
+        }
+
+        return $this;
+    }
+
+    protected function validateName(ApplicationRequest $request): self
+    {
+        if ($request->name === null || empty(\trim($request->name))) {
+            $this->note->addError('name', 'Причина смерти не может иметь пустое наименование.');
         }
 
         return $this;

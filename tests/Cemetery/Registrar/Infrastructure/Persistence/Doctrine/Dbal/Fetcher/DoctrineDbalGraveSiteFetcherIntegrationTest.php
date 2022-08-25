@@ -78,28 +78,28 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $removedGraveSiteRowInBlock      = $graveSiteToRemove->rowInBlock()->value();
         $removedGraveSitePositionInRow   = $graveSiteToRemove->positionInRow()?->value();
 
-        $this->assertTrue($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow('CB002', 3, 4));
-        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        $this->assertTrue($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow('CB002', 3, 4));
+        $this->assertFalse($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
             'unknown_cemetery_block_id',
             3,
             4,
         ));
-        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        $this->assertFalse($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
             'CB002',
             777,        // non-existing row in block
             4,
         ));
-        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        $this->assertFalse($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
             'CB002',
             3,
             777,        // non-existing position in row
         ));
-        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        $this->assertFalse($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
             $removedGraveSiteCemeteryBlockId,
             $removedGraveSiteRowInBlock,
             $removedGraveSitePositionInRow,
         ));
-        $this->assertFalse($this->fetcher->doesExistByCemeteryBlockIdAndRowInBlockAndPositionInRow(
+        $this->assertFalse($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
             'CB002',
             3,
             null,
