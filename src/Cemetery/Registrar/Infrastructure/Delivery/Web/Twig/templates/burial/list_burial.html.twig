@@ -8,7 +8,7 @@
   <div class="mb-2 mb-lg-2">
     <p class="pt-2 fs-5 fw-bold text-success">Захоронения <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
-    {% include 'burial/_toolbar.html.twig' %}
+    {% include 'burial/_toolbar_burial.html.twig' %}
 
     <div class="table-responsive">
       <table class="table table-sm table-hover caption-top">
@@ -28,14 +28,14 @@
         </thead>
         <tbody>
           {% for listItem in list.items %}
-            {% include 'burial/_list_item.html.twig' %}
+            {% include 'burial/_list_item_burial.html.twig' %}
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
-  {% include 'burial/_modal_burial.html.twig' %}
+  {% include 'burial/_form_burial.html.twig' %}
 
 {% endblock %}
 

@@ -1,6 +1,6 @@
 {% extends '_modal.html.twig' %}
 
-{% block form %}
+{% block modalbody %}
   <form
       data-action-new="{{ path('admin_cause_of_death_create') }}"
       data-action-show="{{ path('admin_cause_of_death_show', {'id': '{id}'})|url_decode }}"
@@ -19,6 +19,6 @@
       </div>
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('cause_of_death') }}">
-    {% include '_modal_buttons.html.twig' %}
+    {% include '_form_buttons.html.twig' %}
   </form>
 {% endblock %}

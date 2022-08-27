@@ -28,7 +28,7 @@ class AdminOrganizationController extends Controller
         $organizationList       = $queryResponse->data->list;
         $organizationTotalCount = $queryResponse->data->totalCount;
 
-        return $this->render('admin/organization/list.html.twig', [
+        return $this->render('admin/organization/list_organization.html.twig', [
             'list'       => $organizationList,
             'totalCount' => $organizationTotalCount,
         ]);

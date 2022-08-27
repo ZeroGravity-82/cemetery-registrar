@@ -27,7 +27,7 @@ class AdminBurialPlaceMemorialTreeController extends Controller
         $list          = $queryResponse->data->list;
         $totalCount    = $queryResponse->data->totalCount;
 
-        return $this->render('admin/burial_place/memorial_tree/list.html.twig', [
+        return $this->render('admin/burial_place/memorial_tree/list_memorial_tree.html.twig', [
             'list'       => $list,
             'totalCount' => $totalCount,
         ]);

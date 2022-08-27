@@ -8,7 +8,7 @@
   <div class="mb-2 mb-lg-2">
     <p class="pt-2 fs-5 fw-bold text-success">Похоронные фирмы <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
-    {% include 'admin/funeral_company/_toolbar.html.twig' %}
+    {% include 'admin/funeral_company/_toolbar_funeral_company.html.twig' %}
 
     <div class="table-responsive">
       <table class="table table-sm table-hover caption-top">
@@ -20,14 +20,14 @@
         </thead>
         <tbody>
           {% for listItem in list.items %}
-            {% include 'admin/funeral_company/_list_item.html.twig' %}
+            {% include 'admin/funeral_company/_list_item_funeral_company.html.twig' %}
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
-{#  {% include 'admin/funeral_company/_modal.html.twig' with {'context': 'FuneralCompany'} %}#}
+{#  {% include 'admin/funeral_company/_form_funeral_company.html.twig' with {'context': 'FuneralCompany'} %}#}
 
 {% endblock %}
 

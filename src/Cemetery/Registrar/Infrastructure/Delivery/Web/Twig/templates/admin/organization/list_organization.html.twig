@@ -8,7 +8,7 @@
   <div class="mb-2 mb-lg-2">
     <p class="pt-2 fs-5 fw-bold text-success">Организации <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
-    {% include 'admin/organization/_toolbar.html.twig' %}
+    {% include 'admin/organization/_toolbar_organization.html.twig' %}
 
     <div class="table-responsive">
       <table class="table table-sm table-hover caption-top">
@@ -29,14 +29,14 @@
         </thead>
         <tbody>
           {% for listItem in list.items %}
-            {% include 'admin/organization/_list_item.html.twig' %}
+            {% include 'admin/organization/_list_item_organization.html.twig' %}
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
-{#  {% include 'admin/organization/_modal.html.twig' with {'context': 'Organization'} %}#}
+{#  {% include 'admin/organization/_form_organization.html.twig' with {'context': 'Organization'} %}#}
 
 {% endblock %}
 

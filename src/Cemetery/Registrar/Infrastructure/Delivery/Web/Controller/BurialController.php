@@ -35,7 +35,7 @@ class BurialController extends Controller
         $cemeteryBlockList  = $queryResponse->data->cemeteryBlockList;
         $coffinShapeList    = $queryResponse->data->coffinShapeList;
 
-        return $this->render('burial/list.html.twig', [
+        return $this->render('burial/list_burial.html.twig', [
             'list'               => $list,
             'totalCount'         => $totalCount,
             'funeralCompanyList' => $funeralCompanyList,

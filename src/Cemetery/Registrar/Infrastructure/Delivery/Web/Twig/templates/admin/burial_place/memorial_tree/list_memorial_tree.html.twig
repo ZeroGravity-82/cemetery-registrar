@@ -8,7 +8,7 @@
   <div class="mb-2 mb-lg-2">
     <p class="pt-2 fs-5 fw-bold text-success">Памятные деревья <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
-    {% include 'admin/burial_place/memorial_tree/_toolbar.html.twig' %}
+    {% include 'admin/burial_place/memorial_tree/_toolbar_memorial_tree.html.twig' %}
 
     <div class="table-responsive">
       <table class="table table-sm table-hover caption-top">
@@ -20,14 +20,14 @@
         </thead>
         <tbody>
         {% for listItem in list.items %}
-          {% include 'admin/burial_place/memorial_tree/_list_item.html.twig' %}
+          {% include 'admin/burial_place/memorial_tree/_list_item_memorial_tree.html.twig' %}
         {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 
-{#  {% include 'admin/burial_place/memorial_tree/_modal.html.twig' with {'context': 'MemorialTree'} %}#}
+{#  {% include 'admin/burial_place/memorial_tree/_form_memorial_tree.html.twig' with {'context': 'MemorialTree'} %}#}
 
 {% endblock %}
 

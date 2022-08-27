@@ -28,7 +28,7 @@ class AdminNaturalPersonController extends Controller
         $list       = $queryResponse->data->list;
         $totalCount = $queryResponse->data->totalCount;
 
-        return $this->render('admin/natural_person/list.html.twig', [
+        return $this->render('admin/natural_person/list_natural_person.html.twig', [
             'list'       => $list,
             'totalCount' => $totalCount,
         ]);

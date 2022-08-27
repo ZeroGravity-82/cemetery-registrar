@@ -28,7 +28,7 @@ class AdminFuneralCompanyController extends Controller
         $list       = $queryResponse->data->list;
         $totalCount = $queryResponse->data->totalCount;
 
-        return $this->render('admin/funeral_company/list.html.twig', [
+        return $this->render('admin/funeral_company/list_funeral_company.html.twig', [
             'list'       => $list,
             'totalCount' => $totalCount,
         ]);

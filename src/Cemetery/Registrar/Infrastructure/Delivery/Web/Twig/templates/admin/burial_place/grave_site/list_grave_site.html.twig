@@ -30,7 +30,7 @@
       <div class="mb-2 mb-lg-2">
         <p class="pt-2 fs-5 fw-bold text-success">Участки <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
-        {% include 'admin/burial_place/grave_site/_toolbar.html.twig' %}
+        {% include 'admin/burial_place/grave_site/_toolbar_grave_site.html.twig' %}
 
         <div class="table-responsive">
           <table class="table table-sm table-hover caption-top" id="graveSiteList">
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
             {% for listItem in list.items %}
-              {% include 'admin/burial_place/grave_site/_list_item.html.twig' %}
+              {% include 'admin/burial_place/grave_site/_list_item_grave_site.html.twig' %}
             {% endfor %}
             </tbody>
           </table>
@@ -54,8 +54,8 @@
     </div>
   </div>
 
-  {% include 'admin/burial_place/grave_site/_modal.html.twig' with {'context': 'GraveSite'} %}
-  {% include 'admin/burial_place/grave_site/_modal_cemetery_block.html.twig' with {'context': 'CemeteryBlock'} %}
+  {% include 'admin/burial_place/grave_site/_form_grave_site.html.twig' with {'context': 'GraveSite'} %}
+  {% include 'admin/burial_place/grave_site/_form_cemetery_block.html.twig' with {'context': 'CemeteryBlock'} %}
 
 {% endblock %}
 

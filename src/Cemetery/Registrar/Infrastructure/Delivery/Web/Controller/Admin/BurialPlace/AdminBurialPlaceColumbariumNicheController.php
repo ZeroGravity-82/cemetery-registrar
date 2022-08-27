@@ -29,7 +29,7 @@ class AdminBurialPlaceColumbariumNicheController extends Controller
         $columbariumList       = $queryResponse->data->columbariumList;
         $columbariumTotalCount = $queryResponse->data->columbariumTotalCount;
 
-        return $this->render('admin/burial_place/columbarium_niche/list.html.twig', [
+        return $this->render('admin/burial_place/columbarium_niche/list_columbarium_niche.html.twig', [
             'list'                  => $list,
             'totalCount'            => $totalCount,
             'columbariumList'       => $columbariumList,

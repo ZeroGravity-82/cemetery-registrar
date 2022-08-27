@@ -33,7 +33,7 @@ class AdminCauseOfDeathController extends Controller
         $list          = $queryResponse->data->list;
         $totalCount    = $queryResponse->data->totalCount;
 
-        return $this->render('admin/cause_of_death/list.html.twig', [
+        return $this->render('admin/cause_of_death/list_cause_of_death.html.twig', [
             'list'       => $list,
             'totalCount' => $totalCount,
         ]);
