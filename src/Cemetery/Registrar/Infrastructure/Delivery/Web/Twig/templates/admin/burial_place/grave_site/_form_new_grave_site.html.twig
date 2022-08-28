@@ -1,11 +1,7 @@
 {% extends '_modal.html.twig' %}
 
 {% block modalbody %}
-  <form
-      data-action-new="{{ path('admin_grave_site_create') }}"
-      data-action-show="{{ path('admin_grave_site_show', {'id': '{id}'})|url_decode }}"
-      data-action-edit="{{ path('admin_grave_site_edit', {'id': '{id}'})|url_decode }}"
-      data-action-remove="{{ path('admin_grave_site_remove', {'id': '{id}'})|url_decode }}">
+  <form data-action-new="{{ path('admin_grave_site_create') }}">
     <div class="container">
       <div class="row">
         <div class="col-md-3 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
@@ -61,6 +57,7 @@
                  id="geoPosition" name="geoPosition"
                  aria-describedby="geoPositionFeedback"
                  aria-label="Геопозиция">
+          <label for="geoPositionError" class="form-label d-none">Ошибка геопозиции</label>
           <input type="text" class="form-control form-control-sm d-none"
                  id="geoPositionError" name="geoPositionError">
           <div id="geoPositionFeedback" class="invalid-feedback d-none"></div>

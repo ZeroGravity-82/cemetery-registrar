@@ -1,0 +1,30 @@
+{% extends '_modal.html.twig' %}
+
+{% block modalbody %}
+  <div
+      class="card border border-0"
+      data-action-show="{{ path('admin_grave_site_show', {'id': '{id}'})|url_decode }}"
+      data-action-edit="{{ path('admin_grave_site_edit', {'id': '{id}'})|url_decode }}"
+      data-action-remove="{{ path('admin_grave_site_remove', {'id': '{id}'})|url_decode }}">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4"><strong>Расположение:</strong></div>
+        <div class="col-sm-8"><p>Квартал <span>воинский</span>, ряд <span>10</span>, место <span>3</span></p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Размер:</strong></div>
+        <div class="col-sm-8"><p><span>2.5</span> м<sup>2</sup></p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Геопозиция:</strong></div>
+        <div class="col-sm-8"><p><span>55.0312633, 82.9850306</span> (&#177; <span>0.25</span> м)</p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Ответственный:</strong></div>
+        <div class="col-sm-8"><p><span>Иванов Иван Иванович</span></p></div>
+      </div>
+    </div>
+    <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
+    {% include '_form_buttons.html.twig' %}
+  </div>
+{% endblock %}

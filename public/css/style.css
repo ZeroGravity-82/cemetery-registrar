@@ -12,10 +12,10 @@ tbody tr {
     cursor: pointer;
 }
 
-.edit-form .modal-body {
+.modal-body {
     padding-bottom: .25rem!important;
 }
-.edit-form .modal-body .timestamps {
+.modal-body .timestamps {
     font-size: .625rem!important;
 }
 #spinner-div {

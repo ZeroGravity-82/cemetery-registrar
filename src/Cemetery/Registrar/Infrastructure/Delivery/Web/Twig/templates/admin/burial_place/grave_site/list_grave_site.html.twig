@@ -54,14 +54,17 @@
     </div>
   </div>
 
-  {% include 'admin/burial_place/grave_site/_form_grave_site.html.twig' with {'context': 'GraveSite'} %}
-  {% include 'admin/burial_place/grave_site/_form_cemetery_block.html.twig' with {'context': 'CemeteryBlock'} %}
+  {% include 'admin/burial_place/grave_site/_form_new_grave_site.html.twig' with {'context': 'GraveSiteFormNew'} %}
+  {% include 'admin/burial_place/grave_site/_form_new_cemetery_block.html.twig' with {'context': 'CemeteryBlockFormNew'} %}
+  {% include 'admin/burial_place/grave_site/_card_grave_site.html.twig' with {'context': 'GraveSiteCard'} %}
 
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
-  <script src="/js/admin/burial-place/grave-site/grave-site.js"></script>
+  <script src="/js/admin/burial-place/grave-site/grave-site-form-new.js"></script>
+  <script src="/js/admin/burial-place/grave-site/grave-site-card.js"></script>
+  <script src="/js/admin/burial-place/grave-site/grave-site-list.js"></script>
   <script src="/js/admin/burial-place/grave-site/cemetery-block.js"></script>
 {% endblock %}

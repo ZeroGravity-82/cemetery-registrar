@@ -30,13 +30,13 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
             $request->cemeteryBlockId !== null &&
             $request->rowInBlock      !== null &&
             $this->graveSiteFetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
-                $request->id,
+                $request->id ?? null,
                 $request->cemeteryBlockId,
                 $request->rowInBlock,
                 $request->positionInRow,
             )
         ) {
-            $this->note->addError('uniqueness', 'Участок с такими кварталом, рядом и местом уже существует.');
+            $this->note->addError('positionInRow', 'Участок с такими местом в этом ряду уже существует.');
         }
 
         return $this;

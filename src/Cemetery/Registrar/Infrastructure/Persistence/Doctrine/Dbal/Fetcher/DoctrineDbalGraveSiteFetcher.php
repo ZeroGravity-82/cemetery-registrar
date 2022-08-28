@@ -63,27 +63,32 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     }
 
     public function doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
-        string $id,
-        string $cemeteryBlockId,
-        int    $rowInBlock,
-        ?int   $positionInRow,
+        ?string $id,
+        string  $cemeteryBlockId,
+        int     $rowInBlock,
+        ?int    $positionInRow,
     ): bool {
         if ($positionInRow === null) {  // It is impossible to say with certainty whether a grave site exists,
             return false;               // because position in row data not provided.
         }
 
-        return (bool) $this->connection->createQueryBuilder()
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(gs.id)')
             ->from($this->tableName, 'gs')
-            ->andWhere('gs.id <> :id')
             ->andWhere('gs.cemetery_block_id = :cemeteryBlockId')
             ->andWhere('gs.row_in_block = :rowInBlock')
             ->andWhere('gs.position_in_row = :positionInRow')
             ->andWhere('gs.removed_at IS NULL')
-            ->setParameter('id', $id)
             ->setParameter('cemeteryBlockId', $cemeteryBlockId)
             ->setParameter('rowInBlock', $rowInBlock)
-            ->setParameter('positionInRow', $positionInRow)
+            ->setParameter('positionInRow', $positionInRow);
+        if ($id !== null) {
+            $queryBuilder
+                ->andWhere('gs.id <> :id')
+                ->setParameter('id', $id);
+        }
+
+        return (bool) $queryBuilder
             ->executeQuery()
             ->fetchFirstColumn()[0];
     }

@@ -16,9 +16,9 @@ interface GraveSiteFetcher extends Fetcher
      * grave site.
      */
     public function doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
-        string $id,
-        string $cemeteryBlockId,
-        int    $rowInBlock,
-        ?int   $positionInRow,
+        ?string $id,
+        string  $cemeteryBlockId,
+        int     $rowInBlock,
+        ?int    $positionInRow,
     ): bool;
 }
