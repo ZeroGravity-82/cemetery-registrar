@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteEdited;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteLocationClarified;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Tests\Registrar\Domain\Model\EventTest;
@@ -15,7 +14,7 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteEditedTest extends EventTest
+class GraveSiteLocationClarifiedTest extends EventTest
 {
     private GraveSiteId     $graveSiteId;
     private CemeteryBlockId $cemeteryBlockId;
@@ -28,7 +27,7 @@ class GraveSiteEditedTest extends EventTest
         $this->cemeteryBlockId = new CemeteryBlockId('CB001');
         $this->rowInBlock      = new RowInBlock(5);
         $this->positionInRow   = new PositionInRow(10);
-        $this->event           = new GraveSiteEdited(
+        $this->event           = new GraveSiteLocationClarified(
             $this->graveSiteId,
             $this->cemeteryBlockId,
             $this->rowInBlock,

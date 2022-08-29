@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Model\Event;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteEdited extends Event
+class GraveSiteLocationClarified extends Event
 {
     public function __construct(
         private GraveSiteId     $graveSiteId,
