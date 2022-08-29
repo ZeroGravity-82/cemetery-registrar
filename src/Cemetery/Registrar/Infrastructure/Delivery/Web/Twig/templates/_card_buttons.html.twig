@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row pt-3 text-end">
+    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">
+      <div class="order-3 order-sm-1">
+        <button type="button"
+                class="btn btn-danger btn-sm justify-content-md-start js-remove"
+                aria-label="Удалить запись">Удалить запись</button>
+      </div>
+      <div class="order-2 order-sm-2 btn-group">
+        <button type="button"
+                class="btn btn-warning btn-sm dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                aria-label="Действие">Действие</button>
+        <ul class="dropdown-menu px-3 col-xs-12" style="white-space: nowrap">{{ actionlist }}</ul>
+      </div>
+      <div class="order-1 order-sm-3">
+        <button type="button"
+                class="btn btn-secondary btn-sm js-close"
+                aria-label="Закрыть">Закрыть</button>
+      </div>
+    </div>
+    <p class="mt-2 mb-0 text-muted timestamps js-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>
+  </div>
+</div>

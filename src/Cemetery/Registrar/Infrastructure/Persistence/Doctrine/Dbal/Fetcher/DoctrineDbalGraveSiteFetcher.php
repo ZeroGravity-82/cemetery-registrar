@@ -33,7 +33,6 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 'gs.row_in_block    AS rowInBlock',
                 'gs.position_in_row AS positionInRow',
                 'gs.size            AS size',
-                'gspic.id           AS personInChargeId',
                 'gspic.full_name    AS personInChargeFullName',
             )
             ->from($this->tableName, 'gs')
@@ -106,6 +105,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 'gs.geo_position->>"$.coordinates.longitude" AS geoPositionLongitude',
                 'gs.geo_position->>"$.error"                 AS geoPositionError',
                 'gs.size                                     AS size',
+                'gspic.full_name                             AS personInChargeFullName',
                 'gs.created_at                               AS createdAt',
                 'gs.updated_at                               AS updatedAt',
             )
@@ -173,6 +173,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 default => $viewData['geoPositionError'],
             },
             $viewData['size'],
+            $viewData['personInChargeFullName'],
             $viewData['createdAt'],
             $viewData['updatedAt'],
         );
@@ -194,7 +195,6 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
                 $listItemData['rowInBlock'],
                 $listItemData['positionInRow'],
                 $listItemData['size'],
-                $listItemData['personInChargeId'],
                 $listItemData['personInChargeFullName'],
             );
         }

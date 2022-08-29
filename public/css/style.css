@@ -8,16 +8,15 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
-tbody tr {
+tbody tr,
+li.dropdown-item {
     cursor: pointer;
 }
 
-.modal-body {
-    padding-bottom: .25rem!important;
-}
 .modal-body .timestamps {
     font-size: .625rem!important;
 }
+
 #spinner-div {
   position: fixed;
   display: none;

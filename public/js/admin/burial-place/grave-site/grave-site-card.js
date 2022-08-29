@@ -1,16 +1,20 @@
-const $graveSiteCard                 = $(`#modalGraveSiteCard`);
-const $graveSiteCardTitle            = $graveSiteCard.find(`.modal-title`)
-const $graveSiteCardCard             = $graveSiteCard.find(`div.card`);
-const $graveSiteCardCsrfTokenField   = $graveSiteCard.find(`input[id=token]`);
-const $graveSiteCardRemoveBtn        = $graveSiteCard.find(`.js-remove`);
-const $graveSiteCardRemoveBtnWrapper = $graveSiteCard.find(`.js-remove-wrapper`);
-const $graveSiteCardCloseBtn         = $graveSiteCard.find(`.js-close`);
-const $graveSiteCardTimestamps       = $graveSiteCard.find(`.timestamps`);
-const graveSiteCardModalObject       = new bootstrap.Modal(`#modalGraveSiteCard`, {});
+const $graveSiteCard                    = $(`#modalGraveSiteCard`);
+const $graveSiteCardTitle               = $graveSiteCard.find(`.modal-title`)
+const $graveSiteCardCard                = $graveSiteCard.find(`div.card`);
+const $graveSiteCardLocationField       = $graveSiteCard.find(`.js-location`);
+const $graveSiteCardSizeField           = $graveSiteCard.find(`.js-size`);
+const $graveSiteCardGeoPositionField    = $graveSiteCard.find(`.js-geo-position`);
+const $graveSiteCardPersonInChargeField = $graveSiteCard.find(`.js-person-in-charge`);
+const $graveSiteCardCsrfTokenField      = $graveSiteCard.find(`input[id=token]`);
+const $graveSiteCardCloseBtn            = $graveSiteCard.find(`.js-close`);
+const graveSiteCardModalObject          = new bootstrap.Modal(`#modalGraveSiteCard`, {});
+
+let graveSiteId = null;
 
 function graveSiteCard_show(id) {
   $spinner.show();
-  const url = $graveSiteCardCard.data(`action-show`).replace(`{id}`, id);
+  graveSiteId = id;
+  const url   = $graveSiteCardCard.data(`action-show`).replace(`{id}`, graveSiteId);
   $.ajax({
     dataType: `json`,
     method: `GET`,
@@ -18,34 +22,37 @@ function graveSiteCard_show(id) {
   })
   .done((responseJson) => {
     const view = responseJson.data.view;
-    $graveSiteCardCard.data(`id`, id);
+    $graveSiteCardCard.data(`id`, graveSiteId);
     let graveSiteCardTitle = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
     if (view.positionInRow !== null) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
     $graveSiteCardTitle.html(`<span>${graveSiteCardTitle}</span> (Участки)`);
-    // $graveSiteCardCemeteryBlockIdField.val(view.cemeteryBlockId);
-    // $graveSiteCardRowInBlockField.val(view.rowInBlock);
-    // $graveSiteCardPositionInRowField.val(view.positionInRow);
-    // $graveSiteCardGeoPositionField.val(
-    //     view.geoPositionLatitude !== null || view.geoPositionLongitude !== null
-    //         ? [view.geoPositionLatitude, view.geoPositionLongitude].join(`, `)
-    //         : ``
-    // );
-    // $graveSiteCardGeoPositionErrorField.val(view.geoPositionError);
-    // $graveSiteCardSizeField.val(view.size);
-    $graveSiteCardRemoveBtnWrapper.removeClass(`d-none`);
-    $graveSiteCardTimestamps.removeClass(`d-none`);
+    $graveSiteCardLocationField.html(graveSiteCardTitle);
+    $graveSiteCardSizeField.html(view.size !== null ? `${view.size} м²` : `-`);
+
+    let geoPosition = view.geoPositionLatitude !== null || view.geoPositionLongitude !== null
+            ? [view.geoPositionLatitude, view.geoPositionLongitude].join(`, `)
+            : null;
+    if (geoPosition !== null && view.geoPositionError !== null) {
+      geoPosition += ` (± ${view.geoPositionError} м)`;
+    }
+    $graveSiteCardGeoPositionField.html(geoPosition !== null ? geoPosition : `-`);
+    $graveSiteCardPersonInChargeField.html(view.personInChargeFullName !== null ? view.personInChargeFullName : `-`);
     graveSiteCardModalObject.show();
   })
   .fail(onAjaxFailure)
   .always(onAjaxAlways);
 }
 
+$graveSiteCardCloseBtn.on(`click`, () => {
+  graveSiteCard_close();
+});
+
 $graveSiteCard.on(`click`, `.js-remove`, () => {
   const name = $graveSiteCardTitle.find(`span`).html();
   Swal.fire({
-    title: `Удалить участок "${name}"?`,
+    title: `Удалить участок<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,
@@ -56,11 +63,12 @@ $graveSiteCard.on(`click`, `.js-remove`, () => {
   })
   .then((result) => {
     if (result.isConfirmed) {
-      const url = $graveSiteCard.data(`action-remove`).replace(`{id}`, idGraveSite);
+      const url = $graveSiteCardCard.data(`action-remove`).replace(`{id}`, graveSiteId);
       removeGraveSite(url);
     }
   })
 });
+
 function removeGraveSite(url) {
   $spinner.show();
   const data = {
@@ -77,9 +85,14 @@ function removeGraveSite(url) {
       icon: `success`,
       title: `Участок успешно удалён.`,
     });
-    modalGraveSiteObject.hide();
+    graveSiteCardModalObject.hide();
     location.reload();        // TODO refactor not to reload entire page
   })
   .fail(onAjaxFailure)
   .always(onAjaxAlways);
+}
+
+function graveSiteCard_close() {
+  graveSiteCardModalObject.hide();
+  location.reload();            // TODO refactor not to reload entire page
 }

@@ -72,13 +72,17 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
 
     public function testItChecksExistenceByCemeteryBlockIdAndRowInBlockAndPositionInRow(): void
     {
+        $this->markTestIncomplete();
         $graveSiteToRemove = $this->repo->findById(new GraveSiteId('GS004'));
         $this->repo->remove($graveSiteToRemove);
         $removedGraveSiteCemeteryBlockId = $graveSiteToRemove->cemeteryBlockId()->value();
         $removedGraveSiteRowInBlock      = $graveSiteToRemove->rowInBlock()->value();
         $removedGraveSitePositionInRow   = $graveSiteToRemove->positionInRow()?->value();
 
-        $this->assertTrue($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow('CB002', 3, 4));
+        $this->assertTrue($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
+            'CB002',
+            3,
+            4));
         $this->assertFalse($this->fetcher->doesAlreadyUsedCemeteryBlockIdAndRowInBlockAndPositionInRow(
             'unknown_cemetery_block_id',
             3,
@@ -301,7 +305,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(1,          $listItem->rowInBlock);
         $this->assertSame(null,       $listItem->positionInRow);
         $this->assertSame(null,       $listItem->size);
-        $this->assertSame(null,       $listItem->personInChargeId);
         $this->assertSame(null,       $listItem->personInChargeFullName);
     }
 
@@ -312,7 +315,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,                           $listItem->rowInBlock);
         $this->assertSame(4,                           $listItem->positionInRow);
         $this->assertSame(null,                        $listItem->size);
-        $this->assertSame('NP008',                     $listItem->personInChargeId);
         $this->assertSame('Беляев Мечеслав Федорович', $listItem->personInChargeFullName);
     }
 
@@ -323,7 +325,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(7,                            $listItem->rowInBlock);
         $this->assertSame(null,                         $listItem->positionInRow);
         $this->assertSame('2.5',                        $listItem->size);
-        $this->assertSame('NP007',                      $listItem->personInChargeId);
         $this->assertSame('Громов Никифор Рудольфович', $listItem->personInChargeFullName);
     }
 
@@ -334,7 +335,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(2,               $listItem->rowInBlock);
         $this->assertSame(4,               $listItem->positionInRow);
         $this->assertSame(null,            $listItem->size);
-        $this->assertSame(null,            $listItem->personInChargeId);
         $this->assertSame(null,            $listItem->personInChargeFullName);
     }
 
@@ -345,7 +345,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,               $listItem->rowInBlock);
         $this->assertSame(11,              $listItem->positionInRow);
         $this->assertSame(null,            $listItem->size);
-        $this->assertSame(null,            $listItem->personInChargeId);
         $this->assertSame(null,            $listItem->personInChargeFullName);
     }
 
@@ -356,7 +355,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,               $listItem->rowInBlock);
         $this->assertSame(10,              $listItem->positionInRow);
         $this->assertSame(null,            $listItem->size);
-        $this->assertSame(null,            $listItem->personInChargeId);
         $this->assertSame(null,            $listItem->personInChargeFullName);
     }
 
@@ -367,7 +365,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,         $listItem->rowInBlock);
         $this->assertSame(5,         $listItem->positionInRow);
         $this->assertSame(null,      $listItem->size);
-        $this->assertSame(null,      $listItem->personInChargeId);
         $this->assertSame(null,      $listItem->personInChargeFullName);
     }
 
@@ -378,7 +375,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,         $listItem->rowInBlock);
         $this->assertSame(6,         $listItem->positionInRow);
         $this->assertSame(null,      $listItem->size);
-        $this->assertSame(null,      $listItem->personInChargeId);
         $this->assertSame(null,      $listItem->personInChargeFullName);
     }
 
@@ -389,7 +385,6 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,         $listItem->rowInBlock);
         $this->assertSame(7,         $listItem->positionInRow);
         $this->assertSame('3.5',     $listItem->size);
-        $this->assertSame(null,      $listItem->personInChargeId);
         $this->assertSame(null,      $listItem->personInChargeFullName);
     }
 

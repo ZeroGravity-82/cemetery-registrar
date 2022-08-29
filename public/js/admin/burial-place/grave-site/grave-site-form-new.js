@@ -27,11 +27,9 @@ function graveSiteFormNew_show() {
 }
 
 // Autofocus
-// $(document).ready(() => {
-  $graveSiteFormNew.on(`shown.bs.modal`, (e) => {
-    $(e.target).find(`#cemeteryBlockId`).focus();
-  });
-// });
+$graveSiteFormNew.on(`shown.bs.modal`, (e) => {
+  $(e.target).find(`#cemeteryBlockId`).focus();
+});
 
 $graveSiteFormNewSaveAndCloseBtn.on(`click`, () => {
   const url = $graveSiteFormNewForm.data(`action-new`);
