@@ -73,7 +73,7 @@ $modalCemeteryBlock.on(`click`, `.js-close`, () => {
 $modalCemeteryBlock.on(`click`, `.js-remove`, () => {
   const name = $modalCemeteryBlockTitle.find(`span`).html();
   Swal.fire({
-    title: `Удалить квартал "${name}"?`,
+    title: `Удалить квартал<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,

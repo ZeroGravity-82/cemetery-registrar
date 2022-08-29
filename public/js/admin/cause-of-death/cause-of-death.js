@@ -73,7 +73,7 @@ $modalCauseOfDeath.on(`click`, `.js-close`, () => {
 $modalCauseOfDeath.on(`click`, `.js-remove`, () => {
   const name = $modalCauseOfDeathTitle.find(`span`).html();
   Swal.fire({
-    title: `Удалить причину смерти "${name}"?`,
+    title: `Удалить причину смерти<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,
