@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGra
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCreated;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
@@ -21,10 +22,11 @@ class CreateGraveSiteService extends GraveSiteService
     public function __construct(
         private readonly GraveSiteFactory $graveSiteFactory,
         GraveSiteRepository               $graveSiteRepo,
+        CemeteryBlockRepository           $cemeteryBlockRepo,
         EventDispatcher                   $eventDispatcher,
         CreateGraveSiteRequestValidator   $requestValidator,
     ) {
-        parent::__construct($graveSiteRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher, $requestValidator);
     }
 
     /**

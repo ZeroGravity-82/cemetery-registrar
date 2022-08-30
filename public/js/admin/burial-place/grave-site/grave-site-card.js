@@ -1,13 +1,15 @@
-const $graveSiteCard                    = $(`#modalGraveSiteCard`);
-const $graveSiteCardTitle               = $graveSiteCard.find(`.modal-title`)
-const $graveSiteCardCard                = $graveSiteCard.find(`div.card`);
-const $graveSiteCardLocationField       = $graveSiteCard.find(`.js-location`);
-const $graveSiteCardSizeField           = $graveSiteCard.find(`.js-size`);
-const $graveSiteCardGeoPositionField    = $graveSiteCard.find(`.js-geo-position`);
-const $graveSiteCardPersonInChargeField = $graveSiteCard.find(`.js-person-in-charge`);
-const $graveSiteCardCsrfTokenField      = $graveSiteCard.find(`input[id=token]`);
-const $graveSiteCardCloseBtn            = $graveSiteCard.find(`.js-close`);
-const graveSiteCardModalObject          = new bootstrap.Modal(`#modalGraveSiteCard`, {});
+const $graveSiteCard                          = $(`#modalGraveSiteCard`);
+const $graveSiteFormClarifyLocation           = $(`#modalGraveSiteFormClarifyLocation`);
+const $graveSiteCardTitle                     = $graveSiteCard.find(`.modal-title`)
+const $graveSiteCardCard                      = $graveSiteCard.find(`div.card`);
+const $graveSiteCardLocationField             = $graveSiteCard.find(`.js-location`);
+const $graveSiteCardSizeField                 = $graveSiteCard.find(`.js-size`);
+const $graveSiteCardGeoPositionField          = $graveSiteCard.find(`.js-geo-position`);
+const $graveSiteCardPersonInChargeField       = $graveSiteCard.find(`.js-person-in-charge`);
+const $graveSiteCardCsrfTokenField            = $graveSiteCard.find(`input[id=token]`);
+const $graveSiteCardCloseBtn                  = $graveSiteCard.find(`.js-close`);
+const graveSiteCardModalObject                = new bootstrap.Modal(`#modalGraveSiteCard`, {});
+const graveSiteFormClarifyLocationModalObject = new bootstrap.Modal(`#modalGraveSiteFormClarifyLocation`, {});
 
 let graveSiteId = null;
 
@@ -47,6 +49,11 @@ function graveSiteCard_show(id) {
 
 $graveSiteCardCloseBtn.on(`click`, () => {
   graveSiteCard_close();
+});
+
+$graveSiteCard.on(`click`, `.js-clarify-location`, () => {
+  graveSiteCardModalObject.hide();
+  graveSiteFormClarifyLocationModalObject.show();
 });
 
 $graveSiteCard.on(`click`, `.js-remove`, () => {

@@ -54,9 +54,10 @@
     </div>
   </div>
 
-  {% include 'admin/burial_place/grave_site/_form_new_grave_site.html.twig' with {'context': 'GraveSiteFormNew'} %}
   {% include 'admin/burial_place/grave_site/_form_new_cemetery_block.html.twig' with {'context': 'CemeteryBlockFormNew'} %}
+  {% include 'admin/burial_place/grave_site/_form_new_grave_site.html.twig' with {'context': 'GraveSiteFormNew'} %}
   {% include 'admin/burial_place/grave_site/_card_grave_site.html.twig' with {'context': 'GraveSiteCard'} %}
+  {% include 'admin/burial_place/grave_site/_form_clarify_grave_site_location.html.twig' with {'context': 'GraveSiteFormClarifyLocation'} %}
 
 {% endblock %}
 

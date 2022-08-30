@@ -1,7 +1,8 @@
 {% extends '_modal.html.twig' %}
 
 {% block modalbody %}
-  <form data-action-new="{{ path('admin_grave_site_create') }}">
+  <form
+      data-action-clarify-location="{{ path('admin_grave_site_clarify_location', {'id': '{id}'})|url_decode }}">
     <div class="container">
       <div class="row">
         <div class="col-md-3 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
@@ -38,29 +39,6 @@
                  aria-describedby="positionInRowFeedback"
                  aria-label="Место">
           <div id="positionInRowFeedback" class="invalid-feedback d-none"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3"><label for="size" class="form-label">Размер</label></div>
-        <div class="col-md-9">
-          <input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
-                 id="size" name="size"
-                 aria-describedby="sizeFeedback"
-                 aria-label="Размер">
-          <div id="sizeFeedback" class="invalid-feedback d-none"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-3"><label for="geoPosition" class="form-label">Геопозиция</label></div>
-        <div class="col-md-9">
-          <input type="text" class="form-control form-control-sm"
-                 id="geoPosition" name="geoPosition"
-                 aria-describedby="geoPositionFeedback"
-                 aria-label="Геопозиция">
-          <label for="geoPositionError" class="form-label d-none">Ошибка геопозиции</label>
-          <input type="text" class="form-control form-control-sm d-none"
-                 id="geoPositionError" name="geoPositionError">
-          <div id="geoPositionFeedback" class="invalid-feedback d-none"></div>
         </div>
       </div>
     </div>

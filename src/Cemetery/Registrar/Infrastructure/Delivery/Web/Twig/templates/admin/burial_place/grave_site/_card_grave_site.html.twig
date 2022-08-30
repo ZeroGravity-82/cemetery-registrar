@@ -4,7 +4,6 @@
   <div
       class="card border border-0"
       data-action-show="{{ path('admin_grave_site_show', {'id': '{id}'})|url_decode }}"
-      data-action-edit="{{ path('admin_grave_site_edit', {'id': '{id}'})|url_decode }}"
       data-action-remove="{{ path('admin_grave_site_remove', {'id': '{id}'})|url_decode }}">
     <div class="card-body">
       <div class="row">
@@ -26,6 +25,7 @@
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
     {% include '_card_buttons.html.twig' %}
+    {% include '_card_footer.html.twig' %}
   </div>
 {% endblock %}
 

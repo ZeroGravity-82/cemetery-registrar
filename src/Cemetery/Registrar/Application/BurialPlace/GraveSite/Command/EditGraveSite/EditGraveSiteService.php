@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteEdited;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
@@ -27,10 +28,11 @@ class EditGraveSiteService extends GraveSiteService
 {
     public function __construct(
         GraveSiteRepository           $graveSiteRepo,
+        CemeteryBlockRepository       $cemeteryBlockRepo,
         EventDispatcher               $eventDispatcher,
         EditGraveSiteRequestValidator $requestValidator,
     ) {
-        parent::__construct($graveSiteRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher, $requestValidator);
     }
 
     /**

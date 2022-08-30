@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\BurialPlace;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\ListColumbariumNiches\ListColumbariumNichesRequest;

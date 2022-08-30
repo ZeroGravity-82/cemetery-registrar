@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\BurialPlace;
+namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\BurialPlace\MemorialTree;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\MemorialTree\Query\ListMemorialTrees\ListMemorialTreesRequest;
