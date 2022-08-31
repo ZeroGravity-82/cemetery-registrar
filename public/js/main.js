@@ -23,8 +23,9 @@ function fireFlashMessages()
 $(`form`).on(`submit`, (e) => e.preventDefault());
 
 function displayValidationErrors(data) {
+  const $modal = $(`.modal`).has(`:visible`);
   for (const [fieldId, validationError] of Object.entries(data)) {
-    const $field = $body.find(`#${fieldId}`);
+    const $field = $modal.find(`#${fieldId}`);
     if ($field.length === 0) {
       buildToast().fire({
         icon: `error`,
@@ -35,7 +36,7 @@ function displayValidationErrors(data) {
 
     $field.removeClass(`is-invalid`).addClass(`is-invalid`);
     const ariaDescribedby  = $field.attr(`aria-describedby`);
-    const $invalidFeedback = $body.find(`#${ariaDescribedby}`);
+    const $invalidFeedback = $modal.find(`#${ariaDescribedby}`);
     $invalidFeedback.html(validationError);
     $invalidFeedback.removeClass(`d-none`);
   }

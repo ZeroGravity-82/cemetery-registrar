@@ -73,7 +73,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/burial-place/grave-site/{id}/clarify-location', name: 'admin_grave_site_clarify_location', methods: HttpRequest::METHOD_PUT)]
+    #[Route('/admin/burial-place/grave-site/{id}/clarify-location', name: 'admin_grave_site_clarify_location', methods: HttpRequest::METHOD_PATCH)]
     public function clarifyGraveSiteLocation(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');

@@ -9,7 +9,6 @@ const $graveSiteFormNewGeoPositionField       = $graveSiteFormNew.find(`input[id
 const $graveSiteFormNewGeoPositionErrorField  = $graveSiteFormNew.find(`input[id=geoPositionError]`);
 const $graveSiteFormNewCsrfTokenField         = $graveSiteFormNew.find(`input[id=token]`);
 const $graveSiteFormNewSaveAndCloseBtn        = $graveSiteFormNew.find(`.js-save-and-close`);
-const $graveSiteFormNewSaveAndCloseBtnWrapper = $graveSiteFormNew.find(`.js-save-and-close-wrapper`);
 const $graveSiteFormNewCloseBtn               = $graveSiteFormNew.find(`.js-close`);
 const graveSiteFormNewModalObject             = new bootstrap.Modal(`#modalGraveSiteFormNew`, {});
 
@@ -22,7 +21,6 @@ function graveSiteFormNew_show() {
   $graveSiteFormNewGeoPositionField.val(null);
   $graveSiteFormNewGeoPositionErrorField.val(null);
   graveSiteFormNew_hideAllValidationErrors();
-  $graveSiteFormNewSaveAndCloseBtnWrapper.removeClass(`d-none`);
   graveSiteFormNewModalObject.show();
 }
 
