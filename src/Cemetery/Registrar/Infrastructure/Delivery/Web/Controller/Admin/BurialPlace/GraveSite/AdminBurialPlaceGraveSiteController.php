@@ -6,6 +6,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\Burial
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteLocation\ClarifyGraveSiteLocationRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteSize\ClarifyGraveSiteSizeRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditGraveSite\EditGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveGraveSite\RemoveGraveSiteRequest;
@@ -78,6 +79,16 @@ class AdminBurialPlaceGraveSiteController extends Controller
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
         $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyGraveSiteLocationRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route('/admin/burial-place/grave-site/{id}/clarify-size', name: 'admin_grave_site_clarify_size', methods: HttpRequest::METHOD_PATCH)]
+    public function clarifyGraveSiteSize(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyGraveSiteSizeRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);
 
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);

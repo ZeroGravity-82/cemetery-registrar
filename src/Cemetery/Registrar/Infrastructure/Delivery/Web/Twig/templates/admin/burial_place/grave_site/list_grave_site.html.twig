@@ -58,15 +58,17 @@
   {% include 'admin/burial_place/grave_site/_form_new_grave_site.html.twig' with {'context': 'GraveSiteFormNew'} %}
   {% include 'admin/burial_place/grave_site/_card_grave_site.html.twig' with {'context': 'GraveSiteCard'} %}
   {% include 'admin/burial_place/grave_site/_form_clarify_grave_site_location.html.twig' with {'context': 'GraveSiteFormClarifyLocation'} %}
+  {% include 'admin/burial_place/grave_site/_form_clarify_grave_site_size.html.twig' with {'context': 'GraveSiteFormClarifySize'} %}
 
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
+  <script src="/js/admin/burial-place/grave-site/grave-site-list.js"></script>
+  <script src="/js/admin/burial-place/grave-site/cemetery-block.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-new.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-card.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-clarify-location.js"></script>
-  <script src="/js/admin/burial-place/grave-site/grave-site-list.js"></script>
-  <script src="/js/admin/burial-place/grave-site/cemetery-block.js"></script>
+  <script src="/js/admin/burial-place/grave-site/grave-site-form-clarify-size.js"></script>
 {% endblock %}

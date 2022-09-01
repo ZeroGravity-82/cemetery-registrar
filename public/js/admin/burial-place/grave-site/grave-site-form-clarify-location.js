@@ -9,13 +9,13 @@ const $graveSiteFormClarifyLocationSaveAndCloseBtn      = $graveSiteFormClarifyL
 const $graveSiteFormClarifyLocationCloseBtn             = $graveSiteFormClarifyLocation.find(`.js-close`);
 const graveSiteFormClarifyLocationModalObject           = new bootstrap.Modal(`#modalGraveSiteFormClarifyLocation`, {});
 
-let persistedCallback;
-let persistedArgs;
+let persistedCallbackClarifyLocation;
+let persistedArgsClarifyLocation;
 
 function graveSiteFormClarifyLocation_show(view, callback, args) {
-  persistedCallback  = callback;
-  persistedArgs      = args;
-  currentGraveSiteId = view.id;
+  persistedCallbackClarifyLocation = callback;
+  persistedArgsClarifyLocation     = args;
+  currentGraveSiteId               = view.id;
   let graveSiteCardTitle = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
     if (view.positionInRow !== null) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
@@ -75,7 +75,7 @@ function graveSiteFormClarifyLocation_save(url, isReloadRequired = false) {
 
 function graveSiteFormClarifyLocation_close() {
   graveSiteFormClarifyLocationModalObject.hide();
-  window[persistedCallback](...persistedArgs);
+  window[persistedCallbackClarifyLocation](...persistedArgsClarifyLocation);
 }
 
 function graveSiteFormClarifyLocation_hideAllValidationErrors() {
