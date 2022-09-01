@@ -17,7 +17,7 @@ class JuristicPersonCreatedTest extends EventTest
 {
     private JuristicPersonId $juristicPersonId;
     private Name             $juristicPersonName;
-    private Inn              $juristicPersonInn;
+    private ?Inn             $juristicPersonInn;
 
     public function setUp(): void
     {
@@ -36,5 +36,17 @@ class JuristicPersonCreatedTest extends EventTest
         $this->assertTrue($this->juristicPersonId->isEqual($this->event->juristicPersonId()));
         $this->assertTrue($this->juristicPersonName->isEqual($this->event->juristicPersonName()));
         $this->assertTrue($this->juristicPersonInn->isEqual($this->event->juristicPersonInn()));
+    }
+
+    public function testItSuccessfullyCreatedWithoutInn(): void
+    {
+        $this->event = new JuristicPersonCreated(
+            $this->juristicPersonId,
+            $this->juristicPersonName,
+            null,
+        );
+        $this->assertTrue($this->juristicPersonId->isEqual($this->event->juristicPersonId()));
+        $this->assertTrue($this->juristicPersonName->isEqual($this->event->juristicPersonName()));
+        $this->assertNull($this->event->juristicPersonInn());
     }
 }

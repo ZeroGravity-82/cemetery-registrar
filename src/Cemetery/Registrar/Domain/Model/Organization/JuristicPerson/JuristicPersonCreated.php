@@ -15,7 +15,7 @@ class JuristicPersonCreated extends Event
     public function __construct(
         private JuristicPersonId $juristicPersonId,
         private Name             $juristicPersonName,
-        private Inn              $juristicPersonInn,
+        private ?Inn             $juristicPersonInn,
     ) {
         parent::__construct();
     }
@@ -30,7 +30,7 @@ class JuristicPersonCreated extends Event
         return $this->juristicPersonName;
     }
 
-    public function juristicPersonInn(): Inn
+    public function juristicPersonInn(): ?Inn
     {
         return $this->juristicPersonInn;
     }
