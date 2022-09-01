@@ -19,7 +19,7 @@ class GraveSiteLocationClarifiedTest extends EventTest
     private GraveSiteId     $graveSiteId;
     private CemeteryBlockId $cemeteryBlockId;
     private RowInBlock      $rowInBlock;
-    private PositionInRow   $positionInRow;
+    private ?PositionInRow $positionInRow;
 
     public function setUp(): void
     {
@@ -41,5 +41,19 @@ class GraveSiteLocationClarifiedTest extends EventTest
         $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
         $this->assertTrue($this->rowInBlock->isEqual($this->event->rowInBlock()));
         $this->assertTrue($this->positionInRow->isEqual($this->event->positionInRow()));
+    }
+
+    public function testItSuccessfullyCreatedWithoutPositionInRow(): void
+    {
+        $this->event = new GraveSiteLocationClarified(
+            $this->graveSiteId,
+            $this->cemeteryBlockId,
+            $this->rowInBlock,
+            null,
+        );
+        $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
+        $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
+        $this->assertTrue($this->rowInBlock->isEqual($this->event->rowInBlock()));
+        $this->assertNull($this->event->positionInRow());
     }
 }
