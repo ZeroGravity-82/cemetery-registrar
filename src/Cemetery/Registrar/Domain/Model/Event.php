@@ -9,6 +9,8 @@ namespace Cemetery\Registrar\Domain\Model;
  */
 abstract class Event
 {
+    // TODO fix all events to consider null for optional fields
+
     protected \DateTimeImmutable $createdAt;
 
     public function __construct()
