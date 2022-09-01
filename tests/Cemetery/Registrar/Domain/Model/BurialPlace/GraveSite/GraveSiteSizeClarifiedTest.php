@@ -14,8 +14,8 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class GraveSiteSizeClarifiedTest extends EventTest
 {
-    private GraveSiteId    $graveSiteId;
-    private ?GraveSiteSize $size;
+    private GraveSiteId   $graveSiteId;
+    private GraveSiteSize $size;
 
     public function setUp(): void
     {
@@ -31,15 +31,5 @@ class GraveSiteSizeClarifiedTest extends EventTest
     {
         $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
         $this->assertTrue($this->size->isEqual($this->event->size()));
-    }
-
-    public function testItSuccessfullyCreatedWithoutSize(): void
-    {
-        $this->event = new GraveSiteSizeClarified(
-            $this->graveSiteId,
-            null,
-        );
-        $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
-        $this->assertNull($this->event->size());
     }
 }
