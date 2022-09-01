@@ -36,10 +36,7 @@ class RemoveCauseOfDeathService extends CauseOfDeathService
         /** @var RemoveCauseOfDeathRequest $request */
         $causeOfDeath = $this->getCauseOfDeath($request->id);
         $this->causeOfDeathRepo->remove($causeOfDeath);
-        $this->eventDispatcher->dispatch(new CauseOfDeathRemoved(
-            $causeOfDeath->id(),
-            $causeOfDeath->name(),
-        ));
+        $this->eventDispatcher->dispatch(new CauseOfDeathRemoved($causeOfDeath->id()));
 
         return new ApplicationSuccessResponse();
     }

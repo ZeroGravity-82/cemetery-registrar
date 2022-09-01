@@ -13,9 +13,6 @@ class GraveSiteRemoved extends Event
 {
     public function __construct(
         private GraveSiteId     $graveSiteId,
-        private CemeteryBlockId $cemeteryBlockId,
-        private RowInBlock      $rowInBlock,
-        private ?PositionInRow  $positionInRow,
     ) {
         parent::__construct();
     }
@@ -23,20 +20,5 @@ class GraveSiteRemoved extends Event
     public function graveSiteId(): GraveSiteId
     {
         return $this->graveSiteId;
-    }
-
-    public function cemeteryBlockId(): CemeteryBlockId
-    {
-        return $this->cemeteryBlockId;
-    }
-
-    public function rowInBlock(): RowInBlock
-    {
-        return $this->rowInBlock;
-    }
-
-    public function positionInRow(): ?PositionInRow
-    {
-        return $this->positionInRow;
     }
 }

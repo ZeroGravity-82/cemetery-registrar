@@ -12,8 +12,7 @@ use Cemetery\Registrar\Domain\Model\Event;
 class CemeteryBlockRemoved extends Event
 {
     public function __construct(
-        private CemeteryBlockId   $cemeteryBlockId,
-        private CemeteryBlockName $cemeteryBlockName,
+        private CemeteryBlockId $cemeteryBlockId,
     ) {
         parent::__construct();
     }
@@ -21,10 +20,5 @@ class CemeteryBlockRemoved extends Event
     public function cemeteryBlockId(): CemeteryBlockId
     {
         return $this->cemeteryBlockId;
-    }
-
-    public function cemeteryBlockName(): CemeteryBlockName
-    {
-        return $this->cemeteryBlockName;
     }
 }

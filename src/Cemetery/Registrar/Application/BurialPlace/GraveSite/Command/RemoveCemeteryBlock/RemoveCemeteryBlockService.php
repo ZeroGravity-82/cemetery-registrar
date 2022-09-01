@@ -36,10 +36,7 @@ class RemoveCemeteryBlockService extends CemeteryBlockService
         /** @var RemoveCemeteryBlockRequest $request */
         $cemeteryBlock = $this->getCemeteryBlock($request->id);
         $this->cemeteryBlockRepo->remove($cemeteryBlock);
-        $this->eventDispatcher->dispatch(new CemeteryBlockRemoved(
-            $cemeteryBlock->id(),
-            $cemeteryBlock->name(),
-        ));
+        $this->eventDispatcher->dispatch(new CemeteryBlockRemoved($cemeteryBlock->id()));
 
         return new ApplicationSuccessResponse();
     }

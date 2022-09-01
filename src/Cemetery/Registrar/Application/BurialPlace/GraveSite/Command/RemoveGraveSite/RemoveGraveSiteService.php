@@ -38,12 +38,7 @@ class RemoveGraveSiteService extends GraveSiteService
         /** @var RemoveGraveSiteRequest $request */
         $graveSite = $this->getGraveSite($request->id);
         $this->graveSiteRepo->remove($graveSite);
-        $this->eventDispatcher->dispatch(new GraveSiteRemoved(
-            $graveSite->id(),
-            $graveSite->cemeteryBlockId(),
-            $graveSite->rowInBlock(),
-            $graveSite->positionInRow(),
-        ));
+        $this->eventDispatcher->dispatch(new GraveSiteRemoved($graveSite->id()));
 
         return new ApplicationSuccessResponse();
     }

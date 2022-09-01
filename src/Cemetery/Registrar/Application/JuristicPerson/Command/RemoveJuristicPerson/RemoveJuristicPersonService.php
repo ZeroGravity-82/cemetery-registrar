@@ -36,11 +36,7 @@ class RemoveJuristicPersonService extends JuristicPersonService
         /** @var RemoveJuristicPersonRequest $request */
         $juristicPerson = $this->getJuristicPerson($request->id);
         $this->juristicPersonRepo->remove($juristicPerson);
-        $this->eventDispatcher->dispatch(new JuristicPersonRemoved(
-            $juristicPerson->id(),
-            $juristicPerson->name(),
-            $juristicPerson->inn(),
-        ));
+        $this->eventDispatcher->dispatch(new JuristicPersonRemoved($juristicPerson->id()));
 
         return new ApplicationSuccessResponse();
     }
