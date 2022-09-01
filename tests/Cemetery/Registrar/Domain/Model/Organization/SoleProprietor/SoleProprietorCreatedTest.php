@@ -17,7 +17,7 @@ class SoleProprietorCreatedTest extends EventTest
 {
     private SoleProprietorId $soleProprietorId;
     private Name             $soleProprietorName;
-    private Inn              $soleProprietorInn;
+    private ?Inn             $soleProprietorInn;
 
     public function setUp(): void
     {
@@ -36,5 +36,17 @@ class SoleProprietorCreatedTest extends EventTest
         $this->assertTrue($this->soleProprietorId->isEqual($this->event->soleProprietorId()));
         $this->assertTrue($this->soleProprietorName->isEqual($this->event->soleProprietorName()));
         $this->assertTrue($this->soleProprietorInn->isEqual($this->event->soleProprietorInn()));
+    }
+
+    public function testItSuccessfullyCreatedWithoutInn(): void
+    {
+        $this->event = new SoleProprietorCreated(
+            $this->soleProprietorId,
+            $this->soleProprietorName,
+            null,
+        );
+        $this->assertTrue($this->soleProprietorId->isEqual($this->event->soleProprietorId()));
+        $this->assertTrue($this->soleProprietorName->isEqual($this->event->soleProprietorName()));
+        $this->assertNull($this->event->soleProprietorInn());
     }
 }

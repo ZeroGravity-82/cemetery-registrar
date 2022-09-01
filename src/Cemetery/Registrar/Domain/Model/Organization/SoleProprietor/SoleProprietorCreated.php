@@ -15,7 +15,7 @@ class SoleProprietorCreated extends Event
     public function __construct(
         private SoleProprietorId $soleProprietorId,
         private Name             $soleProprietorName,
-        private Inn              $soleProprietorInn,
+        private ?Inn             $soleProprietorInn,
     ) {
         parent::__construct();
     }
@@ -30,7 +30,7 @@ class SoleProprietorCreated extends Event
         return $this->soleProprietorName;
     }
 
-    public function soleProprietorInn(): Inn
+    public function soleProprietorInn(): ?Inn
     {
         return $this->soleProprietorInn;
     }
