@@ -78,10 +78,11 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateGeoPosition(ApplicationRequest $request): self
+    protected function validateGeoPosition(ApplicationRequest $request, bool $isRequired = false): self
     {
         switch (true) {
-            case $request->geoPositionLatitude !== null && empty(\trim($request->geoPositionLatitude)):
+            case $request->geoPositionLatitude === null && $isRequired ||
+                 $request->geoPositionLatitude !== null && empty(\trim($request->geoPositionLatitude)):
                 $this->note->addError('geoPosition', 'Широта не может иметь пустое значение.');
                 break;
             case $request->geoPositionLatitude !== null && !Coordinates::isValidFormat($request->geoPositionLatitude):
@@ -91,7 +92,8 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
                 ($request->geoPositionLongitude !== null || $request->geoPositionError !== null):
                 $this->note->addError('geoPosition', 'Геопозиция не содержит данных о широте.');
                 break;
-            case $request->geoPositionLongitude !== null && empty(\trim($request->geoPositionLongitude)):
+            case $request->geoPositionLongitude === null && $isRequired ||
+                 $request->geoPositionLongitude !== null && empty(\trim($request->geoPositionLongitude)):
                 $this->note->addError('geoPosition', 'Долгота не может иметь пустое значение.');
                 break;
             case $request->geoPositionLongitude !== null && !Coordinates::isValidFormat($request->geoPositionLongitude):
@@ -112,9 +114,11 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateSize(ApplicationRequest $request): self
+    protected function validateSize(ApplicationRequest $request, bool $isRequired = false): self
     {
-        if ($request->size !== null && \trim($request->size) === '') {
+        if ($request->size === null && $isRequired ||
+            $request->size !== null && \trim($request->size) === ''
+        ) {
             $this->note->addError('size', 'Размер участка не может иметь пустое значение.');
         } elseif ($request->size !== null && (int) ((float) $request->size * 10) === 0) {
             $this->note->addError('size', 'Размер участка не может иметь нулевое значение.');

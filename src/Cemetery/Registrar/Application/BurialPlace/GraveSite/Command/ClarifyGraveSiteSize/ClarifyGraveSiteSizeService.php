@@ -65,9 +65,9 @@ class ClarifyGraveSiteSizeService extends GraveSiteService
     /**
      * @throws Exception when the size has invalid value
      */
-    private function buildSize(ApplicationRequest $request): ?GraveSiteSize
+    private function buildSize(ApplicationRequest $request): GraveSiteSize
     {
         /** @var ClarifyGraveSiteSizeRequest $request */
-        return $request->size ? new GraveSiteSize($request->size) : null;
+        return new GraveSiteSize($request->size);
     }
 }

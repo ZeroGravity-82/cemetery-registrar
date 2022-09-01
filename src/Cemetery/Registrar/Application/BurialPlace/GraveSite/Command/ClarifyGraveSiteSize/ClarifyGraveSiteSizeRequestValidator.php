@@ -20,7 +20,7 @@ class ClarifyGraveSiteSizeRequestValidator extends GraveSiteRequestValidator
     {
         return $this
             ->validateId($request)
-            ->validateSize($request)
+            ->validateSize($request, true)
             ->note();
     }
 }
