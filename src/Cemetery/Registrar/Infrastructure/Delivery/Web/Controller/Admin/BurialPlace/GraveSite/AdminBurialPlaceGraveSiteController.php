@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteGeoPosition\ClarifyGraveSiteGeoPositionRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteLocation\ClarifyGraveSiteLocationRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteSize\ClarifyGraveSiteSizeRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
@@ -54,7 +55,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/burial-place/grave-site/create', name: 'admin_grave_site_create', methods: HttpRequest::METHOD_POST)]
+    #[Route(
+        '/admin/burial-place/grave-site/create',
+        name: 'admin_grave_site_create',
+        methods: HttpRequest::METHOD_POST
+    )]
     public function createGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -64,7 +69,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_CREATED);
     }
 
-    #[Route('/admin/burial-place/grave-site/{id}/edit', name: 'admin_grave_site_edit', methods: HttpRequest::METHOD_PUT)]
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/edit',
+        name: 'admin_grave_site_edit',
+        methods: HttpRequest::METHOD_PUT
+    )]
     public function editGraveSite(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -74,7 +83,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/burial-place/grave-site/{id}/clarify-location', name: 'admin_grave_site_clarify_location', methods: HttpRequest::METHOD_PATCH)]
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/clarify-location',
+        name: 'admin_grave_site_clarify_location',
+        methods: HttpRequest::METHOD_PATCH
+    )]
     public function clarifyGraveSiteLocation(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -84,7 +97,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/burial-place/grave-site/{id}/clarify-size', name: 'admin_grave_site_clarify_size', methods: HttpRequest::METHOD_PATCH)]
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/clarify-size',
+        name: 'admin_grave_site_clarify_size',
+        methods: HttpRequest::METHOD_PATCH
+    )]
     public function clarifyGraveSiteSize(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
@@ -94,7 +111,25 @@ class AdminBurialPlaceGraveSiteController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
-    #[Route('/admin/burial-place/grave-site/{id}', name: 'admin_grave_site_remove', methods: HttpRequest::METHOD_DELETE)]
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/clarify-geo-position',
+        name: 'admin_grave_site_clarify_geo_position',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clarifyGraveSiteGeoPosition(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyGraveSiteGeoPositionRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route(
+        '/admin/burial-place/grave-site/{id}',
+        name: 'admin_grave_site_remove',
+        methods: HttpRequest::METHOD_DELETE
+    )]
     public function removeGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');

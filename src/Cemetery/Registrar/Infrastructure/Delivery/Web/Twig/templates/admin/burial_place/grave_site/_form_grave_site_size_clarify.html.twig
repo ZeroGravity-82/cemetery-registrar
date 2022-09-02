@@ -1,11 +1,10 @@
 {% extends '_modal.html.twig' %}
 
 {% block modalbody %}
-  <form data-action-new="{{ path('admin_grave_site_create') }}">
+  <form
+      data-action-clarify-size="{{ path('admin_grave_site_clarify_size', {'id': '{id}'})|url_decode }}">
     <div class="container">
-      {% include('admin/burial_place/grave_site/_form_grave_site_location.html.twig') %}
       {% include('admin/burial_place/grave_site/_form_grave_site_size.html.twig') %}
-      {% include('admin/burial_place/grave_site/_form_grave_site_geo_position.html.twig') %}
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
     {% include '_form_buttons.html.twig' %}
