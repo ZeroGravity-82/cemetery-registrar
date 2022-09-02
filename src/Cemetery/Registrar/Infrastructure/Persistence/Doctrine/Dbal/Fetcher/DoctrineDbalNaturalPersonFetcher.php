@@ -44,12 +44,12 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 
     private function queryViewData(string $id): false|array
     {
-        $sql  = $this->findViewByIdSql($id);
+        $sql  = $this->findViewByIdSql();
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('id', $id);
         $result = $stmt->executeQuery();
 
-        return $result->fetchAllAssociative();
+        return $result->fetchAllAssociative()[0] ?? false;
     }
 
     private function doCountTotal(?string $term): int
@@ -167,7 +167,9 @@ SELECT np.id                                                                    
                DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y')
            ),
            NULL
-       )                                                                                      AS cremationCertificateComposed
+       )                                                                                      AS cremationCertificateComposed,
+       np.created_at                                                                          AS createdAt,
+       np.updated_at                                                                          AS updatedAt
 FROM natural_person AS np
 SELECT_SQL;
     }
@@ -184,7 +186,7 @@ SELECT_SQL;
 
     private function appendWhereIdIsEqualSql(string $sql): string
     {
-        return $sql . ' WHERE np.id = :id';
+        return $sql . ' AND np.id = :id';
     }
 
     private function appendAndWhereLikeTermSql(string $sql, ?string $term): string
@@ -238,6 +240,30 @@ LIKE_TERM_SQL;
         }
         
         return $sql;
+    }
+
+    private function hydrateView(array $viewData): NaturalPersonView
+    {
+        return new NaturalPersonView(
+            $viewData['id'],
+            $viewData['fullName'],
+            $viewData['address'],
+            $viewData['phoneComposed'],
+            $viewData['email'],
+            $viewData['bornAtFormatted'],
+            $viewData['placeOfBirth'],
+            $viewData['passportComposed'],
+            $viewData['diedAtFormatted'],
+            match ($viewData['age']) {
+                null    => $viewData['ageCalculated'],
+                default => (int) $viewData['age'],
+            },
+            $viewData['causeOfDeathName'],
+            $viewData['deathCertificateComposed'],
+            $viewData['cremationCertificateComposed'],
+            $viewData['createdAt'],
+            $viewData['updatedAt'],
+        );
     }
 
     private function hydrateList(

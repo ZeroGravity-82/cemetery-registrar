@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonListItem;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalNaturalPersonFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmNaturalPersonRepository;
 use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
@@ -33,14 +34,31 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
 
     public function testItReturnsNaturalPersonViewById(): void
     {
-        // TODO implement
-        $this->markTestIncomplete();
+        $this->testItReturnsNaturalPersonViewForNP001();
+        $this->testItReturnsNaturalPersonViewForNP002();
+        $this->testItReturnsNaturalPersonViewForNP003();
+        $this->testItReturnsNaturalPersonViewForNP004();
+        $this->testItReturnsNaturalPersonViewForNP005();
+        $this->testItReturnsNaturalPersonViewForNP006();
+        $this->testItReturnsNaturalPersonViewForNP007();
+        $this->testItReturnsNaturalPersonViewForNP008();
+        $this->testItReturnsNaturalPersonViewForNP009();
+        $this->testItReturnsNaturalPersonViewForNP010();
+        $this->testItReturnsNaturalPersonViewForNP011();
+        $this->testItReturnsNaturalPersonViewForNP012();
+        $this->testItReturnsNaturalPersonViewForNP013();
     }
 
     public function testItReturnsNullForRemovedNaturalPerson(): void
     {
-        // TODO implement
-        $this->markTestIncomplete();
+        // Prepare database table for testing
+        $naturalPersonToRemove = $this->repo->findById(new NaturalPersonId('NP002'));
+        $this->repo->remove($naturalPersonToRemove);
+        $removedNaturalPersonId = $naturalPersonToRemove->id()->value();
+
+        // Testing itself
+        $view = $this->fetcher->findViewById($removedNaturalPersonId);
+        $this->assertNull($view);
     }
 
     public function testItChecksExistenceById(): void
@@ -520,5 +538,290 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->causeOfDeathName);
         $this->assertSame(null,                   $listItem->deathCertificate);
         $this->assertSame(null,                   $listItem->cremationCertificate);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP001(): void
+    {
+        $view = $this->fetcher->findViewById('NP001');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP001',                   $view->id);
+        $this->assertSame('Егоров Абрам Даниилович', $view->fullName);
+        $this->assertSame(null,                      $view->address);
+        $this->assertSame(null,                      $view->phone);
+        $this->assertSame(null,                      $view->email);
+        $this->assertSame(null,                      $view->bornAt);
+        $this->assertSame(null,                      $view->placeOfBirth);
+        $this->assertSame(null,                      $view->passport);
+        $this->assertSame('01.12.2021',              $view->diedAt);
+        $this->assertSame(69,                        $view->age);
+        $this->assertSame(null,                      $view->causeOfDeathName);
+        $this->assertSame(null,                      $view->deathCertificate);
+        $this->assertSame('№ 12964 от 03.12.2021',   $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP002(): void
+    {
+        $view = $this->fetcher->findViewById('NP002');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP002',                                 $view->id);
+        $this->assertSame('Устинов Арсений Максович',              $view->fullName);
+        $this->assertSame(null,                                    $view->address);
+        $this->assertSame(null,                                    $view->phone);
+        $this->assertSame(null,                                    $view->email);
+        $this->assertSame('30.12.1918',                            $view->bornAt);
+        $this->assertSame(null,                                    $view->placeOfBirth);
+        $this->assertSame(null,                                    $view->passport);
+        $this->assertSame('12.02.2001',                            $view->diedAt);
+        $this->assertSame(82,                                      $view->age);
+        $this->assertSame('Болезнь сердечно-легочная хроническая', $view->causeOfDeathName);
+        $this->assertSame('V-МЮ № 532515 от 15.02.2001',           $view->deathCertificate);
+        $this->assertSame(null,                                    $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP003(): void
+    {
+        $view = $this->fetcher->findViewById('NP003');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP003',                       $view->id);
+        $this->assertSame('Шилов Александр Михаилович',  $view->fullName);
+        $this->assertSame(null,                          $view->address);
+        $this->assertSame(null,                          $view->phone);
+        $this->assertSame(null,                          $view->email);
+        $this->assertSame('20.05.1969',                  $view->bornAt);
+        $this->assertSame(null,                          $view->placeOfBirth);
+        $this->assertSame(
+            '4581 № 684214, выдан МВД России по Кемеровской области 23.03.2001 (681-225)',
+            $view->passport
+        );
+        $this->assertSame('13.05.2012',                  $view->diedAt);
+        $this->assertSame(42,                            $view->age);
+        $this->assertSame('Онкология',                   $view->causeOfDeathName);
+        $this->assertSame('I-BC № 785066 от 23.03.2011', $view->deathCertificate);
+        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP004(): void
+    {
+        $view = $this->fetcher->findViewById('NP004');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP004',                   $view->id);
+        $this->assertSame('Соколов Герман Маркович', $view->fullName);
+        $this->assertSame(null,                      $view->address);
+        $this->assertSame(null,                      $view->phone);
+        $this->assertSame(null,                      $view->email);
+        $this->assertSame(null,                      $view->bornAt);
+        $this->assertSame(null,                      $view->placeOfBirth);
+        $this->assertSame(
+            '1235 № 567891, выдан Отделом УФМС России по Новосибирской области в Заельцовском районе 23.02.2001 (541-001)',
+            $view->passport
+        );
+        $this->assertSame('26.01.2010',              $view->diedAt);
+        $this->assertSame(null,                      $view->age);
+        $this->assertSame('Онкология',               $view->causeOfDeathName);
+        $this->assertSame(null,                      $view->deathCertificate);
+        $this->assertSame(null,                      $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP005(): void
+    {
+        $view = $this->fetcher->findViewById('NP005');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP005',                    $view->id);
+        $this->assertSame('Жданова Инга Григорьевна', $view->fullName);
+        $this->assertSame('Новосибирск, Ленина 1',    $view->address);
+        $this->assertSame('8-913-771-22-33',          $view->phone);
+        $this->assertSame(null,                       $view->email);
+        $this->assertSame('12.02.1980',               $view->bornAt);
+        $this->assertSame(null,                       $view->placeOfBirth);
+        $this->assertSame(
+            '1234 № 567890, выдан УВД Кировского района города Новосибирска 28.10.2002 (540-001)',
+            $view->passport
+        );
+        $this->assertSame('10.03.2022',               $view->diedAt);
+        $this->assertSame(42,                         $view->age);
+        $this->assertSame(null,                       $view->causeOfDeathName);
+        $this->assertSame(null,                       $view->deathCertificate);
+        $this->assertSame(null,                       $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP006(): void
+    {
+        $view = $this->fetcher->findViewById('NP006');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP006',                       $view->id);
+        $this->assertSame('Гришина Устинья Ярославовна', $view->fullName);
+        $this->assertSame(null,                          $view->address);
+        $this->assertSame(null,                          $view->phone);
+        $this->assertSame(null,                          $view->email);
+        $this->assertSame(null,                          $view->bornAt);
+        $this->assertSame(null,                          $view->placeOfBirth);
+        $this->assertSame(null,                          $view->passport);
+        $this->assertSame('03.12.2021',                  $view->diedAt);
+        $this->assertSame(null,                          $view->age);
+        $this->assertSame(null,                          $view->causeOfDeathName);
+        $this->assertSame(null,                          $view->deathCertificate);
+        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP007(): void
+    {
+        $view = $this->fetcher->findViewById('NP007');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP007',                            $view->id);
+        $this->assertSame('Громов Никифор Рудольфович',       $view->fullName);
+        $this->assertSame('Новосибирск, Н.-Данченко 18 - 17', $view->address);
+        $this->assertSame(null,                               $view->phone);
+        $this->assertSame(null,                               $view->email);
+        $this->assertSame('24.09.1915',                       $view->bornAt);
+        $this->assertSame(null,                               $view->placeOfBirth);
+        $this->assertSame(null,                               $view->passport);
+        $this->assertSame(null,                               $view->diedAt);
+        $this->assertSame(null,                               $view->age);
+        $this->assertSame(null,                               $view->causeOfDeathName);
+        $this->assertSame(null,                               $view->deathCertificate);
+        $this->assertSame(null,                               $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP008(): void
+    {
+        $view = $this->fetcher->findViewById('NP008');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP008',                       $view->id);
+        $this->assertSame('Беляев Мечеслав Федорович',   $view->fullName);
+        $this->assertSame(null,                          $view->address);
+        $this->assertSame(null,                          $view->phone);
+        $this->assertSame('mecheslav.belyaev@gmail.com', $view->email);
+        $this->assertSame(null,                          $view->bornAt);
+        $this->assertSame(null,                          $view->placeOfBirth);
+        $this->assertSame(
+            '2345 № 162354, выдан Отделом МВД Ленинского района г. Пензы 20.10.1981',
+            $view->passport
+        );
+        $this->assertSame(null,                          $view->diedAt);
+        $this->assertSame(null,                          $view->age);
+        $this->assertSame(null,                          $view->causeOfDeathName);
+        $this->assertSame(null,                          $view->deathCertificate);
+        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP009(): void
+    {
+        $view = $this->fetcher->findViewById('NP009');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP009',                       $view->id);
+        $this->assertSame('Никонов Родион Митрофанович', $view->fullName);
+        $this->assertSame(null,                          $view->address);
+        $this->assertSame(null,                          $view->phone);
+        $this->assertSame(null,                          $view->email);
+        $this->assertSame(null,                          $view->bornAt);
+        $this->assertSame(null,                          $view->placeOfBirth);
+        $this->assertSame(null,                          $view->passport);
+        $this->assertSame('26.05.1980',                  $view->diedAt);
+        $this->assertSame(null,                          $view->age);
+        $this->assertSame(null,                          $view->causeOfDeathName);
+        $this->assertSame(null,                          $view->deathCertificate);
+        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP010(): void
+    {
+        $view = $this->fetcher->findViewById('NP010');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP010',                $view->id);
+        $this->assertSame('Иванов Иван Иванович', $view->fullName);
+        $this->assertSame(null,                   $view->address);
+        $this->assertSame(null,                   $view->phone);
+        $this->assertSame(null,                   $view->email);
+        $this->assertSame('04.11.1930',           $view->bornAt);
+        $this->assertSame(null,                   $view->placeOfBirth);
+        $this->assertSame(null,                   $view->passport);
+        $this->assertSame('22.11.2002',           $view->diedAt);
+        $this->assertSame(72,                     $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathName);
+        $this->assertSame(null,                   $view->deathCertificate);
+        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP011(): void
+    {
+        $view = $this->fetcher->findViewById('NP011');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP011',                $view->id);
+        $this->assertSame('Иванов Иван Иванович', $view->fullName);
+        $this->assertSame(null,                   $view->address);
+        $this->assertSame(null,                   $view->phone);
+        $this->assertSame(null,                   $view->email);
+        $this->assertSame('12.04.1925',           $view->bornAt);
+        $this->assertSame(null,                   $view->placeOfBirth);
+        $this->assertSame(null,                   $view->passport);
+        $this->assertSame('11.05.2004',           $view->diedAt);
+        $this->assertSame(79,                     $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathName);
+        $this->assertSame(null,                   $view->deathCertificate);
+        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP012(): void
+    {
+        $view = $this->fetcher->findViewById('NP012');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP012',                $view->id);
+        $this->assertSame('Иванов Иван Иванович', $view->fullName);
+        $this->assertSame(null,                   $view->address);
+        $this->assertSame(null,                   $view->phone);
+        $this->assertSame(null,                   $view->email);
+        $this->assertSame('12.04.1925',           $view->bornAt);
+        $this->assertSame(null,                   $view->placeOfBirth);
+        $this->assertSame(null,                   $view->passport);
+        $this->assertSame('29.10.2005',           $view->diedAt);
+        $this->assertSame(80,                     $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathName);
+        $this->assertSame(null,                   $view->deathCertificate);
+        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsNaturalPersonViewForNP013(): void
+    {
+        $view = $this->fetcher->findViewById('NP013');
+        $this->assertInstanceOf(NaturalPersonView::class, $view);
+        $this->assertSame('NP013',                $view->id);
+        $this->assertSame('Петров Пётр Петрович', $view->fullName);
+        $this->assertSame(null,                   $view->address);
+        $this->assertSame(null,                   $view->phone);
+        $this->assertSame(null,                   $view->email);
+        $this->assertSame(null,                   $view->bornAt);
+        $this->assertSame(null,                   $view->placeOfBirth);
+        $this->assertSame(null,                   $view->passport);
+        $this->assertSame(null,                   $view->diedAt);
+        $this->assertSame(null,                   $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathName);
+        $this->assertSame(null,                   $view->deathCertificate);
+        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
     }
 }
