@@ -19,6 +19,7 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\View\Burial\BurialList;
 use Cemetery\Registrar\Domain\View\Burial\BurialListItem;
 use Cemetery\Registrar\Domain\View\Burial\BurialView;
+use Cemetery\Registrar\Domain\View\Fetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalBurialFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmBurialRepository;
 use DataFixtures\Burial\BurialFixtures;
@@ -85,6 +86,41 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertFalse($this->fetcher->doesExistById($removedBurialId));
     }
 
+    public function testItReturnsBurialListFull(): void
+    {
+        $list = $this->fetcher->findAll();
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(7,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame(null,                    $list->term);
+        $this->assertSame(7,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+        $this->assertListItemEqualsB007($list->items[0]);  // Items are ordered by burial code
+        $this->assertListItemEqualsB001($list->items[1]);
+        $this->assertListItemEqualsB002($list->items[2]);
+        $this->assertListItemEqualsB003($list->items[3]);
+        $this->assertListItemEqualsB005($list->items[4]);
+        $this->assertListItemEqualsB006($list->items[5]);
+        $this->assertListItemEqualsB004($list->items[6]);
+    }
+
+    public function testItReturnsBurialListByTerm(): void
+    {
+        $list = $this->fetcher->findAll(null, '12');
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(6,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('12',                    $list->term);
+        $this->assertSame(6,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+    }
+
     public function testItReturnsBurialListByPage(): void
     {
         $customPageSize = 4;
@@ -100,7 +136,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(7,               $listForFirstPage->totalCount);
         $this->assertSame(2,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsB007($listForFirstPage->items[0]);  // This item has minimum code value
+        $this->assertListItemEqualsB007($listForFirstPage->items[0]);  // Items are ordered by burial code
         $this->assertListItemEqualsB001($listForFirstPage->items[1]);
         $this->assertListItemEqualsB002($listForFirstPage->items[2]);
         $this->assertListItemEqualsB003($listForFirstPage->items[3]);
@@ -118,7 +154,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(2,               $listForSecondPage->totalPages);
         $this->assertListItemEqualsB005($listForSecondPage->items[0]);
         $this->assertListItemEqualsB006($listForSecondPage->items[1]);
-        $this->assertListItemEqualsB004($listForSecondPage->items[2]);  // This item has maximum code value
+        $this->assertListItemEqualsB004($listForSecondPage->items[2]);
 
         // Third page
         $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);

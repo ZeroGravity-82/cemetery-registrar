@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-md-3 text-start"><label for="naturalPersonFullName" class="form-label">Ф.И.О.</label></div>
+  <div class="col-md-9">
+    <select class="form-select form-select-sm"
+            id="naturalPersonFullName" name="naturalPersonFullName"
+            aria-describedby="naturalPersonFullNameFeedback"
+            aria-label="Ф.И.О.">
+      <option selected>
+      {% for listItem in cemeteryBlockList.items %}
+        <option value="{{ listItem.id }}">
+          {{- listItem.name -}}
+        </option>
+      {% endfor %}
+    </select>
+    <div id="naturalPersonFullNameFeedback" class="invalid-feedback d-none"></div>
+  </div>
+</div>
+{#<div class="row">#}
+{#  <div class="col-md-3"><label for="rowInBlock" class="form-label">Ряд</label></div>#}
+{#  <div class="col-md-9">#}
+{#    <input type="number" min="1" class="form-control form-control-sm"#}
+{#           id="rowInBlock" name="rowInBlock"#}
+{#           aria-describedby="rowInBlockFeedback"#}
+{#           aria-label="Ряд">#}
+{#    <div id="rowInBlockFeedback" class="invalid-feedback d-none"></div>#}
+{#  </div>#}
+{#</div>#}
+{#<div class="row">#}
+{#  <div class="col-md-3"><label for="positionInRow" class="form-label">Место</label></div>#}
+{#  <div class="col-md-9">#}
+{#    <input type="number" min="1" class="form-control form-control-sm"#}
+{#           id="positionInRow" name="positionInRow"#}
+{#           aria-describedby="positionInRowFeedback"#}
+{#           aria-label="Место">#}
+{#    <div id="positionInRowFeedback" class="invalid-feedback d-none"></div>#}
+{#  </div>#}
+{#</div>#}

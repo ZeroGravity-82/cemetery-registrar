@@ -21,7 +21,7 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         return null;
     }
 
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonList
+    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);

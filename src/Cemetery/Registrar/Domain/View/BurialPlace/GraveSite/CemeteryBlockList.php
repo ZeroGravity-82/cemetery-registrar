@@ -10,6 +10,11 @@ namespace Cemetery\Registrar\Domain\View\BurialPlace\GraveSite;
 class CemeteryBlockList
 {
     public function __construct(
-        public array $items,
+        public array   $items,
+        public ?int    $page,
+        public int     $pageSize,
+        public ?string $term,
+        public int     $totalCount,
+        public ?int    $totalPages,
     ) {}
 }

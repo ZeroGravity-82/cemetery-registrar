@@ -24,7 +24,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
+    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

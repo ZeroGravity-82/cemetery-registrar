@@ -11,10 +11,10 @@ class BurialList
 {
     public function __construct(
         public array   $items,
-        public int     $page,
+        public ?int    $page,
         public int     $pageSize,
         public ?string $term,
         public int     $totalCount,
-        public int     $totalPages,
+        public ?int    $totalPages,
     ) {}
 }

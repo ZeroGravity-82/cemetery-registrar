@@ -25,7 +25,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
+    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -60,9 +60,12 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
             )
             ->from($this->tableName, 'b')
             ->andWhere('b.removed_at IS NULL')
-            ->orderBy('b.code')
-            ->setFirstResult(($page - 1) * $pageSize)
-            ->setMaxResults($pageSize);
+            ->orderBy('b.code');
+        if ($page !== null) {
+            $queryBuilder
+                ->setFirstResult(($page - 1) * $pageSize)
+                ->setMaxResults($pageSize);
+        }
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
@@ -70,8 +73,8 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -498,11 +501,11 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
 
     private function hydrateList(
         array   $listData,
-        int     $page,
+        ?int    $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        int     $totalPages,
+        ?int    $totalPages,
     ): BurialList {
         $listItems = [];
         foreach ($listData as $listItemData) {

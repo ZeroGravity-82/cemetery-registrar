@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockList;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -23,25 +24,36 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
+    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
     {
-        $cemeteryBlockListData = $this->connection->createQueryBuilder()
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
                 'cb.id   AS id',
                 'cb.name AS name',
             )
             ->from($this->tableName, 'cb')
             ->andWhere('cb.removed_at IS NULL')
-            ->orderBy('cb.name')
+            ->orderBy('cb.name');
+        if ($page !== null) {
+            $queryBuilder
+                ->setFirstResult(($page - 1) * $pageSize)
+                ->setMaxResults($pageSize);
+        }
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
+
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
-        return $this->hydrateList($cemeteryBlockListData);
+        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function countTotal(): int
     {
-        return $this->doCountTotal();
+        return $this->doCountTotal(null);
     }
 
     public function doesExistByName(string $name): bool
@@ -73,14 +85,28 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
             ->fetchAssociative();
     }
 
-    private function doCountTotal(): int
+    private function doCountTotal(?string $term): int
     {
-        return $this->connection->createQueryBuilder()
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(cb.id)')
             ->from($this->tableName, 'cb')
-            ->andWhere('cb.removed_at IS NULL')
+            ->andWhere('cb.removed_at IS NULL');
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
+
+        return $queryBuilder
             ->executeQuery()
             ->fetchFirstColumn()[0];
+    }
+
+    private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
+    {
+        if ($this->isTermNotEmpty($term)) {
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->like('cb.name', ':term'),
+                );
+        }
     }
 
     private function hydrateView(array $viewData): CemeteryBlockView
@@ -94,7 +120,12 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
     }
 
     private function hydrateList(
-        array $listData,
+        array   $listData,
+        ?int    $page,
+        int     $pageSize,
+        ?string $term,
+        int     $totalCount,
+        ?int    $totalPages,
     ): CemeteryBlockList {
         $listItems = [];
         foreach ($listData as $listItemData) {
@@ -104,6 +135,6 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
             );
         }
 
-        return new CemeteryBlockList($listItems);
+        return new CemeteryBlockList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\Natura
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListNaturalPersons\ListNaturalPersonsRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,9 +21,12 @@ class AdminNaturalPersonController extends Controller
     ) {}
 
     #[Route('/admin/natural-person', name: 'admin_natural_person_list', methods: 'GET')]
-    public function list(): Response
+    public function list(Request $request): Response
     {
-        $queryRequest  = new ListNaturalPersonsRequest();
+        $page          = $request->query->get('page');
+        $pageSize      = $request->query->get('pageSize');
+        $term          = $request->query->get('term');
+        $queryRequest  = new ListNaturalPersonsRequest($page, $pageSize, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
         $list       = $queryResponse->data->list;

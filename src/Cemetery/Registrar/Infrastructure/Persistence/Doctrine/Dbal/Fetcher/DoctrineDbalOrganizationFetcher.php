@@ -26,7 +26,7 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return false;
     }
 
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
+    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);

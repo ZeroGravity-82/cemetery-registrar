@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
+use Cemetery\Registrar\Domain\View\Fetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalCauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
 use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
@@ -70,6 +71,42 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertTrue($this->fetcher->doesExistByName('COVID-19'));
         $this->assertFalse($this->fetcher->doesExistByName('unknown_name'));
         $this->assertFalse($this->fetcher->doesExistByName($removedCauseOfDeathName));
+    }
+
+    public function testItReturnsCauseOfDeathListFull(): void
+    {
+        $list = $this->fetcher->findAll();
+        $this->assertInstanceOf(CauseOfDeathList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->items);
+        $this->assertCount(8,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame(null,                    $list->term);
+        $this->assertSame(8,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+        $this->assertListItemEqualsCD001($list->items[0]);  // Items are ordered by name
+        $this->assertListItemEqualsCD007($list->items[1]);
+        $this->assertListItemEqualsCD005($list->items[2]);
+        $this->assertListItemEqualsCD006($list->items[3]);
+        $this->assertListItemEqualsCD003($list->items[4]);
+        $this->assertListItemEqualsCD008($list->items[5]);
+        $this->assertListItemEqualsCD002($list->items[6]);
+        $this->assertListItemEqualsCD004($list->items[7]);
+    }
+
+    public function testItReturnsCauseOfDeathListByTerm(): void
+    {
+        $list = $this->fetcher->findAll(null, 'ая');
+        $this->assertInstanceOf(CauseOfDeathList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CauseOfDeathListItem::class, $list->items);
+        $this->assertCount(5,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('ая',                    $list->term);
+        $this->assertSame(5,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
     }
 
     public function testItReturnsCauseOfDeathListByPage(): void

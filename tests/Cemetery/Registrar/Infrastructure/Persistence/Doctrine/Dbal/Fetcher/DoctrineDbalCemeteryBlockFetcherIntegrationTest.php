@@ -72,18 +72,131 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertFalse($this->fetcher->doesExistByName($removedCemeteryBlockName));
     }
 
-    public function testItReturnsCemeteryBlockList(): void
+    public function testItReturnsCemeteryBlockListFull(): void
     {
-        // All at once
-        $listForAll = $this->fetcher->findAll(1);
-        $this->assertInstanceOf(CemeteryBlockList::class, $listForAll);
-        $this->assertIsArray($listForAll->items);
-        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForAll->items);
-        $this->assertCount(4, $listForAll->items);
-        $this->assertListItemEqualsCB001($listForAll->items[0]);  // Items are ordered by name
-        $this->assertListItemEqualsCB004($listForAll->items[1]);
-        $this->assertListItemEqualsCB002($listForAll->items[2]);
-        $this->assertListItemEqualsCB003($listForAll->items[3]);
+        $list = $this->fetcher->findAll();
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(4,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame(null,                    $list->term);
+        $this->assertSame(4,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+        $this->assertListItemEqualsCB001($list->items[0]);  // Items are ordered by name
+        $this->assertListItemEqualsCB004($list->items[1]);
+        $this->assertListItemEqualsCB002($list->items[2]);
+        $this->assertListItemEqualsCB003($list->items[3]);
+    }
+
+    public function testItReturnsCemeteryBlockListByTerm(): void
+    {
+        $list = $this->fetcher->findAll(null, 'об');
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(2,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('об',                    $list->term);
+        $this->assertSame(2,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+    }
+
+    public function testItReturnsCemeteryBlockListByPage(): void
+    {
+        $customPageSize = 3;
+
+        // First page
+        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $listForFirstPage);
+        $this->assertIsArray($listForFirstPage->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForFirstPage->items);
+        $this->assertCount(3,              $listForFirstPage->items);
+        $this->assertSame(1,               $listForFirstPage->page);
+        $this->assertSame($customPageSize, $listForFirstPage->pageSize);
+        $this->assertSame(null,            $listForFirstPage->term);
+        $this->assertSame(4,               $listForFirstPage->totalCount);
+        $this->assertSame(2,               $listForFirstPage->totalPages);
+        $this->assertListItemEqualsCB001($listForFirstPage->items[0]);  // Items are ordered by name
+        $this->assertListItemEqualsCB004($listForFirstPage->items[1]);
+        $this->assertListItemEqualsCB002($listForFirstPage->items[2]);
+
+        // Second page
+        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $listForSecondPage);
+        $this->assertIsArray($listForSecondPage->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForSecondPage->items);
+        $this->assertCount(1,              $listForSecondPage->items);
+        $this->assertSame(2,               $listForSecondPage->page);
+        $this->assertSame($customPageSize, $listForSecondPage->pageSize);
+        $this->assertSame(null,            $listForSecondPage->term);
+        $this->assertSame(4,               $listForSecondPage->totalCount);
+        $this->assertSame(2,               $listForSecondPage->totalPages);
+        $this->assertListItemEqualsCB003($listForSecondPage->items[0]);
+
+        // Third page
+        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $listForThirdPage);
+        $this->assertIsArray($listForThirdPage->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForThirdPage->items);
+        $this->assertCount(0,              $listForThirdPage->items);
+        $this->assertSame(3,               $listForThirdPage->page);
+        $this->assertSame($customPageSize, $listForThirdPage->pageSize);
+        $this->assertSame(null,            $listForThirdPage->term);
+        $this->assertSame(4,               $listForThirdPage->totalCount);
+        $this->assertSame(2,               $listForThirdPage->totalPages);
+
+        // Default page size
+        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $this->assertInstanceOf(CemeteryBlockList::class, $listForDefaultPageSize);
+        $this->assertIsArray($listForDefaultPageSize->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForDefaultPageSize->items);
+        $this->assertCount(4,                      $listForDefaultPageSize->items);
+        $this->assertSame(1,                       $listForDefaultPageSize->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForDefaultPageSize->pageSize);
+        $this->assertSame(null,                    $listForDefaultPageSize->term);
+        $this->assertSame(4,                       $listForDefaultPageSize->totalCount);
+        $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
+    }
+
+    public function testItReturnsCemeteryBlockListByPageAndTerm(): void
+    {
+        $customPageSize = 3;
+
+        $list = $this->fetcher->findAll(1, 'ий', $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('ий',            $list->term);
+        $this->assertSame(4,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(2, 'ий', $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(2,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('ий',            $list->term);
+        $this->assertSame(4,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(3, 'ий', $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(0,              $list->items);
+        $this->assertSame(3,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('ий',            $list->term);
+        $this->assertSame(4,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
     }
 
     public function testItReturnsCemeteryBlockTotalCount(): void

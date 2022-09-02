@@ -24,7 +24,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): MemorialTreeList
+    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): MemorialTreeList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
