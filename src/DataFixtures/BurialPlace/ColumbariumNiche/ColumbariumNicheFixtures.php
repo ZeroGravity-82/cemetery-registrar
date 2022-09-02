@@ -16,6 +16,7 @@ class ColumbariumNicheFixtures extends Fixture
         $manager->persist(ColumbariumNicheProvider::getColumbariumNicheE());
         $manager->persist(ColumbariumNicheProvider::getColumbariumNicheF());
         $manager->persist(ColumbariumNicheProvider::getColumbariumNicheG());
+        $manager->persist(ColumbariumNicheProvider::getColumbariumNicheH());
         $manager->flush();
     }
 }

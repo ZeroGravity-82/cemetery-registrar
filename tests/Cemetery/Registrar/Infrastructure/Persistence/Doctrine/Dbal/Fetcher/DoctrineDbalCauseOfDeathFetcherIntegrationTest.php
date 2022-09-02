@@ -9,7 +9,6 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
-use Cemetery\Registrar\Domain\View\Fetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalCauseOfDeathFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
 use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
@@ -35,6 +34,13 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
     public function testItReturnsCauseOfDeathViewById(): void
     {
         $this->testItReturnsCauseOfDeathViewForCD001();
+        $this->testItReturnsCauseOfDeathViewForCD002();
+        $this->testItReturnsCauseOfDeathViewForCD003();
+        $this->testItReturnsCauseOfDeathViewForCD004();
+        $this->testItReturnsCauseOfDeathViewForCD005();
+        $this->testItReturnsCauseOfDeathViewForCD006();
+        $this->testItReturnsCauseOfDeathViewForCD007();
+        $this->testItReturnsCauseOfDeathViewForCD008();
     }
 
     public function testItReturnsNullForRemovedCauseOfDeath(): void
@@ -295,6 +301,76 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertInstanceOf(CauseOfDeathView::class, $view);
         $this->assertSame('CD001',    $view->id);
         $this->assertSame('COVID-19', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD002(): void
+    {
+        $view = $this->fetcher->findViewById('CD002');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD002',                        $view->id);
+        $this->assertSame('Обструктивная болезнь легких', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD003(): void
+    {
+        $view = $this->fetcher->findViewById('CD003');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD003',                              $view->id);
+        $this->assertSame('Атеросклеротическая болезнь сердца', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD004(): void
+    {
+        $view = $this->fetcher->findViewById('CD004');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD004',     $view->id);
+        $this->assertSame('Онкология', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD005(): void
+    {
+        $view = $this->fetcher->findViewById('CD005');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD005',             $view->id);
+        $this->assertSame('Астма кардиальная', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD006(): void
+    {
+        $view = $this->fetcher->findViewById('CD006');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD006',    $view->id);
+        $this->assertSame('Асфиксия', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD007(): void
+    {
+        $view = $this->fetcher->findViewById('CD007');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD007',                               $view->id);
+        $this->assertSame('Аневризма брюшной аорты разорванная', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCauseOfDeathViewForCD008(): void
+    {
+        $view = $this->fetcher->findViewById('CD008');
+        $this->assertInstanceOf(CauseOfDeathView::class, $view);
+        $this->assertSame('CD008',                                 $view->id);
+        $this->assertSame('Болезнь сердечно-легочная хроническая', $view->name);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }

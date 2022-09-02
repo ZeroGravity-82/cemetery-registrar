@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyList;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyListItem;
+use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyView;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalFuneralCompanyFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmFuneralCompanyRepository;
 use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
@@ -32,11 +33,10 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
 
     public function testItReturnsFuneralCompanyViewById(): void
     {
-        $this->markTestIncomplete();
-//        $this->testItReturnsFuneralCompanyViewForFC001();
-//        $this->testItReturnsFuneralCompanyViewForFC002();
-//        $this->testItReturnsFuneralCompanyViewForFC003();
-//        $this->testItReturnsFuneralCompanyViewForFC004();
+        $this->testItReturnsFuneralCompanyViewForFC001();
+        $this->testItReturnsFuneralCompanyViewForFC002();
+        $this->testItReturnsFuneralCompanyViewForFC003();
+        $this->testItReturnsFuneralCompanyViewForFC004();
     }
 
     public function testItReturnsNullForRemovedFuneralCompany(): void
@@ -47,8 +47,8 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
         $removedFuneralCompanyId = $funeralCompanyToRemove->id()->value();
 
         // Testing itself
-//        $view = $this->funeralCompanyFetcher->getViewById($removedFuneralCompanyId);
-//        $this->assertNull($view);
+        $view = $this->fetcher->findViewById($removedFuneralCompanyId);
+        $this->assertNull($view);
     }
 
     public function testItChecksExistenceById(): void
@@ -61,6 +61,50 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
         $this->assertTrue($this->fetcher->doesExistById('FC001'));
         $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
         $this->assertFalse($this->fetcher->doesExistById($removedFuneralCompanyId));
+    }
+
+    public function testItChecksExistenceByName(): void
+    {
+        // Prepare database table for testing
+        $funeralCompanyToRemove = $this->repo->findById(new FuneralCompanyId('FC004'));
+        $this->repo->remove($funeralCompanyToRemove);
+        $removedCauseOfDeathName = $funeralCompanyToRemove->name()->value();
+
+        $this->assertTrue($this->fetcher->doesExistByName('Апостол'));
+        $this->assertFalse($this->fetcher->doesExistByName('unknown_name'));
+        $this->assertFalse($this->fetcher->doesExistByName($removedCauseOfDeathName));
+    }
+
+    public function testItReturnsFuneralCompanyListFull(): void
+    {
+        $list = $this->fetcher->findAll();
+        $this->assertInstanceOf(FuneralCompanyList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->items);
+        $this->assertCount(4,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame(null,                    $list->term);
+        $this->assertSame(4,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+        $this->assertListItemEqualsFC001($list->items[0]);  // Items are ordered by name
+        $this->assertListItemEqualsFC003($list->items[1]);
+        $this->assertListItemEqualsFC002($list->items[2]);
+        $this->assertListItemEqualsFC004($list->items[3]);
+    }
+
+    public function testItReturnsFuneralCompanyListByTerm(): void
+    {
+        $list = $this->fetcher->findAll(null, 'ро');
+        $this->assertInstanceOf(FuneralCompanyList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->items);
+        $this->assertCount(3,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('ро',                    $list->term);
+        $this->assertSame(3,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
     }
 
     public function testItReturnsFuneralCompanyListByPage(): void
@@ -215,5 +259,49 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
         $this->assertSame('FC004',                      $listItem->id);
         $this->assertSame('Похоронный Дом "Некрополь"', $listItem->name);
         $this->assertSame(null,                         $listItem->note);
+    }
+
+    private function testItReturnsFuneralCompanyViewForFC001(): void
+    {
+        $view = $this->fetcher->findViewById('FC001');
+        $this->assertInstanceOf(FuneralCompanyView::class, $view);
+        $this->assertSame('FC001',   $view->id);
+        $this->assertSame('Апостол', $view->name);
+        $this->assertSame(null,      $view->note);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsFuneralCompanyViewForFC002(): void
+    {
+        $view = $this->fetcher->findViewById('FC002');
+        $this->assertInstanceOf(FuneralCompanyView::class, $view);
+        $this->assertSame('FC002',                        $view->id);
+        $this->assertSame('Мемориал',                     $view->name);
+        $this->assertSame('Фирма расположена в Кемерове', $view->note);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsFuneralCompanyViewForFC003(): void
+    {
+        $view = $this->fetcher->findViewById('FC003');
+        $this->assertInstanceOf(FuneralCompanyView::class, $view);
+        $this->assertSame('FC003',                           $view->id);
+        $this->assertSame('Городская ритуальная служба',     $view->name);
+        $this->assertSame('Покрышкина 29, +7(383)388-85-90', $view->note);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsFuneralCompanyViewForFC004(): void
+    {
+        $view = $this->fetcher->findViewById('FC004');
+        $this->assertInstanceOf(FuneralCompanyView::class, $view);
+        $this->assertSame('FC004',                      $view->id);
+        $this->assertSame('Похоронный Дом "Некрополь"', $view->name);
+        $this->assertSame(null,                         $view->note);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
     }
 }

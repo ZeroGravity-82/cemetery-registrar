@@ -110,6 +110,87 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         ));
     }
 
+    public function testItReturnsGraveSiteListFull(): void
+    {
+        $list = $this->fetcher->findAll();
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(9,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame(null,                    $list->term);
+        $this->assertSame(9,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+        $this->assertListItemEqualsGS001($list->items[0]);  // Items are ordered by cemetery block name,
+        $this->assertListItemEqualsGS004($list->items[1]);  // then by row in block, then by position in row
+        $this->assertListItemEqualsGS006($list->items[2]);  // and finally by grave site ID.
+        $this->assertListItemEqualsGS005($list->items[3]);
+        $this->assertListItemEqualsGS002($list->items[4]);
+        $this->assertListItemEqualsGS007($list->items[5]);
+        $this->assertListItemEqualsGS008($list->items[6]);
+        $this->assertListItemEqualsGS009($list->items[7]);
+        $this->assertListItemEqualsGS003($list->items[8]);
+    }
+
+    public function testItReturnsGraveSiteListByTerm(): void
+    {
+        $list = $this->fetcher->findAll(null, 'общ');
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(5,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('общ',                   $list->term);
+        $this->assertSame(5,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '3');
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(6,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('3',                     $list->term);
+        $this->assertSame(6,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '7');
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(2,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('7',                     $list->term);
+        $this->assertSame(2,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '.5');
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(2,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('.5',                    $list->term);
+        $this->assertSame(2,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, 'ович');
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(2,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('ович',                  $list->term);
+        $this->assertSame(2,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+    }
+
     public function testItReturnsGraveSiteListByPage(): void
     {
         $customPageSize = 4;
@@ -270,6 +351,17 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('.5',            $list->term);
+        $this->assertSame(2,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'ович', $customPageSize);
+        $this->assertInstanceOf(GraveSiteList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
+        $this->assertCount(2,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('ович',          $list->term);
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
     }

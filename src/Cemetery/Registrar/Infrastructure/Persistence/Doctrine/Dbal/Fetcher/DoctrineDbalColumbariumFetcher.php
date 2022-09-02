@@ -8,6 +8,7 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetch
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumList;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumView;
+use Doctrine\DBAL\Query\QueryBuilder;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -25,23 +26,34 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
 
     public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
-        $columbariumListData = $this->connection->createQueryBuilder()
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
                 'c.id   AS id',
                 'c.name AS name',
             )
             ->from($this->tableName, 'c')
             ->andWhere('c.removed_at IS NULL')
-            ->orderBy('c.name')
+            ->orderBy('c.name');
+        if ($page !== null) {
+            $queryBuilder
+                ->setFirstResult(($page - 1) * $pageSize)
+                ->setMaxResults($pageSize);
+        }
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
+
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
-        return $this->hydrateList($columbariumListData);
+        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function countTotal(): int
     {
-        return $this->doCountTotal();
+        return $this->doCountTotal(null);
     }
 
     public function doesExistByName(string $name): bool
@@ -76,14 +88,28 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
             ->fetchAssociative();
     }
 
-    private function doCountTotal(): int
+    private function doCountTotal(?string $term): int
     {
-        return $this->connection->createQueryBuilder()
+        $queryBuilder = $this->connection->createQueryBuilder()
             ->select('COUNT(c.id)')
             ->from($this->tableName, 'c')
-            ->andWhere('c.removed_at IS NULL')
+            ->andWhere('c.removed_at IS NULL');
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
+
+        return $queryBuilder
             ->executeQuery()
             ->fetchFirstColumn()[0];
+    }
+
+    private function appendAndWhereLikeTerm(QueryBuilder $queryBuilder, ?string $term): void
+    {
+        if ($this->isTermNotEmpty($term)) {
+            $queryBuilder
+                ->andWhere(
+                    $queryBuilder->expr()->like('c.name', ':term'),
+                );
+        }
     }
 
     private function hydrateView(array $viewData): ColumbariumView
@@ -103,7 +129,12 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     }
 
     private function hydrateList(
-        array $listData,
+        array   $listData,
+        ?int    $page,
+        int     $pageSize,
+        ?string $term,
+        int     $totalCount,
+        ?int    $totalPages,
     ): ColumbariumList {
         $listItems = [];
         foreach ($listData as $listItemData) {
@@ -113,6 +144,6 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
             );
         }
 
-        return new ColumbariumList($listItems);
+        return new ColumbariumList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

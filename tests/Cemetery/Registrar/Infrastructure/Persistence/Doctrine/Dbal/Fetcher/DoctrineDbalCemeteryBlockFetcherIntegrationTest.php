@@ -34,6 +34,9 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
     public function testItReturnsCemeteryBlockViewById(): void
     {
         $this->testItReturnsCemeteryBlockViewForCB001();
+        $this->testItReturnsCemeteryBlockViewForCB002();
+        $this->testItReturnsCemeteryBlockViewForCB003();
+        $this->testItReturnsCemeteryBlockViewForCB004();
     }
 
     public function testItReturnsNullForRemovedCemeteryBlock(): void
@@ -251,6 +254,36 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertInstanceOf(CemeteryBlockView::class, $view);
         $this->assertSame('CB001',    $view->id);
         $this->assertSame('воинский', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCemeteryBlockViewForCB002(): void
+    {
+        $view = $this->fetcher->findViewById('CB002');
+        $this->assertInstanceOf(CemeteryBlockView::class, $view);
+        $this->assertSame('CB002',   $view->id);
+        $this->assertSame('общий А', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCemeteryBlockViewForCB003(): void
+    {
+        $view = $this->fetcher->findViewById('CB003');
+        $this->assertInstanceOf(CemeteryBlockView::class, $view);
+        $this->assertSame('CB003',   $view->id);
+        $this->assertSame('общий Б', $view->name);
+        $this->assertValidDateTimeValue($view->createdAt);
+        $this->assertValidDateTimeValue($view->updatedAt);
+    }
+
+    private function testItReturnsCemeteryBlockViewForCB004(): void
+    {
+        $view = $this->fetcher->findViewById('CB004');
+        $this->assertInstanceOf(CemeteryBlockView::class, $view);
+        $this->assertSame('CB004',         $view->id);
+        $this->assertSame('мусульманский', $view->name);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }

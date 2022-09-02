@@ -11,4 +11,8 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface FuneralCompanyFetcher extends Fetcher
 {
+    /**
+     * Checks if the funeral company exists by the name.
+     */
+    public function doesExistByName(string $name): bool;
 }

@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonListItem;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,10 +16,11 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 {
     protected string $tableName = 'natural_person';
 
-    public function findViewById(string $id): mixed
+    public function findViewById(string $id): ?NaturalPersonView
     {
-        // TODO implement + fix return type
-        return null;
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonList
@@ -29,8 +31,8 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         $result = $stmt->executeQuery();
 
         $listData   = $result->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -38,6 +40,16 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
+    }
+
+    private function queryViewData(string $id): false|array
+    {
+        $sql  = $this->findViewByIdSql($id);
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue('id', $id);
+        $result = $stmt->executeQuery();
+
+        return $result->fetchAllAssociative();
     }
 
     private function doCountTotal(?string $term): int
@@ -59,9 +71,29 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
 
-    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
+    private function findViewByIdSql(): string
     {
-        $sql = <<<FIND_ALL_SQL
+        $sql = $this->buildSelectSql();
+        $sql = $this->appendJoinsSql($sql);
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+
+        return $this->appendWhereIdIsEqualSql($sql);
+    }
+
+    private function buildFindAllSql(?int $page, ?string $term, int $pageSize): string
+    {
+        $sql = $this->buildSelectSql();
+        $sql = $this->appendJoinsSql($sql);
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereLikeTermSql($sql, $term);
+        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
+
+        return $this->appendLimitOffset($sql, $page, $pageSize);
+    }
+
+    private function buildSelectSql(): string
+    {
+        return <<<SELECT_SQL
 SELECT np.id                                                                                  AS id,
        np.full_name                                                                           AS fullName,
        np.address                                                                             AS address,
@@ -137,14 +169,7 @@ SELECT np.id                                                                    
            NULL
        )                                                                                      AS cremationCertificateComposed
 FROM natural_person AS np
-FIND_ALL_SQL;
-
-        $sql = $this->appendJoinsSql($sql);
-        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
-        $sql = $this->appendAndWhereLikeTermSql($sql, $term);
-        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
-
-        return $this->appendLimitOffset($sql, $page, $pageSize);
+SELECT_SQL;
     }
 
     private function appendJoinsSql(string $sql): string
@@ -155,6 +180,11 @@ FIND_ALL_SQL;
     private function appendWhereRemovedAtIsNullSql(string $sql): string
     {
         return $sql . ' WHERE np.removed_at IS NULL';
+    }
+
+    private function appendWhereIdIsEqualSql(string $sql): string
+    {
+        return $sql . ' WHERE np.id = :id';
     }
 
     private function appendAndWhereLikeTermSql(string $sql, ?string $term): string
@@ -201,18 +231,22 @@ LIKE_TERM_SQL;
         return $sql . ' ORDER BY np.full_name, np.born_at, np.deceased_details->>"$.diedAt"';
     }
 
-    private function appendLimitOffset(string $sql, int $page, int $pageSize): string
+    private function appendLimitOffset(string $sql, ?int $page, int $pageSize): string
     {
-        return $sql . \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
+        if ($page !== null) {
+            $sql .= \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
+        }
+        
+        return $sql;
     }
 
     private function hydrateList(
         array   $listData,
-        int     $page,
+        ?int    $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        int     $totalPages,
+        ?int    $totalPages,
     ): NaturalPersonList {
         $listItems = [];
         foreach ($listData as $listItemData) {

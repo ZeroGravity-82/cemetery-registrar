@@ -40,9 +40,12 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
             ->orderBy('cb.name')
             ->addOrderBy('gs.row_in_block')
             ->addOrderBy('gs.position_in_row')
-            ->addOrderBy('gs.id')
-            ->setFirstResult(($page - 1) * $pageSize)
-            ->setMaxResults($pageSize);
+            ->addOrderBy('gs.id');
+        if ($page !== null) {
+            $queryBuilder
+                ->setFirstResult(($page - 1) * $pageSize)
+                ->setMaxResults($pageSize);
+        }
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
@@ -50,8 +53,8 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -181,11 +184,11 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
 
     private function hydrateList(
         array   $listData,
-        int     $page,
+        ?int    $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        int     $totalPages,
+        ?int    $totalPages,
     ): GraveSiteList {
         $listItems = [];
         foreach ($listData as $listItemData) {

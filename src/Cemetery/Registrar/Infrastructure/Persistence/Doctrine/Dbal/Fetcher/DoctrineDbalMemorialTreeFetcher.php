@@ -35,9 +35,12 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
             )
             ->from($this->tableName, 'mt')
             ->andWhere('mt.removed_at IS NULL')
-            ->orderBy('mt.tree_number')
-            ->setFirstResult(($page - 1) * $pageSize)
-            ->setMaxResults($pageSize);
+            ->orderBy('mt.tree_number');
+        if ($page !== null) {
+            $queryBuilder
+                ->setFirstResult(($page - 1) * $pageSize)
+                ->setMaxResults($pageSize);
+        }
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
@@ -45,8 +48,8 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -140,11 +143,11 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
 
     private function hydrateList(
         array   $listData,
-        int     $page,
+        ?int    $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        int     $totalPages,
+        ?int    $totalPages,
     ): MemorialTreeList {
         $listItems = [];
         foreach ($listData as $listItemData) {

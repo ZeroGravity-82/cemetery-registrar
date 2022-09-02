@@ -38,9 +38,12 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
             ->from($this->tableName, 'cn')
             ->andWhere('cn.removed_at IS NULL')
             ->orderBy('c.name')
-            ->addOrderBy('cn.niche_number')
-            ->setFirstResult(($page - 1) * $pageSize)
-            ->setMaxResults($pageSize);
+            ->addOrderBy('cn.niche_number');
+        if ($page !== null) {
+            $queryBuilder
+                ->setFirstResult(($page - 1) * $pageSize)
+                ->setMaxResults($pageSize);
+        }
         $this->appendJoins($queryBuilder);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
@@ -48,8 +51,8 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -152,11 +155,11 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
 
     private function hydrateList(
         array   $listData,
-        int     $page,
+        ?int    $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        int     $totalPages,
+        ?int    $totalPages,
     ): ColumbariumNicheList {
         $listItems = [];
         foreach ($listData as $listItemData) {

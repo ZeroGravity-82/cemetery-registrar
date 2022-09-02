@@ -19,7 +19,6 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\View\Burial\BurialList;
 use Cemetery\Registrar\Domain\View\Burial\BurialListItem;
 use Cemetery\Registrar\Domain\View\Burial\BurialView;
-use Cemetery\Registrar\Domain\View\Fetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalBurialFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmBurialRepository;
 use DataFixtures\Burial\BurialFixtures;
