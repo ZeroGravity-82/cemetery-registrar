@@ -13,12 +13,12 @@ let persistedArgsClarifyGeoPosition;
 function graveSiteFormClarifyGeoPosition_show(view, callback, args) {
   persistedCallbackClarifyGeoPosition = callback;
   persistedArgsClarifyGeoPosition     = args;
-  currentGraveSiteId           = view.id;
+  currentGraveSiteId                  = view.id;
   let graveSiteCardTitle = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
     if (view.positionInRow !== null) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
-  $graveSiteFormClarifyGeoPositionTitle.html(`<span>${graveSiteCardTitle}</span> (Уточнение размера участка)`);
+  $graveSiteFormClarifyGeoPositionTitle.html(`<span>${graveSiteCardTitle}</span> (Уточнение геопозиции участка)`);
   const geoPosition = view.geoPositionLatitude !== null && view.geoPositionLongitude !== null
     ? `${view.geoPositionLatitude}, ${view.geoPositionLongitude}`
     : null;
