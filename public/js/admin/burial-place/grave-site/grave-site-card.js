@@ -43,6 +43,7 @@ function graveSiteCard_show(id) {
     }
     $graveSiteCardGeoPositionField.html(geoPosition !== null ? geoPosition : `-`);
     $graveSiteCardPersonInChargeField.html(view.personInChargeFullName !== null ? view.personInChargeFullName : `-`);
+    toggleActionButtons(view);
     graveSiteCardModalObject.show();
   })
   .fail(onAjaxFailure)
@@ -114,4 +115,56 @@ function removeGraveSite(url) {
 function graveSiteCard_close() {
   graveSiteCardModalObject.hide();
   location.reload();            // TODO refactor not to reload entire page
+}
+
+function toggleActionButtons(view) {
+  toggleActionBtnsForSize(view);
+  toggleActionButtonsForGeoPosition(view);
+  toggleActionButtonsForPersonInCharge(view);
+  toggleActionButtonsDangerDivider();
+}
+
+function toggleActionBtnsForSize(view) {
+  if (view.size === null) {
+    $(`.js-clear-size`).removeClass(`d-none`).addClass(`d-none`);
+  } else {
+    $(`.js-clear-size`).removeClass(`d-none`);
+  }
+}
+
+function toggleActionButtonsForGeoPosition(view) {
+  if (view.geoPositionLatitude === null && view.geoPositionLongitude === null) {
+    $(`.js-clear-geo-position`).removeClass(`d-none`).addClass(`d-none`);
+  } else {
+    $(`.js-clear-geo-position`).removeClass(`d-none`);
+  }
+}
+
+function toggleActionButtonsForPersonInCharge(view) {
+  if (view.personInChargeFullName === null) {
+    $(`.js-assign-person-in-charge`).removeClass(`d-none`);
+    $(`.js-clarify-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
+    $(`.js-replace-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
+    $(`.js-discard-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
+  } else {
+    $(`.js-assign-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
+    $(`.js-clarify-person-in-charge`).removeClass(`d-none`);
+    $(`.js-replace-person-in-charge`).removeClass(`d-none`);
+    $(`.js-discard-person-in-charge`).removeClass(`d-none`);
+  }
+}
+
+function toggleActionButtonsDangerDivider() {
+  let areDangerBtnsVisible = false;
+  const $dangerActionBtns = $graveSiteCard.find(`.js-danger-action-btn`);
+  $.each($dangerActionBtns, function (index, dangerActionBtns) {
+    if (!$(dangerActionBtns).hasClass(`d-none`)) {
+      areDangerBtnsVisible = true;
+    }
+  });
+  if (areDangerBtnsVisible) {
+    $(`.js-danger-action-divider`).removeClass(`d-none`);
+  } else {
+    $(`.js-danger-action-divider`).removeClass(`d-none`).addClass(`d-none`);
+  }
 }
