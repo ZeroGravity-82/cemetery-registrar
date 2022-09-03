@@ -35,6 +35,7 @@ abstract class DoctrineDbalFetcher extends Fetcher
     protected function setTermParameter(QueryBuilder $queryBuilder, ?string $term): void
     {
         if ($this->isTermNotEmpty($term)) {
+            $term = \mb_strtolower($term);
             $queryBuilder
                 ->setParameter('term', "%$term%");
         }
@@ -43,6 +44,7 @@ abstract class DoctrineDbalFetcher extends Fetcher
     protected function bindTermValue(Statement $stmt, ?string $term): void
     {
         if ($term !== null && $term !== '') {
+            $term = \mb_strtolower($term);
             $stmt->bindValue('term', "%$term%");
         }
     }

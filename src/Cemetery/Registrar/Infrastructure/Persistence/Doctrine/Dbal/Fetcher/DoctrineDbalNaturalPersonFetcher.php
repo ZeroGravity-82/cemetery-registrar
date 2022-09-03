@@ -200,10 +200,10 @@ SELECT_SQL;
     OR np.email                                                                         LIKE :term
     OR DATE_FORMAT(np.born_at, '%d.%m.%Y')                                              LIKE :term
     OR np.place_of_birth                                                                LIKE :term
-    OR np.passport->>"$.series"                                                         LIKE :term
-    OR np.passport->>"$.number"                                                         LIKE :term
+    OR LOWER(np.passport->>"$.series")                                                  LIKE :term
+    OR LOWER(np.passport->>"$.number")                                                  LIKE :term
     OR DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y')                              LIKE :term
-    OR np.passport->>"$.issuedBy"                                                       LIKE :term
+    OR LOWER(np.passport->>"$.issuedBy")                                                LIKE :term
     OR IF(
           np.passport->>"$.divisionCode" <> 'null',
           np.passport->>"$.divisionCode",
@@ -217,10 +217,10 @@ SELECT_SQL;
        )                                                                                LIKE :term
     OR TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt")                LIKE :term
     OR cd.name                                                                          LIKE :term
-    OR np.deceased_details->>"$.deathCertificate.series"                                LIKE :term
-    OR np.deceased_details->>"$.deathCertificate.number"                                LIKE :term
+    OR LOWER(np.deceased_details->>"$.deathCertificate.series")                         LIKE :term
+    OR LOWER(np.deceased_details->>"$.deathCertificate.number")                         LIKE :term
     OR DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y')     LIKE :term
-    OR np.deceased_details->>"$.cremationCertificate.number"                            LIKE :term
+    OR LOWER(np.deceased_details->>"$.cremationCertificate.number")                     LIKE :term
     OR DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y') LIKE :term)
 LIKE_TERM_SQL;
         }
