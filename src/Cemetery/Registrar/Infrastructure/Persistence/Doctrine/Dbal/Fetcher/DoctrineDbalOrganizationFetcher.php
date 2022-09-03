@@ -17,12 +17,13 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
 {
     public function findViewById(string $id): mixed
     {
-        // TODO implement + fix return type
+        // Always returns null because there is no such entity as an organization.
         return null;
     }
 
     public function doesExistById(string $id): bool
     {
+        // Always returns false because there is no such entity as an organization.
         return false;
     }
 
@@ -34,8 +35,8 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         $result = $stmt->executeQuery();
 
         $listData   = $result->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
+        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -62,7 +63,7 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
 
-    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
+    private function buildFindAllSql(?int $page, ?string $term, int $pageSize): string
     {
         $sql = \sprintf(<<<FIND_ALL_SQL
 SELECT id,
@@ -217,7 +218,7 @@ UNION_SQL
     OR okpo               LIKE :term
     OR okved              LIKE :term
     OR address            LIKE :term
-    OR LOWER(bankDetails) LIKE LOWER(:term)
+    OR LOWER(bankDetails) LIKE :term
     OR phoneFax           LIKE :term
     OR generalDirector    LIKE :term
     OR emailWebsite       LIKE :term)
@@ -232,18 +233,22 @@ LIKE_TERM_SQL;
         return \sprintf('%s ORDER BY name', $sql);
     }
 
-    private function appendLimitOffset(string $sql, int $page, int $pageSize): string
+    private function appendLimitOffset(string $sql, ?int $page, int $pageSize): string
     {
-        return \sprintf('%s LIMIT %d OFFSET %d', $sql, $pageSize, ($page - 1) * $pageSize);
+        if ($page !== null) {
+            $sql .= \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
+        }
+
+        return $sql;
     }
 
     private function hydrateList(
         array   $listData,
-        int     $page,
+        ?int    $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        int     $totalPages,
+        ?int    $totalPages,
     ): OrganizationList {
         $listItems = [];
         foreach ($listData as $listItemData) {
