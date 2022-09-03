@@ -105,6 +105,17 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('об',                    $list->term);
         $this->assertSame(2,                       $list->totalCount);
         $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, 'МУСУЛЬман');
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('МУСУЛЬман',             $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
     }
 
     public function testItReturnsCemeteryBlockListByPage(): void
