@@ -124,6 +124,28 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(7,                       $list->totalCount);
         $this->assertSame(null,                    $list->totalPages);
 
+        $list = $this->fetcher->findAll(null, '24.09.1915');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('24.09.1915',            $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '12.02.2001');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('12.02.2001',            $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
         $list = $this->fetcher->findAll(null, '12');
         $this->assertInstanceOf(NaturalPersonList::class, $list);
         $this->assertIsArray($list->items);
@@ -168,26 +190,136 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,                       $list->totalCount);
         $this->assertSame(null,                    $list->totalPages);
 
-        $list = $this->fetcher->findAll(null, 'онк');
+        $list = $this->fetcher->findAll(null, 'онК');
         $this->assertInstanceOf(NaturalPersonList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
         $this->assertCount(2,                      $list->items);
         $this->assertSame(null,                    $list->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('онк',                   $list->term);
+        $this->assertSame('онК',                   $list->term);
         $this->assertSame(2,                       $list->totalCount);
         $this->assertSame(null,                    $list->totalPages);
 
-        $list = $this->fetcher->findAll(null, 'v-мю');
+        $list = $this->fetcher->findAll(null, 'v-мЮ');
         $this->assertInstanceOf(NaturalPersonList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
         $this->assertCount(1,                      $list->items);
         $this->assertSame(null,                    $list->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('v-мю',                  $list->term);
+        $this->assertSame('v-мЮ',                  $list->term);
         $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '532515');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('532515',                $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '23.03.2011');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('23.03.2011',            $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '12964');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('12964',                 $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '03.12.2021');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(2,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('03.12.2021',            $list->term);
+        $this->assertSame(2,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, 'GMail.com');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('GMail.com',             $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '1234');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('1234',                  $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '162354');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('162354',                $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '20.10.1981');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('20.10.1981',            $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '540-');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('540-',                  $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
+        $list = $this->fetcher->findAll(null, '69');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(2,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('69',                    $list->term);
+        $this->assertSame(2,                       $list->totalCount);
         $this->assertSame(null,                    $list->totalPages);
     }
 
