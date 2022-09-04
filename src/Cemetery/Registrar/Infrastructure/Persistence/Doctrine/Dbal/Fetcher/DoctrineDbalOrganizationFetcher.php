@@ -70,15 +70,25 @@ SELECT id,
        typeShortcut,
        typeLabel,
        name,
-       innKpp,
+       inn,
+       kpp,
+       innKppComposed,
        ogrn,
        okpo,
        okved,
-       address,
+       address1,
+       address2,
+       addressComposed,
        bankDetails,
-       phoneFax,
+       bankDetailsComposed,
+       phone,
+       phoneAdditional,
+       fax,
+       phoneFaxComposed,
        generalDirector,
-       emailWebsite
+       email,
+       website,
+       emailWebsiteComposed
 FROM (%s) AS unionTable
 WHERE removedAt IS NULL
 FIND_ALL_SQL
@@ -99,19 +109,24 @@ SELECT id                                                 AS id,
        '%s'                                               AS typeShortcut,
        '%s'                                               AS typeLabel,
        name                                               AS name,
+       inn                                                AS inn,
+       kpp                                                AS kpp,
        IF(
            inn IS NOT NULL OR kpp IS NOT NULL,
            CONCAT_WS('/', IFNULL(inn, '-'), IFNULL(kpp, '-')),
            NULL
-       )                                                  AS innKpp,
+       )                                                  AS innKppComposed,
        ogrn                                               AS ogrn,
        okpo                                               AS okpo,
        okved                                              AS okved,
+       legal_address                                      AS address1,
+       postal_address                                     AS address2,
        IF(
            legal_address IS NOT NULL OR postal_address IS NOT NULL,
            CONCAT_WS(', ', legal_address, postal_address),
            NULL
-       )                                                  AS address,
+       )                                                  AS addressComposed,
+       bank_details                                       AS bankDetails,
        IF(
            bank_details IS NOT NULL,
            CONCAT(
@@ -127,7 +142,10 @@ SELECT id                                                 AS id,
                JSON_VALUE(bank_details, '$.bik')
            ),
            NULL
-       )                                                  AS bankDetails,
+       )                                                  AS bankDetailsComposed,
+       phone                                              AS phone,
+       phone_additional                                   AS phoneAdditional,
+       fax                                                AS fax,
        IF(
            phone IS NOT NULL OR phone_additional IS NOT NULL OR fax IS NOT NULL,
            CONCAT_WS(
@@ -137,13 +155,15 @@ SELECT id                                                 AS id,
                IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
            ),
            NULL
-       )                                                  AS phoneFax,
+       )                                                  AS phoneFaxComposed,
        general_director                                   AS generalDirector,
+       email                                              AS email,
+       website                                            AS website,
        IF(
            email IS NOT NULL OR website IS NOT NULL,
            CONCAT_WS(', ', email, website),
            NULL
-       )                                                  AS emailWebsite,
+       )                                                  AS emailWebsiteComposed,
        removed_at                                         AS removedAt
 FROM juristic_person
 UNION
@@ -151,10 +171,14 @@ SELECT id                                                 AS id,
        '%s'                                               AS typeShortcut,
        '%s'                                               AS typeLabel,
        name                                               AS name,
-       IF(inn IS NOT NULL, CONCAT(inn, '/-'), NULL)       AS innKpp,
+       inn                                                AS inn,
+       NULL                                               AS kpp,
+       IF(inn IS NOT NULL, CONCAT(inn, '/-'), NULL)       AS innKppComposed,
        ogrnip                                             AS ogrn,
        okpo                                               AS okpo,
        okved                                              AS okved,
+       registration_address                               AS address1,
+       actual_location_address                            AS address2,
        IF(
            registration_address IS NOT NULL OR actual_location_address IS NOT NULL,
            CONCAT_WS(
@@ -163,7 +187,8 @@ SELECT id                                                 AS id,
                actual_location_address
            ),
            NULL
-       )                                                  AS address,
+       )                                                  AS addressComposed,
+       bank_details                                       AS bankDetails,
        IF(
            bank_details IS NOT NULL,
            CONCAT(
@@ -179,7 +204,10 @@ SELECT id                                                 AS id,
                JSON_VALUE(bank_details, '$.bik')
            ),
            NULL
-       )                                                  AS bankDetails,
+       )                                                  AS bankDetailsComposed,
+       phone                                              AS phone,
+       phone_additional                                   AS phoneAdditional,
+       fax                                                AS fax,
        IF(
            phone IS NOT NULL OR phone_additional IS NOT NULL OR fax IS NOT NULL,
            CONCAT_WS(
@@ -189,13 +217,15 @@ SELECT id                                                 AS id,
                IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
            ),
            NULL
-       )                                                  AS phoneFax,
+       )                                                  AS phoneFaxComposed,
        NULL                                               AS generalDirector,
+       email                                              AS email,
+       website                                            AS website,
        IF(
            email IS NOT NULL OR website IS NOT NULL,
            CONCAT_WS(', ', email, website),
            NULL
-       )                                                  AS emailWebsite,
+       )                                                  AS emailWebsiteComposed,
        removed_at                                         AS removedAt
 FROM sole_proprietor
 UNION_SQL
@@ -211,17 +241,25 @@ UNION_SQL
     {
         if ($this->isTermNotEmpty($term)) {
             $sql .= <<<LIKE_TERM_SQL
-  AND (typeLabel          LIKE :term
-    OR name               LIKE :term
-    OR innKpp             LIKE :term
-    OR ogrn               LIKE :term
-    OR okpo               LIKE :term
-    OR okved              LIKE :term
-    OR address            LIKE :term
-    OR LOWER(bankDetails) LIKE :term
-    OR phoneFax           LIKE :term
-    OR generalDirector    LIKE :term
-    OR emailWebsite       LIKE :term)
+  AND (typeLabel                               LIKE :term
+    OR name                                    LIKE :term
+    OR inn                                     LIKE :term
+    OR kpp                                     LIKE :term
+    OR ogrn                                    LIKE :term
+    OR okpo                                    LIKE :term
+    OR okved                                   LIKE :term
+    OR address1                                LIKE :term
+    OR address2                                LIKE :term
+    OR LOWER(bankDetails->>"$.bankName")       LIKE :term
+    OR bankDetails->>"$.bik"                   LIKE :term
+    OR bankDetails->>"$.correspondentAccount"  LIKE :term
+    OR bankDetails->>"$.currentAccount"        LIKE :term
+    OR phone                                   LIKE :term
+    OR phoneAdditional                         LIKE :term
+    OR fax                                     LIKE :term
+    OR generalDirector                         LIKE :term
+    OR email                                   LIKE :term
+    OR website                                 LIKE :term)
 LIKE_TERM_SQL;
         }
 
@@ -257,15 +295,15 @@ LIKE_TERM_SQL;
                 $listItemData['typeShortcut'],
                 $listItemData['typeLabel'],
                 $listItemData['name'],
-                $listItemData['innKpp'],
+                $listItemData['innKppComposed'],
                 $listItemData['ogrn'],
                 $listItemData['okpo'],
                 $listItemData['okved'],
-                $listItemData['address'],
-                $listItemData['bankDetails'],
-                $listItemData['phoneFax'],
+                $listItemData['addressComposed'],
+                $listItemData['bankDetailsComposed'],
+                $listItemData['phoneFaxComposed'],
                 $listItemData['generalDirector'],
-                $listItemData['emailWebsite'],
+                $listItemData['emailWebsiteComposed'],
             );
         }
 
