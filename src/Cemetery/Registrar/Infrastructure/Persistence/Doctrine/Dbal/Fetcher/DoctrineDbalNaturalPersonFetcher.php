@@ -97,8 +97,6 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 SELECT np.id                                                                                  AS id,
        np.full_name                                                                           AS fullName,
        np.address                                                                             AS address,
-       np.phone                                                                               AS phone,
-       np.phone_additional                                                                    AS phoneAdditional,
        IF(
           np.phone IS NOT NULL OR np.phone_additional IS NOT NULL,
           CONCAT_WS(', ', np.phone, np.phone_additional),
@@ -107,15 +105,6 @@ SELECT np.id                                                                    
        np.email                                                                               AS email,
        DATE_FORMAT(np.born_at, '%d.%m.%Y')                                                    AS bornAtFormatted,
        np.place_of_birth                                                                      AS placeOfBirth,
-       np.passport->>"$.series"                                                               AS passportSeries,
-       np.passport->>"$.number"                                                               AS passportNumber,
-       DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y')                                    AS passportIssuedAtFormatted,
-       np.passport->>"$.issuedBy"                                                             AS passportIssuedBy,
-       IF(
-          np.passport->>"$.divisionCode" <> 'null',
-          np.passport->>"$.divisionCode",
-          NULL
-       )                                                                                      AS passportDivisionCode,
        IF(
           np.passport IS NOT NULL,
           CONCAT(
@@ -142,9 +131,6 @@ SELECT np.id                                                                    
        )                                                                                      AS age,
        TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt")                      AS ageCalculated,
        cd.name                                                                                AS causeOfDeathName,
-       np.deceased_details->>"$.deathCertificate.series"                                      AS deathCertificateSeries,
-       np.deceased_details->>"$.deathCertificate.number"                                      AS deathCertificateNumber,
-       DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y')           AS deathCertificateIssuedAtFormatted,
        IF(
            np.deceased_details->>"$.deathCertificate" IS NOT NULL,
            CONCAT(
@@ -156,8 +142,6 @@ SELECT np.id                                                                    
            ),
            NULL
        )                                                                                      AS deathCertificateComposed,
-       np.deceased_details->>"$.cremationCertificate.number"                                  AS cremationCertificateNumber,
-       DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y')       AS cremationCertificateIssuedAtFormatted,
        IF(
            np.deceased_details->>"$.cremationCertificate" IS NOT NULL,
            CONCAT(
