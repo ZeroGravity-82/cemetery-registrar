@@ -130,16 +130,16 @@ SELECT id                                                 AS id,
        IF(
            bank_details IS NOT NULL,
            CONCAT(
-               JSON_VALUE(bank_details, '$.bankName'),
+               bank_details->>"$.bankName",
                ', р/счёт ',
-               JSON_VALUE(bank_details, '$.currentAccount'),
+               bank_details->>"$.currentAccount",
                IF(
-                   JSON_VALUE(bank_details, '$.correspondentAccount') IS NOT NULL,
-                   CONCAT(', к/счёт ', JSON_VALUE(bank_details, '$.correspondentAccount')),
+                   bank_details->>"$.correspondentAccount" <> 'null',
+                   CONCAT(', к/счёт ', bank_details->>"$.correspondentAccount"),
                    ''
                ),
                ', БИК ',
-               JSON_VALUE(bank_details, '$.bik')
+               bank_details->>"$.bik"
            ),
            NULL
        )                                                  AS bankDetailsComposed,
@@ -192,16 +192,16 @@ SELECT id                                                 AS id,
        IF(
            bank_details IS NOT NULL,
            CONCAT(
-               JSON_VALUE(bank_details, '$.bankName'),
+               bank_details->>"$.bankName",
                ', р/счёт ',
-               JSON_VALUE(bank_details, '$.currentAccount'),
+               bank_details->>"$.currentAccount",
                IF(
-                   JSON_VALUE(bank_details, '$.correspondentAccount') IS NOT NULL,
-                   CONCAT(', к/счёт ', JSON_VALUE(bank_details, '$.correspondentAccount')),
+                   bank_details->>"$.correspondentAccount" <> 'null',
+                   CONCAT(', к/счёт ', bank_details->>"$.correspondentAccount"),
                    ''
                ),
                ', БИК ',
-               JSON_VALUE(bank_details, '$.bik')
+               bank_details->>"$.bik"
            ),
            NULL
        )                                                  AS bankDetailsComposed,
