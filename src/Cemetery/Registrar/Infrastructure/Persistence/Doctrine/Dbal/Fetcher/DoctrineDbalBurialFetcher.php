@@ -401,11 +401,11 @@ FIND_ALL_JOINS_SQL;
             $sql .= <<<LIKE_TERM_SQL
   AND (b.code                                                                           LIKE :term
     OR dnp.full_name                                                                    LIKE :term
-    OR dnp.born_at                                                                      LIKE :term
-    OR dnp.deceased_details->>"$.diedAt"                                                LIKE :term
+    OR DATE_FORMAT(dnp.born_at, '%d.%m.%Y')                                             LIKE :term
+    OR DATE_FORMAT(dnp.deceased_details->>"$.diedAt", '%d.%m.%Y')                       LIKE :term
     OR dnp.deceased_details->>"$.age"                                                   LIKE :term
     OR TIMESTAMPDIFF(YEAR, dnp.born_at, dnp.deceased_details->>"$.diedAt")              LIKE :term
-    OR b.buried_at                                                                      LIKE :term
+    OR DATE_FORMAT(b.buried_at, '%d.%m.%Y %H:%i')                                       LIKE :term
     OR bpgscb.name                                                                      LIKE :term
     OR bpgs.row_in_block                                                                LIKE :term
     OR bpgs.position_in_row                                                             LIKE :term
