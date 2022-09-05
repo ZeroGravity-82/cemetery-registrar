@@ -72,13 +72,13 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     {
         return $this->connection->createQueryBuilder()
             ->select(
-                'c.id                                       AS id',
-                'c.name                                     AS name',
-                'c.geo_position->>"$.coordinates.latitude"  AS geoPositionLatitude',
-                'c.geo_position->>"$.coordinates.longitude" AS geoPositionLongitude',
-                'c.geo_position->>"$.error"                 AS geoPositionError',
-                'c.created_at                               AS createdAt',
-                'c.updated_at                               AS updatedAt',
+                'c.id                                                                       AS id',
+                'c.name                                                                     AS name',
+                'c.geo_position->>"$.coordinates.latitude"                                  AS geoPositionLatitude',
+                'c.geo_position->>"$.coordinates.longitude"                                 AS geoPositionLongitude',
+                'IF(c.geo_position->>"$.error" <> "null", c.geo_position->>"$.error", NULL) AS geoPositionError',
+                'c.created_at                                                               AS createdAt',
+                'c.updated_at                                                               AS updatedAt',
             )
             ->from($this->tableName, 'c')
             ->andWhere('c.id = :id')
@@ -119,10 +119,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
             $viewData['name'],
             $viewData['geoPositionLatitude'],
             $viewData['geoPositionLongitude'],
-            match ($viewData['geoPositionError']) {
-                'null'  => null,
-                default => $viewData['geoPositionError'],
-            },
+            $viewData['geoPositionError'],
             $viewData['createdAt'],
             $viewData['updatedAt'],
         );
