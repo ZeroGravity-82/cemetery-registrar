@@ -141,7 +141,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
-            ->leftJoin('gs', 'cemetery_block', 'cb',    'gs.cemetery_block_id = cb.id')
+            ->leftJoin('gs', 'cemetery_block', 'cb',    'gs.cemetery_block_id   = cb.id')
             ->leftJoin('gs', 'natural_person', 'gspic', 'gs.person_in_charge_id = gspic.id');
     }
 
