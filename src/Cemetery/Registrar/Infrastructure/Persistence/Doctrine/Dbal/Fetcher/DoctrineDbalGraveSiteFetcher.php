@@ -99,18 +99,18 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
-                'gs.id                                       AS id',
-                'gs.cemetery_block_id                        AS cemeteryBlockId',
-                'cb.name                                     AS cemeteryBlockName',
-                'gs.row_in_block                             AS rowInBlock',
-                'gs.position_in_row                          AS positionInRow',
-                'gs.geo_position->>"$.coordinates.latitude"  AS geoPositionLatitude',
-                'gs.geo_position->>"$.coordinates.longitude" AS geoPositionLongitude',
-                'gs.geo_position->>"$.error"                 AS geoPositionError',
-                'gs.size                                     AS size',
-                'gspic.full_name                             AS personInChargeFullName',
-                'gs.created_at                               AS createdAt',
-                'gs.updated_at                               AS updatedAt',
+                'gs.id                                                                        AS id',
+                'gs.cemetery_block_id                                                         AS cemeteryBlockId',
+                'cb.name                                                                      AS cemeteryBlockName',
+                'gs.row_in_block                                                              AS rowInBlock',
+                'gs.position_in_row                                                           AS positionInRow',
+                'gs.geo_position->>"$.coordinates.latitude"                                   AS geoPositionLatitude',
+                'gs.geo_position->>"$.coordinates.longitude"                                  AS geoPositionLongitude',
+                'IF(gs.geo_position->>"$.error" <> "null", gs.geo_position->>"$.error", NULL) AS geoPositionError',
+                'gs.size                                                                      AS size',
+                'gspic.full_name                                                              AS personInChargeFullName',
+                'gs.created_at                                                                AS createdAt',
+                'gs.updated_at                                                                AS updatedAt',
             )
             ->from($this->tableName, 'gs')
             ->andWhere('gs.id = :id')
@@ -171,10 +171,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
             $viewData['positionInRow'],
             $viewData['geoPositionLatitude'],
             $viewData['geoPositionLongitude'],
-            match ($viewData['geoPositionError']) {
-                'null'  => null,
-                default => $viewData['geoPositionError'],
-            },
+            $viewData['geoPositionError'],
             $viewData['size'],
             $viewData['personInChargeFullName'],
             $viewData['createdAt'],
