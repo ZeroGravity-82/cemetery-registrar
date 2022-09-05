@@ -80,15 +80,15 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
     {
         return $this->connection->createQueryBuilder()
             ->select(
-                'cn.id                                       AS id',
-                'cn.columbarium_id                           AS columbariumId',
-                'cn.row_in_columbarium                       AS rowInColumbarium',
-                'cn.niche_number                             AS nicheNumber',
-                'cn.geo_position->>"$.coordinates.latitude"  AS geoPositionLatitude',
-                'cn.geo_position->>"$.coordinates.longitude" AS geoPositionLongitude',
-                'cn.geo_position->>"$.error"                 AS geoPositionError',
-                'cn.created_at                               AS createdAt',
-                'cn.updated_at                               AS updatedAt',
+                'cn.id                                                                        AS id',
+                'cn.columbarium_id                                                            AS columbariumId',
+                'cn.row_in_columbarium                                                        AS rowInColumbarium',
+                'cn.niche_number                                                              AS nicheNumber',
+                'cn.geo_position->>"$.coordinates.latitude"                                   AS geoPositionLatitude',
+                'cn.geo_position->>"$.coordinates.longitude"                                  AS geoPositionLongitude',
+                'IF(cn.geo_position->>"$.error" <> "null", cn.geo_position->>"$.error", NULL) AS geoPositionError',
+                'cn.created_at                                                                AS createdAt',
+                'cn.updated_at                                                                AS updatedAt',
             )
             ->from($this->tableName, 'cn')
             ->andWhere('cn.id = :id')
@@ -144,10 +144,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
             $viewData['nicheNumber'],
             $viewData['geoPositionLatitude'],
             $viewData['geoPositionLongitude'],
-            match ($viewData['geoPositionError']) {
-                'null'  => null,
-                default => $viewData['geoPositionError'],
-            },
+            $viewData['geoPositionError'],
             $viewData['createdAt'],
             $viewData['updatedAt'],
         );
