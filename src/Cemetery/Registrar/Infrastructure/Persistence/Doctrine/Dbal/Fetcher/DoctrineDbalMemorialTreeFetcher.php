@@ -75,13 +75,13 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
     {
         return $this->connection->createQueryBuilder()
             ->select(
-                'mt.id                                       AS id',
-                'mt.tree_number                              AS treeNumber',
-                'mt.geo_position->>"$.coordinates.latitude"  AS geoPositionLatitude',
-                'mt.geo_position->>"$.coordinates.longitude" AS geoPositionLongitude',
-                'mt.geo_position->>"$.error"                 AS geoPositionError',
-                'mt.created_at                               AS createdAt',
-                'mt.updated_at                               AS updatedAt',
+                'mt.id                                                                        AS id',
+                'mt.tree_number                                                               AS treeNumber',
+                'mt.geo_position->>"$.coordinates.latitude"                                   AS geoPositionLatitude',
+                'mt.geo_position->>"$.coordinates.longitude"                                  AS geoPositionLongitude',
+                'IF(mt.geo_position->>"$.error" <> "null", mt.geo_position->>"$.error", NULL) AS geoPositionError',
+                'mt.created_at                                                                AS createdAt',
+                'mt.updated_at                                                                AS updatedAt',
             )
             ->from($this->tableName, 'mt')
             ->andWhere('mt.id = :id')
@@ -132,10 +132,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
             $viewData['treeNumber'],
             $viewData['geoPositionLatitude'],
             $viewData['geoPositionLongitude'],
-            match ($viewData['geoPositionError']) {
-                'null'  => null,
-                default => $viewData['geoPositionError'],
-            },
+            $viewData['geoPositionError'],
             $viewData['createdAt'],
             $viewData['updatedAt'],
         );
