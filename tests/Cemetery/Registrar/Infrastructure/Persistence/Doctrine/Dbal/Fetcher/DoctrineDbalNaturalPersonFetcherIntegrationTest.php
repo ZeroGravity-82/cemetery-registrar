@@ -190,6 +190,17 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,                       $list->totalCount);
         $this->assertSame(null,                    $list->totalPages);
 
+        $list = $this->fetcher->findAll(null, '82');
+        $this->assertInstanceOf(NaturalPersonList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonListItem::class, $list->items);
+        $this->assertCount(1,                      $list->items);
+        $this->assertSame(null,                    $list->page);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+        $this->assertSame('82',                    $list->term);
+        $this->assertSame(1,                       $list->totalCount);
+        $this->assertSame(null,                    $list->totalPages);
+
         $list = $this->fetcher->findAll(null, 'онК');
         $this->assertInstanceOf(NaturalPersonList::class, $list);
         $this->assertIsArray($list->items);
