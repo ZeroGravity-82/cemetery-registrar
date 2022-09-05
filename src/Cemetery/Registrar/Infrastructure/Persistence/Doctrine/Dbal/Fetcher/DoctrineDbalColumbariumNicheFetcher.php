@@ -116,7 +116,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
     private function appendJoins(QueryBuilder $queryBuilder): void
     {
         $queryBuilder
-            ->leftJoin('cn', 'columbarium',    'c',     'cn.columbarium_id = c.id')
+            ->leftJoin('cn', 'columbarium',    'c',     'cn.columbarium_id      = c.id')
             ->leftJoin('cn', 'natural_person', 'cnpic', 'cn.person_in_charge_id = cnpic.id');
     }
 
