@@ -44,7 +44,7 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 
     private function queryViewData(string $id): false|array
     {
-        $sql  = $this->findViewByIdSql();
+        $sql  = $this->buildFindViewByIdSql();
         $stmt = $this->connection->prepare($sql);
         $stmt->bindValue('id', $id);
         $result = $stmt->executeQuery();
@@ -64,14 +64,14 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 
     private function buildCountTotalSql(?string $term): string
     {
-        $sql = 'SELECT COUNT(np.id) FROM natural_person AS np';
+        $sql = \sprintf('SELECT COUNT(np.id) FROM %s AS np', $this->tableName);
         $sql = $this->appendJoinsSql($sql);
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
 
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
 
-    private function findViewByIdSql(): string
+    private function buildFindViewByIdSql(): string
     {
         $sql = $this->buildSelectSql();
         $sql = $this->appendJoinsSql($sql);
@@ -154,7 +154,7 @@ SELECT np.id                                                                    
        )                                                                                      AS cremationCertificateComposed,
        np.created_at                                                                          AS createdAt,
        np.updated_at                                                                          AS updatedAt
-FROM natural_person AS np
+FROM $this->tableName AS np
 SELECT_SQL;
     }
 
