@@ -24,7 +24,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -34,20 +34,17 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
             )
             ->from($this->tableName, 'fc')
             ->andWhere('fc.removed_at IS NULL')
-            ->orderBy('fc.name');
-        if ($page !== null) {
-            $queryBuilder
-                ->setFirstResult(($page - 1) * $pageSize)
-                ->setMaxResults($pageSize);
-        }
+            ->orderBy('fc.name')
+            ->setFirstResult(($page - 1) * $pageSize)
+            ->setMaxResults($pageSize);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
-        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -127,11 +124,11 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
 
     private function hydrateList(
         array   $listData,
-        ?int    $page,
+        int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        ?int    $totalPages,
+        int     $totalPages,
     ): FuneralCompanyList {
         $listItems = [];
         foreach ($listData as $listItemData) {

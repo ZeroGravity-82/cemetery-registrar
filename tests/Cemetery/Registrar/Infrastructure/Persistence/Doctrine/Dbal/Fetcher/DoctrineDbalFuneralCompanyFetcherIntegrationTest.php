@@ -75,36 +75,23 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
         $this->assertFalse($this->fetcher->doesExistByName($removedCauseOfDeathName));
     }
 
-    public function testItReturnsFuneralCompanyListFull(): void
+    public function testItReturnsFuneralCompanyListFull(): void     // TODO rename
     {
-        $list = $this->fetcher->findAll();
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->items);
-        $this->assertCount(4,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame(null,                    $list->term);
-        $this->assertSame(4,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-        $this->assertListItemEqualsFC001($list->items[0]);  // Items are ordered by name
-        $this->assertListItemEqualsFC003($list->items[1]);
-        $this->assertListItemEqualsFC002($list->items[2]);
-        $this->assertListItemEqualsFC004($list->items[3]);
-    }
-
-    public function testItReturnsFuneralCompanyListByTerm(): void
-    {
-        $list = $this->fetcher->findAll(null, 'ро');
-        $this->assertInstanceOf(FuneralCompanyList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->items);
-        $this->assertCount(3,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('ро',                    $list->term);
-        $this->assertSame(3,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
+        $this->markTestIncomplete();
+//        $list = $this->fetcher->findAll();
+//        $this->assertInstanceOf(FuneralCompanyList::class, $list);
+//        $this->assertIsArray($list->items);
+//        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->items);
+//        $this->assertCount(4,                      $list->items);
+//        $this->assertSame(null,                    $list->page);
+//        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+//        $this->assertSame(null,                    $list->term);
+//        $this->assertSame(4,                       $list->totalCount);
+//        $this->assertSame(null,                    $list->totalPages);
+//        $this->assertListItemEqualsFC001($list->items[0]);  // Items are ordered by name
+//        $this->assertListItemEqualsFC003($list->items[1]);
+//        $this->assertListItemEqualsFC002($list->items[2]);
+//        $this->assertListItemEqualsFC004($list->items[3]);
     }
 
     public function testItReturnsFuneralCompanyListByPage(): void
@@ -208,6 +195,17 @@ class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetch
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('388',           $list->term);
         $this->assertSame(1,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'рО', $customPageSize);
+        $this->assertInstanceOf(FuneralCompanyList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(FuneralCompanyListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('рО',            $list->term);
+        $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
     }
 
