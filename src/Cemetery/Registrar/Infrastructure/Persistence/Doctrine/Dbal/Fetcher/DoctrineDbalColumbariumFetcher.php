@@ -24,7 +24,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -33,20 +33,17 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
             )
             ->from($this->tableName, 'c')
             ->andWhere('c.removed_at IS NULL')
-            ->orderBy('c.name');
-        if ($page !== null) {
-            $queryBuilder
-                ->setFirstResult(($page - 1) * $pageSize)
-                ->setMaxResults($pageSize);
-        }
+            ->orderBy('c.name')
+            ->setFirstResult(($page - 1) * $pageSize)
+            ->setMaxResults($pageSize);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
-        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -127,11 +124,11 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
 
     private function hydrateList(
         array   $listData,
-        ?int    $page,
+        int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        ?int    $totalPages,
+        int     $totalPages,
     ): ColumbariumList {
         $listItems = [];
         foreach ($listData as $listItemData) {
