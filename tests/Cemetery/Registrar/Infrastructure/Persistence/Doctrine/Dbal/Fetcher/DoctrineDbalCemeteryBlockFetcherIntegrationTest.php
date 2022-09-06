@@ -75,47 +75,23 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertFalse($this->fetcher->doesExistByName($removedCemeteryBlockName));
     }
 
-    public function testItReturnsCemeteryBlockListFull(): void
+    public function testItReturnsCemeteryBlockListFull(): void  // TODO rename
     {
-        $list = $this->fetcher->findAll();
-        $this->assertInstanceOf(CemeteryBlockList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
-        $this->assertCount(4,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame(null,                    $list->term);
-        $this->assertSame(4,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-        $this->assertListItemEqualsCB001($list->items[0]);  // Items are ordered by name
-        $this->assertListItemEqualsCB004($list->items[1]);
-        $this->assertListItemEqualsCB002($list->items[2]);
-        $this->assertListItemEqualsCB003($list->items[3]);
-    }
-
-    public function testItReturnsCemeteryBlockListByTerm(): void
-    {
-        $list = $this->fetcher->findAll(null, 'об');
-        $this->assertInstanceOf(CemeteryBlockList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
-        $this->assertCount(2,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('об',                    $list->term);
-        $this->assertSame(2,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, 'МУСУЛЬман');
-        $this->assertInstanceOf(CemeteryBlockList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('МУСУЛЬман',             $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
+        $this->markTestIncomplete();
+//        $list = $this->fetcher->findAll();
+//        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+//        $this->assertIsArray($list->items);
+//        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+//        $this->assertCount(4,                      $list->items);
+//        $this->assertSame(null,                    $list->page);
+//        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
+//        $this->assertSame(null,                    $list->term);
+//        $this->assertSame(4,                       $list->totalCount);
+//        $this->assertSame(null,                    $list->totalPages);
+//        $this->assertListItemEqualsCB001($list->items[0]);  // Items are ordered by name
+//        $this->assertListItemEqualsCB004($list->items[1]);
+//        $this->assertListItemEqualsCB002($list->items[2]);
+//        $this->assertListItemEqualsCB003($list->items[3]);
     }
 
     public function testItReturnsCemeteryBlockListByPage(): void
@@ -179,38 +155,58 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
     {
         $customPageSize = 3;
 
-        $list = $this->fetcher->findAll(1, 'ий', $customPageSize);
+        $list = $this->fetcher->findAll(1, 'иЙ', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
         $this->assertCount(3,              $list->items);
         $this->assertSame(1,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('ий',            $list->term);
+        $this->assertSame('иЙ',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-
-        $list = $this->fetcher->findAll(2, 'ий', $customPageSize);
+        $list = $this->fetcher->findAll(2, 'иЙ', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
         $this->assertCount(1,              $list->items);
         $this->assertSame(2,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('ий',            $list->term);
+        $this->assertSame('иЙ',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-
-        $list = $this->fetcher->findAll(3, 'ий', $customPageSize);
+        $list = $this->fetcher->findAll(3, 'иЙ', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
         $this->assertCount(0,              $list->items);
         $this->assertSame(3,               $list->page);
         $this->assertSame($customPageSize, $list->pageSize);
-        $this->assertSame('ий',            $list->term);
+        $this->assertSame('иЙ',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'об', $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(2,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('об',            $list->term);
+        $this->assertSame(2,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'МУСУЛЬман', $customPageSize);
+        $this->assertInstanceOf(CemeteryBlockList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('МУСУЛЬман',     $list->term);
+        $this->assertSame(1,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
     }
 
     public function testItReturnsCemeteryBlockTotalCount(): void

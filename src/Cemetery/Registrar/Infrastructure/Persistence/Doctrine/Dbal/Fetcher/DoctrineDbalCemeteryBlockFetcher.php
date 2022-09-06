@@ -24,7 +24,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -33,20 +33,17 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
             )
             ->from($this->tableName, 'cb')
             ->andWhere('cb.removed_at IS NULL')
-            ->orderBy('cb.name');
-        if ($page !== null) {
-            $queryBuilder
-                ->setFirstResult(($page - 1) * $pageSize)
-                ->setMaxResults($pageSize);
-        }
+            ->orderBy('cb.name')
+            ->setFirstResult(($page - 1) * $pageSize)
+            ->setMaxResults($pageSize);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
-        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -121,11 +118,11 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
 
     private function hydrateList(
         array   $listData,
-        ?int    $page,
+        int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        ?int    $totalPages,
+        int     $totalPages,
     ): CemeteryBlockList {
         $listItems = [];
         foreach ($listData as $listItemData) {
