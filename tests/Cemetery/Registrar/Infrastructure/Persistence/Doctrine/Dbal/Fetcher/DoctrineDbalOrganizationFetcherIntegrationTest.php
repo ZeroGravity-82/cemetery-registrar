@@ -413,35 +413,48 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,      $listItem->typeShortcut);
         $this->assertSame(JuristicPerson::CLASS_LABEL,         $listItem->typeLabel);
         $this->assertSame('ООО "Рога и копыта"',               $listItem->name);
-        $this->assertSame(null,                                $listItem->innKpp);
+        $this->assertSame(null,                                $listItem->inn);
+        $this->assertSame(null,                                $listItem->kpp);
         $this->assertSame(null,                                $listItem->ogrn);
         $this->assertSame(null,                                $listItem->okpo);
         $this->assertSame(null,                                $listItem->okved);
-        $this->assertSame('Кемерово, пр. Строителей, 5 - 102', $listItem->address);
-        $this->assertSame(null,                                $listItem->bankDetails);
-        $this->assertSame(null,                                $listItem->phoneFax);
+        $this->assertSame(null,                                $listItem->address1);
+        $this->assertSame('Кемерово, пр. Строителей, 5 - 102', $listItem->address2);
+        $this->assertSame(null,                                $listItem->bankDetailsBankName);
+        $this->assertSame(null,                                $listItem->bankDetailsBik);
+        $this->assertSame(null,                                $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                                $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                                $listItem->phone);
+        $this->assertSame(null,                                $listItem->phoneAdditional);
+        $this->assertSame(null,                                $listItem->fax);
         $this->assertSame(null,                                $listItem->generalDirector);
-        $this->assertSame(null,                                $listItem->emailWebsite);
+        $this->assertSame(null,                                $listItem->email);
+        $this->assertSame(null,                                $listItem->website);
     }
 
     private function assertListItemEqualsJP002(OrganizationListItem $listItem): void
     {
-        $this->assertSame('JP002',                        $listItem->id);
-        $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
-        $this->assertSame(JuristicPerson::CLASS_LABEL,    $listItem->typeLabel);
-        $this->assertSame('ООО Ромашка',                  $listItem->name);
-        $this->assertSame('5404447629/-',                 $listItem->innKpp);
-        $this->assertSame(null,                           $listItem->ogrn);
-        $this->assertSame(null,                           $listItem->okpo);
-        $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame(null,                           $listItem->address);
-        $this->assertSame(
-            'ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ, р/счёт 40601810900001000022, БИК 044106001',
-            $listItem->bankDetails
-        );
-        $this->assertSame(null,                           $listItem->phoneFax);
-        $this->assertSame(null,                           $listItem->generalDirector);
-        $this->assertSame(null,                           $listItem->emailWebsite);
+        $this->assertSame('JP002',                                $listItem->id);
+        $this->assertSame(JuristicPerson::CLASS_SHORTCUT,         $listItem->typeShortcut);
+        $this->assertSame(JuristicPerson::CLASS_LABEL,            $listItem->typeLabel);
+        $this->assertSame('ООО Ромашка',                          $listItem->name);
+        $this->assertSame('5404447629',                           $listItem->inn);
+        $this->assertSame(null,                                   $listItem->kpp);
+        $this->assertSame(null,                                   $listItem->ogrn);
+        $this->assertSame(null,                                   $listItem->okpo);
+        $this->assertSame(null,                                   $listItem->okved);
+        $this->assertSame(null,                                   $listItem->address1);
+        $this->assertSame(null,                                   $listItem->address2);
+        $this->assertSame('ОТДЕЛЕНИЕ ЛЕНИНГРАДСКОЕ БАНКА РОССИИ', $listItem->bankDetailsBankName);
+        $this->assertSame('044106001',                            $listItem->bankDetailsBik);
+        $this->assertSame(null,                                   $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame('40601810900001000022',                 $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                                   $listItem->phone);
+        $this->assertSame(null,                                   $listItem->phoneAdditional);
+        $this->assertSame(null,                                   $listItem->fax);
+        $this->assertSame(null,                                   $listItem->generalDirector);
+        $this->assertSame(null,                                   $listItem->email);
+        $this->assertSame(null,                                   $listItem->website);
     }
 
     private function assertListItemEqualsJP003(OrganizationListItem $listItem): void
@@ -450,15 +463,23 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
         $this->assertSame(JuristicPerson::CLASS_LABEL,    $listItem->typeLabel);
         $this->assertSame('ПАО "ГАЗПРОМ"',                $listItem->name);
-        $this->assertSame('7736050003/-',                 $listItem->innKpp);
+        $this->assertSame('7736050003',                   $listItem->inn);
+        $this->assertSame(null,                           $listItem->kpp);
         $this->assertSame(null,                           $listItem->ogrn);
         $this->assertSame(null,                           $listItem->okpo);
         $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame(null,                           $listItem->address);
-        $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phoneFax);
+        $this->assertSame(null,                           $listItem->address1);
+        $this->assertSame(null,                           $listItem->address2);
+        $this->assertSame(null,                           $listItem->bankDetailsBankName);
+        $this->assertSame(null,                           $listItem->bankDetailsBik);
+        $this->assertSame(null,                           $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                           $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneAdditional);
+        $this->assertSame(null,                           $listItem->fax);
         $this->assertSame(null,                           $listItem->generalDirector);
-        $this->assertSame(null,                           $listItem->emailWebsite);
+        $this->assertSame(null,                           $listItem->email);
+        $this->assertSame(null,                           $listItem->website);
     }
 
     private function assertListItemEqualsJP004(OrganizationListItem $listItem): void
@@ -467,15 +488,23 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,     $listItem->typeShortcut);
         $this->assertSame(JuristicPerson::CLASS_LABEL,        $listItem->typeLabel);
         $this->assertSame('МУП "Новосибирский метрополитен"', $listItem->name);
-        $this->assertSame(null,                               $listItem->innKpp);
+        $this->assertSame(null,                               $listItem->inn);
+        $this->assertSame(null,                               $listItem->kpp);
         $this->assertSame(null,                               $listItem->ogrn);
         $this->assertSame(null,                               $listItem->okpo);
         $this->assertSame(null,                               $listItem->okved);
-        $this->assertSame(null,                               $listItem->address);
-        $this->assertSame(null,                               $listItem->bankDetails);
-        $this->assertSame(null,                               $listItem->phoneFax);
+        $this->assertSame(null,                               $listItem->address1);
+        $this->assertSame(null,                               $listItem->address2);
+        $this->assertSame(null,                               $listItem->bankDetailsBankName);
+        $this->assertSame(null,                               $listItem->bankDetailsBik);
+        $this->assertSame(null,                               $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                               $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                               $listItem->phone);
+        $this->assertSame(null,                               $listItem->phoneAdditional);
+        $this->assertSame(null,                               $listItem->fax);
         $this->assertSame(null,                               $listItem->generalDirector);
-        $this->assertSame(null,                               $listItem->emailWebsite);
+        $this->assertSame(null,                               $listItem->email);
+        $this->assertSame(null,                               $listItem->website);
     }
 
     private function assertListItemEqualsJP005(OrganizationListItem $listItem): void
@@ -484,15 +513,23 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
         $this->assertSame(JuristicPerson::CLASS_LABEL,    $listItem->typeLabel);
         $this->assertSame('ООО "Интернет Решения"',       $listItem->name);
-        $this->assertSame('7704217370/770301001',         $listItem->innKpp);
+        $this->assertSame('7704217370',                   $listItem->inn);
+        $this->assertSame('770301001',                    $listItem->kpp);
         $this->assertSame(null,                           $listItem->ogrn);
         $this->assertSame(null,                           $listItem->okpo);
         $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame(null,                           $listItem->address);
-        $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phoneFax);
+        $this->assertSame(null,                           $listItem->address1);
+        $this->assertSame(null,                           $listItem->address2);
+        $this->assertSame(null,                           $listItem->bankDetailsBankName);
+        $this->assertSame(null,                           $listItem->bankDetailsBik);
+        $this->assertSame(null,                           $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                           $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneAdditional);
+        $this->assertSame(null,                           $listItem->fax);
         $this->assertSame('Паньков Сергей Владимирович',  $listItem->generalDirector);
-        $this->assertSame(null,                           $listItem->emailWebsite);
+        $this->assertSame(null,                           $listItem->email);
+        $this->assertSame(null,                           $listItem->website);
     }
 
     private function assertListItemEqualsSP001(OrganizationListItem $listItem): void
@@ -501,15 +538,23 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
         $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
         $this->assertSame('ИП Иванов Иван Иванович',      $listItem->name);
-        $this->assertSame(null,                           $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->inn);
+        $this->assertSame(null,                           $listItem->kpp);
         $this->assertSame(null,                           $listItem->ogrn);
         $this->assertSame(null,                           $listItem->okpo);
         $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame(null,                           $listItem->address);
-        $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phoneFax);
+        $this->assertSame(null,                           $listItem->address1);
+        $this->assertSame(null,                           $listItem->address2);
+        $this->assertSame(null,                           $listItem->bankDetailsBankName);
+        $this->assertSame(null,                           $listItem->bankDetailsBik);
+        $this->assertSame(null,                           $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                           $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneAdditional);
+        $this->assertSame(null,                           $listItem->fax);
         $this->assertSame(null,                           $listItem->generalDirector);
-        $this->assertSame(null,                           $listItem->emailWebsite);
+        $this->assertSame(null,                           $listItem->email);
+        $this->assertSame(null,                           $listItem->website);
     }
 
     private function assertListItemEqualsSP002(OrganizationListItem $listItem): void
@@ -518,23 +563,22 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
         $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
         $this->assertSame('ИП Петров Пётр Петрович',      $listItem->name);
-        $this->assertSame('772208786091/-',               $listItem->innKpp);
+        $this->assertSame('772208786091',                 $listItem->inn);
+        $this->assertSame(null,                           $listItem->kpp);
         $this->assertSame(null,                           $listItem->ogrn);
         $this->assertSame(null,                           $listItem->okpo);
         $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame(null,                           $listItem->address);
-        $this->assertSame(
-            'АО "АЛЬФА-БАНК", р/счёт 40701810401400000014, к/счёт 30101810200000000593, БИК 044525593',
-            $listItem->bankDetails
-        );
-        $this->assertSame(
-            '8-383-133-22-33, 8-383-133-22-44, 8-383-133-22-55 (факс)',
-            $listItem->phoneFax
-        );
-        $this->assertSame(
-            'info@funeral54.ru, funeral54.ru',
-            $listItem->emailWebsite
-        );
+        $this->assertSame(null,                           $listItem->address1);
+        $this->assertSame(null,                           $listItem->address2);
+        $this->assertSame('АО "АЛЬФА-БАНК"',              $listItem->bankDetailsBankName);
+        $this->assertSame('044525593',                    $listItem->bankDetailsBik);
+        $this->assertSame('30101810200000000593',         $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame('40701810401400000014',         $listItem->bankDetailsCurrentAccount);
+        $this->assertSame('8-383-133-22-33',              $listItem->phone);
+        $this->assertSame('8-383-133-22-44',              $listItem->phoneAdditional);
+        $this->assertSame('8-383-133-22-55',              $listItem->fax);
+        $this->assertSame('info@funeral54.ru',            $listItem->email);
+        $this->assertSame('funeral54.ru',                 $listItem->website);
     }
 
     private function assertListItemEqualsSP003(OrganizationListItem $listItem): void
@@ -543,15 +587,23 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
         $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
         $this->assertSame('ИП Сидоров Сидр Сидорович',    $listItem->name);
-        $this->assertSame('391600743661/-',               $listItem->innKpp);
+        $this->assertSame('391600743661',                 $listItem->inn);
+        $this->assertSame(null,                           $listItem->kpp);
         $this->assertSame(null,                           $listItem->ogrn);
         $this->assertSame(null,                           $listItem->okpo);
         $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame('с. Каменка, Заводская 14',     $listItem->address);
-        $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame('8-383-147-22-33',              $listItem->phoneFax);
+        $this->assertSame(null,                           $listItem->address1);
+        $this->assertSame('с. Каменка, Заводская 14',     $listItem->address2);
+        $this->assertSame(null,                           $listItem->bankDetailsBankName);
+        $this->assertSame(null,                           $listItem->bankDetailsBik);
+        $this->assertSame(null,                           $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                           $listItem->bankDetailsCurrentAccount);
+        $this->assertSame('8-383-147-22-33',              $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneAdditional);
+        $this->assertSame(null,                           $listItem->fax);
         $this->assertSame(null,                           $listItem->generalDirector);
-        $this->assertSame(null,                           $listItem->emailWebsite);
+        $this->assertSame(null,                           $listItem->email);
+        $this->assertSame(null,                           $listItem->website);
     }
 
     private function assertListItemEqualsSP004(OrganizationListItem $listItem): void
@@ -560,14 +612,22 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
         $this->assertSame(SoleProprietor::CLASS_LABEL,    $listItem->typeLabel);
         $this->assertSame('ИП Соколов Герман Маркович',   $listItem->name);
-        $this->assertSame(null,                           $listItem->innKpp);
+        $this->assertSame(null,                           $listItem->inn);
+        $this->assertSame(null,                           $listItem->kpp);
         $this->assertSame(null,                           $listItem->ogrn);
         $this->assertSame(null,                           $listItem->okpo);
         $this->assertSame(null,                           $listItem->okved);
-        $this->assertSame(null,                           $listItem->address);
-        $this->assertSame(null,                           $listItem->bankDetails);
-        $this->assertSame(null,                           $listItem->phoneFax);
+        $this->assertSame(null,                           $listItem->address1);
+        $this->assertSame(null,                           $listItem->address2);
+        $this->assertSame(null,                           $listItem->bankDetailsBankName);
+        $this->assertSame(null,                           $listItem->bankDetailsBik);
+        $this->assertSame(null,                           $listItem->bankDetailsCorrespondentAccount);
+        $this->assertSame(null,                           $listItem->bankDetailsCurrentAccount);
+        $this->assertSame(null,                           $listItem->phone);
+        $this->assertSame(null,                           $listItem->phoneAdditional);
+        $this->assertSame(null,                           $listItem->fax);
         $this->assertSame(null,                           $listItem->generalDirector);
-        $this->assertSame(null,                           $listItem->emailWebsite);
+        $this->assertSame(null,                           $listItem->email);
+        $this->assertSame(null,                           $listItem->website);
     }
 }

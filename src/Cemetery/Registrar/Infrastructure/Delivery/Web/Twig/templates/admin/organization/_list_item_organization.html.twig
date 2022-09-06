@@ -1,13 +1,37 @@
 <tr data-id="{{ listItem.id }}" data-type-shortcut="{{ listItem.typeShortcut }}">
-  <td>{{- listItem.name            -}}</td>
-  <td>{{- listItem.typeLabel       -}}</td>
-  <td>{{- listItem.innKpp          -}}</td>
-  <td>{{- listItem.ogrn            -}}</td>
-  <td>{{- listItem.okpo            -}}</td>
-  <td>{{- listItem.okved           -}}</td>
-  <td>{{- listItem.address         -}}</td>
-  <td>{{- listItem.bankDetails     -}}</td>
-  <td>{{- listItem.phoneFax        -}}</td>
+  <td>{{- listItem.name      -}}</td>
+  <td>{{- listItem.typeLabel -}}</td>
+  <td>
+    {% if listItem.inn is not empty or listItem.kpp is not empty %}
+      {{- [listItem.inn|default('-'), listItem.kpp|default('-')]|join('/') -}}
+    {% endif %}
+  </td>
+  <td>{{- listItem.ogrn  -}}</td>
+  <td>{{- listItem.okpo  -}}</td>
+  <td>{{- listItem.okved -}}</td>
+  <td>
+    {{- listItem.address1 -}}
+    {% if listItem.address1 is not null and listItem.address2 is not null %}, {% endif %}
+    {{- listItem.address2 -}}
+  </td>
+  <td>
+    {% if listItem.bankDetailsBankName is not null %}
+      {{- listItem.bankDetailsBankName ~ ', р/счёт ' ~ listItem.bankDetailsCurrentAccount -}}
+      {% if listItem.bankDetailsCorrespondentAccount is not null %}
+        {{- ', к/счёт ' ~ listItem.bankDetailsCorrespondentAccount -}}
+      {% endif %}
+      {{- ', БИК ' ~ listItem.bankDetailsBik -}}
+    {% endif %}
+  </td>
+  <td>
+    {{- listItem.phone -}}
+    {% if listItem.phone is not null and listItem.phoneAdditional is not null %}, {% endif %}{{- listItem.phoneAdditional -}}{% if listItem.fax is not null %}{% if listItem.phone is not null or listItem.phoneAdditional is not null %}, {% endif %}{{- listItem.fax -}}&nbsp;(факс)
+    {% endif %}
+  </td>
   <td>{{- listItem.generalDirector -}}</td>
-  <td>{{- listItem.emailWebsite    -}}</td>
+  <td>
+    {{- listItem.email -}}
+    {% if listItem.email is not null and listItem.website is not null %}, {% endif %}
+    {{- listItem.website -}}
+  </td>
 </tr>

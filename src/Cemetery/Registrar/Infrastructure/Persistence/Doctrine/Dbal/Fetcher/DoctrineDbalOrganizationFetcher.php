@@ -72,23 +72,21 @@ SELECT id,
        name,
        inn,
        kpp,
-       innKppComposed,
        ogrn,
        okpo,
        okved,
        address1,
        address2,
-       addressComposed,
-       bankDetails,
-       bankDetailsComposed,
+       bankDetailsBankName,
+       bankDetailsBik,
+       bankDetailsCorrespondentAccount,
+       bankDetailsCurrentAccount,
        phone,
        phoneAdditional,
        fax,
-       phoneFaxComposed,
        generalDirector,
        email,
-       website,
-       emailWebsiteComposed
+       website
 FROM (%s) AS unionTable
 WHERE removedAt IS NULL
 FIND_ALL_SQL
@@ -111,59 +109,25 @@ SELECT id                                                 AS id,
        name                                               AS name,
        inn                                                AS inn,
        kpp                                                AS kpp,
-       IF(
-           inn IS NOT NULL OR kpp IS NOT NULL,
-           CONCAT_WS('/', IFNULL(inn, '-'), IFNULL(kpp, '-')),
-           NULL
-       )                                                  AS innKppComposed,
        ogrn                                               AS ogrn,
        okpo                                               AS okpo,
        okved                                              AS okved,
        legal_address                                      AS address1,
        postal_address                                     AS address2,
+       bank_details->>"$.bankName"                        AS bankDetailsBankName,
+       bank_details->>"$.bik"                             AS bankDetailsBik,
        IF(
-           legal_address IS NOT NULL OR postal_address IS NOT NULL,
-           CONCAT_WS(', ', legal_address, postal_address),
-           NULL
-       )                                                  AS addressComposed,
-       bank_details                                       AS bankDetails,
-       IF(
-           bank_details IS NOT NULL,
-           CONCAT(
-               bank_details->>"$.bankName",
-               ', р/счёт ',
-               bank_details->>"$.currentAccount",
-               IF(
-                   bank_details->>"$.correspondentAccount" <> 'null',
-                   CONCAT(', к/счёт ', bank_details->>"$.correspondentAccount"),
-                   ''
-               ),
-               ', БИК ',
-               bank_details->>"$.bik"
-           ),
-           NULL
-       )                                                  AS bankDetailsComposed,
+          bank_details->>"$.correspondentAccount" <> 'null',
+          bank_details->>"$.correspondentAccount",
+          NULL
+       )                                                  AS bankDetailsCorrespondentAccount,
+       bank_details->>"$.currentAccount"                  AS bankDetailsCurrentAccount,
        phone                                              AS phone,
        phone_additional                                   AS phoneAdditional,
        fax                                                AS fax,
-       IF(
-           phone IS NOT NULL OR phone_additional IS NOT NULL OR fax IS NOT NULL,
-           CONCAT_WS(
-               ', ',
-               phone,
-               phone_additional,
-               IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
-           ),
-           NULL
-       )                                                  AS phoneFaxComposed,
        general_director                                   AS generalDirector,
        email                                              AS email,
        website                                            AS website,
-       IF(
-           email IS NOT NULL OR website IS NOT NULL,
-           CONCAT_WS(', ', email, website),
-           NULL
-       )                                                  AS emailWebsiteComposed,
        removed_at                                         AS removedAt
 FROM juristic_person
 UNION
@@ -173,59 +137,25 @@ SELECT id                                                 AS id,
        name                                               AS name,
        inn                                                AS inn,
        NULL                                               AS kpp,
-       IF(inn IS NOT NULL, CONCAT(inn, '/-'), NULL)       AS innKppComposed,
        ogrnip                                             AS ogrn,
        okpo                                               AS okpo,
        okved                                              AS okved,
        registration_address                               AS address1,
        actual_location_address                            AS address2,
+       bank_details->>"$.bankName"                        AS bankDetailsBankName,
+       bank_details->>"$.bik"                             AS bankDetailsBik,
        IF(
-           registration_address IS NOT NULL OR actual_location_address IS NOT NULL,
-           CONCAT_WS(
-               ', ',
-               registration_address,
-               actual_location_address
-           ),
-           NULL
-       )                                                  AS addressComposed,
-       bank_details                                       AS bankDetails,
-       IF(
-           bank_details IS NOT NULL,
-           CONCAT(
-               bank_details->>"$.bankName",
-               ', р/счёт ',
-               bank_details->>"$.currentAccount",
-               IF(
-                   bank_details->>"$.correspondentAccount" <> 'null',
-                   CONCAT(', к/счёт ', bank_details->>"$.correspondentAccount"),
-                   ''
-               ),
-               ', БИК ',
-               bank_details->>"$.bik"
-           ),
-           NULL
-       )                                                  AS bankDetailsComposed,
+          bank_details->>"$.correspondentAccount" <> 'null',
+          bank_details->>"$.correspondentAccount",
+          NULL
+       )                                                  AS bankDetailsCorrespondentAccount,
+       bank_details->>"$.currentAccount"                  AS bankDetailsCurrentAccount,
        phone                                              AS phone,
        phone_additional                                   AS phoneAdditional,
        fax                                                AS fax,
-       IF(
-           phone IS NOT NULL OR phone_additional IS NOT NULL OR fax IS NOT NULL,
-           CONCAT_WS(
-               ', ',
-               phone,
-               phone_additional,
-               IF(fax IS NOT NULL, CONCAT(fax, ' (факс)'), NULL)
-           ),
-           NULL
-       )                                                  AS phoneFaxComposed,
        NULL                                               AS generalDirector,
        email                                              AS email,
        website                                            AS website,
-       IF(
-           email IS NOT NULL OR website IS NOT NULL,
-           CONCAT_WS(', ', email, website),
-           NULL
-       )                                                  AS emailWebsiteComposed,
        removed_at                                         AS removedAt
 FROM sole_proprietor
 UNION_SQL
@@ -250,10 +180,10 @@ UNION_SQL
     OR okved                                   LIKE :term
     OR address1                                LIKE :term
     OR address2                                LIKE :term
-    OR LOWER(bankDetails->>"$.bankName")       LIKE :term
-    OR bankDetails->>"$.bik"                   LIKE :term
-    OR bankDetails->>"$.correspondentAccount"  LIKE :term
-    OR bankDetails->>"$.currentAccount"        LIKE :term
+    OR LOWER(bankDetailsBankName)              LIKE :term
+    OR bankDetailsBik                          LIKE :term
+    OR bankDetailsCorrespondentAccount         LIKE :term
+    OR bankDetailsCurrentAccount               LIKE :term
     OR phone                                   LIKE :term
     OR phoneAdditional                         LIKE :term
     OR fax                                     LIKE :term
@@ -295,15 +225,23 @@ LIKE_TERM_SQL;
                 $listItemData['typeShortcut'],
                 $listItemData['typeLabel'],
                 $listItemData['name'],
-                $listItemData['innKppComposed'],
+                $listItemData['inn'],
+                $listItemData['kpp'],
                 $listItemData['ogrn'],
                 $listItemData['okpo'],
                 $listItemData['okved'],
-                $listItemData['addressComposed'],
-                $listItemData['bankDetailsComposed'],
-                $listItemData['phoneFaxComposed'],
+                $listItemData['address1'],
+                $listItemData['address2'],
+                $listItemData['bankDetailsBankName'],
+                $listItemData['bankDetailsBik'],
+                $listItemData['bankDetailsCorrespondentAccount'],
+                $listItemData['bankDetailsCurrentAccount'],
+                $listItemData['phone'],
+                $listItemData['phoneAdditional'],
+                $listItemData['fax'],
                 $listItemData['generalDirector'],
-                $listItemData['emailWebsiteComposed'],
+                $listItemData['email'],
+                $listItemData['website'],
             );
         }
 
