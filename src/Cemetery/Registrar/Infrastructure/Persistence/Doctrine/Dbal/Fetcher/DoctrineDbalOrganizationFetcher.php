@@ -27,7 +27,7 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return false;
     }
 
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);
@@ -35,8 +35,8 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         $result = $stmt->executeQuery();
 
         $listData   = $result->fetchAllAssociative();
-        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
-        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
+        $totalCount = $this->doCountTotal($term) ;
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -63,7 +63,7 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
 
-    private function buildFindAllSql(?int $page, ?string $term, int $pageSize): string
+    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
     {
         $sql = \sprintf(<<<FIND_ALL_SQL
 SELECT id,
@@ -203,20 +203,16 @@ LIKE_TERM_SQL;
 
     private function appendLimitOffset(string $sql, ?int $page, int $pageSize): string
     {
-        if ($page !== null) {
-            $sql .= \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
-        }
-
-        return $sql;
+        return $sql . \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
     }
 
     private function hydrateList(
         array   $listData,
-        ?int    $page,
+        int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        ?int    $totalPages,
+        int     $totalPages,
     ): OrganizationList {
         $listItems = [];
         foreach ($listData as $listItemData) {
