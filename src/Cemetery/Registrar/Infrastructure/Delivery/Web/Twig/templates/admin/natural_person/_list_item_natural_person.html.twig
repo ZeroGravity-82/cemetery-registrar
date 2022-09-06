@@ -1,14 +1,33 @@
 <tr data-id="{{ listItem.id }}">
   <td>{{- listItem.fullName -}}</td>
-  <td>{{- listItem.address              -}}</td>
-  <td>{{- listItem.phone                -}}</td>
-  <td>{{- listItem.email                -}}</td>
-  <td>{{- listItem.bornAt               -}}</td>
-  <td>{{- listItem.placeOfBirth         -}}</td>
-  <td>{{- listItem.passport             -}}</td>
-  <td>{{- listItem.diedAt               -}}</td>
-  <td>{{- listItem.age                  -}}</td>
-  <td>{{- listItem.causeOfDeathName     -}}</td>
-  <td>{{- listItem.deathCertificate     -}}</td>
-  <td>{{- listItem.cremationCertificate -}}</td>
+  <td>{{- listItem.address  -}}</td>
+  <td>
+    {{- listItem.phone -}}
+    {% if listItem.phone is not null and listItem.phoneAdditional is not null %}, {% endif %}
+    {% if listItem.phoneAdditional is not null %}
+      {{- listItem.phoneAdditional -}}
+    {% endif %}
+  </td>
+  <td>{{- listItem.email        -}}</td>
+  <td>{{- listItem.bornAt       -}}</td>
+  <td>{{- listItem.placeOfBirth -}}</td>
+  <td>
+    {% if listItem.passportSeries is not null %}
+      {{- listItem.passportSeries ~ ' № ' ~ listItem.passportNumber ~ ', выдан ' ~ listItem.passportIssuedBy ~ ' ' ~ listItem.passportIssuedAt -}}
+      {% if listItem.passportDivisionCode is not null %} ({{- listItem.passportDivisionCode -}}) {% endif %}
+    {% endif %}
+  </td>
+  <td>{{- listItem.diedAt           -}}</td>
+  <td>{{- listItem.age              -}}</td>
+  <td>{{- listItem.causeOfDeathName -}}</td>
+  <td>
+    {% if listItem.deathCertificateSeries is not null %}
+      {{- listItem.deathCertificateSeries ~ ' № ' ~ listItem.deathCertificateNumber ~ ' от ' ~ listItem.deathCertificateIssuedAt -}}
+    {% endif %}
+  </td>
+  <td>
+    {% if listItem.cremationCertificateNumber is not null %}
+      {{- '№ ' ~ listItem.cremationCertificateNumber ~ ' от ' ~ listItem.cremationCertificateIssuedAt -}}
+    {% endif %}
+  </td>
 </tr>

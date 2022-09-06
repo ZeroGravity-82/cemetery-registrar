@@ -97,32 +97,20 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 SELECT np.id                                                                                  AS id,
        np.full_name                                                                           AS fullName,
        np.address                                                                             AS address,
-       IF(
-          np.phone IS NOT NULL OR np.phone_additional IS NOT NULL,
-          CONCAT_WS(', ', np.phone, np.phone_additional),
-          NULL
-       )                                                                                      AS phoneComposed,
+       np.phone                                                                               AS phone,
+       np.phone_additional                                                                    AS phoneAdditional,
        np.email                                                                               AS email,
        DATE_FORMAT(np.born_at, '%d.%m.%Y')                                                    AS bornAtFormatted,
        np.place_of_birth                                                                      AS placeOfBirth,
+       np.passport->>"$.series"                                                               AS passportSeries,
+       np.passport->>"$.number"                                                               AS passportNumber,
+       DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y')                                    AS passportIssuedAt,
+       np.passport->>"$.issuedBy"                                                             AS passportIssuedBy,
        IF(
-          np.passport IS NOT NULL,
-          CONCAT(
-             np.passport->>"$.series",
-             ' № ',
-             np.passport->>"$.number",
-             ', выдан ',
-             np.passport->>"$.issuedBy",
-             ' ',
-             DATE_FORMAT(np.passport->>"$.issuedAt", '%d.%m.%Y'),
-             IF(
-                np.passport->>"$.divisionCode" <> 'null',
-                CONCAT(' (', np.passport->>"$.divisionCode", ')'),
-                ''
-             )
-          ),
-          NULL
-       )                                                                                      AS passportComposed,
+           np.passport->>"$.divisionCode" <> 'null',
+           np.passport->>"$.divisionCode",
+           NULL
+       )                                                                                      AS passportDivisionCode,
        DATE_FORMAT(np.deceased_details->>"$.diedAt", '%d.%m.%Y')                              AS diedAtFormatted,
        IF(
           np.deceased_details->>"$.age" <> 'null',
@@ -131,27 +119,11 @@ SELECT np.id                                                                    
        )                                                                                      AS age,
        TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt")                      AS ageCalculated,
        cd.name                                                                                AS causeOfDeathName,
-       IF(
-           np.deceased_details->>"$.deathCertificate" IS NOT NULL,
-           CONCAT(
-               np.deceased_details->>"$.deathCertificate.series",
-               ' № ',
-               np.deceased_details->>"$.deathCertificate.number",
-               ' от ',
-               DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y')
-           ),
-           NULL
-       )                                                                                      AS deathCertificateComposed,
-       IF(
-           np.deceased_details->>"$.cremationCertificate" IS NOT NULL,
-           CONCAT(
-               '№ ',
-               np.deceased_details->>"$.cremationCertificate.number",
-               ' от ',
-               DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y')
-           ),
-           NULL
-       )                                                                                      AS cremationCertificateComposed,
+       np.deceased_details->>"$.deathCertificate.series"                                      AS deathCertificateSeries,
+       np.deceased_details->>"$.deathCertificate.number"                                      AS deathCertificateNumber,
+       DATE_FORMAT(np.deceased_details->>"$.deathCertificate.issuedAt", '%d.%m.%Y')           AS deathCertificateIssuedAt,
+       np.deceased_details->>"$.cremationCertificate.number"                                  AS cremationCertificateNumber,
+       DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y')       AS cremationCertificateIssuedAt,
        np.created_at                                                                          AS createdAt,
        np.updated_at                                                                          AS updatedAt
 FROM $this->tableName AS np
@@ -232,19 +204,27 @@ LIKE_TERM_SQL;
             $viewData['id'],
             $viewData['fullName'],
             $viewData['address'],
-            $viewData['phoneComposed'],
+            $viewData['phone'],
+            $viewData['phoneAdditional'],
             $viewData['email'],
             $viewData['bornAtFormatted'],
             $viewData['placeOfBirth'],
-            $viewData['passportComposed'],
+            $viewData['passportSeries'],
+            $viewData['passportNumber'],
+            $viewData['passportIssuedAt'],
+            $viewData['passportIssuedBy'],
+            $viewData['passportDivisionCode'],
             $viewData['diedAtFormatted'],
             match ($viewData['age']) {
                 null    => $viewData['ageCalculated'],
                 default => (int) $viewData['age'],
             },
             $viewData['causeOfDeathName'],
-            $viewData['deathCertificateComposed'],
-            $viewData['cremationCertificateComposed'],
+            $viewData['deathCertificateSeries'],
+            $viewData['deathCertificateNumber'],
+            $viewData['deathCertificateIssuedAt'],
+            $viewData['cremationCertificateNumber'],
+            $viewData['cremationCertificateIssuedAt'],
             $viewData['createdAt'],
             $viewData['updatedAt'],
         );
@@ -264,19 +244,27 @@ LIKE_TERM_SQL;
                 $listItemData['id'],
                 $listItemData['fullName'],
                 $listItemData['address'],
-                $listItemData['phoneComposed'],
+                $listItemData['phone'],
+                $listItemData['phoneAdditional'],
                 $listItemData['email'],
                 $listItemData['bornAtFormatted'],
                 $listItemData['placeOfBirth'],
-                $listItemData['passportComposed'],
+                $listItemData['passportSeries'],
+                $listItemData['passportNumber'],
+                $listItemData['passportIssuedAt'],
+                $listItemData['passportIssuedBy'],
+                $listItemData['passportDivisionCode'],
                 $listItemData['diedAtFormatted'],
                 match ($listItemData['age']) {
                     null    => $listItemData['ageCalculated'],
                     default => (int) $listItemData['age'],
                 },
                 $listItemData['causeOfDeathName'],
-                $listItemData['deathCertificateComposed'],
-                $listItemData['cremationCertificateComposed'],
+                $listItemData['deathCertificateSeries'],
+                $listItemData['deathCertificateNumber'],
+                $listItemData['deathCertificateIssuedAt'],
+                $listItemData['cremationCertificateNumber'],
+                $listItemData['cremationCertificateIssuedAt'],
             );
         }
 

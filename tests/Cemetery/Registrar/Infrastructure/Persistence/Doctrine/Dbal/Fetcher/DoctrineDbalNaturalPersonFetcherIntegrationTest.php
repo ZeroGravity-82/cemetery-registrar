@@ -577,12 +577,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                      $listItem->email);
         $this->assertSame(null,                      $listItem->bornAt);
         $this->assertSame(null,                      $listItem->placeOfBirth);
-        $this->assertSame(null,                      $listItem->passport);
+        $this->assertSame(null,                      $listItem->passportSeries);
+        $this->assertSame(null,                      $listItem->passportNumber);
+        $this->assertSame(null,                      $listItem->passportIssuedAt);
+        $this->assertSame(null,                      $listItem->passportIssuedBy);
+        $this->assertSame(null,                      $listItem->passportDivisionCode);
         $this->assertSame('01.12.2021',              $listItem->diedAt);
         $this->assertSame(69,                        $listItem->age);
         $this->assertSame(null,                      $listItem->causeOfDeathName);
-        $this->assertSame(null,                      $listItem->deathCertificate);
-        $this->assertSame('№ 12964 от 03.12.2021',   $listItem->cremationCertificate);
+        $this->assertSame(null,                      $listItem->deathCertificateSeries);
+        $this->assertSame(null,                      $listItem->deathCertificateNumber);
+        $this->assertSame(null,                      $listItem->deathCertificateIssuedAt);
+        $this->assertSame('12964',                   $listItem->cremationCertificateNumber);
+        $this->assertSame('03.12.2021',              $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP002(NaturalPersonListItem $listItem): void
@@ -594,72 +601,91 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                    $listItem->email);
         $this->assertSame('30.12.1918',                            $listItem->bornAt);
         $this->assertSame(null,                                    $listItem->placeOfBirth);
-        $this->assertSame(null,                                    $listItem->passport);
+        $this->assertSame(null,                                    $listItem->passportSeries);
+        $this->assertSame(null,                                    $listItem->passportNumber);
+        $this->assertSame(null,                                    $listItem->passportIssuedAt);
+        $this->assertSame(null,                                    $listItem->passportIssuedBy);
+        $this->assertSame(null,                                    $listItem->passportDivisionCode);
         $this->assertSame('12.02.2001',                            $listItem->diedAt);
         $this->assertSame(82,                                      $listItem->age);
         $this->assertSame('Болезнь сердечно-легочная хроническая', $listItem->causeOfDeathName);
-        $this->assertSame('V-МЮ № 532515 от 15.02.2001',           $listItem->deathCertificate);
-        $this->assertSame(null,                                    $listItem->cremationCertificate);
+        $this->assertSame('V-МЮ',                                  $listItem->deathCertificateSeries);
+        $this->assertSame('532515',                                $listItem->deathCertificateNumber);
+        $this->assertSame('15.02.2001',                            $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                                    $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                                    $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP003(NaturalPersonListItem $listItem): void
     {
-        $this->assertSame('NP003',                       $listItem->id);
-        $this->assertSame('Шилов Александр Михаилович',  $listItem->fullName);
-        $this->assertSame(null,                          $listItem->address);
-        $this->assertSame(null,                          $listItem->phone);
-        $this->assertSame(null,                          $listItem->email);
-        $this->assertSame('20.05.1969',                  $listItem->bornAt);
-        $this->assertSame(null,                          $listItem->placeOfBirth);
-        $this->assertSame(
-            '4581 № 684214, выдан МВД России по Кемеровской области 23.03.2001 (681-225)',
-            $listItem->passport
-        );
-        $this->assertSame('13.05.2012',                  $listItem->diedAt);
-        $this->assertSame(42,                            $listItem->age);
-        $this->assertSame('Онкология',                   $listItem->causeOfDeathName);
-        $this->assertSame('I-BC № 785066 от 23.03.2011', $listItem->deathCertificate);
-        $this->assertSame(null,                          $listItem->cremationCertificate);
+        $this->assertSame('NP003',                             $listItem->id);
+        $this->assertSame('Шилов Александр Михаилович',        $listItem->fullName);
+        $this->assertSame(null,                                $listItem->address);
+        $this->assertSame(null,                                $listItem->phone);
+        $this->assertSame(null,                                $listItem->email);
+        $this->assertSame('20.05.1969',                        $listItem->bornAt);
+        $this->assertSame(null,                                $listItem->placeOfBirth);
+        $this->assertSame('4581',                              $listItem->passportSeries);
+        $this->assertSame('684214',                            $listItem->passportNumber);
+        $this->assertSame('23.03.2001',                        $listItem->passportIssuedAt);
+        $this->assertSame('МВД России по Кемеровской области', $listItem->passportIssuedBy);
+        $this->assertSame('681-225',                           $listItem->passportDivisionCode);
+        $this->assertSame('13.05.2012',                        $listItem->diedAt);
+        $this->assertSame(42,                                  $listItem->age);
+        $this->assertSame('Онкология',                         $listItem->causeOfDeathName);
+        $this->assertSame('I-BC',                              $listItem->deathCertificateSeries);
+        $this->assertSame('785066',                            $listItem->deathCertificateNumber);
+        $this->assertSame('23.03.2011',                        $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                                $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                                $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP004(NaturalPersonListItem $listItem): void
     {
-        $this->assertSame('NP004',                   $listItem->id);
-        $this->assertSame('Соколов Герман Маркович', $listItem->fullName);
-        $this->assertSame(null,                      $listItem->address);
-        $this->assertSame(null,                      $listItem->phone);
-        $this->assertSame(null,                      $listItem->email);
-        $this->assertSame(null,                      $listItem->bornAt);
-        $this->assertSame(null,                      $listItem->placeOfBirth);
-        $this->assertSame(
-            '1235 № 567891, выдан Отделом УФМС России по Новосибирской области в Заельцовском районе 23.02.2001 (541-001)',
-            $listItem->passport
-        );
-        $this->assertSame('26.01.2010',              $listItem->diedAt);
-        $this->assertSame(null,                      $listItem->age);
-        $this->assertSame('Онкология',               $listItem->causeOfDeathName);
-        $this->assertSame(null,                      $listItem->deathCertificate);
-        $this->assertSame(null,                      $listItem->cremationCertificate);
+        $this->assertSame('NP004',                                                              $listItem->id);
+        $this->assertSame('Соколов Герман Маркович',                                            $listItem->fullName);
+        $this->assertSame(null,                                                                 $listItem->address);
+        $this->assertSame(null,                                                                 $listItem->phone);
+        $this->assertSame(null,                                                                 $listItem->email);
+        $this->assertSame(null,                                                                 $listItem->bornAt);
+        $this->assertSame(null,                                                                 $listItem->placeOfBirth);
+        $this->assertSame('1235',                                                               $listItem->passportSeries);
+        $this->assertSame('567891',                                                             $listItem->passportNumber);
+        $this->assertSame('23.02.2001',                                                         $listItem->passportIssuedAt);
+        $this->assertSame('Отделом УФМС России по Новосибирской области в Заельцовском районе', $listItem->passportIssuedBy);
+        $this->assertSame('541-001',                                                            $listItem->passportDivisionCode);
+        $this->assertSame('26.01.2010',                                                         $listItem->diedAt);
+        $this->assertSame(null,                                                                 $listItem->age);
+        $this->assertSame('Онкология',                                                          $listItem->causeOfDeathName);
+        $this->assertSame(null,                                                                 $listItem->deathCertificateSeries);
+        $this->assertSame(null,                                                                 $listItem->deathCertificateNumber);
+        $this->assertSame(null,                                                                 $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                                                                 $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                                                                 $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP005(NaturalPersonListItem $listItem): void
     {
-        $this->assertSame('NP005',                    $listItem->id);
-        $this->assertSame('Жданова Инга Григорьевна', $listItem->fullName);
-        $this->assertSame('Новосибирск, Ленина 1',    $listItem->address);
-        $this->assertSame('8-913-771-22-33',          $listItem->phone);
-        $this->assertSame(null,                       $listItem->email);
-        $this->assertSame('12.02.1980',               $listItem->bornAt);
-        $this->assertSame(null,                       $listItem->placeOfBirth);
-        $this->assertSame(
-            '1234 № 567890, выдан УВД Кировского района города Новосибирска 28.10.2002 (540-001)',
-            $listItem->passport
-        );
-        $this->assertSame('10.03.2022',               $listItem->diedAt);
-        $this->assertSame(42,                         $listItem->age);
-        $this->assertSame(null,                       $listItem->causeOfDeathName);
-        $this->assertSame(null,                       $listItem->deathCertificate);
-        $this->assertSame(null,                       $listItem->cremationCertificate);
+        $this->assertSame('NP005',                                     $listItem->id);
+        $this->assertSame('Жданова Инга Григорьевна',                  $listItem->fullName);
+        $this->assertSame('Новосибирск, Ленина 1',                     $listItem->address);
+        $this->assertSame('8-913-771-22-33',                           $listItem->phone);
+        $this->assertSame(null,                                        $listItem->email);
+        $this->assertSame('12.02.1980',                                $listItem->bornAt);
+        $this->assertSame(null,                                        $listItem->placeOfBirth);
+        $this->assertSame('1234',                                      $listItem->passportSeries);
+        $this->assertSame('567890',                                    $listItem->passportNumber);
+        $this->assertSame('28.10.2002',                                $listItem->passportIssuedAt);
+        $this->assertSame('УВД Кировского района города Новосибирска', $listItem->passportIssuedBy);
+        $this->assertSame('540-001',                                   $listItem->passportDivisionCode);
+        $this->assertSame('10.03.2022',                                $listItem->diedAt);
+        $this->assertSame(42,                                          $listItem->age);
+        $this->assertSame(null,                                        $listItem->causeOfDeathName);
+        $this->assertSame(null,                                        $listItem->deathCertificateSeries);
+        $this->assertSame(null,                                        $listItem->deathCertificateNumber);
+        $this->assertSame(null,                                        $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                                        $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                                        $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP006(NaturalPersonListItem $listItem): void
@@ -671,12 +697,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $listItem->email);
         $this->assertSame(null,                          $listItem->bornAt);
         $this->assertSame(null,                          $listItem->placeOfBirth);
-        $this->assertSame(null,                          $listItem->passport);
+        $this->assertSame(null,                          $listItem->passportSeries);
+        $this->assertSame(null,                          $listItem->passportNumber);
+        $this->assertSame(null,                          $listItem->passportIssuedAt);
+        $this->assertSame(null,                          $listItem->passportIssuedBy);
+        $this->assertSame(null,                          $listItem->passportDivisionCode);
         $this->assertSame('03.12.2021',                  $listItem->diedAt);
         $this->assertSame(null,                          $listItem->age);
         $this->assertSame(null,                          $listItem->causeOfDeathName);
-        $this->assertSame(null,                          $listItem->deathCertificate);
-        $this->assertSame(null,                          $listItem->cremationCertificate);
+        $this->assertSame(null,                          $listItem->deathCertificateSeries);
+        $this->assertSame(null,                          $listItem->deathCertificateNumber);
+        $this->assertSame(null,                          $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                          $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                          $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP007(NaturalPersonListItem $listItem): void
@@ -688,32 +721,43 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                               $listItem->email);
         $this->assertSame('24.09.1915',                       $listItem->bornAt);
         $this->assertSame(null,                               $listItem->placeOfBirth);
-        $this->assertSame(null,                               $listItem->passport);
+        $this->assertSame(null,                               $listItem->passportSeries);
+        $this->assertSame(null,                               $listItem->passportNumber);
+        $this->assertSame(null,                               $listItem->passportIssuedAt);
+        $this->assertSame(null,                               $listItem->passportIssuedBy);
+        $this->assertSame(null,                               $listItem->passportDivisionCode);
         $this->assertSame(null,                               $listItem->diedAt);
         $this->assertSame(null,                               $listItem->age);
         $this->assertSame(null,                               $listItem->causeOfDeathName);
-        $this->assertSame(null,                               $listItem->deathCertificate);
-        $this->assertSame(null,                               $listItem->cremationCertificate);
+        $this->assertSame(null,                               $listItem->deathCertificateSeries);
+        $this->assertSame(null,                               $listItem->deathCertificateNumber);
+        $this->assertSame(null,                               $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                               $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                               $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP008(NaturalPersonListItem $listItem): void
     {
-        $this->assertSame('NP008',                       $listItem->id);
-        $this->assertSame('Беляев Мечеслав Федорович',   $listItem->fullName);
-        $this->assertSame(null,                          $listItem->address);
-        $this->assertSame(null,                          $listItem->phone);
-        $this->assertSame('mecheslav.belyaev@gmail.com', $listItem->email);
-        $this->assertSame(null,                          $listItem->bornAt);
-        $this->assertSame(null,                          $listItem->placeOfBirth);
-        $this->assertSame(
-            '2345 № 162354, выдан Отделом МВД Ленинского района г. Пензы 20.10.1981',
-            $listItem->passport
-        );
-        $this->assertSame(null,                          $listItem->diedAt);
-        $this->assertSame(null,                          $listItem->age);
-        $this->assertSame(null,                          $listItem->causeOfDeathName);
-        $this->assertSame(null,                          $listItem->deathCertificate);
-        $this->assertSame(null,                          $listItem->cremationCertificate);
+        $this->assertSame('NP008',                                  $listItem->id);
+        $this->assertSame('Беляев Мечеслав Федорович',              $listItem->fullName);
+        $this->assertSame(null,                                     $listItem->address);
+        $this->assertSame(null,                                     $listItem->phone);
+        $this->assertSame('mecheslav.belyaev@gmail.com',            $listItem->email);
+        $this->assertSame(null,                                     $listItem->bornAt);
+        $this->assertSame(null,                                     $listItem->placeOfBirth);
+        $this->assertSame('2345',                                   $listItem->passportSeries);
+        $this->assertSame('162354',                                 $listItem->passportNumber);
+        $this->assertSame('20.10.1981',                             $listItem->passportIssuedAt);
+        $this->assertSame('Отделом МВД Ленинского района г. Пензы', $listItem->passportIssuedBy);
+        $this->assertSame(null,                                     $listItem->passportDivisionCode);
+        $this->assertSame(null,                                     $listItem->diedAt);
+        $this->assertSame(null,                                     $listItem->age);
+        $this->assertSame(null,                                     $listItem->causeOfDeathName);
+        $this->assertSame(null,                                     $listItem->deathCertificateSeries);
+        $this->assertSame(null,                                     $listItem->deathCertificateNumber);
+        $this->assertSame(null,                                     $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                                     $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                                     $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP009(NaturalPersonListItem $listItem): void
@@ -725,12 +769,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $listItem->email);
         $this->assertSame(null,                          $listItem->bornAt);
         $this->assertSame(null,                          $listItem->placeOfBirth);
-        $this->assertSame(null,                          $listItem->passport);
+        $this->assertSame(null,                          $listItem->passportSeries);
+        $this->assertSame(null,                          $listItem->passportNumber);
+        $this->assertSame(null,                          $listItem->passportIssuedAt);
+        $this->assertSame(null,                          $listItem->passportIssuedBy);
+        $this->assertSame(null,                          $listItem->passportDivisionCode);
         $this->assertSame('26.05.1980',                  $listItem->diedAt);
         $this->assertSame(null,                          $listItem->age);
         $this->assertSame(null,                          $listItem->causeOfDeathName);
-        $this->assertSame(null,                          $listItem->deathCertificate);
-        $this->assertSame(null,                          $listItem->cremationCertificate);
+        $this->assertSame(null,                          $listItem->deathCertificateSeries);
+        $this->assertSame(null,                          $listItem->deathCertificateNumber);
+        $this->assertSame(null,                          $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                          $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                          $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP010(NaturalPersonListItem $listItem): void
@@ -742,12 +793,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->email);
         $this->assertSame('04.11.1930',           $listItem->bornAt);
         $this->assertSame(null,                   $listItem->placeOfBirth);
-        $this->assertSame(null,                   $listItem->passport);
+        $this->assertSame(null,                   $listItem->passportSeries);
+        $this->assertSame(null,                   $listItem->passportNumber);
+        $this->assertSame(null,                   $listItem->passportIssuedAt);
+        $this->assertSame(null,                   $listItem->passportIssuedBy);
+        $this->assertSame(null,                   $listItem->passportDivisionCode);
         $this->assertSame('22.11.2002',           $listItem->diedAt);
         $this->assertSame(72,                     $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
-        $this->assertSame(null,                   $listItem->deathCertificate);
-        $this->assertSame(null,                   $listItem->cremationCertificate);
+        $this->assertSame(null,                   $listItem->deathCertificateSeries);
+        $this->assertSame(null,                   $listItem->deathCertificateNumber);
+        $this->assertSame(null,                   $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP011(NaturalPersonListItem $listItem): void
@@ -759,12 +817,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->email);
         $this->assertSame('12.04.1925',           $listItem->bornAt);
         $this->assertSame(null,                   $listItem->placeOfBirth);
-        $this->assertSame(null,                   $listItem->passport);
+        $this->assertSame(null,                   $listItem->passportSeries);
+        $this->assertSame(null,                   $listItem->passportNumber);
+        $this->assertSame(null,                   $listItem->passportIssuedAt);
+        $this->assertSame(null,                   $listItem->passportIssuedBy);
+        $this->assertSame(null,                   $listItem->passportDivisionCode);
         $this->assertSame('11.05.2004',           $listItem->diedAt);
         $this->assertSame(79,                     $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
-        $this->assertSame(null,                   $listItem->deathCertificate);
-        $this->assertSame(null,                   $listItem->cremationCertificate);
+        $this->assertSame(null,                   $listItem->deathCertificateSeries);
+        $this->assertSame(null,                   $listItem->deathCertificateNumber);
+        $this->assertSame(null,                   $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP012(NaturalPersonListItem $listItem): void
@@ -776,12 +841,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->email);
         $this->assertSame('12.04.1925',           $listItem->bornAt);
         $this->assertSame(null,                   $listItem->placeOfBirth);
-        $this->assertSame(null,                   $listItem->passport);
+        $this->assertSame(null,                   $listItem->passportSeries);
+        $this->assertSame(null,                   $listItem->passportNumber);
+        $this->assertSame(null,                   $listItem->passportIssuedAt);
+        $this->assertSame(null,                   $listItem->passportIssuedBy);
+        $this->assertSame(null,                   $listItem->passportDivisionCode);
         $this->assertSame('29.10.2005',           $listItem->diedAt);
         $this->assertSame(80,                     $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
-        $this->assertSame(null,                   $listItem->deathCertificate);
-        $this->assertSame(null,                   $listItem->cremationCertificate);
+        $this->assertSame(null,                   $listItem->deathCertificateSeries);
+        $this->assertSame(null,                   $listItem->deathCertificateNumber);
+        $this->assertSame(null,                   $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
     private function assertListItemEqualsNP013(NaturalPersonListItem $listItem): void
@@ -793,12 +865,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->email);
         $this->assertSame(null,                   $listItem->bornAt);
         $this->assertSame(null,                   $listItem->placeOfBirth);
-        $this->assertSame(null,                   $listItem->passport);
+        $this->assertSame(null,                   $listItem->passportSeries);
+        $this->assertSame(null,                   $listItem->passportNumber);
+        $this->assertSame(null,                   $listItem->passportIssuedAt);
+        $this->assertSame(null,                   $listItem->passportIssuedBy);
+        $this->assertSame(null,                   $listItem->passportDivisionCode);
         $this->assertSame(null,                   $listItem->diedAt);
         $this->assertSame(null,                   $listItem->age);
         $this->assertSame(null,                   $listItem->causeOfDeathName);
-        $this->assertSame(null,                   $listItem->deathCertificate);
-        $this->assertSame(null,                   $listItem->cremationCertificate);
+        $this->assertSame(null,                   $listItem->deathCertificateSeries);
+        $this->assertSame(null,                   $listItem->deathCertificateNumber);
+        $this->assertSame(null,                   $listItem->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $listItem->cremationCertificateNumber);
+        $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
     private function testItReturnsNaturalPersonViewForNP001(): void
@@ -812,12 +891,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                      $view->email);
         $this->assertSame(null,                      $view->bornAt);
         $this->assertSame(null,                      $view->placeOfBirth);
-        $this->assertSame(null,                      $view->passport);
+        $this->assertSame(null,                      $view->passportSeries);
+        $this->assertSame(null,                      $view->passportNumber);
+        $this->assertSame(null,                      $view->passportIssuedAt);
+        $this->assertSame(null,                      $view->passportIssuedBy);
+        $this->assertSame(null,                      $view->passportDivisionCode);
         $this->assertSame('01.12.2021',              $view->diedAt);
         $this->assertSame(69,                        $view->age);
         $this->assertSame(null,                      $view->causeOfDeathName);
-        $this->assertSame(null,                      $view->deathCertificate);
-        $this->assertSame('№ 12964 от 03.12.2021',   $view->cremationCertificate);
+        $this->assertSame(null,                      $view->deathCertificateSeries);
+        $this->assertSame(null,                      $view->deathCertificateNumber);
+        $this->assertSame(null,                      $view->deathCertificateIssuedAt);
+        $this->assertSame('12964',                   $view->cremationCertificateNumber);
+        $this->assertSame('03.12.2021',              $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -833,12 +919,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                    $view->email);
         $this->assertSame('30.12.1918',                            $view->bornAt);
         $this->assertSame(null,                                    $view->placeOfBirth);
-        $this->assertSame(null,                                    $view->passport);
+        $this->assertSame(null,                                    $view->passportSeries);
+        $this->assertSame(null,                                    $view->passportNumber);
+        $this->assertSame(null,                                    $view->passportIssuedAt);
+        $this->assertSame(null,                                    $view->passportIssuedBy);
+        $this->assertSame(null,                                    $view->passportDivisionCode);
         $this->assertSame('12.02.2001',                            $view->diedAt);
         $this->assertSame(82,                                      $view->age);
         $this->assertSame('Болезнь сердечно-легочная хроническая', $view->causeOfDeathName);
-        $this->assertSame('V-МЮ № 532515 от 15.02.2001',           $view->deathCertificate);
-        $this->assertSame(null,                                    $view->cremationCertificate);
+        $this->assertSame('V-МЮ',                                  $view->deathCertificateSeries);
+        $this->assertSame('532515',                                $view->deathCertificateNumber);
+        $this->assertSame('15.02.2001',                            $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                                    $view->cremationCertificateNumber);
+        $this->assertSame(null,                                    $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -847,22 +940,26 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
     {
         $view = $this->fetcher->findViewById('NP003');
         $this->assertInstanceOf(NaturalPersonView::class, $view);
-        $this->assertSame('NP003',                       $view->id);
-        $this->assertSame('Шилов Александр Михаилович',  $view->fullName);
-        $this->assertSame(null,                          $view->address);
-        $this->assertSame(null,                          $view->phone);
-        $this->assertSame(null,                          $view->email);
-        $this->assertSame('20.05.1969',                  $view->bornAt);
-        $this->assertSame(null,                          $view->placeOfBirth);
-        $this->assertSame(
-            '4581 № 684214, выдан МВД России по Кемеровской области 23.03.2001 (681-225)',
-            $view->passport
-        );
-        $this->assertSame('13.05.2012',                  $view->diedAt);
-        $this->assertSame(42,                            $view->age);
-        $this->assertSame('Онкология',                   $view->causeOfDeathName);
-        $this->assertSame('I-BC № 785066 от 23.03.2011', $view->deathCertificate);
-        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertSame('NP003',                             $view->id);
+        $this->assertSame('Шилов Александр Михаилович',        $view->fullName);
+        $this->assertSame(null,                                $view->address);
+        $this->assertSame(null,                                $view->phone);
+        $this->assertSame(null,                                $view->email);
+        $this->assertSame('20.05.1969',                        $view->bornAt);
+        $this->assertSame(null,                                $view->placeOfBirth);
+        $this->assertSame('4581',                              $view->passportSeries);
+        $this->assertSame('684214',                            $view->passportNumber);
+        $this->assertSame('23.03.2001',                        $view->passportIssuedAt);
+        $this->assertSame('МВД России по Кемеровской области', $view->passportIssuedBy);
+        $this->assertSame('681-225',                           $view->passportDivisionCode);
+        $this->assertSame('13.05.2012',                        $view->diedAt);
+        $this->assertSame(42,                                  $view->age);
+        $this->assertSame('Онкология',                         $view->causeOfDeathName);
+        $this->assertSame('I-BC',                              $view->deathCertificateSeries);
+        $this->assertSame('785066',                            $view->deathCertificateNumber);
+        $this->assertSame('23.03.2011',                        $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                                $view->cremationCertificateNumber);
+        $this->assertSame(null,                                $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -871,22 +968,26 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
     {
         $view = $this->fetcher->findViewById('NP004');
         $this->assertInstanceOf(NaturalPersonView::class, $view);
-        $this->assertSame('NP004',                   $view->id);
-        $this->assertSame('Соколов Герман Маркович', $view->fullName);
-        $this->assertSame(null,                      $view->address);
-        $this->assertSame(null,                      $view->phone);
-        $this->assertSame(null,                      $view->email);
-        $this->assertSame(null,                      $view->bornAt);
-        $this->assertSame(null,                      $view->placeOfBirth);
-        $this->assertSame(
-            '1235 № 567891, выдан Отделом УФМС России по Новосибирской области в Заельцовском районе 23.02.2001 (541-001)',
-            $view->passport
-        );
-        $this->assertSame('26.01.2010',              $view->diedAt);
-        $this->assertSame(null,                      $view->age);
-        $this->assertSame('Онкология',               $view->causeOfDeathName);
-        $this->assertSame(null,                      $view->deathCertificate);
-        $this->assertSame(null,                      $view->cremationCertificate);
+        $this->assertSame('NP004',                                                              $view->id);
+        $this->assertSame('Соколов Герман Маркович',                                            $view->fullName);
+        $this->assertSame(null,                                                                 $view->address);
+        $this->assertSame(null,                                                                 $view->phone);
+        $this->assertSame(null,                                                                 $view->email);
+        $this->assertSame(null,                                                                 $view->bornAt);
+        $this->assertSame(null,                                                                 $view->placeOfBirth);
+        $this->assertSame('1235',                                                               $view->passportSeries);
+        $this->assertSame('567891',                                                             $view->passportNumber);
+        $this->assertSame('23.02.2001',                                                         $view->passportIssuedAt);
+        $this->assertSame('Отделом УФМС России по Новосибирской области в Заельцовском районе', $view->passportIssuedBy);
+        $this->assertSame('541-001',                                                            $view->passportDivisionCode);
+        $this->assertSame('26.01.2010',                                                         $view->diedAt);
+        $this->assertSame(null,                                                                 $view->age);
+        $this->assertSame('Онкология',                                                          $view->causeOfDeathName);
+        $this->assertSame(null,                                                                 $view->deathCertificateSeries);
+        $this->assertSame(null,                                                                 $view->deathCertificateNumber);
+        $this->assertSame(null,                                                                 $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                                                                 $view->cremationCertificateNumber);
+        $this->assertSame(null,                                                                 $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -895,22 +996,26 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
     {
         $view = $this->fetcher->findViewById('NP005');
         $this->assertInstanceOf(NaturalPersonView::class, $view);
-        $this->assertSame('NP005',                    $view->id);
-        $this->assertSame('Жданова Инга Григорьевна', $view->fullName);
-        $this->assertSame('Новосибирск, Ленина 1',    $view->address);
-        $this->assertSame('8-913-771-22-33',          $view->phone);
-        $this->assertSame(null,                       $view->email);
-        $this->assertSame('12.02.1980',               $view->bornAt);
-        $this->assertSame(null,                       $view->placeOfBirth);
-        $this->assertSame(
-            '1234 № 567890, выдан УВД Кировского района города Новосибирска 28.10.2002 (540-001)',
-            $view->passport
-        );
-        $this->assertSame('10.03.2022',               $view->diedAt);
-        $this->assertSame(42,                         $view->age);
-        $this->assertSame(null,                       $view->causeOfDeathName);
-        $this->assertSame(null,                       $view->deathCertificate);
-        $this->assertSame(null,                       $view->cremationCertificate);
+        $this->assertSame('NP005',                                     $view->id);
+        $this->assertSame('Жданова Инга Григорьевна',                  $view->fullName);
+        $this->assertSame('Новосибирск, Ленина 1',                     $view->address);
+        $this->assertSame('8-913-771-22-33',                           $view->phone);
+        $this->assertSame(null,                                        $view->email);
+        $this->assertSame('12.02.1980',                                $view->bornAt);
+        $this->assertSame(null,                                        $view->placeOfBirth);
+        $this->assertSame('1234',                                      $view->passportSeries);
+        $this->assertSame('567890',                                    $view->passportNumber);
+        $this->assertSame('28.10.2002',                                $view->passportIssuedAt);
+        $this->assertSame('УВД Кировского района города Новосибирска', $view->passportIssuedBy);
+        $this->assertSame('540-001',                                   $view->passportDivisionCode);
+        $this->assertSame('10.03.2022',                                $view->diedAt);
+        $this->assertSame(42,                                          $view->age);
+        $this->assertSame(null,                                        $view->causeOfDeathName);
+        $this->assertSame(null,                                        $view->deathCertificateSeries);
+        $this->assertSame(null,                                        $view->deathCertificateNumber);
+        $this->assertSame(null,                                        $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                                        $view->cremationCertificateNumber);
+        $this->assertSame(null,                                        $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -926,12 +1031,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $view->email);
         $this->assertSame(null,                          $view->bornAt);
         $this->assertSame(null,                          $view->placeOfBirth);
-        $this->assertSame(null,                          $view->passport);
+        $this->assertSame(null,                          $view->passportSeries);
+        $this->assertSame(null,                          $view->passportNumber);
+        $this->assertSame(null,                          $view->passportIssuedAt);
+        $this->assertSame(null,                          $view->passportIssuedBy);
+        $this->assertSame(null,                          $view->passportDivisionCode);
         $this->assertSame('03.12.2021',                  $view->diedAt);
         $this->assertSame(null,                          $view->age);
         $this->assertSame(null,                          $view->causeOfDeathName);
-        $this->assertSame(null,                          $view->deathCertificate);
-        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertSame(null,                          $view->deathCertificateSeries);
+        $this->assertSame(null,                          $view->deathCertificateNumber);
+        $this->assertSame(null,                          $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                          $view->cremationCertificateNumber);
+        $this->assertSame(null,                          $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -947,12 +1059,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                               $view->email);
         $this->assertSame('24.09.1915',                       $view->bornAt);
         $this->assertSame(null,                               $view->placeOfBirth);
-        $this->assertSame(null,                               $view->passport);
+        $this->assertSame(null,                               $view->passportSeries);
+        $this->assertSame(null,                               $view->passportNumber);
+        $this->assertSame(null,                               $view->passportIssuedAt);
+        $this->assertSame(null,                               $view->passportIssuedBy);
+        $this->assertSame(null,                               $view->passportDivisionCode);
         $this->assertSame(null,                               $view->diedAt);
         $this->assertSame(null,                               $view->age);
         $this->assertSame(null,                               $view->causeOfDeathName);
-        $this->assertSame(null,                               $view->deathCertificate);
-        $this->assertSame(null,                               $view->cremationCertificate);
+        $this->assertSame(null,                               $view->deathCertificateSeries);
+        $this->assertSame(null,                               $view->deathCertificateNumber);
+        $this->assertSame(null,                               $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                               $view->cremationCertificateNumber);
+        $this->assertSame(null,                               $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -961,22 +1080,26 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
     {
         $view = $this->fetcher->findViewById('NP008');
         $this->assertInstanceOf(NaturalPersonView::class, $view);
-        $this->assertSame('NP008',                       $view->id);
-        $this->assertSame('Беляев Мечеслав Федорович',   $view->fullName);
-        $this->assertSame(null,                          $view->address);
-        $this->assertSame(null,                          $view->phone);
-        $this->assertSame('mecheslav.belyaev@gmail.com', $view->email);
-        $this->assertSame(null,                          $view->bornAt);
-        $this->assertSame(null,                          $view->placeOfBirth);
-        $this->assertSame(
-            '2345 № 162354, выдан Отделом МВД Ленинского района г. Пензы 20.10.1981',
-            $view->passport
-        );
-        $this->assertSame(null,                          $view->diedAt);
-        $this->assertSame(null,                          $view->age);
-        $this->assertSame(null,                          $view->causeOfDeathName);
-        $this->assertSame(null,                          $view->deathCertificate);
-        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertSame('NP008',                                  $view->id);
+        $this->assertSame('Беляев Мечеслав Федорович',              $view->fullName);
+        $this->assertSame(null,                                     $view->address);
+        $this->assertSame(null,                                     $view->phone);
+        $this->assertSame('mecheslav.belyaev@gmail.com',            $view->email);
+        $this->assertSame(null,                                     $view->bornAt);
+        $this->assertSame(null,                                     $view->placeOfBirth);
+        $this->assertSame('2345',                                   $view->passportSeries);
+        $this->assertSame('162354',                                 $view->passportNumber);
+        $this->assertSame('20.10.1981',                             $view->passportIssuedAt);
+        $this->assertSame('Отделом МВД Ленинского района г. Пензы', $view->passportIssuedBy);
+        $this->assertSame(null,                                     $view->passportDivisionCode);
+        $this->assertSame(null,                                     $view->diedAt);
+        $this->assertSame(null,                                     $view->age);
+        $this->assertSame(null,                                     $view->causeOfDeathName);
+        $this->assertSame(null,                                     $view->deathCertificateSeries);
+        $this->assertSame(null,                                     $view->deathCertificateNumber);
+        $this->assertSame(null,                                     $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                                     $view->cremationCertificateNumber);
+        $this->assertSame(null,                                     $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -992,12 +1115,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $view->email);
         $this->assertSame(null,                          $view->bornAt);
         $this->assertSame(null,                          $view->placeOfBirth);
-        $this->assertSame(null,                          $view->passport);
+        $this->assertSame(null,                          $view->passportSeries);
+        $this->assertSame(null,                          $view->passportNumber);
+        $this->assertSame(null,                          $view->passportIssuedAt);
+        $this->assertSame(null,                          $view->passportIssuedBy);
+        $this->assertSame(null,                          $view->passportDivisionCode);
         $this->assertSame('26.05.1980',                  $view->diedAt);
         $this->assertSame(null,                          $view->age);
         $this->assertSame(null,                          $view->causeOfDeathName);
-        $this->assertSame(null,                          $view->deathCertificate);
-        $this->assertSame(null,                          $view->cremationCertificate);
+        $this->assertSame(null,                          $view->deathCertificateSeries);
+        $this->assertSame(null,                          $view->deathCertificateNumber);
+        $this->assertSame(null,                          $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                          $view->cremationCertificateNumber);
+        $this->assertSame(null,                          $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -1013,12 +1143,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->email);
         $this->assertSame('04.11.1930',           $view->bornAt);
         $this->assertSame(null,                   $view->placeOfBirth);
-        $this->assertSame(null,                   $view->passport);
+        $this->assertSame(null,                   $view->passportSeries);
+        $this->assertSame(null,                   $view->passportNumber);
+        $this->assertSame(null,                   $view->passportIssuedAt);
+        $this->assertSame(null,                   $view->passportIssuedBy);
+        $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame('22.11.2002',           $view->diedAt);
         $this->assertSame(72,                     $view->age);
         $this->assertSame(null,                   $view->causeOfDeathName);
-        $this->assertSame(null,                   $view->deathCertificate);
-        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertSame(null,                   $view->deathCertificateSeries);
+        $this->assertSame(null,                   $view->deathCertificateNumber);
+        $this->assertSame(null,                   $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $view->cremationCertificateNumber);
+        $this->assertSame(null,                   $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -1034,12 +1171,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->email);
         $this->assertSame('12.04.1925',           $view->bornAt);
         $this->assertSame(null,                   $view->placeOfBirth);
-        $this->assertSame(null,                   $view->passport);
+        $this->assertSame(null,                   $view->passportSeries);
+        $this->assertSame(null,                   $view->passportNumber);
+        $this->assertSame(null,                   $view->passportIssuedAt);
+        $this->assertSame(null,                   $view->passportIssuedBy);
+        $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame('11.05.2004',           $view->diedAt);
         $this->assertSame(79,                     $view->age);
         $this->assertSame(null,                   $view->causeOfDeathName);
-        $this->assertSame(null,                   $view->deathCertificate);
-        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertSame(null,                   $view->deathCertificateSeries);
+        $this->assertSame(null,                   $view->deathCertificateNumber);
+        $this->assertSame(null,                   $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $view->cremationCertificateNumber);
+        $this->assertSame(null,                   $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -1055,12 +1199,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->email);
         $this->assertSame('12.04.1925',           $view->bornAt);
         $this->assertSame(null,                   $view->placeOfBirth);
-        $this->assertSame(null,                   $view->passport);
+        $this->assertSame(null,                   $view->passportSeries);
+        $this->assertSame(null,                   $view->passportNumber);
+        $this->assertSame(null,                   $view->passportIssuedAt);
+        $this->assertSame(null,                   $view->passportIssuedBy);
+        $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame('29.10.2005',           $view->diedAt);
         $this->assertSame(80,                     $view->age);
         $this->assertSame(null,                   $view->causeOfDeathName);
-        $this->assertSame(null,                   $view->deathCertificate);
-        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertSame(null,                   $view->deathCertificateSeries);
+        $this->assertSame(null,                   $view->deathCertificateNumber);
+        $this->assertSame(null,                   $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $view->cremationCertificateNumber);
+        $this->assertSame(null,                   $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -1076,12 +1227,19 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->email);
         $this->assertSame(null,                   $view->bornAt);
         $this->assertSame(null,                   $view->placeOfBirth);
-        $this->assertSame(null,                   $view->passport);
+        $this->assertSame(null,                   $view->passportSeries);
+        $this->assertSame(null,                   $view->passportNumber);
+        $this->assertSame(null,                   $view->passportIssuedAt);
+        $this->assertSame(null,                   $view->passportIssuedBy);
+        $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame(null,                   $view->diedAt);
         $this->assertSame(null,                   $view->age);
         $this->assertSame(null,                   $view->causeOfDeathName);
-        $this->assertSame(null,                   $view->deathCertificate);
-        $this->assertSame(null,                   $view->cremationCertificate);
+        $this->assertSame(null,                   $view->deathCertificateSeries);
+        $this->assertSame(null,                   $view->deathCertificateNumber);
+        $this->assertSame(null,                   $view->deathCertificateIssuedAt);
+        $this->assertSame(null,                   $view->cremationCertificateNumber);
+        $this->assertSame(null,                   $view->cremationCertificateIssuedAt);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
