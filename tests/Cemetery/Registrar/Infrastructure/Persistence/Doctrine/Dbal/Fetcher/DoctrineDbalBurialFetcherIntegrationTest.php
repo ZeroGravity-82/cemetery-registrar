@@ -85,173 +85,6 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertFalse($this->fetcher->doesExistById($removedBurialId));
     }
 
-    public function testItReturnsBurialListFull(): void
-    {
-        $list = $this->fetcher->findAll();
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(7,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame(null,                    $list->term);
-        $this->assertSame(7,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-        $this->assertListItemEqualsB007($list->items[0]);  // Items are ordered by burial code
-        $this->assertListItemEqualsB001($list->items[1]);
-        $this->assertListItemEqualsB002($list->items[2]);
-        $this->assertListItemEqualsB003($list->items[3]);
-        $this->assertListItemEqualsB005($list->items[4]);
-        $this->assertListItemEqualsB006($list->items[5]);
-        $this->assertListItemEqualsB004($list->items[6]);
-    }
-
-    public function testItReturnsBurialListByTerm(): void
-    {
-        $list = $this->fetcher->findAll(null, '12');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(6,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('12',                    $list->term);
-        $this->assertSame(6,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '69');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(2,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('69',                    $list->term);
-        $this->assertSame(2,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '42');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(2,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('42',                    $list->term);
-        $this->assertSame(2,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '1100');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(4,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('1100',                  $list->term);
-        $this->assertSame(4,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, 'овИЧ');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(6,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('овИЧ',                  $list->term);
-        $this->assertSame(6,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '30.12.1918');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('30.12.1918',            $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '01.12.2021');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('01.12.2021',            $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '28.01.2010 12:55');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('28.01.2010 12:55',      $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '147-22');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('147-22',                $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '002');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(3,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('002',                   $list->term);
-        $this->assertSame(3,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, 'заВОД');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('заВОД',                 $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, '11');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(7,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('11',                    $list->term);
-        $this->assertSame(7,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-
-        $list = $this->fetcher->findAll(null, 'ВОИн');
-        $this->assertInstanceOf(BurialList::class, $list);
-        $this->assertIsArray($list->items);
-        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
-        $this->assertCount(1,                      $list->items);
-        $this->assertSame(null,                    $list->page);
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-        $this->assertSame('ВОИн',                  $list->term);
-        $this->assertSame(1,                       $list->totalCount);
-        $this->assertSame(null,                    $list->totalPages);
-    }
-
     public function testItReturnsBurialListByPage(): void
     {
         $customPageSize = 4;
@@ -367,6 +200,168 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame($customPageSize, $list->pageSize);
         $this->assertSame('42',            $list->term);
         $this->assertSame(2,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '12', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(4,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('12',            $list->term);
+        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+        $list = $this->fetcher->findAll(2, '12', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(2,              $list->items);
+        $this->assertSame(2,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('12',            $list->term);
+        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '69', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(2,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('69',            $list->term);
+        $this->assertSame(2,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '1100', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(4,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('1100',          $list->term);
+        $this->assertSame(4,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'овИЧ', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(4,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('овИЧ',          $list->term);
+        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+        $list = $this->fetcher->findAll(2, 'овИЧ', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(2,              $list->items);
+        $this->assertSame(2,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('овИЧ',          $list->term);
+        $this->assertSame(6,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '30.12.1918', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('30.12.1918',    $list->term);
+        $this->assertSame(1,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '01.12.2021', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('01.12.2021',    $list->term);
+        $this->assertSame(1,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '28.01.2010 12:55', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(1,                 $list->items);
+        $this->assertSame(1,                  $list->page);
+        $this->assertSame($customPageSize,    $list->pageSize);
+        $this->assertSame('28.01.2010 12:55', $list->term);
+        $this->assertSame(1,                  $list->totalCount);
+        $this->assertSame(1,                  $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '147-22', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('147-22',        $list->term);
+        $this->assertSame(1,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '002', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('002',           $list->term);
+        $this->assertSame(3,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'заВОД', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('заВОД',         $list->term);
+        $this->assertSame(1,               $list->totalCount);
+        $this->assertSame(1,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, '11', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(4,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('11',            $list->term);
+        $this->assertSame(7,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+        $list = $this->fetcher->findAll(2, '11', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(3,              $list->items);
+        $this->assertSame(2,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('11',            $list->term);
+        $this->assertSame(7,               $list->totalCount);
+        $this->assertSame(2,               $list->totalPages);
+
+        $list = $this->fetcher->findAll(1, 'ВОИн', $customPageSize);
+        $this->assertInstanceOf(BurialList::class, $list);
+        $this->assertIsArray($list->items);
+        $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
+        $this->assertCount(1,              $list->items);
+        $this->assertSame(1,               $list->page);
+        $this->assertSame($customPageSize, $list->pageSize);
+        $this->assertSame('ВОИн',          $list->term);
+        $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
     }
 

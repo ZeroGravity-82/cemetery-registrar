@@ -24,7 +24,7 @@ interface Fetcher
     /**
      * Returns a list of items according to the given criteria.
      */
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): mixed;
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): mixed;
 
     /**
      * Counts the total count of items.

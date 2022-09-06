@@ -24,7 +24,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);
@@ -32,8 +32,8 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         $result = $stmt->executeQuery();
 
         $listData   = $result->fetchAllAssociative();
-        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
-        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -253,7 +253,7 @@ FIND_VIEW_BY_ID_SELECT_SQL;
         return $this->appendWhereIdIsEqualSql($sql);
     }
 
-    private function buildFindAllSql(?int $page, ?string $term, int $pageSize): string
+    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
     {
         $sql = <<<FIND_ALL_SELECT_SQL
 SELECT b.id                                                                AS id,
@@ -383,13 +383,9 @@ LIKE_TERM_SQL;
         return $sql . ' ORDER BY b.code';
     }
 
-    private function appendLimitOffset(string $sql, ?int $page, int $pageSize): string
+    private function appendLimitOffset(string $sql, int $page, int $pageSize): string
     {
-        if ($page !== null) {
-            $sql .= \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
-        }
-
-        return $sql;
+        return $sql . \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
     }
 
     private function hydrateView(array $viewData): BurialView
@@ -541,11 +537,11 @@ LIKE_TERM_SQL;
 
     private function hydrateList(
         array   $listData,
-        ?int    $page,
+        int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        ?int    $totalPages,
+        int     $totalPages,
     ): BurialList {
         $listItems = [];
         foreach ($listData as $listItemData) {
