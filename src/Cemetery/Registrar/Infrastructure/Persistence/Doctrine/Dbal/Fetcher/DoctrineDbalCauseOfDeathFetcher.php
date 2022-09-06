@@ -24,7 +24,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(?int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -33,20 +33,17 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
             )
             ->from($this->tableName, 'cod')
             ->andWhere('cod.removed_at IS NULL')
-            ->orderBy('cod.name');
-        if ($page !== null) {
-            $queryBuilder
-                ->setFirstResult(($page - 1) * $pageSize)
-                ->setMaxResults($pageSize);
-        }
+            ->orderBy('cod.name')
+            ->setFirstResult(($page - 1) * $pageSize)
+            ->setMaxResults($pageSize);
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
         $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
-        $totalCount = $page !== null ? $this->doCountTotal($term) : \count($listData);
-        $totalPages = $page !== null ? (int) \ceil($totalCount / $pageSize) : null;
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
         return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
@@ -121,11 +118,11 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
 
     private function hydrateList(
         array   $listData,
-        ?int    $page,
+        int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
-        ?int    $totalPages,
+        int     $totalPages,
     ): CauseOfDeathList {
         $listItems = [];
         foreach ($listData as $listItemData) {
