@@ -27,7 +27,7 @@ class PaginateNaturalPersonsService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new PaginateNaturalPersonsResponse(
-            $this->naturalPersonFetcher->findAll(1),
+            $this->naturalPersonFetcher->paginate(1),
             $this->naturalPersonFetcher->countTotal(),
         );
     }

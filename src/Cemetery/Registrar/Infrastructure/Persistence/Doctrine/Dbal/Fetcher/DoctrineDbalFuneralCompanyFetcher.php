@@ -17,14 +17,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
 {
     protected string $tableName = 'funeral_company';
 
-    public function findViewById(string $id): ?FuneralCompanyView
-    {
-        $viewData = $this->queryViewData($id);
-
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -40,13 +33,20 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listData = $queryBuilder
+        $paginatedListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?FuneralCompanyView
+    {
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -122,23 +122,23 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): FuneralCompanyList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new FuneralCompanyListItem(
-                $listItemData['id'],
-                $listItemData['name'],
-                $listItemData['note'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new FuneralCompanyListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['name'],
+                $paginatedListItemData['note'],
             );
         }
 
-        return new FuneralCompanyList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new FuneralCompanyList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

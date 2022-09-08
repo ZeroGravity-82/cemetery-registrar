@@ -17,14 +17,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
 {
     protected string $tableName = 'columbarium';
 
-    public function findViewById(string $id): ?ColumbariumView
-    {
-        $viewData = $this->queryViewData($id);
-
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -39,13 +32,20 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listData = $queryBuilder
+        $paginatedListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?ColumbariumView
+    {
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -122,22 +122,22 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): ColumbariumList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new ColumbariumListItem(
-                $listItemData['id'],
-                $listItemData['name'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new ColumbariumListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['name'],
             );
         }
 
-        return new ColumbariumList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new ColumbariumList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

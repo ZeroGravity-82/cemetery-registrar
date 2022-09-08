@@ -27,7 +27,7 @@ class ListFuneralCompaniesService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListFuneralCompaniesResponse(
-            $this->funeralCompanyFetcher->findAll(1),
+            $this->funeralCompanyFetcher->paginate(1),
             $this->funeralCompanyFetcher->countTotal(),
         );
     }

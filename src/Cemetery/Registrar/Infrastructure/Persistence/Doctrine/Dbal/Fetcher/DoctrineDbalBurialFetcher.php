@@ -17,25 +17,25 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
 {
     protected string $tableName = 'burial';
 
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
+    {
+        $sql  = $this->buildPaginateSql($page, $term, $pageSize);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
+        $result = $stmt->executeQuery();
+
+        $paginatedListData = $result->fetchAllAssociative();
+        $totalCount        = $this->doCountTotal($term);
+        $totalPages        = (int) \ceil($totalCount / $pageSize);
+
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
     public function findViewById(string $id): ?BurialView
     {
         $viewData = $this->queryViewData($id);
 
         return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
-    {
-        $sql  = $this->buildFindAllSql($page, $term, $pageSize);
-        $stmt = $this->connection->prepare($sql);
-        $this->bindTermValue($stmt, $term);
-        $result = $stmt->executeQuery();
-
-        $listData   = $result->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
-
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function countTotal(): int
@@ -66,12 +66,11 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
     private function buildCountTotalSql(?string $term): string
     {
         $sql = \sprintf('SELECT COUNT(b.id) FROM %s AS b', $this->tableName);
-        $sql = $this->appendFindAllJoinsSql($sql);
+        $sql = $this->appendPaginateJoinsSql($sql);
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
 
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
-
 
     private function buildFindViewByIdSql(): string
     {
@@ -253,9 +252,9 @@ FIND_VIEW_BY_ID_SELECT_SQL;
         return $this->appendWhereIdIsEqualSql($sql);
     }
 
-    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
+    private function buildPaginateSql(int $page, ?string $term, int $pageSize): string
     {
-        $sql = <<<FIND_ALL_SELECT_SQL
+        $sql = <<<FIND_PAGINATE_SQL
 SELECT b.id                                                                AS id,
        b.code                                                              AS code,
        dnp.full_name                                                       AS deceasedNaturalPersonFullName,
@@ -289,9 +288,9 @@ SELECT b.id                                                                AS id
        cjp.postal_address                                                  AS customerJuristicPersonPostalAddress,
        cjp.phone                                                           AS customerJuristicPersonPhone
 FROM $this->tableName AS b
-FIND_ALL_SELECT_SQL;
+FIND_PAGINATE_SQL;
 
-        $sql = $this->appendFindAllJoinsSql($sql);
+        $sql = $this->appendPaginateJoinsSql($sql);
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
         $sql = $this->appendAndWhereLikeTermSql($sql, $term);
         $sql = $this->appendOrderByCodeSql($sql);
@@ -318,9 +317,9 @@ FIND_ALL_SELECT_SQL;
 FIND_VIEW_BY_ID_JOINS_SQL;
     }
 
-    private function appendFindAllJoinsSql(string $sql): string
+    private function appendPaginateJoinsSql(string $sql): string
     {
-        return $sql . <<<FIND_ALL_JOINS_SQL
+        return $sql . <<<PAGINATE_JOINS_SQL
   LEFT JOIN natural_person    AS dnp    ON b.deceased_id                 = dnp.id
   LEFT JOIN grave_site        AS bpgs   ON b.burial_place_id->>"$.value" = bpgs.id
   LEFT JOIN cemetery_block    AS bpgscb ON bpgs.cemetery_block_id        = bpgscb.id
@@ -330,7 +329,7 @@ FIND_VIEW_BY_ID_JOINS_SQL;
   LEFT JOIN natural_person    AS cnp    ON b.customer_id->>"$.value"     = cnp.id
   LEFT JOIN sole_proprietor   AS csp    ON b.customer_id->>"$.value"     = csp.id
   LEFT JOIN juristic_person   AS cjp    ON b.customer_id->>"$.value"     = cjp.id
-FIND_ALL_JOINS_SQL;
+PAGINATE_JOINS_SQL;
     }
 
     private function appendWhereRemovedAtIsNullSql(string $sql): string
@@ -535,51 +534,51 @@ LIKE_TERM_SQL;
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): BurialList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new BurialListItem(
-                $listItemData['id'],
-                $this->formatCode($listItemData['code']),
-                $listItemData['deceasedNaturalPersonFullName'],
-                $listItemData['deceasedNaturalPersonBornAtFormatted'],
-                $listItemData['deceasedNaturalPersonDeceasedDetailsDiedAtFormatted'],
-                match ($listItemData['deceasedNaturalPersonDeceasedDetailsAge']) {
-                    null    => $listItemData['deceasedNaturalPersonDeceasedDetailsAgeCalculated'],
-                    default => (int) $listItemData['deceasedNaturalPersonDeceasedDetailsAge'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new BurialListItem(
+                $paginatedListItemData['id'],
+                $this->formatCode($paginatedListItemData['code']),
+                $paginatedListItemData['deceasedNaturalPersonFullName'],
+                $paginatedListItemData['deceasedNaturalPersonBornAtFormatted'],
+                $paginatedListItemData['deceasedNaturalPersonDeceasedDetailsDiedAtFormatted'],
+                match ($paginatedListItemData['deceasedNaturalPersonDeceasedDetailsAge']) {
+                    null    => $paginatedListItemData['deceasedNaturalPersonDeceasedDetailsAgeCalculated'],
+                    default => (int) $paginatedListItemData['deceasedNaturalPersonDeceasedDetailsAge'],
                 },
-                $listItemData['buriedAtFormatted'],
-                $listItemData['burialPlaceType'],
-                $listItemData['burialPlaceGraveSiteCemeteryBlockName'],
-                $listItemData['burialPlaceGraveSiteRowInBlock'],
-                $listItemData['burialPlaceGraveSitePositionInRow'],
-                $listItemData['burialPlaceColumbariumNicheColumbariumName'],
-                $listItemData['burialPlaceColumbariumNicheRowInColumbarium'],
-                $listItemData['burialPlaceColumbariumNicheNumber'],
-                $listItemData['burialPlaceMemorialTreeNumber'],
-                $listItemData['customerType'],
-                $listItemData['customerNaturalPersonFullName'],
-                $listItemData['customerNaturalPersonAddress'],
-                $listItemData['customerNaturalPersonPhone'],
-                $listItemData['customerSoleProprietorName'],
-                $listItemData['customerSoleProprietorRegistrationAddress'],
-                $listItemData['customerSoleProprietorActualLocationAddress'],
-                $listItemData['customerSoleProprietorPhone'],
-                $listItemData['customerJuristicPersonName'],
-                $listItemData['customerJuristicPersonLegalAddress'],
-                $listItemData['customerJuristicPersonPostalAddress'],
-                $listItemData['customerJuristicPersonPhone'],
+                $paginatedListItemData['buriedAtFormatted'],
+                $paginatedListItemData['burialPlaceType'],
+                $paginatedListItemData['burialPlaceGraveSiteCemeteryBlockName'],
+                $paginatedListItemData['burialPlaceGraveSiteRowInBlock'],
+                $paginatedListItemData['burialPlaceGraveSitePositionInRow'],
+                $paginatedListItemData['burialPlaceColumbariumNicheColumbariumName'],
+                $paginatedListItemData['burialPlaceColumbariumNicheRowInColumbarium'],
+                $paginatedListItemData['burialPlaceColumbariumNicheNumber'],
+                $paginatedListItemData['burialPlaceMemorialTreeNumber'],
+                $paginatedListItemData['customerType'],
+                $paginatedListItemData['customerNaturalPersonFullName'],
+                $paginatedListItemData['customerNaturalPersonAddress'],
+                $paginatedListItemData['customerNaturalPersonPhone'],
+                $paginatedListItemData['customerSoleProprietorName'],
+                $paginatedListItemData['customerSoleProprietorRegistrationAddress'],
+                $paginatedListItemData['customerSoleProprietorActualLocationAddress'],
+                $paginatedListItemData['customerSoleProprietorPhone'],
+                $paginatedListItemData['customerJuristicPersonName'],
+                $paginatedListItemData['customerJuristicPersonLegalAddress'],
+                $paginatedListItemData['customerJuristicPersonPostalAddress'],
+                $paginatedListItemData['customerJuristicPersonPhone'],
             );
         }
 
-        return new BurialList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new BurialList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     private function formatCode(string $code): string

@@ -14,7 +14,7 @@ class PaginateNaturalPersonsResponse extends ApplicationSuccessResponse
 {
     public function __construct(
         NaturalPersonPaginatedList $paginatedList,
-        int               $totalCount,
+        int                        $totalCount,
     ) {
         $this->data = (object) [
             'paginatedList' => $paginatedList,

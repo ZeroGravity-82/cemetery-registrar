@@ -17,14 +17,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
 {
     protected string $tableName = 'grave_site';
 
-    public function findViewById(string $id): ?GraveSiteView
-    {
-        $viewData = $this->queryViewData($id);
-
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -47,13 +40,20 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listData = $queryBuilder
+        $paginatedListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?GraveSiteView
+    {
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -176,26 +176,26 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): GraveSiteList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new GraveSiteListItem(
-                $listItemData['id'],
-                $listItemData['cemeteryBlockName'],
-                $listItemData['rowInBlock'],
-                $listItemData['positionInRow'],
-                $listItemData['size'],
-                $listItemData['personInChargeFullName'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new GraveSiteListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['cemeteryBlockName'],
+                $paginatedListItemData['rowInBlock'],
+                $paginatedListItemData['positionInRow'],
+                $paginatedListItemData['size'],
+                $paginatedListItemData['personInChargeFullName'],
             );
         }
 
-        return new GraveSiteList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new GraveSiteList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

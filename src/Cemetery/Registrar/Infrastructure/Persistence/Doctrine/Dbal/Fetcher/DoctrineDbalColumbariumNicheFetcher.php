@@ -17,14 +17,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
 {
     protected string $tableName = 'columbarium_niche';
 
-    public function findViewById(string $id): ?ColumbariumNicheView
-    {
-        $viewData = $this->queryViewData($id);
-
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -45,13 +38,20 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listData = $queryBuilder
+        $paginatedListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?ColumbariumNicheView
+    {
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -147,26 +147,26 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): ColumbariumNicheList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new ColumbariumNicheListItem(
-                $listItemData['id'],
-                $listItemData['columbariumName'],
-                $listItemData['rowInColumbarium'],
-                $listItemData['nicheNumber'],
-                $listItemData['personInChargeId'],
-                $listItemData['personInChargeFullName'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new ColumbariumNicheListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['columbariumName'],
+                $paginatedListItemData['rowInColumbarium'],
+                $paginatedListItemData['nicheNumber'],
+                $paginatedListItemData['personInChargeId'],
+                $paginatedListItemData['personInChargeFullName'],
             );
         }
 
-        return new ColumbariumNicheList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new ColumbariumNicheList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

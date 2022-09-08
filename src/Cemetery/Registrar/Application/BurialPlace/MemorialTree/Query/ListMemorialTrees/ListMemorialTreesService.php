@@ -27,7 +27,7 @@ class ListMemorialTreesService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListMemorialTreesResponse(
-            $this->memorialTreeFetcher->findAll(1),
+            $this->memorialTreeFetcher->paginate(1),
             $this->memorialTreeFetcher->countTotal(),
         );
     }

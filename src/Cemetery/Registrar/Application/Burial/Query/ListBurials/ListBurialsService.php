@@ -35,11 +35,11 @@ class ListBurialsService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListBurialsResponse(
-            $this->burialFetcher->findAll(1),
+            $this->burialFetcher->paginate(1),
             $this->burialFetcher->countTotal(),
-            $this->funeralCompanyFetcher->findAll(1),
-            $this->causeOfDeathFetcher->findAll(1),
-            $this->cemeteryBlockFetcher->findAll(1),
+            $this->funeralCompanyFetcher->paginate(1),
+            $this->causeOfDeathFetcher->paginate(1),
+            $this->cemeteryBlockFetcher->paginate(1),
             $this->coffinShapeFetcher->findAll(1),
         );
     }

@@ -27,7 +27,7 @@ class ListOrganizationsService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListOrganizationsResponse(
-            $this->organizationFetcher->findAll(1),
+            $this->organizationFetcher->paginate(1),
             $this->organizationFetcher->countTotal(),
         );
     }

@@ -7,6 +7,8 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedListItem;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonSimpleList;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonSimpleListItem;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 
 /**
@@ -16,25 +18,39 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 {
     protected string $tableName = 'natural_person';
 
-    public function findViewById(string $id): ?NaturalPersonView
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonPaginatedList
     {
-        $viewData = $this->queryViewData($id);
+        $sql = $this->buildSelectSql();
+        $sql = $this->appendJoinsSql($sql);
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereLikeTermSql($sql, $term);
+        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
+        $sql = $this->appendLimitOffset($sql, $page, $pageSize);
 
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonPaginatedList
-    {
-        $sql  = $this->buildFindAllSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);
         $this->bindTermValue($stmt, $term);
         $result = $stmt->executeQuery();
 
-        $listData   = $result->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term);
-        $totalPages = (int) \ceil($totalCount / $pageSize);
+        $paginatedListData = $result->fetchAllAssociative();
+        $totalCount        = $this->doCountTotal($term);
+        $totalPages        = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?NaturalPersonView
+    {
+        $sql = $this->buildSelectSql();
+        $sql = $this->appendJoinsSql($sql);
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendWhereIdIsEqualSql($sql);
+
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindValue('id', $id);
+        $result   = $stmt->executeQuery();
+        $viewData = $result->fetchAllAssociative()[0] ?? false;
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -42,53 +58,45 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         return $this->doCountTotal(null);
     }
 
-    private function queryViewData(string $id): false|array
+    public function findAll(): NaturalPersonSimpleList
     {
-        $sql  = $this->buildFindViewByIdSql();
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue('id', $id);
-        $result = $stmt->executeQuery();
+        $sql = $this->buildSelectSimpleSql();
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
-        return $result->fetchAllAssociative()[0] ?? false;
+        $stmt        = $this->connection->prepare($sql);
+        $result      = $stmt->executeQuery();
+        $listAllData = $result->fetchAllAssociative();
+
+        return $this->hydrateListAll($listAllData);
+    }
+
+    public function findAlive(): NaturalPersonSimpleList
+    {
+        $sql = $this->buildSelectSimpleSql();
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereDiedAtIsNullSql($sql);
+        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
+
+        $stmt        = $this->connection->prepare($sql);
+        $result      = $stmt->executeQuery();
+        $listAllData = $result->fetchAllAssociative();
+
+        return $this->hydrateListAll($listAllData);
     }
 
     private function doCountTotal(?string $term): int
     {
-        $sql  = $this->buildCountTotalSql($term);
+        $sql = $this->buildCountSql();
+        $sql = $this->appendJoinsSql($sql);
+        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereLikeTermSql($sql, $term);
+
         $stmt = $this->connection->prepare($sql);
         $this->bindTermValue($stmt, $term);
         $result = $stmt->executeQuery();
 
         return $result->fetchFirstColumn()[0];
-    }
-
-    private function buildCountTotalSql(?string $term): string
-    {
-        $sql = \sprintf('SELECT COUNT(np.id) FROM %s AS np', $this->tableName);
-        $sql = $this->appendJoinsSql($sql);
-        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
-
-        return $this->appendAndWhereLikeTermSql($sql, $term);
-    }
-
-    private function buildFindViewByIdSql(): string
-    {
-        $sql = $this->buildSelectSql();
-        $sql = $this->appendJoinsSql($sql);
-        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
-
-        return $this->appendWhereIdIsEqualSql($sql);
-    }
-
-    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
-    {
-        $sql = $this->buildSelectSql();
-        $sql = $this->appendJoinsSql($sql);
-        $sql = $this->appendWhereRemovedAtIsNullSql($sql);
-        $sql = $this->appendAndWhereLikeTermSql($sql, $term);
-        $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
-
-        return $this->appendLimitOffset($sql, $page, $pageSize);
     }
 
     private function buildSelectSql(): string
@@ -130,6 +138,22 @@ FROM $this->tableName AS np
 SELECT_SQL;
     }
 
+    private function buildSelectSimpleSql(): string
+    {
+        return <<<SELECT_SIMPLE_SQL
+SELECT np.id                                                     AS id,
+       np.full_name                                              AS fullName,
+       DATE_FORMAT(np.born_at, '%d.%m.%Y')                       AS bornAtFormatted,
+       DATE_FORMAT(np.deceased_details->>"$.diedAt", '%d.%m.%Y') AS diedAtFormatted
+FROM $this->tableName AS np
+SELECT_SIMPLE_SQL;
+    }
+
+    private function buildCountSql(): string
+    {
+        return sprintf('SELECT COUNT(np.id) FROM %s AS np', $this->tableName);
+    }
+
     private function appendJoinsSql(string $sql): string
     {
         return $sql . ' LEFT JOIN cause_of_death AS cd ON np.deceased_details->>"$.causeOfDeathId" = cd.id';
@@ -139,6 +163,12 @@ SELECT_SQL;
     {
         return $sql . ' WHERE np.removed_at IS NULL';
     }
+
+    private function appendAndWhereDiedAtIsNullSql(string $sql): string
+    {
+        return $sql . ' AND np.deceased_details->>"$.diedAt" IS NULL';
+    }
+
 
     private function appendWhereIdIsEqualSql(string $sql): string
     {
@@ -226,44 +256,60 @@ LIKE_TERM_SQL;
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): NaturalPersonPaginatedList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new NaturalPersonPaginatedListItem(
-                $listItemData['id'],
-                $listItemData['fullName'],
-                $listItemData['address'],
-                $listItemData['phone'],
-                $listItemData['phoneAdditional'],
-                $listItemData['email'],
-                $listItemData['bornAtFormatted'],
-                $listItemData['placeOfBirth'],
-                $listItemData['passportSeries'],
-                $listItemData['passportNumber'],
-                $listItemData['passportIssuedAt'],
-                $listItemData['passportIssuedBy'],
-                $listItemData['passportDivisionCode'],
-                $listItemData['diedAtFormatted'],
-                match ($listItemData['age']) {
-                    null    => $listItemData['ageCalculated'],
-                    default => (int) $listItemData['age'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new NaturalPersonPaginatedListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['fullName'],
+                $paginatedListItemData['address'],
+                $paginatedListItemData['phone'],
+                $paginatedListItemData['phoneAdditional'],
+                $paginatedListItemData['email'],
+                $paginatedListItemData['bornAtFormatted'],
+                $paginatedListItemData['placeOfBirth'],
+                $paginatedListItemData['passportSeries'],
+                $paginatedListItemData['passportNumber'],
+                $paginatedListItemData['passportIssuedAt'],
+                $paginatedListItemData['passportIssuedBy'],
+                $paginatedListItemData['passportDivisionCode'],
+                $paginatedListItemData['diedAtFormatted'],
+                match ($paginatedListItemData['age']) {
+                    null    => $paginatedListItemData['ageCalculated'],
+                    default => (int) $paginatedListItemData['age'],
                 },
-                $listItemData['causeOfDeathName'],
-                $listItemData['deathCertificateSeries'],
-                $listItemData['deathCertificateNumber'],
-                $listItemData['deathCertificateIssuedAt'],
-                $listItemData['cremationCertificateNumber'],
-                $listItemData['cremationCertificateIssuedAt'],
+                $paginatedListItemData['causeOfDeathName'],
+                $paginatedListItemData['deathCertificateSeries'],
+                $paginatedListItemData['deathCertificateNumber'],
+                $paginatedListItemData['deathCertificateIssuedAt'],
+                $paginatedListItemData['cremationCertificateNumber'],
+                $paginatedListItemData['cremationCertificateIssuedAt'],
             );
         }
 
-        return new NaturalPersonPaginatedList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new NaturalPersonPaginatedList($items, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    private function hydrateListAll(
+        array $listAllData,
+    ): NaturalPersonSimpleList {
+        $items = [];
+        foreach ($listAllData as $paginatedListItemData) {
+            $items[] = new NaturalPersonSimpleListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['fullName'],
+                $paginatedListItemData['bornAtFormatted'],
+                $paginatedListItemData['diedAtFormatted'],
+            );
+        }
+
+        return new NaturalPersonSimpleList($items);
     }
 }

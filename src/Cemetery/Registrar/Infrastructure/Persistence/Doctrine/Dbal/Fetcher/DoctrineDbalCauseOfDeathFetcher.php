@@ -17,14 +17,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
 {
     protected string $tableName = 'cause_of_death';
 
-    public function findViewById(string $id): ?CauseOfDeathView
-    {
-        $viewData = $this->queryViewData($id);
-
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -39,13 +32,20 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listData = $queryBuilder
+        $paginatedListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?CauseOfDeathView
+    {
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -116,22 +116,22 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): CauseOfDeathList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new CauseOfDeathListItem(
-                $listItemData['id'],
-                $listItemData['name'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new CauseOfDeathListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['name'],
             );
         }
 
-        return new CauseOfDeathList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new CauseOfDeathList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

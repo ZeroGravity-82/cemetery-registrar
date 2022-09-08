@@ -29,9 +29,9 @@ class ListGraveSitesService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListGraveSitesResponse(
-            $this->graveSiteFetcher->findAll(1),
+            $this->graveSiteFetcher->paginate(1),
             $this->graveSiteFetcher->countTotal(),
-            $this->cemeteryBlockFetcher->findAll(1),
+            $this->cemeteryBlockFetcher->paginate(1),
             $this->cemeteryBlockFetcher->countTotal(),
         );
     }

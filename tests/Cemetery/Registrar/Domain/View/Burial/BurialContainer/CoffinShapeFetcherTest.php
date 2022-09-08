@@ -22,31 +22,31 @@ class CoffinShapeFetcherTest extends TestCase
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CoffinShapeListItem::class, $list->items);
         $this->assertCount(4, $list->items);
-        $this->assertListItemEqualsTrapezoid($list->items[0]);
-        $this->assertListItemEqualsGreekWithHandles($list->items[1]);
-        $this->assertListItemEqualsGreekWithoutHandles($list->items[2]);
-        $this->assertListItemEqualsAmerican($list->items[3]);
+        $this->assertPaginatedListItemEqualsTrapezoid($list->items[0]);
+        $this->assertPaginatedListItemEqualsGreekWithHandles($list->items[1]);
+        $this->assertPaginatedListItemEqualsGreekWithoutHandles($list->items[2]);
+        $this->assertPaginatedListItemEqualsAmerican($list->items[3]);
     }
 
-    private function assertListItemEqualsTrapezoid(CoffinShapeListItem $listItem): void
+    private function assertPaginatedListItemEqualsTrapezoid(CoffinShapeListItem $listItem): void
     {
         $this->assertSame(CoffinShape::TRAPEZOID,                      $listItem->value);
         $this->assertSame(CoffinShape::LABELS[CoffinShape::TRAPEZOID], $listItem->label);
     }
 
-    private function assertListItemEqualsGreekWithHandles(CoffinShapeListItem $listItem): void
+    private function assertPaginatedListItemEqualsGreekWithHandles(CoffinShapeListItem $listItem): void
     {
         $this->assertSame(CoffinShape::GREEK_WITH_HANDLES,                      $listItem->value);
         $this->assertSame(CoffinShape::LABELS[CoffinShape::GREEK_WITH_HANDLES], $listItem->label);
     }
 
-    private function assertListItemEqualsGreekWithoutHandles(CoffinShapeListItem $listItem): void
+    private function assertPaginatedListItemEqualsGreekWithoutHandles(CoffinShapeListItem $listItem): void
     {
         $this->assertSame(CoffinShape::GREEK_WITHOUT_HANDLES,                      $listItem->value);
         $this->assertSame(CoffinShape::LABELS[CoffinShape::GREEK_WITHOUT_HANDLES], $listItem->label);
     }
 
-    private function assertListItemEqualsAmerican(CoffinShapeListItem $listItem): void
+    private function assertPaginatedListItemEqualsAmerican(CoffinShapeListItem $listItem): void
     {
         $this->assertSame(CoffinShape::AMERICAN,                      $listItem->value);
         $this->assertSame(CoffinShape::LABELS[CoffinShape::AMERICAN], $listItem->label);

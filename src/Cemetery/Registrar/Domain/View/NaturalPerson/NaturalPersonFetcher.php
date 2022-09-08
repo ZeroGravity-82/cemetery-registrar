@@ -11,4 +11,13 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface NaturalPersonFetcher extends Fetcher
 {
+    /**
+     * Returns a list of all natural persons.
+     */
+    public function findAll(): NaturalPersonSimpleList;
+
+    /**
+     * Returns a list of alive natural persons.
+     */
+    public function findAlive(): NaturalPersonSimpleList;
 }

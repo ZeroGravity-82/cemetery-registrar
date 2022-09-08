@@ -29,9 +29,9 @@ class ListColumbariumNichesService extends ApplicationService
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListColumbariumNichesResponse(
-            $this->columbariumNicheFetcher->findAll(1),
+            $this->columbariumNicheFetcher->paginate(1),
             $this->columbariumNicheFetcher->countTotal(),
-            $this->columbariumFetcher->findAll(1),
+            $this->columbariumFetcher->paginate(1),
             $this->columbariumFetcher->countTotal(),
         );
     }

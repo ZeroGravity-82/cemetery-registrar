@@ -110,12 +110,12 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         ));
     }
 
-    public function testItReturnsGraveSiteListByPage(): void
+    public function testItReturnsGraveSitePaginatedListByPage(): void
     {
         $customPageSize = 4;
 
         // First page
-        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->paginate(1, null, $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $listForFirstPage);
         $this->assertIsArray($listForFirstPage->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $listForFirstPage->items);
@@ -125,13 +125,13 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(9,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsGS001($listForFirstPage->items[0]);  // Items are ordered by cemetery block name,
-        $this->assertListItemEqualsGS004($listForFirstPage->items[1]);  // then by row in block, then by position in row
-        $this->assertListItemEqualsGS006($listForFirstPage->items[2]);  // and finally by grave site ID.
-        $this->assertListItemEqualsGS005($listForFirstPage->items[3]);
+        $this->assertPaginatedListItemEqualsGS001($listForFirstPage->items[0]);  // Items are ordered by cemetery block name,
+        $this->assertPaginatedListItemEqualsGS004($listForFirstPage->items[1]);  // then by row in block, then by position in row
+        $this->assertPaginatedListItemEqualsGS006($listForFirstPage->items[2]);  // and finally by grave site ID.
+        $this->assertPaginatedListItemEqualsGS005($listForFirstPage->items[3]);
 
         // Second page
-        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->paginate(2, null, $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $listForSecondPage);
         $this->assertIsArray($listForSecondPage->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $listForSecondPage->items);
@@ -141,14 +141,14 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(9,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsGS002($listForSecondPage->items[0]);
-        $this->assertListItemEqualsGS007($listForSecondPage->items[1]);
-        $this->assertListItemEqualsGS008($listForSecondPage->items[2]);
-        $this->assertListItemEqualsGS009($listForSecondPage->items[3]);
+        $this->assertPaginatedListItemEqualsGS002($listForSecondPage->items[0]);
+        $this->assertPaginatedListItemEqualsGS007($listForSecondPage->items[1]);
+        $this->assertPaginatedListItemEqualsGS008($listForSecondPage->items[2]);
+        $this->assertPaginatedListItemEqualsGS009($listForSecondPage->items[3]);
 
 
         // Third page
-        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
+        $listForThirdPage = $this->fetcher->paginate(3, null, $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $listForThirdPage);
         $this->assertIsArray($listForThirdPage->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $listForThirdPage->items);
@@ -158,10 +158,10 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(9,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertListItemEqualsGS003($listForThirdPage->items[0]);
+        $this->assertPaginatedListItemEqualsGS003($listForThirdPage->items[0]);
 
         // Fourth page
-        $listForFourthPage = $this->fetcher->findAll(4, null, $customPageSize);
+        $listForFourthPage = $this->fetcher->paginate(4, null, $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $listForFourthPage);
         $this->assertIsArray($listForFourthPage->items);
         $this->assertCount(0,              $listForFourthPage->items);
@@ -172,7 +172,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,               $listForFourthPage->totalPages);
 
         // Default page size
-        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->paginate(1);
         $this->assertInstanceOf(GraveSiteList::class, $listForDefaultPageSize);
         $this->assertIsArray($listForDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $listForDefaultPageSize->items);
@@ -184,11 +184,11 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsGraveSiteListByPageAndTerm(): void
+    public function testItReturnsGraveSitePaginatedListByPageAndTerm(): void
     {
         $customPageSize = 3;
 
-        $list = $this->fetcher->findAll(1, 'общ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'общ', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -198,7 +198,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame('общ',           $list->term);
         $this->assertSame(5,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, 'общ', $customPageSize);
+        $list = $this->fetcher->paginate(2, 'общ', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -209,7 +209,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(5,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'Мусуль', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'Мусуль', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -220,7 +220,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '3', $customPageSize);
+        $list = $this->fetcher->paginate(1, '3', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -230,7 +230,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame('3',             $list->term);
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '3', $customPageSize);
+        $list = $this->fetcher->paginate(2, '3', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -240,7 +240,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame('3',             $list->term);
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(3, '3', $customPageSize);
+        $list = $this->fetcher->paginate(3, '3', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -251,7 +251,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '4', $customPageSize);
+        $list = $this->fetcher->paginate(1, '4', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -262,7 +262,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '.5', $customPageSize);
+        $list = $this->fetcher->paginate(1, '.5', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -273,7 +273,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'овиЧ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'овиЧ', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -284,7 +284,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '7', $customPageSize);
+        $list = $this->fetcher->paginate(1, '7', $customPageSize);
         $this->assertInstanceOf(GraveSiteList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(GraveSiteListItem::class, $list->items);
@@ -320,7 +320,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         ]);
     }
 
-    private function assertListItemEqualsGS001(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS001(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS001',    $listItem->id);
         $this->assertSame('воинский', $listItem->cemeteryBlockName);
@@ -330,7 +330,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,       $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS002(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS002(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS002',                     $listItem->id);
         $this->assertSame('общий А',                   $listItem->cemeteryBlockName);
@@ -340,7 +340,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame('Беляев Мечеслав Федорович', $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS003(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS003(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS003',                      $listItem->id);
         $this->assertSame('общий Б',                    $listItem->cemeteryBlockName);
@@ -350,7 +350,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame('Громов Никифор Рудольфович', $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS004(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS004(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS004',         $listItem->id);
         $this->assertSame('мусульманский', $listItem->cemeteryBlockName);
@@ -360,7 +360,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS005(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS005(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS005',         $listItem->id);
         $this->assertSame('мусульманский', $listItem->cemeteryBlockName);
@@ -370,7 +370,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS006(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS006(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS006',         $listItem->id);
         $this->assertSame('мусульманский', $listItem->cemeteryBlockName);
@@ -380,7 +380,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS007(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS007(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS007',   $listItem->id);
         $this->assertSame('общий А', $listItem->cemeteryBlockName);
@@ -390,7 +390,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,      $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS008(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS008(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS008',   $listItem->id);
         $this->assertSame('общий А', $listItem->cemeteryBlockName);
@@ -400,7 +400,7 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,      $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsGS009(GraveSiteListItem $listItem): void
+    private function assertPaginatedListItemEqualsGS009(GraveSiteListItem $listItem): void
     {
         $this->assertSame('GS009',   $listItem->id);
         $this->assertSame('общий А', $listItem->cemeteryBlockName);

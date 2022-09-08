@@ -61,12 +61,12 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertFalse($this->fetcher->doesExistById('unknown_id'));
     }
 
-    public function testItReturnsOrganizationListByPage(): void
+    public function testItReturnsOrganizationPaginatedListByPage(): void
     {
         $customPageSize = 4;
 
         // First page
-        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->paginate(1, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForFirstPage);
         $this->assertIsArray($listForFirstPage->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForFirstPage->items);
@@ -76,13 +76,13 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(9,               $listForFirstPage->totalCount);
         $this->assertSame(3,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsSP001($listForFirstPage->items[0]);  // Items are ordered by name
-        $this->assertListItemEqualsSP002($listForFirstPage->items[1]);
-        $this->assertListItemEqualsSP003($listForFirstPage->items[2]);
-        $this->assertListItemEqualsSP004($listForFirstPage->items[3]);
+        $this->assertPaginatedListItemEqualsSP001($listForFirstPage->items[0]);  // Items are ordered by name
+        $this->assertPaginatedListItemEqualsSP002($listForFirstPage->items[1]);
+        $this->assertPaginatedListItemEqualsSP003($listForFirstPage->items[2]);
+        $this->assertPaginatedListItemEqualsSP004($listForFirstPage->items[3]);
 
         // Second page
-        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->paginate(2, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForSecondPage);
         $this->assertIsArray($listForSecondPage->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForSecondPage->items);
@@ -92,13 +92,13 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(9,               $listForSecondPage->totalCount);
         $this->assertSame(3,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsJP004($listForSecondPage->items[0]);
-        $this->assertListItemEqualsJP005($listForSecondPage->items[1]);
-        $this->assertListItemEqualsJP001($listForSecondPage->items[2]);
-        $this->assertListItemEqualsJP002($listForSecondPage->items[3]);
+        $this->assertPaginatedListItemEqualsJP004($listForSecondPage->items[0]);
+        $this->assertPaginatedListItemEqualsJP005($listForSecondPage->items[1]);
+        $this->assertPaginatedListItemEqualsJP001($listForSecondPage->items[2]);
+        $this->assertPaginatedListItemEqualsJP002($listForSecondPage->items[3]);
 
         // Third page
-        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
+        $listForThirdPage = $this->fetcher->paginate(3, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForThirdPage);
         $this->assertIsArray($listForThirdPage->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForThirdPage->items);
@@ -108,10 +108,10 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(9,               $listForThirdPage->totalCount);
         $this->assertSame(3,               $listForThirdPage->totalPages);
-        $this->assertListItemEqualsJP003($listForThirdPage->items[0]);
+        $this->assertPaginatedListItemEqualsJP003($listForThirdPage->items[0]);
 
         // Fourth page
-        $listForFourthPage = $this->fetcher->findAll(4, null, $customPageSize);
+        $listForFourthPage = $this->fetcher->paginate(4, null, $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $listForFourthPage);
         $this->assertIsArray($listForFourthPage->items);
         $this->assertCount(0,              $listForFourthPage->items);
@@ -122,7 +122,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(3,               $listForFourthPage->totalPages);
 
         // Default page size
-        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->paginate(1);
         $this->assertInstanceOf(OrganizationList::class, $listForDefaultPageSize);
         $this->assertIsArray($listForDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $listForDefaultPageSize->items);
@@ -134,11 +134,11 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsOrganizationListByPageAndTerm(): void
+    public function testItReturnsOrganizationPaginatedListByPageAndTerm(): void
     {
         $customPageSize = 3;
 
-        $list = $this->fetcher->findAll(1, 'АльФа', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'АльФа', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -149,7 +149,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '44', $customPageSize);
+        $list = $this->fetcher->paginate(1, '44', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -160,7 +160,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'кемЕРов', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'кемЕРов', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -171,7 +171,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'Ро', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'Ро', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -181,7 +181,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('Ро',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, 'Ро', $customPageSize);
+        $list = $this->fetcher->paginate(2, 'Ро', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -191,7 +191,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('Ро',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(3, 'Ро', $customPageSize);
+        $list = $this->fetcher->paginate(3, 'Ро', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -202,7 +202,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '133', $customPageSize);
+        $list = $this->fetcher->paginate(1, '133', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -213,7 +213,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '10', $customPageSize);
+        $list = $this->fetcher->paginate(1, '10', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -223,7 +223,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('10',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2 ,              $list->totalPages);
-        $list = $this->fetcher->findAll(2, '10', $customPageSize);
+        $list = $this->fetcher->paginate(2, '10', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -234,7 +234,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2 ,              $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '14', $customPageSize);
+        $list = $this->fetcher->paginate(1, '14', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -245,7 +245,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1 ,              $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'юрлиЦ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'юрлиЦ', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -255,7 +255,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('юрлиЦ',         $list->term);
         $this->assertSame(5,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, 'юрлиЦ', $customPageSize);
+        $list = $this->fetcher->paginate(2, 'юрлиЦ', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -266,7 +266,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(5,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'СергЕЙ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'СергЕЙ', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -277,7 +277,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '54044476', $customPageSize);
+        $list = $this->fetcher->paginate(1, '54044476', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -288,7 +288,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '770301001', $customPageSize);
+        $list = $this->fetcher->paginate(1, '770301001', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -299,7 +299,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '044525593', $customPageSize);
+        $list = $this->fetcher->paginate(1, '044525593', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -310,7 +310,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'nfo@FUNEral54.r', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'nfo@FUNEral54.r', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -321,7 +321,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,                 $list->totalCount);
         $this->assertSame(1,                 $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'FUNERAL', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'FUNERAL', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -332,7 +332,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1 ,              $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'роССИИ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'роССИИ', $customPageSize);
         $this->assertInstanceOf(OrganizationList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(OrganizationListItem::class, $list->items);
@@ -369,7 +369,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         ]);
     }
 
-    private function assertListItemEqualsJP001(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsJP001(OrganizationListItem $listItem): void
     {
         $this->assertSame('JP001',                             $listItem->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,      $listItem->typeShortcut);
@@ -394,7 +394,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                                $listItem->website);
     }
 
-    private function assertListItemEqualsJP002(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsJP002(OrganizationListItem $listItem): void
     {
         $this->assertSame('JP002',                                $listItem->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,         $listItem->typeShortcut);
@@ -419,7 +419,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                                   $listItem->website);
     }
 
-    private function assertListItemEqualsJP003(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsJP003(OrganizationListItem $listItem): void
     {
         $this->assertSame('JP003',                        $listItem->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
@@ -444,7 +444,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->website);
     }
 
-    private function assertListItemEqualsJP004(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsJP004(OrganizationListItem $listItem): void
     {
         $this->assertSame('JP004',                            $listItem->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT,     $listItem->typeShortcut);
@@ -469,7 +469,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                               $listItem->website);
     }
 
-    private function assertListItemEqualsJP005(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsJP005(OrganizationListItem $listItem): void
     {
         $this->assertSame('JP005',                        $listItem->id);
         $this->assertSame(JuristicPerson::CLASS_SHORTCUT, $listItem->typeShortcut);
@@ -494,7 +494,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->website);
     }
 
-    private function assertListItemEqualsSP001(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsSP001(OrganizationListItem $listItem): void
     {
         $this->assertSame('SP001',                        $listItem->id);
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
@@ -519,7 +519,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->website);
     }
 
-    private function assertListItemEqualsSP002(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsSP002(OrganizationListItem $listItem): void
     {
         $this->assertSame('SP002',                        $listItem->id);
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
@@ -543,7 +543,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('funeral54.ru',                 $listItem->website);
     }
 
-    private function assertListItemEqualsSP003(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsSP003(OrganizationListItem $listItem): void
     {
         $this->assertSame('SP003',                        $listItem->id);
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);
@@ -568,7 +568,7 @@ class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,                           $listItem->website);
     }
 
-    private function assertListItemEqualsSP004(OrganizationListItem $listItem): void
+    private function assertPaginatedListItemEqualsSP004(OrganizationListItem $listItem): void
     {
         $this->assertSame('SP004',                        $listItem->id);
         $this->assertSame(SoleProprietor::CLASS_SHORTCUT, $listItem->typeShortcut);

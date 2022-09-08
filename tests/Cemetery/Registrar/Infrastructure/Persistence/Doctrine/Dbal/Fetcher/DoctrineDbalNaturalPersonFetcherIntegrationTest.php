@@ -8,6 +8,8 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedListItem;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonSimpleList;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonSimpleListItem;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalNaturalPersonFetcher;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmNaturalPersonRepository;
@@ -73,40 +75,46 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertFalse($this->fetcher->doesExistById($removedNaturalPersonId));
     }
 
-    public function testItReturnsNaturalPersonListFull(): void  // TODO rename
+    public function testItReturnsNaturalPersonListAll(): void
     {
-        $this->markTestIncomplete();
-//        $list = $this->fetcher->findAll();
-//        $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
-//        $this->assertIsArray($list->items);
-//        $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
-//        $this->assertCount(13,                     $list->items);
-//        $this->assertSame(null,                    $list->page);
-//        $this->assertSame(self::DEFAULT_PAGE_SIZE, $list->pageSize);
-//        $this->assertSame(null,                    $list->term);
-//        $this->assertSame(13,                      $list->totalCount);
-//        $this->assertSame(null,                    $list->totalPages);
-//        $this->assertListItemEqualsNP008($list->items[0]);  // Items are ordered by full name,
-//        $this->assertListItemEqualsNP006($list->items[1]);  // then by date of birth,
-//        $this->assertListItemEqualsNP007($list->items[2]);  // and finally by date of death.
-//        $this->assertListItemEqualsNP001($list->items[3]);
-//        $this->assertListItemEqualsNP005($list->items[4]);
-//        $this->assertListItemEqualsNP011($list->items[5]);
-//        $this->assertListItemEqualsNP012($list->items[6]);
-//        $this->assertListItemEqualsNP010($list->items[7]);
-//        $this->assertListItemEqualsNP009($list->items[8]);
-//        $this->assertListItemEqualsNP013($list->items[9]);
-//        $this->assertListItemEqualsNP004($list->items[10]);
-//        $this->assertListItemEqualsNP002($list->items[11]);
-//        $this->assertListItemEqualsNP003($list->items[12]);
+        $listAll = $this->fetcher->findAll();
+        $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAll);
+        $this->assertIsArray($listAll->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonSimpleListItem::class, $listAll->items);
+        $this->assertCount(13, $listAll->items);
+        $this->assertSimpleListItemEqualsNP008($listAll->items[0]);  // Items are ordered by full name,
+        $this->assertSimpleListItemEqualsNP006($listAll->items[1]);  // then by date of birth,
+        $this->assertSimpleListItemEqualsNP007($listAll->items[2]);  // and finally by date of death.
+        $this->assertSimpleListItemEqualsNP001($listAll->items[3]);
+        $this->assertSimpleListItemEqualsNP005($listAll->items[4]);
+        $this->assertSimpleListItemEqualsNP011($listAll->items[5]);
+        $this->assertSimpleListItemEqualsNP012($listAll->items[6]);
+        $this->assertSimpleListItemEqualsNP010($listAll->items[7]);
+        $this->assertSimpleListItemEqualsNP009($listAll->items[8]);
+        $this->assertSimpleListItemEqualsNP013($listAll->items[9]);
+        $this->assertSimpleListItemEqualsNP004($listAll->items[10]);
+        $this->assertSimpleListItemEqualsNP002($listAll->items[11]);
+        $this->assertSimpleListItemEqualsNP003($listAll->items[12]);
     }
 
-    public function testItReturnsNaturalPersonListByPage(): void
+    public function testItReturnsNaturalPersonListAlive(): void
+    {
+        $listAlive = $this->fetcher->findAlive();
+        $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAlive);
+        $this->assertIsArray($listAlive->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonSimpleListItem::class, $listAlive->items);
+        $this->assertCount(3, $listAlive->items);
+        $this->assertSimpleListItemEqualsNP008($listAlive->items[0]);  // Items are ordered by full name,
+        $this->assertSimpleListItemEqualsNP007($listAlive->items[1]);  // then by date of birth.
+        $this->assertSimpleListItemEqualsNP013($listAlive->items[2]);
+    }
+
+    public function testItReturnsNaturalPersonPaginatedListByPage(): void
     {
         $customPageSize = 4;
 
         // First page
-        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->paginate(1, null, $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForFirstPage);
         $this->assertIsArray($listForFirstPage->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $listForFirstPage->items);
@@ -116,13 +124,13 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(13,              $listForFirstPage->totalCount);
         $this->assertSame(4,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsNP008($listForFirstPage->items[0]);  // Items are ordered by full name,
-        $this->assertListItemEqualsNP006($listForFirstPage->items[1]);  // then by date of birth,
-        $this->assertListItemEqualsNP007($listForFirstPage->items[2]);  // and finally by date of death.
-        $this->assertListItemEqualsNP001($listForFirstPage->items[3]);
+        $this->assertPaginatedListItemEqualsNP008($listForFirstPage->items[0]);  // Items are ordered by full name,
+        $this->assertPaginatedListItemEqualsNP006($listForFirstPage->items[1]);  // then by date of birth,
+        $this->assertPaginatedListItemEqualsNP007($listForFirstPage->items[2]);  // and finally by date of death.
+        $this->assertPaginatedListItemEqualsNP001($listForFirstPage->items[3]);
 
         // Second page
-        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->paginate(2, null, $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForSecondPage);
         $this->assertIsArray($listForSecondPage->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $listForSecondPage->items);
@@ -132,13 +140,13 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(13,              $listForSecondPage->totalCount);
         $this->assertSame(4,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsNP005($listForSecondPage->items[0]);
-        $this->assertListItemEqualsNP011($listForSecondPage->items[1]);
-        $this->assertListItemEqualsNP012($listForSecondPage->items[2]);
-        $this->assertListItemEqualsNP010($listForSecondPage->items[3]);
+        $this->assertPaginatedListItemEqualsNP005($listForSecondPage->items[0]);
+        $this->assertPaginatedListItemEqualsNP011($listForSecondPage->items[1]);
+        $this->assertPaginatedListItemEqualsNP012($listForSecondPage->items[2]);
+        $this->assertPaginatedListItemEqualsNP010($listForSecondPage->items[3]);
 
         // Third page
-        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
+        $listForThirdPage = $this->fetcher->paginate(3, null, $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForThirdPage);
         $this->assertIsArray($listForThirdPage->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $listForThirdPage->items);
@@ -148,13 +156,13 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForThirdPage->term);
         $this->assertSame(13,              $listForThirdPage->totalCount);
         $this->assertSame(4,               $listForThirdPage->totalPages);
-        $this->assertListItemEqualsNP009($listForThirdPage->items[0]);
-        $this->assertListItemEqualsNP013($listForThirdPage->items[1]);
-        $this->assertListItemEqualsNP004($listForThirdPage->items[2]);
-        $this->assertListItemEqualsNP002($listForThirdPage->items[3]);
+        $this->assertPaginatedListItemEqualsNP009($listForThirdPage->items[0]);
+        $this->assertPaginatedListItemEqualsNP013($listForThirdPage->items[1]);
+        $this->assertPaginatedListItemEqualsNP004($listForThirdPage->items[2]);
+        $this->assertPaginatedListItemEqualsNP002($listForThirdPage->items[3]);
 
         // Fourth page
-        $listForFourthPage = $this->fetcher->findAll(4, null, $customPageSize);
+        $listForFourthPage = $this->fetcher->paginate(4, null, $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForFourthPage);
         $this->assertIsArray($listForFourthPage->items);
         $this->assertCount(1,              $listForFourthPage->items);
@@ -163,10 +171,10 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForFourthPage->term);
         $this->assertSame(13,              $listForFourthPage->totalCount);
         $this->assertSame(4,               $listForFourthPage->totalPages);
-        $this->assertListItemEqualsNP003($listForFourthPage->items[0]);
+        $this->assertPaginatedListItemEqualsNP003($listForFourthPage->items[0]);
 
         // Default page size
-        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->paginate(1);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForDefaultPageSize);
         $this->assertIsArray($listForDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $listForDefaultPageSize->items);
@@ -178,11 +186,11 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsNaturalPersonListByPageAndTerm(): void
+    public function testItReturnsNaturalPersonPaginatedListByPageAndTerm(): void
     {
         $customPageSize = 3;
 
-        $list = $this->fetcher->findAll(1, 'ИваноВИч', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'ИваноВИч', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -193,7 +201,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '12', $customPageSize);
+        $list = $this->fetcher->paginate(1, '12', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -203,7 +211,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('12',            $list->term);
         $this->assertSame(8,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '12', $customPageSize);
+        $list = $this->fetcher->paginate(2, '12', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -213,7 +221,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('12',            $list->term);
         $this->assertSame(8,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(3, '12', $customPageSize);
+        $list = $this->fetcher->paginate(3, '12', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -224,7 +232,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(8,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '13', $customPageSize);
+        $list = $this->fetcher->paginate(1, '13', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -235,7 +243,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'Новосиб', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'Новосиб', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -246,7 +254,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'ноВ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'ноВ', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -256,7 +264,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('ноВ',           $list->term);
         $this->assertSame(8,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, 'ноВ', $customPageSize);
+        $list = $this->fetcher->paginate(2, 'ноВ', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -266,7 +274,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('ноВ',           $list->term);
         $this->assertSame(8,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(3, 'ноВ', $customPageSize);
+        $list = $this->fetcher->paginate(3, 'ноВ', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -277,7 +285,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(8,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'ленИН', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'ленИН', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -288,7 +296,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'GMail.com', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'GMail.com', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -299,7 +307,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '12964', $customPageSize);
+        $list = $this->fetcher->paginate(1, '12964', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -310,7 +318,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'v-мЮ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'v-мЮ', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -321,7 +329,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '03', $customPageSize);
+        $list = $this->fetcher->paginate(1, '03', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -331,7 +339,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('03',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '03', $customPageSize);
+        $list = $this->fetcher->paginate(2, '03', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -342,7 +350,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '69', $customPageSize);
+        $list = $this->fetcher->paginate(1, '69', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -353,7 +361,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '42', $customPageSize);
+        $list = $this->fetcher->paginate(1, '42', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -364,7 +372,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '82', $customPageSize);
+        $list = $this->fetcher->paginate(1, '82', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -375,7 +383,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '.200', $customPageSize);
+        $list = $this->fetcher->paginate(1, '.200', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -385,7 +393,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('.200',          $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '.200', $customPageSize);
+        $list = $this->fetcher->paginate(2, '.200', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -395,7 +403,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('.200',          $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
-        $list = $this->fetcher->findAll(3, '.200', $customPageSize);
+        $list = $this->fetcher->paginate(3, '.200', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -406,7 +414,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(3,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '24.09.1915', $customPageSize);
+        $list = $this->fetcher->paginate(1, '24.09.1915', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -417,7 +425,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '12.02.2001', $customPageSize);
+        $list = $this->fetcher->paginate(1, '12.02.2001', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -428,7 +436,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'онК', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'онК', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -439,7 +447,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '532515', $customPageSize);
+        $list = $this->fetcher->paginate(1, '532515', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -450,7 +458,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '23.03.2011', $customPageSize);
+        $list = $this->fetcher->paginate(1, '23.03.2011', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -461,7 +469,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '12964', $customPageSize);
+        $list = $this->fetcher->paginate(1, '12964', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -472,7 +480,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '03.12.2021', $customPageSize);
+        $list = $this->fetcher->paginate(1, '03.12.2021', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -483,7 +491,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '1234', $customPageSize);
+        $list = $this->fetcher->paginate(1, '1234', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -494,7 +502,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '162354', $customPageSize);
+        $list = $this->fetcher->paginate(1, '162354', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -505,7 +513,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '20.10.1981', $customPageSize);
+        $list = $this->fetcher->paginate(1, '20.10.1981', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -516,7 +524,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '540-', $customPageSize);
+        $list = $this->fetcher->paginate(1, '540-', $customPageSize);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $list->items);
@@ -551,7 +559,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         ]);
     }
 
-    private function assertListItemEqualsNP001(NaturalPersonPaginatedListItem $listItem): void
+    private function assertPaginatedListItemEqualsNP001(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP001',                   $listItem->id);
         $this->assertSame('Егоров Абрам Даниилович', $listItem->fullName);
@@ -575,7 +583,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('03.12.2021',              $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP002(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP001(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP001',                   $listItem->id);
+        $this->assertSame('Егоров Абрам Даниилович', $listItem->fullName);
+        $this->assertSame(null,                      $listItem->bornAt);
+        $this->assertSame('01.12.2021',              $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP002(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP002',                                 $listItem->id);
         $this->assertSame('Устинов Арсений Максович',              $listItem->fullName);
@@ -599,7 +615,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                    $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP003(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP002(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP002',                    $listItem->id);
+        $this->assertSame('Устинов Арсений Максович', $listItem->fullName);
+        $this->assertSame('30.12.1918',               $listItem->bornAt);
+        $this->assertSame('12.02.2001',               $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP003(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP003',                             $listItem->id);
         $this->assertSame('Шилов Александр Михаилович',        $listItem->fullName);
@@ -623,7 +647,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP004(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP003(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP003',                      $listItem->id);
+        $this->assertSame('Шилов Александр Михаилович', $listItem->fullName);
+        $this->assertSame('20.05.1969',                 $listItem->bornAt);
+        $this->assertSame('13.05.2012',                 $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP004(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP004',                                                              $listItem->id);
         $this->assertSame('Соколов Герман Маркович',                                            $listItem->fullName);
@@ -647,7 +679,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                                                 $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP005(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP004(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP004',                   $listItem->id);
+        $this->assertSame('Соколов Герман Маркович', $listItem->fullName);
+        $this->assertSame(null,                      $listItem->bornAt);
+        $this->assertSame('26.01.2010',              $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP005(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP005',                                     $listItem->id);
         $this->assertSame('Жданова Инга Григорьевна',                  $listItem->fullName);
@@ -671,7 +711,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                        $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP006(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP005(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP005',                    $listItem->id);
+        $this->assertSame('Жданова Инга Григорьевна', $listItem->fullName);
+        $this->assertSame('12.02.1980',               $listItem->bornAt);
+        $this->assertSame('10.03.2022',               $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP006(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP006',                       $listItem->id);
         $this->assertSame('Гришина Устинья Ярославовна', $listItem->fullName);
@@ -695,7 +743,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP007(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP006(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP006',                       $listItem->id);
+        $this->assertSame('Гришина Устинья Ярославовна', $listItem->fullName);
+        $this->assertSame(null,                          $listItem->bornAt);
+        $this->assertSame('03.12.2021',                  $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP007(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP007',                            $listItem->id);
         $this->assertSame('Громов Никифор Рудольфович',       $listItem->fullName);
@@ -719,7 +775,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                               $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP008(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP007(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP007',                      $listItem->id);
+        $this->assertSame('Громов Никифор Рудольфович', $listItem->fullName);
+        $this->assertSame('24.09.1915',                 $listItem->bornAt);
+        $this->assertSame(null,                         $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP008(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP008',                                  $listItem->id);
         $this->assertSame('Беляев Мечеслав Федорович',              $listItem->fullName);
@@ -743,7 +807,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                     $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP009(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP008(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP008',                     $listItem->id);
+        $this->assertSame('Беляев Мечеслав Федорович', $listItem->fullName);
+        $this->assertSame(null,                        $listItem->bornAt);
+        $this->assertSame(null,                        $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP009(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP009',                       $listItem->id);
         $this->assertSame('Никонов Родион Митрофанович', $listItem->fullName);
@@ -767,7 +839,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP010(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP009(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP009',                       $listItem->id);
+        $this->assertSame('Никонов Родион Митрофанович', $listItem->fullName);
+        $this->assertSame(null,                          $listItem->bornAt);
+        $this->assertSame('26.05.1980',                  $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP010(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP010',                $listItem->id);
         $this->assertSame('Иванов Иван Иванович', $listItem->fullName);
@@ -791,7 +871,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP011(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP010(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP010',                $listItem->id);
+        $this->assertSame('Иванов Иван Иванович', $listItem->fullName);
+        $this->assertSame('04.11.1930',           $listItem->bornAt);
+        $this->assertSame('22.11.2002',           $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP011(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP011',                $listItem->id);
         $this->assertSame('Иванов Иван Иванович', $listItem->fullName);
@@ -815,7 +903,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP012(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP011(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP011',                $listItem->id);
+        $this->assertSame('Иванов Иван Иванович', $listItem->fullName);
+        $this->assertSame('12.04.1925',           $listItem->bornAt);
+        $this->assertSame('11.05.2004',           $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP012(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP012',                $listItem->id);
         $this->assertSame('Иванов Иван Иванович', $listItem->fullName);
@@ -839,7 +935,15 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
     }
 
-    private function assertListItemEqualsNP013(NaturalPersonPaginatedListItem $listItem): void
+    private function assertSimpleListItemEqualsNP012(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP012',                $listItem->id);
+        $this->assertSame('Иванов Иван Иванович', $listItem->fullName);
+        $this->assertSame('12.04.1925',           $listItem->bornAt);
+        $this->assertSame('29.10.2005',           $listItem->diedAt);
+    }
+
+    private function assertPaginatedListItemEqualsNP013(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP013',                $listItem->id);
         $this->assertSame('Петров Пётр Петрович', $listItem->fullName);
@@ -861,6 +965,14 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $listItem->deathCertificateIssuedAt);
         $this->assertSame(null,                   $listItem->cremationCertificateNumber);
         $this->assertSame(null,                   $listItem->cremationCertificateIssuedAt);
+    }
+
+    private function assertSimpleListItemEqualsNP013(NaturalPersonSimpleListItem $listItem): void
+    {
+        $this->assertSame('NP013',                $listItem->id);
+        $this->assertSame('Петров Пётр Петрович', $listItem->fullName);
+        $this->assertSame(null,                   $listItem->bornAt);
+        $this->assertSame(null,                   $listItem->diedAt);
     }
 
     private function testItReturnsNaturalPersonViewForNP001(): void

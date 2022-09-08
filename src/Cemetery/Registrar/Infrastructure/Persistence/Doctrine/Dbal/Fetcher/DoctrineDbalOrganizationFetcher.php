@@ -15,6 +15,20 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
  */
 class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
 {
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
+    {
+        $sql  = $this->buildPaginateSql($page, $term, $pageSize);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
+        $result = $stmt->executeQuery();
+
+        $paginatedListData = $result->fetchAllAssociative();
+        $totalCount        = $this->doCountTotal($term) ;
+        $totalPages        = (int) \ceil($totalCount / $pageSize);
+
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
     public function findViewById(string $id): mixed
     {
         // Always returns null because there is no such entity as an organization.
@@ -25,20 +39,6 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
     {
         // Always returns false because there is no such entity as an organization.
         return false;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
-    {
-        $sql  = $this->buildFindAllSql($page, $term, $pageSize);
-        $stmt = $this->connection->prepare($sql);
-        $this->bindTermValue($stmt, $term);
-        $result = $stmt->executeQuery();
-
-        $listData   = $result->fetchAllAssociative();
-        $totalCount = $this->doCountTotal($term) ;
-        $totalPages = (int) \ceil($totalCount / $pageSize);
-
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function countTotal(): int
@@ -63,9 +63,9 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         return $this->appendAndWhereLikeTermSql($sql, $term);
     }
 
-    private function buildFindAllSql(int $page, ?string $term, int $pageSize): string
+    private function buildPaginateSql(int $page, ?string $term, int $pageSize): string
     {
-        $sql = \sprintf(<<<FIND_ALL_SQL
+        $sql = \sprintf(<<<PAGINATE_SQL
 SELECT id,
        typeShortcut,
        typeLabel,
@@ -89,7 +89,7 @@ SELECT id,
        website
 FROM (%s) AS unionTable
 WHERE removedAt IS NULL
-FIND_ALL_SQL
+PAGINATE_SQL
             ,
             $this->buildUnionSql()
         );
@@ -206,41 +206,41 @@ LIKE_TERM_SQL;
         return $sql . \sprintf(' LIMIT %d OFFSET %d', $pageSize, ($page - 1) * $pageSize);
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): OrganizationList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new OrganizationListItem(
-                $listItemData['id'],
-                $listItemData['typeShortcut'],
-                $listItemData['typeLabel'],
-                $listItemData['name'],
-                $listItemData['inn'],
-                $listItemData['kpp'],
-                $listItemData['ogrn'],
-                $listItemData['okpo'],
-                $listItemData['okved'],
-                $listItemData['address1'],
-                $listItemData['address2'],
-                $listItemData['bankDetailsBankName'],
-                $listItemData['bankDetailsBik'],
-                $listItemData['bankDetailsCorrespondentAccount'],
-                $listItemData['bankDetailsCurrentAccount'],
-                $listItemData['phone'],
-                $listItemData['phoneAdditional'],
-                $listItemData['fax'],
-                $listItemData['generalDirector'],
-                $listItemData['email'],
-                $listItemData['website'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new OrganizationListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['typeShortcut'],
+                $paginatedListItemData['typeLabel'],
+                $paginatedListItemData['name'],
+                $paginatedListItemData['inn'],
+                $paginatedListItemData['kpp'],
+                $paginatedListItemData['ogrn'],
+                $paginatedListItemData['okpo'],
+                $paginatedListItemData['okved'],
+                $paginatedListItemData['address1'],
+                $paginatedListItemData['address2'],
+                $paginatedListItemData['bankDetailsBankName'],
+                $paginatedListItemData['bankDetailsBik'],
+                $paginatedListItemData['bankDetailsCorrespondentAccount'],
+                $paginatedListItemData['bankDetailsCurrentAccount'],
+                $paginatedListItemData['phone'],
+                $paginatedListItemData['phoneAdditional'],
+                $paginatedListItemData['fax'],
+                $paginatedListItemData['generalDirector'],
+                $paginatedListItemData['email'],
+                $paginatedListItemData['website'],
             );
         }
 
-        return new OrganizationList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new OrganizationList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

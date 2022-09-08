@@ -17,14 +17,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
 {
     protected string $tableName = 'memorial_tree';
 
-    public function findViewById(string $id): ?MemorialTreeView
-    {
-        $viewData = $this->queryViewData($id);
-
-        return $viewData ? $this->hydrateView($viewData) : null;
-    }
-
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): MemorialTreeList
+    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): MemorialTreeList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -42,13 +35,20 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listData = $queryBuilder
+        $paginatedListData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydrateList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    public function findViewById(string $id): ?MemorialTreeView
+    {
+        $viewData = $this->queryViewData($id);
+
+        return $viewData ? $this->hydrateView($viewData) : null;
     }
 
     public function countTotal(): int
@@ -135,24 +135,24 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         );
     }
 
-    private function hydrateList(
-        array   $listData,
+    private function hydratePaginatedList(
+        array   $paginatedListData,
         int     $page,
         int     $pageSize,
         ?string $term,
         int     $totalCount,
         int     $totalPages,
     ): MemorialTreeList {
-        $listItems = [];
-        foreach ($listData as $listItemData) {
-            $listItems[] = new MemorialTreeListItem(
-                $listItemData['id'],
-                $listItemData['treeNumber'],
-                $listItemData['personInChargeId'],
-                $listItemData['personInChargeFullName'],
+        $items = [];
+        foreach ($paginatedListData as $paginatedListItemData) {
+            $items[] = new MemorialTreeListItem(
+                $paginatedListItemData['id'],
+                $paginatedListItemData['treeNumber'],
+                $paginatedListItemData['personInChargeId'],
+                $paginatedListItemData['personInChargeFullName'],
             );
         }
 
-        return new MemorialTreeList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new MemorialTreeList($items, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

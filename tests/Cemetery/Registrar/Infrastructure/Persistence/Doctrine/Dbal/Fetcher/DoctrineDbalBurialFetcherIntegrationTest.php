@@ -85,12 +85,12 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertFalse($this->fetcher->doesExistById($removedBurialId));
     }
 
-    public function testItReturnsBurialListByPage(): void
+    public function testItReturnsBurialPaginatedListByPage(): void
     {
         $customPageSize = 4;
 
         // First page
-        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->paginate(1, null, $customPageSize);
         $this->assertInstanceOf(BurialList::class, $listForFirstPage);
         $this->assertIsArray($listForFirstPage->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $listForFirstPage->items);
@@ -100,13 +100,13 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(7,               $listForFirstPage->totalCount);
         $this->assertSame(2,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsB007($listForFirstPage->items[0]);  // Items are ordered by burial code
-        $this->assertListItemEqualsB001($listForFirstPage->items[1]);
-        $this->assertListItemEqualsB002($listForFirstPage->items[2]);
-        $this->assertListItemEqualsB003($listForFirstPage->items[3]);
+        $this->assertPaginatedListItemEqualsB007($listForFirstPage->items[0]);  // Items are ordered by burial code
+        $this->assertPaginatedListItemEqualsB001($listForFirstPage->items[1]);
+        $this->assertPaginatedListItemEqualsB002($listForFirstPage->items[2]);
+        $this->assertPaginatedListItemEqualsB003($listForFirstPage->items[3]);
 
         // Second page
-        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->paginate(2, null, $customPageSize);
         $this->assertInstanceOf(BurialList::class, $listForSecondPage);
         $this->assertIsArray($listForSecondPage->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $listForSecondPage->items);
@@ -116,12 +116,12 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(7,               $listForSecondPage->totalCount);
         $this->assertSame(2,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsB005($listForSecondPage->items[0]);
-        $this->assertListItemEqualsB006($listForSecondPage->items[1]);
-        $this->assertListItemEqualsB004($listForSecondPage->items[2]);
+        $this->assertPaginatedListItemEqualsB005($listForSecondPage->items[0]);
+        $this->assertPaginatedListItemEqualsB006($listForSecondPage->items[1]);
+        $this->assertPaginatedListItemEqualsB004($listForSecondPage->items[2]);
 
         // Third page
-        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
+        $listForThirdPage = $this->fetcher->paginate(3, null, $customPageSize);
         $this->assertInstanceOf(BurialList::class, $listForThirdPage);
         $this->assertIsArray($listForThirdPage->items);
         $this->assertCount(0,              $listForThirdPage->items);
@@ -132,7 +132,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(2,               $listForThirdPage->totalPages);
 
         // Default page size
-        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->paginate(1);
         $this->assertInstanceOf(BurialList::class, $listForDefaultPageSize);
         $this->assertIsArray($listForDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $listForDefaultPageSize->items);
@@ -144,11 +144,11 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsBurialListByPageAndTerm(): void
+    public function testItReturnsBurialPaginatedListByPageAndTerm(): void
     {
         $customPageSize = 4;
 
-        $list = $this->fetcher->findAll(1, 'Ждан', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'Ждан', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -159,7 +159,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'НовоС', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'НовоС', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -170,7 +170,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '11', $customPageSize);
+        $list = $this->fetcher->paginate(1, '11', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -180,7 +180,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame('11',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '11', $customPageSize);
+        $list = $this->fetcher->paginate(2, '11', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -191,7 +191,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '42', $customPageSize);
+        $list = $this->fetcher->paginate(1, '42', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -202,7 +202,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '12', $customPageSize);
+        $list = $this->fetcher->paginate(1, '12', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -212,7 +212,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame('12',            $list->term);
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '12', $customPageSize);
+        $list = $this->fetcher->paginate(2, '12', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -223,7 +223,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '69', $customPageSize);
+        $list = $this->fetcher->paginate(1, '69', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -234,7 +234,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '1100', $customPageSize);
+        $list = $this->fetcher->paginate(1, '1100', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -245,7 +245,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'овИЧ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'овИЧ', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -255,7 +255,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame('овИЧ',          $list->term);
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, 'овИЧ', $customPageSize);
+        $list = $this->fetcher->paginate(2, 'овИЧ', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -266,7 +266,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(6,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '30.12.1918', $customPageSize);
+        $list = $this->fetcher->paginate(1, '30.12.1918', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -277,7 +277,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '01.12.2021', $customPageSize);
+        $list = $this->fetcher->paginate(1, '01.12.2021', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -288,7 +288,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '28.01.2010 12:55', $customPageSize);
+        $list = $this->fetcher->paginate(1, '28.01.2010 12:55', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -299,7 +299,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(1,                  $list->totalCount);
         $this->assertSame(1,                  $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '147-22', $customPageSize);
+        $list = $this->fetcher->paginate(1, '147-22', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -310,7 +310,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '002', $customPageSize);
+        $list = $this->fetcher->paginate(1, '002', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -321,7 +321,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(3,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'заВОД', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'заВОД', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -332,7 +332,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '11', $customPageSize);
+        $list = $this->fetcher->paginate(1, '11', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -342,7 +342,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame('11',            $list->term);
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '11', $customPageSize);
+        $list = $this->fetcher->paginate(2, '11', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -353,7 +353,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(7,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'ВОИн', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'ВОИн', $customPageSize);
         $this->assertInstanceOf(BurialList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(BurialListItem::class, $list->items);
@@ -396,7 +396,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         ]);
     }
 
-    private function assertListItemEqualsB001(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB001(BurialListItem $listItem): void
     {
         $this->assertSame('B001',                           $listItem->id);
         $this->assertSame('11',                             $listItem->code);
@@ -427,7 +427,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                             $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertListItemEqualsB002(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB002(BurialListItem $listItem): void
     {
         $this->assertSame('B002',                        $listItem->id);
         $this->assertSame('11002',                       $listItem->code);
@@ -458,7 +458,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                          $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertListItemEqualsB003(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB003(BurialListItem $listItem): void
     {
         $this->assertSame('B003',                        $listItem->id);
         $this->assertSame('11003',                       $listItem->code);
@@ -489,7 +489,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                          $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertListItemEqualsB004(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB004(BurialListItem $listItem): void
     {
         $this->assertSame('B004',                             $listItem->id);
         $this->assertSame('234117890',                        $listItem->code);
@@ -520,7 +520,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                               $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertListItemEqualsB005(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB005(BurialListItem $listItem): void
     {
         $this->assertSame('B005',                         $listItem->id);
         $this->assertSame('11005',                        $listItem->code);
@@ -551,7 +551,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                           $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertListItemEqualsB006(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB006(BurialListItem $listItem): void
     {
         $this->assertSame('B006',                             $listItem->id);
         $this->assertSame('11006',                            $listItem->code);
@@ -582,7 +582,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame(null,                               $listItem->customerJuristicPersonPhone);
     }
 
-    private function assertListItemEqualsB007(BurialListItem $listItem): void
+    private function assertPaginatedListItemEqualsB007(BurialListItem $listItem): void
     {
         $this->assertSame('B007',                        $listItem->id);
         $this->assertSame('01',                          $listItem->code);

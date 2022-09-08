@@ -88,18 +88,18 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
 //        $this->assertSame(null,                    $list->term);
 //        $this->assertSame(4,                       $list->totalCount);
 //        $this->assertSame(null,                    $list->totalPages);
-//        $this->assertListItemEqualsCB001($list->items[0]);  // Items are ordered by name
-//        $this->assertListItemEqualsCB004($list->items[1]);
-//        $this->assertListItemEqualsCB002($list->items[2]);
-//        $this->assertListItemEqualsCB003($list->items[3]);
+//        $this->assertPaginatedListItemEqualsCB001($list->items[0]);  // Items are ordered by name
+//        $this->assertPaginatedListItemEqualsCB004($list->items[1]);
+//        $this->assertPaginatedListItemEqualsCB002($list->items[2]);
+//        $this->assertPaginatedListItemEqualsCB003($list->items[3]);
     }
 
-    public function testItReturnsCemeteryBlockListByPage(): void
+    public function testItReturnsCemeteryBlockPaginatedListByPage(): void
     {
         $customPageSize = 3;
 
         // First page
-        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->paginate(1, null, $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $listForFirstPage);
         $this->assertIsArray($listForFirstPage->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForFirstPage->items);
@@ -109,12 +109,12 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(4,               $listForFirstPage->totalCount);
         $this->assertSame(2,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsCB001($listForFirstPage->items[0]);  // Items are ordered by name
-        $this->assertListItemEqualsCB004($listForFirstPage->items[1]);
-        $this->assertListItemEqualsCB002($listForFirstPage->items[2]);
+        $this->assertPaginatedListItemEqualsCB001($listForFirstPage->items[0]);  // Items are ordered by name
+        $this->assertPaginatedListItemEqualsCB004($listForFirstPage->items[1]);
+        $this->assertPaginatedListItemEqualsCB002($listForFirstPage->items[2]);
 
         // Second page
-        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->paginate(2, null, $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $listForSecondPage);
         $this->assertIsArray($listForSecondPage->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForSecondPage->items);
@@ -124,10 +124,10 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(4,               $listForSecondPage->totalCount);
         $this->assertSame(2,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsCB003($listForSecondPage->items[0]);
+        $this->assertPaginatedListItemEqualsCB003($listForSecondPage->items[0]);
 
         // Third page
-        $listForThirdPage = $this->fetcher->findAll(3, null, $customPageSize);
+        $listForThirdPage = $this->fetcher->paginate(3, null, $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $listForThirdPage);
         $this->assertIsArray($listForThirdPage->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForThirdPage->items);
@@ -139,7 +139,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $listForThirdPage->totalPages);
 
         // Default page size
-        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->paginate(1);
         $this->assertInstanceOf(CemeteryBlockList::class, $listForDefaultPageSize);
         $this->assertIsArray($listForDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $listForDefaultPageSize->items);
@@ -151,11 +151,11 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsCemeteryBlockListByPageAndTerm(): void
+    public function testItReturnsCemeteryBlockPaginatedListByPageAndTerm(): void
     {
         $customPageSize = 3;
 
-        $list = $this->fetcher->findAll(1, 'иЙ', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'иЙ', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
@@ -165,7 +165,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('иЙ',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, 'иЙ', $customPageSize);
+        $list = $this->fetcher->paginate(2, 'иЙ', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
@@ -175,7 +175,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('иЙ',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(3, 'иЙ', $customPageSize);
+        $list = $this->fetcher->paginate(3, 'иЙ', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
@@ -186,7 +186,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'об', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'об', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
@@ -197,7 +197,7 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(2,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'МУСУЛЬман', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'МУСУЛЬман', $customPageSize);
         $this->assertInstanceOf(CemeteryBlockList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(CemeteryBlockListItem::class, $list->items);
@@ -231,25 +231,25 @@ class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetche
         ]);
     }
 
-    private function assertListItemEqualsCB001(CemeteryBlockListItem $listItem): void
+    private function assertPaginatedListItemEqualsCB001(CemeteryBlockListItem $listItem): void
     {
         $this->assertSame('CB001',    $listItem->id);
         $this->assertSame('воинский', $listItem->name);
     }
 
-    private function assertListItemEqualsCB002(CemeteryBlockListItem $listItem): void
+    private function assertPaginatedListItemEqualsCB002(CemeteryBlockListItem $listItem): void
     {
         $this->assertSame('CB002',   $listItem->id);
         $this->assertSame('общий А', $listItem->name);
     }
 
-    private function assertListItemEqualsCB003(CemeteryBlockListItem $listItem): void
+    private function assertPaginatedListItemEqualsCB003(CemeteryBlockListItem $listItem): void
     {
         $this->assertSame('CB003',   $listItem->id);
         $this->assertSame('общий Б', $listItem->name);
     }
 
-    private function assertListItemEqualsCB004(CemeteryBlockListItem $listItem): void
+    private function assertPaginatedListItemEqualsCB004(CemeteryBlockListItem $listItem): void
     {
         $this->assertSame('CB004',         $listItem->id);
         $this->assertSame('мусульманский', $listItem->name);

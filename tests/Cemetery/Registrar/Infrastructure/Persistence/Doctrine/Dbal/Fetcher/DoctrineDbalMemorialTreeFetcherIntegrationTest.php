@@ -76,12 +76,12 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertFalse($this->fetcher->doesExistByTreeNumber($removedMemorialTreeNumber));
     }
 
-    public function testItReturnsMemorialTreeListByPage(): void
+    public function testItReturnsMemorialTreePaginatedListByPage(): void
     {
         $customPageSize = 3;
 
         // First page
-        $listForFirstPage = $this->fetcher->findAll(1, null, $customPageSize);
+        $listForFirstPage = $this->fetcher->paginate(1, null, $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $listForFirstPage);
         $this->assertIsArray($listForFirstPage->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $listForFirstPage->items);
@@ -91,12 +91,12 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,            $listForFirstPage->term);
         $this->assertSame(4,               $listForFirstPage->totalCount);
         $this->assertSame(2,               $listForFirstPage->totalPages);
-        $this->assertListItemEqualsMT001($listForFirstPage->items[0]);  // Items are ordered by memorial tree number
-        $this->assertListItemEqualsMT002($listForFirstPage->items[1]);
-        $this->assertListItemEqualsMT004($listForFirstPage->items[2]);
+        $this->assertPaginatedListItemEqualsMT001($listForFirstPage->items[0]);  // Items are ordered by memorial tree number
+        $this->assertPaginatedListItemEqualsMT002($listForFirstPage->items[1]);
+        $this->assertPaginatedListItemEqualsMT004($listForFirstPage->items[2]);
 
         // Second page
-        $listForSecondPage = $this->fetcher->findAll(2, null, $customPageSize);
+        $listForSecondPage = $this->fetcher->paginate(2, null, $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $listForSecondPage);
         $this->assertIsArray($listForSecondPage->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $listForSecondPage->items);
@@ -106,10 +106,10 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,            $listForSecondPage->term);
         $this->assertSame(4,               $listForSecondPage->totalCount);
         $this->assertSame(2,               $listForSecondPage->totalPages);
-        $this->assertListItemEqualsMT003($listForSecondPage->items[0]);
+        $this->assertPaginatedListItemEqualsMT003($listForSecondPage->items[0]);
 
         // Default page size
-        $listForDefaultPageSize = $this->fetcher->findAll(1);
+        $listForDefaultPageSize = $this->fetcher->paginate(1);
         $this->assertInstanceOf(MemorialTreeList::class, $listForDefaultPageSize);
         $this->assertIsArray($listForDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $listForDefaultPageSize->items);
@@ -121,11 +121,11 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,                       $listForDefaultPageSize->totalPages);
     }
 
-    public function testItReturnsMemorialTreeListByPageAndTerm(): void
+    public function testItReturnsMemorialTreePaginatedListByPageAndTerm(): void
     {
         $customPageSize = 3;
 
-        $list = $this->fetcher->findAll(1, '00', $customPageSize);
+        $list = $this->fetcher->paginate(1, '00', $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $list->items);
@@ -135,7 +135,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('00',            $list->term);
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
-        $list = $this->fetcher->findAll(2, '00', $customPageSize);
+        $list = $this->fetcher->paginate(2, '00', $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $list->items);
@@ -146,7 +146,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(4,               $list->totalCount);
         $this->assertSame(2,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '4', $customPageSize);
+        $list = $this->fetcher->paginate(1, '4', $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $list->items);
@@ -157,7 +157,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, '002', $customPageSize);
+        $list = $this->fetcher->paginate(1, '002', $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $list->items);
@@ -168,7 +168,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(1,               $list->totalCount);
         $this->assertSame(1,               $list->totalPages);
 
-        $list = $this->fetcher->findAll(1, 'руДО', $customPageSize);
+        $list = $this->fetcher->paginate(1, 'руДО', $customPageSize);
         $this->assertInstanceOf(MemorialTreeList::class, $list);
         $this->assertIsArray($list->items);
         $this->assertContainsOnlyInstancesOf(MemorialTreeListItem::class, $list->items);
@@ -203,7 +203,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         ]);
     }
 
-    private function assertListItemEqualsMT001(MemorialTreeListItem $listItem): void
+    private function assertPaginatedListItemEqualsMT001(MemorialTreeListItem $listItem): void
     {
         $this->assertSame('MT001', $listItem->id);
         $this->assertSame('001',   $listItem->treeNumber);
@@ -211,7 +211,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,    $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsMT002(MemorialTreeListItem $listItem): void
+    private function assertPaginatedListItemEqualsMT002(MemorialTreeListItem $listItem): void
     {
         $this->assertSame('MT002',                      $listItem->id);
         $this->assertSame('002',                        $listItem->treeNumber);
@@ -219,7 +219,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame('Громов Никифор Рудольфович', $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsMT003(MemorialTreeListItem $listItem): void
+    private function assertPaginatedListItemEqualsMT003(MemorialTreeListItem $listItem): void
     {
         $this->assertSame('MT003', $listItem->id);
         $this->assertSame('004',   $listItem->treeNumber);
@@ -227,7 +227,7 @@ class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcher
         $this->assertSame(null,    $listItem->personInChargeFullName);
     }
 
-    private function assertListItemEqualsMT004(MemorialTreeListItem $listItem): void
+    private function assertPaginatedListItemEqualsMT004(MemorialTreeListItem $listItem): void
     {
         $this->assertSame('MT004', $listItem->id);
         $this->assertSame('003',   $listItem->treeNumber);
