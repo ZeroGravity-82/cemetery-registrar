@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\NaturalPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\NaturalPerson\Query\ListNaturalPersons\ListNaturalPersonsRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Query\PaginateNaturalPersons\PaginateNaturalPersonsRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,21 +20,21 @@ class AdminNaturalPersonController extends Controller
         private readonly ApplicationRequestBus $appRequestBus,
     ) {}
 
-    #[Route('/admin/natural-person', name: 'admin_natural_person_list', methods: 'GET')]
-    public function list(Request $request): Response
+    #[Route('/admin/natural-person', name: 'admin_natural_person_paginated_list', methods: 'GET')]
+    public function paginate(Request $request): Response
     {
         $page          = $request->query->get('page');
         $pageSize      = $request->query->get('pageSize');
         $term          = $request->query->get('term');
-        $queryRequest  = new ListNaturalPersonsRequest($page, $pageSize, $term);
+        $queryRequest  = new PaginateNaturalPersonsRequest($page, $pageSize, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
-        $list       = $queryResponse->data->list;
-        $totalCount = $queryResponse->data->totalCount;
+        $paginatedList = $queryResponse->data->paginatedList;
+        $totalCount    = $queryResponse->data->totalCount;
 
-        return $this->render('admin/natural_person/list_natural_person.html.twig', [
-            'list'       => $list,
-            'totalCount' => $totalCount,
+        return $this->render('admin/natural_person/natural_person_paginated_list.html.twig', [
+            'paginatedList' => $paginatedList,
+            'totalCount'    => $totalCount,
         ]);
     }
 }

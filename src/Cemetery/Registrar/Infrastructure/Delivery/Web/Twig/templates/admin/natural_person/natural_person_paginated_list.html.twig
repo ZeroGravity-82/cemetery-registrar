@@ -8,7 +8,7 @@
   <div class="mb-2 mb-lg-2">
     <p class="pt-2 fs-5 fw-bold text-success">Физлица <span class="text-muted fw-normal fs-6">({{ totalCount }})</span></p>
 
-    {% include 'admin/natural_person/_toolbar_natural_person.html.twig' %}
+    {% include 'admin/natural_person/_natural_person_toolbar.html.twig' %}
 
     <div class="table-responsive">
       <table class="table table-sm table-hover caption-top" id="naturalPersonList">
@@ -29,15 +29,13 @@
           </tr>
         </thead>
         <tbody>
-          {% for listItem in list.items %}
-            {% include 'admin/natural_person/_list_item_natural_person.html.twig' %}
+          {% for listItem in paginatedList.items %}
+            {% include 'admin/natural_person/_natural_person_paginated_list_item.html.twig' %}
           {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
-
-{#  {% include 'admin/natural_person/_form_natural_person.html.twig' with {'context': 'NaturalPerson'} %}#}
 
 {% endblock %}
 

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonList;
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonListItem;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedList;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedListItem;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 
 /**
@@ -23,7 +23,7 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         return $viewData ? $this->hydrateView($viewData) : null;
     }
 
-    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonList
+    public function findAll(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonPaginatedList
     {
         $sql  = $this->buildFindAllSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);
@@ -233,10 +233,10 @@ LIKE_TERM_SQL;
         ?string $term,
         int     $totalCount,
         int     $totalPages,
-    ): NaturalPersonList {
+    ): NaturalPersonPaginatedList {
         $listItems = [];
         foreach ($listData as $listItemData) {
-            $listItems[] = new NaturalPersonListItem(
+            $listItems[] = new NaturalPersonPaginatedListItem(
                 $listItemData['id'],
                 $listItemData['fullName'],
                 $listItemData['address'],
@@ -264,6 +264,6 @@ LIKE_TERM_SQL;
             );
         }
 
-        return new NaturalPersonList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new NaturalPersonPaginatedList($listItems, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 }

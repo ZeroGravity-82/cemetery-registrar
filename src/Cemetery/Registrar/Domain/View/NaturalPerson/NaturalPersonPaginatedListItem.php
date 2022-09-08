@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\View\NaturalPerson;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonListItem
+class NaturalPersonPaginatedListItem
 {
     public function __construct(
         public string  $id,
