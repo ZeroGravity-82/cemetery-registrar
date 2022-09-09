@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\Funera
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies\ListFuneralCompaniesRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,7 +20,7 @@ class AdminFuneralCompanyController extends Controller
     ) {}
 
     #[Route('/admin/funeral-company', name: 'admin_funeral_company_list', methods: 'GET')]
-    public function list(): Response
+    public function list(): HttpResponse
     {
         $queryRequest  = new ListFuneralCompaniesRequest();
         $queryResponse = $this->appRequestBus->execute($queryRequest);

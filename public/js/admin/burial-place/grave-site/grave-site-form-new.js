@@ -7,6 +7,7 @@ const $graveSiteFormNewPositionInRowField     = $graveSiteFormNew.find(`input[id
 const $graveSiteFormNewSizeField              = $graveSiteFormNew.find(`input[id=size]`);
 const $graveSiteFormNewGeoPositionField       = $graveSiteFormNew.find(`input[id=geoPosition]`);
 const $graveSiteFormNewGeoPositionErrorField  = $graveSiteFormNew.find(`input[id=geoPositionError]`);
+const $graveSiteFormNewPersonInChargeField    = $graveSiteFormNew.find(`select[id=personInCharge]`);
 const $graveSiteFormNewCsrfTokenField         = $graveSiteFormNew.find(`input[id=token]`);
 const $graveSiteFormNewSaveAndCloseBtn        = $graveSiteFormNew.find(`.js-save-and-close`);
 const $graveSiteFormNewCloseBtn               = $graveSiteFormNew.find(`.js-close`);
@@ -27,6 +28,11 @@ function graveSiteFormNew_show() {
 // Autofocus
 $graveSiteFormNew.on(`shown.bs.modal`, (e) => {
   $(e.target).find(`#cemeteryBlockId`).focus();
+});
+
+// Selectize.js
+$graveSiteFormNewPersonInChargeField.selectize({
+  placeholder: `Введите ФИО ответственного...`,
 });
 
 $graveSiteFormNewSaveAndCloseBtn.on(`click`, () => {

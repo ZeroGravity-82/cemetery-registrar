@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\NaturalPerson\Query\PaginateNaturalPersons;
+namespace Cemetery\Registrar\Application\NaturalPerson\Query\ListAliveNaturalPersons;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
@@ -12,11 +12,11 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class PaginateNaturalPersonsService extends ApplicationService
+class ListAliveNaturalPersonsService extends ApplicationService
 {
     public function __construct(
-        private readonly NaturalPersonFetcher  $naturalPersonFetcher,
-        PaginateNaturalPersonsRequestValidator $requestValidator,
+        private readonly NaturalPersonFetcher   $naturalPersonFetcher,
+        ListAliveNaturalPersonsRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }
@@ -26,14 +26,13 @@ class PaginateNaturalPersonsService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new PaginateNaturalPersonsResponse(
-            $this->naturalPersonFetcher->paginate(1),
-            $this->naturalPersonFetcher->countTotal(),
+        return new ListAliveNaturalPersonsResponse(
+            $this->naturalPersonFetcher->findAlive(),
         );
     }
 
     protected function supportedRequestClassName(): string
     {
-        return PaginateNaturalPersonsRequest::class;
+        return ListAliveNaturalPersonsRequest::class;
     }
 }

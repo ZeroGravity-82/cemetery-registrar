@@ -9,8 +9,8 @@ use Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial\RegisterNewB
 use Cemetery\Registrar\Application\Burial\Query\ListBurials\ListBurialsRequest;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request as HttpRequest;
+use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -23,8 +23,8 @@ class BurialController extends Controller
         private readonly BurialFetcher         $burialFetcher,
     ) {}
 
-    #[Route('/burial', name: 'burial_list', methods: Request::METHOD_GET)]
-    public function list(): Response
+    #[Route('/burial', name: 'burial_list', methods: HttpRequest::METHOD_GET)]
+    public function list(): HttpResponse
     {
         $queryRequest       = new ListBurialsRequest();
         $queryResponse      = $this->appRequestBus->execute($queryRequest);
@@ -45,10 +45,10 @@ class BurialController extends Controller
         ]);
     }
 
-    #[Route('/burial/new', name: 'burial_new', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function new(Request $request): Response
+    #[Route('/burial/new', name: 'burial_new', methods: [HttpRequest::METHOD_GET, HttpRequest::METHOD_POST])]
+    public function new(HttpRequest $request): HttpResponse
     {
-        if ($request->isMethod(Request::METHOD_GET)) {
+        if ($request->isMethod(HttpRequest::METHOD_GET)) {
 //            $causeOfDeathViewList   = $this->causeOfDeathFetcher->findAll();
 //            $funeralCompanyViewList = $this->funeralCompanyFetcher->findAll();
             $response               = $this->render('burial/new.html.twig', [
@@ -56,7 +56,7 @@ class BurialController extends Controller
                 'funeralCompanyViewList' => [],
             ]);
         }
-        if ($request->isMethod(Request::METHOD_POST)) {
+        if ($request->isMethod(HttpRequest::METHOD_POST)) {
             $registerNewBurialRequest = new RegisterNewBurialRequest(...$this->getRequestArgs($request));
             $burialId                 = $this->appRequestBus->execute($registerNewBurialRequest)->id;
 
@@ -68,21 +68,21 @@ class BurialController extends Controller
         return $response;
     }
 
-    #[Route('/burial/edit/{id}', name: 'burial_edit', methods: [Request::METHOD_GET, Request::METHOD_POST])]
-    public function edit(Request $request, string $id): Response
+    #[Route('/burial/edit/{id}', name: 'burial_edit', methods: [HttpRequest::METHOD_GET, HttpRequest::METHOD_POST])]
+    public function edit(HttpRequest $request, string $id): HttpResponse
     {
-        if ($request->isMethod(Request::METHOD_GET)) {
+        if ($request->isMethod(HttpRequest::METHOD_GET)) {
             $burialView = $this->burialFetcher->findViewById($id);
             $response = $this->json($burialView);
         }
-        if ($request->isMethod(Request::METHOD_POST)) {
+        if ($request->isMethod(HttpRequest::METHOD_POST)) {
             // TODO
         }
 
         return $response;
     }
 
-    private function getRequestArgs(Request $request): array
+    private function getRequestArgs(HttpRequest $request): array
     {
         return [
             $this->getInputString($request, 'type'),

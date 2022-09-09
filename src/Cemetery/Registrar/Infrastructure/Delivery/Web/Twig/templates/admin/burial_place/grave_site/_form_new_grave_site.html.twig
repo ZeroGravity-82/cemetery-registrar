@@ -6,6 +6,7 @@
       {% include('admin/burial_place/grave_site/_form_grave_site_location.html.twig') %}
       {% include('admin/burial_place/grave_site/_form_grave_site_size.html.twig') %}
       {% include('admin/burial_place/grave_site/_form_grave_site_geo_position.html.twig') %}
+      {% include('admin/burial_place/grave_site/_form_grave_site_person_in_charge.html.twig') %}
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
     {% include '_form_buttons.html.twig' %}
