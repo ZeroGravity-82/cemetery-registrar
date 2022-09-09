@@ -58,6 +58,7 @@ class SmokeFunctionalTest extends WebTestCase
         yield ['/'];
         yield ['/burial'];
         yield ['/burial/edit/B001'];
+        yield ['/natural-person/list-alive'];
         yield ['/admin/dashboard'];
         yield ['/admin/natural-person'];
         yield ['/admin/organization'];
