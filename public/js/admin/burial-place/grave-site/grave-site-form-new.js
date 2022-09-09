@@ -30,9 +30,35 @@ $graveSiteFormNew.on(`shown.bs.modal`, (e) => {
   $(e.target).find(`#cemeteryBlockId`).focus();
 });
 
-// Selectize.js
+// Person in charge selector
 $graveSiteFormNewPersonInChargeField.selectize({
+  valueField: `id`,
+  labelField: `fullName`,
+  searchField: `fullName`,
   placeholder: `Введите ФИО ответственного...`,
+  load: (query, callback) => {
+    if (!query.length) return callback();
+    $.ajax({
+      dataType: `json`,
+      method: `GET`,
+      url: `http://localhost:8082/natural-person/list-alive`,
+    })
+    .done((res) => {
+      callback(res.data.simpleList.items.slice(0, 10));
+    })
+    .fail(() => {
+      callback();
+    })
+  },
+  render: {
+    option: (item, escape) =>
+`<div>
+   <span class="natural-person-name">${escape(item.fullName)}</span>&nbsp;
+   <span class="text-secondary fs-6">
+     ${item.bornAt ? `<span class="natural-person-born-at"><i class="bi-balloon"></i>${escape(item.bornAt)}</span>` : ``} 
+   </span>
+</div>`,
+  },
 });
 
 $graveSiteFormNewSaveAndCloseBtn.on(`click`, () => {
