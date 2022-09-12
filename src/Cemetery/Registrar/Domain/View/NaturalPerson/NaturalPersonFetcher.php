@@ -16,10 +16,10 @@ interface NaturalPersonFetcher extends Fetcher
     /**
      * Returns a list of all natural persons.
      */
-    public function findAll(): NaturalPersonSimpleList;
+    public function findAll(?string $term = null): NaturalPersonSimpleList;
 
     /**
      * Returns a list of alive natural persons.
      */
-    public function findAlive(): NaturalPersonSimpleList;
+    public function findAlive(?string $term = null): NaturalPersonSimpleList;
 }

@@ -58,27 +58,31 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         return $this->doCountTotal(null);
     }
 
-    public function findAll(): NaturalPersonSimpleList
+    public function findAll(?string $term = null): NaturalPersonSimpleList
     {
         $sql = $this->buildSelectSimpleSql();
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereFullNameLikeTermSql($sql, $term);
         $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
-        $stmt        = $this->connection->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
         $result      = $stmt->executeQuery();
         $listAllData = $result->fetchAllAssociative();
 
         return $this->hydrateListAll($listAllData);
     }
 
-    public function findAlive(): NaturalPersonSimpleList
+    public function findAlive(?string $term = null): NaturalPersonSimpleList
     {
         $sql = $this->buildSelectSimpleSql();
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
         $sql = $this->appendAndWhereDiedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereFullNameLikeTermSql($sql, $term);
         $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
-        $stmt        = $this->connection->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
+        $this->bindTermValue($stmt, $term);
         $result      = $stmt->executeQuery();
         $listAllData = $result->fetchAllAssociative();
 
@@ -209,6 +213,15 @@ SELECT_SIMPLE_SQL;
     OR LOWER(np.deceased_details->>"$.cremationCertificate.number")                     LIKE :term
     OR DATE_FORMAT(np.deceased_details->>"$.cremationCertificate.issuedAt", '%d.%m.%Y') LIKE :term)
 LIKE_TERM_SQL;
+        }
+
+        return $sql;
+    }
+
+    private function appendAndWhereFullNameLikeTermSql(string $sql, ?string $term): string
+    {
+        if ($this->isTermNotEmpty($term)) {
+            $sql .= ' AND np.full_name LIKE :term';
         }
 
         return $sql;
