@@ -24,7 +24,7 @@ class AdminNaturalPersonController extends Controller
     public function paginate(HttpRequest $request): HttpResponse
     {
         $page          = $request->query->getInt('page', 1);
-        $term          = $request->query->get('q');
+        $term          = $request->query->get('search');
         $queryRequest  = new PaginateNaturalPersonsRequest($page, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
