@@ -99,16 +99,29 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSimpleListItemEqualsNP003($listAll->items[12]);
     }
 
-    public function testItReturnsNaturalPersonListAllByTerm(): void
+    public function testItReturnsNaturalPersonListAllWhereFullNameStartsWithTerm(): void
     {
-        $listAll = $this->fetcher->findAll('ИваноВИч');
+        $listAll = $this->fetcher->findAll('ИваН');
         $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAll);
         $this->assertIsArray($listAll->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonSimpleListItem::class, $listAll->items);
         $this->assertCount(3, $listAll->items);
-        $this->assertSimpleListItemEqualsNP011($listAll->items[0]);  // Items are ordered by full name,
-        $this->assertSimpleListItemEqualsNP012($listAll->items[1]);  // then by date of birth,
-        $this->assertSimpleListItemEqualsNP010($listAll->items[2]);  // and finally by date of death.
+        $this->assertSimpleListItemEqualsNP011($listAll->items[0]);
+        $this->assertSimpleListItemEqualsNP012($listAll->items[1]);
+        $this->assertSimpleListItemEqualsNP010($listAll->items[2]);
+
+        $listAll = $this->fetcher->findAll('гР');
+        $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAll);
+        $this->assertIsArray($listAll->items);
+        $this->assertContainsOnlyInstancesOf(NaturalPersonSimpleListItem::class, $listAll->items);
+        $this->assertCount(2, $listAll->items);
+        $this->assertSimpleListItemEqualsNP006($listAll->items[0]);
+        $this->assertSimpleListItemEqualsNP007($listAll->items[1]);
+
+        $listAll = $this->fetcher->findAll('инГА');
+        $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAll);
+        $this->assertIsArray($listAll->items);
+        $this->assertCount(0, $listAll->items);
     }
 
     public function testItReturnsNaturalPersonListAlive(): void
@@ -118,20 +131,24 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertIsArray($listAlive->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonSimpleListItem::class, $listAlive->items);
         $this->assertCount(3, $listAlive->items);
-        $this->assertSimpleListItemEqualsNP008($listAlive->items[0]);  // Items are ordered by full name,
-        $this->assertSimpleListItemEqualsNP007($listAlive->items[1]);  // then by date of birth.
+        $this->assertSimpleListItemEqualsNP008($listAlive->items[0]);
+        $this->assertSimpleListItemEqualsNP007($listAlive->items[1]);
         $this->assertSimpleListItemEqualsNP013($listAlive->items[2]);
     }
 
-    public function testItReturnsNaturalPersonListAliveByTerm(): void
+    public function testItReturnsNaturalPersonListAliveWhereFullNameStartsWithTerm(): void
     {
         $listAlive = $this->fetcher->findAlive('РОВич');
         $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAlive);
         $this->assertIsArray($listAlive->items);
+        $this->assertCount(0, $listAlive->items);
+
+        $listAlive = $this->fetcher->findAlive('БЕЛ');
+        $this->assertInstanceOf(NaturalPersonSimpleList::class, $listAlive);
+        $this->assertIsArray($listAlive->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonSimpleListItem::class, $listAlive->items);
-        $this->assertCount(2, $listAlive->items);
-        $this->assertSimpleListItemEqualsNP008($listAlive->items[0]);  // Items are ordered by full name,
-        $this->assertSimpleListItemEqualsNP013($listAlive->items[1]);  // then by date of birth.
+        $this->assertCount(1, $listAlive->items);
+        $this->assertSimpleListItemEqualsNP008($listAlive->items[0]);
     }
 
     public function testItReturnsNaturalPersonPaginatedListByPage(): void
@@ -629,7 +646,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
     private function assertPaginatedListItemEqualsNP002(NaturalPersonPaginatedListItem $listItem): void
     {
         $this->assertSame('NP002',                                 $listItem->id);
-        $this->assertSame('Устинов Арсений Максович',              $listItem->fullName);
+        $this->assertSame('Устинов Иван Максович',                 $listItem->fullName);
         $this->assertSame(null,                                    $listItem->address);
         $this->assertSame(null,                                    $listItem->phone);
         $this->assertSame(null,                                    $listItem->email);
@@ -652,10 +669,10 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
 
     private function assertSimpleListItemEqualsNP002(NaturalPersonSimpleListItem $listItem): void
     {
-        $this->assertSame('NP002',                    $listItem->id);
-        $this->assertSame('Устинов Арсений Максович', $listItem->fullName);
-        $this->assertSame('30.12.1918',               $listItem->bornAt);
-        $this->assertSame('12.02.2001',               $listItem->diedAt);
+        $this->assertSame('NP002',                 $listItem->id);
+        $this->assertSame('Устинов Иван Максович', $listItem->fullName);
+        $this->assertSame('30.12.1918',            $listItem->bornAt);
+        $this->assertSame('12.02.2001',            $listItem->diedAt);
     }
 
     private function assertPaginatedListItemEqualsNP003(NaturalPersonPaginatedListItem $listItem): void
@@ -1043,7 +1060,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $view = $this->fetcher->findViewById('NP002');
         $this->assertInstanceOf(NaturalPersonView::class, $view);
         $this->assertSame('NP002',                                 $view->id);
-        $this->assertSame('Устинов Арсений Максович',              $view->fullName);
+        $this->assertSame('Устинов Иван Максович',                 $view->fullName);
         $this->assertSame(null,                                    $view->address);
         $this->assertSame(null,                                    $view->phone);
         $this->assertSame(null,                                    $view->email);

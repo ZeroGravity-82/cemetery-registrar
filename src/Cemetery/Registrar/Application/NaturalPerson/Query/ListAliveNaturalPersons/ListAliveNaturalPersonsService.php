@@ -26,8 +26,9 @@ class ListAliveNaturalPersonsService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
+        /** @var ListAliveNaturalPersonsRequest $request */
         return new ListAliveNaturalPersonsResponse(
-            $this->naturalPersonFetcher->findAlive(),
+            $this->naturalPersonFetcher->findAlive($request->term),
         );
     }
 

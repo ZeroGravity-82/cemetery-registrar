@@ -32,20 +32,34 @@ abstract class DoctrineDbalFetcher extends Fetcher
             ->fetchFirstColumn()[0];
     }
 
-    protected function setTermParameter(QueryBuilder $queryBuilder, ?string $term): void
-    {
+    protected function setTermParameter(
+        QueryBuilder $queryBuilder,
+        ?string      $term,
+        bool         $onlyStartingWithTerm = false,
+        bool         $onlyEndingWithTerm   = false,
+    ): void {
         if ($this->isTermNotEmpty($term)) {
             $term = \mb_strtolower($term);
             $queryBuilder
-                ->setParameter('term', "%$term%");
+                ->setParameter(
+                    'term',
+                    ($onlyStartingWithTerm ? '' : '%') . $term . ($onlyEndingWithTerm ? '' : '%')
+                );
         }
     }
 
-    protected function bindTermValue(Statement $stmt, ?string $term): void
-    {
+    protected function bindTermValue(
+        Statement $stmt,
+        ?string   $term,
+        bool      $onlyStartingWithTerm = false,
+        bool      $onlyEndingWithTerm   = false,
+    ): void {
         if ($term !== null && $term !== '') {
             $term = \mb_strtolower($term);
-            $stmt->bindValue('term', "%$term%");
+            $stmt->bindValue(
+                'term',
+                ($onlyStartingWithTerm ? '' : '%') . $term . ($onlyEndingWithTerm ? '' : '%')
+            );
         }
     }
 }

@@ -41,7 +41,7 @@ class NaturalPersonProvider
     public static function getNaturalPersonB(): NaturalPerson
     {
         $id               = new NaturalPersonId('NP002');
-        $fullName         = new FullName('Устинов Арсений Максович');
+        $fullName         = new FullName('Устинов Иван Максович');
         $bornAt           = new \DateTimeImmutable('1918-12-30');
         $diedAt           = new \DateTimeImmutable('2001-02-12');
         $causeOfDeathId   = new CauseOfDeathId('CD008');

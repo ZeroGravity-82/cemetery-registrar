@@ -11,4 +11,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
  */
 class ListAliveNaturalPersonsRequest extends ApplicationRequest
 {
+    public function __construct(
+        public ?string $term = null,
+    ) {}
 }

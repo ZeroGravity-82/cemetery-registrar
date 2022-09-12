@@ -37,11 +37,11 @@ $graveSiteFormNewPersonInChargeField.selectize({
   searchField: `fullName`,
   placeholder: `Введите ФИО ответственного...`,
   load: (query, callback) => {
-    if (!query.length) return callback();
+    if (query.length < 3) return callback();
     $.ajax({
       dataType: `json`,
       method: `GET`,
-      url: `http://localhost:8082/natural-person/list-alive`,
+      url: `http://localhost:8082/natural-person/list-alive?search=${query}`,
     })
     .done((res) => {
       callback(res.data.simpleList.items.slice(0, 10));

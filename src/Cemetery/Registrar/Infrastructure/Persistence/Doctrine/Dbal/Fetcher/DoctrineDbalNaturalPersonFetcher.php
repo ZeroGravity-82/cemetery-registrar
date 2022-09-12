@@ -62,11 +62,11 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
     {
         $sql = $this->buildSelectSimpleSql();
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
-        $sql = $this->appendAndWhereFullNameLikeTermSql($sql, $term);
+        $sql = $this->appendAndWhereFullNameStartsWithTermSql($sql, $term);
         $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
         $stmt = $this->connection->prepare($sql);
-        $this->bindTermValue($stmt, $term);
+        $this->bindTermValue($stmt, $term, true);
         $result      = $stmt->executeQuery();
         $listAllData = $result->fetchAllAssociative();
 
@@ -78,11 +78,11 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         $sql = $this->buildSelectSimpleSql();
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
         $sql = $this->appendAndWhereDiedAtIsNullSql($sql);
-        $sql = $this->appendAndWhereFullNameLikeTermSql($sql, $term);
+        $sql = $this->appendAndWhereFullNameStartsWithTermSql($sql, $term);
         $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
         $stmt = $this->connection->prepare($sql);
-        $this->bindTermValue($stmt, $term);
+        $this->bindTermValue($stmt, $term, true);
         $result      = $stmt->executeQuery();
         $listAllData = $result->fetchAllAssociative();
 
@@ -218,7 +218,7 @@ LIKE_TERM_SQL;
         return $sql;
     }
 
-    private function appendAndWhereFullNameLikeTermSql(string $sql, ?string $term): string
+    private function appendAndWhereFullNameStartsWithTermSql(string $sql, ?string $term): string
     {
         if ($this->isTermNotEmpty($term)) {
             $sql .= ' AND np.full_name LIKE :term';

@@ -431,7 +431,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
     {
         $this->assertSame('B002',                        $listItem->id);
         $this->assertSame('11002',                       $listItem->code);
-        $this->assertSame('Устинов Арсений Максович',    $listItem->deceasedNaturalPersonFullName);
+        $this->assertSame('Устинов Иван Максович',       $listItem->deceasedNaturalPersonFullName);
         $this->assertSame('30.12.1918',                  $listItem->deceasedNaturalPersonBornAt);
         $this->assertSame('12.02.2001',                  $listItem->deceasedNaturalPersonDeceasedDetailsDiedAt);
         $this->assertSame(82,                            $listItem->deceasedNaturalPersonDeceasedDetailsAge);
@@ -758,7 +758,7 @@ class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegr
         $this->assertSame('11002',                                     $view->code);
         $this->assertSame(BurialType::COFFIN_IN_GRAVE_SITE,            $view->type);
         $this->assertSame('NP002',                                     $view->deceasedNaturalPersonId);
-        $this->assertSame('Устинов Арсений Максович',                  $view->deceasedNaturalPersonFullName);
+        $this->assertSame('Устинов Иван Максович',                     $view->deceasedNaturalPersonFullName);
         $this->assertSame('30.12.1918',                                $view->deceasedNaturalPersonBornAt);
         $this->assertSame('12.02.2001',                                $view->deceasedNaturalPersonDeceasedDetailsDiedAt);
         $this->assertSame(82,                                          $view->deceasedNaturalPersonDeceasedDetailsAge);

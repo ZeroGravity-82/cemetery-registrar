@@ -24,8 +24,9 @@ class NaturalPersonController extends Controller
     #[Route('/natural-person/list-alive', name: 'natural_person_list_alive', methods: 'GET')]
     public function listAlive(HttpRequest $request): HttpJsonResponse
     {
-//        $queryRequest = new ListAliveNaturalPersonsRequest();
-        $queryRequest = new ListAllNaturalPersonsRequest();
+        $term          = $request->query->get('search');
+//        $queryRequest  = new ListAliveNaturalPersonsRequest($term);
+        $queryRequest  = new ListAllNaturalPersonsRequest($term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);

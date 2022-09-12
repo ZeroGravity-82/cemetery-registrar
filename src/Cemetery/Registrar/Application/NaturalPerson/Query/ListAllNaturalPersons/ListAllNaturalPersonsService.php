@@ -26,8 +26,9 @@ class ListAllNaturalPersonsService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
+        /** @var ListAllNaturalPersonsRequest $request */
         return new ListAllNaturalPersonsResponse(
-            $this->naturalPersonFetcher->findAll(),
+            $this->naturalPersonFetcher->findAll($request->term),
         );
     }
 
