@@ -17,7 +17,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
 {
     protected string $tableName = 'grave_site';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): GraveSiteList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

@@ -18,7 +18,7 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 {
     protected string $tableName = 'natural_person';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonPaginatedList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): NaturalPersonPaginatedList
     {
         $sql = $this->buildSelectSql();
         $sql = $this->appendJoinsSql($sql);

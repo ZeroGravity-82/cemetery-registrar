@@ -17,7 +17,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
 {
     protected string $tableName = 'cemetery_block';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CemeteryBlockList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

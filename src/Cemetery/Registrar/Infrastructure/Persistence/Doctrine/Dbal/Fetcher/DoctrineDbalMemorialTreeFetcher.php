@@ -17,7 +17,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
 {
     protected string $tableName = 'memorial_tree';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): MemorialTreeList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): MemorialTreeList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

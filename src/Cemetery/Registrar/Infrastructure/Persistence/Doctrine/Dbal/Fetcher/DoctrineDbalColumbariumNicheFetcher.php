@@ -17,7 +17,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
 {
     protected string $tableName = 'columbarium_niche';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumNicheList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

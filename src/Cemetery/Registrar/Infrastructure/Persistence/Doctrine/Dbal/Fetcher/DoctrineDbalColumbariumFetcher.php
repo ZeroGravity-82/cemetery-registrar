@@ -17,7 +17,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
 {
     protected string $tableName = 'columbarium';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): ColumbariumList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

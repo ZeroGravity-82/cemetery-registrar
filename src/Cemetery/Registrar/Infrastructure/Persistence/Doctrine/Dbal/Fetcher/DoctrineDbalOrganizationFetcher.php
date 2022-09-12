@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
  */
 class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
 {
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {
         $sql  = $this->buildPaginateSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);

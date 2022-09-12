@@ -12,8 +12,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 class PaginateNaturalPersonsRequest extends ApplicationRequest
 {
     public function __construct(
-        public ?int    $page     = null,
-        public ?int    $pageSize = null,
-        public ?string $term     = null,
+        public ?int    $page = null,
+        public ?string $term = null,
     ) {}
 }

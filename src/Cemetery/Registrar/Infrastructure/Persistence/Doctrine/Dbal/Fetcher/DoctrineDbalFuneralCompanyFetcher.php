@@ -17,7 +17,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
 {
     protected string $tableName = 'funeral_company';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): FuneralCompanyList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

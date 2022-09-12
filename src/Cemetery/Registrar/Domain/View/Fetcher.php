@@ -14,7 +14,7 @@ interface Fetcher
     /**
      * Returns paginated list of items according to the given criteria.
      */
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): mixed;
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): mixed;
 
     /**
      * Returns a view for an entity by the ID. If there is no data, null will be returned.

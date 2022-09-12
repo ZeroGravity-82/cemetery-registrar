@@ -17,7 +17,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
 {
     protected string $tableName = 'cause_of_death';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(

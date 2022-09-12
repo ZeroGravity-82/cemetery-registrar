@@ -23,10 +23,9 @@ class AdminNaturalPersonController extends Controller
     #[Route('/admin/natural-person', name: 'admin_natural_person_paginate', methods: 'GET')]
     public function paginate(HttpRequest $request): HttpResponse
     {
-        $page          = $request->query->get('page');
-        $pageSize      = $request->query->get('pageSize');
-        $term          = $request->query->get('term');
-        $queryRequest  = new PaginateNaturalPersonsRequest($page, $pageSize, $term);
+        $page          = $request->query->getInt('page', 1);
+        $term          = $request->query->get('q');
+        $queryRequest  = new PaginateNaturalPersonsRequest($page, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
         $paginatedList = $queryResponse->data->paginatedList;

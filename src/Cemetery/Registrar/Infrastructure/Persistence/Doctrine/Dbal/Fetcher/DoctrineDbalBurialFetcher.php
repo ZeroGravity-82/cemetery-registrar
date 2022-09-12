@@ -17,7 +17,7 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
 {
     protected string $tableName = 'burial';
 
-    public function paginate(int $page = null, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): BurialList
     {
         $sql  = $this->buildPaginateSql($page, $term, $pageSize);
         $stmt = $this->connection->prepare($sql);
