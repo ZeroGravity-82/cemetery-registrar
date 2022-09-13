@@ -31,13 +31,15 @@ $graveSiteFormNew.on(`shown.bs.modal`, (e) => {
 });
 
 // Person in charge selector
-$graveSiteFormNewPersonInChargeField.selectize({
+const minFullNameLength     = 3;
+const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
   valueField: `id`,
   labelField: `fullName`,
   searchField: `fullName`,
   placeholder: `Введите ФИО ответственного...`,
+  create: true,
   load: (query, callback) => {
-    if (query.length < 3) return callback();
+    if (query.length < minFullNameLength) return callback();
     $.ajax({
       dataType: `json`,
       method: `GET`,
@@ -50,6 +52,18 @@ $graveSiteFormNewPersonInChargeField.selectize({
       callback();
     })
   },
+  score: (search) => (item) => {
+    if (search.length < minFullNameLength) {
+      return 0;
+    }
+    return item.fullName.toLowerCase().startsWith(search.toLowerCase()) ? 1 : 0;
+  },
+  onChange: function(value) {
+    if (value === ``) {
+      console.log(`onChange`);
+      this.clearOptions(true);
+    }
+  },
   render: {
     option: (item, escape) =>
 `<div>
@@ -58,6 +72,8 @@ $graveSiteFormNewPersonInChargeField.selectize({
      ${item.bornAt ? `<span class="natural-person-born-at"><i class="bi-balloon"></i>${escape(item.bornAt)}</span>` : ``} 
    </span>
 </div>`,
+    option_create: (data, escape) =>
+`<div class="create">Создать <strong>${escape(data.input)}</strong>&hellip;</div>`
   },
 });
 
