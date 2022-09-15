@@ -1,0 +1,15 @@
+{% extends '_modal.html.twig' %}
+
+{% block modalbody %}
+  <form data-action-new="{{ path('admin_natural_person_create') }}">
+    <div class="container">
+      {% include('natural_person/_form_natural_person_full_name.html.twig') %}
+      {% include('natural_person/_form_natural_person_contact.html.twig') %}
+      {% include('natural_person/_form_natural_person_birth_details.html.twig') %}
+      {% include('natural_person/_form_natural_person_passport.html.twig') %}
+      {% include('natural_person/_form_natural_person_deceased_details.html.twig') %}
+    </div>
+    <input type="hidden" id="token" name="token" value="{{ csrf_token('natural_person') }}">
+    {% include '_form_buttons.html.twig' %}
+  </form>
+{% endblock %}
