@@ -22,7 +22,7 @@ class AdminNaturalPersonController extends Controller
         private readonly ApplicationRequestBus $appRequestBus,
     ) {}
 
-    #[Route('/admin/natural-person', name: 'admin_natural_person_paginate', methods: 'GET')]
+    #[Route('/admin/natural-person', name: 'admin_natural_person_paginate', methods: HttpRequest::METHOD_GET)]
     public function paginate(HttpRequest $request): HttpResponse
     {
         $page          = $request->query->getInt('page', 1);
