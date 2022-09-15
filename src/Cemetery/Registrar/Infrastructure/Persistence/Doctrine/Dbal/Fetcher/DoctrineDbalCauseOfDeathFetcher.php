@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathListItem;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedList;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedListItem;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathSimpleList;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathSimpleListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -17,7 +19,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
 {
     protected string $tableName = 'cause_of_death';
 
-    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathList
+    public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): CauseOfDeathPaginatedList
     {
         $queryBuilder = $this->connection->createQueryBuilder()
             ->select(
@@ -51,6 +53,26 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
     public function countTotal(): int
     {
         return $this->doCountTotal(null);
+    }
+
+    public function findAll(?string $term = null): CauseOfDeathSimpleList
+    {
+        $queryBuilder = $this->connection->createQueryBuilder()
+            ->select(
+                'cod.id   AS id',
+                'cod.name AS name',
+            )
+            ->from($this->tableName, 'cod')
+            ->andWhere('cod.removed_at IS NULL')
+            ->orderBy('cod.name');
+        $this->appendAndWhereLikeTerm($queryBuilder, $term);
+        $this->setTermParameter($queryBuilder, $term);
+
+        $listAllData = $queryBuilder
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        return $this->hydrateListAll($listAllData);
     }
 
     public function doesExistByName(string $name): bool
@@ -123,15 +145,29 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         ?string $term,
         int     $totalCount,
         int     $totalPages,
-    ): CauseOfDeathList {
+    ): CauseOfDeathPaginatedList {
         $items = [];
         foreach ($paginatedListData as $paginatedListItemData) {
-            $items[] = new CauseOfDeathListItem(
+            $items[] = new CauseOfDeathPaginatedListItem(
                 $paginatedListItemData['id'],
                 $paginatedListItemData['name'],
             );
         }
 
-        return new CauseOfDeathList($items, $page, $pageSize, $term, $totalCount, $totalPages);
+        return new CauseOfDeathPaginatedList($items, $page, $pageSize, $term, $totalCount, $totalPages);
+    }
+
+    private function hydrateListAll(
+        array   $listAllData,
+    ): CauseOfDeathSimpleList {
+        $items = [];
+        foreach ($listAllData as $simpleListItemData) {
+            $items[] = new CauseOfDeathSimpleListItem(
+                $simpleListItemData['id'],
+                $simpleListItemData['name'],
+            );
+        }
+
+        return new CauseOfDeathSimpleList($items);
     }
 }

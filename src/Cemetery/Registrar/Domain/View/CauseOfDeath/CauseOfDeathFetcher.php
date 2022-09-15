@@ -15,4 +15,9 @@ interface CauseOfDeathFetcher extends Fetcher
      * Checks if the cause of death exists by the name.
      */
     public function doesExistByName(string $name): bool;
+
+    /**
+     * Returns a list of all causes of death.
+     */
+    public function findAll(?string $term = null): CauseOfDeathSimpleList;
 }

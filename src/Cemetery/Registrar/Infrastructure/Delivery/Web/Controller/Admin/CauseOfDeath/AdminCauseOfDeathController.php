@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath\CreateCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath\ListCausesOfDeathRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\PaginateCausesOfDeath\PaginateCausesOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
@@ -25,17 +25,19 @@ class AdminCauseOfDeathController extends Controller
         private readonly ApplicationRequestBus $appRequestBus,
     ) {}
 
-    #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_list', methods: HttpRequest::METHOD_GET)]
-    public function list(): HttpResponse
+    #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_paginate', methods: HttpRequest::METHOD_GET)]
+    public function paginate(HttpRequest $request): HttpResponse
     {
-        $queryRequest  = new ListCausesOfDeathRequest();
+        $page          = $request->query->getInt('page', 1);
+        $term          = $request->query->get('search');
+        $queryRequest  = new PaginateCausesOfDeathRequest($page, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
-        $list          = $queryResponse->data->list;
+        $paginatedList = $queryResponse->data->paginatedList;
         $totalCount    = $queryResponse->data->totalCount;
 
-        return $this->render('admin/cause_of_death/list_cause_of_death.html.twig', [
-            'list'       => $list,
-            'totalCount' => $totalCount,
+        return $this->render('admin/cause_of_death/cause_of_death_paginated_list.html.twig', [
+            'paginatedList' => $paginatedList,
+            'totalCount'    => $totalCount,
         ]);
     }
 

@@ -11,8 +11,8 @@
      href="{{ path('admin_funeral_company_list') }}">Похоронные фирмы</a>
 </li>
 <li class="nav-item">
-  <a class="nav-link {% if currentRoute == 'admin_cause_of_death_list' %}active{% endif %}"
-     href="{{ path('admin_cause_of_death_list') }}">Причины смерти</a>
+  <a class="nav-link {% if currentRoute == 'admin_cause_of_death_paginate' %}active{% endif %}"
+     href="{{ path('admin_cause_of_death_paginate') }}">Причины смерти</a>
 </li>
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle {% if currentRoute starts with 'admin_burial_place' %}active{% endif %}"

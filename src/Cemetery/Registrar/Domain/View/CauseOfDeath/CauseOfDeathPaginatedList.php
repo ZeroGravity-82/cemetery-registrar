@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\View\CauseOfDeath;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathList
+class CauseOfDeathPaginatedList
 {
     public function __construct(
         public array   $items,

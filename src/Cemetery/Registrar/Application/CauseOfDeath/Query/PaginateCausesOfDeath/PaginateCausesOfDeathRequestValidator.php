@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath;
+namespace Cemetery\Registrar\Application\CauseOfDeath\Query\PaginateCausesOfDeath;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
@@ -11,10 +11,10 @@ use Cemetery\Registrar\Application\Notification;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListCausesOfDeathRequestValidator extends ApplicationRequestValidator
+class PaginateCausesOfDeathRequestValidator extends ApplicationRequestValidator
 {
     /**
-     * @param ListCausesOfDeathRequest $request
+     * @param PaginateCausesOfDeathRequest $request
      */
     public function validate(ApplicationRequest $request): Notification
     {

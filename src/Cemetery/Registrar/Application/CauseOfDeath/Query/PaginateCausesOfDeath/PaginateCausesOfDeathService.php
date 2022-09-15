@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ListCausesOfDeath;
+namespace Cemetery\Registrar\Application\CauseOfDeath\Query\PaginateCausesOfDeath;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
@@ -12,11 +12,11 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListCausesOfDeathService extends ApplicationService
+class PaginateCausesOfDeathService extends ApplicationService
 {
     public function __construct(
-        private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
-        ListCausesOfDeathRequestValidator    $requestValidator,
+        private readonly CauseOfDeathFetcher  $causeOfDeathFetcher,
+        PaginateCausesOfDeathRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }
@@ -26,14 +26,15 @@ class ListCausesOfDeathService extends ApplicationService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        return new ListCausesOfDeathResponse(
-            $this->causeOfDeathFetcher->paginate(1),
+        /** @var PaginateCausesOfDeathRequest $request */
+        return new PaginateCausesOfDeathResponse(
+            $this->causeOfDeathFetcher->paginate($request->page, $request->term),
             $this->causeOfDeathFetcher->countTotal(),
         );
     }
 
     protected function supportedRequestClassName(): string
     {
-        return ListCausesOfDeathRequest::class;
+        return PaginateCausesOfDeathRequest::class;
     }
 }
