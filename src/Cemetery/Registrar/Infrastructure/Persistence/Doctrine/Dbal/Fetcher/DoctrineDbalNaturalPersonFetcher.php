@@ -314,12 +314,12 @@ LIKE_TERM_SQL;
         array $listAllData,
     ): NaturalPersonSimpleList {
         $items = [];
-        foreach ($listAllData as $paginatedListItemData) {
+        foreach ($listAllData as $simpleListItemData) {
             $items[] = new NaturalPersonSimpleListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['fullName'],
-                $paginatedListItemData['bornAtFormatted'],
-                $paginatedListItemData['diedAtFormatted'],
+                $simpleListItemData['id'],
+                $simpleListItemData['fullName'],
+                $simpleListItemData['bornAtFormatted'],
+                $simpleListItemData['diedAtFormatted'],
             );
         }
 
