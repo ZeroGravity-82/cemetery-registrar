@@ -32,13 +32,13 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?ColumbariumView
@@ -123,7 +123,7 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -131,10 +131,10 @@ class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements Colu
         int     $totalPages,
     ): ColumbariumList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new ColumbariumListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['name'],
+                $listItemData['id'],
+                $listItemData['name'],
             );
         }
 

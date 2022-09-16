@@ -32,12 +32,12 @@ class AdminCauseOfDeathController extends Controller
         $term          = $request->query->get('search');
         $queryRequest  = new PaginateCausesOfDeathRequest($page, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
-        $paginatedList = $queryResponse->data->paginatedList;
+        $list          = $queryResponse->data->list;
         $totalCount    = $queryResponse->data->totalCount;
 
         return $this->render('admin/cause_of_death/cause_of_death_paginated_list.html.twig', [
-            'paginatedList' => $paginatedList,
-            'totalCount'    => $totalCount,
+            'list'       => $list,
+            'totalCount' => $totalCount,
         ]);
     }
 

@@ -35,13 +35,13 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?MemorialTreeView
@@ -136,7 +136,7 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -144,12 +144,12 @@ class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements Mem
         int     $totalPages,
     ): MemorialTreeList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new MemorialTreeListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['treeNumber'],
-                $paginatedListItemData['personInChargeId'],
-                $paginatedListItemData['personInChargeFullName'],
+                $listItemData['id'],
+                $listItemData['treeNumber'],
+                $listItemData['personInChargeId'],
+                $listItemData['personInChargeFullName'],
             );
         }
 

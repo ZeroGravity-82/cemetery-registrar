@@ -38,7 +38,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         $cemeteryBlockList       = $queryResponse->data->cemeteryBlockList;
         $cemeteryBlockTotalCount = $queryResponse->data->cemeteryBlockTotalCount;
 
-        return $this->render('admin/burial_place/grave_site/list_grave_site.html.twig', [
+        return $this->render('admin/burial_place/grave_site/grave_site_paginated_list.html.twig', [
             'list'                    => $list,
             'totalCount'              => $totalCount,
             'cemeteryBlockList'       => $cemeteryBlockList,

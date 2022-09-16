@@ -22,11 +22,11 @@ class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements Org
         $this->bindTermValue($stmt, $term);
         $result = $stmt->executeQuery();
 
-        $paginatedListData = $result->fetchAllAssociative();
-        $totalCount        = $this->doCountTotal($term) ;
-        $totalPages        = (int) \ceil($totalCount / $pageSize);
+        $listData   = $result->fetchAllAssociative();
+        $totalCount = $this->doCountTotal($term) ;
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): mixed
@@ -207,7 +207,7 @@ LIKE_TERM_SQL;
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -215,29 +215,29 @@ LIKE_TERM_SQL;
         int     $totalPages,
     ): OrganizationList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new OrganizationListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['typeShortcut'],
-                $paginatedListItemData['typeLabel'],
-                $paginatedListItemData['name'],
-                $paginatedListItemData['inn'],
-                $paginatedListItemData['kpp'],
-                $paginatedListItemData['ogrn'],
-                $paginatedListItemData['okpo'],
-                $paginatedListItemData['okved'],
-                $paginatedListItemData['address1'],
-                $paginatedListItemData['address2'],
-                $paginatedListItemData['bankDetailsBankName'],
-                $paginatedListItemData['bankDetailsBik'],
-                $paginatedListItemData['bankDetailsCorrespondentAccount'],
-                $paginatedListItemData['bankDetailsCurrentAccount'],
-                $paginatedListItemData['phone'],
-                $paginatedListItemData['phoneAdditional'],
-                $paginatedListItemData['fax'],
-                $paginatedListItemData['generalDirector'],
-                $paginatedListItemData['email'],
-                $paginatedListItemData['website'],
+                $listItemData['id'],
+                $listItemData['typeShortcut'],
+                $listItemData['typeLabel'],
+                $listItemData['name'],
+                $listItemData['inn'],
+                $listItemData['kpp'],
+                $listItemData['ogrn'],
+                $listItemData['okpo'],
+                $listItemData['okved'],
+                $listItemData['address1'],
+                $listItemData['address2'],
+                $listItemData['bankDetailsBankName'],
+                $listItemData['bankDetailsBik'],
+                $listItemData['bankDetailsCorrespondentAccount'],
+                $listItemData['bankDetailsCurrentAccount'],
+                $listItemData['phone'],
+                $listItemData['phoneAdditional'],
+                $listItemData['fax'],
+                $listItemData['generalDirector'],
+                $listItemData['email'],
+                $listItemData['website'],
             );
         }
 

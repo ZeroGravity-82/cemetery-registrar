@@ -13,12 +13,12 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedList;
 class PaginateCausesOfDeathResponse extends ApplicationSuccessResponse
 {
     public function __construct(
-        CauseOfDeathPaginatedList $paginatedList,
+        CauseOfDeathPaginatedList $list,
         int                       $totalCount,
     ) {
         $this->data = (object) [
-            'paginatedList' => $paginatedList,
-            'totalCount'    => $totalCount,
+            'list'       => $list,
+            'totalCount' => $totalCount,
         ];
     }
 }

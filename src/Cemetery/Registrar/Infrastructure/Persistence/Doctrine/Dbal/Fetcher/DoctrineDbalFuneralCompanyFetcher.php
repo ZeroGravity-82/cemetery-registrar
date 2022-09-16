@@ -33,13 +33,13 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?FuneralCompanyView
@@ -123,7 +123,7 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -131,11 +131,11 @@ class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements F
         int     $totalPages,
     ): FuneralCompanyList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new FuneralCompanyListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['name'],
-                $paginatedListItemData['note'],
+                $listItemData['id'],
+                $listItemData['name'],
+                $listItemData['note'],
             );
         }
 

@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial\RegisterNewBurialRequest;
 use Cemetery\Registrar\Application\Burial\Query\ListBurials\ListBurialsRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ListAllCausesOfDeath\ListAllCausesOfDeathRequest;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
@@ -31,9 +32,12 @@ class BurialController extends Controller
         $list               = $queryResponse->data->list;
         $totalCount         = $queryResponse->data->totalCount;
         $funeralCompanyList = $queryResponse->data->funeralCompanyList;
-        $causeOfDeathList   = $queryResponse->data->causeOfDeathList;
         $cemeteryBlockList  = $queryResponse->data->cemeteryBlockList;
         $coffinShapeList    = $queryResponse->data->coffinShapeList;
+
+        $queryRequest       = new ListAllCausesOfDeathRequest();
+        $queryResponse      = $this->appRequestBus->execute($queryRequest);
+        $causeOfDeathList   = $queryResponse->data->list;
 
         return $this->render('burial/list_burial.html.twig', [
             'list'               => $list,

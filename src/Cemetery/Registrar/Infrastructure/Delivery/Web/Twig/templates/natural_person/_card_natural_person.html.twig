@@ -1,0 +1,47 @@
+{% extends '_modal.html.twig' %}
+
+{% block modalbody %}
+  <div
+      class="card border border-0"
+      data-action-show="{{ path('natural_person_show', {'id': '{id}'})|url_decode }}"
+      data-action-remove="{{ path('natural_person_remove', {'id': '{id}'})|url_decode }}">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-sm-4"><strong>ФИО:</strong></div>
+        <div class="col-sm-8"><p class="js-full-name"></p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Контактные данные:</strong></div>
+        <div class="col-sm-8"><p class="js-contact"></p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Дата и место рождения:</strong></div>
+        <div class="col-sm-8"><p class="js-birth-details"></p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Паспортные данные:</strong></div>
+        <div class="col-sm-8"><p class="js-passport"></p></div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4"><strong>Данные о смерти:</strong></div>
+        <div class="col-sm-8"><p class="js-deceased-details"></div>
+      </div>
+    </div>
+    <input type="hidden" id="token" name="token" value="{{ csrf_token('natural_person') }}">
+    {% include '_card_buttons.html.twig' %}
+    {% include '_card_footer.html.twig' %}
+  </div>
+{% endblock %}
+
+{% set actionlist %}
+  <li class="dropdown-item js-clarify-full-name">Уточнить ФИО</li>
+  <li class="dropdown-item js-clarify-contact">Уточнить контактные данные</li>
+  <li class="dropdown-item js-clarify-birth-details">Уточнить дату и место рождения</li>
+  <li class="dropdown-item js-clarify-passport">Уточнить паспортные данные</li>
+  <li class="dropdown-item js-clarify-deceased-details">Уточнить данные о смерти</li>
+  <li class="js-danger-action-divider"><hr class="dropdown-divider"></li>
+  <li class="dropdown-item text-danger js-danger-action-btn js-clear-contact">Очистить контактные данные</li>
+  <li class="dropdown-item text-danger js-danger-action-btn js-clear-birth-details">Очистить дату и место рождения</li>
+  <li class="dropdown-item text-danger js-danger-action-btn js-clear-passport">Очистить паспортные данные</li>
+  <li class="dropdown-item text-danger js-danger-action-btn js-clear-deceased-details">Очистить данные о смерти</li>
+{% endset %}

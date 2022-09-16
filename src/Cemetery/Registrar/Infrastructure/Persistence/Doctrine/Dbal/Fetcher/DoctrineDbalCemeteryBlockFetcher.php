@@ -32,13 +32,13 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?CemeteryBlockView
@@ -117,7 +117,7 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -125,10 +125,10 @@ class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements Ce
         int     $totalPages,
     ): CemeteryBlockList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new CemeteryBlockListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['name'],
+                $listItemData['id'],
+                $listItemData['name'],
             );
         }
 

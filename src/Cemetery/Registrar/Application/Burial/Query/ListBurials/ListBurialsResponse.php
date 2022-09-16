@@ -8,7 +8,6 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Domain\View\Burial\BurialContainer\CoffinShapeList;
 use Cemetery\Registrar\Domain\View\Burial\BurialList;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockList;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathList;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyList;
 
 /**
@@ -20,7 +19,6 @@ class ListBurialsResponse extends ApplicationSuccessResponse
         BurialList         $list,
         int                $totalCount,
         FuneralCompanyList $funeralCompanyList,
-        CauseOfDeathList   $causeOfDeathList,
         CemeteryBlockList  $cemeteryBlockList,
         CoffinShapeList    $coffinShapeList,
     ) {
@@ -28,7 +26,6 @@ class ListBurialsResponse extends ApplicationSuccessResponse
             'list'               => $list,
             'totalCount'         => $totalCount,
             'funeralCompanyList' => $funeralCompanyList,
-            'causeOfDeathList'   => $causeOfDeathList,
             'cemeteryBlockList'  => $cemeteryBlockList,
             'coffinShapeList'    => $coffinShapeList,
         ];

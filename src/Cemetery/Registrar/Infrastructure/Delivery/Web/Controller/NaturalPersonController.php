@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\NaturalPerson\Command\RemoveNaturalPerson\RemoveNaturalPersonRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListAliveNaturalPersons\ListAliveNaturalPersonsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListAllNaturalPersons\ListAllNaturalPersonsRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Query\ShowNaturalPerson\ShowNaturalPersonRequest;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -30,5 +32,34 @@ class NaturalPersonController extends Controller
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route('/natural-person/{id}', name: 'natural_person_show', methods: HttpRequest::METHOD_GET)]
+    public function show(HttpRequest $httpRequest): HttpJsonResponse
+    {
+        $queryRequest  = $this->handleJsonRequest($httpRequest, ShowNaturalPersonRequest::class);
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+
+        return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
+    }
+
+
+
+
+
+
+
+    #[Route(
+        '/natural-person/{id}',
+        name: 'natural_person_remove',
+        methods: HttpRequest::METHOD_DELETE
+    )]
+    public function remove(HttpRequest $httpRequest): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, RemoveNaturalPersonRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_NO_CONTENT);
     }
 }

@@ -1,12 +1,14 @@
-const $naturalPersonCard                    = $(`#modalNaturalPersonCard`);
-const $naturalPersonCardTitle               = $naturalPersonCard.find(`.modal-title`)
-const $naturalPersonCardCard                = $naturalPersonCard.find(`div.card`);
-// const $naturalPersonCardLocationField       = $naturalPersonCard.find(`.js-location`);
-// const $naturalPersonCardSizeField           = $naturalPersonCard.find(`.js-size`);
-// const $naturalPersonCardPersonInChargeField = $naturalPersonCard.find(`.js-person-in-charge`);
-const $naturalPersonCardCsrfTokenField      = $naturalPersonCard.find(`input[id=token]`);
-const $naturalPersonCardCloseBtn            = $naturalPersonCard.find(`.js-close`);
-const naturalPersonCardModalObject          = new bootstrap.Modal(`#modalNaturalPersonCard`, {});
+const $naturalPersonCard                     = $(`#modalNaturalPersonCard`);
+const $naturalPersonCardTitle                = $naturalPersonCard.find(`.modal-title`)
+const $naturalPersonCardCard                 = $naturalPersonCard.find(`div.card`);
+const $naturalPersonCardFullNameField        = $naturalPersonCard.find(`.js-full-name`);
+const $naturalPersonCardContactField         = $naturalPersonCard.find(`.js-contact`);
+const $naturalPersonCardBirthDetailsField    = $naturalPersonCard.find(`.js-birth-details`);
+const $naturalPersonCardPassportField        = $naturalPersonCard.find(`.js-passport`);
+const $naturalPersonCardDeceasedDetailsField = $naturalPersonCard.find(`.js-deceased-details`);
+const $naturalPersonCardCsrfTokenField       = $naturalPersonCard.find(`input[id=token]`);
+const $naturalPersonCardCloseBtn             = $naturalPersonCard.find(`.js-close`);
+const naturalPersonCardModalObject           = new bootstrap.Modal(`#modalNaturalPersonCard`, {});
 
 let currentNaturalPersonId;
 let currentView;
@@ -27,9 +29,11 @@ function naturalPersonCard_show(id) {
     const view  = responseJson.data.view;
     currentView = view;
     $naturalPersonCardTitle.html(`<span>${view.fullName}</span> (Физлица)`);
-    // $naturalPersonCardLocationField.html(naturalPersonCardTitle);
-    // $naturalPersonCardSizeField.html(view.size !== null ? `${view.size} м²` : `-`);
-    // $naturalPersonCardPersonInChargeField.html(view.personInChargeFullName !== null ? view.personInChargeFullName : `-`);
+    $naturalPersonCardFullNameField.html(view.fullName);
+    $naturalPersonCardContactField.html(composeContact(view));
+    $naturalPersonCardBirthDetailsField.html(composeBirthDetails(view));
+    $naturalPersonCardPassportField.html(composePassport(view));
+
     toggleActionButtons(view);
     naturalPersonCardModalObject.show();
   })
@@ -154,4 +158,73 @@ function toggleActionButtonsDangerDivider() {
   } else {
     $(`.js-danger-action-divider`).removeClass(`d-none`).addClass(`d-none`);
   }
+}
+
+function composeContact(view) {
+  let contactAddressLine    = view.address;
+  let contactPhoneEmailLine = null;
+  switch (true) {
+    case view.phone !== null && view.phoneAdditional === null:
+      contactPhoneEmailLine = view.phone;
+      break;
+    case view.phone === null && view.phoneAdditional !== null:
+      contactPhoneEmailLine = view.phoneAdditional;
+      break;
+    case view.phone !== null && view.phoneAdditional !== null:
+      contactPhoneEmailLine = `${view.phone}, ${view.phoneAdditional}`;
+      break;
+  }
+  switch (true) {
+    case contactPhoneEmailLine === null && view.email !== null:
+      contactPhoneEmailLine = view.email;
+      break;
+    case contactPhoneEmailLine !== null && view.email !== null:
+      contactPhoneEmailLine = `${contactPhoneEmailLine}, ${view.email}`;
+      break;
+  }
+
+  let contact = `-`;
+  switch (true) {
+    case contactAddressLine !== null && contactPhoneEmailLine === null:
+      contact = contactAddressLine;
+      break;
+    case contactAddressLine === null && contactPhoneEmailLine !== null:
+      contact = contactPhoneEmailLine;
+      break;
+    case contactAddressLine !== null && contactPhoneEmailLine !== null:
+      contact = `${contactAddressLine}<br>${contactPhoneEmailLine}`;
+      break;
+  }
+
+  return contact;
+}
+
+function composeBirthDetails(view) {
+  let birthDetails = `-`;
+  switch (true) {
+    case view.bornAt !== null && view.placeOfBirth === null:
+      birthDetails = view.bornAt;
+      break;
+    case view.bornAt === null && view.placeOfBirth !== null:
+      birthDetails = view.placeOfBirth;
+      break;
+    case view.bornAt !== null && view.placeOfBirth !== null:
+      birthDetails = `${view.bornAt}, ${view.placeOfBirth}`;
+      break;
+  }
+
+  return birthDetails;
+}
+
+function composePassport(view) {
+  let passport = `-`;
+
+  if (view.passportSeries !== null) {
+    passport = `${view.passportSeries} № ${view.passportNumber}, выдан ${view.passportIssuedBy} ${view.passportIssuedAt}`;
+    if (view.passportDivisionCode !== null) {
+      passport = `${passport} (${view.passportDivisionCode})`;
+    }
+  }
+
+  return passport;
 }

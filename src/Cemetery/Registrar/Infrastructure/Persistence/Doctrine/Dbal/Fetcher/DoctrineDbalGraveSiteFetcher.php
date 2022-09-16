@@ -40,13 +40,13 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?GraveSiteView
@@ -177,7 +177,7 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -185,14 +185,14 @@ class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveS
         int     $totalPages,
     ): GraveSiteList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new GraveSiteListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['cemeteryBlockName'],
-                $paginatedListItemData['rowInBlock'],
-                $paginatedListItemData['positionInRow'],
-                $paginatedListItemData['size'],
-                $paginatedListItemData['personInChargeFullName'],
+                $listItemData['id'],
+                $listItemData['cemeteryBlockName'],
+                $listItemData['rowInBlock'],
+                $listItemData['positionInRow'],
+                $listItemData['size'],
+                $listItemData['personInChargeFullName'],
             );
         }
 

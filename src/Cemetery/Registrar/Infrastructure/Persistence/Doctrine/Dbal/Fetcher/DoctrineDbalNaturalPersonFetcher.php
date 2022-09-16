@@ -31,11 +31,11 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
         $this->bindTermValue($stmt, $term);
         $result = $stmt->executeQuery();
 
-        $paginatedListData = $result->fetchAllAssociative();
-        $totalCount        = $this->doCountTotal($term);
-        $totalPages        = (int) \ceil($totalCount / $pageSize);
+        $listData   = $result->fetchAllAssociative();
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?NaturalPersonView
@@ -67,10 +67,10 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 
         $stmt = $this->connection->prepare($sql);
         $this->bindTermValue($stmt, $term, true);
-        $result      = $stmt->executeQuery();
-        $listAllData = $result->fetchAllAssociative();
+        $result   = $stmt->executeQuery();
+        $listData = $result->fetchAllAssociative();
 
-        return $this->hydrateListAll($listAllData);
+        return $this->hydrateListAll($listData);
     }
 
     public function findAlive(?string $term = null): NaturalPersonSimpleList
@@ -83,10 +83,10 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
 
         $stmt = $this->connection->prepare($sql);
         $this->bindTermValue($stmt, $term, true);
-        $result      = $stmt->executeQuery();
-        $listAllData = $result->fetchAllAssociative();
+        $result   = $stmt->executeQuery();
+        $listData = $result->fetchAllAssociative();
 
-        return $this->hydrateListAll($listAllData);
+        return $this->hydrateListAll($listData);
     }
 
     private function doCountTotal(?string $term): int
@@ -270,7 +270,7 @@ LIKE_TERM_SQL;
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -278,32 +278,32 @@ LIKE_TERM_SQL;
         int     $totalPages,
     ): NaturalPersonPaginatedList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new NaturalPersonPaginatedListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['fullName'],
-                $paginatedListItemData['address'],
-                $paginatedListItemData['phone'],
-                $paginatedListItemData['phoneAdditional'],
-                $paginatedListItemData['email'],
-                $paginatedListItemData['bornAtFormatted'],
-                $paginatedListItemData['placeOfBirth'],
-                $paginatedListItemData['passportSeries'],
-                $paginatedListItemData['passportNumber'],
-                $paginatedListItemData['passportIssuedAt'],
-                $paginatedListItemData['passportIssuedBy'],
-                $paginatedListItemData['passportDivisionCode'],
-                $paginatedListItemData['diedAtFormatted'],
-                match ($paginatedListItemData['age']) {
-                    null    => $paginatedListItemData['ageCalculated'],
-                    default => (int) $paginatedListItemData['age'],
+                $listItemData['id'],
+                $listItemData['fullName'],
+                $listItemData['address'],
+                $listItemData['phone'],
+                $listItemData['phoneAdditional'],
+                $listItemData['email'],
+                $listItemData['bornAtFormatted'],
+                $listItemData['placeOfBirth'],
+                $listItemData['passportSeries'],
+                $listItemData['passportNumber'],
+                $listItemData['passportIssuedAt'],
+                $listItemData['passportIssuedBy'],
+                $listItemData['passportDivisionCode'],
+                $listItemData['diedAtFormatted'],
+                match ($listItemData['age']) {
+                    null    => $listItemData['ageCalculated'],
+                    default => (int) $listItemData['age'],
                 },
-                $paginatedListItemData['causeOfDeathName'],
-                $paginatedListItemData['deathCertificateSeries'],
-                $paginatedListItemData['deathCertificateNumber'],
-                $paginatedListItemData['deathCertificateIssuedAt'],
-                $paginatedListItemData['cremationCertificateNumber'],
-                $paginatedListItemData['cremationCertificateIssuedAt'],
+                $listItemData['causeOfDeathName'],
+                $listItemData['deathCertificateSeries'],
+                $listItemData['deathCertificateNumber'],
+                $listItemData['deathCertificateIssuedAt'],
+                $listItemData['cremationCertificateNumber'],
+                $listItemData['cremationCertificateIssuedAt'],
             );
         }
 
@@ -311,15 +311,15 @@ LIKE_TERM_SQL;
     }
 
     private function hydrateListAll(
-        array $listAllData,
+        array $listData,
     ): NaturalPersonSimpleList {
         $items = [];
-        foreach ($listAllData as $simpleListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new NaturalPersonSimpleListItem(
-                $simpleListItemData['id'],
-                $simpleListItemData['fullName'],
-                $simpleListItemData['bornAtFormatted'],
-                $simpleListItemData['diedAtFormatted'],
+                $listItemData['id'],
+                $listItemData['fullName'],
+                $listItemData['bornAtFormatted'],
+                $listItemData['diedAtFormatted'],
             );
         }
 

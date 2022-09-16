@@ -13,12 +13,12 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedList;
 class PaginateNaturalPersonsResponse extends ApplicationSuccessResponse
 {
     public function __construct(
-        NaturalPersonPaginatedList $paginatedList,
+        NaturalPersonPaginatedList $list,
         int                        $totalCount,
     ) {
         $this->data = (object) [
-            'paginatedList' => $paginatedList,
-            'totalCount'    => $totalCount,
+            'list'       => $list,
+            'totalCount' => $totalCount,
         ];
     }
 }

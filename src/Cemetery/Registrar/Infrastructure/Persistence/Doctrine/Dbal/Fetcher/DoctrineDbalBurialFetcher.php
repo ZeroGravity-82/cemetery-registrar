@@ -24,11 +24,11 @@ class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFet
         $this->bindTermValue($stmt, $term);
         $result = $stmt->executeQuery();
 
-        $paginatedListData = $result->fetchAllAssociative();
-        $totalCount        = $this->doCountTotal($term);
-        $totalPages        = (int) \ceil($totalCount / $pageSize);
+        $listData   = $result->fetchAllAssociative();
+        $totalCount = $this->doCountTotal($term);
+        $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?BurialView
@@ -535,7 +535,7 @@ LIKE_TERM_SQL;
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -543,38 +543,38 @@ LIKE_TERM_SQL;
         int     $totalPages,
     ): BurialList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new BurialListItem(
-                $paginatedListItemData['id'],
-                $this->formatCode($paginatedListItemData['code']),
-                $paginatedListItemData['deceasedNaturalPersonFullName'],
-                $paginatedListItemData['deceasedNaturalPersonBornAtFormatted'],
-                $paginatedListItemData['deceasedNaturalPersonDeceasedDetailsDiedAtFormatted'],
-                match ($paginatedListItemData['deceasedNaturalPersonDeceasedDetailsAge']) {
-                    null    => $paginatedListItemData['deceasedNaturalPersonDeceasedDetailsAgeCalculated'],
-                    default => (int) $paginatedListItemData['deceasedNaturalPersonDeceasedDetailsAge'],
+                $listItemData['id'],
+                $this->formatCode($listItemData['code']),
+                $listItemData['deceasedNaturalPersonFullName'],
+                $listItemData['deceasedNaturalPersonBornAtFormatted'],
+                $listItemData['deceasedNaturalPersonDeceasedDetailsDiedAtFormatted'],
+                match ($listItemData['deceasedNaturalPersonDeceasedDetailsAge']) {
+                    null    => $listItemData['deceasedNaturalPersonDeceasedDetailsAgeCalculated'],
+                    default => (int) $listItemData['deceasedNaturalPersonDeceasedDetailsAge'],
                 },
-                $paginatedListItemData['buriedAtFormatted'],
-                $paginatedListItemData['burialPlaceType'],
-                $paginatedListItemData['burialPlaceGraveSiteCemeteryBlockName'],
-                $paginatedListItemData['burialPlaceGraveSiteRowInBlock'],
-                $paginatedListItemData['burialPlaceGraveSitePositionInRow'],
-                $paginatedListItemData['burialPlaceColumbariumNicheColumbariumName'],
-                $paginatedListItemData['burialPlaceColumbariumNicheRowInColumbarium'],
-                $paginatedListItemData['burialPlaceColumbariumNicheNumber'],
-                $paginatedListItemData['burialPlaceMemorialTreeNumber'],
-                $paginatedListItemData['customerType'],
-                $paginatedListItemData['customerNaturalPersonFullName'],
-                $paginatedListItemData['customerNaturalPersonAddress'],
-                $paginatedListItemData['customerNaturalPersonPhone'],
-                $paginatedListItemData['customerSoleProprietorName'],
-                $paginatedListItemData['customerSoleProprietorRegistrationAddress'],
-                $paginatedListItemData['customerSoleProprietorActualLocationAddress'],
-                $paginatedListItemData['customerSoleProprietorPhone'],
-                $paginatedListItemData['customerJuristicPersonName'],
-                $paginatedListItemData['customerJuristicPersonLegalAddress'],
-                $paginatedListItemData['customerJuristicPersonPostalAddress'],
-                $paginatedListItemData['customerJuristicPersonPhone'],
+                $listItemData['buriedAtFormatted'],
+                $listItemData['burialPlaceType'],
+                $listItemData['burialPlaceGraveSiteCemeteryBlockName'],
+                $listItemData['burialPlaceGraveSiteRowInBlock'],
+                $listItemData['burialPlaceGraveSitePositionInRow'],
+                $listItemData['burialPlaceColumbariumNicheColumbariumName'],
+                $listItemData['burialPlaceColumbariumNicheRowInColumbarium'],
+                $listItemData['burialPlaceColumbariumNicheNumber'],
+                $listItemData['burialPlaceMemorialTreeNumber'],
+                $listItemData['customerType'],
+                $listItemData['customerNaturalPersonFullName'],
+                $listItemData['customerNaturalPersonAddress'],
+                $listItemData['customerNaturalPersonPhone'],
+                $listItemData['customerSoleProprietorName'],
+                $listItemData['customerSoleProprietorRegistrationAddress'],
+                $listItemData['customerSoleProprietorActualLocationAddress'],
+                $listItemData['customerSoleProprietorPhone'],
+                $listItemData['customerJuristicPersonName'],
+                $listItemData['customerJuristicPersonLegalAddress'],
+                $listItemData['customerJuristicPersonPostalAddress'],
+                $listItemData['customerJuristicPersonPhone'],
             );
         }
 

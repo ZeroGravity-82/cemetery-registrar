@@ -10,7 +10,6 @@ use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\Burial\BurialContainer\CoffinShapeFetcher;
 use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 
 /**
@@ -21,7 +20,6 @@ class ListBurialsService extends ApplicationService
     public function __construct(
         private readonly BurialFetcher         $burialFetcher,
         private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
-        private readonly CauseOfDeathFetcher   $causeOfDeathFetcher,
         private readonly CemeteryBlockFetcher  $cemeteryBlockFetcher,
         private readonly CoffinShapeFetcher    $coffinShapeFetcher,
         ListBurialsRequestValidator            $requestValidator,
@@ -38,7 +36,6 @@ class ListBurialsService extends ApplicationService
             $this->burialFetcher->paginate(1),
             $this->burialFetcher->countTotal(),
             $this->funeralCompanyFetcher->paginate(1),
-            $this->causeOfDeathFetcher->paginate(1),
             $this->cemeteryBlockFetcher->paginate(1),
             $this->coffinShapeFetcher->findAll(1),
         );

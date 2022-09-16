@@ -34,13 +34,13 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?CauseOfDeathView
@@ -68,11 +68,11 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $listAllData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
 
-        return $this->hydrateListAll($listAllData);
+        return $this->hydrateListAll($listData);
     }
 
     public function doesExistByName(string $name): bool
@@ -139,7 +139,7 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -147,10 +147,10 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
         int     $totalPages,
     ): CauseOfDeathPaginatedList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new CauseOfDeathPaginatedListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['name'],
+                $listItemData['id'],
+                $listItemData['name'],
             );
         }
 
@@ -158,13 +158,13 @@ class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements Cau
     }
 
     private function hydrateListAll(
-        array   $listAllData,
+        array $listData,
     ): CauseOfDeathSimpleList {
         $items = [];
-        foreach ($listAllData as $simpleListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new CauseOfDeathSimpleListItem(
-                $simpleListItemData['id'],
-                $simpleListItemData['name'],
+                $listItemData['id'],
+                $listItemData['name'],
             );
         }
 

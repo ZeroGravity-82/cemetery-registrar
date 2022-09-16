@@ -29,7 +29,7 @@
           </tr>
         </thead>
         <tbody>
-          {% for listItem in paginatedList.items %}
+          {% for listItem in list.items %}
             {% include 'admin/natural_person/_natural_person_paginated_list_item.html.twig' %}
           {% endfor %}
         </tbody>
@@ -38,11 +38,14 @@
   </div>
 
   {% include 'natural_person/_form_new_natural_person.html.twig' with {'context': 'NaturalPersonFormNew'} %}
+  {% include 'natural_person/_card_natural_person.html.twig' with {'context': 'NaturalPersonCard'} %}
 
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
-  <script src="/js/admin/natural-person/natural-person.js"></script>
+  <script src="/js/admin/natural-person/natural-person-paginated-list.js"></script>
+  <script src="/js/admin/natural-person/natural-person-form-new.js"></script>
+  <script src="/js/admin/natural-person/natural-person-card.js"></script>
 {% endblock %}

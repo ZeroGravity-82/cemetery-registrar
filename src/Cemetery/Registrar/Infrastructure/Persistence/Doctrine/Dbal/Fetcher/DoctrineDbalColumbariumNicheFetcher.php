@@ -38,13 +38,13 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         $this->appendAndWhereLikeTerm($queryBuilder, $term);
         $this->setTermParameter($queryBuilder, $term);
 
-        $paginatedListData = $queryBuilder
+        $listData = $queryBuilder
             ->executeQuery()
             ->fetchAllAssociative();
         $totalCount = $this->doCountTotal($term);
         $totalPages = (int) \ceil($totalCount / $pageSize);
 
-        return $this->hydratePaginatedList($paginatedListData, $page, $pageSize, $term, $totalCount, $totalPages);
+        return $this->hydratePaginatedList($listData, $page, $pageSize, $term, $totalCount, $totalPages);
     }
 
     public function findViewById(string $id): ?ColumbariumNicheView
@@ -148,7 +148,7 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
     }
 
     private function hydratePaginatedList(
-        array   $paginatedListData,
+        array   $listData,
         int     $page,
         int     $pageSize,
         ?string $term,
@@ -156,14 +156,14 @@ class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements
         int     $totalPages,
     ): ColumbariumNicheList {
         $items = [];
-        foreach ($paginatedListData as $paginatedListItemData) {
+        foreach ($listData as $listItemData) {
             $items[] = new ColumbariumNicheListItem(
-                $paginatedListItemData['id'],
-                $paginatedListItemData['columbariumName'],
-                $paginatedListItemData['rowInColumbarium'],
-                $paginatedListItemData['nicheNumber'],
-                $paginatedListItemData['personInChargeId'],
-                $paginatedListItemData['personInChargeFullName'],
+                $listItemData['id'],
+                $listItemData['columbariumName'],
+                $listItemData['rowInColumbarium'],
+                $listItemData['nicheNumber'],
+                $listItemData['personInChargeId'],
+                $listItemData['personInChargeFullName'],
             );
         }
 

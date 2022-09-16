@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\NaturalPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\CauseOfDeath\Query\ListAllCausesOfDeath\ListAllCausesOfDeathRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\CreateNaturalPerson\CreateNaturalPersonRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\PaginateNaturalPersons\PaginateNaturalPersonsRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
@@ -29,13 +30,17 @@ class AdminNaturalPersonController extends Controller
         $term          = $request->query->get('search');
         $queryRequest  = new PaginateNaturalPersonsRequest($page, $term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
-
-        $paginatedList = $queryResponse->data->paginatedList;
+        $list          = $queryResponse->data->list;
         $totalCount    = $queryResponse->data->totalCount;
 
+        $queryRequest     = new ListAllCausesOfDeathRequest();
+        $queryResponse    = $this->appRequestBus->execute($queryRequest);
+        $causeOfDeathList = $queryResponse->data->list;
+
         return $this->render('admin/natural_person/natural_person_paginated_list.html.twig', [
-            'paginatedList' => $paginatedList,
-            'totalCount'    => $totalCount,
+            'list'             => $list,
+            'totalCount'       => $totalCount,
+            'causeOfDeathList' => $causeOfDeathList,
         ]);
     }
 
