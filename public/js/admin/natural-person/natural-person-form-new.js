@@ -1,13 +1,13 @@
 const $naturalPersonFormNew                       = $(`#modalNaturalPersonFormNew`);
 const $naturalPersonFormNewTitle                  = $naturalPersonFormNew.find(`.modal-title`)
 const $naturalPersonFormNewForm                   = $naturalPersonFormNew.find(`form`);
-const $naturalPersonFormNewCemeteryBlockIdField   = $naturalPersonFormNew.find(`select[id=cemeteryBlockId]`);
-const $naturalPersonFormNewRowInBlockField        = $naturalPersonFormNew.find(`input[id=rowInBlock]`);
-const $naturalPersonFormNewPositionInRowField     = $naturalPersonFormNew.find(`input[id=positionInRow]`);
-const $naturalPersonFormNewSizeField              = $naturalPersonFormNew.find(`input[id=size]`);
-const $naturalPersonFormNewGeoPositionField       = $naturalPersonFormNew.find(`input[id=geoPosition]`);
-const $naturalPersonFormNewGeoPositionErrorField  = $naturalPersonFormNew.find(`input[id=geoPositionError]`);
-const $naturalPersonFormNewPersonInChargeField    = $naturalPersonFormNew.find(`select[id=personInCharge]`);
+// const $naturalPersonFormNewCemeteryBlockIdField   = $naturalPersonFormNew.find(`select[id=cemeteryBlockId]`);
+// const $naturalPersonFormNewRowInBlockField        = $naturalPersonFormNew.find(`input[id=rowInBlock]`);
+// const $naturalPersonFormNewPositionInRowField     = $naturalPersonFormNew.find(`input[id=positionInRow]`);
+// const $naturalPersonFormNewSizeField              = $naturalPersonFormNew.find(`input[id=size]`);
+// const $naturalPersonFormNewGeoPositionField       = $naturalPersonFormNew.find(`input[id=geoPosition]`);
+// const $naturalPersonFormNewGeoPositionErrorField  = $naturalPersonFormNew.find(`input[id=geoPositionError]`);
+// const $naturalPersonFormNewPersonInChargeField    = $naturalPersonFormNew.find(`select[id=personInCharge]`);
 const $naturalPersonFormNewCsrfTokenField         = $naturalPersonFormNew.find(`input[id=token]`);
 const $naturalPersonFormNewSaveAndCloseBtn        = $naturalPersonFormNew.find(`.js-save-and-close`);
 const $naturalPersonFormNewCloseBtn               = $naturalPersonFormNew.find(`.js-close`);
@@ -15,12 +15,12 @@ const naturalPersonFormNewModalObject             = new bootstrap.Modal(`#modalN
 
 function naturalPersonFormNew_show() {
   $naturalPersonFormNewTitle.html(`Физлица (создание)`);
-  $naturalPersonFormNewCemeteryBlockIdField.val(null).change();
-  $naturalPersonFormNewRowInBlockField.val(null);
-  $naturalPersonFormNewPositionInRowField.val(null);
-  $naturalPersonFormNewSizeField.val(null);
-  $naturalPersonFormNewGeoPositionField.val(null);
-  $naturalPersonFormNewGeoPositionErrorField.val(null);
+  // $naturalPersonFormNewCemeteryBlockIdField.val(null).change();
+  // $naturalPersonFormNewRowInBlockField.val(null);
+  // $naturalPersonFormNewPositionInRowField.val(null);
+  // $naturalPersonFormNewSizeField.val(null);
+  // $naturalPersonFormNewGeoPositionField.val(null);
+  // $naturalPersonFormNewGeoPositionErrorField.val(null);
   naturalPersonFormNew_hideAllValidationErrors();
   naturalPersonFormNewModalObject.show();
 }
@@ -36,9 +36,6 @@ $naturalPersonFormNewSaveAndCloseBtn.on(`click`, () => {
 });
 $naturalPersonFormNewCloseBtn.on(`click`, () => {
   naturalPersonForm_close();
-});
-$naturalPersonFormNewGeoPositionField.on(`change`, () => {
-  $naturalPersonFormNewGeoPositionErrorField.val(``);
 });
 
 function naturalPersonFormNew_save(url, isReloadRequired = false) {
