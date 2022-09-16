@@ -77,7 +77,7 @@ class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements Na
     {
         $sql = $this->buildSelectSimpleSql();
         $sql = $this->appendWhereRemovedAtIsNullSql($sql);
-        $sql = $this->appendAndWhereDiedAtIsNullSql($sql);
+        $sql = $this->appendAndWhereDeceasedDetailsIsNullSql($sql);
         $sql = $this->appendAndWhereFullNameStartsWithTermSql($sql, $term);
         $sql = $this->appendOrderByFullNameThenByBornAtThenByDiedAtSql($sql);
 
@@ -168,9 +168,9 @@ SELECT_SIMPLE_SQL;
         return $sql . ' WHERE np.removed_at IS NULL';
     }
 
-    private function appendAndWhereDiedAtIsNullSql(string $sql): string
+    private function appendAndWhereDeceasedDetailsIsNullSql(string $sql): string
     {
-        return $sql . ' AND np.deceased_details->>"$.diedAt" IS NULL';
+        return $sql . ' AND np.deceased_details IS NULL';
     }
 
 
