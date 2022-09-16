@@ -1,14 +1,19 @@
-const $naturalPersonCard                     = $(`#modalNaturalPersonCard`);
-const $naturalPersonCardTitle                = $naturalPersonCard.find(`.modal-title`)
-const $naturalPersonCardCard                 = $naturalPersonCard.find(`div.card`);
-const $naturalPersonCardFullNameField        = $naturalPersonCard.find(`.js-full-name`);
-const $naturalPersonCardContactField         = $naturalPersonCard.find(`.js-contact`);
-const $naturalPersonCardBirthDetailsField    = $naturalPersonCard.find(`.js-birth-details`);
-const $naturalPersonCardPassportField        = $naturalPersonCard.find(`.js-passport`);
-const $naturalPersonCardDeceasedDetailsField = $naturalPersonCard.find(`.js-deceased-details`);
-const $naturalPersonCardCsrfTokenField       = $naturalPersonCard.find(`input[id=token]`);
-const $naturalPersonCardCloseBtn             = $naturalPersonCard.find(`.js-close`);
-const naturalPersonCardModalObject           = new bootstrap.Modal(`#modalNaturalPersonCard`, {});
+const $naturalPersonCard                          = $(`#modalNaturalPersonCard`);
+const $naturalPersonCardTitle                     = $naturalPersonCard.find(`.modal-title`)
+const $naturalPersonCardCard                      = $naturalPersonCard.find(`div.card`);
+const $naturalPersonCardFullNameField             = $naturalPersonCard.find(`.js-full-name`);
+const $naturalPersonCardContactField              = $naturalPersonCard.find(`.js-contact`);
+const $naturalPersonCardBirthDetailsField         = $naturalPersonCard.find(`.js-birth-details`);
+const $naturalPersonCardPassportField             = $naturalPersonCard.find(`.js-passport`);
+const $deceasedDetailsWrapper                     = $naturalPersonCard.find(`.js-deceased-details-wrapper`);
+const $naturalPersonCardDiedAtField               = $naturalPersonCard.find(`.js-died-at`);
+const $naturalPersonCardAgeField                  = $naturalPersonCard.find(`.js-age`);
+const $naturalPersonCardCauseOfDeathField         = $naturalPersonCard.find(`.js-cause-of-death`);
+const $naturalPersonCardDeathCertificateField     = $naturalPersonCard.find(`.js-death-certificate`);
+const $naturalPersonCardCremationCertificateField = $naturalPersonCard.find(`.js-cremation-certificate`);
+const $naturalPersonCardCsrfTokenField            = $naturalPersonCard.find(`input[id=token]`);
+const $naturalPersonCardCloseButton               = $naturalPersonCard.find(`.js-close`);
+const naturalPersonCardModalObject                = new bootstrap.Modal(`#modalNaturalPersonCard`, {});
 
 let currentNaturalPersonId;
 let currentView;
@@ -29,19 +34,29 @@ function naturalPersonCard_show(id) {
     const view  = responseJson.data.view;
     currentView = view;
     $naturalPersonCardTitle.html(`<span>${view.fullName}</span> (Физлица)`);
+    if (view.diedAt !== null) {
+      $naturalPersonCardTitle.append(`&nbsp;<span class="badge text-end text-bg-dark">Умерший</span>`);
+    }
+
     $naturalPersonCardFullNameField.html(view.fullName);
     $naturalPersonCardContactField.html(composeContact(view));
     $naturalPersonCardBirthDetailsField.html(composeBirthDetails(view));
     $naturalPersonCardPassportField.html(composePassport(view));
+    $naturalPersonCardDiedAtField.html(composeDiedAt(view));
+    $naturalPersonCardAgeField.html(composeAge(view));
+    $naturalPersonCardCauseOfDeathField.html(composeCauseOfDeath(view));
+    $naturalPersonCardDeathCertificateField.html(composeDeathCertificate(view));
+    $naturalPersonCardCremationCertificateField.html(composeCremationCertificate(view));
 
     toggleActionButtons(view);
+    toggleDeceasedDetails(view);
     naturalPersonCardModalObject.show();
   })
   .fail(onAjaxFailure)
   .always(onAjaxAlways);
 }
 
-$naturalPersonCardCloseBtn.on(`click`, () => {
+$naturalPersonCardCloseButton.on(`click`, () => {
   naturalPersonCard_close();
 });
 
@@ -109,54 +124,75 @@ function naturalPersonCard_close() {
 }
 
 function toggleActionButtons(view) {
-  // toggleActionBtnsForSize(view);
-  // toggleActionButtonsForGeoPosition(view);
-  // toggleActionButtonsForPersonInCharge(view);
-  // toggleActionButtonsDangerDivider();
+  toggleActionButtonsForContact(view);
+  toggleActionButtonsForBirthDetails(view);
+  toggleActionButtonsForPassport(view);
+  toggleActionButtonsForDeceasedDetails(view);
+  toggleActionButtonsDangerDivider();
 }
-
-function toggleActionBtnsForSize(view) {
-  if (view.size === null) {
-    $(`.js-clear-size`).removeClass(`d-none`).addClass(`d-none`);
+function toggleDeceasedDetails(view) {
+  if (view.diedAt === null) {
+    $deceasedDetailsWrapper.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $(`.js-clear-size`).removeClass(`d-none`);
+    $deceasedDetailsWrapper.removeClass(`d-none`);
   }
 }
 
-function toggleActionButtonsForGeoPosition(view) {
-  if (view.geoPositionLatitude === null && view.geoPositionLongitude === null) {
-    $(`.js-clear-geo-position`).removeClass(`d-none`).addClass(`d-none`);
+function toggleActionButtonsForContact(view) {
+  const $clearContactButton = $naturalPersonCard.find(`.js-clear-contact`);
+  if (view.address === null && view.phone === null && view.phoneAdditional === null && view.email === null) {
+    $clearContactButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $(`.js-clear-geo-position`).removeClass(`d-none`);
+    $clearContactButton.removeClass(`d-none`);
   }
 }
 
-function toggleActionButtonsForPersonInCharge(view) {
-  if (view.personInChargeFullName === null) {
-    $(`.js-assign-person-in-charge`).removeClass(`d-none`);
-    $(`.js-clarify-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
-    $(`.js-replace-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
-    $(`.js-discard-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
+function toggleActionButtonsForBirthDetails(view) {
+  const $clearBirthDetailsButton = $naturalPersonCard.find(`.js-clear-birth-details`);
+  if (view.bornAt === null && view.placeOfBirth === null) {
+    $clearBirthDetailsButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $(`.js-assign-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
-    $(`.js-clarify-person-in-charge`).removeClass(`d-none`);
-    $(`.js-replace-person-in-charge`).removeClass(`d-none`);
-    $(`.js-discard-person-in-charge`).removeClass(`d-none`);
+    $clearBirthDetailsButton.removeClass(`d-none`);
+  }
+}
+
+function toggleActionButtonsForPassport(view) {
+  const $clearPassportButton = $naturalPersonCard.find(`.js-clear-passport`);
+  if (view.passportSeries === null) {
+    $clearPassportButton.removeClass(`d-none`).addClass(`d-none`);
+  } else {
+    $clearPassportButton.removeClass(`d-none`);
+  }
+}
+
+function toggleActionButtonsForDeceasedDetails(view) {
+  const $enterDeceasedDetailsButton   = $naturalPersonCard.find(`.js-enter-deceased-details`);
+  const $clarifyDeceasedDetailsButton = $naturalPersonCard.find(`.js-clarify-deceased-details`);
+  const $discardDeceasedDetailsButton = $naturalPersonCard.find(`.js-discard-deceased-details`);
+  if (view.diedAt === null) {
+    $enterDeceasedDetailsButton.removeClass(`d-none`);
+    $clarifyDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
+    $discardDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
+  } else {
+    $enterDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
+    $clarifyDeceasedDetailsButton.removeClass(`d-none`);
+    $discardDeceasedDetailsButton.removeClass(`d-none`);
   }
 }
 
 function toggleActionButtonsDangerDivider() {
-  let areDangerBtnsVisible = false;
-  const $dangerActionBtns = $naturalPersonCard.find(`.js-danger-action-btn`);
-  $.each($dangerActionBtns, function (index, dangerActionBtns) {
-    if (!$(dangerActionBtns).hasClass(`d-none`)) {
-      areDangerBtnsVisible = true;
+  let areDangerButtonsVisible = false;
+  const $dangerActionButtons = $naturalPersonCard.find(`.js-danger-action-btn`);
+  $.each($dangerActionButtons, function (index, dangerActionButtons) {
+    if (!$(dangerActionButtons).hasClass(`d-none`)) {
+      areDangerButtonsVisible = true;
     }
   });
-  if (areDangerBtnsVisible) {
-    $(`.js-danger-action-divider`).removeClass(`d-none`);
+  const $dangerActionDivider = $naturalPersonCard.find(`.js-danger-action-divider`);
+  if (areDangerButtonsVisible) {
+    $dangerActionDivider.removeClass(`d-none`);
   } else {
-    $(`.js-danger-action-divider`).removeClass(`d-none`).addClass(`d-none`);
+    $dangerActionDivider.removeClass(`d-none`).addClass(`d-none`);
   }
 }
 
@@ -227,4 +263,28 @@ function composePassport(view) {
   }
 
   return passport;
+}
+
+function composeDiedAt(view) {
+  return view.diedAt ?? `-`;
+}
+
+function composeAge(view) {
+  return view.age ?? `-`;
+}
+
+function composeCauseOfDeath(view) {
+  return view.causeOfDeathName ?? `-`;
+}
+
+function composeDeathCertificate(view) {
+  return view.deathCertificateSeries
+      ? `${view.deathCertificateSeries} № ${view.deathCertificateNumber} от ${view.deathCertificateIssuedAt}`
+      : `-`;
+}
+
+function composeCremationCertificate(view) {
+  return view.cremationCertificateNumber
+      ? `№ ${view.cremationCertificateNumber} от ${view.cremationCertificateIssuedAt}`
+      : `-`;
 }

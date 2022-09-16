@@ -6,21 +6,21 @@
       data-action-show="{{ path('admin_grave_site_show', {'id': '{id}'})|url_decode }}"
       data-action-remove="{{ path('admin_grave_site_remove', {'id': '{id}'})|url_decode }}">
     <div class="card-body">
-      <div class="row">
-        <div class="col-sm-4"><strong>Расположение:</strong></div>
-        <div class="col-sm-8"><p class="js-location"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Расположение:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-location"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Размер:</strong></div>
-        <div class="col-sm-8"><p class="js-size"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Размер:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-size"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Геопозиция:</strong></div>
-        <div class="col-sm-8"><p class="js-geo-position"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Геопозиция:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-geo-position"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Ответственный:</strong></div>
-        <div class="col-sm-8"><p class="js-person-in-charge"></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Ответственный:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-person-in-charge"></div>
       </div>
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">

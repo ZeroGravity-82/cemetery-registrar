@@ -6,25 +6,46 @@
       data-action-show="{{ path('natural_person_show', {'id': '{id}'})|url_decode }}"
       data-action-remove="{{ path('natural_person_remove', {'id': '{id}'})|url_decode }}">
     <div class="card-body">
-      <div class="row">
-        <div class="col-sm-4"><strong>ФИО:</strong></div>
-        <div class="col-sm-8"><p class="js-full-name"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>ФИО:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-full-name"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Контактные данные:</strong></div>
-        <div class="col-sm-8"><p class="js-contact"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Контактные данные:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-contact"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Дата и место рождения:</strong></div>
-        <div class="col-sm-8"><p class="js-birth-details"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Дата и место рождения:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-birth-details"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Паспортные данные:</strong></div>
-        <div class="col-sm-8"><p class="js-passport"></p></div>
+      <div class="row pb-2">
+        <div class="col-sm-3 px-0"><strong>Паспортные данные:</strong></div>
+        <div class="col-sm-9 px-0"><p class="js-passport"></p></div>
       </div>
-      <div class="row">
-        <div class="col-sm-4"><strong>Данные о смерти:</strong></div>
-        <div class="col-sm-8"><p class="js-deceased-details"></div>
+      <div class="row pb-2 js-deceased-details-wrapper">
+        <div class="col-sm-3 px-0"><strong>Данные о смерти:</strong></div>
+        <div class="col-sm-9 px-0">
+          <div class="row">
+            <p class="col-sm-4 mb-1">Дата смерти:</p>
+            <p class="col-sm-8 mb-1 js-died-at"></p>
+          </div>
+          <div class="row">
+            <p class="col-sm-4 mb-1">Возраст:</p>
+            <p class="col-sm-8 mb-1 js-age"></p>
+          </div>
+          <div class="row">
+            <p class="col-sm-4 mb-1">Причина смерти:</p>
+            <p class="col-sm-8 mb-1 js-cause-of-death"></p>
+          </div>
+          <div class="row">
+            <p class="col-sm-4 mb-1">Свид. о смерти:</p>
+            <p class="col-sm-8 mb-1 js-death-certificate"></p>
+          </div>
+          <div class="row">
+            <p class="col-sm-4 mb-1">Справка о кремации:</p>
+            <p class="col-sm-8 mb-1 js-cremation-certificate"></p>
+          </div>
+        </div>
       </div>
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('natural_person') }}">
@@ -38,10 +59,11 @@
   <li class="dropdown-item js-clarify-contact">Уточнить контактные данные</li>
   <li class="dropdown-item js-clarify-birth-details">Уточнить дату и место рождения</li>
   <li class="dropdown-item js-clarify-passport">Уточнить паспортные данные</li>
+  <li class="dropdown-item js-enter-deceased-details">Внести данные о смерти</li>
   <li class="dropdown-item js-clarify-deceased-details">Уточнить данные о смерти</li>
   <li class="js-danger-action-divider"><hr class="dropdown-divider"></li>
   <li class="dropdown-item text-danger js-danger-action-btn js-clear-contact">Очистить контактные данные</li>
   <li class="dropdown-item text-danger js-danger-action-btn js-clear-birth-details">Очистить дату и место рождения</li>
   <li class="dropdown-item text-danger js-danger-action-btn js-clear-passport">Очистить паспортные данные</li>
-  <li class="dropdown-item text-danger js-danger-action-btn js-clear-deceased-details">Очистить данные о смерти</li>
+  <li class="dropdown-item text-danger js-danger-action-btn js-discard-deceased-details">Удалить данные о смерти</li>
 {% endset %}

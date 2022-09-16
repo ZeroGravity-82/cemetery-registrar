@@ -6,7 +6,7 @@ const $graveSiteCardSizeField           = $graveSiteCard.find(`.js-size`);
 const $graveSiteCardGeoPositionField    = $graveSiteCard.find(`.js-geo-position`);
 const $graveSiteCardPersonInChargeField = $graveSiteCard.find(`.js-person-in-charge`);
 const $graveSiteCardCsrfTokenField      = $graveSiteCard.find(`input[id=token]`);
-const $graveSiteCardCloseBtn            = $graveSiteCard.find(`.js-close`);
+const $graveSiteCardCloseButton         = $graveSiteCard.find(`.js-close`);
 const graveSiteCardModalObject          = new bootstrap.Modal(`#modalGraveSiteCard`, {});
 
 let currentGraveSiteId;
@@ -50,7 +50,7 @@ function graveSiteCard_show(id) {
   .always(onAjaxAlways);
 }
 
-$graveSiteCardCloseBtn.on(`click`, () => {
+$graveSiteCardCloseButton.on(`click`, () => {
   graveSiteCard_close();
 });
 
@@ -118,53 +118,60 @@ function graveSiteCard_close() {
 }
 
 function toggleActionButtons(view) {
-  toggleActionBtnsForSize(view);
+  toggleActionButtonsForSize(view);
   toggleActionButtonsForGeoPosition(view);
   toggleActionButtonsForPersonInCharge(view);
   toggleActionButtonsDangerDivider();
 }
 
-function toggleActionBtnsForSize(view) {
+function toggleActionButtonsForSize(view) {
+  const $clearSizeButton = $graveSiteCard.find(`.js-clear-size`);
   if (view.size === null) {
-    $(`.js-clear-size`).removeClass(`d-none`).addClass(`d-none`);
+    $clearSizeButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $(`.js-clear-size`).removeClass(`d-none`);
+    $clearSizeButton.removeClass(`d-none`);
   }
 }
 
 function toggleActionButtonsForGeoPosition(view) {
+  const $clearGeoPositionButton = $graveSiteCard.find(`.js-clear-geo-position`);
   if (view.geoPositionLatitude === null && view.geoPositionLongitude === null) {
-    $(`.js-clear-geo-position`).removeClass(`d-none`).addClass(`d-none`);
+    $clearGeoPositionButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $(`.js-clear-geo-position`).removeClass(`d-none`);
+    $clearGeoPositionButton.removeClass(`d-none`);
   }
 }
 
 function toggleActionButtonsForPersonInCharge(view) {
+  const $assignPersonInChargeButton  = $graveSiteCard.find(`.js-assign-person-in-charge`);
+  const $clarifyPersonInChargeButton = $graveSiteCard.find(`.js-clarify-person-in-charge`);
+  const $replacePersonInChargeButton = $graveSiteCard.find(`.js-replace-person-in-charge`);
+  const $discardPersonInChargeButton = $graveSiteCard.find(`.js-discard-person-in-charge`);
   if (view.personInChargeFullName === null) {
-    $(`.js-assign-person-in-charge`).removeClass(`d-none`);
-    $(`.js-clarify-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
-    $(`.js-replace-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
-    $(`.js-discard-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
+    $assignPersonInChargeButton.removeClass(`d-none`);
+    $clarifyPersonInChargeButton.removeClass(`d-none`).addClass(`d-none`);
+    $replacePersonInChargeButton.removeClass(`d-none`).addClass(`d-none`);
+    $discardPersonInChargeButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $(`.js-assign-person-in-charge`).removeClass(`d-none`).addClass(`d-none`);
-    $(`.js-clarify-person-in-charge`).removeClass(`d-none`);
-    $(`.js-replace-person-in-charge`).removeClass(`d-none`);
-    $(`.js-discard-person-in-charge`).removeClass(`d-none`);
+    $assignPersonInChargeButton.removeClass(`d-none`).addClass(`d-none`);
+    $clarifyPersonInChargeButton.removeClass(`d-none`);
+    $replacePersonInChargeButton.removeClass(`d-none`);
+    $discardPersonInChargeButton.removeClass(`d-none`);
   }
 }
 
 function toggleActionButtonsDangerDivider() {
-  let areDangerBtnsVisible = false;
-  const $dangerActionBtns = $graveSiteCard.find(`.js-danger-action-btn`);
-  $.each($dangerActionBtns, function (index, dangerActionBtns) {
-    if (!$(dangerActionBtns).hasClass(`d-none`)) {
-      areDangerBtnsVisible = true;
+  let areDangerButtonsVisible = false;
+  const $dangerActionButtons  = $graveSiteCard.find(`.js-danger-action-btn`);
+  $.each($dangerActionButtons, function (index, dangerActionButtons) {
+    if (!$(dangerActionButtons).hasClass(`d-none`)) {
+      areDangerButtonsVisible = true;
     }
   });
-  if (areDangerBtnsVisible) {
-    $(`.js-danger-action-divider`).removeClass(`d-none`);
+  const $dangerActionDivider = $graveSiteCard.find(`.js-danger-action-divider`);
+  if (areDangerButtonsVisible) {
+    $dangerActionDivider.removeClass(`d-none`);
   } else {
-    $(`.js-danger-action-divider`).removeClass(`d-none`).addClass(`d-none`);
+    $dangerActionDivider.removeClass(`d-none`).addClass(`d-none`);
   }
 }
