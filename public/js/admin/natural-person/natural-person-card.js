@@ -31,13 +31,12 @@ function naturalPersonCard_show(id) {
     url: url,
   })
   .done((responseJson) => {
-    const view  = responseJson.data.view;
-    currentView = view;
-    $naturalPersonCardTitle.html(`<span>${view.fullName}</span> (Физлица)`);
-    if (view.diedAt !== null) {
-      $naturalPersonCardTitle.append(`&nbsp;<span class="badge text-end text-bg-dark">Умерший</span>`);
-    }
-
+    const view          = responseJson.data.view;
+    currentView         = view;
+    const deceasedBadge = view.diedAt !== null
+      ? `<span class="badge text-end text-bg-dark">Умерший</span>`
+      : ``;
+    $naturalPersonCardTitle.html(`Карточка физлица - <span>${view.fullName} ${deceasedBadge}</span>`);
     $naturalPersonCardFullNameField.html(view.fullName);
     $naturalPersonCardContactField.html(composeContact(view));
     $naturalPersonCardBirthDetailsField.html(composeBirthDetails(view));
@@ -197,42 +196,28 @@ function toggleActionButtonsDangerDivider() {
 }
 
 function composeContact(view) {
-  let contactAddressLine    = view.address;
-  let contactPhoneEmailLine = null;
-  switch (true) {
-    case view.phone !== null && view.phoneAdditional === null:
-      contactPhoneEmailLine = view.phone;
-      break;
-    case view.phone === null && view.phoneAdditional !== null:
-      contactPhoneEmailLine = view.phoneAdditional;
-      break;
-    case view.phone !== null && view.phoneAdditional !== null:
-      contactPhoneEmailLine = `${view.phone}, ${view.phoneAdditional}`;
-      break;
+  let contactPhoneLine = null;
+  if (view.phone !== null) {
+    contactPhoneLine = view.phone;
   }
-  switch (true) {
-    case contactPhoneEmailLine === null && view.email !== null:
-      contactPhoneEmailLine = view.email;
-      break;
-    case contactPhoneEmailLine !== null && view.email !== null:
-      contactPhoneEmailLine = `${contactPhoneEmailLine}, ${view.email}`;
-      break;
+  if (view.phoneAdditional !== null) {
+    contactPhoneLine = contactPhoneLine !== null ? `${contactPhoneLine}, ${view.phoneAdditional}` : view.phoneAdditional;
+  }
+  const contactAddressLine = view.address;
+  const contactEmailLine   = view.email;
+
+  let contact = null;
+  if (contactPhoneLine !== null) {
+    contact = contactPhoneLine;
+  }
+  if (contactAddressLine !== null) {
+    contact = contact !== null ? `${contact}<br>${contactAddressLine}` : contactAddressLine;
+  }
+  if (contactEmailLine !== null) {
+    contact = contact !== null ? `${contact}<br>${contactEmailLine}` : contactEmailLine;
   }
 
-  let contact = `-`;
-  switch (true) {
-    case contactAddressLine !== null && contactPhoneEmailLine === null:
-      contact = contactAddressLine;
-      break;
-    case contactAddressLine === null && contactPhoneEmailLine !== null:
-      contact = contactPhoneEmailLine;
-      break;
-    case contactAddressLine !== null && contactPhoneEmailLine !== null:
-      contact = `${contactAddressLine}<br>${contactPhoneEmailLine}`;
-      break;
-  }
-
-  return contact;
+  return contact !== null ? contact : `-`;
 }
 
 function composeBirthDetails(view) {

@@ -1,33 +1,60 @@
-const $naturalPersonFormNew                       = $(`#modalNaturalPersonFormNew`);
-const $naturalPersonFormNewTitle                  = $naturalPersonFormNew.find(`.modal-title`)
-const $naturalPersonFormNewForm                   = $naturalPersonFormNew.find(`form`);
-// const $naturalPersonFormNewCemeteryBlockIdField   = $naturalPersonFormNew.find(`select[id=cemeteryBlockId]`);
-// const $naturalPersonFormNewRowInBlockField        = $naturalPersonFormNew.find(`input[id=rowInBlock]`);
-// const $naturalPersonFormNewPositionInRowField     = $naturalPersonFormNew.find(`input[id=positionInRow]`);
-// const $naturalPersonFormNewSizeField              = $naturalPersonFormNew.find(`input[id=size]`);
-// const $naturalPersonFormNewGeoPositionField       = $naturalPersonFormNew.find(`input[id=geoPosition]`);
-// const $naturalPersonFormNewGeoPositionErrorField  = $naturalPersonFormNew.find(`input[id=geoPositionError]`);
-// const $naturalPersonFormNewPersonInChargeField    = $naturalPersonFormNew.find(`select[id=personInCharge]`);
-const $naturalPersonFormNewCsrfTokenField         = $naturalPersonFormNew.find(`input[id=token]`);
-const $naturalPersonFormNewSaveAndCloseBtn        = $naturalPersonFormNew.find(`.js-save-and-close`);
-const $naturalPersonFormNewCloseBtn               = $naturalPersonFormNew.find(`.js-close`);
-const naturalPersonFormNewModalObject             = new bootstrap.Modal(`#modalNaturalPersonFormNew`, {});
+const $naturalPersonFormNew                                  = $(`#modalNaturalPersonFormNew`);
+const $naturalPersonFormNewTitle                             = $naturalPersonFormNew.find(`.modal-title`)
+const $naturalPersonFormNewForm                              = $naturalPersonFormNew.find(`form`);
+const $naturalPersonFormNewFullNameField                     = $naturalPersonFormNew.find(`input[id=fullName]`);
+const $naturalPersonFormNewPhoneField                        = $naturalPersonFormNew.find(`input[id=phone]`);
+const $naturalPersonFormNewPhoneAdditionalField              = $naturalPersonFormNew.find(`input[id=phoneAdditional]`);
+const $naturalPersonFormNewAddressField                      = $naturalPersonFormNew.find(`input[id=address]`);
+const $naturalPersonFormNewEmailField                        = $naturalPersonFormNew.find(`input[id=email]`);
+const $naturalPersonFormNewBornAtField                       = $naturalPersonFormNew.find(`input[id=bornAt]`);
+const $naturalPersonFormNewPlaceOfBirthField                 = $naturalPersonFormNew.find(`input[id=placeOfBirth]`);
+const $naturalPersonFormNewPassportSeriesField               = $naturalPersonFormNew.find(`input[id=passportSeries]`);
+const $naturalPersonFormNewPassportNumberField               = $naturalPersonFormNew.find(`input[id=passportNumber]`);
+const $naturalPersonFormNewPassportIssuedAtField             = $naturalPersonFormNew.find(`input[id=passportIssuedAt]`);
+const $naturalPersonFormNewPassportIssuedByField             = $naturalPersonFormNew.find(`input[id=passportIssuedBy]`);
+const $naturalPersonFormNewPassportDivisionCodeField         = $naturalPersonFormNew.find(`input[id=passportDivisionCode]`);
+const $naturalPersonFormNewDiedAtField                       = $naturalPersonFormNew.find(`input[id=diedAt]`);
+const $naturalPersonFormNewAgeField                          = $naturalPersonFormNew.find(`input[id=age]`);
+const $naturalPersonFormNewCauseOfDeathIdField               = $naturalPersonFormNew.find(`select[id=causeOfDeathId]`);
+const $naturalPersonFormNewDeathCertificateSeriesField       = $naturalPersonFormNew.find(`input[id=deathCertificateSeries]`);
+const $naturalPersonFormNewDeathCertificateNumberField       = $naturalPersonFormNew.find(`input[id=deathCertificateNumber]`);
+const $naturalPersonFormNewDeathCertificateIssuedAtField     = $naturalPersonFormNew.find(`input[id=deathCertificateIssueAt]`);
+const $naturalPersonFormNewCremationCertificateNumberField   = $naturalPersonFormNew.find(`input[id=cremationCertificateNumber]`);
+const $naturalPersonFormNewCremationCertificateIssuedAtField = $naturalPersonFormNew.find(`input[id=cremationCertificateIssuedAt]`);
+const $naturalPersonFormNewCsrfTokenField                    = $naturalPersonFormNew.find(`input[id=token]`);
+const $naturalPersonFormNewSaveAndCloseBtn                   = $naturalPersonFormNew.find(`.js-save-and-close`);
+const $naturalPersonFormNewCloseBtn                          = $naturalPersonFormNew.find(`.js-close`);
+const naturalPersonFormNewModalObject                        = new bootstrap.Modal(`#modalNaturalPersonFormNew`, {});
 
 function naturalPersonFormNew_show() {
-  $naturalPersonFormNewTitle.html(`Физлица (создание)`);
-  // $naturalPersonFormNewCemeteryBlockIdField.val(null).change();
-  // $naturalPersonFormNewRowInBlockField.val(null);
-  // $naturalPersonFormNewPositionInRowField.val(null);
-  // $naturalPersonFormNewSizeField.val(null);
-  // $naturalPersonFormNewGeoPositionField.val(null);
-  // $naturalPersonFormNewGeoPositionErrorField.val(null);
+  $naturalPersonFormNewTitle.html(`Создание физлица`);
+  $naturalPersonFormNewFullNameField.val(null);
+  $naturalPersonFormNewPhoneField.val(null);
+  $naturalPersonFormNewPhoneAdditionalField.val(null);
+  $naturalPersonFormNewAddressField.val(null);
+  $naturalPersonFormNewEmailField.val(null);
+  $naturalPersonFormNewBornAtField.val(null);
+  $naturalPersonFormNewPlaceOfBirthField.val(null);
+  $naturalPersonFormNewPassportSeriesField.val(null);
+  $naturalPersonFormNewPassportNumberField.val(null);
+  $naturalPersonFormNewPassportIssuedAtField.val(null);
+  $naturalPersonFormNewPassportIssuedByField.val(null);
+  $naturalPersonFormNewPassportDivisionCodeField.val(null);
+  $naturalPersonFormNewDiedAtField.val(null);
+  $naturalPersonFormNewAgeField.val(null);
+  $naturalPersonFormNewCauseOfDeathIdField.val(null).change();
+  $naturalPersonFormNewDeathCertificateSeriesField.val(null);
+  $naturalPersonFormNewDeathCertificateNumberField.val(null);
+  $naturalPersonFormNewDeathCertificateIssuedAtField.val(null);
+  $naturalPersonFormNewCremationCertificateNumberField.val(null);
+  $naturalPersonFormNewCremationCertificateIssuedAtField.val(null);
   naturalPersonFormNew_hideAllValidationErrors();
   naturalPersonFormNewModalObject.show();
 }
 
 // Autofocus
 $naturalPersonFormNew.on(`shown.bs.modal`, (e) => {
-  $(e.target).find(`#cemeteryBlockId`).focus();
+  $(e.target).find(`#fullName`).focus();
 });
 
 $naturalPersonFormNewSaveAndCloseBtn.on(`click`, () => {
@@ -40,30 +67,67 @@ $naturalPersonFormNewCloseBtn.on(`click`, () => {
 
 function naturalPersonFormNew_save(url, isReloadRequired = false) {
   $spinner.show();
-  const geoPositionLatitude  = $naturalPersonFormNewGeoPositionField.val().split(`,`)[0];
-  const geoPositionLongitude = $naturalPersonFormNewGeoPositionField.val().split(`,`)[1];
-  const data                 = {
-    cemeteryBlockId: $naturalPersonFormNewCemeteryBlockIdField.val() !== ``
-        ? $naturalPersonFormNewCemeteryBlockIdField.val()
-        : null,
-    rowInBlock: $naturalPersonFormNewRowInBlockField.val() !== ``
-        ? parseInt($naturalPersonFormNewRowInBlockField.val())
-        : null,
-    positionInRow: $naturalPersonFormNewPositionInRowField.val() !== ``
-        ? parseInt($naturalPersonFormNewPositionInRowField.val())
-        : null,
-    geoPositionLatitude: $naturalPersonFormNewGeoPositionField.val() !== ``
-        ? geoPositionLatitude !== undefined ? geoPositionLatitude.trim() : null
-        : null,
-    geoPositionLongitude: $naturalPersonFormNewGeoPositionField.val() !== ``
-        ? geoPositionLongitude !== undefined ? geoPositionLongitude.trim() : null
-        : null,
-    geoPositionError: $naturalPersonFormNewGeoPositionErrorField.val() !== ``
-        ? $naturalPersonFormNewGeoPositionErrorField.val()
-        : null,
-    size: $naturalPersonFormNewSizeField.val() !== ``
-        ? $naturalPersonFormNewSizeField.val()
-        : null,
+  const data = {
+    fullName: $naturalPersonFormNewFullNameField.val() !== ``
+      ? $naturalPersonFormNewFullNameField.val()
+      : null,
+    phone: $naturalPersonFormNewPhoneField.val() !== ``
+      ? $naturalPersonFormNewPhoneField.val()
+      : null,
+    phoneAdditional: $naturalPersonFormNewPhoneAdditionalField.val() !== ``
+      ? $naturalPersonFormNewPhoneAdditionalField.val()
+      : null,
+    email: $naturalPersonFormNewEmailField.val() !== ``
+      ? $naturalPersonFormNewEmailField.val()
+      : null,
+    address: $naturalPersonFormNewAddressField.val() !== ``
+      ? $naturalPersonFormNewAddressField.val()
+      : null,
+    bornAt: $naturalPersonFormNewBornAtField.val() !== ``
+      ? $naturalPersonFormNewBornAtField.val()
+      : null,
+    placeOfBirth: $naturalPersonFormNewPlaceOfBirthField.val() !== ``
+      ? $naturalPersonFormNewPlaceOfBirthField.val()
+      : null,
+    passportSeries: $naturalPersonFormNewPassportSeriesField.val() !== ``
+      ? $naturalPersonFormNewPassportSeriesField.val()
+      : null,
+    passportNumber: $naturalPersonFormNewPassportNumberField.val() !== ``
+      ? $naturalPersonFormNewPassportNumberField.val()
+      : null,
+    passportIssuedAt: $naturalPersonFormNewPassportIssuedAtField.val() !== ``
+      ? $naturalPersonFormNewPassportIssuedAtField.val()
+      : null,
+    passportIssuedBy: $naturalPersonFormNewPassportIssuedByField.val() !== ``
+      ? $naturalPersonFormNewPassportIssuedByField.val()
+      : null,
+    passportDivisionCode: $naturalPersonFormNewPassportDivisionCodeField.val() !== ``
+      ? $naturalPersonFormNewPassportDivisionCodeField.val()
+      : null,
+    diedAt: $naturalPersonFormNewDiedAtField.val() !== ``
+      ? $naturalPersonFormNewDiedAtField.val()
+      : null,
+    age: $naturalPersonFormNewAgeField.val() !== ``
+      ? parseInt($naturalPersonFormNewAgeField.val())
+      : null,
+    causeOfDeathId: $naturalPersonFormNewCauseOfDeathIdField.val() !== ``
+      ? $naturalPersonFormNewCauseOfDeathIdField.val()
+      : null,
+    deathCertificateSeries: $naturalPersonFormNewDeathCertificateSeriesField.val() !== ``
+      ? $naturalPersonFormNewDeathCertificateSeriesField.val()
+      : null,
+    deathCertificateNumber: $naturalPersonFormNewDeathCertificateNumberField.val() !== ``
+      ? $naturalPersonFormNewDeathCertificateNumberField.val()
+      : null,
+    deathCertificateIssuedAt: $naturalPersonFormNewDeathCertificateIssuedAtField.val() !== ``
+      ? $naturalPersonFormNewDeathCertificateIssuedAtField.val()
+      : null,
+    cremationCertificateNumber: $naturalPersonFormNewCremationCertificateNumberField.val() !== ``
+      ? $naturalPersonFormNewCremationCertificateNumberField.val()
+      : null,
+    cremationCertificateIssuedAt: $naturalPersonFormNewCremationCertificateIssuedAtField.val() !== ``
+      ? $naturalPersonFormNewCremationCertificateIssuedAtField.val()
+      : null,
     token: $naturalPersonFormNewCsrfTokenField.val(),
   };
   $.ajax({
@@ -76,7 +140,7 @@ function naturalPersonFormNew_save(url, isReloadRequired = false) {
       .done(() => {
         buildToast().fire({
           icon: `success`,
-          title: `Участок успешно создан.`,
+          title: `Физлицо успешно создано.`,
         });
         if (isReloadRequired) {
           naturalPersonFormNewModalObject.hide();

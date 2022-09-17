@@ -21,7 +21,7 @@ $body.on(`click`, `.js-create-cause-of-death-btn`, () => {
   $modalCauseOfDeathRemoveBtnWrapper.removeClass(`d-none`).addClass(`d-none`);
   $modalCauseOfDeathSaveBtn.removeClass(`d-none`).addClass(`d-none`);
   $modalCauseOfDeathTimestamps.removeClass(`d-none`).addClass(`d-none`);
-  $modalCauseOfDeathTitle.html(`Причины смерти (создание)`);
+  $modalCauseOfDeathTitle.html(`Создане причины смерти`);
   $modalCauseOfDeathNameField.val(null);
   hideAllValidationErrors();
   modalCauseOfDeathObject.show();
@@ -44,7 +44,7 @@ $tableCauseOfDeath.on(`click`, `td`, (e) => {
     $modalCauseOfDeathRemoveBtnWrapper.removeClass(`d-none`);
     $modalCauseOfDeathSaveBtn.removeClass(`d-none`);
     $modalCauseOfDeathTimestamps.removeClass(`d-none`);
-    $modalCauseOfDeathTitle.html(`<span>${view.name}</span> (Причины смерти)`);
+    $modalCauseOfDeathTitle.html(`Карточка причины смерти - <span>${view.name}</span>`);
     $modalCauseOfDeathNameField.val(view.name);
     hideAllValidationErrors();
     modalCauseOfDeathObject.show();

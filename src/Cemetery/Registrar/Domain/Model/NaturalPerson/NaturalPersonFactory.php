@@ -20,8 +20,8 @@ class NaturalPersonFactory extends EntityFactory
      * @throws Exception       when the full name is invalid
      * @throws Exception       when the phone number (if any) is invalid
      * @throws Exception       when the phone number additional (if any) is invalid
-     * @throws Exception       when the e-mail address (if any) is invalid
      * @throws Exception       when the address (if any) is invalid
+     * @throws Exception       when the e-mail address (if any) is invalid
      * @throws \LogicException when the birthdate (if any) has invalid format
      * @throws Exception       when the place of birth (if any) is invalid
      * @throws Exception       when the passport series (if any) is invalid
@@ -34,8 +34,8 @@ class NaturalPersonFactory extends EntityFactory
         ?string $fullName,
         ?string $phone,
         ?string $phoneAdditional,
-        ?string $email,
         ?string $address,
+        ?string $email,
         ?string $bornAt,
         ?string $placeOfBirth,
         ?string $passportSeries,

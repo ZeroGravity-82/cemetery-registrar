@@ -12,9 +12,9 @@ class NaturalPersonPaginatedListItem
     public function __construct(
         public string  $id,
         public string  $fullName,
-        public ?string $address,
         public ?string $phone,
         public ?string $phoneAdditional,
+        public ?string $address,
         public ?string $email,
         public ?string $bornAt,
         public ?string $placeOfBirth,

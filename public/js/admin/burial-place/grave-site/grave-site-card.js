@@ -31,7 +31,7 @@ function graveSiteCard_show(id) {
     if (view.positionInRow !== null) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
-    $graveSiteCardTitle.html(`<span>${graveSiteCardTitle}</span> (Участки)`);
+    $graveSiteCardTitle.html(`Карточка участка - <span>${graveSiteCardTitle}</span>`);
     $graveSiteCardLocationField.html(graveSiteCardTitle);
     $graveSiteCardSizeField.html(view.size !== null ? `${view.size} м²` : `-`);
 

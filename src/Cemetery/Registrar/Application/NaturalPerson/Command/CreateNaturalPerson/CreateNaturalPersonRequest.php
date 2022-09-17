@@ -15,8 +15,8 @@ class CreateNaturalPersonRequest extends ApplicationRequest
         public ?string $fullName,
         public ?string $phone,
         public ?string $phoneAdditional,
-        public ?string $email,
         public ?string $address,
+        public ?string $email,
         public ?string $bornAt,
         public ?string $placeOfBirth,
         public ?string $passportSeries,
@@ -27,7 +27,10 @@ class CreateNaturalPersonRequest extends ApplicationRequest
         public ?string $diedAt,
         public ?int    $age,
         public ?string $causeOfDeathId,
-        public ?string $deathCertificate,
-        public ?string $cremationCertificate,
+        public ?string $deathCertificateSeries,
+        public ?string $deathCertificateNumber,
+        public ?string $deathCertificateIssuedAt,
+        public ?string $cremationCertificateNumber,
+        public ?string $cremationCertificateIssuedAt,
     ) {}
 }

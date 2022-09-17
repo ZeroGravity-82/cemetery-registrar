@@ -21,7 +21,7 @@ $body.on(`click`, `.js-create-cemetery-block-btn`, () => {
   $modalCemeteryBlockRemoveBtnWrapper.removeClass(`d-none`).addClass(`d-none`);
   $modalCemeteryBlockSaveBtn.removeClass(`d-none`).addClass(`d-none`);
   $modalCemeteryBlockTimestamps.removeClass(`d-none`).addClass(`d-none`);
-  $modalCemeteryBlockTitle.html(`Кварталы (создание)`);
+  $modalCemeteryBlockTitle.html(`Создание квартала`);
   $modalCemeteryBlockNameField.val(null);
   hideAllValidationErrorsCemeteryBlock();
   modalCemeteryBlockObject.show();
@@ -44,7 +44,7 @@ $tableCemeteryBlock.on(`click`, `td`, (e) => {
     $modalCemeteryBlockRemoveBtnWrapper.removeClass(`d-none`);
     $modalCemeteryBlockSaveBtn.removeClass(`d-none`);
     $modalCemeteryBlockTimestamps.removeClass(`d-none`);
-    $modalCemeteryBlockTitle.html(`<span>${view.name}</span> (Кварталы)`);
+    $modalCemeteryBlockTitle.html(`Карточка квартала - <span>${view.name}</span>`);
     $modalCemeteryBlockNameField.val(view.name);
     hideAllValidationErrorsCemeteryBlock();
     modalCemeteryBlockObject.show();

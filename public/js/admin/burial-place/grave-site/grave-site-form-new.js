@@ -14,7 +14,7 @@ const $graveSiteFormNewCloseBtn               = $graveSiteFormNew.find(`.js-clos
 const graveSiteFormNewModalObject             = new bootstrap.Modal(`#modalGraveSiteFormNew`, {});
 
 function graveSiteFormNew_show() {
-  $graveSiteFormNewTitle.html(`Участки (создание)`);
+  $graveSiteFormNewTitle.html(`Создание участка`);
   $graveSiteFormNewCemeteryBlockIdField.val(null).change();
   $graveSiteFormNewRowInBlockField.val(null);
   $graveSiteFormNewPositionInRowField.val(null);

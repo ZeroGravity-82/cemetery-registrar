@@ -1,29 +1,29 @@
 <div class="row">
-  <div class="col-md-3"><label for="naturalPersonDeceasedDiedAt" class="form-label">Дата смерти</label></div>
+  <div class="col-md-3"><label for="diedAt" class="form-label">Дата смерти</label></div>
   <div class="col-md-9">
     <input type="date" class="form-control form-control-sm"
-           id="naturalPersonDeceasedDiedAt" name="naturalPersonDeceasedDiedAt"
-           aria-describedby="naturalPersonDeceasedDiedAtFeedback"
+           id="diedAt" name="diedAt"
+           aria-describedby="diedAtFeedback"
            aria-label="Дата смерти">
-    <div id="naturalPersonDeceasedDiedAtFeedback" class="invalid-feedback d-none"></div>
+    <div id="diedAtFeedback" class="invalid-feedback d-none"></div>
   </div>
 </div>
 <div class="row">
-  <div class="col-md-3"><label for="naturalPersonDeceasedAge" class="form-label">Возраст</label></div>
+  <div class="col-md-3"><label for="age" class="form-label">Возраст</label></div>
   <div class="col-md-9">
     <input type="number" min="0" class="form-control form-control-sm"
-           id="naturalPersonDeceasedAge" name="naturalPersonDeceasedAge"
-           aria-describedby="naturalPersonDeceasedAgeFeedback"
+           id="age" name="age"
+           aria-describedby="ageFeedback"
            aria-label="Возраст">
-    <div id="naturalPersonDeceasedAgeFeedback" class="invalid-feedback d-none"></div>
+    <div id="ageFeedback" class="invalid-feedback d-none"></div>
   </div>
 </div>
 <div class="row">
-  <div class="col-md-3"><label for="naturalPersonDeceasedCauseOfDeathId" class="form-label">Причина смерти</label></div>
+  <div class="col-md-3"><label for="causeOfDeathId" class="form-label">Причина смерти</label></div>
   <div class="col-md-9">
     <select class="form-select form-select-sm"
-            id="naturalPersonDeceasedCauseOfDeathId" name="naturalPersonDeceasedCauseOfDeathId"
-            aria-describedby="naturalPersonDeceasedCauseOfDeathIdFeedback"
+            id="causeOfDeathId" name="causeOfDeathId"
+            aria-describedby="causeOfDeathIdFeedback"
             aria-label="Причина смерти">
       <option selected></option>
       {% for listItem in causeOfDeathList.items %}
@@ -32,26 +32,12 @@
         </option>
       {% endfor %}
     </select>
-    <div id="naturalPersonDeceasedCauseOfDeathIdFeedback" class="invalid-feedback d-none"></div>
+    <div id="causeOfDeathIdFeedback" class="invalid-feedback d-none"></div>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-3"><label for="naturalPersonDeceasedDeathCertificate" class="form-label">Свидетельство о смерти</label></div>
-  <div class="col-md-9">
-    <input type="text" class="form-control form-control-sm"
-           id="naturalPersonDeceasedDeathCertificate" name="naturalPersonDeceasedDeathCertificate"
-           aria-describedby="naturalPersonDeceasedDeathCertificateFeedback"
-           aria-label="Свидетельство о смерти">
-    <div id="naturalPersonDeceasedDeathCertificateFeedback" class="invalid-feedback d-none"></div>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-3"><label for="naturalPersonDeceasedCremationCertificate" class="form-label">Справка о кремации</label></div>
-  <div class="col-md-9">
-    <input type="text" class="form-control form-control-sm"
-           id="naturalPersonDeceasedCremationCertificate" name="naturalPersonDeceasedCremationCertificate"
-           aria-describedby="naturalPersonDeceasedCremationCertificateFeedback"
-           aria-label="Справка о кремации">
-    <div id="naturalPersonDeceasedCremationCertificateFeedback" class="invalid-feedback d-none"></div>
-  </div>
-</div>
+<hr>
+<p class="my-1">Свидетельство о смерти:</p>
+{% include('natural_person/_form_natural_person_death_certificate.html.twig') %}
+<hr>
+<p class="my-1">Справка о кремации:</p>
+{% include('natural_person/_form_natural_person_cremation_certificate.html.twig') %}

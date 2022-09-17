@@ -6,7 +6,10 @@
       {% include('natural_person/_form_natural_person_full_name.html.twig') %}
       {% include('natural_person/_form_natural_person_contact.html.twig') %}
       {% include('natural_person/_form_natural_person_birth_details.html.twig') %}
+      <hr>
+      <p class="my-1">Паспортные данные:</p>
       {% include('natural_person/_form_natural_person_passport.html.twig') %}
+      <hr>
       {% include('natural_person/_form_natural_person_deceased_details.html.twig') %}
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('natural_person') }}">

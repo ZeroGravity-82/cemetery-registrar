@@ -18,7 +18,7 @@ function graveSiteFormClarifyGeoPosition_show(view, callback, args) {
     if (view.positionInRow !== null) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
-  $graveSiteFormClarifyGeoPositionTitle.html(`<span>${graveSiteCardTitle}</span> (Уточнение геопозиции участка)`);
+  $graveSiteFormClarifyGeoPositionTitle.html(`Уточнение геопозиции участка - <span>${graveSiteCardTitle}</span>`);
   const geoPosition = view.geoPositionLatitude !== null && view.geoPositionLongitude !== null
     ? `${view.geoPositionLatitude}, ${view.geoPositionLongitude}`
     : null;

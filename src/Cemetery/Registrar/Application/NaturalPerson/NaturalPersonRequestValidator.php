@@ -19,5 +19,19 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         parent::__construct();
     }
 
-    // TODO implement necessary methods
+    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    {
+        // TODO implement
+
+        return $this;
+    }
+
+    protected function validateFullName(ApplicationRequest $request): self
+    {
+        if ($request->fullName === null || empty(\trim($request->fullName))) {
+            $this->note->addError('fullName', 'ФИО не может иметь пустое значение.');
+        }
+
+        return $this;
+    }
 }

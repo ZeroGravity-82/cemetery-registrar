@@ -18,7 +18,7 @@ function graveSiteFormClarifySize_show(view, callback, args) {
     if (view.positionInRow !== null) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
-  $graveSiteFormClarifySizeTitle.html(`<span>${graveSiteCardTitle}</span> (Уточнение размера участка)`);
+  $graveSiteFormClarifySizeTitle.html(`Уточнение размера участка - <span>${graveSiteCardTitle}</span>`);
   $graveSiteFormClarifySizeSizeField.val(view.size).change();
   graveSiteFormClarifySize_hideAllValidationErrors();
   graveSiteFormClarifySizeModalObject.show();

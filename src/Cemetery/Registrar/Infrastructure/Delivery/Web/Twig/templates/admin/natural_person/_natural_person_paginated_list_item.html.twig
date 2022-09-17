@@ -1,6 +1,5 @@
 <tr data-id="{{ listItem.id }}">
   <td>{{- listItem.fullName -}}</td>
-  <td>{{- listItem.address  -}}</td>
   <td>
     {{- listItem.phone -}}
     {% if listItem.phone is not null and listItem.phoneAdditional is not null %}, {% endif %}
@@ -8,6 +7,7 @@
       {{- listItem.phoneAdditional -}}
     {% endif %}
   </td>
+  <td>{{- listItem.address  -}}</td>
   <td>{{- listItem.email        -}}</td>
   <td>{{- listItem.bornAt       -}}</td>
   <td>{{- listItem.placeOfBirth -}}</td>

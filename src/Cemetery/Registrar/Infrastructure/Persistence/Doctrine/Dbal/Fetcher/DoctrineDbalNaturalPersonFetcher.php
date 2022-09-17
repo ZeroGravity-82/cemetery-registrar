@@ -242,9 +242,9 @@ LIKE_TERM_SQL;
         return new NaturalPersonView(
             $viewData['id'],
             $viewData['fullName'],
-            $viewData['address'],
             $viewData['phone'],
             $viewData['phoneAdditional'],
+            $viewData['address'],
             $viewData['email'],
             $viewData['bornAtFormatted'],
             $viewData['placeOfBirth'],
@@ -282,9 +282,9 @@ LIKE_TERM_SQL;
             $items[] = new NaturalPersonPaginatedListItem(
                 $listItemData['id'],
                 $listItemData['fullName'],
-                $listItemData['address'],
                 $listItemData['phone'],
                 $listItemData['phoneAdditional'],
+                $listItemData['address'],
                 $listItemData['email'],
                 $listItemData['bornAtFormatted'],
                 $listItemData['placeOfBirth'],
