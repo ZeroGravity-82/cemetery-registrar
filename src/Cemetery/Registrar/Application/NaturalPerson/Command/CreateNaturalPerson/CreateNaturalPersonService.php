@@ -35,13 +35,26 @@ class CreateNaturalPersonService extends NaturalPersonService
     {
         /** @var CreateNaturalPersonRequest $request */
         $naturalPerson = $this->naturalPersonFactory->create(
-            $request->cemeteryBlockId,
-            $request->rowInBlock,
-            $request->positionInRow,
-            $request->geoPositionLatitude,
-            $request->geoPositionLongitude,
-            $request->geoPositionError,
-            $request->size,
+            $request->fullName,
+            $request->phone,
+            $request->phoneAdditional,
+            $request->address,
+            $request->email,
+            $request->bornAt,
+            $request->placeOfBirth,
+            $request->passportSeries,
+            $request->passportNumber,
+            $request->passportIssuedAt,
+            $request->passportIssuedBy,
+            $request->passportDivisionCode,
+            $request->diedAt,
+            $request->age,
+            $request->causeOfDeathId,
+            $request->deathCertificateSeries,
+            $request->deathCertificateNumber,
+            $request->deathCertificateIssuedAt,
+            $request->cremationCertificateNumber,
+            $request->cremationCertificateIssuedAt,
         );
         $this->naturalPersonRepo->save($naturalPerson);
         $this->eventDispatcher->dispatch(new NaturalPersonCreated(

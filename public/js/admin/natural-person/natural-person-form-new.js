@@ -18,7 +18,7 @@ const $naturalPersonFormNewAgeField                          = $naturalPersonFor
 const $naturalPersonFormNewCauseOfDeathIdField               = $naturalPersonFormNew.find(`select[id=causeOfDeathId]`);
 const $naturalPersonFormNewDeathCertificateSeriesField       = $naturalPersonFormNew.find(`input[id=deathCertificateSeries]`);
 const $naturalPersonFormNewDeathCertificateNumberField       = $naturalPersonFormNew.find(`input[id=deathCertificateNumber]`);
-const $naturalPersonFormNewDeathCertificateIssuedAtField     = $naturalPersonFormNew.find(`input[id=deathCertificateIssueAt]`);
+const $naturalPersonFormNewDeathCertificateIssuedAtField     = $naturalPersonFormNew.find(`input[id=deathCertificateIssuedAt]`);
 const $naturalPersonFormNewCremationCertificateNumberField   = $naturalPersonFormNew.find(`input[id=cremationCertificateNumber]`);
 const $naturalPersonFormNewCremationCertificateIssuedAtField = $naturalPersonFormNew.find(`input[id=cremationCertificateIssuedAt]`);
 const $naturalPersonFormNewCsrfTokenField                    = $naturalPersonFormNew.find(`input[id=token]`);
@@ -77,12 +77,12 @@ function naturalPersonFormNew_save(url, isReloadRequired = false) {
     phoneAdditional: $naturalPersonFormNewPhoneAdditionalField.val() !== ``
       ? $naturalPersonFormNewPhoneAdditionalField.val()
       : null,
-    email: $naturalPersonFormNewEmailField.val() !== ``
-      ? $naturalPersonFormNewEmailField.val()
-      : null,
     address: $naturalPersonFormNewAddressField.val() !== ``
       ? $naturalPersonFormNewAddressField.val()
       : null,
+    email: $naturalPersonFormNewEmailField.val() !== ``
+        ? $naturalPersonFormNewEmailField.val()
+        : null,
     bornAt: $naturalPersonFormNewBornAtField.val() !== ``
       ? $naturalPersonFormNewBornAtField.val()
       : null,
