@@ -55,8 +55,8 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertTrue($this->naturalPerson->fullName()->isEqual($this->fullName));
         $this->assertNull($this->naturalPerson->phone());
         $this->assertNull($this->naturalPerson->phoneAdditional());
-        $this->assertNull($this->naturalPerson->email());
         $this->assertNull($this->naturalPerson->address());
+        $this->assertNull($this->naturalPerson->email());
         $this->assertNull($this->naturalPerson->bornAt());
         $this->assertNull($this->naturalPerson->placeOfBirth());
         $this->assertNull($this->naturalPerson->passport());
@@ -93,17 +93,6 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->phoneAdditional());
     }
 
-    public function testItSetsEmail(): void
-    {
-        $email = new Email('info@example.com');
-        $this->naturalPerson->setEmail($email);
-        $this->assertInstanceOf(Email::class, $this->naturalPerson->email());
-        $this->assertTrue($this->naturalPerson->email()->isEqual($email));
-
-        $this->naturalPerson->setEmail(null);
-        $this->assertNull($this->naturalPerson->email());
-    }
-
     public function testItSetsAddress(): void
     {
         $address = new Address('г. Новосибирск, ул. Дмитрия Шамшурина, д. 37');
@@ -113,6 +102,17 @@ class NaturalPersonTest extends AggregateRootTest
 
         $this->naturalPerson->setAddress(null);
         $this->assertNull($this->naturalPerson->address());
+    }
+
+    public function testItSetsEmail(): void
+    {
+        $email = new Email('info@example.com');
+        $this->naturalPerson->setEmail($email);
+        $this->assertInstanceOf(Email::class, $this->naturalPerson->email());
+        $this->assertTrue($this->naturalPerson->email()->isEqual($email));
+
+        $this->naturalPerson->setEmail(null);
+        $this->assertNull($this->naturalPerson->email());
     }
 
     public function testItSetsBornAt(): void

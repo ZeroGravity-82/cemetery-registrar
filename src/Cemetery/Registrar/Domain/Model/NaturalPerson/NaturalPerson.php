@@ -21,8 +21,8 @@ class NaturalPerson extends AggregateRoot
 
     private ?PhoneNumber        $phone           = null;
     private ?PhoneNumber        $phoneAdditional = null;
-    private ?Email              $email           = null;
     private ?Address            $address         = null;
+    private ?Email              $email           = null;
     private ?\DateTimeImmutable $bornAt          = null;
     private ?PlaceOfBirth       $placeOfBirth    = null;
     private ?Passport           $passport        = null;
@@ -76,18 +76,6 @@ class NaturalPerson extends AggregateRoot
         return $this;
     }
 
-    public function email(): ?Email
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?Email $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
     public function address(): ?Address
     {
         return $this->address;
@@ -96,6 +84,18 @@ class NaturalPerson extends AggregateRoot
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function email(): ?Email
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?Email $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }
