@@ -24,25 +24,33 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
 
     public function testItCreatesNaturalPerson(): void
     {
-        $fullName             = 'Иванов Иван Иванович';
-        $phone                = '+7-913-777-88-99';
-        $phoneAdditional      = '8(383)123-45-67';
-        $email                = 'info@google.com';
-        $address              = 'г. Новосибирск, ул. 3 Интернационала, д. 127';
-        $bornAt               = '1940-05-10';
-        $placeOfBirth         = 'г. Новосибирск';
-        $passportSeries       = '1234';
-        $passportNumber       = '567890';
-        $passportIssuedAt     = '2002-10-28';
-        $passportIssuedBy     = 'УВД Кировского района города Новосибирска';
-        $passportDivisionCode = '540-001';
+        $fullName                     = 'Иванов Иван Иванович';
+        $phone                        = '+7-913-777-88-99';
+        $phoneAdditional              = '8(383)123-45-67';
+        $address                      = 'г. Новосибирск, ул. 3 Интернационала, д. 127';
+        $email                        = 'info@google.com';
+        $bornAt                       = '1940-05-10';
+        $placeOfBirth                 = 'г. Новосибирск';
+        $passportSeries               = '1234';
+        $passportNumber               = '567890';
+        $passportIssuedAt             = '2002-10-28';
+        $passportIssuedBy             = 'УВД Кировского района города Новосибирска';
+        $passportDivisionCode         = '540-001';
+        $diedAt                       = '1996-04-20';
+        $age                          = null;
+        $causeOfDeathId               = 'CD001';
+        $deathCertificateSeries       = 'V-МЮ';
+        $deathCertificateNumber       = '53515';
+        $deathCertificateIssuedAt     = '2001-02-15';
+        $cremationCertificateNumber   = '12964';
+        $cremationCertificateIssuedAt = '2021-12-03';
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->create(
             $fullName,
             $phone,
             $phoneAdditional,
-            $email,
             $address,
+            $email,
             $bornAt,
             $placeOfBirth,
             $passportSeries,
@@ -50,6 +58,14 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
             $passportIssuedAt,
             $passportIssuedBy,
             $passportDivisionCode,
+            $diedAt,
+            $age,
+            $causeOfDeathId,
+            $deathCertificateSeries,
+            $deathCertificateNumber,
+            $deathCertificateIssuedAt,
+            $cremationCertificateNumber,
+            $cremationCertificateIssuedAt,
         );
         $this->assertInstanceOf(NaturalPerson::class, $naturalPerson);
         $this->assertSame(self::ENTITY_ID, $naturalPerson->id()->value());
@@ -65,6 +81,14 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $this->assertSame($passportIssuedAt, $naturalPerson->passport()->issuedAt()->format('Y-m-d'));
         $this->assertSame($passportIssuedBy, $naturalPerson->passport()->issuedBy());
         $this->assertSame($passportDivisionCode, $naturalPerson->passport()->divisionCode());
+        $this->assertSame($diedAt, $naturalPerson->deceasedDetails()->diedAt()->format('Y-m-d'));
+        $this->assertSame($age, $naturalPerson->deceasedDetails()->age());
+        $this->assertSame($causeOfDeathId, $naturalPerson->deceasedDetails()->causeOfDeathId()->value());
+        $this->assertSame($deathCertificateSeries, $naturalPerson->deceasedDetails()->deathCertificate()->series());
+        $this->assertSame($deathCertificateNumber, $naturalPerson->deceasedDetails()->deathCertificate()->number());
+        $this->assertSame($deathCertificateIssuedAt, $naturalPerson->deceasedDetails()->deathCertificate()->issuedAt()->format('Y-m-d'));
+        $this->assertSame($cremationCertificateNumber, $naturalPerson->deceasedDetails()->cremationCertificate()->number());
+        $this->assertSame($cremationCertificateIssuedAt, $naturalPerson->deceasedDetails()->cremationCertificate()->issuedAt()->format('Y-m-d'));
     }
 
     public function testItCreatesNaturalPersonWithoutOptionalFields(): void
@@ -73,6 +97,14 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $naturalPerson = $this->naturalPersonFactory->create(
             $fullName,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
             null,
             null,
             null,
@@ -95,6 +127,7 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
         $this->assertNull($naturalPerson->bornAt());
         $this->assertNull($naturalPerson->placeOfBirth());
         $this->assertNull($naturalPerson->passport());
+        $this->assertNull($naturalPerson->deceasedDetails());
     }
 
     public function testItFailsWithInvalidBornAtDateFormat(): void
@@ -103,6 +136,21 @@ class NaturalPersonFactoryTest extends EntityFactoryTest
     }
 
     public function testItFailsWithInvalidPassportIssuedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidDiedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidDeathCertificateIssuedAtDateFormat(): void
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testItFailsWithInvalidCremationCertificateIssuedAtDateFormat(): void
     {
         $this->markTestIncomplete();
     }

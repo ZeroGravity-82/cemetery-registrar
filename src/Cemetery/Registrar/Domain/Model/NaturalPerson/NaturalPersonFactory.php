@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -43,6 +48,14 @@ class NaturalPersonFactory extends EntityFactory
         ?string $passportIssuedAt,
         ?string $passportIssuedBy,
         ?string $passportDivisionCode,
+        ?string $diedAt,
+        ?int    $age,
+        ?string $causeOfDeathId,
+        ?string $deathCertificateSeries,
+        ?string $deathCertificateNumber,
+        ?string $deathCertificateIssuedAt,
+        ?string $cremationCertificateNumber,
+        ?string $cremationCertificateIssuedAt,
     ): NaturalPerson {
         $fullName        = new FullName((string) $fullName);
         $phone           = $phone           !== null ? new PhoneNumber($phone)                                : null;
@@ -73,6 +86,49 @@ class NaturalPersonFactory extends EntityFactory
             );
         }
 
+        $diedAt           = $diedAt         !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt) : null;
+        $age              = $age            !== null ? new Age($age)                                          : null;
+        $causeOfDeathId   = $causeOfDeathId !== null ? new CauseOfDeathId($causeOfDeathId)                    : null;
+        $deathCertificate = null;
+        if ($deathCertificateSeries   !== null &&
+            $deathCertificateNumber   !== null &&
+            $deathCertificateIssuedAt !== null
+        ) {
+            $deathCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $deathCertificateIssuedAt);
+            if ($deathCertificateIssuedAt === false) {
+                $this->throwInvalidDateFormatException('даты выдачи свидетельства о смерти');
+            }
+            $deathCertificate = new DeathCertificate(
+                $deathCertificateSeries,
+                $deathCertificateNumber,
+                $deathCertificateIssuedAt
+            );
+        }
+        $cremationCertificate = null;
+        if ($cremationCertificateNumber   !== null &&
+            $cremationCertificateIssuedAt !== null
+        ) {
+            $cremationCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $cremationCertificateIssuedAt);
+            if ($cremationCertificateIssuedAt === false) {
+                $this->throwInvalidDateFormatException('даты выдачи справки о кремации');
+            }
+            $cremationCertificate = new CremationCertificate(
+                $cremationCertificateNumber,
+                $cremationCertificateIssuedAt
+            );
+        }
+
+        $deceasedDetails = null;
+        if ($diedAt !== null) {
+            $deceasedDetails = new DeceasedDetails(
+                $diedAt,
+                $age,
+                $causeOfDeathId,
+                $deathCertificate,
+                $cremationCertificate,
+            );
+        }
+
         return (new NaturalPerson(
             new NaturalPersonId($this->identityGenerator->getNextIdentity()),
             $fullName,
@@ -83,7 +139,8 @@ class NaturalPersonFactory extends EntityFactory
             ->setAddress($address)
             ->setBornAt($bornAt)
             ->setPlaceOfBirth($placeOfBirth)
-            ->setPassport($passport);
+            ->setPassport($passport)
+            ->setDeceasedDetails($deceasedDetails);
     }
 
     /**
