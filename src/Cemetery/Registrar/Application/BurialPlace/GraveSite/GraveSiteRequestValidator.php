@@ -81,8 +81,9 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
     protected function validateGeoPosition(ApplicationRequest $request, bool $isRequired = false): self
     {
         switch (true) {
-            case $request->geoPositionLatitude === null && $isRequired ||
-                 $request->geoPositionLatitude !== null && empty(\trim($request->geoPositionLatitude)):
+            case
+                $isRequired &&
+                ($request->geoPositionLatitude === null || $request->geoPositionLatitude !== null && empty(\trim($request->geoPositionLatitude))):
                 $this->note->addError('geoPosition', 'Широта не может иметь пустое значение.');
                 break;
             case $request->geoPositionLatitude !== null && !Coordinates::isValidFormat($request->geoPositionLatitude):
@@ -92,8 +93,9 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
                 ($request->geoPositionLongitude !== null || $request->geoPositionError !== null):
                 $this->note->addError('geoPosition', 'Геопозиция не содержит данных о широте.');
                 break;
-            case $request->geoPositionLongitude === null && $isRequired ||
-                 $request->geoPositionLongitude !== null && empty(\trim($request->geoPositionLongitude)):
+            case
+                $isRequired &&
+                ($request->geoPositionLongitude === null || $request->geoPositionLongitude !== null && empty(\trim($request->geoPositionLongitude))):
                 $this->note->addError('geoPosition', 'Долгота не может иметь пустое значение.');
                 break;
             case $request->geoPositionLongitude !== null && !Coordinates::isValidFormat($request->geoPositionLongitude):
