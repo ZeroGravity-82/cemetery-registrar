@@ -15,7 +15,7 @@ const graveSiteFormNewModalObject             = new bootstrap.Modal(`#modalGrave
 
 function graveSiteFormNew_show() {
   $graveSiteFormNewTitle.html(`Создание участка`);
-  $graveSiteFormNewCemeteryBlockIdField.val(null).change();
+  $graveSiteFormNewCemeteryBlockIdField.val(null);
   $graveSiteFormNewRowInBlockField.val(null);
   $graveSiteFormNewPositionInRowField.val(null);
   $graveSiteFormNewSizeField.val(null);

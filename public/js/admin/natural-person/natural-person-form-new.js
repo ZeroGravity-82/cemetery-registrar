@@ -42,7 +42,7 @@ function naturalPersonFormNew_show() {
   $naturalPersonFormNewPassportDivisionCodeField.val(null);
   $naturalPersonFormNewDiedAtField.val(null);
   $naturalPersonFormNewAgeField.val(null);
-  $naturalPersonFormNewCauseOfDeathIdField.val(null).change();
+  $naturalPersonFormNewCauseOfDeathIdField.val(null);
   $naturalPersonFormNewDeathCertificateSeriesField.val(null);
   $naturalPersonFormNewDeathCertificateNumberField.val(null);
   $naturalPersonFormNewDeathCertificateIssuedAtField.val(null);

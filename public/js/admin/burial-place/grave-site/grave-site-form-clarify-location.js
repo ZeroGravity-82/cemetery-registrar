@@ -21,7 +21,7 @@ function graveSiteFormClarifyLocation_show(view, callback, args) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
   $graveSiteFormClarifyLocationTitle.html(`Уточнение расположения участка - <span>${graveSiteCardTitle}</span>`);
-  $graveSiteFormClarifyLocationCemeteryBlockIdField.val(view.cemeteryBlockId).change();
+  $graveSiteFormClarifyLocationCemeteryBlockIdField.val(view.cemeteryBlockId);
   $graveSiteFormClarifyLocationRowInBlockField.val(view.rowInBlock);
   $graveSiteFormClarifyLocationPositionInRowField.val(view.positionInRow);
   graveSiteFormClarifyLocation_hideAllValidationErrors();

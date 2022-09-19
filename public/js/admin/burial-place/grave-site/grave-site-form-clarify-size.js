@@ -19,7 +19,7 @@ function graveSiteFormClarifySize_show(view, callback, args) {
       graveSiteCardTitle += `, место ${view.positionInRow}`;
     }
   $graveSiteFormClarifySizeTitle.html(`Уточнение размера участка - <span>${graveSiteCardTitle}</span>`);
-  $graveSiteFormClarifySizeSizeField.val(view.size).change();
+  $graveSiteFormClarifySizeSizeField.val(view.size);
   graveSiteFormClarifySize_hideAllValidationErrors();
   graveSiteFormClarifySizeModalObject.show();
 }

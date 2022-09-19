@@ -22,7 +22,7 @@ function graveSiteFormClarifyGeoPosition_show(view, callback, args) {
   const geoPosition = view.geoPositionLatitude !== null && view.geoPositionLongitude !== null
     ? `${view.geoPositionLatitude}, ${view.geoPositionLongitude}`
     : null;
-  $graveSiteFormClarifyGeoPositionGeoPositionField.val(geoPosition).change();
+  $graveSiteFormClarifyGeoPositionGeoPositionField.val(geoPosition);
   graveSiteFormClarifyGeoPosition_hideAllValidationErrors();
   graveSiteFormClarifyGeoPositionModalObject.show();
 }

@@ -15,7 +15,7 @@ function naturalPersonFormClarifyFullName_show(view, callback, args) {
   persistedArgsClarifyFullName     = args;
   currentNaturalPersonId           = view.id;
   $naturalPersonFormClarifyFullNameTitle.html(`Уточнение ФИО - <span>${view.fullName}</span>`);
-  $naturalPersonFormClarifyFullNameFullNameField.val(view.fullName).change();
+  $naturalPersonFormClarifyFullNameFullNameField.val(view.fullName);
   naturalPersonFormClarifyFullName_hideAllValidationErrors();
   naturalPersonFormClarifyFullNameModalObject.show();
 }
