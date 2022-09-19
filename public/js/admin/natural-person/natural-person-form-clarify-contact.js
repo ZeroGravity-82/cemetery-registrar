@@ -84,11 +84,9 @@ function naturalPersonFormClarifyContact_hideAllValidationErrors() {
 }
 
 $naturalPersonFormClarifyContactForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyContact_removeValidationError(e);
+  naturalPersonFormClarifyContact_hideAllValidationErrors(e);
 });
 $naturalPersonFormClarifyContactForm.on(`input`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyContact_removeValidationError(e);
+  naturalPersonFormClarifyContact_hideAllValidationErrors(e);
 });
-function naturalPersonFormClarifyContact_removeValidationError(e) {
-  $(e.target).removeClass(`is-invalid`);
-}
+
