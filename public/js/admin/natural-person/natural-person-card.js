@@ -59,11 +59,11 @@ $naturalPersonCardCloseButton.on(`click`, () => {
   naturalPersonCard_close();
 });
 
-// $naturalPersonCard.on(`click`, `.js-clarify-location`, () => {
-//   naturalPersonCardModalObject.hide();
-//   naturalPersonFormClarifyLocation_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
-// });
-//
+$naturalPersonCard.on(`click`, `.js-clarify-full-name`, () => {
+  naturalPersonCardModalObject.hide();
+  naturalPersonFormClarifyFullName_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
+});
+
 // $naturalPersonCard.on(`click`, `.js-clarify-size`, () => {
 //   naturalPersonCardModalObject.hide();
 //   naturalPersonFormClarifySize_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);

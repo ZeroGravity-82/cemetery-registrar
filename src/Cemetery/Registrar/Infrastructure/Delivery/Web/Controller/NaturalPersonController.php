@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteLocation\ClarifyGraveSiteLocationRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonFullName\ClarifyNaturalPersonFullNameRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\RemoveNaturalPerson\RemoveNaturalPersonRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListAliveNaturalPersons\ListAliveNaturalPersonsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListAllNaturalPersons\ListAllNaturalPersonsRequest;
@@ -42,6 +44,22 @@ class NaturalPersonController extends Controller
 
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
     }
+
+    #[Route(
+        '/natural-person/{id}/clarify-full-name',
+        name: 'natural_person_clarify_full_name',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clarifyFullName(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyNaturalPersonFullNameRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+
 
 
 
