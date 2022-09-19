@@ -70,20 +70,6 @@ class AdminBurialPlaceGraveSiteController extends Controller
     }
 
     #[Route(
-        '/admin/burial-place/grave-site/{id}/edit',
-        name: 'admin_grave_site_edit',
-        methods: HttpRequest::METHOD_PUT
-    )]
-    public function editGraveSite(HttpRequest $httpRequest, string $id): HttpJsonResponse
-    {
-        $this->assertValidCsrfToken($httpRequest, 'grave_site');
-        $commandRequest  = $this->handleJsonRequest($httpRequest, EditGraveSiteRequest::class);
-        $commandResponse = $this->appRequestBus->execute($commandRequest);
-
-        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
-    }
-
-    #[Route(
         '/admin/burial-place/grave-site/{id}/clarify-location',
         name: 'admin_grave_site_clarify_location',
         methods: HttpRequest::METHOD_PATCH
