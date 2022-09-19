@@ -85,9 +85,11 @@ $graveSiteFormNewSaveAndCloseBtn.on(`click`, () => {
 $graveSiteFormNewCloseBtn.on(`click`, () => {
   graveSiteForm_close();
 });
-$graveSiteFormNewGeoPositionField.on(`change`, () => {
-  $graveSiteFormNewGeoPositionErrorField.val(``);
-});
+
+// Additional form logic
+$graveSiteFormNewGeoPositionField.on(`change`, () =>     // The error value is cleared after manually entering of geo
+  $graveSiteFormNewGeoPositionErrorField.val(``)         // position.
+);
 
 function graveSiteFormNew_save(url, isReloadRequired = false) {
   $spinner.show();
