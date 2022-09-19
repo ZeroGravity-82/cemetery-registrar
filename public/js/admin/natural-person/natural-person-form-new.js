@@ -66,6 +66,25 @@ $naturalPersonFormNewCloseBtn.on(`click`, () => {
   naturalPersonForm_close();
 });
 
+// Additional form logic
+$naturalPersonFormNewBornAtField.on(`change`, () =>
+    toggleAgeField()
+);
+$naturalPersonFormNewDiedAtField.on(`change`, () =>
+    toggleAgeField()
+);
+
+function toggleAgeField() {
+  const bornAt = $naturalPersonFormNewBornAtField.val();
+  const diedAt = $naturalPersonFormNewDiedAtField.val();
+  if (bornAt !== `` && diedAt !== ``) {
+    $naturalPersonFormNewAgeField.prop(`disabled`, true);
+    $naturalPersonFormNewAgeField.val(``);
+  } else {
+    $naturalPersonFormNewAgeField.prop(`disabled`, false);
+  }
+}
+
 function naturalPersonFormNew_save(url, isReloadRequired = false) {
   $spinner.show();
   const data = {
