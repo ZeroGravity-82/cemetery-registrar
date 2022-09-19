@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteLocation\ClarifyGraveSiteLocationRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonFullName\ClarifyNaturalPersonFullNameRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\RemoveNaturalPerson\RemoveNaturalPersonRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListAliveNaturalPersons\ListAliveNaturalPersonsRequest;
-use Cemetery\Registrar\Application\NaturalPerson\Query\ListAllNaturalPersons\ListAllNaturalPersonsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ShowNaturalPerson\ShowNaturalPersonRequest;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
@@ -29,8 +27,7 @@ class NaturalPersonController extends Controller
     public function listAlive(HttpRequest $request): HttpJsonResponse
     {
         $term          = $request->query->get('search');
-//        $queryRequest  = new ListAliveNaturalPersonsRequest($term);
-        $queryRequest  = new ListAllNaturalPersonsRequest($term);
+        $queryRequest  = new ListAliveNaturalPersonsRequest($term);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
         return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
