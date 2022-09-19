@@ -34,9 +34,11 @@ class GraveSiteFactory extends EntityFactory
         ?string $geoPositionError,
         ?string $size,
     ): GraveSite {
-        $cemeteryBlockId        = new CemeteryBlockId((string) $cemeteryBlockId);
-        $rowInBlock             = new RowInBlock((int) $rowInBlock);
-        $positionInRow          = $positionInRow !== null ? new PositionInRow($positionInRow) : null;
+        $cemeteryBlockId        = new CemeteryBlockId($cemeteryBlockId);
+        $rowInBlock             = new RowInBlock($rowInBlock);
+        $positionInRow          = $positionInRow !== null
+            ? new PositionInRow($positionInRow)
+            : null;
         $geoPositionCoordinates = $geoPositionLatitude !== null && $geoPositionLongitude !== null
             ? new Coordinates($geoPositionLatitude, $geoPositionLongitude)
             : null;
