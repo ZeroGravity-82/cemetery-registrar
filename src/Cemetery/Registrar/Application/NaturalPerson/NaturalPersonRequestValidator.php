@@ -166,6 +166,9 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $this->note->addError('address',         $message);
             $this->note->addError('email',           $message);
         }
+        if ($request->email !== null && \filter_var($request->email, FILTER_VALIDATE_EMAIL) === false) {
+            $this->note->addError('email', 'Неверный формат адреса электронной почты.');
+        }
 
         return $this;
     }
