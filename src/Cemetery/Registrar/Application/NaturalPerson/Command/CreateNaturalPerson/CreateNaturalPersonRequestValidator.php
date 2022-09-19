@@ -22,9 +22,11 @@ class CreateNaturalPersonRequestValidator extends NaturalPersonRequestValidator
             ->validateUniquenessConstraints($request)
             ->validateFullName($request)
             ->validateBornAt($request)
-            ->validatePassportDetails($request)
+            ->validatePassport($request)
             ->validateDiedAt($request)
             ->validateAge($request)
+            ->validateDeathCertificate($request)
+            ->validateCremationCertificate($request)
             ->note();
     }
 }

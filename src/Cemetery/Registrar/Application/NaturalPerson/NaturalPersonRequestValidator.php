@@ -35,7 +35,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validatePassportDetails(ApplicationRequest $request): self
+    protected function validatePassport(ApplicationRequest $request): self
     {
         if (
             $request->passportSeries       !== null ||
@@ -76,6 +76,18 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
 
     protected function validateDiedAt(ApplicationRequest $request): self
     {
+        if (
+            $request->diedAt                       === null &&
+            ($request->age                         !== null ||
+            $request->causeOfDeathId               !== null ||
+            $request->deathCertificateSeries       !== null ||
+            $request->deathCertificateNumber       !== null ||
+            $request->deathCertificateIssuedAt     !== null ||
+            $request->cremationCertificateNumber   !== null ||
+            $request->cremationCertificateIssuedAt !== null)
+        ) {
+            $this->note->addError('diedAt', 'Дата смерти не указана.');
+        }
         if ($request->bornAt !== null &&
             $request->diedAt !== null &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt) <
@@ -95,6 +107,44 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $request->diedAt !== null
         ) {
             $this->note->addError('age', 'Возраст не может быть указан, т.к. уже указаны даты рождения и смерти.');
+        }
+
+        return $this;
+    }
+
+    protected function validateDeathCertificate(ApplicationRequest $request): self
+    {
+        if (
+            $request->deathCertificateSeries   !== null ||
+            $request->deathCertificateNumber   !== null ||
+            $request->deathCertificateIssuedAt !== null
+        ) {
+            if ($request->deathCertificateSeries === null) {
+                $this->note->addError('deathCertificateSeries', 'Серия свидетельства о смерти не указана.');
+            }
+            if ($request->deathCertificateNumber === null) {
+                $this->note->addError('deathCertificateNumber', 'Номер свидетельства о смерти не указан.');
+            }
+            if ($request->deathCertificateIssuedAt === null) {
+                $this->note->addError('deathCertificateIssuedAt', 'Дата выдачи свидетельства о смерти не указана.');
+            }
+        }
+
+        return $this;
+    }
+
+    protected function validateCremationCertificate(ApplicationRequest $request): self
+    {
+        if (
+            $request->cremationCertificateNumber   !== null ||
+            $request->cremationCertificateIssuedAt !== null
+        ) {
+            if ($request->cremationCertificateNumber === null) {
+                $this->note->addError('cremationCertificateNumber', 'Номер справки о смерти не указан.');
+            }
+            if ($request->cremationCertificateIssuedAt === null) {
+                $this->note->addError('cremationCertificateIssuedAt', 'Дата выдачи справки о смерти не указана.');
+            }
         }
 
         return $this;
