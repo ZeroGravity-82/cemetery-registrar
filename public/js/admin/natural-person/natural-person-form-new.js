@@ -58,6 +58,7 @@ $naturalPersonFormNew.on(`shown.bs.modal`, (e) => {
 });
 
 $naturalPersonFormNewSaveAndCloseBtn.on(`click`, () => {
+  naturalPersonFormNew_hideAllValidationErrors();
   const url = $naturalPersonFormNewForm.data(`action-new`);
   naturalPersonFormNew_save(url, true);
 });

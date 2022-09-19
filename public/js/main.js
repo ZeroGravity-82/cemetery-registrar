@@ -26,7 +26,7 @@ function displayValidationErrors(data) {
   const $modal = $(`.modal`).has(`:visible`);
   for (const [fieldId, validationError] of Object.entries(data)) {
     const $field = $modal.find(`#${fieldId}`);
-    if ($field.length === 0) {
+    if ($field.length === 0) {      // Show toast if matching field is not found
       buildToast().fire({
         icon: `error`,
         title: validationError,

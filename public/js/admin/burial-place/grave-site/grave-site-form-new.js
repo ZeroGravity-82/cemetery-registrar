@@ -78,6 +78,7 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
 });
 
 $graveSiteFormNewSaveAndCloseBtn.on(`click`, () => {
+  graveSiteFormNew_hideAllValidationErrors();
   const url = $graveSiteFormNewForm.data(`action-new`);
   graveSiteFormNew_save(url, true);
 });
