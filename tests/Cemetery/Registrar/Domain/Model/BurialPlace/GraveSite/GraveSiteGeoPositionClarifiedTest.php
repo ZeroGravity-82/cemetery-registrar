@@ -16,25 +16,25 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class GraveSiteGeoPositionClarifiedTest extends EventTest
 {
-    private GraveSiteId $graveSiteId;
+    private GraveSiteId $id;
     private GeoPosition $geoPosition;
 
     public function setUp(): void
     {
-        $this->graveSiteId = new GraveSiteId('GS001');
+        $this->id          = new GraveSiteId('GS001');
         $this->geoPosition = new GeoPosition(
             new Coordinates('55.0293096', '82.9659138'),
             new Error('0.25'),
         );
         $this->event = new GraveSiteGeoPositionClarified(
-            $this->graveSiteId,
+            $this->id,
             $this->geoPosition,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
         $this->assertTrue($this->geoPosition->isEqual($this->event->geoPosition()));
     }
 }

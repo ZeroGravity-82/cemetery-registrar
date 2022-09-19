@@ -13,25 +13,25 @@ use Cemetery\Registrar\Domain\Model\Organization\Name;
 class SoleProprietorCreated extends Event
 {
     public function __construct(
-        private SoleProprietorId $soleProprietorId,
-        private Name             $soleProprietorName,
-        private ?Inn             $soleProprietorInn,
+        private SoleProprietorId $id,
+        private Name             $name,
+        private ?Inn             $inn,
     ) {
         parent::__construct();
     }
 
-    public function soleProprietorId(): SoleProprietorId
+    public function id(): SoleProprietorId
     {
-        return $this->soleProprietorId;
+        return $this->id;
     }
 
-    public function soleProprietorName(): Name
+    public function name(): Name
     {
-        return $this->soleProprietorName;
+        return $this->name;
     }
 
-    public function soleProprietorInn(): ?Inn
+    public function inn(): ?Inn
     {
-        return $this->soleProprietorInn;
+        return $this->inn;
     }
 }

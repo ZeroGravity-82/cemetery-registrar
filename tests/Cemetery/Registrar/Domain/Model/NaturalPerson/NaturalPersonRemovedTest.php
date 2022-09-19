@@ -13,18 +13,18 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class NaturalPersonRemovedTest extends EventTest
 {
-    private NaturalPersonId $naturalPersonId;
+    private NaturalPersonId $id;
 
     public function setUp(): void
     {
-        $this->naturalPersonId = new NaturalPersonId('NP001');
-        $this->event           = new NaturalPersonRemoved(
-            $this->naturalPersonId,
+        $this->id    = new NaturalPersonId('NP001');
+        $this->event = new NaturalPersonRemoved(
+            $this->id,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->naturalPersonId->isEqual($this->event->naturalPersonId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
     }
 }

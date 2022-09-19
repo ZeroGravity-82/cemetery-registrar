@@ -13,18 +13,18 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class CauseOfDeathRemovedTest extends EventTest
 {
-    private CauseOfDeathId   $causeOfDeathId;
+    private CauseOfDeathId $id;
 
     public function setUp(): void
     {
-        $this->causeOfDeathId = new CauseOfDeathId('CD001');
-        $this->event          = new CauseOfDeathRemoved(
-            $this->causeOfDeathId,
+        $this->id    = new CauseOfDeathId('CD001');
+        $this->event = new CauseOfDeathRemoved(
+            $this->id,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->causeOfDeathId->isEqual($this->event->causeOfDeathId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
     }
 }

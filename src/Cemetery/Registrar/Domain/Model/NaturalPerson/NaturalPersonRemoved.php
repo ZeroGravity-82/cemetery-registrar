@@ -12,13 +12,13 @@ use Cemetery\Registrar\Domain\Model\Event;
 class NaturalPersonRemoved extends Event
 {
     public function __construct(
-        private NaturalPersonId $naturalPersonId,
+        private NaturalPersonId $id,
     ) {
         parent::__construct();
     }
 
-    public function naturalPersonId(): NaturalPersonId
+    public function id(): NaturalPersonId
     {
-        return $this->naturalPersonId;
+        return $this->id;
     }
 }

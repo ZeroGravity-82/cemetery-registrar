@@ -42,7 +42,7 @@ class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
             $this->callback(function (object $arg) {
                 return
                     $arg instanceof CauseOfDeathCreated &&
-                    $arg->causeOfDeathId()->value() === $this->id;
+                    $arg->id()->value() === $this->id;
             }),
         );
 

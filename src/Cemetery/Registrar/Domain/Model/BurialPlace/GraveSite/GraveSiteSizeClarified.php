@@ -12,15 +12,15 @@ use Cemetery\Registrar\Domain\Model\Event;
 class GraveSiteSizeClarified extends Event
 {
     public function __construct(
-        private GraveSiteId   $graveSiteId,
+        private GraveSiteId   $id,
         private GraveSiteSize $size,
     ) {
         parent::__construct();
     }
 
-    public function graveSiteId(): GraveSiteId
+    public function id(): GraveSiteId
     {
-        return $this->graveSiteId;
+        return $this->id;
     }
 
     public function size(): GraveSiteSize

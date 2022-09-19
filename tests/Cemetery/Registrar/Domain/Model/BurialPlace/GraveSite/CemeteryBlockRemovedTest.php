@@ -13,18 +13,18 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class CemeteryBlockRemovedTest extends EventTest
 {
-    private CemeteryBlockId   $cemeteryBlockId;
+    private CemeteryBlockId $id;
 
     public function setUp(): void
     {
-        $this->cemeteryBlockId = new CemeteryBlockId('CB001');
-        $this->event           = new CemeteryBlockRemoved(
-            $this->cemeteryBlockId,
+        $this->id    = new CemeteryBlockId('CB001');
+        $this->event = new CemeteryBlockRemoved(
+            $this->id,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
     }
 }

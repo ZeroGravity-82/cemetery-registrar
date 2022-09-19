@@ -14,22 +14,22 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class GraveSiteSizeClarifiedTest extends EventTest
 {
-    private GraveSiteId   $graveSiteId;
+    private GraveSiteId   $id;
     private GraveSiteSize $size;
 
     public function setUp(): void
     {
-        $this->graveSiteId = new GraveSiteId('GS001');
-        $this->size        = new GraveSiteSize('2.5');
-        $this->event       = new GraveSiteSizeClarified(
-            $this->graveSiteId,
+        $this->id    = new GraveSiteId('GS001');
+        $this->size  = new GraveSiteSize('2.5');
+        $this->event = new GraveSiteSizeClarified(
+            $this->id,
             $this->size,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
         $this->assertTrue($this->size->isEqual($this->event->size()));
     }
 }

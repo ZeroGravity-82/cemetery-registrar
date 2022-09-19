@@ -16,19 +16,19 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class GraveSiteLocationClarifiedTest extends EventTest
 {
-    private GraveSiteId     $graveSiteId;
+    private GraveSiteId     $id;
     private CemeteryBlockId $cemeteryBlockId;
     private RowInBlock      $rowInBlock;
-    private ?PositionInRow $positionInRow;
+    private ?PositionInRow  $positionInRow;
 
     public function setUp(): void
     {
-        $this->graveSiteId     = new GraveSiteId('GS001');
+        $this->id              = new GraveSiteId('GS001');
         $this->cemeteryBlockId = new CemeteryBlockId('CB001');
         $this->rowInBlock      = new RowInBlock(5);
         $this->positionInRow   = new PositionInRow(10);
         $this->event           = new GraveSiteLocationClarified(
-            $this->graveSiteId,
+            $this->id,
             $this->cemeteryBlockId,
             $this->rowInBlock,
             $this->positionInRow,
@@ -37,7 +37,7 @@ class GraveSiteLocationClarifiedTest extends EventTest
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
         $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
         $this->assertTrue($this->rowInBlock->isEqual($this->event->rowInBlock()));
         $this->assertTrue($this->positionInRow->isEqual($this->event->positionInRow()));
@@ -46,12 +46,12 @@ class GraveSiteLocationClarifiedTest extends EventTest
     public function testItSuccessfullyCreatedWithoutPositionInRow(): void
     {
         $this->event = new GraveSiteLocationClarified(
-            $this->graveSiteId,
+            $this->id,
             $this->cemeteryBlockId,
             $this->rowInBlock,
             null,
         );
-        $this->assertTrue($this->graveSiteId->isEqual($this->event->graveSiteId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
         $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
         $this->assertTrue($this->rowInBlock->isEqual($this->event->rowInBlock()));
         $this->assertNull($this->event->positionInRow());

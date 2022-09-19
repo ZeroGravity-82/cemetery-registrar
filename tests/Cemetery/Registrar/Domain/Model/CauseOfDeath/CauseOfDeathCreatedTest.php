@@ -14,22 +14,22 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class CauseOfDeathCreatedTest extends EventTest
 {
-    private CauseOfDeathId   $causeOfDeathId;
-    private CauseOfDeathName $causeOfDeathName;
+    private CauseOfDeathId   $id;
+    private CauseOfDeathName $name;
 
     public function setUp(): void
     {
-        $this->causeOfDeathId   = new CauseOfDeathId('CD001');
-        $this->causeOfDeathName = new CauseOfDeathName('Асфиксия');
-        $this->event            = new CauseOfDeathCreated(
-            $this->causeOfDeathId,
-            $this->causeOfDeathName,
+        $this->id    = new CauseOfDeathId('CD001');
+        $this->name  = new CauseOfDeathName('Асфиксия');
+        $this->event = new CauseOfDeathCreated(
+            $this->id,
+            $this->name,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->causeOfDeathId->isEqual($this->event->causeOfDeathId()));
-        $this->assertTrue($this->causeOfDeathName->isEqual($this->event->causeOfDeathName()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
+        $this->assertTrue($this->name->isEqual($this->event->name()));
     }
 }

@@ -12,31 +12,31 @@ use Cemetery\Registrar\Domain\Model\Event;
 class NaturalPersonCreated extends Event
 {
     public function __construct(
-        private NaturalPersonId     $naturalPersonId,
-        private FullName            $naturalPersonFullName,
-        private ?\DateTimeImmutable $naturalPersonBornAt,
-        private ?\DateTimeImmutable $naturalPersonDiedAt,
+        private NaturalPersonId     $id,
+        private FullName            $fullName,
+        private ?\DateTimeImmutable $bornAt,
+        private ?\DateTimeImmutable $diedAt,
     ) {
         parent::__construct();
     }
 
-    public function naturalPersonId(): NaturalPersonId
+    public function id(): NaturalPersonId
     {
-        return $this->naturalPersonId;
+        return $this->id;
     }
 
-    public function naturalPersonFullName(): FullName
+    public function fullName(): FullName
     {
-        return $this->naturalPersonFullName;
+        return $this->fullName;
     }
 
-    public function naturalPersonBornAt(): ?\DateTimeImmutable
+    public function bornAt(): ?\DateTimeImmutable
     {
-        return $this->naturalPersonBornAt;
+        return $this->bornAt;
     }
 
-    public function naturalPersonDiedAt(): ?\DateTimeImmutable
+    public function diedAt(): ?\DateTimeImmutable
     {
-        return $this->naturalPersonDiedAt;
+        return $this->diedAt;
     }
 }

@@ -12,13 +12,13 @@ use Cemetery\Registrar\Domain\Model\Event;
 class SoleProprietorRemoved extends Event
 {
     public function __construct(
-        private SoleProprietorId $soleProprietorId,
+        private SoleProprietorId $id,
     ) {
         parent::__construct();
     }
 
-    public function soleProprietorId(): SoleProprietorId
+    public function id(): SoleProprietorId
     {
-        return $this->soleProprietorId;
+        return $this->id;
     }
 }

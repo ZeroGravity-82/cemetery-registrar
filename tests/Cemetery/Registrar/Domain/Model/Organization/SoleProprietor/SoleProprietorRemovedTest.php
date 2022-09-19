@@ -13,18 +13,18 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class SoleProprietorRemovedTest extends EventTest
 {
-    private SoleProprietorId $soleProprietorId;
+    private SoleProprietorId $id;
 
     public function setUp(): void
     {
-        $this->soleProprietorId = new SoleProprietorId('888');
-        $this->event            = new SoleProprietorRemoved(
-            $this->soleProprietorId,
+        $this->id    = new SoleProprietorId('888');
+        $this->event = new SoleProprietorRemoved(
+            $this->id,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->soleProprietorId->isEqual($this->event->soleProprietorId()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
     }
 }

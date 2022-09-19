@@ -12,19 +12,19 @@ use Cemetery\Registrar\Domain\Model\Event;
 class CemeteryBlockCreated extends Event
 {
     public function __construct(
-        private CemeteryBlockId   $cemeteryBlockId,
-        private CemeteryBlockName $cemeteryBlockName,
+        private CemeteryBlockId   $id,
+        private CemeteryBlockName $name,
     ) {
         parent::__construct();
     }
 
-    public function cemeteryBlockId(): CemeteryBlockId
+    public function id(): CemeteryBlockId
     {
-        return $this->cemeteryBlockId;
+        return $this->id;
     }
 
-    public function cemeteryBlockName(): CemeteryBlockName
+    public function name(): CemeteryBlockName
     {
-        return $this->cemeteryBlockName;
+        return $this->name;
     }
 }

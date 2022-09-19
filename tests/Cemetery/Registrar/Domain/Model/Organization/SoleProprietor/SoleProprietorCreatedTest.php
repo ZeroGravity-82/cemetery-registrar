@@ -15,38 +15,38 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class SoleProprietorCreatedTest extends EventTest
 {
-    private SoleProprietorId $soleProprietorId;
-    private Name             $soleProprietorName;
-    private ?Inn             $soleProprietorInn;
+    private SoleProprietorId $id;
+    private Name             $name;
+    private ?Inn             $inn;
 
     public function setUp(): void
     {
-        $this->soleProprietorId   = new SoleProprietorId('888');
-        $this->soleProprietorName = new Name('ИП Иванов Иван Иванович');
-        $this->soleProprietorInn  = new Inn('772208786091');
-        $this->event              = new SoleProprietorCreated(
-            $this->soleProprietorId,
-            $this->soleProprietorName,
-            $this->soleProprietorInn,
+        $this->id                = new SoleProprietorId('888');
+        $this->name              = new Name('ИП Иванов Иван Иванович');
+        $this->inn = new Inn('772208786091');
+        $this->event             = new SoleProprietorCreated(
+            $this->id,
+            $this->name,
+            $this->inn,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->soleProprietorId->isEqual($this->event->soleProprietorId()));
-        $this->assertTrue($this->soleProprietorName->isEqual($this->event->soleProprietorName()));
-        $this->assertTrue($this->soleProprietorInn->isEqual($this->event->soleProprietorInn()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
+        $this->assertTrue($this->name->isEqual($this->event->name()));
+        $this->assertTrue($this->inn->isEqual($this->event->inn()));
     }
 
     public function testItSuccessfullyCreatedWithoutInn(): void
     {
         $this->event = new SoleProprietorCreated(
-            $this->soleProprietorId,
-            $this->soleProprietorName,
+            $this->id,
+            $this->name,
             null,
         );
-        $this->assertTrue($this->soleProprietorId->isEqual($this->event->soleProprietorId()));
-        $this->assertTrue($this->soleProprietorName->isEqual($this->event->soleProprietorName()));
-        $this->assertNull($this->event->soleProprietorInn());
+        $this->assertTrue($this->id->isEqual($this->event->id()));
+        $this->assertTrue($this->name->isEqual($this->event->name()));
+        $this->assertNull($this->event->inn());
     }
 }

@@ -13,25 +13,25 @@ use Cemetery\Registrar\Domain\Model\Organization\Name;
 class JuristicPersonCreated extends Event
 {
     public function __construct(
-        private JuristicPersonId $juristicPersonId,
-        private Name             $juristicPersonName,
-        private ?Inn             $juristicPersonInn,
+        private JuristicPersonId $id,
+        private Name             $name,
+        private ?Inn             $inn,
     ) {
         parent::__construct();
     }
 
-    public function juristicPersonId(): JuristicPersonId
+    public function id(): JuristicPersonId
     {
-        return $this->juristicPersonId;
+        return $this->id;
     }
 
-    public function juristicPersonName(): Name
+    public function name(): Name
     {
-        return $this->juristicPersonName;
+        return $this->name;
     }
 
-    public function juristicPersonInn(): ?Inn
+    public function inn(): ?Inn
     {
-        return $this->juristicPersonInn;
+        return $this->inn;
     }
 }

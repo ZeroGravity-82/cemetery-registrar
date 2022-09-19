@@ -45,7 +45,7 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
             $this->callback(function (object $arg) {
                 return
                     $arg instanceof CauseOfDeathEdited &&
-                    $arg->causeOfDeathId()->value() === $this->id;
+                    $arg->id()->value() === $this->id;
             }),
         );
 

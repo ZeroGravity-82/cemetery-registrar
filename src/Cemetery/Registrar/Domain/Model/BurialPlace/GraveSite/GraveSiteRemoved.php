@@ -12,13 +12,13 @@ use Cemetery\Registrar\Domain\Model\Event;
 class GraveSiteRemoved extends Event
 {
     public function __construct(
-        private GraveSiteId     $graveSiteId,
+        private GraveSiteId $id,
     ) {
         parent::__construct();
     }
 
-    public function graveSiteId(): GraveSiteId
+    public function id(): GraveSiteId
     {
-        return $this->graveSiteId;
+        return $this->id;
     }
 }

@@ -14,22 +14,22 @@ use Cemetery\Tests\Registrar\Domain\Model\EventTest;
  */
 class CemeteryBlockCreatedTest extends EventTest
 {
-    private CemeteryBlockId   $cemeteryBlockId;
-    private CemeteryBlockName $cemeteryBlockName;
+    private CemeteryBlockId   $id;
+    private CemeteryBlockName $name;
 
     public function setUp(): void
     {
-        $this->cemeteryBlockId   = new CemeteryBlockId('CB001');
-        $this->cemeteryBlockName = new CemeteryBlockName('южный');
-        $this->event             = new CemeteryBlockCreated(
-            $this->cemeteryBlockId,
-            $this->cemeteryBlockName,
+        $this->id    = new CemeteryBlockId('CB001');
+        $this->name  = new CemeteryBlockName('южный');
+        $this->event = new CemeteryBlockCreated(
+            $this->id,
+            $this->name,
         );
     }
 
     public function testItSuccessfullyCreated(): void
     {
-        $this->assertTrue($this->cemeteryBlockId->isEqual($this->event->cemeteryBlockId()));
-        $this->assertTrue($this->cemeteryBlockName->isEqual($this->event->cemeteryBlockName()));
+        $this->assertTrue($this->id->isEqual($this->event->id()));
+        $this->assertTrue($this->name->isEqual($this->event->name()));
     }
 }
