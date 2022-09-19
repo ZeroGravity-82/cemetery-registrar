@@ -73,11 +73,11 @@ function graveSiteFormClarifySize_hideAllValidationErrors() {
 }
 
 $graveSiteFormClarifySizeForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormClarifySize_removeValidationError(e);
+  graveSiteFormClarifySize_hideValidationError(e);
 });
 $graveSiteFormClarifySizeForm.on(`input`, `.is-invalid`, (e) => {
-  graveSiteFormClarifySize_removeValidationError(e);
+  graveSiteFormClarifySize_hideValidationError(e);
 });
-function graveSiteFormClarifySize_removeValidationError(e) {
+function graveSiteFormClarifySize_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }

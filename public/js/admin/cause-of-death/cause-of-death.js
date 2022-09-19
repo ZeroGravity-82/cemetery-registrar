@@ -208,12 +208,12 @@ function hideAllValidationErrors()
   $modalCauseOfDeathForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 $modalCauseOfDeathForm.on(`change`, `.is-invalid`, (e) => {
-  removeValidationError(e);
+  hideValidationError(e);
 });
 $modalCauseOfDeathForm.on(`input`, `.is-invalid`, (e) => {
-  removeValidationError(e);
+  hideValidationError(e);
 });
-function removeValidationError(e)
+function hideValidationError(e)
 {
   const $field = $(e.target);
   $field.removeClass(`is-invalid`);

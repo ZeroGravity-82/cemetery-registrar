@@ -69,11 +69,11 @@ function naturalPersonFormClarifyFullName_hideAllValidationErrors() {
 }
 
 $naturalPersonFormClarifyFullNameForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyFullName_removeValidationError(e);
+  naturalPersonFormClarifyFullName_hideValidationError(e);
 });
 $naturalPersonFormClarifyFullNameForm.on(`input`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyFullName_removeValidationError(e);
+  naturalPersonFormClarifyFullName_hideValidationError(e);
 });
-function naturalPersonFormClarifyFullName_removeValidationError(e) {
+function naturalPersonFormClarifyFullName_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }

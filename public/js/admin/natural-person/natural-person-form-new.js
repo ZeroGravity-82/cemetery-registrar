@@ -181,11 +181,11 @@ function naturalPersonFormNew_hideAllValidationErrors() {
 }
 
 $naturalPersonFormNewForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormNew_removeValidationError(e);
+  naturalPersonFormNew_hideValidationError(e);
 });
 $naturalPersonFormNewForm.on(`input`, `.is-invalid`, (e) => {
-  naturalPersonFormNew_removeValidationError(e);
+  naturalPersonFormNew_hideValidationError(e);
 });
-function naturalPersonFormNew_removeValidationError(e) {
+function naturalPersonFormNew_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }

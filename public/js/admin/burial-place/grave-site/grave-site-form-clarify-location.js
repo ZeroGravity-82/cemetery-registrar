@@ -83,11 +83,11 @@ function graveSiteFormClarifyLocation_hideAllValidationErrors() {
 }
 
 $graveSiteFormClarifyLocationForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormClarifyLocation_removeValidationError(e);
+  graveSiteFormClarifyLocation_hideValidationError(e);
 });
 $graveSiteFormClarifyLocationForm.on(`input`, `.is-invalid`, (e) => {
-  graveSiteFormClarifyLocation_removeValidationError(e);
+  graveSiteFormClarifyLocation_hideValidationError(e);
 });
-function graveSiteFormClarifyLocation_removeValidationError(e) {
+function graveSiteFormClarifyLocation_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }

@@ -82,11 +82,11 @@ function graveSiteFormClarifyGeoPosition_hideAllValidationErrors() {
 }
 
 $graveSiteFormClarifyGeoPositionForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormClarifyGeoPosition_removeValidationError(e);
+  graveSiteFormClarifyGeoPosition_hideValidationError(e);
 });
 $graveSiteFormClarifyGeoPositionForm.on(`input`, `.is-invalid`, (e) => {
-  graveSiteFormClarifyGeoPosition_removeValidationError(e);
+  graveSiteFormClarifyGeoPosition_hideValidationError(e);
 });
-function graveSiteFormClarifyGeoPosition_removeValidationError(e) {
+function graveSiteFormClarifyGeoPosition_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }

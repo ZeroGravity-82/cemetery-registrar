@@ -150,11 +150,11 @@ function graveSiteFormNew_hideAllValidationErrors() {
 }
 
 $graveSiteFormNewForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormNew_removeValidationError(e);
+  graveSiteFormNew_hideValidationError(e);
 });
 $graveSiteFormNewForm.on(`input`, `.is-invalid`, (e) => {
-  graveSiteFormNew_removeValidationError(e);
+  graveSiteFormNew_hideValidationError(e);
 });
-function graveSiteFormNew_removeValidationError(e) {
+function graveSiteFormNew_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }

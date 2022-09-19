@@ -208,12 +208,12 @@ function hideAllValidationErrorsCemeteryBlock()
   $modalCemeteryBlockForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 $modalCemeteryBlockForm.on(`change`, `.is-invalid`, (e) => {
-  removeValidationErrorCemeteryBlock(e);
+  hideValidationErrorCemeteryBlock(e);
 });
 $modalCemeteryBlockForm.on(`input`, `.is-invalid`, (e) => {
-  removeValidationErrorCemeteryBlock(e);
+  hideValidationErrorCemeteryBlock(e);
 });
-function removeValidationErrorCemeteryBlock(e)
+function hideValidationErrorCemeteryBlock(e)
 {
   const $field = $(e.target);
   $field.removeClass(`is-invalid`);
