@@ -40,13 +40,13 @@ class EmailTest extends TestCase
     public function testItFailsWithInvalidFormatB(): void
     {
         $this->expectExceptionForInvalidFormat();
-        new Email('info@help@example.com');
+        new Email('info@');
     }
 
     public function testItFailsWithInvalidFormatC(): void
     {
         $this->expectExceptionForInvalidFormat();
-        new Email('info"help"@example.com');
+        new Email('@example.com');
     }
 
     public function testItStringifyable(): void

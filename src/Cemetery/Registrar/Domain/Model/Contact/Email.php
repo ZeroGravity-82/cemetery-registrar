@@ -61,7 +61,7 @@ class Email
      */
     private function assertValidFormat(string $value): void
     {
-        if (\filter_var($value, FILTER_VALIDATE_EMAIL) === false) {
+        if (preg_match('~.+@.+~', $value) !== 1) {
             throw new Exception('Неверный формат адреса электронной почты.');
         }
     }

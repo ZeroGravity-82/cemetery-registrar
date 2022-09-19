@@ -4,6 +4,8 @@ RUN apt-get update \
     # extension required for MySQL
     && docker-php-ext-install pdo_mysql \
     # extensions recommended for ramsey/uuid
-    && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp
+    && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp \
+    # extension required for email address validation
+    && docker-php-ext-configure intl && docker-php-ext-install intl
 
 WORKDIR /app
