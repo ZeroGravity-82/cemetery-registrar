@@ -6,6 +6,7 @@ namespace Cemetery\Registrar\Application\NaturalPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonContact\ClarifyNaturalPersonContactRequest;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 
 /**
@@ -145,6 +146,25 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             if ($request->cremationCertificateIssuedAt === null) {
                 $this->note->addError('cremationCertificateIssuedAt', 'Дата выдачи справки о смерти не указана.');
             }
+        }
+
+        return $this;
+    }
+
+    protected function validateContact(ApplicationRequest $request, bool $isRequired = false): self
+    {
+        if (
+            $isRequired &&
+            ($request->phone           === null || \trim($request->phone)           === '') &&
+            ($request->phoneAdditional === null || \trim($request->phoneAdditional) === '') &&
+            ($request->address         === null || \trim($request->address)         === '') &&
+            ($request->email           === null || \trim($request->email)           === '')
+        ) {
+            $message = 'Контактные данные не указаны.';
+            $this->note->addError('phone',           $message);
+            $this->note->addError('phoneAdditional', $message);
+            $this->note->addError('address',         $message);
+            $this->note->addError('email',           $message);
         }
 
         return $this;

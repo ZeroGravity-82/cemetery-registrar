@@ -116,8 +116,9 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 
     protected function validateSize(ApplicationRequest $request, bool $isRequired = false): self
     {
-        if ($request->size === null && $isRequired ||
-            $request->size !== null && \trim($request->size) === ''
+        if (
+            $isRequired &&
+            ($request->size === null || $request->size !== null && \trim($request->size) === '')
         ) {
             $this->note->addError('size', 'Размер участка не может иметь пустое значение.');
         } elseif ($request->size !== null && (int) ((float) $request->size * 10) === 0) {
