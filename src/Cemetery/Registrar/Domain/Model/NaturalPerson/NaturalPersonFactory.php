@@ -57,26 +57,22 @@ class NaturalPersonFactory extends EntityFactory
         ?string $cremationCertificateNumber,
         ?string $cremationCertificateIssuedAt,
     ): NaturalPerson {
-        $fullName        = new FullName((string) $fullName);
+        $fullName        = new FullName($fullName);
         $phone           = $phone           !== null ? new PhoneNumber($phone)                                : null;
         $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional)                      : null;
         $email           = $email           !== null ? new Email($email)                                      : null;
         $address         = $address         !== null ? new Address($address)                                  : null;
         $bornAt          = $bornAt          !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;
-        if ($bornAt === false) {
-            $this->throwInvalidDateFormatException('даты рождения');
-        }
-        $placeOfBirth = $placeOfBirth !== null ? new PlaceOfBirth($placeOfBirth) : null;
-        $passport     = null;
-        if ($passportSeries   !== null &&
-            $passportNumber   !== null &&
-            $passportIssuedAt !== null &&
+        $placeOfBirth    = $placeOfBirth    !== null ? new PlaceOfBirth($placeOfBirth)                        : null;
+        $passport        = null;
+        if ($passportSeries   !== null ||
+            $passportNumber   !== null ||
+            $passportIssuedAt !== null ||
             $passportIssuedBy !== null
         ) {
-            $passportIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $passportIssuedAt);
-            if ($passportIssuedAt === false) {
-                $this->throwInvalidDateFormatException('даты выдачи паспорта');
-            }
+            $passportIssuedAt = $passportIssuedAt !== null
+                ? \DateTimeImmutable::createFromFormat('Y-m-d', $passportIssuedAt)
+                : null;
             $passport = new Passport(
                 $passportSeries,
                 $passportNumber,
@@ -85,19 +81,17 @@ class NaturalPersonFactory extends EntityFactory
                 $passportDivisionCode
             );
         }
-
         $diedAt           = $diedAt         !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $diedAt) : null;
         $age              = $age            !== null ? new Age($age)                                          : null;
         $causeOfDeathId   = $causeOfDeathId !== null ? new CauseOfDeathId($causeOfDeathId)                    : null;
         $deathCertificate = null;
-        if ($deathCertificateSeries   !== null &&
-            $deathCertificateNumber   !== null &&
+        if ($deathCertificateSeries   !== null ||
+            $deathCertificateNumber   !== null ||
             $deathCertificateIssuedAt !== null
         ) {
-            $deathCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $deathCertificateIssuedAt);
-            if ($deathCertificateIssuedAt === false) {
-                $this->throwInvalidDateFormatException('даты выдачи свидетельства о смерти');
-            }
+            $deathCertificateIssuedAt = $deathCertificateIssuedAt !== null
+                ? \DateTimeImmutable::createFromFormat('Y-m-d', $deathCertificateIssuedAt)
+                : null;
             $deathCertificate = new DeathCertificate(
                 $deathCertificateSeries,
                 $deathCertificateNumber,
@@ -105,13 +99,12 @@ class NaturalPersonFactory extends EntityFactory
             );
         }
         $cremationCertificate = null;
-        if ($cremationCertificateNumber   !== null &&
+        if ($cremationCertificateNumber   !== null ||
             $cremationCertificateIssuedAt !== null
         ) {
-            $cremationCertificateIssuedAt = \DateTimeImmutable::createFromFormat('Y-m-d', $cremationCertificateIssuedAt);
-            if ($cremationCertificateIssuedAt === false) {
-                $this->throwInvalidDateFormatException('даты выдачи справки о кремации');
-            }
+            $cremationCertificateIssuedAt = $cremationCertificateIssuedAt !== null
+                ? \DateTimeImmutable::createFromFormat('Y-m-d', $cremationCertificateIssuedAt)
+                : null;
             $cremationCertificate = new CremationCertificate(
                 $cremationCertificateNumber,
                 $cremationCertificateIssuedAt
@@ -141,13 +134,5 @@ class NaturalPersonFactory extends EntityFactory
             ->setPlaceOfBirth($placeOfBirth)
             ->setPassport($passport)
             ->setDeceasedDetails($deceasedDetails);
-    }
-
-    /**
-     * @throws \LogicException about invalid date format
-     */
-    private function throwInvalidDateFormatException(string $name): void
-    {
-        throw new \LogicException(\sprintf('Неверный формат %s.', $name));
     }
 }
