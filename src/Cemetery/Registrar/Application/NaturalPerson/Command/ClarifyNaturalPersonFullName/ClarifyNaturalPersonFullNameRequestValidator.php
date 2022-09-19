@@ -20,6 +20,7 @@ class ClarifyNaturalPersonFullNameRequestValidator extends NaturalPersonRequestV
     {
         return $this
             ->validateId($request)
+            ->validateUniquenessConstraints($request)
             ->validateFullName($request)
             ->note();
     }
