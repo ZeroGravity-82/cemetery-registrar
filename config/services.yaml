@@ -22,4 +22,3 @@ services:
 
     # third-party services
     Ramsey\Uuid\UuidFactory: ~
-    Egulias\EmailValidator\EmailValidator: ~

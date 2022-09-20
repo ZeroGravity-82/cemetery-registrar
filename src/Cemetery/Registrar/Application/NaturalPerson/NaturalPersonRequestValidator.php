@@ -7,6 +7,7 @@ namespace Cemetery\Registrar\Application\NaturalPerson;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonContact\ClarifyNaturalPersonContactRequest;
+use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 
 /**
@@ -166,7 +167,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $this->note->addError('address',         $message);
             $this->note->addError('email',           $message);
         }
-        if ($request->email !== null && \filter_var($request->email, FILTER_VALIDATE_EMAIL) === false) {
+        if ($request->email !== null && !Email::isValidFormat($request->email)) {
             $this->note->addError('email', 'Неверный формат адреса электронной почты.');
         }
 

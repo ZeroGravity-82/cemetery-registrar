@@ -13,10 +13,13 @@ use PHPUnit\Framework\TestCase;
  */
 class EmailTest extends TestCase
 {
-        public function testItSuccessfullyCreated(): void
+    public function testItSuccessfullyCreated(): void
     {
         $email = new Email('info@google.com');
         $this->assertSame('info@google.com', $email->value());
+
+        $email = new Email('новосибирск@россия.рф');
+        $this->assertSame('новосибирск@россия.рф', $email->value());
     }
 
     public function testItFailsWithEmptyValue(): void
@@ -49,6 +52,12 @@ class EmailTest extends TestCase
         new Email('@example.com');
     }
 
+    public function testItFailsWithInvalidFormatD(): void
+    {
+        $this->expectExceptionForInvalidFormat();
+        new Email('info@examplecom');
+    }
+
     public function testItStringifyable(): void
     {
         $email = new Email('info@google.com');
@@ -64,6 +73,16 @@ class EmailTest extends TestCase
         $this->assertFalse($emailA->isEqual($emailB));
         $this->assertTrue($emailA->isEqual($emailC));
         $this->assertFalse($emailB->isEqual($emailC));
+    }
+
+    public function testItChecksFormat(): void
+    {
+        $this->assertTrue(Email::isValidFormat('info@google.com'));
+        $this->assertTrue(Email::isValidFormat('support@example.domain.com'));
+        $this->assertFalse(Email::isValidFormat('info.example.com'));
+        $this->assertFalse(Email::isValidFormat('info@'));
+        $this->assertFalse(Email::isValidFormat('@example.com'));
+        $this->assertFalse(Email::isValidFormat('info@examplecom'));
     }
 
     private function expectExceptionForEmptyValue(): void

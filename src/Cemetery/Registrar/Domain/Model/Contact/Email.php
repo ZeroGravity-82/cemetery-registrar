@@ -11,6 +11,8 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class Email
 {
+    private const FORMAT = '~.+@.+\..+~';            // examples: mail@example.com, москва@россия.рф
+
     /**
      * @throws Exception when the e-mail address is empty
      * @throws Exception when the e-mail address has invalid format
@@ -34,6 +36,11 @@ class Email
     public function isEqual(self $email): bool
     {
         return $email->value() === $this->value();
+    }
+
+    public static function isValidFormat(string $value): bool
+    {
+        return \preg_match(self::FORMAT, $value) === 1;
     }
 
     /**
@@ -61,7 +68,7 @@ class Email
      */
     private function assertValidFormat(string $value): void
     {
-        if (preg_match('~.+@.+~', $value) !== 1) {
+        if (!\preg_match(self::FORMAT, $value)) {
             throw new Exception('Неверный формат адреса электронной почты.');
         }
     }

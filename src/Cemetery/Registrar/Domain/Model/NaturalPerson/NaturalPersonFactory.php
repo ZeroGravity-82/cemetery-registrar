@@ -7,7 +7,6 @@ namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
-use Cemetery\Registrar\Domain\Model\Contact\EmailValidator;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
@@ -23,8 +22,7 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetail
 class NaturalPersonFactory extends EntityFactory
 {
     public function __construct(
-        private EmailValidator $emailValidator,
-        IdentityGenerator      $identityGenerator,
+        IdentityGenerator $identityGenerator,
     ) {
         parent::__construct($identityGenerator);
     }
@@ -69,9 +67,6 @@ class NaturalPersonFactory extends EntityFactory
         $fullName        = new FullName($fullName);
         $phone           = $phone           !== null ? new PhoneNumber($phone)                                : null;
         $phoneAdditional = $phoneAdditional !== null ? new PhoneNumber($phoneAdditional)                      : null;
-        if ($email !== null && !$this->emailValidator->isValid($email)) {
-            throw new Exception('Неверный формат адреса электронной почты.');
-        }
         $email           = $email           !== null ? new Email($email)                                      : null;
         $address         = $address         !== null ? new Address($address)                                  : null;
         $bornAt          = $bornAt          !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $bornAt) : null;

@@ -21,6 +21,7 @@ class CreateNaturalPersonRequestValidator extends NaturalPersonRequestValidator
         return $this
             ->validateUniquenessConstraints($request)
             ->validateFullName($request)
+            ->validateContact($request, false)
             ->validateBornAt($request)
             ->validatePassport($request)
             ->validateDiedAt($request)
