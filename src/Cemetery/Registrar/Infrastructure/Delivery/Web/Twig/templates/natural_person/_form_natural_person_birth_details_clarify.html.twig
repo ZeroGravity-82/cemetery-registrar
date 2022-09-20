@@ -1,0 +1,12 @@
+{% extends '_modal.html.twig' %}
+
+{% block modalbody %}
+  <form
+      data-action-clarify-birth-details="{{ path('natural_person_clarify_birth_details', {'id': '{id}'})|url_decode }}">
+    <div class="container">
+      {% include('natural_person/_form_natural_person_birth_details.html.twig') %}
+    </div>
+    <input type="hidden" id="token" name="token" value="{{ csrf_token('natural_person') }}">
+    {% include '_form_buttons.html.twig' %}
+  </form>
+{% endblock %}

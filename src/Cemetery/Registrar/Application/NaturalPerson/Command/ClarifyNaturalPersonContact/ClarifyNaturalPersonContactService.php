@@ -41,31 +41,19 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
         /** @var ClarifyNaturalPersonContactRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
         if ($naturalPerson->phone()?->value() !== $request->phone) {
-            $naturalPerson->setPhone($request->phone !== null
-                ? $this->buildPhone($request)
-                : null
-            );
+            $naturalPerson->setPhone($this->buildPhone($request));
             $isClarified = true;
         }
         if ($naturalPerson->phoneAdditional()?->value() !== $request->phoneAdditional) {
-            $naturalPerson->setPhoneAdditional($request->phoneAdditional !== null
-                ? $this->buildPhoneAdditional($request)
-                : null
-            );
+            $naturalPerson->setPhoneAdditional($this->buildPhoneAdditional($request));
             $isClarified = true;
         }
         if ($naturalPerson->address()?->value() !== $request->address) {
-            $naturalPerson->setAddress($request->address !== null
-                ? $this->buildAddress($request)
-                : null
-            );
+            $naturalPerson->setAddress($this->buildAddress($request));
             $isClarified = true;
         }
         if ($naturalPerson->email()?->value() !== $request->email) {
-            $naturalPerson->setEmail($request->email !== null
-                ? $this->buildEmail($request)
-                : null
-            );
+            $naturalPerson->setEmail($this->buildEmail($request));
             $isClarified = true;
         }
         if ($isClarified) {
@@ -92,36 +80,36 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
     /**
      * @throws Exception when the phone number has invalid value
      */
-    private function buildPhone(ApplicationRequest $request): PhoneNumber
+    private function buildPhone(ApplicationRequest $request): ?PhoneNumber
     {
         /** @var ClarifyNaturalPersonContactRequest $request */
-        return new PhoneNumber($request->phone);
+        return $request->phone !== null ? new PhoneNumber($request->phone) : null;
     }
 
     /**
      * @throws Exception when the additional phone number has invalid value
      */
-    private function buildPhoneAdditional(ApplicationRequest $request): PhoneNumber
+    private function buildPhoneAdditional(ApplicationRequest $request): ?PhoneNumber
     {
         /** @var ClarifyNaturalPersonContactRequest $request */
-        return new PhoneNumber($request->phoneAdditional);
+        return $request->phoneAdditional !== null ? new PhoneNumber($request->phoneAdditional) : null;
     }
 
     /**
      * @throws Exception when the address has invalid value
      */
-    private function buildAddress(ApplicationRequest $request): Address
+    private function buildAddress(ApplicationRequest $request): ?Address
     {
         /** @var ClarifyNaturalPersonContactRequest $request */
-        return new Address($request->address);
+        return $request->address !== null ? new Address($request->address) : null;
     }
 
     /**
      * @throws Exception when the email has invalid value
      */
-    private function buildEmail(ApplicationRequest $request): Email
+    private function buildEmail(ApplicationRequest $request): ?Email
     {
         /** @var ClarifyNaturalPersonContactRequest $request */
-        return new Email($request->email);
+        return $request->email !== null ? new Email($request->email) : null;
     }
 }

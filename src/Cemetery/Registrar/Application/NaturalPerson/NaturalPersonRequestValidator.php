@@ -6,6 +6,7 @@ namespace Cemetery\Registrar\Application\NaturalPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonBirthDetails\ClarifyNaturalPersonBirthDetailsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonContact\ClarifyNaturalPersonContactRequest;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
@@ -37,6 +38,44 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
+    protected function validateContact(ApplicationRequest $request, bool $isRequired = false): self
+    {
+        if (
+            $isRequired &&
+            ($request->phone           === null || \trim($request->phone)           === '') &&
+            ($request->phoneAdditional === null || \trim($request->phoneAdditional) === '') &&
+            ($request->address         === null || \trim($request->address)         === '') &&
+            ($request->email           === null || \trim($request->email)           === '')
+        ) {
+            $message = 'Контактные данные не указаны.';
+            $this->note->addError('phone', $message);
+            $this->note->addError('phoneAdditional', $message);
+            $this->note->addError('address', $message);
+            $this->note->addError('email', $message);
+        }
+        if ($request->email !== null && !Email::isValidFormat($request->email)) {
+            $this->note->addError('email', 'Неверный формат адреса электронной почты.');
+        }
+
+        return $this;
+    }
+
+    protected function validateBirthDetails(ApplicationRequest $request, bool $isRequired = false): self
+    {
+        /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
+        if (
+            $isRequired &&
+            $request->bornAt        === null &&
+            ($request->placeOfBirth === null || \trim($request->placeOfBirth) === '')
+        ) {
+            $message = 'Данные о рождении не указаны.';
+            $this->note->addError('bornAt', $message);
+            $this->note->addError('placeOfBirth', $message);
+        }
+
+        return $this;
+    }
+
     protected function validatePassport(ApplicationRequest $request): self
     {
         if (
@@ -63,7 +102,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateBornAt(ApplicationRequest $request): self
+    protected function validateDeceasedDetails(ApplicationRequest $request): self
     {
         if ($request->bornAt !== null &&
             $request->diedAt !== null &&
@@ -72,12 +111,6 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         ) {
             $this->note->addError('bornAt', 'Дата рождения не может следовать за датой смерти.');
         }
-
-        return $this;
-    }
-
-    protected function validateDiedAt(ApplicationRequest $request): self
-    {
         if (
             $request->diedAt                       === null &&
             ($request->age                         !== null ||
@@ -97,12 +130,6 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         ) {
             $this->note->addError('diedAt', 'Дата смерти не может предшествовать дате рождения.');
         }
-
-        return $this;
-    }
-
-    protected function validateAge(ApplicationRequest $request): self
-    {
         if (
             $request->age    !== null &&
             $request->bornAt !== null &&
@@ -111,11 +138,6 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $this->note->addError('age', 'Возраст не может быть указан, т.к. уже указаны даты рождения и смерти.');
         }
 
-        return $this;
-    }
-
-    protected function validateDeathCertificate(ApplicationRequest $request): self
-    {
         if (
             $request->deathCertificateSeries   !== null ||
             $request->deathCertificateNumber   !== null ||
@@ -132,11 +154,6 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             }
         }
 
-        return $this;
-    }
-
-    protected function validateCremationCertificate(ApplicationRequest $request): self
-    {
         if (
             $request->cremationCertificateNumber   !== null ||
             $request->cremationCertificateIssuedAt !== null
@@ -147,28 +164,6 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             if ($request->cremationCertificateIssuedAt === null) {
                 $this->note->addError('cremationCertificateIssuedAt', 'Дата выдачи справки о смерти не указана.');
             }
-        }
-
-        return $this;
-    }
-
-    protected function validateContact(ApplicationRequest $request, bool $isRequired = false): self
-    {
-        if (
-            $isRequired &&
-            ($request->phone           === null || \trim($request->phone)           === '') &&
-            ($request->phoneAdditional === null || \trim($request->phoneAdditional) === '') &&
-            ($request->address         === null || \trim($request->address)         === '') &&
-            ($request->email           === null || \trim($request->email)           === '')
-        ) {
-            $message = 'Контактные данные не указаны.';
-            $this->note->addError('phone',           $message);
-            $this->note->addError('phoneAdditional', $message);
-            $this->note->addError('address',         $message);
-            $this->note->addError('email',           $message);
-        }
-        if ($request->email !== null && !Email::isValidFormat($request->email)) {
-            $this->note->addError('email', 'Неверный формат адреса электронной почты.');
         }
 
         return $this;

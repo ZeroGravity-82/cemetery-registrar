@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonBirthDetails\ClarifyNaturalPersonBirthDetailsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonContact\ClarifyNaturalPersonContactRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonFullName\ClarifyNaturalPersonFullNameRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\RemoveNaturalPerson\RemoveNaturalPersonRequest;
@@ -64,13 +65,26 @@ class NaturalPersonController extends Controller
     )]
     public function clarifyContact(HttpRequest $httpRequest, string $id): HttpJsonResponse
     {
-        $this->assertValidCsrfToken($httpRequest, 'natural_person');
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');        // TODO extract token validation to base class
         $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyNaturalPersonContactRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);
 
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
+    #[Route(
+        '/natural-person/{id}/clarify-birth-details',
+        name: 'natural_person_clarify_birth_details',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clarifyBirthDetails(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyNaturalPersonBirthDetailsRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
 
 
 

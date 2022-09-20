@@ -69,10 +69,17 @@ $naturalPersonCard.on(`click`, `.js-clarify-contact`, () => {
   naturalPersonFormClarifyContact_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
 });
 
-// $naturalPersonCard.on(`click`, `.js-clarify-geo-position`, () => {
-//   naturalPersonCardModalObject.hide();
-//   naturalPersonFormClarifyGeoPosition_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
-// });
+$naturalPersonCard.on(`click`, `.js-clarify-birth-details`, () => {
+  naturalPersonCardModalObject.hide();
+  naturalPersonFormClarifyBirthDetails_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
+});
+
+
+
+
+
+
+
 
 $naturalPersonCard.on(`click`, `.js-remove`, () => {
   const name = $naturalPersonCardTitle.find(`span`).html();
