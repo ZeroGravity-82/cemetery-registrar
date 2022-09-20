@@ -15,5 +15,6 @@ class ClarifyNaturalPersonBirthDetailsRequest extends ApplicationRequest
         public ?string $id,
         public ?string $bornAt,
         public ?string $placeOfBirth,
+        public ?string $diedAt,
     ) {}
 }

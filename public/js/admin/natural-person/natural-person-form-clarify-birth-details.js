@@ -3,6 +3,7 @@ const $naturalPersonFormClarifyBirthDetailsTitle             = $naturalPersonFor
 const $naturalPersonFormClarifyBirthDetailsForm              = $naturalPersonFormClarifyBirthDetails.find(`form`);
 const $naturalPersonFormClarifyBirthDetailsBornAtField       = $naturalPersonFormClarifyBirthDetails.find(`input[id=bornAt]`);
 const $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField = $naturalPersonFormClarifyBirthDetails.find(`input[id=placeOfBirth]`);
+const $naturalPersonFormClarifyBirthDetailsDiedAtField       = $naturalPersonFormClarifyBirthDetails.find(`input[id=diedAt]`);
 const $naturalPersonFormClarifyBirthDetailsCsrfTokenField    = $naturalPersonFormClarifyBirthDetails.find(`input[id=token]`);
 const $naturalPersonFormClarifyBirthDetailsSaveAndCloseBtn   = $naturalPersonFormClarifyBirthDetails.find(`.js-save-and-close`);
 const $naturalPersonFormClarifyBirthDetailsCloseBtn          = $naturalPersonFormClarifyBirthDetails.find(`.js-close`);
@@ -19,6 +20,11 @@ function naturalPersonFormClarifyBirthDetails_show(view, callback, args) {
   $naturalPersonFormClarifyBirthDetailsBornAtField.val(
       view.bornAt !== null
         ? view.bornAt.split(`.`).reverse().join(`-`)
+        : null
+  );
+  $naturalPersonFormClarifyBirthDetailsDiedAtField.val(
+      view.diedAt !== null
+        ? view.diedAt.split(`.`).reverse().join(`-`)
         : null
   );
   $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val(view.placeOfBirth);
@@ -47,6 +53,9 @@ function naturalPersonFormClarifyBirthDetails_save(url, isReloadRequired = false
         : null,
     placeOfBirth: $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val() !== ``
         ? $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val()
+        : null,
+    diedAt: $naturalPersonFormClarifyBirthDetailsDiedAtField.val() !== ``
+        ? $naturalPersonFormClarifyBirthDetailsDiedAtField.val()
         : null,
     token: $naturalPersonFormClarifyBirthDetailsCsrfTokenField.val(),
   };
