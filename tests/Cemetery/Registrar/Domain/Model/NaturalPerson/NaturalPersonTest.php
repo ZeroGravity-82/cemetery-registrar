@@ -126,6 +126,25 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->bornAt());
     }
 
+    public function testItSetsBornAtWhenDiedAtAndAgeAlreadySet(): void
+    {
+        // Prepare entity for testing
+        $deceasedDetails = new DeceasedDetails(
+            new \DateTimeImmutable('2010-05-13'),
+            new Age(9),
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+
+        // Testing itself
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->bornAt());
+        $this->assertSame('2001-05-13', $this->naturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
+    }
+
     public function testItSetsPlaceOfBirth(): void
     {
         $placeOfBirth = new PlaceOfBirth('город Новосибирск');
@@ -171,9 +190,28 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->deceasedDetails());
     }
 
-    // ------------------------- "bornAt <-> deceasedDetails->diedAt" invariant testing --------------------------
+    public function testItSetsDiedAtWhenBornAtAndAgeAreBothKnown(): void
+    {
+        // Prepare entity for testing
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
 
-    public function testItFailsWhenSettingBirthdateFollowsDeathDate(): void
+        // Testing itself
+        $deceasedDetails = new DeceasedDetails(
+            new \DateTimeImmutable('2010-05-13'),
+            new Age(9),
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+        $this->assertInstanceOf(DeceasedDetails::class, $this->naturalPerson->deceasedDetails());
+        $this->assertSame('2010-05-13', $this->naturalPerson->deceasedDetails()->diedAt()->format('Y-m-d'));
+        $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
+    }
+
+    // ---------------- "bornAt <-> deceasedDetails->diedAt <-> deceasedDetails->age" invariant testing ----------------
+
+    public function testItFailsWhenSettingBornAtFollowsDiedAt(): void
     {
         // Prepare entity for testing
         $deceasedDetails = new DeceasedDetails(
@@ -191,7 +229,25 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2010-05-13'));
     }
 
-    public function testItFailsWhenSettingDeathDatePrecedesBirthdate(): void
+    public function testItFailsWhenSettingBornAtNotMatchingAgeAndDiedAt(): void
+    {
+        // Prepare entity for testing
+        $deceasedDetails = new DeceasedDetails(
+            new \DateTimeImmutable('2010-05-13'),
+            new Age(9),
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+
+        // Testing itself
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Даты рождения и смерти не соответствуют возрасту.');
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-14'));
+    }
+
+    public function testItFailsWhenSettingDiedAtPrecedesBornAt(): void
     {
         // Prepare entity for testing
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2010-05-13'));
@@ -209,17 +265,17 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setDeceasedDetails($deceasedDetails);
     }
 
-    public function testItFailsWhenSettingAgeForBothBirthAndDeathDatesSet(): void
+    public function testItFailsWhenSettingDiedAtAndAgeNotMatchingBornAt(): void
     {
         // Prepare entity for testing
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
 
         // Testing itself
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Возраст не может быть указан, т.к. уже указаны даты рождения и смерти.');
+        $this->expectExceptionMessage('Даты рождения и смерти не соответствуют возрасту.');
         $deceasedDetails = new DeceasedDetails(
             new \DateTimeImmutable('2010-05-13'),
-            new Age(9),
+            new Age(10),
             null,
             null,
             null,

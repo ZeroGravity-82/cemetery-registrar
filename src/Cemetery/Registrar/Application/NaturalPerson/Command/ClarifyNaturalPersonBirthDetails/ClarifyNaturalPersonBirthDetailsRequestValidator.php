@@ -21,7 +21,6 @@ class ClarifyNaturalPersonBirthDetailsRequestValidator extends NaturalPersonRequ
         return $this
             ->validateId($request)
             ->validateBirthDetails($request, true)
-            ->validateDeceasedDetails($request)
             ->note();
     }
 }

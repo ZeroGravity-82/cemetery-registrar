@@ -6,8 +6,6 @@ namespace Cemetery\Registrar\Application\NaturalPerson;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
-use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonBirthDetails\ClarifyNaturalPersonBirthDetailsRequest;
-use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonContact\ClarifyNaturalPersonContactRequest;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 
@@ -60,22 +58,6 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateBirthDetails(ApplicationRequest $request, bool $isRequired = false): self
-    {
-        /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
-        if (
-            $isRequired &&
-            $request->bornAt        === null &&
-            ($request->placeOfBirth === null || \trim($request->placeOfBirth) === '')
-        ) {
-            $message = 'Данные о рождении не указаны.';
-            $this->note->addError('bornAt', $message);
-            $this->note->addError('placeOfBirth', $message);
-        }
-
-        return $this;
-    }
-
     protected function validatePassport(ApplicationRequest $request): self
     {
         if (
@@ -102,15 +84,42 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateDeceasedDetails(ApplicationRequest $request): self
+    protected function validateBirthDetails(ApplicationRequest $request, bool $isRequired = false): self
     {
-        if ($request->bornAt !== null &&
+        if (
+            $isRequired &&
+            $request->bornAt        === null &&
+            ($request->placeOfBirth === null || \trim($request->placeOfBirth) === '')
+        ) {
+            $message = 'Данные о рождении не указаны.';
+            $this->note->addError('bornAt', $message);
+            $this->note->addError('placeOfBirth', $message);
+        }
+        if (
+            $request->bornAt !== null &&
             $request->diedAt !== null &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) >
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt)
         ) {
             $this->note->addError('bornAt', 'Дата рождения не может следовать за датой смерти.');
+        } elseif (
+            $request->bornAt !== null &&
+            $request->diedAt !== null &&
+            $request->age    !== null &&
+            $request->age    !== \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt)->diff(
+                                 \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt))->y
+        ) {
+            $message = 'Даты рождения и смерти не соответствуют возрасту.';
+            $this->note->addError('bornAt', $message);
+            $this->note->addError('diedAt', $message);
+            $this->note->addError('age',    $message);
         }
+
+        return $this;
+    }
+
+    protected function validateDeceasedDetails(ApplicationRequest $request): self
+    {
         if (
             $request->diedAt                       === null &&
             ($request->age                         !== null ||
@@ -123,19 +132,24 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         ) {
             $this->note->addError('diedAt', 'Дата смерти не указана.');
         }
-        if ($request->bornAt !== null &&
+        if (
+            $request->bornAt !== null &&
             $request->diedAt !== null &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt) <
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt)
         ) {
             $this->note->addError('diedAt', 'Дата смерти не может предшествовать дате рождения.');
-        }
-        if (
-            $request->age    !== null &&
+        } elseif (
             $request->bornAt !== null &&
-            $request->diedAt !== null
+            $request->diedAt !== null &&
+            $request->age    !== null &&
+            $request->age    !== \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt)->diff(
+                \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt))->y
         ) {
-            $this->note->addError('age', 'Возраст не может быть указан, т.к. уже указаны даты рождения и смерти.');
+            $message = 'Даты рождения и смерти не соответствуют возрасту.';
+            $this->note->addError('bornAt', $message);
+            $this->note->addError('diedAt', $message);
+            $this->note->addError('age',    $message);
         }
 
         if (

@@ -107,11 +107,14 @@ class NaturalPerson extends AggregateRoot
 
     /**
      * @throws Exception when the birthdate follows the death date (if any)
+     * @throws Exception when birthdate and death date do not match age (if any)
      */
     public function setBornAt(?\DateTimeImmutable $bornAt): self
     {
-        $this->assertBirthdateNotFollowsDeathDate($bornAt);
+        $this->assertBornAtNotFollowsDiedAt($bornAt, $this->deceasedDetails());
+        $this->assertBornAtAndDiedAtAreMatchingAge($bornAt, $this->deceasedDetails());
         $this->bornAt = $bornAt;
+        $this->clearAgeIfItIsRedundant();
 
         return $this;
     }
@@ -147,12 +150,13 @@ class NaturalPerson extends AggregateRoot
 
     /**
      * @throws Exception when the death date (if any) precedes the birthdate
-     * @throws Exception when the age is provided when both birthdate and death date are set
+     * @throws Exception when birthdate and death date do not match age (if any)
      */
     public function setDeceasedDetails(?DeceasedDetails $deceasedDetails): self
     {
-        $this->assertValidDeceasedDetails($deceasedDetails);
+        $this->assertValidDeceasedDetails($this->bornAt(), $deceasedDetails);
         $this->deceasedDetails = $deceasedDetails;
+        $this->clearAgeIfItIsRedundant();
 
         return $this;
     }
@@ -160,49 +164,70 @@ class NaturalPerson extends AggregateRoot
     /**
      * @throws Exception when the birthdate follows the death date (if any)
      */
-    private function assertBirthdateNotFollowsDeathDate(?\DateTimeImmutable $bornAt): void
-    {
-        if (!$bornAt || !$this->deceasedDetails()?->diedAt()) {
+    private function assertBornAtNotFollowsDiedAt(
+        ?\DateTimeImmutable $bornAt,
+        ?DeceasedDetails    $deceasedDetails,
+    ): void {
+        if (!$bornAt || !$deceasedDetails?->diedAt()) {
             return;
         }
-        if ($bornAt > $this->deceasedDetails()->diedAt()) {
+        if ($bornAt > $deceasedDetails->diedAt()) {
             throw new Exception('Дата рождения не может следовать за датой смерти.');
         }
     }
 
     /**
      * @throws Exception when the death date (if any) precedes the birthdate
-     * @throws Exception when the age is provided when both birthdate and death date are set
+     * @throws Exception when birthdate and death date do not match age (if any)
      */
-    private function assertValidDeceasedDetails(?DeceasedDetails $deceasedDetails): void
-    {
-        $this->assertDeathDateNotPrecedesBirthdate($deceasedDetails);
-        $this->assertAgeIsNotRedundant($deceasedDetails);
+    private function assertValidDeceasedDetails(
+        ?\DateTimeImmutable $bornAt,
+        ?DeceasedDetails    $deceasedDetails
+    ): void {
+        $this->assertDiedAtNotPrecedesBornAt($bornAt, $deceasedDetails);
+        $this->assertBornAtAndDiedAtAreMatchingAge($bornAt, $deceasedDetails);
     }
 
     /**
      * @throws Exception when the death date (if any) precedes the birthdate
      */
-    private function assertDeathDateNotPrecedesBirthdate(?DeceasedDetails $deceasedDetails): void
-    {
-        if (!$deceasedDetails?->diedAt() || !$this->bornAt()) {
+    private function assertDiedAtNotPrecedesBornAt(
+        ?\DateTimeImmutable $bornAt,
+        ?DeceasedDetails    $deceasedDetails,
+    ): void {
+        if (!$deceasedDetails?->diedAt() || !$bornAt) {
             return;
         }
-        if ($deceasedDetails->diedAt() < $this->bornAt()) {
+        if ($deceasedDetails->diedAt() < $bornAt) {
             throw new Exception('Дата смерти не может предшествовать дате рождения.');
         }
     }
 
     /**
-     * @throws Exception when the age is provided when both birthdate and death date are set
+     * @throws Exception when birthdate and death date do not match age (if any)
      */
-    private function assertAgeIsNotRedundant(?DeceasedDetails $deceasedDetails): void
-    {
-        if (!$deceasedDetails?->diedAt() || !$this->bornAt()) {
+    private function assertBornAtAndDiedAtAreMatchingAge(
+        ?\DateTimeImmutable $bornAt,
+        ?DeceasedDetails    $deceasedDetails,
+    ): void {
+        if ($deceasedDetails?->age() === null || !$bornAt || !$deceasedDetails?->diedAt()) {
             return;
         }
-        if ($deceasedDetails?->age()) {
-            throw new Exception('Возраст не может быть указан, т.к. уже указаны даты рождения и смерти.');
+        if ($deceasedDetails->age()->value() !== $bornAt->diff($deceasedDetails->diedAt())->y) {
+            throw new Exception('Даты рождения и смерти не соответствуют возрасту.');
+        }
+    }
+
+    private function clearAgeIfItIsRedundant(): void
+    {
+        if ($this->bornAt() !== null && $this->deceasedDetails()?->diedAt() !== null) {
+            $this->deceasedDetails = new DeceasedDetails(
+                $this->deceasedDetails()?->diedAt(),
+                null,
+                $this->deceasedDetails()?->causeOfDeathId(),
+                $this->deceasedDetails()?->deathCertificate(),
+                $this->deceasedDetails()?->cremationCertificate(),
+            );
         }
     }
 }

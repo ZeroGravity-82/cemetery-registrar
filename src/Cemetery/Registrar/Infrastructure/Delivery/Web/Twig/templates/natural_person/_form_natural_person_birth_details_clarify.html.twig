@@ -6,7 +6,9 @@
     <div class="container">
       {% include('natural_person/_form_natural_person_birth_details.html.twig') %}
     </div>
-    <input type="hidden" id="token" name="token" value="{{ csrf_token('natural_person') }}">
+    <input type="hidden" id="token"  name="token" value="{{ csrf_token('natural_person') }}">
+    <input type="hidden" id="diedAt" name="diedAt">
+    <input type="hidden" id="age"    name="age">
     {% include '_form_buttons.html.twig' %}
   </form>
 {% endblock %}

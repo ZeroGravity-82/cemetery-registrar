@@ -4,6 +4,7 @@ const $naturalPersonFormClarifyBirthDetailsForm              = $naturalPersonFor
 const $naturalPersonFormClarifyBirthDetailsBornAtField       = $naturalPersonFormClarifyBirthDetails.find(`input[id=bornAt]`);
 const $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField = $naturalPersonFormClarifyBirthDetails.find(`input[id=placeOfBirth]`);
 const $naturalPersonFormClarifyBirthDetailsDiedAtField       = $naturalPersonFormClarifyBirthDetails.find(`input[id=diedAt]`);
+const $naturalPersonFormClarifyBirthDetailsAgeField          = $naturalPersonFormClarifyBirthDetails.find(`input[id=age]`);
 const $naturalPersonFormClarifyBirthDetailsCsrfTokenField    = $naturalPersonFormClarifyBirthDetails.find(`input[id=token]`);
 const $naturalPersonFormClarifyBirthDetailsSaveAndCloseBtn   = $naturalPersonFormClarifyBirthDetails.find(`.js-save-and-close`);
 const $naturalPersonFormClarifyBirthDetailsCloseBtn          = $naturalPersonFormClarifyBirthDetails.find(`.js-close`);
@@ -27,6 +28,7 @@ function naturalPersonFormClarifyBirthDetails_show(view, callback, args) {
         ? view.diedAt.split(`.`).reverse().join(`-`)
         : null
   );
+  $naturalPersonFormClarifyBirthDetailsAgeField.val(view.age);
   $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val(view.placeOfBirth);
   naturalPersonFormClarifyBirthDetails_hideAllValidationErrors();
   naturalPersonFormClarifyBirthDetailsModalObject.show();
@@ -57,6 +59,9 @@ function naturalPersonFormClarifyBirthDetails_save(url, isReloadRequired = false
     diedAt: $naturalPersonFormClarifyBirthDetailsDiedAtField.val() !== ``
         ? $naturalPersonFormClarifyBirthDetailsDiedAtField.val()
         : null,
+    age: $naturalPersonFormClarifyBirthDetailsAgeField.val() !== ``
+        ? parseInt($naturalPersonFormClarifyBirthDetailsAgeField.val())
+        : null,
     token: $naturalPersonFormClarifyBirthDetailsCsrfTokenField.val(),
   };
   $.ajax({
@@ -86,7 +91,7 @@ function naturalPersonFormClarifyBirthDetails_hideAllValidationErrors() {
   $naturalPersonFormClarifyBirthDetailsForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$naturalPersonFormClarifyBirthDetailsForm.on(`focus`, `#bornAt.is-invalid`, (e) => {
+$naturalPersonFormClarifyBirthDetailsForm.on(`change`, `.is-invalid`, (e) => {
   naturalPersonFormClarifyBirthDetails_hideAllValidationErrors();
 });
 $naturalPersonFormClarifyBirthDetailsForm.on(`input`, `.is-invalid`, (e) => {
