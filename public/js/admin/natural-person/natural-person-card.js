@@ -74,7 +74,10 @@ $naturalPersonCard.on(`click`, `.js-clarify-birth-details`, () => {
   naturalPersonFormClarifyBirthDetails_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
 });
 
-
+$naturalPersonCard.on(`click`, `.js-clarify-passport`, () => {
+  naturalPersonCardModalObject.hide();
+  naturalPersonFormClarifyPassport_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
+});
 
 
 

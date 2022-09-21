@@ -69,9 +69,7 @@ $naturalPersonFormNewCloseBtn.on(`click`, () => {
 function naturalPersonFormNew_save(url, isReloadRequired = false) {
   $spinner.show();
   const data = {
-    fullName: $naturalPersonFormNewFullNameField.val() !== ``
-      ? $naturalPersonFormNewFullNameField.val()
-      : null,
+    fullName: $naturalPersonFormNewFullNameField.val(),
     phone: $naturalPersonFormNewPhoneField.val() !== ``
       ? $naturalPersonFormNewPhoneField.val()
       : null,
@@ -170,3 +168,13 @@ $naturalPersonFormNewForm.on(`input`, `.is-invalid`, (e) => {
 function naturalPersonFormNew_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }
+
+// Hide validation errors of related input fields for bornAt and diedAt
+$naturalPersonFormNewBornAtField.on(`input`, () => {
+  $naturalPersonFormNewDiedAtField.removeClass(`is-invalid`);
+  console.log($naturalPersonFormNewDiedAtField);
+});
+$naturalPersonFormNewDiedAtField.on(`input`, () => {
+  $naturalPersonFormNewBornAtField.removeClass(`is-invalid`);
+  console.log($naturalPersonFormNewBornAtField);
+});

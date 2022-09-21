@@ -242,8 +242,7 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setDeceasedDetails($deceasedDetails);
 
         // Testing itself
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Даты рождения и смерти не соответствуют возрасту.');
+        $this->expectExceptionForAgeNotMatchingBornAtAndDiedAt();
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-14'));
     }
 
@@ -271,8 +270,7 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
 
         // Testing itself
-        $this->expectException(Exception::class);
-        $this->expectExceptionMessage('Даты рождения и смерти не соответствуют возрасту.');
+        $this->expectExceptionForAgeNotMatchingBornAtAndDiedAt();
         $deceasedDetails = new DeceasedDetails(
             new \DateTimeImmutable('2010-05-13'),
             new Age(10),
@@ -281,5 +279,11 @@ class NaturalPersonTest extends AggregateRootTest
             null,
         );
         $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+    }
+
+    private function expectExceptionForAgeNotMatchingBornAtAndDiedAt(): void
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Возраст не соответствует датам рождения и смерти.');
     }
 }

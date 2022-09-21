@@ -214,7 +214,7 @@ class NaturalPerson extends AggregateRoot
             return;
         }
         if ($deceasedDetails->age()->value() !== $bornAt->diff($deceasedDetails->diedAt())->y) {
-            throw new Exception('Даты рождения и смерти не соответствуют возрасту.');
+            throw new Exception('Возраст не соответствует датам рождения и смерти.');
         }
     }
 

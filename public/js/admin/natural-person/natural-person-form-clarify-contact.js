@@ -89,4 +89,3 @@ $naturalPersonFormClarifyContactForm.on(`change`, `.is-invalid`, (e) => {
 $naturalPersonFormClarifyContactForm.on(`input`, `.is-invalid`, (e) => {
   naturalPersonFormClarifyContact_hideAllValidationErrors(e);
 });
-

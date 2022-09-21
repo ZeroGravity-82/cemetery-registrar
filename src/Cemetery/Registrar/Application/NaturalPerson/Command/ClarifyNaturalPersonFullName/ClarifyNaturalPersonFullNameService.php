@@ -38,8 +38,9 @@ class ClarifyNaturalPersonFullNameService extends NaturalPersonService
 
         /** @var ClarifyNaturalPersonFullNameRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
-        if ($naturalPerson->fullName()->value() !== $request->fullName) {
-            $naturalPerson->setFullName($this->buildFullName($request));
+        $fullName      = $this->buildFullName($request);
+        if (!$naturalPerson->fullName()->isEqual($fullName)) {
+            $naturalPerson->setFullName($fullName);
             $isClarified = true;
         }
         if ($isClarified) {
