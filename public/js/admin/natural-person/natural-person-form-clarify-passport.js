@@ -93,8 +93,8 @@ function naturalPersonFormClarifyPassport_hideAllValidationErrors() {
 }
 
 $naturalPersonFormClarifyPassportForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyPassport_hideAllValidationErrors(e);
+  naturalPersonFormClarifyFullName_hideValidationError(e);
 });
 $naturalPersonFormClarifyPassportForm.on(`input`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyPassport_hideAllValidationErrors(e);
+  naturalPersonFormClarifyFullName_hideValidationError(e);
 });
