@@ -17,13 +17,15 @@ const naturalPersonFormClarifyDeceasedDetailsModalObject                        
 
 let persistedCallbackClarifyDeceasedDetails;
 let persistedArgsClarifyDeceasedDetails;
+let isFirstEnteringDeceasedDataMode;
 
 function naturalPersonFormClarifyDeceasedDetails_show(view, callback, args) {
   persistedCallbackClarifyDeceasedDetails = callback;
   persistedArgsClarifyDeceasedDetails     = args;
   currentNaturalPersonId                  = view.id;
+  isFirstEnteringDeceasedDataMode         = view.diedAt === null;
   $naturalPersonFormClarifyDeceasedDetailsTitle.html(
-      `${view.diedAt === null ? `Уточнение` : `Внесение`} данных о смерти - <span>${view.fullName}</span>`
+      `${isFirstEnteringDeceasedDataMode ? `Внесение` : `Уточнение`} данных о смерти - <span>${view.fullName}</span>`
   );
   $naturalPersonFormClarifyDeceasedDetailsDiedAtField.val(
     view.diedAt !== null
@@ -109,7 +111,7 @@ function naturalPersonFormClarifyDeceasedDetails_save(url, isReloadRequired = fa
   .done(() => {
     buildToast().fire({
       icon: `success`,
-      title: `Дата и место рождения успешно уточнены.`,
+      title: `Данные о смерти успешно ${isFirstEnteringDeceasedDataMode ? `внесены` : `уточнены`}.`,
     });
     naturalPersonFormClarifyDeceasedDetails_close();
   })
@@ -126,9 +128,17 @@ function naturalPersonFormClarifyDeceasedDetails_hideAllValidationErrors() {
   $naturalPersonFormClarifyDeceasedDetailsForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$naturalPersonFormClarifyDeceasedDetailsForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyDeceasedDetails_hideAllValidationErrors();
-});
 $naturalPersonFormClarifyDeceasedDetailsForm.on(`input`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyDeceasedDetails_hideAllValidationErrors();
+  naturalPersonFormClarifyDeceasedDetails_hideValidationError(e);
+
+  // Hide validation errors of inter-related input fields
+  switch ($(e.target).attr(`id`)) {
+    case `diedAt`:
+    case `age`:
+      $naturalPersonFormClarifyDeceasedDetailsDiedAtField.removeClass(`is-invalid`);
+      $naturalPersonFormClarifyDeceasedDetailsAgeField.removeClass(`is-invalid`);
+  }
 });
+function naturalPersonFormClarifyDeceasedDetails_hideValidationError(e) {
+  $(e.target).removeClass(`is-invalid`);
+}

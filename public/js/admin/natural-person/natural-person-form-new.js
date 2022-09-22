@@ -159,22 +159,20 @@ function naturalPersonFormNew_hideAllValidationErrors() {
   $naturalPersonFormNewForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$naturalPersonFormNewForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormNew_hideValidationError(e);
-});
 $naturalPersonFormNewForm.on(`input`, `.is-invalid`, (e) => {
   naturalPersonFormNew_hideValidationError(e);
+
+  // Hide validation errors of inter-related input fields
+  switch ($(e.target).attr(`id`)) {
+    case `bornAt`:
+    case `diedAt`:
+    case `age`:
+      $naturalPersonFormNewBornAtField.removeClass(`is-invalid`);
+      $naturalPersonFormNewDiedAtField.removeClass(`is-invalid`);
+      $naturalPersonFormNewAgeField.removeClass(`is-invalid`);
+      break;
+  }
 });
 function naturalPersonFormNew_hideValidationError(e) {
   $(e.target).removeClass(`is-invalid`);
 }
-
-// Hide validation errors of related input fields for bornAt and diedAt
-$naturalPersonFormNewBornAtField.on(`input`, () => {
-  $naturalPersonFormNewDiedAtField.removeClass(`is-invalid`);
-  console.log($naturalPersonFormNewDiedAtField);
-});
-$naturalPersonFormNewDiedAtField.on(`input`, () => {
-  $naturalPersonFormNewBornAtField.removeClass(`is-invalid`);
-  console.log($naturalPersonFormNewBornAtField);
-});

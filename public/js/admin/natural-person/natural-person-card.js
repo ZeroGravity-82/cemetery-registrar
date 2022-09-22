@@ -36,7 +36,7 @@ function naturalPersonCard_show(id) {
     const deceasedBadge = view.diedAt !== null
       ? `<span class="badge text-end text-bg-dark">Умерший</span>`
       : ``;
-    $naturalPersonCardTitle.html(`Карточка физлица - <span>${view.fullName} ${deceasedBadge}</span>`);
+    $naturalPersonCardTitle.html(`Карточка физлица - <span>${view.fullName}</span> ${deceasedBadge}`);
     $naturalPersonCardFullNameField.html(view.fullName);
     $naturalPersonCardContactField.html(composeContact(view));
     $naturalPersonCardBirthDetailsField.html(composeBirthDetails(view));

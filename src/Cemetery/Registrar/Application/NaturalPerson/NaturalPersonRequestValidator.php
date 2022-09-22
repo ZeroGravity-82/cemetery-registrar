@@ -61,10 +61,18 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
 
     protected function validatePassport(ApplicationRequest $request, bool $isRequired = false): self
     {
+        $now                     = new \DateTimeImmutable();
         $passportSeriesMessage   = 'Серия паспорта не указана.';
         $passportNumberMessage   = 'Номер паспорта не указан.';
         $passportIssuedAtMessage = 'Дата выдачи паспорта не указана.';
         $passportIssuedByMessage = 'Орган, выдавший паспорт, не указан.';
+
+        if (
+            $request->passportIssuedAt !== null &&
+            \DateTimeImmutable::createFromFormat('Y-m-d', $request->passportIssuedAt) > $now
+        ) {
+            $this->note->addError('passportIssuedAt', 'Дата выдачи паспорта не может иметь значение из будущего.');
+        }
 
         if (
             $isRequired &&
@@ -103,6 +111,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
 
     protected function validateBirthDetails(ApplicationRequest $request, bool $isRequired = false): self
     {
+        $now = new \DateTimeImmutable();
         if (
             $isRequired &&
             $request->bornAt        === null &&
@@ -114,6 +123,11 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         }
 
         if (
+            $request->bornAt !== null &&
+            \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) > $now
+        ) {
+            $this->note->addError('bornAt', 'Дата рождения не может иметь значение из будущего.');
+        } elseif (
             $request->bornAt !== null &&
             $request->diedAt !== null &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) >
@@ -129,6 +143,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
 
     protected function validateDeceasedDetails(ApplicationRequest $request, bool $isRequired = false): self
     {
+        $now = new \DateTimeImmutable();
         if (
             $request->diedAt                       === null &&
             ($isRequired                                    ||
@@ -144,6 +159,11 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         }
 
         if (
+            $request->diedAt !== null &&
+            \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt) > $now
+        ) {
+            $this->note->addError('diedAt', 'Дата смерти не может иметь значение из будущего.');
+        } elseif (
             $request->bornAt !== null &&
             $request->diedAt !== null &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt) <
@@ -152,6 +172,13 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $this->note->addError('diedAt', 'Дата смерти не может предшествовать дате рождения.');
         } else {
             $this->validateAgeMatchingBornAtAndDiedAt($request);
+        }
+
+        if (
+            $request->deathCertificateIssuedAt !== null &&
+            \DateTimeImmutable::createFromFormat('Y-m-d', $request->deathCertificateIssuedAt) > $now
+        ) {
+            $this->note->addError('deathCertificateIssuedAt', 'Дата выдачи свидетельства о смерти не может иметь значение из будущего.');
         }
 
         if (
@@ -168,6 +195,13 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             if ($request->deathCertificateIssuedAt === null) {
                 $this->note->addError('deathCertificateIssuedAt', 'Дата выдачи свидетельства о смерти не указана.');
             }
+        }
+
+        if (
+            $request->cremationCertificateIssuedAt !== null &&
+            \DateTimeImmutable::createFromFormat('Y-m-d', $request->cremationCertificateIssuedAt) > $now
+        ) {
+            $this->note->addError('cremationCertificateIssuedAt', 'Дата выдачи справки о смерти не может иметь значение из будущего.');
         }
 
         if (

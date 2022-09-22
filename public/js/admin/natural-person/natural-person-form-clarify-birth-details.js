@@ -91,9 +91,6 @@ function naturalPersonFormClarifyBirthDetails_hideAllValidationErrors() {
   $naturalPersonFormClarifyBirthDetailsForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$naturalPersonFormClarifyBirthDetailsForm.on(`change`, `.is-invalid`, (e) => {
-  naturalPersonFormClarifyBirthDetails_hideAllValidationErrors();
-});
-$naturalPersonFormClarifyBirthDetailsForm.on(`input`, `.is-invalid`, (e) => {
+$naturalPersonFormClarifyBirthDetailsForm.on(`input`, `.is-invalid`, () => {
   naturalPersonFormClarifyBirthDetails_hideAllValidationErrors();
 });
