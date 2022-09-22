@@ -79,6 +79,12 @@ $naturalPersonCard.on(`click`, `.js-clarify-passport`, () => {
   naturalPersonFormClarifyPassport_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
 });
 
+$naturalPersonCard.on(`click`, `.js-clarify-deceased-details`, () => {
+  naturalPersonCardModalObject.hide();
+  naturalPersonFormClarifyDeceasedDetails_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
+});
+
+
 
 
 
@@ -175,17 +181,18 @@ function toggleActionButtonsForPassport(view) {
 }
 
 function toggleActionButtonsForDeceasedDetails(view) {
-  const $enterDeceasedDetailsButton   = $naturalPersonCard.find(`.js-enter-deceased-details`);
   const $clarifyDeceasedDetailsButton = $naturalPersonCard.find(`.js-clarify-deceased-details`);
-  const $discardDeceasedDetailsButton = $naturalPersonCard.find(`.js-discard-deceased-details`);
+  $clarifyDeceasedDetailsButton.find(`span`).html(
+    view.diedAt === null
+      ? `Внести`
+      : `Уточнить`
+  );
+
+  const $clearDeceasedDetailsButton = $naturalPersonCard.find(`.js-clear-deceased-details`);
   if (view.diedAt === null) {
-    $enterDeceasedDetailsButton.removeClass(`d-none`);
-    $clarifyDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
-    $discardDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
+    $clearDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $enterDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
-    $clarifyDeceasedDetailsButton.removeClass(`d-none`);
-    $discardDeceasedDetailsButton.removeClass(`d-none`);
+    $clearDeceasedDetailsButton.removeClass(`d-none`);
   }
 }
 

@@ -10,6 +10,7 @@ use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFullNameClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -39,7 +40,7 @@ class ClarifyNaturalPersonFullNameService extends NaturalPersonService
         /** @var ClarifyNaturalPersonFullNameRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
         $fullName      = $this->buildFullName($request);
-        if (!$naturalPerson->fullName()->isEqual($fullName)) {
+        if (!$this->isSameFullName($fullName, $naturalPerson)) {
             $naturalPerson->setFullName($fullName);
             $isClarified = true;
         }
@@ -68,5 +69,10 @@ class ClarifyNaturalPersonFullNameService extends NaturalPersonService
     {
         /** @var ClarifyNaturalPersonFullNameRequest $request */
         return new FullName($request->fullName);
+    }
+
+    private function isSameFullName(FullName $fullName, NaturalPerson $naturalPerson): bool
+    {
+        return $naturalPerson->fullName()->isEqual($fullName);
     }
 }

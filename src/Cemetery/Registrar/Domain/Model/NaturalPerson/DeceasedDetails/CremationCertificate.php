@@ -54,10 +54,7 @@ class CremationCertificate
      */
     private function assertValidIssuedAt(\DateTimeImmutable $issuedAt): void
     {
-        $now = new \DateTimeImmutable();
-        if ($issuedAt > $now) {
-            throw new Exception('Дата выдачи справки о кремации не может иметь значение из будущего.');
-        }
+        $this->assertIssuedAtNotInFuture($issuedAt);
     }
 
     /**
@@ -67,6 +64,17 @@ class CremationCertificate
     {
         if (\trim($value) === '') {
             throw new Exception('Номер справки о кремации не может иметь пустое значение.');
+        }
+    }
+
+    /**
+     * @throws Exception when the issuing date is in the future
+     */
+    private function assertIssuedAtNotInFuture(\DateTimeImmutable $issuedAt): void
+    {
+        $now = new \DateTimeImmutable();
+        if ($issuedAt > $now) {
+            throw new Exception('Дата выдачи справки о кремации не может иметь значение из будущего.');
         }
     }
 }

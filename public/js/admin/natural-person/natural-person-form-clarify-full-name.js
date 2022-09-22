@@ -37,8 +37,8 @@ function naturalPersonFormClarifyFullName_save(url, isReloadRequired = false) {
   $spinner.show();
   const data = {
     fullName: $naturalPersonFormClarifyFullNameFullNameField.val() !== ``
-        ? $naturalPersonFormClarifyFullNameFullNameField.val()
-        : null,
+      ? $naturalPersonFormClarifyFullNameFullNameField.val()
+      : null,
     token: $naturalPersonFormClarifyFullNameCsrfTokenField.val(),
   };
   $.ajax({

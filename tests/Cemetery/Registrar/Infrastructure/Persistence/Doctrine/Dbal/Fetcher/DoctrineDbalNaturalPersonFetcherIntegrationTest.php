@@ -1046,6 +1046,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                      $view->passportDivisionCode);
         $this->assertSame('01.12.2021',              $view->diedAt);
         $this->assertSame(69,                        $view->age);
+        $this->assertSame(null,                      $view->causeOfDeathId);
         $this->assertSame(null,                      $view->causeOfDeathName);
         $this->assertSame(null,                      $view->deathCertificateSeries);
         $this->assertSame(null,                      $view->deathCertificateNumber);
@@ -1075,6 +1076,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                    $view->passportDivisionCode);
         $this->assertSame('12.02.2001',                            $view->diedAt);
         $this->assertSame(82,                                      $view->age);
+        $this->assertSame('CD008',                                 $view->causeOfDeathId);
         $this->assertSame('Болезнь сердечно-легочная хроническая', $view->causeOfDeathName);
         $this->assertSame('V-МЮ',                                  $view->deathCertificateSeries);
         $this->assertSame('532515',                                $view->deathCertificateNumber);
@@ -1104,6 +1106,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('681-225',                           $view->passportDivisionCode);
         $this->assertSame('13.05.2012',                        $view->diedAt);
         $this->assertSame(42,                                  $view->age);
+        $this->assertSame('CD004',                             $view->causeOfDeathId);
         $this->assertSame('Онкология',                         $view->causeOfDeathName);
         $this->assertSame('I-BC',                              $view->deathCertificateSeries);
         $this->assertSame('785066',                            $view->deathCertificateNumber);
@@ -1133,6 +1136,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('541-001',                                                            $view->passportDivisionCode);
         $this->assertSame('26.01.2010',                                                         $view->diedAt);
         $this->assertSame(null,                                                                 $view->age);
+        $this->assertSame('CD004',                                                              $view->causeOfDeathId);
         $this->assertSame('Онкология',                                                          $view->causeOfDeathName);
         $this->assertSame(null,                                                                 $view->deathCertificateSeries);
         $this->assertSame(null,                                                                 $view->deathCertificateNumber);
@@ -1162,6 +1166,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame('540-001',                                   $view->passportDivisionCode);
         $this->assertSame('10.03.2022',                                $view->diedAt);
         $this->assertSame(42,                                          $view->age);
+        $this->assertSame(null,                                        $view->causeOfDeathId);
         $this->assertSame(null,                                        $view->causeOfDeathName);
         $this->assertSame(null,                                        $view->deathCertificateSeries);
         $this->assertSame(null,                                        $view->deathCertificateNumber);
@@ -1191,6 +1196,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $view->passportDivisionCode);
         $this->assertSame('03.12.2021',                  $view->diedAt);
         $this->assertSame(null,                          $view->age);
+        $this->assertSame(null,                          $view->causeOfDeathId);
         $this->assertSame(null,                          $view->causeOfDeathName);
         $this->assertSame(null,                          $view->deathCertificateSeries);
         $this->assertSame(null,                          $view->deathCertificateNumber);
@@ -1220,6 +1226,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                               $view->passportDivisionCode);
         $this->assertSame(null,                               $view->diedAt);
         $this->assertSame(null,                               $view->age);
+        $this->assertSame(null,                               $view->causeOfDeathId);
         $this->assertSame(null,                               $view->causeOfDeathName);
         $this->assertSame(null,                               $view->deathCertificateSeries);
         $this->assertSame(null,                               $view->deathCertificateNumber);
@@ -1249,6 +1256,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                                     $view->passportDivisionCode);
         $this->assertSame(null,                                     $view->diedAt);
         $this->assertSame(null,                                     $view->age);
+        $this->assertSame(null,                                     $view->causeOfDeathId);
         $this->assertSame(null,                                     $view->causeOfDeathName);
         $this->assertSame(null,                                     $view->deathCertificateSeries);
         $this->assertSame(null,                                     $view->deathCertificateNumber);
@@ -1278,6 +1286,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                          $view->passportDivisionCode);
         $this->assertSame('26.05.1980',                  $view->diedAt);
         $this->assertSame(null,                          $view->age);
+        $this->assertSame(null,                          $view->causeOfDeathId);
         $this->assertSame(null,                          $view->causeOfDeathName);
         $this->assertSame(null,                          $view->deathCertificateSeries);
         $this->assertSame(null,                          $view->deathCertificateNumber);
@@ -1307,6 +1316,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame('22.11.2002',           $view->diedAt);
         $this->assertSame(72,                     $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathId);
         $this->assertSame(null,                   $view->causeOfDeathName);
         $this->assertSame(null,                   $view->deathCertificateSeries);
         $this->assertSame(null,                   $view->deathCertificateNumber);
@@ -1336,6 +1346,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame('11.05.2004',           $view->diedAt);
         $this->assertSame(79,                     $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathId);
         $this->assertSame(null,                   $view->causeOfDeathName);
         $this->assertSame(null,                   $view->deathCertificateSeries);
         $this->assertSame(null,                   $view->deathCertificateNumber);
@@ -1365,6 +1376,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame('29.10.2005',           $view->diedAt);
         $this->assertSame(80,                     $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathId);
         $this->assertSame(null,                   $view->causeOfDeathName);
         $this->assertSame(null,                   $view->deathCertificateSeries);
         $this->assertSame(null,                   $view->deathCertificateNumber);
@@ -1394,6 +1406,7 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertSame(null,                   $view->passportDivisionCode);
         $this->assertSame(null,                   $view->diedAt);
         $this->assertSame(null,                   $view->age);
+        $this->assertSame(null,                   $view->causeOfDeathId);
         $this->assertSame(null,                   $view->causeOfDeathName);
         $this->assertSame(null,                   $view->deathCertificateSeries);
         $this->assertSame(null,                   $view->deathCertificateNumber);

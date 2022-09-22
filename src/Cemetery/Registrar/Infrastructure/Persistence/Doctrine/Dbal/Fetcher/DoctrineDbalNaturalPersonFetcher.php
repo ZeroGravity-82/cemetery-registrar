@@ -130,6 +130,7 @@ SELECT np.id                                                                    
           NULL
        )                                                                                      AS age,
        TIMESTAMPDIFF(YEAR, np.born_at, np.deceased_details->>"$.diedAt")                      AS ageCalculated,
+       cd.id                                                                                  AS causeOfDeathId,
        cd.name                                                                                AS causeOfDeathName,
        np.deceased_details->>"$.deathCertificate.series"                                      AS deathCertificateSeries,
        np.deceased_details->>"$.deathCertificate.number"                                      AS deathCertificateNumber,
@@ -258,6 +259,7 @@ LIKE_TERM_SQL;
                 null    => $viewData['ageCalculated'],
                 default => (int) $viewData['age'],
             },
+            $viewData['causeOfDeathId'],
             $viewData['causeOfDeathName'],
             $viewData['deathCertificateSeries'],
             $viewData['deathCertificateNumber'],

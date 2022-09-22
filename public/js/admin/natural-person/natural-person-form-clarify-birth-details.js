@@ -19,17 +19,17 @@ function naturalPersonFormClarifyBirthDetails_show(view, callback, args) {
   currentNaturalPersonId               = view.id;
   $naturalPersonFormClarifyBirthDetailsTitle.html(`Уточнение даты и места рождения - <span>${view.fullName}</span>`);
   $naturalPersonFormClarifyBirthDetailsBornAtField.val(
-      view.bornAt !== null
-        ? view.bornAt.split(`.`).reverse().join(`-`)
-        : null
+    view.bornAt !== null
+      ? view.bornAt.split(`.`).reverse().join(`-`)
+      : null
   );
+  $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val(view.placeOfBirth);
   $naturalPersonFormClarifyBirthDetailsDiedAtField.val(
-      view.diedAt !== null
-        ? view.diedAt.split(`.`).reverse().join(`-`)
-        : null
+    view.diedAt !== null
+      ? view.diedAt.split(`.`).reverse().join(`-`)
+      : null
   );
   $naturalPersonFormClarifyBirthDetailsAgeField.val(view.age);
-  $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val(view.placeOfBirth);
   naturalPersonFormClarifyBirthDetails_hideAllValidationErrors();
   naturalPersonFormClarifyBirthDetailsModalObject.show();
 }
@@ -51,17 +51,17 @@ function naturalPersonFormClarifyBirthDetails_save(url, isReloadRequired = false
   $spinner.show();
   const data = {
     bornAt: $naturalPersonFormClarifyBirthDetailsBornAtField.val() !== ``
-        ? $naturalPersonFormClarifyBirthDetailsBornAtField.val()
-        : null,
+      ? $naturalPersonFormClarifyBirthDetailsBornAtField.val()
+      : null,
     placeOfBirth: $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val() !== ``
-        ? $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val()
-        : null,
+      ? $naturalPersonFormClarifyBirthDetailsPlaceOfBirthField.val()
+      : null,
     diedAt: $naturalPersonFormClarifyBirthDetailsDiedAtField.val() !== ``
-        ? $naturalPersonFormClarifyBirthDetailsDiedAtField.val()
-        : null,
+      ? $naturalPersonFormClarifyBirthDetailsDiedAtField.val()
+      : null,
     age: $naturalPersonFormClarifyBirthDetailsAgeField.val() !== ``
-        ? parseInt($naturalPersonFormClarifyBirthDetailsAgeField.val())
-        : null,
+      ? parseInt($naturalPersonFormClarifyBirthDetailsAgeField.val())
+      : null,
     token: $naturalPersonFormClarifyBirthDetailsCsrfTokenField.val(),
   };
   $.ajax({

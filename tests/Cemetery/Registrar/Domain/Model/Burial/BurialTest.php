@@ -183,6 +183,16 @@ class BurialTest extends AggregateRootTest
         $this->assertNull($this->burial->buriedAt());
     }
 
+    public function testItFailsWithFutureBuriedAtValue(): void
+    {
+        $now      = new \DateTimeImmutable();
+        $buriedAt = $now->modify('+1 day');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Дата и время захоронения не могут иметь значение из будущего.');
+        $this->burial->setBuriedAt($buriedAt);
+    }
+
     public function testItSetsBurialChainId(): void
     {
         $burialChainId = new BurialChainId('BCH001');

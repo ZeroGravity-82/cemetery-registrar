@@ -9,6 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonPassportClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\Passport;
@@ -39,7 +40,7 @@ class ClarifyNaturalPersonPassportService extends NaturalPersonService
         /** @var ClarifyNaturalPersonPassportRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
         $passport      = $this->buildPassport($request);
-        if (!$naturalPerson->passport()->isEqual($passport)) {
+        if (!$this->isSamePassport($passport, $naturalPerson)) {
             $naturalPerson->setPassport($passport);
             $isClarified = true;
         }
@@ -82,5 +83,11 @@ class ClarifyNaturalPersonPassportService extends NaturalPersonService
         return $request->passportIssuedAt !== null
             ? \DateTimeImmutable::createFromFormat('Y-m-d', $request->passportIssuedAt)
             : null;
+    }
+
+    private function isSamePassport(Passport $passport, NaturalPerson $naturalPerson): bool
+    {
+        return $naturalPerson->passport() !== null &&
+               $passport->isEqual($naturalPerson->passport());
     }
 }

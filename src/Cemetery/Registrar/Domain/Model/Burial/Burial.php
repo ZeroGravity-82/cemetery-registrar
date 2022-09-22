@@ -170,8 +170,12 @@ class Burial extends AggregateRoot
         return $this->buriedAt;
     }
 
+    /**
+     * @throws Exception when the date and time of burial (if any) is in the future
+     */
     public function setBuriedAt(?\DateTimeImmutable $buriedAt): self
     {
+        $this->assertValidBuriedAt($buriedAt);
         $this->buriedAt = $buriedAt;
 
         return $this;
@@ -230,6 +234,28 @@ class Burial extends AggregateRoot
                 $container::CLASS_LABEL,
                 $this->type()->label(),
             ));
+        }
+    }
+
+    /**
+     * @throws Exception when the date and time of burial (if any) is in the future
+     */
+    private function assertValidBuriedAt(?\DateTimeImmutable $buriedAt): void
+    {
+        if ($buriedAt === null) {
+            return;
+        }
+        $this->assertBuriedAtNotInFuture($buriedAt);
+    }
+
+    /**
+     * @throws Exception when the date and time of burial (if any) is in the future
+     */
+    private function assertBuriedAtNotInFuture(\DateTimeImmutable $buriedAt): void
+    {
+        $now = new \DateTimeImmutable();
+        if ($buriedAt > $now) {
+            throw new Exception('Дата и время захоронения не могут иметь значение из будущего.');
         }
     }
 

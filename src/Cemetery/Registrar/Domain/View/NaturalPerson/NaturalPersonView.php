@@ -25,6 +25,7 @@ class NaturalPersonView
         public ?string $passportDivisionCode,
         public ?string $diedAt,
         public ?int    $age,
+        public ?string $causeOfDeathId,
         public ?string $causeOfDeathName,
         public ?string $deathCertificateSeries,
         public ?string $deathCertificateNumber,

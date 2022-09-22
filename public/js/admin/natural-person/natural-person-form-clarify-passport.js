@@ -22,9 +22,9 @@ function naturalPersonFormClarifyPassport_show(view, callback, args) {
   $naturalPersonFormClarifyPassportSeriesField.val(view.passportSeries);
   $naturalPersonFormClarifyPassportNumberField.val(view.passportNumber);
   $naturalPersonFormClarifyPassportIssuedAtField.val(
-      view.passportIssuedAt !== null
-        ? view.passportIssuedAt.split(`.`).reverse().join(`-`)
-        : null
+    view.passportIssuedAt !== null
+      ? view.passportIssuedAt.split(`.`).reverse().join(`-`)
+      : null
   );
   $naturalPersonFormClarifyPassportIssuedByField.val(view.passportIssuedBy);
   $naturalPersonFormClarifyPassportDivisionCodeField.val(view.passportDivisionCode);
@@ -49,20 +49,20 @@ function naturalPersonFormClarifyPassport_save(url, isReloadRequired = false) {
   $spinner.show();
   const data = {
     passportSeries: $naturalPersonFormClarifyPassportSeriesField.val() !== ``
-        ? $naturalPersonFormClarifyPassportSeriesField.val()
-        : null,
+      ? $naturalPersonFormClarifyPassportSeriesField.val()
+      : null,
     passportNumber: $naturalPersonFormClarifyPassportNumberField.val() !== ``
-        ? $naturalPersonFormClarifyPassportNumberField.val()
-        : null,
+      ? $naturalPersonFormClarifyPassportNumberField.val()
+      : null,
     passportIssuedAt: $naturalPersonFormClarifyPassportIssuedAtField.val() !== ``
-        ? $naturalPersonFormClarifyPassportIssuedAtField.val()
-        : null,
+      ? $naturalPersonFormClarifyPassportIssuedAtField.val()
+      : null,
     passportIssuedBy: $naturalPersonFormClarifyPassportIssuedByField.val() !== ``
-        ? $naturalPersonFormClarifyPassportIssuedByField.val()
-        : null,
+      ? $naturalPersonFormClarifyPassportIssuedByField.val()
+      : null,
     passportDivisionCode: $naturalPersonFormClarifyPassportDivisionCodeField.val() !== ``
-        ? $naturalPersonFormClarifyPassportDivisionCodeField.val()
-        : null,
+      ? $naturalPersonFormClarifyPassportDivisionCodeField.val()
+      : null,
     token: $naturalPersonFormClarifyPassportCsrfTokenField.val(),
   };
   $.ajax({

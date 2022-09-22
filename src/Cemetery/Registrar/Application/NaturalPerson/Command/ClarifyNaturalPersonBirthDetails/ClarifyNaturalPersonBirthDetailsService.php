@@ -9,6 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonBirthDetailsClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\PlaceOfBirth;
@@ -39,12 +40,12 @@ class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
         /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
         $bornAt        = $this->buildBornAt($request);
-        $placeOfBirth  = $this->buildPlaceOfBirth($request);
-        if ($naturalPerson->bornAt() !== $bornAt) {
+        if (!$this->isSameBornAt($bornAt, $naturalPerson)) {
             $naturalPerson->setBornAt($bornAt);
             $isClarified = true;
         }
-        if ($naturalPerson->placeOfBirth()?->value() !== $request->placeOfBirth) {
+        $placeOfBirth = $this->buildPlaceOfBirth($request);
+        if (!$this->isSamePlaceOfBirth($placeOfBirth, $naturalPerson)) {
             $naturalPerson->setPlaceOfBirth($placeOfBirth);
             $isClarified = true;
         }
@@ -73,12 +74,24 @@ class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
         return $request->bornAt !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) : null;
     }
 
+    private function isSameBornAt(?\DateTimeImmutable $bornAt, NaturalPerson $naturalPerson): bool
+    {
+        return $bornAt === $naturalPerson->bornAt();
+    }
+
     /**
      * @throws Exception when the place of birth has invalid value
      */
     private function buildPlaceOfBirth(ApplicationRequest $request): ?PlaceOfBirth
     {
         /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
-        return $request->placeOfBirth !== null? new PlaceOfBirth($request->placeOfBirth) : null;
+        return $request->placeOfBirth !== null ? new PlaceOfBirth($request->placeOfBirth) : null;
+    }
+
+    private function isSamePlaceOfBirth(?PlaceOfBirth $placeOfBirth, NaturalPerson $naturalPerson): bool
+    {
+        return $placeOfBirth !== null && $naturalPerson->placeOfBirth() !== null
+            ? $placeOfBirth->isEqual($naturalPerson->placeOfBirth())
+            : $placeOfBirth === null && $naturalPerson->placeOfBirth() === null;
     }
 }

@@ -43,17 +43,17 @@ function naturalPersonFormClarifyContact_save(url, isReloadRequired = false) {
   $spinner.show();
   const data = {
     phone: $naturalPersonFormClarifyContactPhoneField.val() !== ``
-        ? $naturalPersonFormClarifyContactPhoneField.val()
-        : null,
+      ? $naturalPersonFormClarifyContactPhoneField.val()
+      : null,
     phoneAdditional: $naturalPersonFormClarifyContactPhoneAdditionalField.val() !== ``
-        ? $naturalPersonFormClarifyContactPhoneAdditionalField.val()
-        : null,
+      ? $naturalPersonFormClarifyContactPhoneAdditionalField.val()
+      : null,
     address: $naturalPersonFormClarifyContactAddressField.val() !== ``
-        ? $naturalPersonFormClarifyContactAddressField.val()
-        : null,
+      ? $naturalPersonFormClarifyContactAddressField.val()
+      : null,
     email: $naturalPersonFormClarifyContactEmailField.val() !== ``
-        ? $naturalPersonFormClarifyContactEmailField.val()
-        : null,
+      ? $naturalPersonFormClarifyContactEmailField.val()
+      : null,
     token: $naturalPersonFormClarifyContactCsrfTokenField.val(),
   };
   $.ajax({

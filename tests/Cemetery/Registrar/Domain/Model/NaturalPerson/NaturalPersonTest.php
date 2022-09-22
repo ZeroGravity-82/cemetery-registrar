@@ -126,6 +126,16 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->bornAt());
     }
 
+    public function testItFailsWithFutureBornAtValue(): void
+    {
+        $now    = new \DateTimeImmutable();
+        $bornAt = $now->modify('+1 day');
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Дата рождения не может иметь значение из будущего.');
+        $this->naturalPerson->setBornAt($bornAt);
+    }
+
     public function testItSetsBornAtWhenDiedAtAndAgeAlreadySet(): void
     {
         // Prepare entity for testing
@@ -207,6 +217,22 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertInstanceOf(DeceasedDetails::class, $this->naturalPerson->deceasedDetails());
         $this->assertSame('2010-05-13', $this->naturalPerson->deceasedDetails()->diedAt()->format('Y-m-d'));
         $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
+    }
+
+    public function testItFailsWithFutureDiedAtValue(): void
+    {
+        $now             = new \DateTimeImmutable();
+        $deceasedDetails = new DeceasedDetails(
+            $now->modify('+1 day'),
+            null,
+            null,
+            null,
+            null,
+        );
+
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Дата смерти не может иметь значение из будущего.');
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
     }
 
     // ---------------- "bornAt <-> deceasedDetails->diedAt <-> deceasedDetails->age" invariant testing ----------------

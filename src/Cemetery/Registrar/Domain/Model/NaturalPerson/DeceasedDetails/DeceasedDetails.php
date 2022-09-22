@@ -44,21 +44,21 @@ class DeceasedDetails
         return $this->cremationCertificate;
     }
 
-    public function isEqual(self $bankDetails): bool
+    public function isEqual(self $deceasedDetails): bool
     {
-        $isSameDiedAt = $bankDetails->diedAt->format('Y-m-d') === $this->diedAt->format('Y-m-d');
-        $isSameAge    = $bankDetails->age() !== null && $this->age() !== null
-            ? $bankDetails->age()->isEqual($this->age())
-            : $bankDetails->age() === null && $this->age() === null;
-        $isSameCauseOfDeathId = $bankDetails->causeOfDeathId() !== null && $this->causeOfDeathId() !== null
-            ? $bankDetails->causeOfDeathId()->isEqual($this->causeOfDeathId())
-            : $bankDetails->causeOfDeathId() === null && $this->causeOfDeathId() === null;
-        $isSameDeathCertificate = $bankDetails->deathCertificate() !== null && $this->deathCertificate() !== null
-            ? $bankDetails->deathCertificate()->isEqual($this->deathCertificate())
-            : $bankDetails->deathCertificate() === null && $this->deathCertificate() === null;
-        $isSameCremationCertificate = $bankDetails->cremationCertificate() !== null && $this->cremationCertificate() !== null
-            ? $bankDetails->cremationCertificate()->isEqual($this->cremationCertificate())
-            : $bankDetails->cremationCertificate() === null && $this->cremationCertificate() === null;
+        $isSameDiedAt = $deceasedDetails->diedAt->format('Y-m-d') === $this->diedAt->format('Y-m-d');
+        $isSameAge    = $deceasedDetails->age() !== null && $this->age() !== null
+            ? $deceasedDetails->age()->isEqual($this->age())
+            : $deceasedDetails->age() === null && $this->age() === null;
+        $isSameCauseOfDeathId = $deceasedDetails->causeOfDeathId() !== null && $this->causeOfDeathId() !== null
+            ? $deceasedDetails->causeOfDeathId()->isEqual($this->causeOfDeathId())
+            : $deceasedDetails->causeOfDeathId() === null && $this->causeOfDeathId() === null;
+        $isSameDeathCertificate = $deceasedDetails->deathCertificate() !== null && $this->deathCertificate() !== null
+            ? $deceasedDetails->deathCertificate()->isEqual($this->deathCertificate())
+            : $deceasedDetails->deathCertificate() === null && $this->deathCertificate() === null;
+        $isSameCremationCertificate = $deceasedDetails->cremationCertificate() !== null && $this->cremationCertificate() !== null
+            ? $deceasedDetails->cremationCertificate()->isEqual($this->cremationCertificate())
+            : $deceasedDetails->cremationCertificate() === null && $this->cremationCertificate() === null;
 
         return $isSameDiedAt && $isSameAge && $isSameCauseOfDeathId && $isSameDeathCertificate &&
                $isSameCremationCertificate;

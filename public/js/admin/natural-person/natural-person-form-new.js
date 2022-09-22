@@ -80,8 +80,8 @@ function naturalPersonFormNew_save(url, isReloadRequired = false) {
       ? $naturalPersonFormNewAddressField.val()
       : null,
     email: $naturalPersonFormNewEmailField.val() !== ``
-        ? $naturalPersonFormNewEmailField.val()
-        : null,
+      ? $naturalPersonFormNewEmailField.val()
+      : null,
     bornAt: $naturalPersonFormNewBornAtField.val() !== ``
       ? $naturalPersonFormNewBornAtField.val()
       : null,
@@ -136,18 +136,18 @@ function naturalPersonFormNew_save(url, isReloadRequired = false) {
     data: JSON.stringify(data),
     contentType: `application/json; charset=utf-8`,
   })
-      .done(() => {
-        buildToast().fire({
-          icon: `success`,
-          title: `Физлицо успешно создано.`,
-        });
-        if (isReloadRequired) {
-          naturalPersonFormNewModalObject.hide();
-          location.reload();      // TODO refactor not to reload entire page
-        }
-      })
-      .fail(onAjaxFailure)
-      .always(onAjaxAlways);
+  .done(() => {
+    buildToast().fire({
+      icon: `success`,
+      title: `Физлицо успешно создано.`,
+    });
+    if (isReloadRequired) {
+      naturalPersonFormNewModalObject.hide();
+      location.reload();      // TODO refactor not to reload entire page
+    }
+  })
+  .fail(onAjaxFailure)
+  .always(onAjaxAlways);
 }
 
 function naturalPersonForm_close() {

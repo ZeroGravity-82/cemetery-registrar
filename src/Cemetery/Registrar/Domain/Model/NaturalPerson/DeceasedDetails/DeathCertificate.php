@@ -71,10 +71,7 @@ class DeathCertificate
      */
     private function assertValidIssuedAt(\DateTimeImmutable $issuedAt): void
     {
-        $now = new \DateTimeImmutable();
-        if ($issuedAt > $now) {
-            throw new Exception('Дата выдачи свидетельства о смерти не может иметь значение из будущего.');
-        }
+        $this->assertIssuedAtNotInFuture($issuedAt);
     }
 
     /**
@@ -84,6 +81,17 @@ class DeathCertificate
     {
         if (\trim($value) === '') {
             throw new Exception(\sprintf('%s не может иметь пустое значение.', $name));
+        }
+    }
+
+    /**
+     * @throws Exception when the issuing date is in the future
+     */
+    private function assertIssuedAtNotInFuture(\DateTimeImmutable $issuedAt): void
+    {
+        $now = new \DateTimeImmutable();
+        if ($issuedAt > $now) {
+            throw new Exception('Дата выдачи свидетельства о смерти не может иметь значение из будущего.');
         }
     }
 }

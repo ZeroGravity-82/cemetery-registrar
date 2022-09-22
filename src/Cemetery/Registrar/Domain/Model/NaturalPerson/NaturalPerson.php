@@ -106,11 +106,13 @@ class NaturalPerson extends AggregateRoot
     }
 
     /**
+     * @throws Exception when the birthdate (if any) is in the future
      * @throws Exception when the birthdate follows the death date (if any)
      * @throws Exception when birthdate and death date do not match age (if any)
      */
     public function setBornAt(?\DateTimeImmutable $bornAt): self
     {
+        $this->assertValidBornAt($bornAt);
         $this->assertBornAtNotFollowsDiedAt($bornAt, $this->deceasedDetails());
         $this->assertBornAtAndDiedAtAreMatchingAge($bornAt, $this->deceasedDetails());
         $this->bornAt = $bornAt;
@@ -149,6 +151,7 @@ class NaturalPerson extends AggregateRoot
     }
 
     /**
+     * @throws Exception when the death date (if any) is in the future
      * @throws Exception when the death date (if any) precedes the birthdate
      * @throws Exception when birthdate and death date do not match age (if any)
      */
@@ -159,6 +162,28 @@ class NaturalPerson extends AggregateRoot
         $this->clearAgeIfItIsRedundant();
 
         return $this;
+    }
+
+    /**
+     * @throws Exception when the birthdate (if any) is in the future
+     */
+    private function assertValidBornAt(?\DateTimeImmutable $bornAt): void
+    {
+        if ($bornAt === null) {
+            return;
+        }
+        $this->assertBornAtNotInFuture($bornAt);
+    }
+
+    /**
+     * @throws Exception when the birthdate (if any) is in the future
+     */
+    private function assertBornAtNotInFuture(\DateTimeImmutable $bornAt): void
+    {
+        $now = new \DateTimeImmutable();
+        if ($bornAt > $now) {
+            throw new Exception('Дата рождения не может иметь значение из будущего.');
+        }
     }
 
     /**
@@ -177,6 +202,7 @@ class NaturalPerson extends AggregateRoot
     }
 
     /**
+     * @throws Exception when the death date (if any) is in the future
      * @throws Exception when the death date (if any) precedes the birthdate
      * @throws Exception when birthdate and death date do not match age (if any)
      */
@@ -184,8 +210,31 @@ class NaturalPerson extends AggregateRoot
         ?\DateTimeImmutable $bornAt,
         ?DeceasedDetails    $deceasedDetails
     ): void {
+        $this->assertValidDiedAt($deceasedDetails?->diedAt());
         $this->assertDiedAtNotPrecedesBornAt($bornAt, $deceasedDetails);
         $this->assertBornAtAndDiedAtAreMatchingAge($bornAt, $deceasedDetails);
+    }
+
+    /**
+     * @throws Exception when the death date (if any) is in the future
+     */
+    private function assertValidDiedAt(?\DateTimeImmutable $diedAt): void
+    {
+        if ($diedAt === null) {
+            return;
+        }
+        $this->assertDiedAtNotInFuture($diedAt);
+    }
+
+    /**
+     * @throws Exception when the death date (if any) is in the future
+     */
+    private function assertDiedAtNotInFuture(\DateTimeImmutable $diedAt): void
+    {
+        $now = new \DateTimeImmutable();
+        if ($diedAt > $now) {
+            throw new Exception('Дата смерти не может иметь значение из будущего.');
+        }
     }
 
     /**

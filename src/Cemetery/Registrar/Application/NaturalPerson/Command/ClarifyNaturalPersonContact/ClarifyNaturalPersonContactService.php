@@ -12,6 +12,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonContactClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -39,21 +40,25 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
         $isClarified = false;
 
         /** @var ClarifyNaturalPersonContactRequest $request */
-        $naturalPerson = $this->getNaturalPerson($request->id);
-        if ($naturalPerson->phone()?->value() !== $request->phone) {
-            $naturalPerson->setPhone($this->buildPhone($request));
+        $naturalPerson   = $this->getNaturalPerson($request->id);
+        $phone           = $this->buildPhone($request);
+        $phoneAdditional = $this->buildPhoneAdditional($request);
+        $address         = $this->buildAddress($request);
+        $email           = $this->buildEmail($request);
+        if (!$this->isSamePhone($phone, $naturalPerson)) {
+            $naturalPerson->setPhone($phone);
             $isClarified = true;
         }
-        if ($naturalPerson->phoneAdditional()?->value() !== $request->phoneAdditional) {
-            $naturalPerson->setPhoneAdditional($this->buildPhoneAdditional($request));
+        if (!$this->isSamePhoneAdditional($phoneAdditional, $naturalPerson)) {
+            $naturalPerson->setPhoneAdditional($phoneAdditional);
             $isClarified = true;
         }
-        if ($naturalPerson->address()?->value() !== $request->address) {
-            $naturalPerson->setAddress($this->buildAddress($request));
+        if (!$this->isSameAddress($address, $naturalPerson)) {
+            $naturalPerson->setAddress($address);
             $isClarified = true;
         }
-        if ($naturalPerson->email()?->value() !== $request->email) {
-            $naturalPerson->setEmail($this->buildEmail($request));
+        if (!$this->isSameEmail($email, $naturalPerson)) {
+            $naturalPerson->setEmail($email);
             $isClarified = true;
         }
         if ($isClarified) {
@@ -86,6 +91,13 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
         return $request->phone !== null ? new PhoneNumber($request->phone) : null;
     }
 
+    private function isSamePhone(?PhoneNumber $phone, NaturalPerson $naturalPerson): bool
+    {
+        return $phone !== null && $naturalPerson->phone() !== null
+            ? $phone->isEqual($naturalPerson->phone())
+            : $phone === null && $naturalPerson->phone() === null;
+    }
+
     /**
      * @throws Exception when the additional phone number has invalid value
      */
@@ -93,6 +105,13 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
     {
         /** @var ClarifyNaturalPersonContactRequest $request */
         return $request->phoneAdditional !== null ? new PhoneNumber($request->phoneAdditional) : null;
+    }
+
+    private function isSamePhoneAdditional(?PhoneNumber $phoneAdditional, NaturalPerson $naturalPerson): bool
+    {
+        return $phoneAdditional !== null && $naturalPerson->phoneAdditional() !== null
+            ? $phoneAdditional->isEqual($naturalPerson->phoneAdditional())
+            : $phoneAdditional === null && $naturalPerson->phoneAdditional() === null;
     }
 
     /**
@@ -104,6 +123,13 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
         return $request->address !== null ? new Address($request->address) : null;
     }
 
+    private function isSameAddress(?Address $address, NaturalPerson $naturalPerson): bool
+    {
+        return $address !== null && $naturalPerson->address() !== null
+            ? $address->isEqual($naturalPerson->address())
+            : $address === null && $naturalPerson->address() === null;
+    }
+
     /**
      * @throws Exception when the email has invalid value
      */
@@ -111,5 +137,12 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
     {
         /** @var ClarifyNaturalPersonContactRequest $request */
         return $request->email !== null ? new Email($request->email) : null;
+    }
+
+    private function isSameEmail(?Email $email, NaturalPerson $naturalPerson): bool
+    {
+        return $email !== null && $naturalPerson->email() !== null
+            ? $email->isEqual($naturalPerson->email())
+            : $email === null && $naturalPerson->email() === null;
     }
 }

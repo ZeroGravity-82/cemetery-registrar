@@ -127,11 +127,12 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateDeceasedDetails(ApplicationRequest $request): self
+    protected function validateDeceasedDetails(ApplicationRequest $request, bool $isRequired = false): self
     {
         if (
             $request->diedAt                       === null &&
-            ($request->age                         !== null ||
+            ($isRequired                                    ||
+            $request->age                          !== null ||
             $request->causeOfDeathId               !== null ||
             $request->deathCertificateSeries       !== null ||
             $request->deathCertificateNumber       !== null ||
