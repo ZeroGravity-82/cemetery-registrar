@@ -87,7 +87,7 @@ $naturalPersonCard.on(`click`, `.js-clarify-deceased-details`, () => {
 $naturalPersonCard.on(`click`, `.js-clear-contact`, () => {
   const name = $naturalPersonCardTitle.find(`span`).html();
   Swal.fire({
-    title: `Очистить контактные данные физлица<br>"${name}"?`,
+    title: `Очистить контактные данные для<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,
@@ -107,7 +107,7 @@ $naturalPersonCard.on(`click`, `.js-clear-contact`, () => {
 $naturalPersonCard.on(`click`, `.js-clear-birth-details`, () => {
   const name = $naturalPersonCardTitle.find(`span`).html();
   Swal.fire({
-    title: `Очистить дату и место рождения физлица<br>"${name}"?`,
+    title: `Очистить дату и место рождения для<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,
@@ -127,7 +127,7 @@ $naturalPersonCard.on(`click`, `.js-clear-birth-details`, () => {
 $naturalPersonCard.on(`click`, `.js-clear-passport`, () => {
   const name = $naturalPersonCardTitle.find(`span`).html();
   Swal.fire({
-    title: `Очистить паспортные данные физлица<br>"${name}"?`,
+    title: `Очистить паспортные данные для<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,
@@ -147,7 +147,7 @@ $naturalPersonCard.on(`click`, `.js-clear-passport`, () => {
 $naturalPersonCard.on(`click`, `.js-discard-deceased-details`, () => {
   const name = $naturalPersonCardTitle.find(`span`).html();
   Swal.fire({
-    title: `Удалить данные о смерти физлица<br>"${name}"?`,
+    title: `Удалить данные о смерти для<br>"${name}"?`,
     icon: `warning`,
     iconColor: `red`,
     showCancelButton: true,
