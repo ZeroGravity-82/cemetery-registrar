@@ -84,11 +84,85 @@ $naturalPersonCard.on(`click`, `.js-clarify-deceased-details`, () => {
   naturalPersonFormClarifyDeceasedDetails_show(currentView, `naturalPersonCard_show`, [currentNaturalPersonId]);
 });
 
+$naturalPersonCard.on(`click`, `.js-clear-contact`, () => {
+  const name = $naturalPersonCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Очистить контактные данные физлица<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, очистить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      const url = $naturalPersonCardCard.data(`action-clear-contact`).replace(`{id}`, currentNaturalPersonId);
+      clearDataNaturalPerson(url, `Контактные данные физлица успешно очищены.`);
+    }
+  })
+});
 
+$naturalPersonCard.on(`click`, `.js-clear-birth-details`, () => {
+  const name = $naturalPersonCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Очистить дату и место рождения физлица<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, очистить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      const url = $naturalPersonCardCard.data(`action-clear-birth-details`).replace(`{id}`, currentNaturalPersonId);
+      clearDataNaturalPerson(url, `Дата и место рождения физлица успешно очищены.`);
+    }
+  })
+});
 
+$naturalPersonCard.on(`click`, `.js-clear-passport`, () => {
+  const name = $naturalPersonCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Очистить паспортные данные физлица<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, очистить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      const url = $naturalPersonCardCard.data(`action-clear-passport`).replace(`{id}`, currentNaturalPersonId);
+      clearDataNaturalPerson(url, `Паспортные данные физлица успешно очищены.`);
+    }
+  })
+});
 
-
-
+$naturalPersonCard.on(`click`, `.js-discard-deceased-details`, () => {
+  const name = $naturalPersonCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Удалить данные о смерти физлица<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, удалить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      const url = $naturalPersonCardCard.data(`action-discard-deceased-details`).replace(`{id}`, currentNaturalPersonId);
+      clearDataNaturalPerson(url, `Данные о смерти физлица успешно удалены.`);
+    }
+  })
+});
 
 $naturalPersonCard.on(`click`, `.js-remove`, () => {
   const name = $naturalPersonCardTitle.find(`span`).html();
@@ -109,6 +183,28 @@ $naturalPersonCard.on(`click`, `.js-remove`, () => {
     }
   })
 });
+
+function clearDataNaturalPerson(url, message) {
+  $spinner.show();
+  const data = {
+    token: $naturalPersonCardCsrfTokenField.val(),
+  };
+  $.ajax({
+    dataType: `json`,
+    method: `PATCH`,
+    url: url,
+    data: JSON.stringify(data),
+  })
+  .done(() => {
+    buildToast().fire({
+      icon: `success`,
+      title: message,
+    });
+    naturalPersonCard_show(currentNaturalPersonId);
+  })
+  .fail(onAjaxFailure)
+  .always(onAjaxAlways);
+}
 
 function removeNaturalPerson(url) {
   $spinner.show();
@@ -188,11 +284,11 @@ function toggleActionButtonsForDeceasedDetails(view) {
       : `Уточнить`
   );
 
-  const $clearDeceasedDetailsButton = $naturalPersonCard.find(`.js-clear-deceased-details`);
+  const $discardDeceasedDetailsButton = $naturalPersonCard.find(`.js-discard-deceased-details`);
   if (view.diedAt === null) {
-    $clearDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
+    $discardDeceasedDetailsButton.removeClass(`d-none`).addClass(`d-none`);
   } else {
-    $clearDeceasedDetailsButton.removeClass(`d-none`);
+    $discardDeceasedDetailsButton.removeClass(`d-none`);
   }
 }
 

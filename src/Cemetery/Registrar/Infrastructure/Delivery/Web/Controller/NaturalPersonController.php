@@ -10,6 +10,10 @@ use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonCon
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonDeceasedDetails\ClarifyNaturalPersonDeceasedDetailsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonFullName\ClarifyNaturalPersonFullNameRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonPassport\ClarifyNaturalPersonPassportRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClearNaturalPersonBirthDetails\ClearNaturalPersonBirthDetailsRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClearNaturalPersonContact\ClearNaturalPersonContactRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Command\ClearNaturalPersonPassport\ClearNaturalPersonPassportRequest;
+use Cemetery\Registrar\Application\NaturalPerson\Command\DiscardNaturalPersonDeceasedDetails\DiscardNaturalPersonDeceasedDetailsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\RemoveNaturalPerson\RemoveNaturalPersonRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ListAliveNaturalPersons\ListAliveNaturalPersonsRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\ShowNaturalPerson\ShowNaturalPersonRequest;
@@ -116,13 +120,61 @@ class NaturalPersonController extends Controller
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
     }
 
+    #[Route(
+        '/natural-person/{id}/clear-contact',
+        name: 'natural_person_clear_contact',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clearContact(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClearNaturalPersonContactRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
 
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
 
+    #[Route(
+        '/natural-person/{id}/clear-birth-details',
+        name: 'natural_person_clear_birth_details',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clearBirthDetails(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClearNaturalPersonBirthDetailsRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
 
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
 
+    #[Route(
+        '/natural-person/{id}/clear-passport',
+        name: 'natural_person_clear_passport',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clearPassport(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClearNaturalPersonPassportRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
 
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
 
+    #[Route(
+        '/natural-person/{id}/discard-deceased-details',
+        name: 'natural_person_discard_deceased_details',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function discardDeceasedDetails(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'natural_person');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, DiscardNaturalPersonDeceasedDetailsRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
 
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
 
     #[Route(
         '/natural-person/{id}',

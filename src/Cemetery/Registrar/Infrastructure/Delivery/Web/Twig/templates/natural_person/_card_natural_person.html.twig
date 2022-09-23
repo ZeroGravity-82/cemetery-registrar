@@ -4,6 +4,10 @@
   <div
       class="card border border-0"
       data-action-show="{{ path('natural_person_show', {'id': '{id}'})|url_decode }}"
+      data-action-clear-contact="{{ path('natural_person_clear_contact', {'id': '{id}'})|url_decode }}"
+      data-action-clear-birth-details="{{ path('natural_person_clear_birth_details', {'id': '{id}'})|url_decode }}"
+      data-action-clear-passport="{{ path('natural_person_clear_passport', {'id': '{id}'})|url_decode }}"
+      data-action-discard-deceased-details="{{ path('natural_person_discard_deceased_details', {'id': '{id}'})|url_decode }}"
       data-action-remove="{{ path('natural_person_remove', {'id': '{id}'})|url_decode }}">
     <div class="card-body">
       <div class="row pb-2">
@@ -64,5 +68,5 @@
   <li class="dropdown-item text-danger js-danger-action-btn js-clear-contact">Очистить контактные данные</li>
   <li class="dropdown-item text-danger js-danger-action-btn js-clear-birth-details">Очистить дату и место рождения</li>
   <li class="dropdown-item text-danger js-danger-action-btn js-clear-passport">Очистить паспортные данные</li>
-  <li class="dropdown-item text-danger js-danger-action-btn js-clear-deceased-details">Удалить данные о смерти</li>
+  <li class="dropdown-item text-danger js-danger-action-btn js-discard-deceased-details">Удалить данные о смерти</li>
 {% endset %}
