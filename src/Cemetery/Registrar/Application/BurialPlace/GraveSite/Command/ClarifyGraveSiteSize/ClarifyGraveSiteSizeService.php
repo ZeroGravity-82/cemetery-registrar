@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSizeClarified;
@@ -40,8 +41,9 @@ class ClarifyGraveSiteSizeService extends GraveSiteService
 
         /** @var ClarifyGraveSiteSizeRequest $request */
         $graveSite = $this->getGraveSite($request->id);
-        if ($graveSite->size()?->value() !== $request->size) {
-            $graveSite->setSize($this->buildSize($request));
+        $size      = $this->buildSize($request);
+        if (!$this->isSameSize($size, $graveSite)) {
+            $graveSite->setSize($size);
             $isClarified = true;
         }
         if ($isClarified) {
@@ -69,5 +71,10 @@ class ClarifyGraveSiteSizeService extends GraveSiteService
     {
         /** @var ClarifyGraveSiteSizeRequest $request */
         return new GraveSiteSize($request->size);
+    }
+
+    private function isSameSize(GraveSiteSize $size, GraveSite $graveSite): bool
+    {
+        return $size->isEqual($graveSite->size());
     }
 }
