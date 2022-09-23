@@ -83,6 +83,12 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         switch (true) {
             case
                 $isRequired &&
+                $request->geoPositionLatitude  === null &&
+                $request->geoPositionLongitude === null:
+                $this->note->addError('geoPosition', 'Геопозиция не может иметь пустое значение.');
+                break;
+            case
+                $isRequired &&
                 ($request->geoPositionLatitude === null || $request->geoPositionLatitude !== null && empty(\trim($request->geoPositionLatitude))):
                 $this->note->addError('geoPosition', 'Широта не может иметь пустое значение.');
                 break;

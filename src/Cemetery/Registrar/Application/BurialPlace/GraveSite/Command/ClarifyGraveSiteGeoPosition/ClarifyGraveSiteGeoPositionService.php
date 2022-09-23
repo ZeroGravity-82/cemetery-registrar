@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteGeoPositionClarified;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
@@ -41,13 +42,10 @@ class ClarifyGraveSiteGeoPositionService extends GraveSiteService
         $isClarified = false;
 
         /** @var ClarifyGraveSiteGeoPositionRequest $request */
-        $graveSite = $this->getGraveSite($request->id);
-        if (
-            $graveSite->geoPosition()?->coordinates()->latitude()  !== $request->geoPositionLatitude  ||
-            $graveSite->geoPosition()?->coordinates()->longitude() !== $request->geoPositionLongitude ||
-            $graveSite->geoPosition()?->error()->value()           !== $request->geoPositionError
-        ) {
-            $graveSite->setGeoPosition($this->buildGeoPosition($request));
+        $graveSite   = $this->getGraveSite($request->id);
+        $geoPosition = $this->buildGeoPosition($request);
+        if (!$this->isSameGeoPosition($geoPosition, $graveSite)) {
+            $graveSite->setGeoPosition($geoPosition);
             $isClarified = true;
         }
         if ($isClarified) {
@@ -78,5 +76,11 @@ class ClarifyGraveSiteGeoPositionService extends GraveSiteService
         $error       = $request->geoPositionError ? new Error($request->geoPositionError) : null;
 
         return new GeoPosition($coordinates, $error);
+    }
+
+    private function isSameGeoPosition(GeoPosition $geoPosition, GraveSite $graveSite): bool
+    {
+        return $graveSite->geoPosition() !== null &&
+               $geoPosition->isEqual($graveSite->geoPosition());
     }
 }
