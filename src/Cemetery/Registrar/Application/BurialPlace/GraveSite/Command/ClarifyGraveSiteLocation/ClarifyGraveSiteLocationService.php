@@ -7,7 +7,9 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGr
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteLocationClarified;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
@@ -40,18 +42,20 @@ class ClarifyGraveSiteLocationService extends GraveSiteService
         $isClarified = false;
 
         /** @var ClarifyGraveSiteLocationRequest $request */
-        $graveSite = $this->getGraveSite($request->id);
-        if ($graveSite->cemeteryBlockId()->value() !== $request->cemeteryBlockId) {
-            $cemeteryBlock = $this->getCemeteryBlock($request->cemeteryBlockId);
+        $graveSite     = $this->getGraveSite($request->id);
+        $cemeteryBlock = $this->getCemeteryBlock($request->cemeteryBlockId);
+        $rowInBlock    = $this->buildRowInBlock($request);
+        $positionInRow = $this->buildPositionInRow($request);
+        if (!$this->isSameCemeteryBlock($cemeteryBlock, $graveSite)) {
             $graveSite->assignCemeteryBlock($cemeteryBlock);
             $isClarified = true;
         }
-        if ($graveSite->rowInBlock()->value() !== $request->rowInBlock) {
-            $graveSite->setRowInBlock($this->buildRowInBlocks($request));
+        if (!$this->isSameRowInBlock($rowInBlock, $graveSite)) {
+            $graveSite->setRowInBlock($rowInBlock);
             $isClarified = true;
         }
-        if ($graveSite->positionInRow()?->value() !== $request->positionInRow) {
-            $graveSite->setPositionInRow($this->buildPositionInRow($request));
+        if (!$this->isSamePositionInRow($positionInRow, $graveSite)) {
+            $graveSite->setPositionInRow($positionInRow);
             $isClarified = true;
         }
         if ($isClarified) {
@@ -74,13 +78,23 @@ class ClarifyGraveSiteLocationService extends GraveSiteService
         return ClarifyGraveSiteLocationRequest::class;
     }
 
+    private function isSameCemeteryBlock(CemeteryBlock $cemeteryBlock, GraveSite $graveSite): bool
+    {
+        return $cemeteryBlock->id()->isEqual($graveSite->cemeteryBlockId());
+    }
+
     /**
      * @throws Exception when the row in block has invalid value
      */
-    private function buildRowInBlocks(ApplicationRequest $request): RowInBlock
+    private function buildRowInBlock(ApplicationRequest $request): RowInBlock
     {
         /** @var ClarifyGraveSiteLocationRequest $request */
         return new RowInBlock($request->rowInBlock);
+    }
+
+    private function isSameRowInBlock(RowInBlock $rowInBlock, GraveSite $graveSite): bool
+    {
+        return $rowInBlock->isEqual($graveSite->rowInBlock());
     }
 
     /**
@@ -90,5 +104,12 @@ class ClarifyGraveSiteLocationService extends GraveSiteService
     {
         /** @var ClarifyGraveSiteLocationRequest $request */
         return $request->positionInRow ? new PositionInRow($request->positionInRow) : null;
+    }
+
+    private function isSamePositionInRow(?PositionInRow $positionInRow, GraveSite $graveSite): bool
+    {
+        return $positionInRow !== null && $graveSite->positionInRow() !== null
+            ? $positionInRow->isEqual($graveSite->positionInRow())
+            : $positionInRow === null && $graveSite->positionInRow() === null;
     }
 }
