@@ -40,11 +40,11 @@ class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
         /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
         $bornAt        = $this->buildBornAt($request);
+        $placeOfBirth  = $this->buildPlaceOfBirth($request);
         if (!$this->isSameBornAt($bornAt, $naturalPerson)) {
             $naturalPerson->setBornAt($bornAt);
             $isClarified = true;
         }
-        $placeOfBirth = $this->buildPlaceOfBirth($request);
         if (!$this->isSamePlaceOfBirth($placeOfBirth, $naturalPerson)) {
             $naturalPerson->setPlaceOfBirth($placeOfBirth);
             $isClarified = true;
