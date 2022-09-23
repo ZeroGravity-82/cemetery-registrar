@@ -136,25 +136,6 @@ class NaturalPersonTest extends AggregateRootTest
         $this->naturalPerson->setBornAt($bornAt);
     }
 
-    public function testItSetsBornAtWhenDiedAtAndAgeAlreadySet(): void
-    {
-        // Prepare entity for testing
-        $deceasedDetails = new DeceasedDetails(
-            new \DateTimeImmutable('2010-05-13'),
-            new Age(9),
-            null,
-            null,
-            null,
-        );
-        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
-
-        // Testing itself
-        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
-        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->bornAt());
-        $this->assertSame('2001-05-13', $this->naturalPerson->bornAt()->format('Y-m-d'));
-        $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
-    }
-
     public function testItSetsPlaceOfBirth(): void
     {
         $placeOfBirth = new PlaceOfBirth('город Новосибирск');
@@ -200,25 +181,6 @@ class NaturalPersonTest extends AggregateRootTest
         $this->assertNull($this->naturalPerson->deceasedDetails());
     }
 
-    public function testItSetsDiedAtWhenBornAtAndAgeAreBothKnown(): void
-    {
-        // Prepare entity for testing
-        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
-
-        // Testing itself
-        $deceasedDetails = new DeceasedDetails(
-            new \DateTimeImmutable('2010-05-13'),
-            new Age(9),
-            null,
-            null,
-            null,
-        );
-        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
-        $this->assertInstanceOf(DeceasedDetails::class, $this->naturalPerson->deceasedDetails());
-        $this->assertSame('2010-05-13', $this->naturalPerson->deceasedDetails()->diedAt()->format('Y-m-d'));
-        $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
-    }
-
     public function testItFailsWithFutureDiedAtValue(): void
     {
         $now             = new \DateTimeImmutable();
@@ -236,6 +198,65 @@ class NaturalPersonTest extends AggregateRootTest
     }
 
     // ---------------- "bornAt <-> deceasedDetails->diedAt <-> deceasedDetails->age" invariant testing ----------------
+
+    public function testItSetsBornAtWhenDiedAtAndAgeAlreadySet(): void
+    {
+        // Prepare entity for testing
+        $deceasedDetails = new DeceasedDetails(
+            new \DateTimeImmutable('2010-05-13'),
+            new Age(9),
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+
+        // Testing itself
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
+        $this->assertInstanceOf(\DateTimeImmutable::class, $this->naturalPerson->bornAt());
+        $this->assertSame('2001-05-13', $this->naturalPerson->bornAt()->format('Y-m-d'));
+        $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
+    }
+
+    public function testItSetsDiedAtWhenBornAtAndAgeAreBothKnown(): void
+    {
+        // Prepare entity for testing
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
+
+        // Testing itself
+        $deceasedDetails = new DeceasedDetails(
+            new \DateTimeImmutable('2010-05-13'),
+            new Age(9),
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+        $this->assertInstanceOf(DeceasedDetails::class, $this->naturalPerson->deceasedDetails());
+        $this->assertSame('2010-05-13', $this->naturalPerson->deceasedDetails()->diedAt()->format('Y-m-d'));
+
+        // Clear manually entered age if it is redundant
+        $this->assertSame(null, $this->naturalPerson->deceasedDetails()->age());
+    }
+
+    public function testItPersistsAutoCalculatedAgeAfterClearingBornAt(): void
+    {
+        // Prepare entity for testing
+        $this->naturalPerson->setBornAt(new \DateTimeImmutable('2001-05-13'));
+        $deceasedDetails = new DeceasedDetails(
+            new \DateTimeImmutable('2010-05-13'),
+            null,
+            null,
+            null,
+            null,
+        );
+        $this->naturalPerson->setDeceasedDetails($deceasedDetails);
+        $this->assertNull($this->naturalPerson->deceasedDetails()->age());
+
+        // Testing itself
+        $this->naturalPerson->setBornAt(null);
+        $this->assertSame(9, $this->naturalPerson->deceasedDetails()->age()?->value());
+    }
 
     public function testItFailsWhenSettingBornAtFollowsDiedAt(): void
     {

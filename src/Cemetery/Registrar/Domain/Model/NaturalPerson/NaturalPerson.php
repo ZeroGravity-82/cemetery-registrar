@@ -9,6 +9,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\Exception;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 
 /**
@@ -115,8 +116,9 @@ class NaturalPerson extends AggregateRoot
         $this->assertValidBornAt($bornAt);
         $this->assertBornAtNotFollowsDiedAt($bornAt, $this->deceasedDetails());
         $this->assertBornAtAndDiedAtAreMatchingAge($bornAt, $this->deceasedDetails());
+        $this->persistAutoCalculatedAgeAfterClearingBornAt($bornAt);
         $this->bornAt = $bornAt;
-        $this->clearAgeIfItIsRedundant();
+        $this->clearManuallyEnteredAgeIfItIsRedundant();
 
         return $this;
     }
@@ -159,7 +161,7 @@ class NaturalPerson extends AggregateRoot
     {
         $this->assertValidDeceasedDetails($this->bornAt(), $deceasedDetails);
         $this->deceasedDetails = $deceasedDetails;
-        $this->clearAgeIfItIsRedundant();
+        $this->clearManuallyEnteredAgeIfItIsRedundant();
 
         return $this;
     }
@@ -267,15 +269,28 @@ class NaturalPerson extends AggregateRoot
         }
     }
 
-    private function clearAgeIfItIsRedundant(): void
+    private function persistAutoCalculatedAgeAfterClearingBornAt(?\DateTimeImmutable $bornAt): void
     {
-        if ($this->bornAt() !== null && $this->deceasedDetails()?->diedAt() !== null) {
+        if ($bornAt === null && $this->bornAt() !== null && $this->deceasedDetails() !== null) {
             $this->deceasedDetails = new DeceasedDetails(
-                $this->deceasedDetails()?->diedAt(),
+                $this->deceasedDetails()->diedAt(),
+                new Age($this->bornAt()->diff($this->deceasedDetails()->diedAt())->y),
+                $this->deceasedDetails()->causeOfDeathId(),
+                $this->deceasedDetails()->deathCertificate(),
+                $this->deceasedDetails()->cremationCertificate(),
+            );
+        }
+    }
+
+    private function clearManuallyEnteredAgeIfItIsRedundant(): void
+    {
+        if ($this->bornAt() !== null && $this->deceasedDetails() !== null) {
+            $this->deceasedDetails = new DeceasedDetails(
+                $this->deceasedDetails()->diedAt(),
                 null,
-                $this->deceasedDetails()?->causeOfDeathId(),
-                $this->deceasedDetails()?->deathCertificate(),
-                $this->deceasedDetails()?->cremationCertificate(),
+                $this->deceasedDetails()->causeOfDeathId(),
+                $this->deceasedDetails()->deathCertificate(),
+                $this->deceasedDetails()->cremationCertificate(),
             );
         }
     }
