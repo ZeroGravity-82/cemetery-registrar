@@ -23,6 +23,7 @@ const $naturalPersonFormNewCremationCertificateNumberField   = $naturalPersonFor
 const $naturalPersonFormNewCremationCertificateIssuedAtField = $naturalPersonFormNew.find(`input[id=cremationCertificateIssuedAt]`);
 const $naturalPersonFormNewCsrfTokenField                    = $naturalPersonFormNew.find(`input[id=token]`);
 const $naturalPersonFormNewSaveAndCloseBtn                   = $naturalPersonFormNew.find(`.js-save-and-close`);
+const $naturalPersonFormNewSaveAndGotoCardBtn                = $naturalPersonFormNew.find(`.js-save-and-goto-card`);
 const $naturalPersonFormNewCloseBtn                          = $naturalPersonFormNew.find(`.js-close`);
 const naturalPersonFormNewModalObject                        = new bootstrap.Modal(`#modalNaturalPersonFormNew`, {});
 
@@ -49,6 +50,7 @@ function naturalPersonFormNew_show() {
   $naturalPersonFormNewCremationCertificateNumberField.val(null);
   $naturalPersonFormNewCremationCertificateIssuedAtField.val(null);
   naturalPersonFormNew_hideAllValidationErrors();
+  $naturalPersonFormNewSaveAndGotoCardBtn.removeClass(`d-none`);
   naturalPersonFormNewModalObject.show();
 }
 
@@ -58,7 +60,10 @@ $naturalPersonFormNew.on(`shown.bs.modal`, (e) => {
 });
 
 $naturalPersonFormNewSaveAndCloseBtn.on(`click`, () => {
-  naturalPersonFormNew_hideAllValidationErrors();
+  const url = $naturalPersonFormNewForm.data(`action-new`);
+  naturalPersonFormNew_save(url, false);
+});
+$naturalPersonFormNewSaveAndGotoCardBtn.on(`click`, () => {
   const url = $naturalPersonFormNewForm.data(`action-new`);
   naturalPersonFormNew_save(url, true);
 });
@@ -66,7 +71,7 @@ $naturalPersonFormNewCloseBtn.on(`click`, () => {
   naturalPersonForm_close();
 });
 
-function naturalPersonFormNew_save(url, isReloadRequired = false) {
+function naturalPersonFormNew_save(url, isGotoCardRequested) {
   $spinner.show();
   const data = {
     fullName: $naturalPersonFormNewFullNameField.val(),
@@ -136,14 +141,16 @@ function naturalPersonFormNew_save(url, isReloadRequired = false) {
     data: JSON.stringify(data),
     contentType: `application/json; charset=utf-8`,
   })
-  .done(() => {
+  .done((responseJson) => {
     buildToast().fire({
       icon: `success`,
       title: `Физлицо успешно создано.`,
     });
-    if (isReloadRequired) {
-      naturalPersonFormNewModalObject.hide();
+    naturalPersonFormNewModalObject.hide();
+    if (!isGotoCardRequested) {
       location.reload();      // TODO refactor not to reload entire page
+    } else {
+      naturalPersonCard_show(responseJson.data.id);
     }
   })
   .fail(onAjaxFailure)

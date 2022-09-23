@@ -10,6 +10,7 @@ const $graveSiteFormNewGeoPositionErrorField  = $graveSiteFormNew.find(`input[id
 const $graveSiteFormNewPersonInChargeField    = $graveSiteFormNew.find(`select[id=personInCharge]`);
 const $graveSiteFormNewCsrfTokenField         = $graveSiteFormNew.find(`input[id=token]`);
 const $graveSiteFormNewSaveAndCloseBtn        = $graveSiteFormNew.find(`.js-save-and-close`);
+const $graveSiteFormNewSaveAndGotoCardBtn     = $graveSiteFormNew.find(`.js-save-and-goto-card`);
 const $graveSiteFormNewCloseBtn               = $graveSiteFormNew.find(`.js-close`);
 const graveSiteFormNewModalObject             = new bootstrap.Modal(`#modalGraveSiteFormNew`, {});
 
@@ -22,6 +23,7 @@ function graveSiteFormNew_show() {
   $graveSiteFormNewGeoPositionField.val(null);
   $graveSiteFormNewGeoPositionErrorField.val(null);
   graveSiteFormNew_hideAllValidationErrors();
+  $graveSiteFormNewSaveAndGotoCardBtn.removeClass(`d-none`);
   graveSiteFormNewModalObject.show();
 }
 
@@ -78,7 +80,10 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
 });
 
 $graveSiteFormNewSaveAndCloseBtn.on(`click`, () => {
-  graveSiteFormNew_hideAllValidationErrors();
+  const url = $graveSiteFormNewForm.data(`action-new`);
+  graveSiteFormNew_save(url, false);
+});
+$graveSiteFormNewSaveAndGotoCardBtn.on(`click`, () => {
   const url = $graveSiteFormNewForm.data(`action-new`);
   graveSiteFormNew_save(url, true);
 });
@@ -91,7 +96,7 @@ $graveSiteFormNewGeoPositionField.on(`change`, () =>     // The error value is c
   $graveSiteFormNewGeoPositionErrorField.val(``)         // position.
 );
 
-function graveSiteFormNew_save(url, isReloadRequired = false) {
+function graveSiteFormNew_save(url, isGotoCardRequested) {
   $spinner.show();
   const geoPositionLatitude  = $graveSiteFormNewGeoPositionField.val().split(`,`)[0];
   const geoPositionLongitude = $graveSiteFormNewGeoPositionField.val().split(`,`)[1];
@@ -126,14 +131,16 @@ function graveSiteFormNew_save(url, isReloadRequired = false) {
     data: JSON.stringify(data),
     contentType: `application/json; charset=utf-8`,
   })
-  .done(() => {
+  .done((responseJson) => {
     buildToast().fire({
       icon: `success`,
       title: `Участок успешно создан.`,
     });
-    if (isReloadRequired) {
-      graveSiteFormNewModalObject.hide();
+    graveSiteFormNewModalObject.hide();
+    if (!isGotoCardRequested) {
       location.reload();      // TODO refactor not to reload entire page
+    } else {
+      graveSiteCard_show(responseJson.data.id);
     }
   })
   .fail(onAjaxFailure)
