@@ -67,8 +67,13 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         $passportIssuedAtMessage = 'Дата выдачи паспорта не указана.';
         $passportIssuedByMessage = 'Орган, выдавший паспорт, не указан.';
 
+        if ($request->passportIssuedAt !== null && !$this->doesDateTimeStringHasValidFormat($request->passportIssuedAt)) {
+            $this->note->addError('passportIssuedAt', 'Неверный формат даты выдачи паспорта.');
+        }
+
         if (
-            $request->passportIssuedAt !== null &&
+            $request->passportIssuedAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->passportIssuedAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->passportIssuedAt) > $now
         ) {
             $this->note->addError('passportIssuedAt', 'Дата выдачи паспорта не может иметь значение из будущего.');
@@ -113,7 +118,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
     {
         $now = new \DateTimeImmutable();
         if (
-            $isRequired &&
+            $isRequired                      &&
             $request->bornAt        === null &&
             ($request->placeOfBirth === null || \trim($request->placeOfBirth) === '')
         ) {
@@ -122,14 +127,24 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $this->note->addError('placeOfBirth', $message);
         }
 
+        if ($request->bornAt !== null && !$this->doesDateTimeStringHasValidFormat($request->bornAt)) {
+            $this->note->addError('bornAt', 'Неверный формат даты рождения.');
+        }
+        if ($request->diedAt !== null && !$this->doesDateTimeStringHasValidFormat($request->diedAt)) {
+            $this->note->addError('diedAt', 'Неверный формат даты смерти.');
+        }
+
         if (
-            $request->bornAt !== null &&
+            $request->bornAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->bornAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) > $now
         ) {
             $this->note->addError('bornAt', 'Дата рождения не может иметь значение из будущего.');
         } elseif (
-            $request->bornAt !== null &&
-            $request->diedAt !== null &&
+            $request->bornAt !== null                                 &&
+            $request->diedAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->bornAt) &&
+            $this->doesDateTimeStringHasValidFormat($request->diedAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) >
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt)
         ) {
@@ -158,14 +173,30 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
             $this->note->addError('diedAt', 'Дата смерти не указана.');
         }
 
+        if ($request->bornAt !== null && !$this->doesDateTimeStringHasValidFormat($request->bornAt)) {
+            $this->note->addError('bornAt', 'Неверный формат даты рождения.');
+        }
+        if ($request->diedAt !== null && !$this->doesDateTimeStringHasValidFormat($request->diedAt)) {
+            $this->note->addError('diedAt', 'Неверный формат даты смерти.');
+        }
+        if ($request->deathCertificateIssuedAt !== null && !$this->doesDateTimeStringHasValidFormat($request->deathCertificateIssuedAt)) {
+            $this->note->addError('deathCertificateIssuedAt', 'Неверный формат даты выдачи свидетельства о смерти.');
+        }
+        if ($request->deathCertificateIssuedAt !== null && !$this->doesDateTimeStringHasValidFormat($request->cremationCertificateIssuedAt)) {
+            $this->note->addError('cremationCertificateIssuedAt', 'Неверный формат даты выдачи справки о смерти.');
+        }
+
         if (
-            $request->diedAt !== null &&
+            $request->diedAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->diedAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt) > $now
         ) {
             $this->note->addError('diedAt', 'Дата смерти не может иметь значение из будущего.');
         } elseif (
-            $request->bornAt !== null &&
-            $request->diedAt !== null &&
+            $request->bornAt !== null                                 &&
+            $request->diedAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->bornAt) &&
+            $this->doesDateTimeStringHasValidFormat($request->diedAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt) <
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt)
         ) {
@@ -175,7 +206,8 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         }
 
         if (
-            $request->deathCertificateIssuedAt !== null &&
+            $request->deathCertificateIssuedAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->deathCertificateIssuedAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->deathCertificateIssuedAt) > $now
         ) {
             $this->note->addError('deathCertificateIssuedAt', 'Дата выдачи свидетельства о смерти не может иметь значение из будущего.');
@@ -198,7 +230,8 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         }
 
         if (
-            $request->cremationCertificateIssuedAt !== null &&
+            $request->cremationCertificateIssuedAt !== null                                 &&
+            $this->doesDateTimeStringHasValidFormat($request->cremationCertificateIssuedAt) &&
             \DateTimeImmutable::createFromFormat('Y-m-d', $request->cremationCertificateIssuedAt) > $now
         ) {
             $this->note->addError('cremationCertificateIssuedAt', 'Дата выдачи справки о смерти не может иметь значение из будущего.');
