@@ -33,15 +33,15 @@ class DiscardNaturalPersonDeceasedDetailsService extends NaturalPersonService
      */
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse
     {
-        $isCleared = false;
+        $isDiscarded = false;
 
         /** @var DiscardNaturalPersonDeceasedDetailsRequest $request */
         $naturalPerson = $this->getNaturalPerson($request->id);
         if ($naturalPerson->deceasedDetails() !== null) {
             $naturalPerson->setDeceasedDetails(null);
-            $isCleared = true;
+            $isDiscarded = true;
         }
-        if ($isCleared) {
+        if ($isDiscarded) {
             $this->naturalPersonRepo->save($naturalPerson);
             $this->eventDispatcher->dispatch(new NaturalPersonDeceasedDetailsDiscarded(
                 $naturalPerson->id(),
