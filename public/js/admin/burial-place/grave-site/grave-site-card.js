@@ -83,7 +83,7 @@ $graveSiteCard.on(`click`, `.js-clear-size`, () => {
   })
   .then((result) => {
     if (result.isConfirmed) {
-      const url = $graveSiteCard.data(`action-clear-size`).replace(`{id}`, currentGraveSiteId);
+      const url = $graveSiteCardCard.data(`action-clear-size`).replace(`{id}`, currentGraveSiteId);
       clearDataGraveSite(url, `Размер участка успешно очищен.`);
     }
   })
@@ -103,7 +103,7 @@ $graveSiteCard.on(`click`, `.js-clear-geo-position`, () => {
   })
   .then((result) => {
     if (result.isConfirmed) {
-      const url = $graveSiteCard.data(`action-clear-geo-position`).replace(`{id}`, currentGraveSiteId);
+      const url = $graveSiteCardCard.data(`action-clear-geo-position`).replace(`{id}`, currentGraveSiteId);
       clearDataGraveSite(url, `Геопозиция участка успешно очищена.`);
     }
   })
@@ -123,7 +123,7 @@ $graveSiteCard.on(`click`, `.js-discard-person-in-charge`, () => {
   })
       .then((result) => {
         if (result.isConfirmed) {
-          const url = $graveSiteCard.data(`action-discard-person-in-charge`).replace(`{id}`, currentGraveSiteId);
+          const url = $graveSiteCardCard.data(`action-discard-person-in-charge`).replace(`{id}`, currentGraveSiteId);
           clearDataGraveSite(url, `Ответственный успешно удален.`);
         }
       })
