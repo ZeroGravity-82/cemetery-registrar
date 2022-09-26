@@ -82,9 +82,6 @@ function graveSiteFormClarifyLocation_hideAllValidationErrors() {
   $graveSiteFormClarifyLocationForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$graveSiteFormClarifyLocationForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormClarifyLocation_hideValidationError(e);
-});
 $graveSiteFormClarifyLocationForm.on(`input`, `.is-invalid`, (e) => {
   graveSiteFormClarifyLocation_hideValidationError(e);
 });

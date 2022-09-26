@@ -72,9 +72,6 @@ function graveSiteFormClarifySize_hideAllValidationErrors() {
   $graveSiteFormClarifySizeForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$graveSiteFormClarifySizeForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormClarifySize_hideValidationError(e);
-});
 $graveSiteFormClarifySizeForm.on(`input`, `.is-invalid`, (e) => {
   graveSiteFormClarifySize_hideValidationError(e);
 });

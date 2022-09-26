@@ -156,9 +156,6 @@ function graveSiteFormNew_hideAllValidationErrors() {
   $graveSiteFormNewForm.find(`.is-invalid`).removeClass(`is-invalid`);
 }
 
-$graveSiteFormNewForm.on(`change`, `.is-invalid`, (e) => {
-  graveSiteFormNew_hideValidationError(e);
-});
 $graveSiteFormNewForm.on(`input`, `.is-invalid`, (e) => {
   graveSiteFormNew_hideValidationError(e);
 });
