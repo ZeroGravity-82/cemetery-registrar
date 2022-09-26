@@ -23,7 +23,16 @@
       </div>
       <div class="row pb-2">
         <div class="col-sm-3 px-0"><strong>Ответственный:</strong></div>
-        <div class="col-sm-9 px-0"><p class="js-person-in-charge"></div>
+        <div class="col-sm-9 px-0">
+          <p class="position-relative">
+            <span class="js-person-in-charge"></span>&nbsp;
+            <button type="button"
+                    class="position-absolute bottom-0 btn btn-outline-secondary btn-sm ms-1 js-person-in-charge-card-btn d-none"
+                    title="Открыть карточку">
+              <i class="bi-person-lines-fill"></i>
+            </button>
+          </p>
+        </div>
       </div>
     </div>
     <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
