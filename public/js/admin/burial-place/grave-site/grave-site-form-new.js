@@ -33,6 +33,7 @@ $graveSiteFormNew.on(`shown.bs.modal`, (e) => {
 });
 
 // Person in charge selector
+const listAliveUrl          = $graveSiteFormNewForm.data(`action-natural-person-list-alive`);
 const minFullNameLength     = 3;
 const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
   valueField: `id`,
@@ -45,7 +46,7 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
     $.ajax({
       dataType: `json`,
       method: `GET`,
-      url: `http://localhost:8082/natural-person/list-alive?search=${query}`,
+      url: `${listAliveUrl}?search=${query}`,
     })
     .done((res) => {
       callback(res.data.simpleList.items.slice(0, 10));
@@ -62,9 +63,9 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
   },
   onChange: function(value) {
     if (value === ``) {
-      console.log(`onChange`);
       this.clearOptions(true);
     }
+    console.log(value);
   },
   render: {
     option: (item, escape) =>

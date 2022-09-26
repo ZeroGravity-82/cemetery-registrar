@@ -69,6 +69,11 @@ $graveSiteCard.on(`click`, `.js-clarify-geo-position`, () => {
   graveSiteFormClarifyGeoPosition_show(currentView, `graveSiteCard_show`, [currentGraveSiteId]);
 });
 
+$graveSiteCard.on(`click`, `.js-replace-person-in-charge`, () => {
+  graveSiteCardModalObject.hide();
+  graveSiteFormReplacePersonInCharge_show(currentView, `graveSiteCard_show`, [currentGraveSiteId]);
+});
+
 $graveSiteCard.on(`click`, `.js-clear-size`, () => {
   const name = $graveSiteCardTitle.find(`span`).html();
   Swal.fire({

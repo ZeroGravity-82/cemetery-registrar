@@ -114,6 +114,20 @@ class AdminBurialPlaceGraveSiteController extends Controller
     }
 
     #[Route(
+        '/admin/burial-place/grave-site/{id}/replace-person-in-charge',
+        name: 'admin_grave_site_replace_person_in_charge',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function replaceGraveSitePersonInCharge(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ReplaceGraveSitePersonInChargeRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route(
         '/admin/burial-place/grave-site/{id}/clear-size',
         name: 'admin_grave_site_clear_size',
         methods: HttpRequest::METHOD_PATCH

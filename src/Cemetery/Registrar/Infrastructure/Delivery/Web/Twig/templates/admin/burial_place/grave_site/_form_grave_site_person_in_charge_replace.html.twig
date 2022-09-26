@@ -1,0 +1,28 @@
+{% extends '_modal.html.twig' %}
+
+{% block modalbody %}
+  <form
+      data-action-replace-person-in-charge="{{ path('admin_grave_site_replace_person_in_charge', {'id': '{id}'})|url_decode }}">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 px-0"><strong>Текущий ответственный:</strong></div>
+        <div class="col-md-9 px-0"><p class="js-person-in-charge-current"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"><label for="personInChargeNew" class="form-label">Новый ответственный</label></div>
+        <div class="col-md-9">
+          <select
+              id="personInChargeNew" name="personInChargeNew"
+              aria-describedby="personInChargeNewFeedback"
+              aria-label="Новый ответственный">
+          </select>
+          <div id="personInChargeNewFeedback" class="invalid-feedback d-none"></div>
+        </div>
+      </div>
+
+    </div>
+    <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
+    {% include '_form_buttons.html.twig' %}
+  </form>
+{% endblock %}
