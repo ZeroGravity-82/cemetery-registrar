@@ -4,6 +4,9 @@
   <div
       class="card border border-0"
       data-action-show="{{ path('admin_grave_site_show', {'id': '{id}'})|url_decode }}"
+      data-action-clear-size="{{ path('admin_grave_site_clear_size', {'id': '{id}'})|url_decode }}"
+      data-action-clear-geo-position="{{ path('admin_grave_site_clear_geo_position', {'id': '{id}'})|url_decode }}"
+      data-action-discard-person-in-charge="{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}"
       data-action-remove="{{ path('admin_grave_site_remove', {'id': '{id}'})|url_decode }}">
     <div class="card-body">
       <div class="row pb-2">

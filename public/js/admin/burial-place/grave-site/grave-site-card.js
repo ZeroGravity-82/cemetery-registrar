@@ -36,8 +36,8 @@ function graveSiteCard_show(id) {
     $graveSiteCardSizeField.html(view.size !== null ? `${view.size} м²` : `-`);
 
     let geoPosition = view.geoPositionLatitude !== null || view.geoPositionLongitude !== null
-            ? [view.geoPositionLatitude, view.geoPositionLongitude].join(`, `)
-            : null;
+      ? [view.geoPositionLatitude, view.geoPositionLongitude].join(`, `)
+      : null;
     if (geoPosition !== null && view.geoPositionError !== null) {
       geoPosition += ` (± ${view.geoPositionError} м)`;
     }
@@ -68,6 +68,88 @@ $graveSiteCard.on(`click`, `.js-clarify-geo-position`, () => {
   graveSiteCardModalObject.hide();
   graveSiteFormClarifyGeoPosition_show(currentView, `graveSiteCard_show`, [currentGraveSiteId]);
 });
+
+$graveSiteCard.on(`click`, `.js-clear-size`, () => {
+  const name = $graveSiteCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Очистить размер для<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, очистить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      const url = $graveSiteCard.data(`action-clear-size`).replace(`{id}`, currentGraveSiteId);
+      clearDataGraveSite(url, `Размер участка успешно очищен.`);
+    }
+  })
+});
+
+$graveSiteCard.on(`click`, `.js-clear-geo-position`, () => {
+  const name = $graveSiteCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Очистить геопозицию для<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, очистить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+  .then((result) => {
+    if (result.isConfirmed) {
+      const url = $graveSiteCard.data(`action-clear-geo-position`).replace(`{id}`, currentGraveSiteId);
+      clearDataGraveSite(url, `Геопозиция участка успешно очищена.`);
+    }
+  })
+});
+
+$graveSiteCard.on(`click`, `.js-discard-person-in-charge`, () => {
+  const name = $graveSiteCardTitle.find(`span`).html();
+  Swal.fire({
+    title: `Удалить ответственного для<br>"${name}"?`,
+    icon: `warning`,
+    iconColor: `red`,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonText: `Да, удалить`,
+    confirmButtonColor: `red`,
+    cancelButtonText: `Нет`,
+  })
+      .then((result) => {
+        if (result.isConfirmed) {
+          const url = $graveSiteCard.data(`action-discard-person-in-charge`).replace(`{id}`, currentGraveSiteId);
+          clearDataGraveSite(url, `Ответственный успешно удален.`);
+        }
+      })
+});
+
+function clearDataGraveSite(url, message) {
+  $spinner.show();
+  const data = {
+    token: $graveSiteCardCsrfTokenField.val(),
+  };
+  $.ajax({
+    dataType: `json`,
+    method: `PATCH`,
+    url: url,
+    data: JSON.stringify(data),
+  })
+  .done(() => {
+    buildToast().fire({
+      icon: `success`,
+      title: message,
+    });
+    graveSiteCard_show(currentGraveSiteId);
+  })
+  .fail(onAjaxFailure)
+  .always(onAjaxAlways);
+}
 
 $graveSiteCard.on(`click`, `.js-remove`, () => {
   const name = $graveSiteCardTitle.find(`span`).html();

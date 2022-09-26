@@ -8,7 +8,10 @@ use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteGeoPosition\ClarifyGraveSiteGeoPositionRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteLocation\ClarifyGraveSiteLocationRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteSize\ClarifyGraveSiteSizeRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClearGraveSiteGeoPosition\ClearGraveSiteGeoPositionRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClearGraveSiteSize\ClearGraveSiteSizeRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\DiscardGraveSitePersonInCharge\DiscardGraveSitePersonInChargeRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveGraveSite\RemoveGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSites\ListGraveSitesRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowGraveSite\ShowGraveSiteRequest;
@@ -105,6 +108,48 @@ class AdminBurialPlaceGraveSiteController extends Controller
     {
         $this->assertValidCsrfToken($httpRequest, 'grave_site');
         $commandRequest  = $this->handleJsonRequest($httpRequest, ClarifyGraveSiteGeoPositionRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/clear-size',
+        name: 'admin_grave_site_clear_size',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clearSize(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClearGraveSiteSizeRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/clear-geo-position',
+        name: 'admin_grave_site_clear_geo_position',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function clearGeoPosition(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, ClearGraveSiteGeoPositionRequest::class);
+        $commandResponse = $this->appRequestBus->execute($commandRequest);
+
+        return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);
+    }
+
+    #[Route(
+        '/admin/burial-place/grave-site/{id}/discard-person-in-charge',
+        name: 'admin_grave_site_discard_person_in_charge',
+        methods: HttpRequest::METHOD_PATCH
+    )]
+    public function discardPersonInCharge(HttpRequest $httpRequest, string $id): HttpJsonResponse
+    {
+        $this->assertValidCsrfToken($httpRequest, 'grave_site');        // TODO extract token validation to base class
+        $commandRequest  = $this->handleJsonRequest($httpRequest, DiscardGraveSitePersonInChargeRequest::class);
         $commandResponse = $this->appRequestBus->execute($commandRequest);
 
         return $this->buildJsonResponse($commandResponse, HttpResponse::HTTP_OK);

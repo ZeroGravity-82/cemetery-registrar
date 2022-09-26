@@ -75,6 +75,7 @@ class ClarifyGraveSiteSizeService extends GraveSiteService
 
     private function isSameSize(GraveSiteSize $size, GraveSite $graveSite): bool
     {
-        return $size->isEqual($graveSite->size());
+        return $graveSite->size() !== null &&
+               $size->isEqual($graveSite->size());
     }
 }
