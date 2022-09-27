@@ -29,3 +29,7 @@ li.dropdown-item {
   background-color: rgba(255, 255, 255, 0.8);
   z-index: 1100;
 }
+
+.card-icon {
+    bottom: -5px;
+}
