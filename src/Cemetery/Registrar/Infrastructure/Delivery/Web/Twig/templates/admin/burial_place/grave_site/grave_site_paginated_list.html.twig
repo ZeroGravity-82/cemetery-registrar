@@ -61,12 +61,25 @@
   {% include 'admin/burial_place/grave_site/_form_grave_site_size_clarify.html.twig' with {'context': 'GraveSiteFormClarifySize'} %}
   {% include 'admin/burial_place/grave_site/_form_grave_site_geo_position_clarify.html.twig' with {'context': 'GraveSiteFormClarifyGeoPosition'} %}
   {% include 'admin/burial_place/grave_site/_form_grave_site_person_in_charge_replace.html.twig' with {'context': 'GraveSiteFormReplacePersonInCharge'} %}
+  {% include 'natural_person/_card_natural_person.html.twig' with {'context': 'NaturalPersonCard'} %}
+  {% include 'natural_person/_form_natural_person_full_name_clarify.html.twig' with {'context': 'NaturalPersonFormClarifyFullName'} %}
+  {% include 'natural_person/_form_natural_person_contact_clarify.html.twig' with {'context': 'NaturalPersonFormClarifyContact'} %}
+  {% include 'natural_person/_form_natural_person_birth_details_clarify.html.twig' with {'context': 'NaturalPersonFormClarifyBirthDetails'} %}
+  {% include 'natural_person/_form_natural_person_passport_clarify.html.twig' with {'context': 'NaturalPersonFormClarifyPassport'} %}
+  {% include 'natural_person/_form_natural_person_deceased_details_clarify.html.twig' with {'context': 'NaturalPersonFormClarifyDeceasedDetails'} %}
 
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
 
+  <script src="/js/admin/natural-person/natural-person-form-new.js"></script>
+  <script src="/js/admin/natural-person/natural-person-card.js"></script>
+  <script src="/js/admin/natural-person/natural-person-form-clarify-full-name.js"></script>
+  <script src="/js/admin/natural-person/natural-person-form-clarify-contact.js"></script>
+  <script src="/js/admin/natural-person/natural-person-form-clarify-birth-details.js"></script>
+  <script src="/js/admin/natural-person/natural-person-form-clarify-passport.js"></script>
+  <script src="/js/admin/natural-person/natural-person-form-clarify-deceased-details.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-paginated-list.js"></script>
   <script src="/js/admin/burial-place/grave-site/cemetery-block.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-new.js"></script>
@@ -75,4 +88,5 @@
   <script src="/js/admin/burial-place/grave-site/grave-site-form-clarify-size.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-clarify-geo-position.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-replace-person-in-charge.js"></script>
+
 {% endblock %}

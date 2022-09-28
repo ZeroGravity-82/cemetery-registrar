@@ -33,3 +33,6 @@ li.dropdown-item {
 .card-icon {
     bottom: -5px;
 }
+.card-icon:hover {
+    cursor: pointer;
+}

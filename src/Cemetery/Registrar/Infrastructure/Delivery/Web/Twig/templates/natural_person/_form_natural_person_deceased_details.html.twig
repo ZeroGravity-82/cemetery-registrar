@@ -26,11 +26,11 @@
             aria-describedby="causeOfDeathIdFeedback"
             aria-label="Причина смерти">
       <option selected></option>
-      {% for listItem in causeOfDeathList.items %}
-        <option value="{{- listItem.id -}}">
-          {{- listItem.name -}}
-        </option>
-      {% endfor %}
+{#      {% for listItem in causeOfDeathList.items %}#}
+{#        <option value="{{- listItem.id -}}">#}
+{#          {{- listItem.name -}}#}
+{#        </option>#}
+{#      {% endfor %}#}
     </select>
     <div id="causeOfDeathIdFeedback" class="invalid-feedback d-none"></div>
   </div>
