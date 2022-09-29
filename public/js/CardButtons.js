@@ -48,8 +48,8 @@ class CardButtons {
     `);
   }
   _listen() {
-    this.dom.$removeButton.on(`click`, this._handleRemoveButtonClick);
-    this.dom.$closeButton.on(`click`, this._handleCloseButtonClick);
+    this.dom.$removeButton.off(`click`).on(`click`, this._handleRemoveButtonClick);
+    this.dom.$closeButton.off(`click`).on(`click`, this._handleCloseButtonClick);
   }
   _handleRemoveButtonClick() {
     this._onRemoveButtonClick();

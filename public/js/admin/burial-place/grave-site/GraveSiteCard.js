@@ -11,12 +11,9 @@ class GraveSiteCard {
       $container: $container,
     };
     this.state = {
-      location:           null,
-      size:               null,
-      geoPosition:        null,
-      personInChargeName: null,
+      view: null,
     };
-    this.urls  = {
+    this.urls = {
       show:                  props.urls.show,
       clearSize:             props.urls.clearSize,
       clearGeoPosition:      props.urls.clearGeoPosition,
@@ -27,8 +24,6 @@ class GraveSiteCard {
   }
   _init() {
     this._bind();
-    this._render();
-    this._listen();
   }
   _bind() {
     this._handlePersonInChargeCardButtonClick = this._handlePersonInChargeCardButtonClick.bind(this);
@@ -52,7 +47,7 @@ class GraveSiteCard {
     this.dom.$actionList                  = null;
 
     // Card buttons
-    this.dom.$cardButtons              = (new CardButtons({
+    this.dom.$cardButtons = (new CardButtons({
       $actionList: this.dom.$actionList,
       handlers   : {
         onRemoveButtonClick: null,  // TODO add handlers
@@ -100,9 +95,10 @@ class GraveSiteCard {
 
 
     this.dom.$container.append(this.dom.$element);
+    this._listen();
   }
   _listen() {
-    this.dom.$personInChargeCardButton.on(`click`, this._handlePersonInChargeCardButtonClick);
+    this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
   }
   _setState(state) {
     this.state = {...this.state, ...state};
@@ -112,7 +108,21 @@ class GraveSiteCard {
     // TODO open natural person card
     console.log(`open natural person card...`);
   }
-  show(graveSiteId) {
+  show(id) {
+    $.ajax({
+      dataType: `json`,
+      method: `get`,
+      url: this.urls.show.replace(`{id}`, id),
+    })
+    .done((responseJson) => {
+      this._setState({
+        view: responseJson.data.view,
+      })
+    })
+    .fail()
+    .always();
+    this._render();
+
 
   }
   hide() {
