@@ -6,8 +6,9 @@
 // import `CardButtons.js`;
 
 class GraveSiteCard {
-  constructor($container, props) {
-    this.dom = {
+  constructor($container, $spinner, props) {
+    this.$spinner = $spinner;
+    this.dom      = {
       $container: $container,
     };
     this.state = {
@@ -109,6 +110,7 @@ class GraveSiteCard {
     console.log(`open natural person card...`);
   }
   show(id) {
+    this.$spinner.show();
     $.ajax({
       dataType: `json`,
       method: `get`,
@@ -120,7 +122,7 @@ class GraveSiteCard {
       })
     })
     .fail()
-    .always();
+    .always(() => this.$spinner.hide());
     this._render();
 
 
