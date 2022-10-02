@@ -17,7 +17,8 @@ li.dropdown-item {
     font-size: .625rem!important;
 }
 
-#spinner-div {
+/* Spinner.js */
+.spinner-wrapper {
   position: fixed;
   display: none;
   width: 100%;
@@ -30,6 +31,7 @@ li.dropdown-item {
   z-index: 1100;
 }
 
+/* Card.js */
 .card-icon {
     bottom: -5px;
 }

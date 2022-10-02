@@ -18,7 +18,7 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    {% include '_spinner.html.twig' %}
+    <div class="spinner-container"></div>
     {% include '_flash_message.html.twig' %}
     <main class="container-fluid no-select">
       {% block header %}
@@ -30,9 +30,15 @@
     <script src="/js/libs/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/js/libs/jquery/jquery-3.6.0.min.js"></script>
     <script src="/js/offcanvas.js"></script>
-    <script src="/js/main.js"></script>
     <script src="/js/libs/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="/js/libs/selectize/standalone/selectize.min.js"></script>
+
+    <script src="/js/Spinner.js"></script>
+    <script src="/js/Modal.js"></script>
+    <script src="/js/CardButtons.js"></script>
+    <script src="/js/AppServiceFailureHandler.js"></script>
+
+    <script src="/js/main.js"></script>
     {% block javascripts %}{% endblock %}
   </body>
 </html>

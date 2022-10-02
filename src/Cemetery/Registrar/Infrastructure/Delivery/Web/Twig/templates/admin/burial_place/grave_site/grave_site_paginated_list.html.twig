@@ -54,14 +54,10 @@
     </div>
   </div>
 
-  <div id="testContainer"></div>
-  <script>
-    window.GRAVE_SITE_CARD_PROPS = {{ graveSiteCardProps|raw }};
-  </script>
-
   {% include 'admin/burial_place/grave_site/_form_new_cemetery_block.html.twig' with {'context': 'CemeteryBlockFormNew'} %}
   {% include 'admin/burial_place/grave_site/_form_new_grave_site.html.twig' with {'context': 'GraveSiteFormNew'} %}
-  {% include 'admin/burial_place/grave_site/_card_grave_site.html.twig' with {'context': 'GraveSiteCard'} %}
+  <div class="grave-site-card-container"></div>
+{#  {% include 'admin/burial_place/grave_site/_card_grave_site.html.twig' with {'context': 'GraveSiteCard'} %}#}
   {% include 'admin/burial_place/grave_site/_form_grave_site_location_clarify.html.twig' with {'context': 'GraveSiteFormClarifyLocation'} %}
   {% include 'admin/burial_place/grave_site/_form_grave_site_size_clarify.html.twig' with {'context': 'GraveSiteFormClarifySize'} %}
   {% include 'admin/burial_place/grave_site/_form_grave_site_geo_position_clarify.html.twig' with {'context': 'GraveSiteFormClarifyGeoPosition'} %}
@@ -72,11 +68,24 @@
 {% block javascripts %}
   {{ parent() }}
 
-  <script src="/js/Modal.js"></script>
-  <script src="/js/admin/burial-place/grave-site/grave-site.js"></script>
+  <script src="/js/admin/burial-place/grave-site/GraveSiteCard.js"></script>
 
+  <script>
+    window.GRAVE_SITE_CARD_PROPS = {
+      urls: {
+        show                 : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
+        clearSize            : `{{ path('admin_grave_site_clear_size',               {'id': '{id}'})|url_decode }}`,
+        clearGeoPosition     : `{{ path('admin_grave_site_clear_geo_position',       {'id': '{id}'})|url_decode }}`,
+        discardPersonInCharge: `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,
+        remove               : `{{ path('admin_grave_site_remove',                   {'id': '{id}'})|url_decode }}`,
+      },
+      swalOptions: swalOptions,
+    };
+  </script>
 
   <script src="/js/admin/burial-place/grave-site/grave-site-paginated-list.js"></script>
+
+
   <script src="/js/admin/burial-place/grave-site/cemetery-block.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-new.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-card.js"></script>
@@ -84,5 +93,6 @@
   <script src="/js/admin/burial-place/grave-site/grave-site-form-clarify-size.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-clarify-geo-position.js"></script>
   <script src="/js/admin/burial-place/grave-site/grave-site-form-replace-person-in-charge.js"></script>
+
 
 {% endblock %}

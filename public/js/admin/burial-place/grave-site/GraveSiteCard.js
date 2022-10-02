@@ -1,17 +1,18 @@
 `use strict`;
 
-// import `jquery.js`;
-// import `bootstrap.js`;
+// import {$,jQuery} from `jquery`;
+// import Swal from `sweetalert2`;
 // import `Modal.js`;
 // import `CardButtons.js`;
+// import `AppServiceFailureHandler.js`;
 
 class GraveSiteCard {
-  constructor($container, $spinner, props) {
-    this.$spinner = $spinner;
-    this.dom      = {
+  constructor($container, spinner, props) {
+    this.dom = {
       $container: $container,
     };
-    this.state = {
+    this.spinner = spinner;
+    this.state   = {
       view: null,
     };
     this.urls = {
@@ -21,6 +22,13 @@ class GraveSiteCard {
       discardPersonInCharge: props.urls.discardPersonInCharge,
       remove:                props.urls.remove,
     };
+    this.appServiceFailureHandler = new AppServiceFailureHandler({
+      swalOptions: props.swalOptions,
+    }, {
+      onValidationErrors: this._displayValidationErrors,
+    });
+    this.toast = Swal.mixin(props.swalOptions);
+    this.modal = null;
     this._init();
   }
   _init() {
@@ -28,13 +36,17 @@ class GraveSiteCard {
   }
   _bind() {
     this._handlePersonInChargeCardButtonClick = this._handlePersonInChargeCardButtonClick.bind(this);
+    this._handleRemoveButtonClick             = this._handleRemoveButtonClick.bind(this);
+    this._handleCloseButtonClick              = this._handleCloseButtonClick.bind(this);
   }
   _render() {
+    this.dom.$container.empty();
     this.dom.$personInChargeCardButton = $(`
 <i class="position-absolute bi-card-heading fs-4 ms-1 card-icon" title="Карточка ответственного"></i>
     `);
 
     // Action list
+    let actionButtonsListItems            = [];
     this.dom.$clarifyLocationButton       = $(`<li class="dropdown-item">Уточнить расположение</li>`);
     this.dom.$clarifySizeButton           = $(`<li class="dropdown-item">Уточнить размер</li>`);
     this.dom.$clarifyGeoPositionButton    = $(`<li class="dropdown-item">Уточнить геопозицию</li>`);
@@ -45,58 +57,86 @@ class GraveSiteCard {
     this.dom.$clearSizeButton             = $(`<li class="dropdown-item text-danger">Очистить размер</li>`);        // js-danger-action-btn
     this.dom.$clearGeoPositionButton      = $(`<li class="dropdown-item text-danger">Очистить геопозицию</li>`);    // js-danger-action-btn
     this.dom.$discardPersonInChargeButton = $(`<li class="dropdown-item text-danger">Удалить ответственного</li>`); // js-danger-action-btn
-    this.dom.$actionList                  = null;
+    actionButtonsListItems.push(this.dom.$clarifyLocationButton);
+    actionButtonsListItems.push(this.dom.$clarifySizeButton);
+    actionButtonsListItems.push(this.dom.$clarifyGeoPositionButton);
+    actionButtonsListItems.push(this.dom.$assignPersonInChargeButton);
+    actionButtonsListItems.push(this.dom.$clarifyPersonInChargeButton);
+    actionButtonsListItems.push(this.dom.replacePersonInChargeButton);
+    actionButtonsListItems.push(this.dom.dangerActionDivider);
+    actionButtonsListItems.push(this.dom.$clearSizeButton);
+    actionButtonsListItems.push(this.dom.$clearGeoPositionButton);
+    actionButtonsListItems.push(this.dom.$discardPersonInChargeButton);
 
     // Card buttons
     this.dom.$cardButtons = (new CardButtons({
-      $actionList: this.dom.$actionList,
-      handlers   : {
-        onRemoveButtonClick: null,  // TODO add handlers
-        onCloseButtonClick : null,  // TODO add handlers
+      $actionButtonsListItems: $(actionButtonsListItems),
+      handlers  : {
+        onRemoveButtonClick: this._handleRemoveButtonClick,
+        onCloseButtonClick : this._handleCloseButtonClick,
       },
     })).getElement();
 
     // Card
-    this.dom.$modalBody = $(`
-<div class="card border border-0">
-  <div class="card-body">
-    <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Расположение:</strong></div>
-      <div class="col-sm-9 px-0"><p>${this.state.location}</p></div>
-    </div>
-    <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Размер:</strong></div>
-      <div class="col-sm-9 px-0"><p>${this.state.size}</p></div>
-    </div>
-    <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Геопозиция:</strong></div>
-      <div class="col-sm-9 px-0"><p>${this.state.geoPosition}</p></div>
-    </div>
-    <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Ответственный:</strong></div>
-      <div class="col-sm-9 px-0">
-        <p class="position-relative">
-          <span>${this.state.personInChargeName}</span>&nbsp;
-            ${this.dom.$personInChargeCardButton.html()}
-        </p>
-      </div>
-    </div>
-  </div>
-  <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
-  ${this.dom.$cardButtons.html()}
-<!--  {% include '_card_footer.html.twig' %}-->
+    this.dom.$locationRow = $(`
+<div class="row pb-2">
+  <div class="col-sm-3 px-0"><strong>Расположение:</strong></div>
+  <div class="col-sm-9 px-0"><p>${this.state.view.location}</p></div>
 </div>
     `);
+    this.dom.$sizeRow = $(`
+<div class="row pb-2">
+  <div class="col-sm-3 px-0"><strong>Размер:</strong></div>
+  <div class="col-sm-9 px-0"><p>${this.state.view.size}</p></div>
+</div>
+    `);
+    this.dom.$geoPositionRow = $(`
+<div class="row pb-2">
+  <div class="col-sm-3 px-0"><strong>Геопозиция:</strong></div>
+  <div class="col-sm-9 px-0"><p>${this.state.view.geoPosition}</p></div>
+</div>
+    `);
+    this.dom.$personInChargeRowValue = $(`
+<p class="position-relative">
+  <span>${this.state.view.personInChargeName}</span>&nbsp;
+</p>
+    `);
+    this.dom.$personInChargeRowValue.append(this.dom.$personInChargeCardButton);
+    this.dom.$personInChargeColSm9 = $(`
+<div class="col-sm-9 px-0"></div>
+    `);
+    this.dom.$personInChargeColSm9.append(this.dom.$personInChargeRowValue);
+    this.dom.$personInChargeRow = $(`
+<div class="row pb-2">
+  <div class="col-sm-3 px-0"><strong>Ответственный:</strong></div>
+</div>
+    `);
+    this.dom.$personInChargeRow.append(this.dom.$personInChargeColSm9);
+    this.dom.$cardBody = $(`
+<div class="card-body"></div>
+    `);
+    this.dom.$cardBody.append(this.dom.$locationRow);
+    this.dom.$cardBody.append(this.dom.$sizeRow);
+    this.dom.$cardBody.append(this.dom.$geoPositionRow);
+    this.dom.$cardBody.append(this.dom.$personInChargeRow);
+    this.dom.$csrfToken = $(`
+<input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
+    `);
 
-    const modal = new Modal({
-      context: `GraveSiteCard`,
-    });
-    this.dom.$element = $();
+    this.dom.$card = $(`
+<div class="card border border-0"></div>
+    `);
+    this.dom.$card.append(this.dom.$cardBody);
+    this.dom.$card.append(this.dom.$csrfToken);
+    // this.dom.$card.append(this.dom.$cardButtons);
+    // this.dom.$card.append(this.dom.$cardFooter);
 
-
-
+    // this.modal = new Modal({
+    //   context: `GraveSiteCard`,
+    //   $modalBody : this.dom.$card,
+    // });
+    // this.dom.$element = $(this.modal.getElement());
     this.dom.$container.append(this.dom.$element);
-    this._listen();
   }
   _listen() {
     this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
@@ -104,13 +144,28 @@ class GraveSiteCard {
   _setState(state) {
     this.state = {...this.state, ...state};
     this._render();
+    this._listen();
+  }
+  _displayValidationErrors(data) {
+    for (const [fieldId, validationError] of Object.entries(data)) {
+      this.toast.fire({
+        icon: `error`,
+        title: validationError,
+      });
+    }
   }
   _handlePersonInChargeCardButtonClick(event) {
     // TODO open natural person card
     console.log(`open natural person card...`);
   }
+  _handleRemoveButtonClick(event) {
+
+  }
+  _handleCloseButtonClick(event) {
+
+  }
   show(id) {
-    this.$spinner.show();
+    this.spinner.show();
     $.ajax({
       dataType: `json`,
       method: `get`,
@@ -119,11 +174,11 @@ class GraveSiteCard {
     .done((responseJson) => {
       this._setState({
         view: responseJson.data.view,
-      })
+      });
+      this.modal.getModalObject().show();
     })
-    .fail()
-    .always(() => this.$spinner.hide());
-    this._render();
+    .fail(this.appServiceFailureHandler.onFailure)
+    .always(() => this.spinner.hide());
 
 
   }

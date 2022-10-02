@@ -1,10 +1,14 @@
 `use strict`;
 
+// import `bootstrap`;
+
 class Modal {
   constructor(props) {
-    this.dom     = {};
+    this.dom = {
+      $modalBody: props.body
+    };
     this.context = props.context;
-    this.body    = props.body;
+    this.object  = null;
 
     this._init();
   }
@@ -39,11 +43,15 @@ class Modal {
   </div>
 </div>
     `);
+    this.object = new bootstrap.Modal(this.dom.$element.get(), {});
   }
   _listen() {
 
   }
   getElement() {
     return this.dom.$element;
+  }
+  getModalObject() {
+    return this.object;
   }
 }
