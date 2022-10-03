@@ -1,12 +1,12 @@
 `use strict`;
 
 class CardButtons {
-  constructor(props) {
+  constructor(props, handlers) {
     this.dom = {
       $actionButtonsListItems: props.$actionButtonsListItems,
     };
-    this._onRemoveButtonClick = props.handlers.onRemoveButtonClick;
-    this._onCloseButtonClick  = props.handlers.onCloseButtonClick;
+    this._onRemoveButtonClick = handlers.onRemoveButtonClick;
+    this._onCloseButtonClick  = handlers.onCloseButtonClick;
     this._init();
 
   }

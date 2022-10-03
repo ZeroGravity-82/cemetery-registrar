@@ -27,8 +27,9 @@ class GraveSiteCard {
     }, {
       onValidationErrors: this._displayValidationErrors,
     });
-    this.toast = Swal.mixin(props.swalOptions);
-    this.modal = null;
+    this.toast       = Swal.mixin(props.swalOptions);
+    this.modal       = null;
+    this.modalObject = null;
     this._init();
   }
   _init() {
@@ -71,10 +72,9 @@ class GraveSiteCard {
     // Card buttons
     this.dom.$cardButtons = (new CardButtons({
       $actionButtonsListItems: $(actionButtonsListItems),
-      handlers  : {
-        onRemoveButtonClick: this._handleRemoveButtonClick,
-        onCloseButtonClick : this._handleCloseButtonClick,
-      },
+    }, {
+      onRemoveButtonClick: this._handleRemoveButtonClick,
+      onCloseButtonClick : this._handleCloseButtonClick,
     })).getElement();
 
     // Card
@@ -128,15 +128,18 @@ class GraveSiteCard {
     `);
     this.dom.$card.append(this.dom.$cardBody);
     this.dom.$card.append(this.dom.$csrfToken);
-    // this.dom.$card.append(this.dom.$cardButtons);
+    this.dom.$card.append(this.dom.$cardButtons);
     // this.dom.$card.append(this.dom.$cardFooter);
 
-    // this.modal = new Modal({
-    //   context: `GraveSiteCard`,
-    //   $modalBody : this.dom.$card,
-    // });
-    // this.dom.$element = $(this.modal.getElement());
+    this.modal = new Modal({
+      context   : `GraveSiteCard`,
+      $modalBody: this.dom.$card,
+    }, {
+      onCloseButtonClick: this._handleCloseButtonClick,
+    });
+    this.dom.$element = this.modal.getElement();
     this.dom.$container.append(this.dom.$element);
+    // this.modalObject = new bootstrap.Modal(this.modal.getElement(), {});
   }
   _listen() {
     this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
@@ -161,8 +164,9 @@ class GraveSiteCard {
   _handleRemoveButtonClick(event) {
 
   }
-  _handleCloseButtonClick(event) {
-
+  _handleCloseButtonClick() {
+    this.modal.getObject().hide();
+    location.reload();            // TODO refactor not to reload entire page
   }
   show(id) {
     this.spinner.show();
@@ -175,7 +179,7 @@ class GraveSiteCard {
       this._setState({
         view: responseJson.data.view,
       });
-      this.modal.getModalObject().show();
+      this.modal.getObject().show();
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
