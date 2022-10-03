@@ -6,6 +6,7 @@ class Modal {
       $modalBody: props.$modalBody
     };
     this.context             = props.context;
+    this.modalTitle          = props.modalTitle;
     this.object              = null;
     this._onCloseButtonClick = handlers.onCloseButtonClick;
 
@@ -26,13 +27,15 @@ class Modal {
      tabindex="-1"
      aria-labelledby="modal${this.context}Label"
      aria-hidden="true"></div>
-    `).append(this.dom.$modalDialog = $(`
-  <div class="modal-dialog modal-lg"></div>`).append(this.dom.$modalContent = $(`
-    <div class="modal-content"></div>`).append(this.dom.$modalHeader = $(`
+    `).append($(`
+  <div class="modal-dialog modal-lg"></div>`).append($(`
+    <div class="modal-content"></div>`).append($(`
       <div class="modal-header">
-        <h5 class="modal-title" id="modal${this.context}Label"></h5></div>`).append(this.dom.$closeButton = $(`
-        <button type="button" class="btn-close" tabindex="-1" aria-label="Закрыть"></button>`))).append(this.dom.$modalBodyWrapper = $(`
-      <div class="modal-body"></div>`).append(this.dom.$modalBody))));
+        <h5 class="modal-title" id="modal${this.context}Label">
+          ${this.modalTitle}</h5></div>`).append(this.dom.$closeButton = $(`
+        <button type="button" class="btn-close" tabindex="-1" aria-label="Закрыть"></button>`))).append($(`
+      <div class="modal-body"></div>`).append(
+        this.dom.$modalBody))));
 
     this.object = new bootstrap.Modal(this.dom.$element, {});
   }

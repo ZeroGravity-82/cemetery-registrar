@@ -27,9 +27,8 @@ class GraveSiteCard {
     }, {
       onValidationErrors: this._displayValidationErrors,
     });
-    this.toast       = Swal.mixin(props.swalOptions);
-    this.modal       = null;
-    this.modalObject = null;
+    this.toast = Swal.mixin(props.swalOptions);
+    this.modal = null;
     this._init();
   }
   _init() {
@@ -42,9 +41,9 @@ class GraveSiteCard {
   }
   _render() {
     this.dom.$container.empty();
-    this.dom.$personInChargeCardButton = $(`
-<i class="position-absolute bi-card-heading fs-4 ms-1 card-icon" title="Карточка ответственного"></i>
-    `);
+    this.dom.$personInChargeCardButton = this.state.view.personInChargeFullName !== null
+      ? $(`<i class="position-absolute bi-card-heading fs-4 ms-1 card-icon" title="Карточка ответственного"></i>`)
+      : $();
 
     // Action list
     let actionButtonsListItems            = [];
@@ -71,75 +70,44 @@ class GraveSiteCard {
 
     // Card buttons
     this.dom.$cardButtons = (new CardButtons({
-      $actionButtonsListItems: $(actionButtonsListItems),
+      $actionButtonsListItems: actionButtonsListItems,
     }, {
       onRemoveButtonClick: this._handleRemoveButtonClick,
       onCloseButtonClick : this._handleCloseButtonClick,
     })).getElement();
 
     // Card
-    this.dom.$locationRow = $(`
-<div class="row pb-2">
-  <div class="col-sm-3 px-0"><strong>Расположение:</strong></div>
-  <div class="col-sm-9 px-0"><p>${this.state.view.location}</p></div>
-</div>
-    `);
-    this.dom.$sizeRow = $(`
-<div class="row pb-2">
-  <div class="col-sm-3 px-0"><strong>Размер:</strong></div>
-  <div class="col-sm-9 px-0"><p>${this.state.view.size}</p></div>
-</div>
-    `);
-    this.dom.$geoPositionRow = $(`
-<div class="row pb-2">
-  <div class="col-sm-3 px-0"><strong>Геопозиция:</strong></div>
-  <div class="col-sm-9 px-0"><p>${this.state.view.geoPosition}</p></div>
-</div>
-    `);
-    this.dom.$personInChargeRowValue = $(`
-<p class="position-relative">
-  <span>${this.state.view.personInChargeName}</span>&nbsp;
-</p>
-    `);
-    this.dom.$personInChargeRowValue.append(this.dom.$personInChargeCardButton);
-    this.dom.$personInChargeColSm9 = $(`
-<div class="col-sm-9 px-0"></div>
-    `);
-    this.dom.$personInChargeColSm9.append(this.dom.$personInChargeRowValue);
-    this.dom.$personInChargeRow = $(`
-<div class="row pb-2">
-  <div class="col-sm-3 px-0"><strong>Ответственный:</strong></div>
-</div>
-    `);
-    this.dom.$personInChargeRow.append(this.dom.$personInChargeColSm9);
-    this.dom.$cardBody = $(`
-<div class="card-body"></div>
-    `);
-    this.dom.$cardBody.append(this.dom.$locationRow);
-    this.dom.$cardBody.append(this.dom.$sizeRow);
-    this.dom.$cardBody.append(this.dom.$geoPositionRow);
-    this.dom.$cardBody.append(this.dom.$personInChargeRow);
-    this.dom.$csrfToken = $(`
-<input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">
-    `);
-
     this.dom.$card = $(`
-<div class="card border border-0"></div>
-    `);
-    this.dom.$card.append(this.dom.$cardBody);
-    this.dom.$card.append(this.dom.$csrfToken);
-    this.dom.$card.append(this.dom.$cardButtons);
-    // this.dom.$card.append(this.dom.$cardFooter);
+<div class="card border border-0"></div>`).append($(`
+  <div class="card-body"></div>`).append($(`
+    <div class="row pb-2">
+      <div class="col-sm-3 px-0"><strong>Расположение:</strong></div>
+      <div class="col-sm-9 px-0"><p>${this._composeLocation(this.state.view)}</p></div></div>`)).append($(`
+    <div class="row pb-2">
+      <div class="col-sm-3 px-0"><strong>Размер:</strong></div>
+      <div class="col-sm-9 px-0"><p>${this._composeSize(this.state.view)}</p></div></div>`)).append($(`
+    <div class="row pb-2">
+      <div class="col-sm-3 px-0"><strong>Геопозиция:</strong></div>
+      <div class="col-sm-9 px-0"><p>${this._composeGeoPosition(this.state.view)}</p></div></div>`)).append($(`
+    <div class="row pb-2">
+      <div class="col-sm-3 px-0"><strong>Ответственный:</strong></div></div>`).append($(`
+      <div class="col-sm-9 px-0"></div>`).append($(`
+        <p class="position-relative">
+          <span>${this._composePersonInChargeFullName(this.state.view)}</span>&nbsp;</p>`).append(
+            this.dom.$personInChargeCardButton))))).append($(`
+  <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">`)).append(
+  this.dom.$cardButtons).append($(`
+  <p class="mt-2 mb-0 text-muted timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
     this.modal = new Modal({
       context   : `GraveSiteCard`,
+      modalTitle: `Карточка участка - <span>${this._composeLocation(this.state.view)}</span>`,
       $modalBody: this.dom.$card,
     }, {
       onCloseButtonClick: this._handleCloseButtonClick,
     });
     this.dom.$element = this.modal.getElement();
     this.dom.$container.append(this.dom.$element);
-    // this.modalObject = new bootstrap.Modal(this.modal.getElement(), {});
   }
   _listen() {
     this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
@@ -167,6 +135,30 @@ class GraveSiteCard {
   _handleCloseButtonClick() {
     this.modal.getObject().hide();
     location.reload();            // TODO refactor not to reload entire page
+  }
+  _composeLocation(view) {
+    let location = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;;
+    if (view.positionInRow !== null) {
+      location += `, место ${view.positionInRow}`;
+    }
+
+    return location;
+  }
+  _composeSize(view) {
+    return view.size !== null ? `${view.size} м²` : `-`;
+  }
+  _composeGeoPosition(view) {
+    let geoPosition = view.geoPositionLatitude !== null || view.geoPositionLongitude !== null
+        ? [view.geoPositionLatitude, view.geoPositionLongitude].join(`, `)
+        : null;
+    if (geoPosition !== null && view.geoPositionError !== null) {
+      geoPosition += ` (± ${view.geoPositionError} м)`;
+    }
+
+    return geoPosition !== null ? geoPosition : `-`;
+  }
+  _composePersonInChargeFullName(view) {
+    return view.personInChargeFullName !== null ? view.personInChargeFullName : `-`;
   }
   show(id) {
     this.spinner.show();

@@ -20,46 +20,31 @@ class CardButtons {
     this._handleCloseButtonClick  = this._handleCloseButtonClick.bind(this);
   }
   _render() {
-    // this.dom.$removeButtonWrapper = $(`<div class="order-3 order-sm-1">`);
-    // this.dom.$removeButtonWrapper.append(this.dom.$removeButton);
 
-//     this.dom.$actionButtonsDropdownToggle = $(`
-// <button type="button"
-//         class="btn btn-warning btn-sm dropdown-toggle"
-//         data-bs-toggle="dropdown"
-//         aria-expanded="false"
-//         aria-label="Действие">Действие</button>
-//     `);
-//     this.dom.$actionButtonsList = $(`<ul class="dropdown-menu px-3 col-xs-12" style="white-space: nowrap"></ul>`);
-//     this.dom.$actionButtonsList.append(this.dom.$actionButtonsListItems);
-//     this.dom.$actionButtonsWrapper = $(`<div class="order-2 order-sm-2 btn-group">`);
-//     this.dom.$actionButtonsWrapper.append(this.dom.$actionButtonsDropdownToggle);
-//     this.dom.$actionButtonsWrapper.append(this.dom.$actionButtonsList);
-//
     this.dom.$removeButton = $(`
-<button type="button"
-        class="btn btn-danger btn-sm justify-content-md-start"
-        aria-label="Удалить запись">Удалить запись</button>
+<button type="button" class="btn btn-danger btn-sm justify-content-md-start" aria-label="Удалить запись">Удалить запись</button>
     `);
 
     this.dom.$closeButton = $(`
-<button type="button"
-        class="btn btn-secondary btn-sm"
-        aria-label="Закрыть">Закрыть</button>
+<button type="button" class="btn btn-secondary btn-sm" aria-label="Закрыть">Закрыть</button>
     `);
-//     this.dom.$closeButtonWrapper = $(`<div class="order-1 order-sm-3">`);
-//     this.dom.$closeButtonWrapper.append(this.dom.$closeButton);
 
-    // this.dom.$col12 = $(`<div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">`);
-    // this.dom.$col12.append(this.dom.$removeButtonWrapper);
-    // this.dom.$col12.append(this.dom.$actionButtonsWrapper);
-    // this.dom.$col12.append(this.dom.$closeButtonWrapper);
-    //
-    // this.dom.$row = $(`<div class="row pt-3 text-end">`);
-    // this.dom.$row.append(this.dom.$col12);
-    //
-    // this.dom.$element = $(`<div class="container"></div>`);
-    // this.dom.$element.append(this.dom.$row);
+    this.dom.$element = $(`
+<div class="container"></div>`).append($(`
+  <div class="row pt-3 text-end">`).append($(`
+    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">`).append($(`
+      <div class="order-3 order-sm-1">`).append(
+        this.dom.$removeButton)).append($(`
+      <div class="order-2 order-sm-2 btn-group">`).append($(`
+        <button type="button"
+                class="btn btn-warning btn-sm dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                aria-label="Действие">Действие</button>`)).append($(`
+        <ul class="dropdown-menu px-3 col-xs-12" style="white-space: nowrap"></ul>`).append(
+          this.dom.$actionButtonsListItems))).append($(`
+      <div class="order-1 order-sm-3">`).append(
+        this.dom.$closeButton))));
   }
   _listen() {
     this.dom.$removeButton.off(`click`).on(`click`, this._handleRemoveButtonClick);

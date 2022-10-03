@@ -6,7 +6,7 @@ const graveSiteCard = new GraveSiteCard(
     spinner,
     window.GRAVE_SITE_CARD_PROPS,
 );
-graveSiteCard.show(`GS001`);
+graveSiteCard.show(`GS002`);
 
 //
 // const $tableGraveSite     = $(`#graveSiteList`);
