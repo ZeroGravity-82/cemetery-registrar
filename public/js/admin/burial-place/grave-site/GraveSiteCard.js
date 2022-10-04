@@ -15,7 +15,8 @@ class GraveSiteCard {
     this.state   = {
       view: null,
     };
-    this.urls = {
+    this.toast = Swal.mixin(props.swalOptions);
+    this.urls  = {
       show:                  props.urls.show,
       clearSize:             props.urls.clearSize,
       clearGeoPosition:      props.urls.clearGeoPosition,
@@ -117,6 +118,31 @@ class GraveSiteCard {
     this._render();
     this._listen();
   }
+  _handlePersonInChargeCardButtonClick(event) {
+    // TODO open natural person card
+    console.log(`open natural person card...`);
+  }
+  _handleRemoveButtonClick() {
+    Swal.fire({
+      title: `Удалить участок<br>"${this._composeLocation(this.state.view)}"?`,
+      icon: `warning`,
+      iconColor: `red`,
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonText: `Да, удалить`,
+      confirmButtonColor: `red`,
+      cancelButtonText: `Нет`,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        this._removeGraveSite(this.state.view.id);
+      }
+    })
+  }
+  _handleCloseButtonClick() {
+    this.modal.getObject().hide();
+    location.reload();            // TODO refactor not to reload entire page
+  }
   _displayValidationErrors(data) {
     for (const [fieldId, validationError] of Object.entries(data)) {
       this.toast.fire({
@@ -124,17 +150,6 @@ class GraveSiteCard {
         title: validationError,
       });
     }
-  }
-  _handlePersonInChargeCardButtonClick(event) {
-    // TODO open natural person card
-    console.log(`open natural person card...`);
-  }
-  _handleRemoveButtonClick(event) {
-
-  }
-  _handleCloseButtonClick() {
-    this.modal.getObject().hide();
-    location.reload();            // TODO refactor not to reload entire page
   }
   _composeLocation(view) {
     let location = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;;
@@ -160,6 +175,28 @@ class GraveSiteCard {
   _composePersonInChargeFullName(view) {
     return view.personInChargeFullName !== null ? view.personInChargeFullName : `-`;
   }
+  _removeGraveSite(id) {
+    this.spinner.show();
+    const data = {
+      token: $graveSiteCardCsrfTokenField.val(),
+    };
+    $.ajax({
+      dataType: `json`,
+      method: `delete`,
+      url: this.urls.remove.replace(`{id}`, id),
+      data: JSON.stringify(data),
+    })
+    .done(() => {
+      this.toast.fire({
+        icon: `success`,
+        title: `Участок успешно удалён.`,
+      });
+      this.hide();
+      location.reload();        // TODO refactor not to reload entire page
+    })
+    .fail(this.appServiceFailureHandler.onFailure)
+    .always(() => this.spinner.hide());
+  }
   show(id) {
     this.spinner.show();
     $.ajax({
@@ -168,6 +205,7 @@ class GraveSiteCard {
       url: this.urls.show.replace(`{id}`, id),
     })
     .done((responseJson) => {
+      console.log(responseJson.data);
       this._setState({
         view: responseJson.data.view,
       });
@@ -175,10 +213,11 @@ class GraveSiteCard {
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
-
-
   }
   hide() {
-
+    if (this.modal === null) {
+      return;
+    }
+    this.modal.getObject().show();
   }
 }
