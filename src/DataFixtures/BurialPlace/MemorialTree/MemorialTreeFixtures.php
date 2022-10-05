@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DataFixtures\BurialPlace\MemorialTree;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;

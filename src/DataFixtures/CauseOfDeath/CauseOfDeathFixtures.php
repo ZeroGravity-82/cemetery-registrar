@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DataFixtures\CauseOfDeath;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;

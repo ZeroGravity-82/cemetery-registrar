@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DataFixtures\BurialPlace\GraveSite;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
