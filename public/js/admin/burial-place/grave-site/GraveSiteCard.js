@@ -13,7 +13,8 @@ class GraveSiteCard {
     };
     this.spinner = spinner;
     this.state   = {
-      view: null,
+      view     : null,
+      csrfToken: null,
     };
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
@@ -95,8 +96,7 @@ class GraveSiteCard {
       <div class="col-sm-9 px-0"></div>`).append($(`
         <p class="position-relative">
           <span>${this._composePersonInChargeFullName(this.state.view)}</span>&nbsp;</p>`).append(
-            this.dom.$personInChargeCardButton))))).append($(`
-  <input type="hidden" id="token" name="token" value="{{ csrf_token('grave_site') }}">`)).append(
+            this.dom.$personInChargeCardButton))))).append(
   this.dom.$cardButtons).append($(`
   <p class="mt-2 mb-0 text-muted timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
@@ -178,7 +178,7 @@ class GraveSiteCard {
   _removeGraveSite(id) {
     this.spinner.show();
     const data = {
-      token: $graveSiteCardCsrfTokenField.val(),
+      csrfToken: this.state.csrfToken,
     };
     $.ajax({
       dataType: `json`,
@@ -205,9 +205,9 @@ class GraveSiteCard {
       url: this.urls.show.replace(`{id}`, id),
     })
     .done((responseJson) => {
-      console.log(responseJson.data);
       this._setState({
-        view: responseJson.data.view,
+        view     : responseJson.data.view,
+        csrfToken: responseJson.data.csrfToken,
       });
       this.modal.getObject().show();
     })

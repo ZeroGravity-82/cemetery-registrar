@@ -62,7 +62,7 @@ class AdminBurialPlaceGraveSiteController extends Controller
         $queryRequest  = $this->handleJsonRequest($httpRequest, ShowGraveSiteRequest::class);
         $queryResponse = $this->appRequestBus->execute($queryRequest);
 
-        return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
+        return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK, $this->getCsrfToken('grave_site'));
     }
 
     #[Route(

@@ -8,10 +8,12 @@ use Cemetery\Registrar\Application\ApplicationResponse;
 use Cemetery\Registrar\Application\ApplicationErrorResponse;
 use Cemetery\Registrar\Application\ApplicationFailResponse;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
+use Psr\Container\ContainerExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -24,11 +26,11 @@ abstract class Controller extends AbstractController
      * @throws \RuntimeException when CSRF token is invalid
      * @throws \RuntimeException when JSON is invalid
      */
-    protected function assertValidCsrfToken(Request $request, string $tokenId): void
+    protected function assertValidCsrfToken(Request $request, string $csrfTokenId): void
     {
-        $data  = $this->decodeRequestData($request);
-        $token = $data['token'] ?? null;
-        if (!$this->isCsrfTokenValid($tokenId, $token)) {
+        $data      = $this->decodeRequestData($request);
+        $csrfToken = $data['csrfToken'] ?? null;
+        if (!$this->isCsrfTokenValid($csrfTokenId, $csrfToken)) {
             throw new \RuntimeException(
                 'Ошибка проверки CSRF-токена, возможно он устарел. Попробуйте перезагрузить страницу.'
             );
@@ -59,6 +61,7 @@ abstract class Controller extends AbstractController
     protected function buildJsonResponse(
         ApplicationResponse $appResponse,
         int                 $httpResponseSuccessStatus,
+        ?CsrfToken          $csrfToken = null,
     ): HttpJsonResponse {
         $httpResponseData = (object) [
             'status' => $appResponse->status,
@@ -66,7 +69,10 @@ abstract class Controller extends AbstractController
         switch (true) {
             case $appResponse instanceof ApplicationSuccessResponse:
                 $httpResponseData->data = $appResponse->data;
-                $httpResponse           = $this->json($httpResponseData, $httpResponseSuccessStatus);
+                if ($csrfToken !== null) {
+                    $httpResponseData->data->csrfToken = $csrfToken->getValue();
+                }
+                $httpResponse = $this->json($httpResponseData, $httpResponseSuccessStatus);
                 break;
             case $appResponse instanceof ApplicationFailResponse:
                 $httpResponseData->data = $appResponse->data;
@@ -96,6 +102,21 @@ abstract class Controller extends AbstractController
         }
 
         return $httpResponse;
+    }
+
+    /**
+     * Returns a CSRF token for the given ID.
+     *
+     * @throws \LogicException             when CSRF protection is not enabled
+     * @throws ContainerExceptionInterface when an error occurred while retrieving the token manager from the container
+     */
+    protected function getCsrfToken(string $csrfTokenId): CsrfToken
+    {
+        if (!$this->container->has('security.csrf.token_manager')) {
+            throw new \LogicException('CSRF protection is not enabled in your application. Enable it with the "csrf_protection" key in "config/packages/framework.yaml".');
+        }
+
+        return $this->container->get('security.csrf.token_manager')->getToken($csrfTokenId);
     }
 
     /**
