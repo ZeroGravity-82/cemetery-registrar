@@ -143,15 +143,12 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
 
     protected function updateEntityA(Entity $entityA): void
     {
-        $newBornAt = new \DateTimeImmutable('2003-03-01');
+        $newBornAt = new \DateTimeImmutable('1952-03-02');
 
         /** @var NaturalPerson $entityA */
         $entityA->setBornAt($newBornAt);
     }
 
-    /**
-     * @return void
-     */
     private function expectExceptionForNonUniqueNaturalPerson(): void
     {
         $this->expectException(Exception::class);
