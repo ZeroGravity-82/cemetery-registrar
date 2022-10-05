@@ -30,7 +30,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
         private readonly ApplicationRequestBus $appRequestBus,
     ) {}
 
-    #[Route('/admin/burial-place/grave-site', name: 'admin_burial_place_grave_site_list', methods: 'GET')]
+    #[Route(
+        '/admin/burial-place/grave-site',
+        name: 'admin_burial_place_grave_site_list',
+        methods: 'GET'
+    )]
     public function graveSiteList(): HttpResponse
     {
         $queryRequest            = new ListGraveSitesRequest();
@@ -48,7 +52,11 @@ class AdminBurialPlaceGraveSiteController extends Controller
         ]);
     }
 
-    #[Route('/admin/burial-place/grave-site/{id}', name: 'admin_grave_site_show', methods: HttpRequest::METHOD_GET)]
+    #[Route(
+        '/admin/burial-place/grave-site/{id}',
+        name: 'admin_grave_site_show',
+        methods: HttpRequest::METHOD_GET
+    )]
     public function showGraveSite(HttpRequest $httpRequest): HttpJsonResponse
     {
         $queryRequest  = $this->handleJsonRequest($httpRequest, ShowGraveSiteRequest::class);
