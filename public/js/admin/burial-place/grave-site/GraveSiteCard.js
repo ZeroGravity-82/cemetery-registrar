@@ -182,9 +182,9 @@ class GraveSiteCard {
     };
     $.ajax({
       dataType: `json`,
-      method: `delete`,
-      url: this.urls.remove.replace(`{id}`, id),
-      data: JSON.stringify(data),
+      method  : `delete`,
+      url     : this.urls.remove.replace(`{id}`, id),
+      data    : JSON.stringify(data),
     })
     .done(() => {
       this.toast.fire({
@@ -201,8 +201,8 @@ class GraveSiteCard {
     this.spinner.show();
     $.ajax({
       dataType: `json`,
-      method: `get`,
-      url: this.urls.show.replace(`{id}`, id),
+      method  : `get`,
+      url     : this.urls.show.replace(`{id}`, id),
     })
     .done((responseJson) => {
       this._setState({
