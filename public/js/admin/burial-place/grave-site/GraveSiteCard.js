@@ -18,11 +18,11 @@ class GraveSiteCard {
     };
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
-      show:                  props.urls.show,
-      clearSize:             props.urls.clearSize,
-      clearGeoPosition:      props.urls.clearGeoPosition,
+      show                 : props.urls.show,
+      clearSize            : props.urls.clearSize,
+      clearGeoPosition     : props.urls.clearGeoPosition,
       discardPersonInCharge: props.urls.discardPersonInCharge,
-      remove:                props.urls.remove,
+      remove               : props.urls.remove,
     };
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
@@ -140,14 +140,14 @@ class GraveSiteCard {
   }
   _handleRemoveButtonClick() {
     Swal.fire({
-      title: `Удалить участок<br>"${this._composeLocation(this.state.view)}"?`,
-      icon: `warning`,
-      iconColor: `red`,
-      showCancelButton: true,
-      focusCancel: true,
-      confirmButtonText: `Да, удалить`,
+      title             : `Удалить участок<br>"${this._composeLocation(this.state.view)}"?`,
+      icon              : `warning`,
+      iconColor         : `red`,
+      showCancelButton  : true,
+      focusCancel       : true,
+      confirmButtonText : `Да, удалить`,
       confirmButtonColor: `red`,
-      cancelButtonText: `Нет`,
+      cancelButtonText  : `Нет`,
     })
     .then((result) => {
       if (result.isConfirmed) {
@@ -162,7 +162,7 @@ class GraveSiteCard {
   _displayValidationErrors(data) {
     for (const [fieldId, validationError] of Object.entries(data)) {
       this.toast.fire({
-        icon: `error`,
+        icon : `error`,
         title: validationError,
       });
     }
