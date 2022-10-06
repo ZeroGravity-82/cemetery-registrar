@@ -3,7 +3,7 @@
 class CardButtons {
   constructor(props, handlers) {
     this.dom = {
-      $actionButtonsListItems: props.$actionButtonsListItems,
+      actionList: props.actionList,
     };
     this._onRemoveButtonClick = handlers.onRemoveButtonClick;
     this._onCloseButtonClick  = handlers.onCloseButtonClick;
@@ -42,7 +42,7 @@ class CardButtons {
                 aria-expanded="false"
                 aria-label="Действие">Действие</button>`)).append($(`
         <ul class="dropdown-menu px-3 col-xs-12" style="white-space: nowrap"></ul>`).append(
-          this.dom.$actionButtonsListItems))).append($(`
+          this.dom.actionList))).append($(`
       <div class="order-1 order-sm-3">`).append(
         this.dom.$closeButton))));
   }

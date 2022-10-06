@@ -50,32 +50,9 @@ class GraveSiteCard extends Card {
       ? $(`<i class="position-absolute bi-card-heading fs-4 ms-1 gsc-card-icon" title="Карточка ответственного"></i>`)
       : $();
 
-    // Action list
-    let actionButtonsListItems            = [];
-    this.dom.$clarifyLocationButton       = $(`<li class="dropdown-item">Уточнить расположение</li>`);
-    this.dom.$clarifySizeButton           = $(`<li class="dropdown-item">Уточнить размер</li>`);
-    this.dom.$clarifyGeoPositionButton    = $(`<li class="dropdown-item">Уточнить геопозицию</li>`);
-    this.dom.$assignPersonInChargeButton  = $(`<li class="dropdown-item">Назначить ответственного</li>`);
-    this.dom.$clarifyPersonInChargeButton = $(`<li class="dropdown-item">Уточнить данные ответственного</li>`);
-    this.dom.replacePersonInChargeButton  = $(`<li class="dropdown-item">Заменить ответственного</li>`);
-    this.dom.dangerActionDivider          = $(`<li><hr class="dropdown-divider"></li>`);
-    this.dom.$clearSizeButton             = $(`<li class="dropdown-item text-danger">Очистить размер</li>`);        // js-danger-action-btn
-    this.dom.$clearGeoPositionButton      = $(`<li class="dropdown-item text-danger">Очистить геопозицию</li>`);    // js-danger-action-btn
-    this.dom.$discardPersonInChargeButton = $(`<li class="dropdown-item text-danger">Удалить ответственного</li>`); // js-danger-action-btn
-    actionButtonsListItems.push(this.dom.$clarifyLocationButton);
-    actionButtonsListItems.push(this.dom.$clarifySizeButton);
-    actionButtonsListItems.push(this.dom.$clarifyGeoPositionButton);
-    actionButtonsListItems.push(this.dom.$assignPersonInChargeButton);
-    actionButtonsListItems.push(this.dom.$clarifyPersonInChargeButton);
-    actionButtonsListItems.push(this.dom.replacePersonInChargeButton);
-    actionButtonsListItems.push(this.dom.dangerActionDivider);
-    actionButtonsListItems.push(this.dom.$clearSizeButton);
-    actionButtonsListItems.push(this.dom.$clearGeoPositionButton);
-    actionButtonsListItems.push(this.dom.$discardPersonInChargeButton);
-
     // Card buttons
     this.dom.$cardButtons = (new CardButtons({
-      $actionButtonsListItems: actionButtonsListItems,
+      actionList: this._buildActionList(this.state.view),
     }, {
       onRemoveButtonClick: this._handleRemoveButtonClick,
       onCloseButtonClick : this._handleCloseButtonClick,
@@ -193,6 +170,37 @@ class GraveSiteCard extends Card {
   }
   _composePersonInChargeFullName(view) {
     return view.personInChargeFullName !== null ? view.personInChargeFullName : `-`;
+  }
+  _buildActionList(view) {
+    let regularActionList = [];
+    regularActionList.push(this.dom.$clarifyLocationAction         = $(`<li class="dropdown-item">Уточнить расположение</li>`));
+    regularActionList.push(this.dom.$clarifySizeAction             = $(`<li class="dropdown-item">Уточнить размер</li>`));
+    regularActionList.push(this.dom.$clarifyGeoPositionAction      = $(`<li class="dropdown-item">Уточнить геопозицию</li>`));
+    if (view.personInChargeFullName === null) {
+      regularActionList.push(this.dom.$assignPersonInChargeAction  = $(`<li class="dropdown-item">Назначить ответственного</li>`));
+    } else {
+      regularActionList.push(this.dom.$clarifyPersonInChargeAction = $(`<li class="dropdown-item">Уточнить данные ответственного</li>`));
+      regularActionList.push(this.dom.replacePersonInChargeAction  = $(`<li class="dropdown-item">Заменить ответственного</li>`));
+    }
+
+    let dangerActionList = [];
+    if (view.size !== null) {
+      dangerActionList.push(this.dom.$clearSizeAction              = $(`<li class="dropdown-item text-danger">Очистить размер</li>`));
+    }
+    if (view.geoPositionLatitude !== null || view.geoPositionLongitude !== null) {
+      dangerActionList.push(this.dom.$clearGeoPositionAction       = $(`<li class="dropdown-item text-danger">Очистить геопозицию</li>`));
+    }
+    if (view.personInChargeFullName !== null) {
+      dangerActionList.push(this.dom.$discardPersonInChargeAction  = $(`<li class="dropdown-item text-danger">Удалить ответственного</li>`));
+    }
+
+    let actionList = regularActionList;
+    if (dangerActionList.length > 0) {
+      actionList.push($(`<li><hr class="dropdown-divider"></li>`));
+      actionList.push(...dangerActionList);
+    }
+
+    return actionList;
   }
   _removeGraveSite(id) {
     this.spinner.show();
