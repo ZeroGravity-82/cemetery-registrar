@@ -75,6 +75,11 @@
     window.GRAVE_SITE_CARD_PROPS = {
       urls: {
         show                 : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
+        clarifyLocation      : `{{ path('admin_grave_site_clarify_location',         {'id': '{id}'})|url_decode }}`,
+        clarifySize          : `{{ path('admin_grave_site_clarify_size',             {'id': '{id}'})|url_decode }}`,
+        clarifyGeoPosition   : `{{ path('admin_grave_site_clarify_geo_position',     {'id': '{id}'})|url_decode }}`,
+        {#assignPersonInCharge : `{{ path('admin_grave_site_assign_person_in_charge',  {'id': '{id}'})|url_decode }}`,#}
+        {#replacePersonInCharge: `{{ path('admin_grave_site_replace_person_in_charge', {'id': '{id}'})|url_decode }}`,#}
         clearSize            : `{{ path('admin_grave_site_clear_size',               {'id': '{id}'})|url_decode }}`,
         clearGeoPosition     : `{{ path('admin_grave_site_clear_geo_position',       {'id': '{id}'})|url_decode }}`,
         discardPersonInCharge: `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,

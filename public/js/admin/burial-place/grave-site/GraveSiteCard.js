@@ -21,6 +21,11 @@ class GraveSiteCard extends Card {
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
       show                 : props.urls.show,
+      clarifyLocation      : props.urls.clarifyLocation,
+      clarifySize          : props.urls.clarifySize,
+      clarifyGeoPosition   : props.urls.clarifyGeoPosition,
+      // assignPersonInCharge : props.urls.assignPersonInCharge,
+      // replacePersonInCharge: props.urls.replacePersonInCharge,
       clearSize            : props.urls.clearSize,
       clearGeoPosition     : props.urls.clearGeoPosition,
       discardPersonInCharge: props.urls.discardPersonInCharge,
