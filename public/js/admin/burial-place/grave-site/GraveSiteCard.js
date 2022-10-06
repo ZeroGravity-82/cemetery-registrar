@@ -35,6 +35,7 @@ class GraveSiteCard {
   }
   _init() {
     this._bind();
+    this._stylize();
   }
   _bind() {
     this._handlePersonInChargeCardButtonClick = this._handlePersonInChargeCardButtonClick.bind(this);
@@ -44,7 +45,7 @@ class GraveSiteCard {
   _render() {
     this.dom.$container.empty();
     this.dom.$personInChargeCardButton = this.state.view.personInChargeFullName !== null
-      ? $(`<i class="position-absolute bi-card-heading fs-4 ms-1 card-icon" title="Карточка ответственного"></i>`)
+      ? $(`<i class="position-absolute bi-card-heading fs-4 ms-1 gsc-card-icon" title="Карточка ответственного"></i>`)
       : $();
 
     // Action list
@@ -98,7 +99,7 @@ class GraveSiteCard {
           <span>${this._composePersonInChargeFullName(this.state.view)}</span>&nbsp;</p>`).append(
             this.dom.$personInChargeCardButton))))).append(
   this.dom.$cardButtons).append($(`
-  <p class="mt-2 mb-0 text-muted timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
+  <p class="mt-2 mb-0 text-muted gsc-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
     this.modal = new Modal({
       context   : `GraveSiteCard`,
@@ -112,6 +113,21 @@ class GraveSiteCard {
   }
   _listen() {
     this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
+  }
+  _stylize() {
+    $(`head`).append(`
+<style>
+  .gsc-card-icon {
+    bottom: -5px;
+  }
+  .gsc-card-icon:hover {
+    cursor: pointer;
+  }
+  .gsc-timestamps {
+    font-size: .625rem!important;
+  }
+</style>
+    `);
   }
   _setState(state) {
     this.state = {...this.state, ...state};

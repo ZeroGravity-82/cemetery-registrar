@@ -12,15 +12,3 @@ tbody tr,
 li.dropdown-item {
     cursor: pointer;
 }
-
-.modal-body .timestamps {
-    font-size: .625rem!important;
-}
-
-/* Card.js */
-.card-icon {
-    bottom: -5px;
-}
-.card-icon:hover {
-    cursor: pointer;
-}
