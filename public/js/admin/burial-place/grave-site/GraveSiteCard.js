@@ -40,9 +40,18 @@ class GraveSiteCard extends Card {
     this._stylize();
   }
   _bind() {
-    this._handlePersonInChargeCardButtonClick = this._handlePersonInChargeCardButtonClick.bind(this);
-    this._handleRemoveButtonClick             = this._handleRemoveButtonClick.bind(this);
-    this._handleCloseButtonClick              = this._handleCloseButtonClick.bind(this);
+    this._handleClarifyLocationActionClick       = this._handleClarifyLocationActionClick.bind(this);
+    this._handleClarifySizeActionClick           = this._handleClarifySizeActionClick.bind(this);
+    this._handleClarifyGeoPositionActionClick    = this._handleClarifyGeoPositionActionClick.bind(this);
+    this._handleAssignPersonInChargeActionClick  = this._handleAssignPersonInChargeActionClick.bind(this);
+    this._handleClarifyPersonInChargeActionClick = this._handleClarifyPersonInChargeActionClick.bind(this);
+    this._handleReplacePersonInChargeActionClick = this._handleReplacePersonInChargeActionClick.bind(this);
+    this._handleClearSizeActionClick             = this._handleClearSizeActionClick.bind(this);
+    this._handleClearGeoPositionActionClick      = this._handleClearGeoPositionActionClick.bind(this);
+    this._handleDiscardPersonInChargeActionClick = this._handleDiscardPersonInChargeActionClick.bind(this);
+    this._handlePersonInChargeCardButtonClick    = this._handlePersonInChargeCardButtonClick.bind(this);
+    this._handleRemoveButtonClick                = this._handleRemoveButtonClick.bind(this);
+    this._handleCloseButtonClick                 = this._handleCloseButtonClick.bind(this);
   }
   _render() {
     this.dom.$container.empty();
@@ -91,6 +100,15 @@ class GraveSiteCard extends Card {
     this.dom.$container.append(this.dom.$element);
   }
   _listen() {
+    this.dom.$clarifyLocationAction       && this.dom.$clarifyLocationAction.off(`click`).on(`click`, this._handleClarifyLocationActionClick);
+    this.dom.$clarifySizeAction           && this.dom.$clarifySizeAction.off(`click`).on(`click`, this._handleClarifySizeActionClick);
+    this.dom.$clarifyGeoPositionAction    && this.dom.$clarifyGeoPositionAction.off(`click`).on(`click`, this._handleClarifyGeoPositionActionClick);
+    this.dom.$assignPersonInChargeAction  && this.dom.$assignPersonInChargeAction.off(`click`).on(`click`, this._handleAssignPersonInChargeActionClick);
+    this.dom.$clarifyPersonInChargeAction && this.dom.$clarifyPersonInChargeAction.off(`click`).on(`click`, this._handleClarifyPersonInChargeActionClick);
+    this.dom.$replacePersonInChargeAction && this.dom.$replacePersonInChargeAction.off(`click`).on(`click`, this._handleReplacePersonInChargeActionClick);
+    this.dom.$clearSizeAction             && this.dom.$clearSizeAction.off(`click`).on(`click`, this._handleClearSizeActionClick);
+    this.dom.$clearGeoPositionAction      && this.dom.$clearGeoPositionAction.off(`click`).on(`click`, this._handleClearGeoPositionActionClick);
+    this.dom.$discardPersonInChargeAction && this.dom.$discardPersonInChargeAction.off(`click`).on(`click`, this._handleDiscardPersonInChargeActionClick);
     this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
   }
   _stylize() {
@@ -114,9 +132,77 @@ class GraveSiteCard extends Card {
     this._render();
     this._listen();
   }
+  _handleClarifyLocationActionClick(event) {
+    // TODO
+  }
+  _handleClarifySizeActionClick(event) {
+    // TODO
+  }
+  _handleClarifyGeoPositionActionClick(event) {
+    // TODO
+  }
+  _handleAssignPersonInChargeActionClick(event) {
+    // TODO
+  }
+  _handleClarifyPersonInChargeActionClick(event) {
+    // TODO
+  }
+  _handleReplacePersonInChargeActionClick(event) {
+    // TODO
+  }
+  _handleClearSizeActionClick() {
+    Swal.fire({
+      title             : `Очистить размер для<br>"${this._composeLocation(this.state.view)}"?`,
+      icon              : `warning`,
+      iconColor         : `red`,
+      showCancelButton  : true,
+      focusCancel       : true,
+      confirmButtonText : `Да, очистить`,
+      confirmButtonColor: `red`,
+      cancelButtonText  : `Нет`,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        this._clearGraveSiteData(this.state.view.id, this.urls.clearSize, `Размер участка успешно очищен.`);
+      }
+    })
+  }
+  _handleClearGeoPositionActionClick() {
+    Swal.fire({
+      title             : `Очистить геопозицию для<br>"${this._composeLocation(this.state.view)}"?`,
+      icon              : `warning`,
+      iconColor         : `red`,
+      showCancelButton  : true,
+      focusCancel       : true,
+      confirmButtonText : `Да, очистить`,
+      confirmButtonColor: `red`,
+      cancelButtonText  : `Нет`,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        this._clearGraveSiteData(this.state.view.id, this.urls.clearGeoPosition, `Геопозиция участка успешно очищена.`);
+      }
+    })
+  }
+  _handleDiscardPersonInChargeActionClick() {
+    Swal.fire({
+      title             : `Удалить ответственного для<br>"${this._composeLocation(this.state.view)}"?`,
+      icon              : `warning`,
+      iconColor         : `red`,
+      showCancelButton  : true,
+      focusCancel       : true,
+      confirmButtonText : `Да, удалить`,
+      confirmButtonColor: `red`,
+      cancelButtonText  : `Нет`,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        this._clearGraveSiteData(this.state.view.id, this.urls.discardPersonInCharge, `Ответственный успешно удалён.`);
+      }
+    })
+  }
   _handlePersonInChargeCardButtonClick(event) {
-    // TODO open natural person card
-    console.log(`open natural person card...`);
+    // TODO
   }
   _handleRemoveButtonClick() {
     Swal.fire({
@@ -180,7 +266,7 @@ class GraveSiteCard extends Card {
       regularActionList.push(this.dom.$assignPersonInChargeAction  = $(`<li class="dropdown-item">Назначить ответственного</li>`));
     } else {
       regularActionList.push(this.dom.$clarifyPersonInChargeAction = $(`<li class="dropdown-item">Уточнить данные ответственного</li>`));
-      regularActionList.push(this.dom.replacePersonInChargeAction  = $(`<li class="dropdown-item">Заменить ответственного</li>`));
+      regularActionList.push(this.dom.$replacePersonInChargeAction = $(`<li class="dropdown-item">Заменить ответственного</li>`));
     }
 
     let dangerActionList = [];
@@ -223,6 +309,27 @@ class GraveSiteCard extends Card {
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
+  }
+  _clearGraveSiteData(id, url, message) {
+    this.spinner.show();
+    const data = {
+      csrfToken: this.state.csrfToken,
+    };
+    $.ajax({
+    dataType: `json`,
+    method  : `patch`,
+    url     : url.replace(`{id}`, id),
+    data    : JSON.stringify(data),
+  })
+  .done(() => {
+    this.toast.fire({
+      icon: `success`,
+      title: message,
+    });
+    this.show(id);
+  })
+  .fail(this.appServiceFailureHandler.onFailure)
+  .always(() => this.spinner.hide());
   }
   show(id) {
     this.spinner.show();
