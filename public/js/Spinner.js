@@ -9,6 +9,7 @@ class Spinner {
   }
   _init() {
     this._render();
+    this._stylize();
   }
   _render() {
     this.dom.$container.empty();
@@ -18,6 +19,24 @@ class Spinner {
 </div>
     `);
     this.dom.$container.append(this.dom.$element);
+  }
+  _stylize() {
+    $(`head`).append($(`
+<style>
+  .spinner-wrapper {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    text-align: center;
+    padding-top: 50vh;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1100;
+  }
+</style>
+    `));
   }
   getElement() {
     return this.dom.$element;
