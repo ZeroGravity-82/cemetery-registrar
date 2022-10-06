@@ -3,11 +3,13 @@
 // import {$,jQuery} from `jquery`;
 // import Swal from `sweetalert2`;
 // import `Modal.js`;
+// import `Card.js`;
 // import `CardButtons.js`;
 // import `AppServiceFailureHandler.js`;
 
-class GraveSiteCard {
+class GraveSiteCard extends Card {
   constructor($container, spinner, props) {
+    super();
     this.dom = {
       $container: $container,
     };
@@ -115,6 +117,7 @@ class GraveSiteCard {
     this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
   }
   _stylize() {
+    super._stylize();
     $(`head`).append(`
 <style>
   .gsc-card-icon {
