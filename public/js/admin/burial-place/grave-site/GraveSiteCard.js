@@ -335,7 +335,7 @@ class GraveSiteCard extends Card {
   .fail(this.appServiceFailureHandler.onFailure)
   .always(() => this.spinner.hide());
   }
-  show(id) {
+  _loadView(id, callback) {
     this.spinner.show();
     $.ajax({
       dataType: `json`,
@@ -343,13 +343,18 @@ class GraveSiteCard extends Card {
       url     : this.urls.show.replace(`{id}`, id),
     })
     .done((responseJson) => {
+      callback(responseJson);
+    })
+    .fail(this.appServiceFailureHandler.onFailure)
+    .always(() => this.spinner.hide());
+  }
+  show(id) {
+    this._loadView(id, (responseJson) => {
       this._setState({
         view: responseJson.data.view,
       });
       this.modal.getObject().show();
-    })
-    .fail(this.appServiceFailureHandler.onFailure)
-    .always(() => this.spinner.hide());
+    });
   }
   hide() {
     if (this.modal === null) {
