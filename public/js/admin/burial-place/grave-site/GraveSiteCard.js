@@ -15,8 +15,7 @@ class GraveSiteCard extends Card {
     };
     this.spinner = spinner;
     this.state   = {
-      view     : null,
-      csrfToken: null,
+      view: null,
     };
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
@@ -31,6 +30,7 @@ class GraveSiteCard extends Card {
       discardPersonInCharge: props.urls.discardPersonInCharge,
       remove               : props.urls.remove,
     };
+    this.csrfToken                = props.csrfToken;
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
     }, {
@@ -296,7 +296,7 @@ class GraveSiteCard extends Card {
   _removeGraveSite(id) {
     this.spinner.show();
     const data = {
-      csrfToken: this.state.csrfToken,
+      csrfToken: this.csrfToken,
     };
     $.ajax({
       dataType: `json`,
@@ -318,7 +318,7 @@ class GraveSiteCard extends Card {
   _clearGraveSiteData(id, url, message) {
     this.spinner.show();
     const data = {
-      csrfToken: this.state.csrfToken,
+      csrfToken: this.csrfToken,
     };
     $.ajax({
     dataType: `json`,
@@ -345,8 +345,7 @@ class GraveSiteCard extends Card {
     })
     .done((responseJson) => {
       this._setState({
-        view     : responseJson.data.view,
-        csrfToken: responseJson.data.csrfToken,
+        view: responseJson.data.view,
       });
       this.modal.getObject().show();
     })

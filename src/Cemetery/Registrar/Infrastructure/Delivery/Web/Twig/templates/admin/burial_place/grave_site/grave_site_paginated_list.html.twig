@@ -85,6 +85,7 @@
         discardPersonInCharge: `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,
         remove               : `{{ path('admin_grave_site_remove',                   {'id': '{id}'})|url_decode }}`,
       },
+      csrfToken: `{{ csrf_token('grave_site') }}`,
       swalOptions: swalOptions,
     };
   </script>
