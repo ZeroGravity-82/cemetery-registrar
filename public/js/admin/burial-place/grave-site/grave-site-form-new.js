@@ -65,7 +65,6 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
     if (value === ``) {
       this.clearOptions(true);
     }
-    console.log(value);
   },
   render: {
     option: (item, escape) =>

@@ -36,7 +36,6 @@ class GraveSiteCard extends Card {
     }, {
       onValidationErrors: this._displayValidationErrors,
     });
-    this.toast = Swal.mixin(props.swalOptions);
     this.modal = null;
     this._init();
   }
