@@ -305,7 +305,7 @@ class GraveSiteCard extends Card {
     })
     .done(() => {
       this.toast.fire({
-        icon: `success`,
+        icon : `success`,
         title: `Участок успешно удалён.`,
       });
       this.hide();
@@ -327,7 +327,7 @@ class GraveSiteCard extends Card {
   })
   .done(() => {
     this.toast.fire({
-      icon: `success`,
+      icon : `success`,
       title: message,
     });
     this.show(id);
