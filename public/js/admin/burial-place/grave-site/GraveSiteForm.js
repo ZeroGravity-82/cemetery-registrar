@@ -89,35 +89,56 @@ class GraveSiteForm extends Form {
     this.dom.$element = this.modal.getElement();
     this.dom.$container.append(this.dom.$element);
   }
-  _renderFormRow(firstColSpan, secondColSpan, id, label, $control) {
-    return $(`
-    
-    `);
-  }
-  _renderFormRowForLocation(cemeteryBlockId = null, rowInBlock = null, positionInRow = null) {
-
-  }
-  _renderFormRowForSize(size = null) {
-
-  }
-  _renderFormRowForGeoPosition(geoPositionLatitude = null, geoPositionLongitude = null) {
-    const geoPosition = view.geoPositionLatitude !== null && view.geoPositionLongitude !== null
-      ? `${view.geoPositionLatitude}, ${view.geoPositionLongitude}`
-      : null;
-
-  }
-  _renderFormRowForPersonInCharge(personInChargeId = null) {
-
-  }
   _renderNew() {
     this.dom.$form = $(`
 <form></form>`).append($(`
   <div class="container"></div>`).append(
-    this._renderFormRowForLocation()).append(
+    this._renderFormRowForCemeteryBlock()).append(
+    this._renderFormRowForRowInBlock()).append(
+    this._renderFormRowForPositionInRow()).append(
     this._renderFormRowForSize()).append(
     this._renderFormRowForGeoPosition()).append(
     this._renderFormRowForPersonInCharge())).append(
   this.dom.$formButtons);
+  }
+  _renderFormRowForCemeteryBlock() {
+    return $(`
+<div class="row">
+  <div class="col-md-3 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
+  <div class="col-md-9">
+    <select class="form-select form-select-sm"
+            id="cemeteryBlockId" name="cemeteryBlockId"
+            aria-describedby="cemeteryBlockIdFeedback"
+            aria-label="Квартал">
+      <option selected>
+<!--      {% for listItem in cemeteryBlockList.items %}-->
+<!--        <option value="{{ listItem.id }}">-->
+<!--          {{- listItem.name -}}-->
+<!--        </option>-->
+<!--      {% endfor %}-->
+    </select>
+    <div id="cemeteryBlockIdFeedback" class="invalid-feedback d-none"></div>
+  </div>
+</div>
+    `);
+  }
+  _renderFormRowForRowInBlock() {
+
+  }
+  _renderFormRowForPositionInRow() {
+
+  }
+  _renderFormRowForSize() {
+
+  }
+  _renderFormRowForGeoPosition() {
+    const geoPosition = this.state.view.geoPositionLatitude !== null && this.state.view.geoPositionLongitude !== null
+        ? `${this.state.view.geoPositionLatitude}, ${this.state.view.geoPositionLongitude}`
+        : null;
+
+  }
+  _renderFormRowForPersonInCharge() {
+
   }
   _renderClarifyLocation() {
     this.dom.$form = $(`
@@ -180,8 +201,10 @@ class GraveSiteForm extends Form {
     this.modal.getObject().hide();
     location.reload();            // TODO refactor not to reload entire page
   }
-  _displayValidationErrors(data) {
-
+  _displayValidationErrors(validationErrors) {
+    this._setState({
+      validationErrors: validationErrors,
+    })
   }
   _loadView(id, callback) {
     this.spinner.show();

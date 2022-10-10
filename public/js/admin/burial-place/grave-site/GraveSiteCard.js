@@ -9,30 +9,14 @@
 
 class GraveSiteCard extends Card {
   constructor($container, spinner, props) {
-    super();
-    this.dom = {
-      $container: $container,
-      $card     : null,
-    };
-    this.spinner = spinner;
-    this.state   = {
-      view: null,
-    };
-    this.toast = Swal.mixin(props.swalOptions);
-    this.urls  = {
+    super($container, spinner, props);
+    this.urls = {
       show                 : props.urls.show,
       clearSize            : props.urls.clearSize,
       clearGeoPosition     : props.urls.clearGeoPosition,
       discardPersonInCharge: props.urls.discardPersonInCharge,
       remove               : props.urls.remove,
     };
-    this.csrfToken                = props.csrfToken;
-    this.appServiceFailureHandler = new AppServiceFailureHandler({
-      swalOptions: props.swalOptions,
-    }, {
-      onValidationErrors: this._displayValidationErrors,
-    });
-    this.modal = null;
     this._init();
   }
   _init() {
@@ -40,6 +24,7 @@ class GraveSiteCard extends Card {
     this._stylize();
   }
   _bind() {
+    super._bind();
     this._handleClarifyLocationActionClick       = this._handleClarifyLocationActionClick.bind(this);
     this._handleClarifySizeActionClick           = this._handleClarifySizeActionClick.bind(this);
     this._handleClarifyGeoPositionActionClick    = this._handleClarifyGeoPositionActionClick.bind(this);
@@ -49,9 +34,8 @@ class GraveSiteCard extends Card {
     this._handleClearSizeActionClick             = this._handleClearSizeActionClick.bind(this);
     this._handleClearGeoPositionActionClick      = this._handleClearGeoPositionActionClick.bind(this);
     this._handleDiscardPersonInChargeActionClick = this._handleDiscardPersonInChargeActionClick.bind(this);
-    this._handlePersonInChargeCardIconClick    = this._handlePersonInChargeCardIconClick.bind(this);
+    this._handlePersonInChargeCardIconClick      = this._handlePersonInChargeCardIconClick.bind(this);
     this._handleRemoveButtonClick                = this._handleRemoveButtonClick.bind(this);
-    this._handleCloseButtonClick                 = this._handleCloseButtonClick.bind(this);
   }
   _render() {
     this.dom.$container.empty();
@@ -124,11 +108,6 @@ class GraveSiteCard extends Card {
   }
 </style>
     `);
-  }
-  _setState(state) {
-    this.state = {...this.state, ...state};
-    this._render();
-    this._listen();
   }
   _handleClarifyLocationActionClick(event) {
     // TODO
@@ -219,20 +198,8 @@ class GraveSiteCard extends Card {
       }
     })
   }
-  _handleCloseButtonClick() {
-    this.modal.getObject().hide();
-    location.reload();            // TODO refactor not to reload entire page
-  }
-  _displayValidationErrors(data) {
-    for (const [fieldId, validationError] of Object.entries(data)) {
-      this.toast.fire({
-        icon : `error`,
-        title: validationError,
-      });
-    }
-  }
   static composeGraveSiteTitle(view) {
-    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;;
+    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
     if (view.positionInRow !== null) {
       title += `, место ${view.positionInRow}`;
     }
@@ -331,32 +298,5 @@ class GraveSiteCard extends Card {
   })
   .fail(this.appServiceFailureHandler.onFailure)
   .always(() => this.spinner.hide());
-  }
-  _loadView(id, callback) {
-    this.spinner.show();
-    $.ajax({
-      dataType: `json`,
-      method  : `get`,
-      url     : this.urls.show.replace(`{id}`, id),
-    })
-    .done((responseJson) => {
-      callback(responseJson);
-    })
-    .fail(this.appServiceFailureHandler.onFailure)
-    .always(() => this.spinner.hide());
-  }
-  show(id) {
-    this._loadView(id, (responseJson) => {
-      this._setState({
-        view: responseJson.data.view,
-      });
-      this.modal.getObject().show();
-    });
-  }
-  hide() {
-    if (this.modal === null) {
-      return;
-    }
-    this.modal.getObject().show();
   }
 }
