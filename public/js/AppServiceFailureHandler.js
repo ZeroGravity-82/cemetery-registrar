@@ -6,6 +6,13 @@ class AppServiceFailureHandler {
   constructor(props, handlers) {
     this.toast               = Swal.mixin(props.swalOptions);
     this._onValidationErrors = handlers.onValidationErrors;
+    this._init();
+  }
+  _init() {
+    this._bind();
+  }
+  _bind() {
+    this.onFailure = this.onFailure.bind(this);
   }
   onFailure(jqXHR) {
     if (jqXHR.responseText === undefined) {
