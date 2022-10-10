@@ -12,6 +12,7 @@ class GraveSiteCard extends Card {
     super();
     this.dom = {
       $container: $container,
+      $card     : null,
     };
     this.spinner = spinner;
     this.state   = {
@@ -20,11 +21,6 @@ class GraveSiteCard extends Card {
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
       show                 : props.urls.show,
-      clarifyLocation      : props.urls.clarifyLocation,
-      clarifySize          : props.urls.clarifySize,
-      clarifyGeoPosition   : props.urls.clarifyGeoPosition,
-      // assignPersonInCharge : props.urls.assignPersonInCharge,
-      // replacePersonInCharge: props.urls.replacePersonInCharge,
       clearSize            : props.urls.clearSize,
       clearGeoPosition     : props.urls.clearGeoPosition,
       discardPersonInCharge: props.urls.discardPersonInCharge,
@@ -53,17 +49,16 @@ class GraveSiteCard extends Card {
     this._handleClearSizeActionClick             = this._handleClearSizeActionClick.bind(this);
     this._handleClearGeoPositionActionClick      = this._handleClearGeoPositionActionClick.bind(this);
     this._handleDiscardPersonInChargeActionClick = this._handleDiscardPersonInChargeActionClick.bind(this);
-    this._handlePersonInChargeCardButtonClick    = this._handlePersonInChargeCardButtonClick.bind(this);
+    this._handlePersonInChargeCardIconClick    = this._handlePersonInChargeCardIconClick.bind(this);
     this._handleRemoveButtonClick                = this._handleRemoveButtonClick.bind(this);
     this._handleCloseButtonClick                 = this._handleCloseButtonClick.bind(this);
   }
   _render() {
     this.dom.$container.empty();
-    this.dom.$personInChargeCardButton = this.state.view.personInChargeFullName !== null
+    this.dom.$personInChargeCardIcon = this.state.view.personInChargeFullName !== null
       ? $(`<i class="position-absolute bi-card-heading fs-4 ms-1 gsc-card-icon" title="Карточка ответственного"></i>`)
       : $();
 
-    // Card buttons
     this.dom.$cardButtons = (new CardButtons({
       actionList: this._buildActionList(this.state.view),
     }, {
@@ -71,7 +66,6 @@ class GraveSiteCard extends Card {
       onCloseButtonClick : this._handleCloseButtonClick,
     })).getElement();
 
-    // Card
     this.dom.$card = $(`
 <div class="card border border-0"></div>`).append($(`
   <div class="card-body"></div>`).append($(`
@@ -89,7 +83,7 @@ class GraveSiteCard extends Card {
       <div class="col-sm-9 px-0"></div>`).append($(`
         <p class="position-relative">
           <span>${this._composePersonInChargeFullName(this.state.view)}</span>&nbsp;</p>`).append(
-            this.dom.$personInChargeCardButton))))).append(
+            this.dom.$personInChargeCardIcon))))).append(
   this.dom.$cardButtons).append($(`
   <p class="mt-2 mb-0 text-muted gsc-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
@@ -104,7 +98,7 @@ class GraveSiteCard extends Card {
     this.dom.$container.append(this.dom.$element);
   }
   _listen() {
-    this.dom.$clarifyLocationAction       && this.dom.$clarifyLocationAction.off(`click`).on(`click`, this._handleClarifyLocationActionClick);
+    this.dom.$clarifyLocationAction.off(`click`).on(`click`, this._handleClarifyLocationActionClick);
     this.dom.$clarifySizeAction           && this.dom.$clarifySizeAction.off(`click`).on(`click`, this._handleClarifySizeActionClick);
     this.dom.$clarifyGeoPositionAction    && this.dom.$clarifyGeoPositionAction.off(`click`).on(`click`, this._handleClarifyGeoPositionActionClick);
     this.dom.$assignPersonInChargeAction  && this.dom.$assignPersonInChargeAction.off(`click`).on(`click`, this._handleAssignPersonInChargeActionClick);
@@ -113,7 +107,7 @@ class GraveSiteCard extends Card {
     this.dom.$clearSizeAction             && this.dom.$clearSizeAction.off(`click`).on(`click`, this._handleClearSizeActionClick);
     this.dom.$clearGeoPositionAction      && this.dom.$clearGeoPositionAction.off(`click`).on(`click`, this._handleClearGeoPositionActionClick);
     this.dom.$discardPersonInChargeAction && this.dom.$discardPersonInChargeAction.off(`click`).on(`click`, this._handleDiscardPersonInChargeActionClick);
-    this.dom.$personInChargeCardButton.off(`click`).on(`click`, this._handlePersonInChargeCardButtonClick);
+    this.dom.$personInChargeCardIcon.off(`click`).on(`click`, this._handlePersonInChargeCardIconClick);
   }
   _stylize() {
     super._stylize();
@@ -205,7 +199,7 @@ class GraveSiteCard extends Card {
       }
     })
   }
-  _handlePersonInChargeCardButtonClick(event) {
+  _handlePersonInChargeCardIconClick(event) {
     // TODO
   }
   _handleRemoveButtonClick() {
@@ -237,13 +231,16 @@ class GraveSiteCard extends Card {
       });
     }
   }
-  _composeLocation(view) {
-    let location = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;;
+  static composeGraveSiteTitle(view) {
+    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;;
     if (view.positionInRow !== null) {
-      location += `, место ${view.positionInRow}`;
+      title += `, место ${view.positionInRow}`;
     }
 
-    return location;
+    return title;
+  }
+  _composeLocation(view) {
+    return GraveSiteCard.composeGraveSiteTitle(view);
   }
   _composeSize(view) {
     return view.size !== null ? `${view.size} м²` : `-`;

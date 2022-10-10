@@ -1,10 +1,15 @@
 `use strict`;
 
-const $container    = $(`.grave-site-card-container`);
-const graveSiteCard = new GraveSiteCard(
-    $container,
-    spinner,
-    window.GRAVE_SITE_CARD_PROPS,
+const $modalContainer = $(`.grave-site-modal-container`);
+const graveSiteCard   = new GraveSiteCard(
+  $modalContainer,
+  spinner,
+  window.GRAVE_SITE_PROPS,
+);
+const graveSiteForm = new GraveSiteForm(
+  $modalContainer,
+  spinner,
+  window.GRAVE_SITE_PROPS,
 );
 
 const $tableGraveSite     = $(`#graveSiteList`);

@@ -56,7 +56,7 @@
 
   {% include 'admin/burial_place/grave_site/_form_new_cemetery_block.html.twig' with {'context': 'CemeteryBlockFormNew'} %}
   {% include 'admin/burial_place/grave_site/_form_new_grave_site.html.twig' with {'context': 'GraveSiteFormNew'} %}
-  <div class="grave-site-card-container"></div>
+  <div class="grave-site-modal-container"></div>
 
   {% include 'admin/burial_place/grave_site/_form_grave_site_location_clarify.html.twig' with {'context': 'GraveSiteFormClarifyLocation'} %}
   {% include 'admin/burial_place/grave_site/_form_grave_site_size_clarify.html.twig' with {'context': 'GraveSiteFormClarifySize'} %}
@@ -68,24 +68,28 @@
 {% block javascripts %}
   {{ parent() }}
 
+  <script src="/js/Form.js"></script>
   <script src="/js/Card.js"></script>
+  <script src="/js/admin/burial-place/grave-site/GraveSiteForm.js"></script>
   <script src="/js/admin/burial-place/grave-site/GraveSiteCard.js"></script>
 
   <script>
-    window.GRAVE_SITE_CARD_PROPS = {
+    window.GRAVE_SITE_PROPS = {
       urls: {
-        show                 : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
-        clarifyLocation      : `{{ path('admin_grave_site_clarify_location',         {'id': '{id}'})|url_decode }}`,
-        clarifySize          : `{{ path('admin_grave_site_clarify_size',             {'id': '{id}'})|url_decode }}`,
-        clarifyGeoPosition   : `{{ path('admin_grave_site_clarify_geo_position',     {'id': '{id}'})|url_decode }}`,
-        {#assignPersonInCharge : `{{ path('admin_grave_site_assign_person_in_charge',  {'id': '{id}'})|url_decode }}`,#}
-        {#replacePersonInCharge: `{{ path('admin_grave_site_replace_person_in_charge', {'id': '{id}'})|url_decode }}`,#}
-        clearSize            : `{{ path('admin_grave_site_clear_size',               {'id': '{id}'})|url_decode }}`,
-        clearGeoPosition     : `{{ path('admin_grave_site_clear_geo_position',       {'id': '{id}'})|url_decode }}`,
-        discardPersonInCharge: `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,
-        remove               : `{{ path('admin_grave_site_remove',                   {'id': '{id}'})|url_decode }}`,
+        create                : `{{ path('admin_grave_site_create',                   {'id': '{id}'})|url_decode }}`,
+        show                  : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
+        clarifyLocation       : `{{ path('admin_grave_site_clarify_location',         {'id': '{id}'})|url_decode }}`,
+        clarifySize           : `{{ path('admin_grave_site_clarify_size',             {'id': '{id}'})|url_decode }}`,
+        clarifyGeoPosition    : `{{ path('admin_grave_site_clarify_geo_position',     {'id': '{id}'})|url_decode }}`,
+        {#assignPersonInCharge  : `{{ path('admin_grave_site_assign_person_in_charge',  {'id': '{id}'})|url_decode }}`,#}
+        replacePersonInCharge : `{{ path('admin_grave_site_replace_person_in_charge', {'id': '{id}'})|url_decode }}`,
+        clearSize             : `{{ path('admin_grave_site_clear_size',               {'id': '{id}'})|url_decode }}`,
+        clearGeoPosition      : `{{ path('admin_grave_site_clear_geo_position',       {'id': '{id}'})|url_decode }}`,
+        discardPersonInCharge : `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,
+        remove                : `{{ path('admin_grave_site_remove',                   {'id': '{id}'})|url_decode }}`,
+        naturalPersonListAlive: `{{ path('natural_person_list_alive')|url_decode }}`,
       },
-      csrfToken: `{{ csrf_token('grave_site') }}`,
+      csrfToken  : `{{ csrf_token('grave_site') }}`,
       swalOptions: swalOptions,
     };
   </script>
