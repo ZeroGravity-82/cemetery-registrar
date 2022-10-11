@@ -20,22 +20,19 @@ class CardButtons {
     this._handleCloseButtonClick  = this._handleCloseButtonClick.bind(this);
   }
   _render() {
-
     this.dom.$removeButton = $(`
 <button type="button" class="btn btn-danger btn-sm justify-content-md-start" aria-label="Удалить запись">Удалить запись</button>
     `);
-
     this.dom.$closeButton = $(`
 <button type="button" class="btn btn-secondary btn-sm" aria-label="Закрыть">Закрыть</button>
     `);
-
     this.dom.$element = $(`
 <div class="container"></div>`).append($(`
-  <div class="row pt-3 text-end">`).append($(`
-    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end">`).append($(`
-      <div class="order-3 order-sm-1">`).append(
+  <div class="row pt-3 text-end"></div>`).append($(`
+    <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end"></div>`).append($(`
+      <div class="order-3 order-sm-1"></div>`).append(
         this.dom.$removeButton)).append($(`
-      <div class="order-2 order-sm-2 btn-group">`).append($(`
+      <div class="order-2 order-sm-2 btn-group"></div>`).append($(`
         <button type="button"
                 class="btn btn-warning btn-sm dropdown-toggle"
                 data-bs-toggle="dropdown"
@@ -43,7 +40,7 @@ class CardButtons {
                 aria-label="Действие">Действие</button>`)).append($(`
         <ul class="dropdown-menu px-3 col-xs-12" style="white-space: nowrap"></ul>`).append(
           this.dom.actionList))).append($(`
-      <div class="order-1 order-sm-3">`).append(
+      <div class="order-1 order-sm-3"></div>`).append(
         this.dom.$closeButton))));
   }
   _listen() {

@@ -15,8 +15,9 @@ class GraveSiteForm extends Form {
     };
     this.spinner = spinner;
     this.state   = {
-      view    : null,
-      formType: null,
+      view            : null,
+      formType        : null,
+      validationErrors: {},
     }
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
@@ -40,16 +41,22 @@ class GraveSiteForm extends Form {
     this._bind();
   }
   _bind() {
-    // TODO add bindings
-    this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
+    this._handleSaveAndCloseButtonClick    = this._handleSaveAndCloseButtonClick.bind(this);
+    this._handleSaveAndGotoCardButtonClick = this._handleSaveAndGotoCardButtonClick.bind(this);
+    this._handleCloseButtonClick           = this._handleCloseButtonClick.bind(this);
   }
   _render() {
     this.dom.$container.empty();
 
-    this.dom.$formButtons = null;
+    this.dom.$formButtons = (new FormButtons({
+    }, {
+      onSaveAndCloseButtonClick   : this._handleSaveAndCloseButtonClick,
+      onSaveAndGotoCardButtonClick: this._handleSaveAndGotoCardButtonClick,
+      onCloseButtonClick          : this._handleCloseButtonClick,
+    })).getElement();
 
     let modalTitle       = null;
-    const graveSiteTitle = GraveSiteCard.composeGraveSiteTitle(this.state.view);
+    const graveSiteTitle = this.state.view !== null ? GraveSiteCard.composeGraveSiteTitle(this.state.view) : null;
     switch (this.state.formType) {
       case `NEW`:
         modalTitle = `Создание участка`;
@@ -117,34 +124,95 @@ class GraveSiteForm extends Form {
 <!--        </option>-->
 <!--      {% endfor %}-->
     </select>
-    <div id="cemeteryBlockIdFeedback" class="invalid-feedback d-none"></div>
+    <div id="cemeteryBlockIdFeedback" class="invalid-feedback ${!this.state.validationErrors.cemeteryBlockId ? `d-none` : ``}">
+      ${this.state.validationErrors.cemeteryBlockId ?? ``}
+    </div>
   </div>
 </div>
     `);
   }
   _renderFormRowForRowInBlock() {
-
+    return $(`
+<div class="row">
+  <div class="col-md-3"><label for="rowInBlock" class="form-label">Ряд</label></div>
+  <div class="col-md-9">
+    <input type="number" min="1" class="form-control form-control-sm"
+           id="rowInBlock" name="rowInBlock"
+           aria-describedby="rowInBlockFeedback"
+           aria-label="Ряд"
+           value="${this.state.view ? this.state.view.rowInBlock : ``}">
+    <div id="rowInBlockFeedback" class="invalid-feedback ${!this.state.validationErrors.rowInBlock ? `d-none` : ``}">
+      ${this.state.validationErrors.rowInBlock ?? ``}
+    </div>
+  </div>
+</div>
+    `);
   }
   _renderFormRowForPositionInRow() {
-
+    return $(`
+<div class="row">
+  <div class="col-md-3"><label for="positionInRow" class="form-label">Место</label></div>
+  <div class="col-md-9">
+    <input type="number" min="1" class="form-control form-control-sm"
+           id="positionInRow" name="positionInRow"
+           aria-describedby="positionInRowFeedback"
+           aria-label="Место"
+           value="${this.state.view ? this.state.view.positionInRow : ``}">
+    <div id="positionInRowFeedback" class="invalid-feedback ${!this.state.validationErrors.positionInRow ? `d-none` : ``}">
+      ${this.state.validationErrors.positionInRow ?? ``}
+    </div>
+  </div>
+</div>
+    `);
   }
   _renderFormRowForSize() {
-
+    return $(`
+<div class="row">
+  <div class="col-md-3"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>
+  <div class="col-md-9">
+    <input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
+           id="size" name="size"
+           aria-describedby="sizeFeedback"
+           aria-label="Размер"
+           value="${this.state.view ? this.state.view.size : ``}">
+    <div id="sizeFeedback" class="invalid-feedback ${!this.state.validationErrors.size ? `d-none` : ``}">
+      ${this.state.validationErrors.size ?? ``}
+    </div>
+  </div>
+</div>
+    `);
   }
   _renderFormRowForGeoPosition() {
-    const geoPosition = this.state.view.geoPositionLatitude !== null && this.state.view.geoPositionLongitude !== null
+    const geoPosition = this.state.view && this.state.view.geoPositionLatitude !== null && this.state.view.geoPositionLongitude !== null
         ? `${this.state.view.geoPositionLatitude}, ${this.state.view.geoPositionLongitude}`
         : null;
 
+    return $(`
+<div class="row">
+  <div class="col-md-3"><label for="geoPosition" class="form-label">Геопозиция</label></div>
+  <div class="col-md-9">
+    <input type="text" class="form-control form-control-sm"
+           id="geoPosition" name="geoPosition"
+           aria-describedby="geoPositionFeedback"
+           aria-label="Геопозиция"
+           value="${geoPosition ?? ``}">
+    <div id="sizeFeedback" class="invalid-feedback ${this.state.validationErrors.geoPosition ? `d-none` : ``}">
+      ${this.state.validationErrors.geoPosition ?? ``}
+    </div>
+  </div>
+</div>
+    `);
   }
   _renderFormRowForPersonInCharge() {
-
+    return null;
   }
   _renderClarifyLocation() {
     this.dom.$form = $(`
 <form></form>`).append($(`
   <div class="container"></div>`).append(
-    this._renderFormRowForLocation(this.state.view.cemeteryBlockId, this.state.view.rowInBlock, this.state.view.positionInRow))).append(
+    this._renderFormRowForCemeteryBlock(this.state.view.cemeteryBlockId)).append(
+    this._renderFormRowForRowInBlock(this.state.view.rowInBlock)).append(
+    this._renderFormRowForPositionInRow(this.state.view.positionInRow))).append(
     this.dom.$formButtons);
   }
   _renderClarifySize() {
@@ -196,6 +264,12 @@ class GraveSiteForm extends Form {
     this.state = {...this.state, ...state};
     this._render();
     this._listen();
+  }
+  _handleSaveAndCloseButtonClick() {
+    // TODO
+  }
+  _handleSaveAndGotoCardButtonClick() {
+    // TODO
   }
   _handleCloseButtonClick() {
     this.modal.getObject().hide();

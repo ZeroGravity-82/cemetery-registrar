@@ -11,6 +11,7 @@ const graveSiteForm = new GraveSiteForm(
   spinner,
   window.GRAVE_SITE_PROPS,
 );
+graveSiteForm.show(`NEW`);
 
 const $tableGraveSite     = $(`#graveSiteList`);
 // const $createGraveSiteBtn = $(`.js-create-grave-site-btn`);
