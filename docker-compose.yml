@@ -27,8 +27,8 @@ services:
     volumes:
       - .:/app
       - composer:/root/.composer/cache
-    ports:
-      - '9003:9003'
+    profiles:
+      - 'cli-tools'        # the profile is needed in order not to start this service with "docker compose up" command
     environment:
       APP_DEBUG: 1
       PHP_IDE_CONFIG: 'serverName=Docker'
