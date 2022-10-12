@@ -110,9 +110,9 @@ class GraveSiteForm extends Form {
   }
   _renderFormRowForCemeteryBlock() {
     return $(`
-<div class="row">
-  <div class="col-md-3 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
-  <div class="col-md-9">
+<div class="row pb-2">
+  <div class="col-md-3 px-0 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
+  <div class="col-md-9 px-0">
     <select class="form-select form-select-sm"
             id="cemeteryBlockId" name="cemeteryBlockId"
             aria-describedby="cemeteryBlockIdFeedback"
@@ -133,9 +133,9 @@ class GraveSiteForm extends Form {
   }
   _renderFormRowForRowInBlock() {
     return $(`
-<div class="row">
-  <div class="col-md-3"><label for="rowInBlock" class="form-label">Ряд</label></div>
-  <div class="col-md-9">
+<div class="row pb-2">
+  <div class="col-md-3 px-0"><label for="rowInBlock" class="form-label">Ряд</label></div>
+  <div class="col-md-9 px-0">
     <input type="number" min="1" class="form-control form-control-sm"
            id="rowInBlock" name="rowInBlock"
            aria-describedby="rowInBlockFeedback"
@@ -150,9 +150,9 @@ class GraveSiteForm extends Form {
   }
   _renderFormRowForPositionInRow() {
     return $(`
-<div class="row">
-  <div class="col-md-3"><label for="positionInRow" class="form-label">Место</label></div>
-  <div class="col-md-9">
+<div class="row pb-2">
+  <div class="col-md-3 px-0"><label for="positionInRow" class="form-label">Место</label></div>
+  <div class="col-md-9 px-0">
     <input type="number" min="1" class="form-control form-control-sm"
            id="positionInRow" name="positionInRow"
            aria-describedby="positionInRowFeedback"
@@ -167,9 +167,9 @@ class GraveSiteForm extends Form {
   }
   _renderFormRowForSize() {
     return $(`
-<div class="row">
-  <div class="col-md-3"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>
-  <div class="col-md-9">
+<div class="row pb-2">
+  <div class="col-md-3 px-0"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>
+  <div class="col-md-9 px-0">
     <input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
            id="size" name="size"
            aria-describedby="sizeFeedback"
@@ -188,9 +188,9 @@ class GraveSiteForm extends Form {
         : null;
 
     return $(`
-<div class="row">
-  <div class="col-md-3"><label for="geoPosition" class="form-label">Геопозиция</label></div>
-  <div class="col-md-9">
+<div class="row pb-2">
+  <div class="col-md-3 px-0"><label for="geoPosition" class="form-label">Геопозиция</label></div>
+  <div class="col-md-9 px-0">
     <input type="text" class="form-control form-control-sm"
            id="geoPosition" name="geoPosition"
            aria-describedby="geoPositionFeedback"
@@ -236,14 +236,14 @@ class GraveSiteForm extends Form {
     this.dom.$form = $(`
 <form>
   <div class="container">
-    <div class="row">
+    <div class="row pb-2">
       <div class="col-md-3 px-0"><strong>Текущий ответственный:</strong></div>
       <div class="col-md-9 px-0"><p class="js-person-in-charge-current"></p>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-3"><label for="personInChargeNew" class="form-label">Новый ответственный</label></div>
-      <div class="col-md-9">
+    <div class="row pb-2">
+      <div class="col-md-3 px-0"><label for="personInChargeNew" class="form-label">Новый ответственный</label></div>
+      <div class="col-md-9 px-0">
         <select
             id="personInChargeNew" name="personInChargeNew"
             aria-describedby="personInChargeNewFeedback"

@@ -21,10 +21,10 @@ class FormButtons {
   }
   _render() {
     this.dom.$saveAndCloseButton = $(`
-<button type="button" class="btn warning btn-sm" aria-label="Записать и закрыть">Записать и закрыть</button>
+<button type="button" class="btn btn-warning btn-sm" aria-label="Записать и закрыть">Записать и закрыть</button>
     `);
     this.dom.$saveAndGotoCardButton = $(`
-<button type="button" class="btn warning btn-sm" aria-label="Записать и перейти к карточке">Записать и перейти к карточке</button>
+<button type="button" class="btn btn-warning btn-sm" aria-label="Записать и перейти к карточке">Записать и перейти к карточке</button>
     `);
     this.dom.$closeButton = $(`
 <button type="button" class="btn btn-secondary btn-sm" aria-label="Закрыть">Закрыть</button>

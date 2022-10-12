@@ -28,7 +28,7 @@ class CardButtons {
     `);
     this.dom.$element = $(`
 <div class="container"></div>`).append($(`
-  <div class="row pt-3 text-end"></div>`).append($(`
+  <div class="row text-end"></div>`).append($(`
     <div class="col-12 d-grid gap-2 d-md-flex justify-content-md-end"></div>`).append($(`
       <div class="order-3 order-sm-1"></div>`).append(
         this.dom.$removeButton)).append($(`

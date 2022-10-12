@@ -52,7 +52,7 @@ class GraveSiteCard extends Card {
 
     this.dom.$card = $(`
 <div class="card border border-0"></div>`).append($(`
-  <div class="card-body"></div>`).append($(`
+  <div class="card-body py-0"></div>`).append($(`
     <div class="row pb-2">
       <div class="col-sm-3 px-0"><strong>Расположение:</strong></div>
       <div class="col-sm-9 px-0"><p>${this._composeLocation(this.state.view)}</p></div></div>`)).append($(`
