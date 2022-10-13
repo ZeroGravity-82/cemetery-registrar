@@ -39,7 +39,7 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
   valueField: `id`,
   labelField: `fullName`,
   searchField: `fullName`,
-  placeholder: `Введите ФИО ответственного...`,
+  placeholder: `Введите ФИО...`,
   create: true,
   load: (query, callback) => {
     if (query.length < minFullNameLength) return callback();
@@ -49,7 +49,7 @@ const $selectPersonInCharge = $graveSiteFormNewPersonInChargeField.selectize({
       url: `${listAliveUrl}?search=${query}`,
     })
     .done((res) => {
-      callback(res.data.simpleList.items.slice(0, 10));
+      callback(res.data.simpleList.items.slice(0, 25));
     })
     .fail(() => {
       callback();

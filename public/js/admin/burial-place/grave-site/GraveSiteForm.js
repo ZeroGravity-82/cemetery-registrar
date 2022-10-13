@@ -21,12 +21,13 @@ class GraveSiteForm extends Form {
     }
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
-      show                 : props.urls.show,
-      clarifyLocation      : props.urls.clarifyLocation,
-      clarifySize          : props.urls.clarifySize,
-      clarifyGeoPosition   : props.urls.clarifyGeoPosition,
-      // assignPersonInCharge : props.urls.assignPersonInCharge,
-      replacePersonInCharge: props.urls.replacePersonInCharge,
+      show                  : props.urls.show,
+      clarifyLocation       : props.urls.clarifyLocation,
+      clarifySize           : props.urls.clarifySize,
+      clarifyGeoPosition    : props.urls.clarifyGeoPosition,
+      // assignPersonInCharge  : props.urls.assignPersonInCharge,
+      replacePersonInCharge : props.urls.replacePersonInCharge,
+      naturalPersonListAlive: props.urls.naturalPersonListAlive,
     };
     this.csrfToken                = props.csrfToken;
     this.appServiceFailureHandler = new AppServiceFailureHandler({
@@ -34,7 +35,8 @@ class GraveSiteForm extends Form {
     }, {
       onValidationErrors: this._displayValidationErrors,
     });
-    this.modal = null;
+    this.modal                    = null;
+    this.personInChargeSelectizer = null;
     this._init();
   }
   _init() {
@@ -111,7 +113,7 @@ class GraveSiteForm extends Form {
   _renderFormRowForCemeteryBlock() {
     return $(`
 <div class="row pb-2">
-  <div class="col-md-3 px-0 text-start"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
+  <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
   <div class="col-md-9 px-0">
     <select class="form-select form-select-sm"
             id="cemeteryBlockId" name="cemeteryBlockId"
@@ -204,7 +206,34 @@ class GraveSiteForm extends Form {
     `);
   }
   _renderFormRowForPersonInCharge() {
-    return null;
+    const $personInChargeSelect = $(`
+<select
+  id="personInCharge" name="personInCharge"
+  aria-describedby="personInChargeFeedback"
+  aria-label="Ответственный">
+</select>
+    `);
+    this.personInChargeSelectizer = new NaturalPersonSelectizer(
+      $personInChargeSelect,
+      {
+        urls: {
+          load: this.urls.naturalPersonListAlive,
+        },
+        isDeceasedSelector: false,
+        minFullNameLength : 3,
+        numberOfListItems : 25,
+      },
+    );
+
+    return $(`
+<div class="row"></div>`).append($(`
+  <div class="col-md-3 px-0"><label for="personInCharge" class="form-label">Ответственный</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(
+    $personInChargeSelect).append($(`
+    <div id="personInChargeFeedback" class="invalid-feedback ${this.state.validationErrors.personInCharge ? `d-none` : ``}">
+      ${this.state.validationErrors.personInCharge ?? ``}
+    </div>
+    `)));
   }
   _renderClarifyLocation() {
     this.dom.$form = $(`

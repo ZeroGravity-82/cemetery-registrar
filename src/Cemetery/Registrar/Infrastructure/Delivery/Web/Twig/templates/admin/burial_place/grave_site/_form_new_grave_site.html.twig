@@ -2,7 +2,7 @@
 
 {% block modalbody %}
   <form data-action-new="{{ path('admin_grave_site_create') }}"
-        data-action-natural-person-list-alive="{{ path('natural_person_list_alive') }}">
+        data-action-natural-person-list-alive="{{ path('natural_person_list_alive', {'search': '{search}'})|url_decode }}">
     <div class="container">
       {% include('admin/burial_place/grave_site/_form_grave_site_location.html.twig') %}
       {% include('admin/burial_place/grave_site/_form_grave_site_size.html.twig') %}
