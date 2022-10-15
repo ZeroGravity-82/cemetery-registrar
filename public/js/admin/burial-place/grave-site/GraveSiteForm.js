@@ -230,7 +230,7 @@ class GraveSiteForm extends Form {
 <div class="row"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="personInCharge" class="form-label">Ответственный</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
-        this.dom.$personInChargeSelect).append($(`
+    this.dom.$personInChargeSelect).append($(`
     <div id="personInChargeFeedback" class="invalid-feedback ${this.state.validationErrors.personInCharge ? `d-none` : ``}">
       ${this.state.validationErrors.personInCharge ?? ``}
     </div>
