@@ -19,6 +19,7 @@ class NaturalPersonSelectizer {
   _init() {
     this._bind();
     this._render();
+    this._stylize();
     this._listen();
   }
   _bind() {}
@@ -56,7 +57,7 @@ class NaturalPersonSelectizer {
       },
       render: {
         option: (item, escape) => `
-<div>
+<div class="natural-person-item">
   <span>${escape(item.fullName)}</span>&nbsp;
   <span class="text-secondary fs-6">
     ${item.bornAt ? `<span><i class="bi-balloon"></i>${escape(item.bornAt)}</span>` : ``} 
@@ -64,10 +65,22 @@ class NaturalPersonSelectizer {
 </div>
         `,
         option_create: (data, escape) => `
-<div class="create">Создать <strong>${escape(data.input)}</strong>&hellip;</div>
+<div class="create-natural-person">Создать <strong>${escape(data.input)}</strong>&hellip;</div>
         `
       },
     });
+  }
+  _stylize() {
+    $(`head`).append($(`
+<style>
+  .selectize-dropdown .create-natural-person {
+    padding: 3px .75rem;
+  }
+  .selectize-dropdown .natural-person-item {
+    padding-left: .75rem;
+  }
+</style>
+    `));
   }
   _listen() {}
 }
