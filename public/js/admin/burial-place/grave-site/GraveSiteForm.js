@@ -30,6 +30,7 @@ class GraveSiteForm extends Form {
       naturalPersonListAlive: props.urls.naturalPersonListAlive,
     };
     this.csrfToken                = props.csrfToken;
+    this.cemeteryBlockList        = props.cemeteryBlockList;
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
     }, {
@@ -111,28 +112,38 @@ class GraveSiteForm extends Form {
   this.dom.$formButtons);
     this.personInChargeSelectizer = this._buildPersonInChargeSelectizer();
   }
-  _renderFormRowForCemeteryBlock() {
+  _buildCemeteryBlockListOptions(cemeteryBlockId = null) {
+    let $listOptions = [];
+    if (cemeteryBlockId === null) {
+      $listOptions.push($(`<option selected></option>`))
+    }
+    $.each(this.cemeteryBlockList, (index, listItem) => {
+      const $option = $(`<option value="${listItem.id}">${listItem.name}</option>`);
+      if (cemeteryBlockId === listItem.id) {
+        $option.prop(`selected`, true);
+      }
+      $listOptions.push($option);
+    });
+
+    return $listOptions;
+  }
+  _renderFormRowForCemeteryBlock(cemeteryBlockId = null) {
+    this.dom.$cemeteryBlockSelect = $(`
+<select class="form-select form-select-sm"
+        id="cemeteryBlockId" name="cemeteryBlockId"
+        aria-describedby="cemeteryBlockIdFeedback"
+        aria-label="Квартал"></select>`).append(
+  this._buildCemeteryBlockListOptions(cemeteryBlockId));
+
     return $(`
-<div class="row pb-2">
-  <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>
-  <div class="col-md-9 px-0">
-    <select class="form-select form-select-sm"
-            id="cemeteryBlockId" name="cemeteryBlockId"
-            aria-describedby="cemeteryBlockIdFeedback"
-            aria-label="Квартал">
-      <option selected>
-<!--      {% for listItem in cemeteryBlockList.items %}-->
-<!--        <option value="{{ listItem.id }}">-->
-<!--          {{- listItem.name -}}-->
-<!--        </option>-->
-<!--      {% endfor %}-->
-    </select>
+<div class="row pb-2"></div>`).append($(`
+  <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(
+        this.dom.$cemeteryBlockSelect).append($(`
     <div id="cemeteryBlockIdFeedback" class="invalid-feedback ${!this.state.validationErrors.cemeteryBlockId ? `d-none` : ``}">
       ${this.state.validationErrors.cemeteryBlockId ?? ``}
     </div>
-  </div>
-</div>
-    `);
+    `)));
   }
   _renderFormRowForRowInBlock() {
     return $(`
@@ -277,7 +288,7 @@ class GraveSiteForm extends Form {
     `);
   }
   _listen() {
-
+    this.dom.$element.on(`shown.bs.modal`, () => this.dom.$cemeteryBlockSelect.focus());  // Autofocus
   }
   _setState(state) {
     this.state = {...this.state, ...state};
