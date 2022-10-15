@@ -109,6 +109,7 @@ class GraveSiteForm extends Form {
     this._renderFormRowForGeoPosition()).append(
     this._renderFormRowForPersonInCharge())).append(
   this.dom.$formButtons);
+    this.personInChargeSelectizer = this._buildPersonInChargeSelectizer();
   }
   _renderFormRowForCemeteryBlock() {
     return $(`
@@ -206,30 +207,19 @@ class GraveSiteForm extends Form {
     `);
   }
   _renderFormRowForPersonInCharge() {
-    const $personInChargeSelect = $(`
+    this.dom.$personInChargeSelect = $(`
 <select
   id="personInCharge" name="personInCharge"
   aria-describedby="personInChargeFeedback"
   aria-label="Ответственный">
 </select>
     `);
-    this.personInChargeSelectizer = new NaturalPersonSelectizer(
-      $personInChargeSelect,
-      {
-        urls: {
-          load: this.urls.naturalPersonListAlive,
-        },
-        isDeceasedSelector: false,
-        minFullNameLength : 3,
-        numberOfListItems : 25,
-      },
-    );
 
     return $(`
 <div class="row"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="personInCharge" class="form-label">Ответственный</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
-    $personInChargeSelect).append($(`
+        this.dom.$personInChargeSelect).append($(`
     <div id="personInChargeFeedback" class="invalid-feedback ${this.state.validationErrors.personInCharge ? `d-none` : ``}">
       ${this.state.validationErrors.personInCharge ?? ``}
     </div>
@@ -321,6 +311,19 @@ class GraveSiteForm extends Form {
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
+  }
+  _buildPersonInChargeSelectizer() {
+    return new NaturalPersonSelectizer(
+      this.dom.$personInChargeSelect,
+      {
+        urls: {
+          load: this.urls.naturalPersonListAlive,
+        },
+        isDeceasedSelector: false,
+        minFullNameLength : 3,
+        numberOfListItems : 25,
+      },
+    );
   }
   show(formType, id = null) {
     if (id === null) {
