@@ -1,8 +1,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
     <entity name="Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium" table="columbarium">
-        <id name="id" column="id" type="columbarium_id">
-        </id>
+        <id name="id" column="id" type="columbarium_id" />
 
 <!--        <unique-constraints>-->
 <!--            <unique-constraint columns="name" name="columbarium_name_uq" />-->

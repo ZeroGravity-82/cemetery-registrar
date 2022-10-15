@@ -1,8 +1,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
     <entity name="Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree" table="memorial_tree">
-        <id name="id" column="id" type="memorial_tree_id">
-        </id>
+        <id name="id" column="id" type="memorial_tree_id" />
 
 <!--        <unique-constraints>-->
 <!--            <unique-constraint columns="tree_number" name="memorial_tree_tree_number_uq" />-->

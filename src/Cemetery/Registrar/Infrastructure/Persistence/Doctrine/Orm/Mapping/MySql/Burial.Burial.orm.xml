@@ -1,8 +1,7 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
 
     <entity name="Cemetery\Registrar\Domain\Model\Burial\Burial" table="burial">
-        <id name="id" column="id" type="burial_id">
-        </id>
+        <id name="id" column="id" type="burial_id" />
 
         <field name="code"             column="code"                type="burial_code"                        />
         <field name="type"             column="type"                type="burial_type"                        />
