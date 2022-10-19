@@ -6,12 +6,12 @@
 
     <link rel="icon" href="/favicon.ico">
 
-    <link href="/css/libs/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/libs/bootstrap/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="/css/offcanvas.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
-    <link href="/css/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet">
-    <link href="/css/libs/selectize/standalone/selectize.css" rel="stylesheet">
+    <link href="/css/libs/bootstrap/bootstrap.min.css"                   rel="stylesheet">
+    <link href="/css/libs/bootstrap/bootstrap-icons.min.css"             rel="stylesheet">
+    <link href="/css/offcanvas.css"                                      rel="stylesheet">
+    <link href="/css/style.css"                                          rel="stylesheet">
+    <link href="/css/libs/sweetalert2/sweetalert2.min.css"               rel="stylesheet">
+    <link href="/css/libs/selectize/standalone/selectize.css"            rel="stylesheet">
     <link href="/css/libs/selectize/standalone/selectize.bootstrap5.css" rel="stylesheet">
     {% block stylesheets %}{% endblock %}
 
@@ -26,6 +26,7 @@
       {% endblock %}
       {% block body %}{% endblock %}
     </main>
+    <div class="modal-container"></div>
 
     <script src="/js/libs/bootstrap/bootstrap.bundle.min.js"></script>
     <script src="/js/libs/jquery/jquery-3.6.0.min.js"></script>
@@ -43,6 +44,37 @@
     <script src="/js/NaturalPersonSelectizer.js"></script>
 
     <script src="/js/main.js"></script>
+
+    <script>
+      window.APP_PROPS = {
+        urls: {
+          graveSite: {
+            create                : `{{ path('admin_grave_site_create') }}`,
+            show                  : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
+            clarifyLocation       : `{{ path('admin_grave_site_clarify_location',         {'id': '{id}'})|url_decode }}`,
+            clarifySize           : `{{ path('admin_grave_site_clarify_size',             {'id': '{id}'})|url_decode }}`,
+            clarifyGeoPosition    : `{{ path('admin_grave_site_clarify_geo_position',     {'id': '{id}'})|url_decode }}`,
+            {#assignPersonInCharge  : `{{ path('admin_grave_site_assign_person_in_charge',  {'id': '{id}'})|url_decode }}`,#}
+            replacePersonInCharge : `{{ path('admin_grave_site_replace_person_in_charge', {'id': '{id}'})|url_decode }}`,
+            clearSize             : `{{ path('admin_grave_site_clear_size',               {'id': '{id}'})|url_decode }}`,
+            clearGeoPosition      : `{{ path('admin_grave_site_clear_geo_position',       {'id': '{id}'})|url_decode }}`,
+            discardPersonInCharge : `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,
+            remove                : `{{ path('admin_grave_site_remove',                   {'id': '{id}'})|url_decode }}`,
+            naturalPersonListAlive: `{{ path('natural_person_list_alive',                 {'search': '{search}'})|url_decode }}`,
+          },
+        },
+        csrfTokens: {
+          graveSite: `{{ csrf_token('grave_site') }}`,
+        },
+        cemeteryBlockList: [
+          {% for listItem in cemeteryBlockList.items %}
+          { id: `{{ listItem.id }}`, name: `{{ listItem.name }}` },
+          {% endfor %}
+        ],
+        swalOptions: swalOptions,
+      };
+    </script>
+
     {% block javascripts %}{% endblock %}
   </body>
 </html>

@@ -11,11 +11,11 @@ class GraveSiteCard extends Card {
   constructor($container, spinner, props) {
     super($container, spinner, props);
     this.urls = {
-      show                 : props.urls.show,
-      clearSize            : props.urls.clearSize,
-      clearGeoPosition     : props.urls.clearGeoPosition,
-      discardPersonInCharge: props.urls.discardPersonInCharge,
-      remove               : props.urls.remove,
+      show                 : props.urls.graveSite.show,
+      clearSize            : props.urls.graveSite.clearSize,
+      clearGeoPosition     : props.urls.graveSite.clearGeoPosition,
+      discardPersonInCharge: props.urls.graveSite.discardPersonInCharge,
+      remove               : props.urls.graveSite.remove,
     };
     this._init();
   }

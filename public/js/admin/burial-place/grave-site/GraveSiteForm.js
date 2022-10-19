@@ -22,16 +22,16 @@ class GraveSiteForm extends Form {
     }
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
-      create                : props.urls.create,
-      show                  : props.urls.show,
-      clarifyLocation       : props.urls.clarifyLocation,
-      clarifySize           : props.urls.clarifySize,
-      clarifyGeoPosition    : props.urls.clarifyGeoPosition,
-      // assignPersonInCharge  : props.urls.assignPersonInCharge,
-      replacePersonInCharge : props.urls.replacePersonInCharge,
-      naturalPersonListAlive: props.urls.naturalPersonListAlive,
+      create                : props.urls.graveSite.create,
+      show                  : props.urls.graveSite.show,
+      clarifyLocation       : props.urls.graveSite.clarifyLocation,
+      clarifySize           : props.urls.graveSite.clarifySize,
+      clarifyGeoPosition    : props.urls.graveSite.clarifyGeoPosition,
+      // assignPersonInCharge  : props.urls.graveSite.assignPersonInCharge,
+      replacePersonInCharge : props.urls.graveSite.replacePersonInCharge,
+      naturalPersonListAlive: props.urls.graveSite.naturalPersonListAlive,
     };
-    this.csrfToken                = props.csrfToken;
+    this.csrfToken                = props.csrfTokens.graveSite;
     this.cemeteryBlockList        = props.cemeteryBlockList;
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
