@@ -68,7 +68,7 @@
   <script>
     window.GRAVE_SITE_PROPS = {
       urls: {
-        create                : `{{ path('admin_grave_site_create',                   {'id': '{id}'})|url_decode }}`,
+        create                : `{{ path('admin_grave_site_create') }}`,
         show                  : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
         clarifyLocation       : `{{ path('admin_grave_site_clarify_location',         {'id': '{id}'})|url_decode }}`,
         clarifySize           : `{{ path('admin_grave_site_clarify_size',             {'id': '{id}'})|url_decode }}`,
@@ -84,7 +84,7 @@
       csrfToken        : `{{ csrf_token('grave_site') }}`,
       cemeteryBlockList: [
         {% for listItem in cemeteryBlockList.items %}
-          { id: `{{ listItem.id }}`, name: `{{- listItem.name -}}` },
+          { id: `{{ listItem.id }}`, name: `{{ listItem.name }}` },
         {% endfor %}
       ],
       swalOptions: swalOptions,

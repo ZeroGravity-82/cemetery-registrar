@@ -20,6 +20,7 @@ class AppServiceFailureHandler {
         icon: `error`,
         title: `Сервер не отвечает.`,
       });
+
       return;
     }
     const responseJson = JSON.parse(jqXHR.responseText);
@@ -39,7 +40,7 @@ class AppServiceFailureHandler {
     switch (failType) {
       case `VALIDATION_ERROR`:
         delete responseJson.data.failType;
-        this._onValidationErrors(responseJson.data)
+        this._onValidationErrors(responseJson.data);
         break;
       case `NOT_FOUND`:
       case `DOMAIN_EXCEPTION`:

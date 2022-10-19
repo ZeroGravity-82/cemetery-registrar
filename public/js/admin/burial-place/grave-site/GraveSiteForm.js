@@ -5,6 +5,7 @@
 // import `Form.js`;
 // import `FormButtons.js`;
 // import `AppServiceFailureHandler.js`;
+// import `GraveSiteCard.js`;
 
 class GraveSiteForm extends Form {
   constructor($container, spinner, props) {
@@ -21,6 +22,7 @@ class GraveSiteForm extends Form {
     }
     this.toast = Swal.mixin(props.swalOptions);
     this.urls  = {
+      create                : props.urls.create,
       show                  : props.urls.show,
       clarifyLocation       : props.urls.clarifyLocation,
       clarifySize           : props.urls.clarifySize,
@@ -34,7 +36,11 @@ class GraveSiteForm extends Form {
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
     }, {
-      onValidationErrors: this._displayValidationErrors,
+      onValidationErrors: (validationErrors) => {
+        this._setState({
+          validationErrors: validationErrors,
+        })
+      },
     });
     this.modal                    = null;
     this.personInChargeSelectizer = null;
@@ -61,9 +67,9 @@ class GraveSiteForm extends Form {
     let modalTitle       = null;
     const graveSiteTitle = this.state.view !== null ? GraveSiteCard.composeGraveSiteTitle(this.state.view) : null;
     switch (this.state.formType) {
-      case `NEW`:
+      case `CREATE`:
         modalTitle = `Создание участка`;
-        this._renderNew();
+        this._renderCreate();
         break;
       case `CLARIFY_LOCATION`:
         modalTitle = `Уточнение расположения участка - <span>${graveSiteTitle}</span>`;
@@ -85,8 +91,6 @@ class GraveSiteForm extends Form {
         modalTitle = `Замена ответственного за участок - <span>${graveSiteTitle}</span>`;
         this._renderReplacePersonInCharge();
         break;
-      default:
-        throw `Неподдерживаемый тип формы для участка: "${this.state.formType}"`;
     }
 
     this.modal = new Modal({
@@ -99,7 +103,7 @@ class GraveSiteForm extends Form {
     this.dom.$element = this.modal.getElement();
     this.dom.$container.append(this.dom.$element);
   }
-  _renderNew() {
+  _renderCreate() {
     this.dom.$form = $(`
 <form></form>`).append($(`
   <div class="container"></div>`).append(
@@ -139,83 +143,90 @@ class GraveSiteForm extends Form {
 <div class="row pb-2"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
-        this.dom.$cemeteryBlockSelect).append($(`
+    this.dom.$cemeteryBlockSelect).append($(`
     <div id="cemeteryBlockIdFeedback" class="invalid-feedback ${!this.state.validationErrors.cemeteryBlockId ? `d-none` : ``}">
       ${this.state.validationErrors.cemeteryBlockId ?? ``}
     </div>
     `)));
   }
   _renderFormRowForRowInBlock() {
+    this.dom.$rowInBlockInput = $(`
+<input type="number" min="1" class="form-control form-control-sm"
+       id="rowInBlock" name="rowInBlock"
+       aria-describedby="rowInBlockFeedback"
+       aria-label="Ряд"
+       value="${this.state.view ? this.state.view.rowInBlock : ``}">
+    `);
+
     return $(`
-<div class="row pb-2">
-  <div class="col-md-3 px-0"><label for="rowInBlock" class="form-label">Ряд</label></div>
-  <div class="col-md-9 px-0">
-    <input type="number" min="1" class="form-control form-control-sm"
-           id="rowInBlock" name="rowInBlock"
-           aria-describedby="rowInBlockFeedback"
-           aria-label="Ряд"
-           value="${this.state.view ? this.state.view.rowInBlock : ``}">
+<div class="row pb-2"></div>`).append($(`
+  <div class="col-md-3 px-0"><label for="rowInBlock" class="form-label">Ряд</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(
+    this.dom.$rowInBlockInput).append($(`
     <div id="rowInBlockFeedback" class="invalid-feedback ${!this.state.validationErrors.rowInBlock ? `d-none` : ``}">
       ${this.state.validationErrors.rowInBlock ?? ``}
     </div>
-  </div>
-</div>
-    `);
+    `)));
   }
   _renderFormRowForPositionInRow() {
+    this.dom.$positionInRowInput = $(`
+<input type="number" min="1" class="form-control form-control-sm"
+       id="positionInRow" name="positionInRow"
+       aria-describedby="positionInRowFeedback"
+       aria-label="Место"
+       value="${this.state.view ? this.state.view.positionInRow : ``}">    
+    `);
+
     return $(`
-<div class="row pb-2">
-  <div class="col-md-3 px-0"><label for="positionInRow" class="form-label">Место</label></div>
-  <div class="col-md-9 px-0">
-    <input type="number" min="1" class="form-control form-control-sm"
-           id="positionInRow" name="positionInRow"
-           aria-describedby="positionInRowFeedback"
-           aria-label="Место"
-           value="${this.state.view ? this.state.view.positionInRow : ``}">
+<div class="row pb-2"></div>`).append($(`
+  <div class="col-md-3 px-0"><label for="positionInRow" class="form-label">Место</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(
+    this.dom.$positionInRowInput).append($(`
     <div id="positionInRowFeedback" class="invalid-feedback ${!this.state.validationErrors.positionInRow ? `d-none` : ``}">
       ${this.state.validationErrors.positionInRow ?? ``}
     </div>
-  </div>
-</div>
-    `);
+    `)));
   }
   _renderFormRowForSize() {
+    this.dom.$sizeInput = $(`
+<input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
+       id="size" name="size"
+       aria-describedby="sizeFeedback"
+       aria-label="Размер"
+       value="${this.state.view ? this.state.view.size : ``}">
+    `);
+
     return $(`
-<div class="row pb-2">
-  <div class="col-md-3 px-0"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>
-  <div class="col-md-9 px-0">
-    <input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
-           id="size" name="size"
-           aria-describedby="sizeFeedback"
-           aria-label="Размер"
-           value="${this.state.view ? this.state.view.size : ``}">
+<div class="row pb-2"></div>`).append($(`
+  <div class="col-md-3 px-0"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(
+    this.dom.$sizeInput).append($(`
     <div id="sizeFeedback" class="invalid-feedback ${!this.state.validationErrors.size ? `d-none` : ``}">
       ${this.state.validationErrors.size ?? ``}
     </div>
-  </div>
-</div>
-    `);
+    `)));
   }
   _renderFormRowForGeoPosition() {
     const geoPosition = this.state.view && this.state.view.geoPositionLatitude !== null && this.state.view.geoPositionLongitude !== null
         ? `${this.state.view.geoPositionLatitude}, ${this.state.view.geoPositionLongitude}`
         : null;
+    this.dom.$geoPositionInput = $(`
+<input type="text" class="form-control form-control-sm"
+       id="geoPosition" name="geoPosition"
+       aria-describedby="geoPositionFeedback"
+       aria-label="Геопозиция"
+       value="${geoPosition ?? ``}">
+    `);
 
     return $(`
-<div class="row pb-2">
-  <div class="col-md-3 px-0"><label for="geoPosition" class="form-label">Геопозиция</label></div>
-  <div class="col-md-9 px-0">
-    <input type="text" class="form-control form-control-sm"
-           id="geoPosition" name="geoPosition"
-           aria-describedby="geoPositionFeedback"
-           aria-label="Геопозиция"
-           value="${geoPosition ?? ``}">
-    <div id="sizeFeedback" class="invalid-feedback ${this.state.validationErrors.geoPosition ? `d-none` : ``}">
+<div class="row pb-2"></div>`).append($(`
+  <div class="col-md-3 px-0"><label for="geoPosition" class="form-label">Геопозиция</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(
+    this.dom.$geoPositionInput).append($(`
+    <div id="geoPositionFeedback" class="invalid-feedback ${this.state.validationErrors.geoPosition ? `d-none` : ``}">
       ${this.state.validationErrors.geoPosition ?? ``}
     </div>
-  </div>
-</div>
-    `);
+    `)));
   }
   _renderFormRowForPersonInCharge() {
     this.dom.$personInChargeSelect = $(`
@@ -296,21 +307,67 @@ class GraveSiteForm extends Form {
     this._listen();
   }
   _handleSaveAndCloseButtonClick() {
-    // TODO
+    const onDone = () => {
+      this.modal.getObject().hide();
+      location.reload();      // TODO refactor not to reload entire page
+    };
+    switch (this.state.formType) {
+      case `CREATE`:
+        this._create(onDone);
+        break;
+
+    }
   }
   _handleSaveAndGotoCardButtonClick() {
-    // TODO
+    const card   = new GraveSiteCard(this.dom.$container, this.spinner);
+    const onDone = (responseJson) => {
+      this.modal.getObject().hide();
+      graveSiteCard_show(responseJson.data.id);
+    };
+    switch (this.state.formType) {
+      case `CREATE`:
+        this._create(onDone);
+        break;
+
+    }
   }
+  _create(onDone) {
+    this.spinner.show();
+    const geoPositionLatitude  = this.dom.$geoPositionInput.val().split(`,`)[0] ?? ``;
+    const geoPositionLongitude = this.dom.$geoPositionInput.val().split(`,`)[1] ?? ``;
+    const data                 = {
+      cemeteryBlockId     : this.dom.$cemeteryBlockSelect.val() !== `` ? this.dom.$cemeteryBlockSelect.val()          : null,
+      rowInBlock          : this.dom.$rowInBlockInput.val()     !== `` ? parseInt(this.dom.$rowInBlockInput.val())    : null,
+      positionInRow       : this.dom.$positionInRowInput.val()  !== `` ? parseInt(this.dom.$positionInRowInput.val()) : null,
+      geoPositionLatitude : geoPositionLatitude                 !== `` ? geoPositionLatitude                          : null,
+      geoPositionLongitude: geoPositionLongitude                !== `` ? geoPositionLongitude                         : null,
+      geoPositionError    : null,
+      size                : this.dom.$sizeInput.val()           !== `` ? this.dom.$sizeInput.val()                    : null,
+      csrfToken           : this.csrfToken,
+    };
+    $.ajax({
+      dataType   : `json`,
+      method     : `post`,
+      url        : this.urls.create,
+      data       : JSON.stringify(data),
+      contentType: `application/json; charset=utf-8`,
+    })
+    .done((responseJson) => {
+      this.toast.fire({
+        icon : `success`,
+        title: `Участок успешно создан.`,
+      });
+      onDone(responseJson);
+    })
+    .fail(this.appServiceFailureHandler.onFailure)
+    .always(() => this.spinner.hide());
+  }
+
   _handleCloseButtonClick() {
     this.modal.getObject().hide();
     location.reload();            // TODO refactor not to reload entire page
   }
-  _displayValidationErrors(validationErrors) {
-    this._setState({
-      validationErrors: validationErrors,
-    })
-  }
-  _loadView(id, callback) {
+  _loadView(id, onDone) {
     this.spinner.show();
     $.ajax({
       dataType: `json`,
@@ -318,7 +375,7 @@ class GraveSiteForm extends Form {
       url     : this.urls.show.replace(`{id}`, id),
     })
     .done((responseJson) => {
-      callback(responseJson);
+      onDone(responseJson);
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
