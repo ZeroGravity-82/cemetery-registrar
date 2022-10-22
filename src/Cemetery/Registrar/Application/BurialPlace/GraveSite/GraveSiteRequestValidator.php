@@ -6,11 +6,13 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -20,6 +22,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
     public function __construct(
         private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
         private readonly GraveSiteFetcher     $graveSiteFetcher,
+        private readonly NaturalPersonFetcher $naturalPersonFetcher,
     ) {
         parent::__construct();
     }
@@ -133,6 +136,18 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
             $this->note->addError('size', 'Размер участка не может иметь нулевое значение.');
         } elseif ($request->size !== null && !GraveSiteSize::isValidFormat($request->size)) {
             $this->note->addError('size', 'Неверный формат размера участка.');
+        }
+
+        return $this;
+    }
+
+    protected function validatePersonInChargeId(ApplicationRequest $request): self
+    {
+        if (
+            $request->personInChargeId !== null &&
+            !$this->naturalPersonFetcher->doesExistById($request->personInChargeId)
+        ) {
+            $this->note->addError('personInChargeId', 'Физлицо не найдено.');
         }
 
         return $this;

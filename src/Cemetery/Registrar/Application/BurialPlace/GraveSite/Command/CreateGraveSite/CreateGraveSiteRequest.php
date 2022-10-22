@@ -19,5 +19,6 @@ class CreateGraveSiteRequest extends ApplicationRequest
         public ?string $geoPositionLongitude,
         public ?string $geoPositionError,
         public ?string $size,
+        public ?string $personInChargeId,
     ) {}
 }

@@ -25,6 +25,7 @@ class CreateGraveSiteRequestValidator extends GraveSiteRequestValidator
             ->validatePositionInRow($request)
             ->validateGeoPosition($request)
             ->validateSize($request)
+            ->validatePersonInChargeId($request)
             ->note();
     }
 }

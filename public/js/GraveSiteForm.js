@@ -310,7 +310,8 @@ class GraveSiteForm extends Form {
       geoPositionLatitude : geoPositionLatitude.trim()           !== `` ? geoPositionLatitude.trim()                   : null,
       geoPositionLongitude: geoPositionLongitude.trim()          !== `` ? geoPositionLongitude.trim()                  : null,
       geoPositionError    : null,
-      size                : this.dom.$sizeInput.val()           !== `` ? this.dom.$sizeInput.val()                    : null,
+      size                : this.dom.$sizeInput.val()            !== `` ? this.dom.$sizeInput.val()                    : null,
+      personInChargeId    : this.dom.$personInChargeSelect.val() !== `` ? this.dom.$personInChargeSelect.val()         : null,
       csrfToken           : this.csrfToken,
     };
     $.ajax({
