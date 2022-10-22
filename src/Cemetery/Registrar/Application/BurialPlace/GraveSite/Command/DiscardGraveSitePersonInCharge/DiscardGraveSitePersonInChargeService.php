@@ -40,7 +40,7 @@ class DiscardGraveSitePersonInChargeService extends GraveSiteService
         /** @var DiscardGraveSitePersonInChargeRequest $request */
         $graveSite = $this->getGraveSite($request->id);
         if ($graveSite->personInChargeId() !== null) {
-            $graveSite->setPersonInCharge(null);
+            $graveSite->discardPersonInCharge();
             $isDiscarded = true;
         }
         if ($isDiscarded) {

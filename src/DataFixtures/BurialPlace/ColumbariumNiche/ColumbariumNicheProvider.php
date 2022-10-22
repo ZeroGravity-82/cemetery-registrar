@@ -39,7 +39,7 @@ class ColumbariumNicheProvider
 
         return (new ColumbariumNiche($id, $columbariumId, $rowInColumbarium, $nicheNumber))
             ->setGeoPosition($geoPosition)
-            ->setPersonInCharge($personInCharge);
+            ->assignPersonInCharge($personInCharge);
     }
 
     public static function getColumbariumNicheC(): ColumbariumNiche

@@ -40,7 +40,7 @@ class GraveSiteProvider
         return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
             ->setPositionInRow($positionInRow)
             ->setGeoPosition($geoPosition)
-            ->setPersonInCharge($personInCharge);
+            ->assignPersonInCharge($personInCharge);
     }
 
     public static function getGraveSiteC(): GraveSite
@@ -55,7 +55,7 @@ class GraveSiteProvider
         return (new GraveSite($id, $cemeteryBlockId, $rowInBlock))
             ->setGeoPosition($geoPosition)
             ->setSize($size)
-            ->setPersonInCharge($personInCharge);
+            ->assignPersonInCharge($personInCharge);
     }
 
     public static function getGraveSiteD(): GraveSite

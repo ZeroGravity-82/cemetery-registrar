@@ -14,17 +14,41 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
  */
 abstract class BurialPlace extends AggregateRoot
 {
+    public const CLASS_LABEL = null;
+
     protected ?NaturalPersonId $personInChargeId = null;
-    protected ?GeoPosition     $geoPosition = null;
+    protected ?GeoPosition     $geoPosition      = null;
 
     public function personInChargeId(): ?NaturalPersonId
     {
         return $this->personInChargeId;
     }
 
-    public function setPersonInCharge(?NaturalPerson $personInCharge): self
+    public function assignPersonInCharge(NaturalPerson $personInCharge): self
     {
-        $this->personInChargeId = $personInCharge?->id();
+        if ($personInCharge->deceasedDetails() !== null) {
+            throw new \LogicException(\sprintf(
+                'Невозможно назначить умершего с ID "%s" в качестве ответственного для места захоронения с ID "%s" и типом "%s".',
+                $personInCharge->id()->value(),
+                $this->id()->value(),
+                self::CLASS_LABEL,
+            ));
+        }
+        $this->personInChargeId = $personInCharge->id();
+
+        return $this;
+    }
+
+    public function discardPersonInCharge(): self
+    {
+        if ($this->personInChargeId() === null) {
+            throw new \LogicException(\sprintf(
+                'Невозможно удалить ответственного для места захоронения с ID "%s" и типом "%s", т.к. никто не назначен ответственным.',
+                $this->id()->value(),
+                self::CLASS_LABEL,
+            ));
+        }
+        $this->personInChargeId = null;
 
         return $this;
     }

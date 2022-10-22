@@ -34,7 +34,7 @@ class MemorialTreeProvider
 
         return (new MemorialTree($id, $treeNumber))
             ->setGeoPosition($geoPosition)
-            ->setPersonInCharge($personInCharge);
+            ->assignPersonInCharge($personInCharge);
     }
 
     public static function getMemorialTreeC(): MemorialTree
