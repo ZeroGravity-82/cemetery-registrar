@@ -304,11 +304,11 @@ class GraveSiteForm extends Form {
     const geoPositionLatitude  = this.dom.$geoPositionInput.val().split(`,`)[0] ?? ``;
     const geoPositionLongitude = this.dom.$geoPositionInput.val().split(`,`)[1] ?? ``;
     const data                 = {
-      cemeteryBlockId     : this.dom.$cemeteryBlockSelect.val() !== `` ? this.dom.$cemeteryBlockSelect.val()          : null,
-      rowInBlock          : this.dom.$rowInBlockInput.val()     !== `` ? parseInt(this.dom.$rowInBlockInput.val())    : null,
-      positionInRow       : this.dom.$positionInRowInput.val()  !== `` ? parseInt(this.dom.$positionInRowInput.val()) : null,
-      geoPositionLatitude : geoPositionLatitude                 !== `` ? geoPositionLatitude                          : null,
-      geoPositionLongitude: geoPositionLongitude                !== `` ? geoPositionLongitude                         : null,
+      cemeteryBlockId     : this.dom.$cemeteryBlockSelect.val()  !== `` ? this.dom.$cemeteryBlockSelect.val()          : null,
+      rowInBlock          : this.dom.$rowInBlockInput.val()      !== `` ? parseInt(this.dom.$rowInBlockInput.val())    : null,
+      positionInRow       : this.dom.$positionInRowInput.val()   !== `` ? parseInt(this.dom.$positionInRowInput.val()) : null,
+      geoPositionLatitude : geoPositionLatitude.trim()           !== `` ? geoPositionLatitude.trim()                   : null,
+      geoPositionLongitude: geoPositionLongitude.trim()          !== `` ? geoPositionLongitude.trim()                  : null,
       geoPositionError    : null,
       size                : this.dom.$sizeInput.val()           !== `` ? this.dom.$sizeInput.val()                    : null,
       csrfToken           : this.csrfToken,
