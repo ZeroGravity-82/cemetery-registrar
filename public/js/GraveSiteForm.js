@@ -123,7 +123,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$cemeteryBlockSelect).append($(`
-    <div id="cemeteryBlockIdFeedback" class="invalid-feedback d-none"></div>
+    <div id="cemeteryBlockIdFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForRowInBlock() {
@@ -140,7 +140,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="rowInBlock" class="form-label">Ряд</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$rowInBlockInput).append($(`
-    <div id="rowInBlockFeedback" class="invalid-feedback d-none"></div>
+    <div id="rowInBlockFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForPositionInRow() {
@@ -157,7 +157,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="positionInRow" class="form-label">Место</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$positionInRowInput).append($(`
-    <div id="positionInRowFeedback" class="invalid-feedback d-none"></div>
+    <div id="positionInRowFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForSize() {
@@ -174,7 +174,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$sizeInput).append($(`
-    <div id="sizeFeedback" class="invalid-feedback d-none"></div>
+    <div id="sizeFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForGeoPosition() {
@@ -194,7 +194,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="geoPosition" class="form-label">Геопозиция</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$geoPositionInput).append($(`
-    <div id="geoPositionFeedback" class="invalid-feedback d-none"></div>
+    <div id="geoPositionFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForPersonInCharge() {
@@ -211,7 +211,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="personInCharge" class="form-label">Ответственный</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$personInChargeSelect).append($(`
-    <div id="personInChargeFeedback" class="invalid-feedback d-none"></div>
+    <div id="personInChargeFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderClarifyLocation() {
@@ -257,7 +257,7 @@ class GraveSiteForm extends Form {
             aria-describedby="personInChargeNewFeedback"
             aria-label="Новый ответственный">
         </select>
-        <div id="personInChargeNewFeedback" class="invalid-feedback d-none"></div>
+        <div id="personInChargeNewFeedback" class="invalid-feedback"></div>
       </div>
     </div>
   </div>

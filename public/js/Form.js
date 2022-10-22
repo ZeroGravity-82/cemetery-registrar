@@ -45,7 +45,6 @@ class Form {
       const ariaDescribedby  = $field.attr(`aria-describedby`);
       const $invalidFeedback = this.dom.$element.find(`#${ariaDescribedby}`);
       $invalidFeedback.html(validationError);
-      $invalidFeedback.removeClass(`d-none`);
     }
   }
   _hideValidationError(e) {
