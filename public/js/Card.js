@@ -10,10 +10,6 @@ class Card {
     this.state   = {
       view: null,
     };
-    this.urls = {
-      show: props.urls.show,
-    }
-    this.csrfToken                = props.csrfToken;
     this.toast                    = Swal.mixin(props.swalOptions);
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
@@ -61,14 +57,14 @@ class Card {
       method  : `get`,
       url     : this.urls.show.replace(`{id}`, id),
     })
-    .done((responseJson) => {
-      callback(responseJson);
-    })
+    .done(responseJson =>
+      callback(responseJson)
+    )
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
   }
   show(id) {
-    this._loadView(id, (responseJson) => {
+    this._loadView(id, responseJson => {
       this._setState({
         view: responseJson.data.view,
       });
@@ -79,6 +75,6 @@ class Card {
     if (this.modal === null) {
       return;
     }
-    this.modal.getObject().show();
+    this.modal.getObject().hide();
   }
 }

@@ -19,7 +19,6 @@
   </head>
   <body>
     <div class="spinner-container"></div>
-    {% include '_flash_message.html.twig' %}
     <main class="container-fluid no-select">
       {% block header %}
         {% include '_navbar.html.twig' %}
@@ -42,10 +41,11 @@
     <script src="/js/CardButtons.js"></script>
     <script src="/js/AppServiceFailureHandler.js"></script>
     <script src="/js/NaturalPersonSelectizer.js"></script>
-
-    <script src="/js/main.js"></script>
+    <script src="/js/GraveSiteForm.js"></script>
+    <script src="/js/GraveSiteCard.js"></script>
 
     <script>
+      const spinner    = new Spinner($(`.spinner-container`));
       window.APP_PROPS = {
         urls: {
           graveSite: {
@@ -71,7 +71,17 @@
           { id: `{{ listItem.id }}`, name: `{{ listItem.name }}` },
           {% endfor %}
         ],
-        swalOptions: swalOptions,
+        swalOptions: {
+          toast            : true,
+          position         : `top-end`,
+          showConfirmButton: false,
+          timer            : 5000,
+          timerProgressBar : true,
+          didOpen          : (toast) => {
+            toast.addEventListener(`mouseenter`, Swal.stopTimer)
+            toast.addEventListener(`mouseleave`, Swal.resumeTimer)
+          },
+        },
       };
     </script>
 

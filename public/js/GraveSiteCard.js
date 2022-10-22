@@ -17,6 +17,7 @@ class GraveSiteCard extends Card {
       discardPersonInCharge: props.urls.graveSite.discardPersonInCharge,
       remove               : props.urls.graveSite.remove,
     };
+    this.csrfToken = props.csrfTokens.graveSite;
     this._init();
   }
   _init() {
@@ -138,7 +139,7 @@ class GraveSiteCard extends Card {
       confirmButtonColor: `red`,
       cancelButtonText  : `Нет`,
     })
-    .then((result) => {
+    .then(result => {
       if (result.isConfirmed) {
         this._clearGraveSiteData(this.state.view.id, this.urls.clearSize, `Размер участка успешно очищен.`);
       }
@@ -155,7 +156,7 @@ class GraveSiteCard extends Card {
       confirmButtonColor: `red`,
       cancelButtonText  : `Нет`,
     })
-    .then((result) => {
+    .then(result => {
       if (result.isConfirmed) {
         this._clearGraveSiteData(this.state.view.id, this.urls.clearGeoPosition, `Геопозиция участка успешно очищена.`);
       }
@@ -172,7 +173,7 @@ class GraveSiteCard extends Card {
       confirmButtonColor: `red`,
       cancelButtonText  : `Нет`,
     })
-    .then((result) => {
+    .then(result => {
       if (result.isConfirmed) {
         this._clearGraveSiteData(this.state.view.id, this.urls.discardPersonInCharge, `Ответственный успешно удалён.`);
       }
@@ -192,19 +193,11 @@ class GraveSiteCard extends Card {
       confirmButtonColor: `red`,
       cancelButtonText  : `Нет`,
     })
-    .then((result) => {
+    .then(result => {
       if (result.isConfirmed) {
         this._removeGraveSite(this.state.view.id);
       }
     })
-  }
-  static composeGraveSiteTitle(view) {
-    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
-    if (view.positionInRow !== null) {
-      title += `, место ${view.positionInRow}`;
-    }
-
-    return title;
   }
   _composeLocation(view) {
     return GraveSiteCard.composeGraveSiteTitle(view);
@@ -298,5 +291,13 @@ class GraveSiteCard extends Card {
   })
   .fail(this.appServiceFailureHandler.onFailure)
   .always(() => this.spinner.hide());
+  }
+  static composeGraveSiteTitle(view) {
+    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
+    if (view.positionInRow !== null) {
+      title += `, место ${view.positionInRow}`;
+    }
+
+    return title;
   }
 }

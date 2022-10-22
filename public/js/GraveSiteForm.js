@@ -9,18 +9,7 @@
 
 class GraveSiteForm extends Form {
   constructor($container, spinner, props) {
-    super();
-    this.dom = {
-      $container: $container,
-      $form     : null,
-    };
-    this.spinner = spinner;
-    this.state   = {
-      view            : null,
-      formType        : null,
-      validationErrors: {},
-    }
-    this.toast = Swal.mixin(props.swalOptions);
+    super($container, spinner, props);
     this.urls  = {
       create                : props.urls.graveSite.create,
       show                  : props.urls.graveSite.show,
@@ -33,16 +22,6 @@ class GraveSiteForm extends Form {
     };
     this.csrfToken                = props.csrfTokens.graveSite;
     this.cemeteryBlockList        = props.cemeteryBlockList;
-    this.appServiceFailureHandler = new AppServiceFailureHandler({
-      swalOptions: props.swalOptions,
-    }, {
-      onValidationErrors: (validationErrors) => {
-        this._setState({
-          validationErrors: validationErrors,
-        })
-      },
-    });
-    this.modal                    = null;
     this.personInChargeSelectizer = null;
     this._init();
   }
@@ -50,9 +29,9 @@ class GraveSiteForm extends Form {
     this._bind();
   }
   _bind() {
+    super._bind();
     this._handleSaveAndCloseButtonClick    = this._handleSaveAndCloseButtonClick.bind(this);
     this._handleSaveAndGotoCardButtonClick = this._handleSaveAndGotoCardButtonClick.bind(this);
-    this._handleCloseButtonClick           = this._handleCloseButtonClick.bind(this);
   }
   _render() {
     this.dom.$container.empty();
@@ -116,14 +95,14 @@ class GraveSiteForm extends Form {
   this.dom.$formButtons);
     this.personInChargeSelectizer = this._buildPersonInChargeSelectizer();
   }
-  _buildCemeteryBlockListOptions(cemeteryBlockId = null) {
+  _buildCemeteryBlockListOptions(selectedCemeteryBlockId = null) {
     let $listOptions = [];
-    if (cemeteryBlockId === null) {
+    if (selectedCemeteryBlockId === null) {
       $listOptions.push($(`<option selected></option>`))
     }
     $.each(this.cemeteryBlockList, (index, listItem) => {
       const $option = $(`<option value="${listItem.id}">${listItem.name}</option>`);
-      if (cemeteryBlockId === listItem.id) {
+      if (selectedCemeteryBlockId === listItem.id) {
         $option.prop(`selected`, true);
       }
       $listOptions.push($option);
@@ -144,9 +123,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$cemeteryBlockSelect).append($(`
-    <div id="cemeteryBlockIdFeedback" class="invalid-feedback ${!this.state.validationErrors.cemeteryBlockId ? `d-none` : ``}">
-      ${this.state.validationErrors.cemeteryBlockId ?? ``}
-    </div>
+    <div id="cemeteryBlockIdFeedback" class="invalid-feedback d-none"></div>
     `)));
   }
   _renderFormRowForRowInBlock() {
@@ -163,9 +140,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="rowInBlock" class="form-label">Ряд</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$rowInBlockInput).append($(`
-    <div id="rowInBlockFeedback" class="invalid-feedback ${!this.state.validationErrors.rowInBlock ? `d-none` : ``}">
-      ${this.state.validationErrors.rowInBlock ?? ``}
-    </div>
+    <div id="rowInBlockFeedback" class="invalid-feedback d-none"></div>
     `)));
   }
   _renderFormRowForPositionInRow() {
@@ -182,9 +157,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="positionInRow" class="form-label">Место</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$positionInRowInput).append($(`
-    <div id="positionInRowFeedback" class="invalid-feedback ${!this.state.validationErrors.positionInRow ? `d-none` : ``}">
-      ${this.state.validationErrors.positionInRow ?? ``}
-    </div>
+    <div id="positionInRowFeedback" class="invalid-feedback d-none"></div>
     `)));
   }
   _renderFormRowForSize() {
@@ -201,9 +174,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$sizeInput).append($(`
-    <div id="sizeFeedback" class="invalid-feedback ${!this.state.validationErrors.size ? `d-none` : ``}">
-      ${this.state.validationErrors.size ?? ``}
-    </div>
+    <div id="sizeFeedback" class="invalid-feedback d-none"></div>
     `)));
   }
   _renderFormRowForGeoPosition() {
@@ -223,9 +194,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="geoPosition" class="form-label">Геопозиция</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$geoPositionInput).append($(`
-    <div id="geoPositionFeedback" class="invalid-feedback ${this.state.validationErrors.geoPosition ? `d-none` : ``}">
-      ${this.state.validationErrors.geoPosition ?? ``}
-    </div>
+    <div id="geoPositionFeedback" class="invalid-feedback d-none"></div>
     `)));
   }
   _renderFormRowForPersonInCharge() {
@@ -242,9 +211,7 @@ class GraveSiteForm extends Form {
   <div class="col-md-3 px-0"><label for="personInCharge" class="form-label">Ответственный</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(
     this.dom.$personInChargeSelect).append($(`
-    <div id="personInChargeFeedback" class="invalid-feedback ${this.state.validationErrors.personInCharge ? `d-none` : ``}">
-      ${this.state.validationErrors.personInCharge ?? ``}
-    </div>
+    <div id="personInChargeFeedback" class="invalid-feedback d-none"></div>
     `)));
   }
   _renderClarifyLocation() {
@@ -299,12 +266,13 @@ class GraveSiteForm extends Form {
     `);
   }
   _listen() {
-    this.dom.$element.on(`shown.bs.modal`, () => this.dom.$cemeteryBlockSelect.focus());  // Autofocus
-  }
-  _setState(state) {
-    this.state = {...this.state, ...state};
-    this._render();
-    this._listen();
+    this.dom.$element.on(`shown.bs.modal`,     ()  => this.dom.$cemeteryBlockSelect.focus());  // Autofocus
+    this.dom.$cemeteryBlockSelect.on(`input`,  (e) => this._hideValidationError(e));
+    this.dom.$rowInBlockInput.on(`input`,      (e) => this._hideValidationError(e));
+    this.dom.$positionInRowInput.on(`input`,   (e) => this._hideValidationError(e));
+    this.dom.$sizeInput.on(`input`,            (e) => this._hideValidationError(e));
+    this.dom.$geoPositionInput.on(`input`,     (e) => this._hideValidationError(e));
+    this.dom.$personInChargeSelect.on(`input`, (e) => this._hideValidationError(e));
   }
   _handleSaveAndCloseButtonClick() {
     const onDone = () => {
@@ -320,7 +288,7 @@ class GraveSiteForm extends Form {
   }
   _handleSaveAndGotoCardButtonClick() {
     const card   = new GraveSiteCard(this.dom.$container, this.spinner);
-    const onDone = (responseJson) => {
+    const onDone = responseJson => {
       this.modal.getObject().hide();
       graveSiteCard_show(responseJson.data.id);
     };
@@ -352,7 +320,7 @@ class GraveSiteForm extends Form {
       data       : JSON.stringify(data),
       contentType: `application/json; charset=utf-8`,
     })
-    .done((responseJson) => {
+    .done(responseJson => {
       this.toast.fire({
         icon : `success`,
         title: `Участок успешно создан.`,
@@ -362,11 +330,6 @@ class GraveSiteForm extends Form {
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
   }
-
-  _handleCloseButtonClick() {
-    this.modal.getObject().hide();
-    location.reload();            // TODO refactor not to reload entire page
-  }
   _loadView(id, onDone) {
     this.spinner.show();
     $.ajax({
@@ -374,7 +337,7 @@ class GraveSiteForm extends Form {
       method  : `get`,
       url     : this.urls.show.replace(`{id}`, id),
     })
-    .done((responseJson) => {
+    .done(responseJson => {
       onDone(responseJson);
     })
     .fail(this.appServiceFailureHandler.onFailure)
@@ -400,20 +363,20 @@ class GraveSiteForm extends Form {
         formType: formType,
       });
       this.modal.getObject().show();
-
-      return;
-    }
-    this._loadView(id, (responseJson) => {
-      this._setState({
-        view    : responseJson.data.view,
-        formType: formType,
+    } else {
+      this._loadView(id, responseJson => {
+        this._setState({
+          view    : responseJson.data.view,
+          formType: formType,
+        });
+        this.modal.getObject().show();
       });
-    });
+    }
   }
   hide() {
     if (this.modal === null) {
       return;
     }
-    this.modal.getObject().show();
+    this.modal.getObject().hide();
   }
 }

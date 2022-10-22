@@ -37,14 +37,14 @@ class NaturalPersonSelectizer {
           method  : `GET`,
           url     : this.urls.load.replace(`{search}`, query),
         })
-        .done((res) => {
-          callback(res.data.simpleList.items.slice(0, this.numberOfListItems));
-        })
-        .fail(() => {
-          callback();
-        })
+        .done(res =>
+          callback(res.data.simpleList.items.slice(0, this.numberOfListItems))
+        )
+        .fail(() =>
+          callback()
+        )
       },
-      score: (search) => (item) => {
+      score: search => item => {
         if (search.length < this.minFullNameLength) {
           return 0;
         }

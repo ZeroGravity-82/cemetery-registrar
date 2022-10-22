@@ -7,7 +7,7 @@ const graveSiteForm       = new GraveSiteForm($modalContainer, spinner, window.A
 const graveSiteCard       = new GraveSiteCard($modalContainer, spinner, window.APP_PROPS);
 
 $createGraveSiteBtn.on(`click`, () => graveSiteForm.show(`CREATE`));
-$tableGraveSite.on(`click`, `td`, (e) => {
+$tableGraveSite.on(`click`, `td`, e => {
   const graveSiteId = $(e.target).closest(`tr`).attr(`data-id`);
   graveSiteCard.show(graveSiteId);
 });
