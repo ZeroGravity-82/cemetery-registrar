@@ -6,25 +6,37 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteFactory;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use DataFixtures\NaturalPerson\NaturalPersonProvider;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
 class GraveSiteFactoryTest extends EntityFactoryTest
 {
+    private NaturalPerson    $naturalPerson;
     private GraveSiteFactory $graveSiteFactory;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->graveSiteFactory = new GraveSiteFactory($this->mockIdentityGenerator);
+        $this->naturalPerson    = NaturalPersonProvider::getNaturalPersonG();
+        $mockNaturalPersonRepo  = $this->buildMockNaturalPersonRepo();
+        $this->graveSiteFactory = new GraveSiteFactory(
+            $mockNaturalPersonRepo,
+            $this->mockIdentityGenerator,
+        );
     }
 
-    public function testItCreatesColumbariumNiche(): void
+    public function testItCreatesGraveSite(): void
     {
-        $cemeteryBlockId      = 'CB01';
+        $cemeteryBlockId      = 'CB001';
         $rowInBlock           = 5;
         $positionInRow        = 10;
         $geoPositionLatitude  = '54.950357';
@@ -40,6 +52,7 @@ class GraveSiteFactoryTest extends EntityFactoryTest
             $geoPositionLongitude,
             $geoPositionError,
             $size,
+            $this->naturalPerson->id()->value(),
         );
         $this->assertInstanceOf(GraveSite::class, $graveSite);
         $this->assertSame(self::ENTITY_ID, $graveSite->id()->value());
@@ -50,16 +63,18 @@ class GraveSiteFactoryTest extends EntityFactoryTest
         $this->assertSame($geoPositionLongitude, $graveSite->geoPosition()->coordinates()->longitude());
         $this->assertSame($geoPositionError, $graveSite->geoPosition()->error()->value());
         $this->assertSame($size, $graveSite->size()->value());
+        $this->assertSame($this->naturalPerson->id()->value(), $graveSite->personInChargeId()->value());
     }
 
-    public function testItCreatesColumbariumNicheWithoutOptionalFields(): void
+    public function testItCreatesGraveSiteWithoutOptionalFields(): void
     {
-        $cemeteryBlockId = 'CB01';
+        $cemeteryBlockId = 'CB001';
         $rowInBlock      = 5;
         $this->mockIdentityGenerator->expects($this->once())->method('getNextIdentity');
         $graveSite = $this->graveSiteFactory->create(
             $cemeteryBlockId,
             $rowInBlock,
+            null,
             null,
             null,
             null,
@@ -73,5 +88,40 @@ class GraveSiteFactoryTest extends EntityFactoryTest
         $this->assertNull($graveSite->positionInRow());
         $this->assertNull($graveSite->geoPosition());
         $this->assertNull($graveSite->size());
+        $this->assertNull($graveSite->personInChargeId());
+    }
+
+    public function testItFailsWhenPersonInChargeIsNotFoundById(): void
+    {
+        $cemeteryBlockId  = 'CB001';
+        $rowInBlock       = 5;
+        $personInChargeId = 'unknown_id';
+        $this->expectException(NotFoundException::class);
+        $this->expectExceptionMessage(\sprintf('Физлицо с ID "%s" не найдено.', $personInChargeId));
+        $this->graveSiteFactory->create(
+            $cemeteryBlockId,
+            $rowInBlock,
+            null,
+            null,
+            null,
+            null,
+            null,
+            $personInChargeId,
+        );
+    }
+
+    private function buildMockNaturalPersonRepo(): MockObject|NaturalPersonRepository
+    {
+        $mockNaturalPersonRepo = $this->createMock(NaturalPersonRepository::class);
+        $mockNaturalPersonRepo->method('findById')->willReturnCallback(
+            function (NaturalPersonId $id) {
+                return match ($id->value()) {
+                    $this->naturalPerson->id()->value() => $this->naturalPerson,
+                    default                             => null,
+                };
+            }
+        );
+
+        return $mockNaturalPersonRepo;
     }
 }

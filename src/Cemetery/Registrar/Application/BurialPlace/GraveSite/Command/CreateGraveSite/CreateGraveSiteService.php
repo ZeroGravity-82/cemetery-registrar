@@ -44,6 +44,7 @@ class CreateGraveSiteService extends GraveSiteService
             $request->geoPositionLongitude,
             $request->geoPositionError,
             $request->size,
+            $request->personInChargeId,
         );
         $this->graveSiteRepo->save($graveSite);
         $this->eventDispatcher->dispatch(new GraveSiteCreated(
