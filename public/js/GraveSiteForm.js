@@ -30,17 +30,15 @@ class GraveSiteForm extends Form {
   }
   _bind() {
     super._bind();
-    this._handleSaveAndCloseButtonClick    = this._handleSaveAndCloseButtonClick.bind(this);
-    this._handleSaveAndGotoCardButtonClick = this._handleSaveAndGotoCardButtonClick.bind(this);
+    this._handleSaveAndCloseButtonClick = this._handleSaveAndCloseButtonClick.bind(this);
   }
   _render() {
     this.dom.$container.empty();
 
     this.dom.$formButtons = (new FormButtons({
     }, {
-      onSaveAndCloseButtonClick   : this._handleSaveAndCloseButtonClick,
-      onSaveAndGotoCardButtonClick: this._handleSaveAndGotoCardButtonClick,
-      onCloseButtonClick          : this._handleCloseButtonClick,
+      onSaveAndCloseButtonClick: this._handleSaveAndCloseButtonClick,
+      onCloseButtonClick       : this._handleCloseButtonClick,
     })).getElement();
 
     let modalTitle       = null;
@@ -51,27 +49,26 @@ class GraveSiteForm extends Form {
         this._renderCreate();
         break;
       case `CLARIFY_LOCATION`:
-        modalTitle = `Уточнение расположения участка - <span>${graveSiteTitle}</span>`;
+        modalTitle = `Уточнение расположения - <span>${graveSiteTitle}</span>`;
         this._renderClarifyLocation();
         break;
       case `CLARIFY_SIZE`:
-        modalTitle = `Уточнение размера участка - <span>${graveSiteTitle}</span>`;
+        modalTitle = `Уточнение размера - <span>${graveSiteTitle}</span>`;
         this._renderClarifySize();
         break;
       case `CLARIFY_GEO_POSITION`:
-        modalTitle = `Уточнение геопозиции участка - <span>${graveSiteTitle}</span>`;
+        modalTitle = `Уточнение геопозиции - <span>${graveSiteTitle}</span>`;
         this._renderClarifyGeoPosition();
         break;
       case `ASSIGN_PERSON_IN_CHARGE`:
-        modalTitle = `Назначение ответственного за участок - <span>${graveSiteTitle}</span>`;
+        modalTitle = `Назначение ответственного - <span>${graveSiteTitle}</span>`;
         this._renderAssignPersonInCharge();
         break;
       case `REPLACE_PERSON_IN_CHARGE`:
-        modalTitle = `Замена ответственного за участок - <span>${graveSiteTitle}</span>`;
+        modalTitle = `Замена ответственного - <span>${graveSiteTitle}</span>`;
         this._renderReplacePersonInCharge();
         break;
     }
-
     this.modal = new Modal({
       context   : `GraveSiteForm`,
       modalTitle: modalTitle,
@@ -126,13 +123,13 @@ class GraveSiteForm extends Form {
     <div id="cemeteryBlockIdFeedback" class="invalid-feedback"></div>
     `)));
   }
-  _renderFormRowForRowInBlock() {
+  _renderFormRowForRowInBlock(rowInBlock = null) {
     this.dom.$rowInBlockInput = $(`
 <input type="number" min="1" class="form-control form-control-sm"
        id="rowInBlock" name="rowInBlock"
        aria-describedby="rowInBlockFeedback"
        aria-label="Ряд"
-       value="${this.state.view ? this.state.view.rowInBlock : ``}">
+       value="${rowInBlock ?? ``}">
     `);
 
     return $(`
@@ -143,13 +140,13 @@ class GraveSiteForm extends Form {
     <div id="rowInBlockFeedback" class="invalid-feedback"></div>
     `)));
   }
-  _renderFormRowForPositionInRow() {
+  _renderFormRowForPositionInRow(positionInRow = null) {
     this.dom.$positionInRowInput = $(`
 <input type="number" min="1" class="form-control form-control-sm"
        id="positionInRow" name="positionInRow"
        aria-describedby="positionInRowFeedback"
        aria-label="Место"
-       value="${this.state.view ? this.state.view.positionInRow : ``}">    
+       value="${positionInRow ?? ``}">    
     `);
 
     return $(`
@@ -160,13 +157,13 @@ class GraveSiteForm extends Form {
     <div id="positionInRowFeedback" class="invalid-feedback"></div>
     `)));
   }
-  _renderFormRowForSize() {
+  _renderFormRowForSize(size = null) {
     this.dom.$sizeInput = $(`
 <input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
        id="size" name="size"
        aria-describedby="sizeFeedback"
        aria-label="Размер"
-       value="${this.state.view ? this.state.view.size : ``}">
+       value="${size ?? ``}">
     `);
 
     return $(`
@@ -177,9 +174,9 @@ class GraveSiteForm extends Form {
     <div id="sizeFeedback" class="invalid-feedback"></div>
     `)));
   }
-  _renderFormRowForGeoPosition() {
-    const geoPosition = this.state.view && this.state.view.geoPositionLatitude !== null && this.state.view.geoPositionLongitude !== null
-        ? `${this.state.view.geoPositionLatitude}, ${this.state.view.geoPositionLongitude}`
+  _renderFormRowForGeoPosition(geoPositionLatitude = null, geoPositionLongitude = null) {
+    const geoPosition = geoPositionLatitude !== null && geoPositionLongitude !== null
+        ? `${geoPositionLatitude}, ${geoPositionLongitude}`
         : null;
     this.dom.$geoPositionInput = $(`
 <input type="text" class="form-control form-control-sm"
@@ -265,28 +262,29 @@ class GraveSiteForm extends Form {
 </form>
     `);
   }
+  _buildPersonInChargeSelectizer() {
+    return new NaturalPersonSelectizer(
+      this.dom.$personInChargeSelect,
+      {
+        urls: {
+          load: this.urls.naturalPersonListAlive,
+        },
+        isDeceasedSelector: false,
+        minFullNameLength : 3,
+        numberOfListItems : 25,
+      },
+    );
+  }
   _listen() {
-    this.dom.$element.on(`shown.bs.modal`,     ()      => this.dom.$cemeteryBlockSelect.focus());  // Autofocus
-    this.dom.$cemeteryBlockSelect.on(`input`,  (event) => this._hideValidationError(event));
-    this.dom.$rowInBlockInput.on(`input`,      (event) => this._hideValidationError(event));
-    this.dom.$positionInRowInput.on(`input`,   (event) => this._hideValidationError(event));
-    this.dom.$sizeInput.on(`input`,            (event) => this._hideValidationError(event));
-    this.dom.$geoPositionInput.on(`input`,     (event) => this._hideValidationError(event));
-    this.dom.$personInChargeSelect.on(`input`, (event) => this._hideValidationError(event));
+    this.dom.$element.off(`shown.bs.modal`).on(`shown.bs.modal`,                              ()      => this.dom.$cemeteryBlockSelect.focus());
+    this.dom.$cemeteryBlockSelect  && this.dom.$cemeteryBlockSelect.off(`input`).on(`input`,  (event) => this._hideValidationError(event));
+    this.dom.$rowInBlockInput      && this.dom.$rowInBlockInput.off(`input`).on(`input`,      (event) => this._hideValidationError(event));
+    this.dom.$positionInRowInput   && this.dom.$positionInRowInput.off(`input`).on(`input`,   (event) => this._hideValidationError(event));
+    this.dom.$sizeInput            && this.dom.$sizeInput.off(`input`).on(`input`,            (event) => this._hideValidationError(event));
+    this.dom.$geoPositionInput     && this.dom.$geoPositionInput.off(`input`).on(`input`,     (event) => this._hideValidationError(event));
+    this.dom.$personInChargeSelect && this.dom.$personInChargeSelect.off(`input`).on(`input`, (event) => this._hideValidationError(event));
   }
   _handleSaveAndCloseButtonClick() {
-    const onDone = () => {
-      this.modal.getObject().hide();
-      location.reload();      // TODO refactor not to reload entire page
-    };
-    switch (this.state.formType) {
-      case `CREATE`:
-        this._create(onDone);
-        break;
-
-    }
-  }
-  _handleSaveAndGotoCardButtonClick() {
     const onDone = responseJson => {
       this.modal.getObject().hide();
       graveSiteCard.show(responseJson.data.id);
@@ -295,7 +293,9 @@ class GraveSiteForm extends Form {
       case `CREATE`:
         this._create(onDone);
         break;
-
+      case `CLARIFY_LOCATION`:
+        this._clarifyLocation(onDone);
+        break;
     }
   }
   _create(onDone) {
@@ -330,48 +330,37 @@ class GraveSiteForm extends Form {
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
   }
-  _loadView(id, onDone) {
+  _clarifyLocation(onDone) {
     this.spinner.show();
+    const data = {
+      cemeteryBlockId: this.dom.$cemeteryBlockSelect.val() !== `` ? this.dom.$cemeteryBlockSelect.val()          : null,
+      rowInBlock     : this.dom.$rowInBlockInput.val()     !== `` ? parseInt(this.dom.$rowInBlockInput.val())    : null,
+      positionInRow  : this.dom.$positionInRowInput.val()  !== `` ? parseInt(this.dom.$positionInRowInput.val()) : null,
+      csrfToken      : this.csrfToken,
+    };
     $.ajax({
-      dataType: `json`,
-      method  : `get`,
-      url     : this.urls.show.replace(`{id}`, id),
+      dataType   : `json`,
+      method     : `patch`,
+      url        : this.urls.clarifyLocation.replace(`{id}`, this.state.view.id),
+      data       : JSON.stringify(data),
+      contentType: `application/json; charset=utf-8`,
     })
     .done(responseJson => {
+      this.toast.fire({
+        icon : `success`,
+        title: `Расположение участка успешно уточнено.`,
+      });
       onDone(responseJson);
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
   }
-  _buildPersonInChargeSelectizer() {
-    return new NaturalPersonSelectizer(
-      this.dom.$personInChargeSelect,
-      {
-        urls: {
-          load: this.urls.naturalPersonListAlive,
-        },
-        isDeceasedSelector: false,
-        minFullNameLength : 3,
-        numberOfListItems : 25,
-      },
-    );
-  }
-  show(formType, id = null) {
-    if (id === null) {
-      this._setState({
-        view    : null,
-        formType: formType,
-      });
-      this.modal.getObject().show();
-    } else {
-      this._loadView(id, responseJson => {
-        this._setState({
-          view    : responseJson.data.view,
-          formType: formType,
-        });
-        this.modal.getObject().show();
-      });
-    }
+  show(formType, view = null) {
+    this._setState({
+      view    : view,
+      formType: formType,
+    });
+    this.modal.getObject().show();
   }
   hide() {
     if (this.modal === null) {

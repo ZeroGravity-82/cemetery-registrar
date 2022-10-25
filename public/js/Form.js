@@ -47,8 +47,8 @@ class Form {
       $invalidFeedback.html(validationError);
     }
   }
-  _hideValidationError(e) {
-    $(e.target).removeClass(`is-invalid`);
+  _hideValidationError(event) {
+    $(event.target).removeClass(`is-invalid`);
   }
   _handleCloseButtonClick() {
     this.modal.getObject().hide();

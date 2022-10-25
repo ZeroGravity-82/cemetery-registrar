@@ -40,7 +40,7 @@ class Modal {
     this.object = new bootstrap.Modal(this.dom.$element, {});
   }
   _listen() {
-    this.dom.$closeButton.on(`click`, this._onCloseButtonClick);
+    this.dom.$closeButton.off(`click`).on(`click`, this._onCloseButtonClick);
   }
   getElement() {
     return this.dom.$element;

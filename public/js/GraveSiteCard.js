@@ -111,7 +111,8 @@ class GraveSiteCard extends Card {
     `);
   }
   _handleClarifyLocationActionClick(event) {
-    // TODO
+    this.modal.getObject().hide();
+    graveSiteForm.show(`CLARIFY_LOCATION`, this.state.view);
   }
   _handleClarifySizeActionClick(event) {
     // TODO
