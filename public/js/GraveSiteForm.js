@@ -287,10 +287,9 @@ class GraveSiteForm extends Form {
     }
   }
   _handleSaveAndGotoCardButtonClick() {
-    const card   = new GraveSiteCard(this.dom.$container, this.spinner);
     const onDone = responseJson => {
       this.modal.getObject().hide();
-      graveSiteCard_show(responseJson.data.id);
+      graveSiteCard.show(responseJson.data.id);
     };
     switch (this.state.formType) {
       case `CREATE`:
