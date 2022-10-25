@@ -266,13 +266,13 @@ class GraveSiteForm extends Form {
     `);
   }
   _listen() {
-    this.dom.$element.on(`shown.bs.modal`,     ()  => this.dom.$cemeteryBlockSelect.focus());  // Autofocus
-    this.dom.$cemeteryBlockSelect.on(`input`,  (e) => this._hideValidationError(e));
-    this.dom.$rowInBlockInput.on(`input`,      (e) => this._hideValidationError(e));
-    this.dom.$positionInRowInput.on(`input`,   (e) => this._hideValidationError(e));
-    this.dom.$sizeInput.on(`input`,            (e) => this._hideValidationError(e));
-    this.dom.$geoPositionInput.on(`input`,     (e) => this._hideValidationError(e));
-    this.dom.$personInChargeSelect.on(`input`, (e) => this._hideValidationError(e));
+    this.dom.$element.on(`shown.bs.modal`,     ()      => this.dom.$cemeteryBlockSelect.focus());  // Autofocus
+    this.dom.$cemeteryBlockSelect.on(`input`,  (event) => this._hideValidationError(event));
+    this.dom.$rowInBlockInput.on(`input`,      (event) => this._hideValidationError(event));
+    this.dom.$positionInRowInput.on(`input`,   (event) => this._hideValidationError(event));
+    this.dom.$sizeInput.on(`input`,            (event) => this._hideValidationError(event));
+    this.dom.$geoPositionInput.on(`input`,     (event) => this._hideValidationError(event));
+    this.dom.$personInChargeSelect.on(`input`, (event) => this._hideValidationError(event));
   }
   _handleSaveAndCloseButtonClick() {
     const onDone = () => {
