@@ -6,6 +6,7 @@
 // import `Card.js`;
 // import `CardButtons.js`;
 // import `AppServiceFailureHandler.js`;
+// import `GraveSiteForm.js`;
 
 class GraveSiteCard extends Card {
   constructor($container, spinner, props) {
@@ -111,8 +112,9 @@ class GraveSiteCard extends Card {
     `);
   }
   _handleClarifyLocationActionClick(event) {
-    this.modal.getObject().hide();
-    graveSiteForm.show(`CLARIFY_LOCATION`, this.state.view);
+    this.hide();
+    const graveSiteForm = new GraveSiteForm(this.dom.$container, this.spinner, this.props);
+    graveSiteForm.show(`CLARIFY_LOCATION`, this.state.view, this);
   }
   _handleClarifySizeActionClick(event) {
     // TODO

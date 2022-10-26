@@ -7,6 +7,7 @@ class Card {
       $card     : null,
     };
     this.spinner = spinner;
+    this.props   = props;
     this.state   = {
       view: null,
     };
@@ -38,7 +39,7 @@ class Card {
     this._listen();
   }
   _handleCloseButtonClick() {
-    this.modal.getObject().hide();
+    this.hide();
     location.reload();            // TODO refactor not to reload entire page
   }
   _displayValidationErrors(validationErrors) {

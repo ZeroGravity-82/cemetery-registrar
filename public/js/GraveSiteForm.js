@@ -285,20 +285,16 @@ class GraveSiteForm extends Form {
     this.dom.$personInChargeSelect && this.dom.$personInChargeSelect.off(`input`).on(`input`, (event) => this._hideValidationError(event));
   }
   _handleSaveAndCloseButtonClick() {
-    const onDone = responseJson => {
-      this.modal.getObject().hide();
-      graveSiteCard.show(responseJson.data.id);
-    };
     switch (this.state.formType) {
       case `CREATE`:
-        this._create(onDone);
+        this._create();
         break;
       case `CLARIFY_LOCATION`:
-        this._clarifyLocation(onDone);
+        this._clarifyLocation();
         break;
     }
   }
-  _create(onDone) {
+  _create() {
     this.spinner.show();
     const geoPositionLatitude  = this.dom.$geoPositionInput.val().split(`,`)[0] ?? ``;
     const geoPositionLongitude = this.dom.$geoPositionInput.val().split(`,`)[1] ?? ``;
@@ -325,12 +321,14 @@ class GraveSiteForm extends Form {
         icon : `success`,
         title: `Участок успешно создан.`,
       });
-      onDone(responseJson);
+      this.hide();
+      const graveSiteCard = new GraveSiteCard(this.dom.$container, this.spinner, this.props);
+      graveSiteCard.show(responseJson.data.id);
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
   }
-  _clarifyLocation(onDone) {
+  _clarifyLocation() {
     this.spinner.show();
     const data = {
       cemeteryBlockId: this.dom.$cemeteryBlockSelect.val() !== `` ? this.dom.$cemeteryBlockSelect.val()          : null,
@@ -350,22 +348,9 @@ class GraveSiteForm extends Form {
         icon : `success`,
         title: `Расположение участка успешно уточнено.`,
       });
-      onDone(responseJson);
+      this.hide();
     })
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
-  }
-  show(formType, view = null) {
-    this._setState({
-      view    : view,
-      formType: formType,
-    });
-    this.modal.getObject().show();
-  }
-  hide() {
-    if (this.modal === null) {
-      return;
-    }
-    this.modal.getObject().hide();
   }
 }

@@ -7,6 +7,7 @@ class Form {
       $form     : null,
     };
     this.spinner = spinner;
+    this.props   = props;
     this.state   = {
       view            : null,
       formType        : null,
@@ -19,7 +20,8 @@ class Form {
       onValidationErrors: validationErrors =>
         this._displayValidationErrors(validationErrors)
     });
-    this.modal = null;
+    this.modal      = null;
+    this.returnCard = null;
   }
   _bind() {
     this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
@@ -51,7 +53,26 @@ class Form {
     $(event.target).removeClass(`is-invalid`);
   }
   _handleCloseButtonClick() {
+    this.hide();
+    if (!this.returnCard) {
+      location.reload();            // TODO refactor not to reload entire page
+    }
+  }
+  show(formType, view = null, returnCard = null) {
+    this._setState({
+      view    : view,
+      formType: formType,
+    });
+    this.returnCard = returnCard;
+    this.modal.getObject().show();
+  }
+  hide() {
+    if (this.modal === null) {
+      return;
+    }
     this.modal.getObject().hide();
-    location.reload();            // TODO refactor not to reload entire page
+    if (this.returnCard) {
+      this.returnCard.show(this.state.view.id);
+    }
   }
 }
