@@ -114,7 +114,7 @@ class GraveSiteCard extends Card {
   _handleClarifyLocationActionClick(event) {
     this.hide();
     const graveSiteForm = new GraveSiteForm(this.dom.$container, this.spinner, this.props);
-    graveSiteForm.show(`CLARIFY_LOCATION`, this.state.view, this);
+    graveSiteForm.show(GraveSiteForm.FORM_TYPE_CLARIFY_LOCATION, this.state.view, this);
   }
   _handleClarifySizeActionClick(event) {
     // TODO

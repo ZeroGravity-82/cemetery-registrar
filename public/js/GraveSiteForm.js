@@ -8,6 +8,13 @@
 // import `GraveSiteCard.js`;
 
 class GraveSiteForm extends Form {
+  static get FORM_TYPE_CREATE()                   { return `CREATE` };
+  static get FORM_TYPE_CLARIFY_LOCATION()         { return `CLARIFY_LOCATION` };
+  static get FORM_TYPE_CLARIFY_SIZE()             { return `CLARIFY_SIZE` };
+  static get FORM_TYPE_CLARIFY_GEO_POSITION()     { return `CLARIFY_GEO_POSITION` };
+  static get FORM_TYPE_ASSIGN_PERSON_IN_CHARGE()  { return `ASSIGN_PERSON_IN_CHARGE` };
+  static get FORM_TYPE_REPLACE_PERSON_IN_CHARGE() { return `REPLACE_PERSON_IN_CHARGE` };
+
   constructor($container, spinner, props) {
     super($container, spinner, props);
     this.urls  = {
@@ -44,27 +51,27 @@ class GraveSiteForm extends Form {
     let modalTitle       = null;
     const graveSiteTitle = this.state.view !== null ? GraveSiteCard.composeGraveSiteTitle(this.state.view) : null;
     switch (this.state.formType) {
-      case `CREATE`:
+      case GraveSiteForm.FORM_TYPE_CREATE:
         modalTitle = `Создание участка`;
         this._renderCreate();
         break;
-      case `CLARIFY_LOCATION`:
+      case GraveSiteForm.FORM_TYPE_CLARIFY_LOCATION:
         modalTitle = `Уточнение расположения - <span>${graveSiteTitle}</span>`;
         this._renderClarifyLocation();
         break;
-      case `CLARIFY_SIZE`:
+      case GraveSiteForm.FORM_TYPE_CLARIFY_SIZE:
         modalTitle = `Уточнение размера - <span>${graveSiteTitle}</span>`;
         this._renderClarifySize();
         break;
-      case `CLARIFY_GEO_POSITION`:
+      case GraveSiteForm.FORM_TYPE_CLARIFY_GEO_POSITION:
         modalTitle = `Уточнение геопозиции - <span>${graveSiteTitle}</span>`;
         this._renderClarifyGeoPosition();
         break;
-      case `ASSIGN_PERSON_IN_CHARGE`:
+      case GraveSiteForm.FORM_TYPE_ASSIGN_PERSON_IN_CHARGE:
         modalTitle = `Назначение ответственного - <span>${graveSiteTitle}</span>`;
         this._renderAssignPersonInCharge();
         break;
-      case `REPLACE_PERSON_IN_CHARGE`:
+      case GraveSiteForm.FORM_TYPE_REPLACE_PERSON_IN_CHARGE:
         modalTitle = `Замена ответственного - <span>${graveSiteTitle}</span>`;
         this._renderReplacePersonInCharge();
         break;
@@ -286,10 +293,10 @@ class GraveSiteForm extends Form {
   }
   _handleSaveAndCloseButtonClick() {
     switch (this.state.formType) {
-      case `CREATE`:
+      case GraveSiteForm.FORM_TYPE_CREATE:
         this._create();
         break;
-      case `CLARIFY_LOCATION`:
+      case GraveSiteForm.FORM_TYPE_CLARIFY_LOCATION:
         this._clarifyLocation();
         break;
     }
