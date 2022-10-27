@@ -9,6 +9,15 @@
 // import `GraveSiteForm.js`;
 
 class GraveSiteCard extends Card {
+  static composeGraveSiteTitle(view) {
+    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
+    if (view.positionInRow !== null) {
+      title += `, место ${view.positionInRow}`;
+    }
+
+    return title;
+  }
+
   constructor($container, spinner, props) {
     super($container, spinner, props);
     this.urls = {
@@ -294,13 +303,5 @@ class GraveSiteCard extends Card {
   })
   .fail(this.appServiceFailureHandler.onFailure)
   .always(() => this.spinner.hide());
-  }
-  static composeGraveSiteTitle(view) {
-    let title = `Квартал ${view.cemeteryBlockName}, ряд ${view.rowInBlock}`;
-    if (view.positionInRow !== null) {
-      title += `, место ${view.positionInRow}`;
-    }
-
-    return title;
   }
 }
