@@ -423,6 +423,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,       $view->geoPositionLongitude);
         $this->assertSame(null,       $view->geoPositionError);
         $this->assertSame(null,       $view->size);
+        $this->assertSame(null,       $view->personInChargeId);
+        $this->assertSame(null,       $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -431,15 +433,17 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
     {
         $view = $this->fetcher->findViewById('GS002');
         $this->assertInstanceOf(GraveSiteView::class, $view);
-        $this->assertSame('GS002',      $view->id);
-        $this->assertSame('CB002',      $view->cemeteryBlockId);
-        $this->assertSame('общий А',    $view->cemeteryBlockName);
-        $this->assertSame(3,            $view->rowInBlock);
-        $this->assertSame(4,            $view->positionInRow);
-        $this->assertSame('54.950357',  $view->geoPositionLatitude);
-        $this->assertSame('82.7972252', $view->geoPositionLongitude);
-        $this->assertSame('0.5',        $view->geoPositionError);
-        $this->assertSame(null,         $view->size);
+        $this->assertSame('GS002',                     $view->id);
+        $this->assertSame('CB002',                     $view->cemeteryBlockId);
+        $this->assertSame('общий А',                   $view->cemeteryBlockName);
+        $this->assertSame(3,                           $view->rowInBlock);
+        $this->assertSame(4,                           $view->positionInRow);
+        $this->assertSame('54.950357',                 $view->geoPositionLatitude);
+        $this->assertSame('82.7972252',                $view->geoPositionLongitude);
+        $this->assertSame('0.5',                       $view->geoPositionError);
+        $this->assertSame(null,                        $view->size);
+        $this->assertSame('NP008',                     $view->personInChargeId);
+        $this->assertSame('Беляев Мечеслав Федорович', $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -448,15 +452,17 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
     {
         $view = $this->fetcher->findViewById('GS003');
         $this->assertInstanceOf(GraveSiteView::class, $view);
-        $this->assertSame('GS003',      $view->id);
-        $this->assertSame('CB003',      $view->cemeteryBlockId);
-        $this->assertSame('общий Б',    $view->cemeteryBlockName);
-        $this->assertSame(7,            $view->rowInBlock);
-        $this->assertSame(null,         $view->positionInRow);
-        $this->assertSame('50.950357',  $view->geoPositionLatitude);
-        $this->assertSame('80.7972252', $view->geoPositionLongitude);
-        $this->assertSame(null,         $view->geoPositionError);
-        $this->assertSame('2.5',        $view->size);
+        $this->assertSame('GS003',                      $view->id);
+        $this->assertSame('CB003',                      $view->cemeteryBlockId);
+        $this->assertSame('общий Б',                    $view->cemeteryBlockName);
+        $this->assertSame(7,                            $view->rowInBlock);
+        $this->assertSame(null,                         $view->positionInRow);
+        $this->assertSame('50.950357',                  $view->geoPositionLatitude);
+        $this->assertSame('80.7972252',                 $view->geoPositionLongitude);
+        $this->assertSame(null,                         $view->geoPositionError);
+        $this->assertSame('2.5',                        $view->size);
+        $this->assertSame('NP007',                      $view->personInChargeId);
+        $this->assertSame('Громов Никифор Рудольфович', $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -474,6 +480,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $view->geoPositionLongitude);
         $this->assertSame(null,            $view->geoPositionError);
         $this->assertSame(null,            $view->size);
+        $this->assertSame(null,            $view->personInChargeId);
+        $this->assertSame(null,            $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -491,6 +499,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $view->geoPositionLongitude);
         $this->assertSame(null,            $view->geoPositionError);
         $this->assertSame(null,            $view->size);
+        $this->assertSame(null,            $view->personInChargeId);
+        $this->assertSame(null,            $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -508,6 +518,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,            $view->geoPositionLongitude);
         $this->assertSame(null,            $view->geoPositionError);
         $this->assertSame(null,            $view->size);
+        $this->assertSame(null,            $view->personInChargeId);
+        $this->assertSame(null,            $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -525,6 +537,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,      $view->geoPositionLongitude);
         $this->assertSame(null,      $view->geoPositionError);
         $this->assertSame(null,      $view->size);
+        $this->assertSame(null,      $view->personInChargeId);
+        $this->assertSame(null,      $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -542,6 +556,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,      $view->geoPositionLongitude);
         $this->assertSame(null,      $view->geoPositionError);
         $this->assertSame(null,      $view->size);
+        $this->assertSame(null,      $view->personInChargeId);
+        $this->assertSame(null,      $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }
@@ -559,6 +575,8 @@ class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherInt
         $this->assertSame(null,      $view->geoPositionLongitude);
         $this->assertSame(null,      $view->geoPositionError);
         $this->assertSame('3.5',     $view->size);
+        $this->assertSame(null,      $view->personInChargeId);
+        $this->assertSame(null,      $view->personInChargeFullName);
         $this->assertValidDateTimeValue($view->createdAt);
         $this->assertValidDateTimeValue($view->updatedAt);
     }

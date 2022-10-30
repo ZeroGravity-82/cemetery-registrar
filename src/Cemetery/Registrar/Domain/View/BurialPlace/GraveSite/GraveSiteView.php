@@ -19,6 +19,7 @@ class GraveSiteView
         public ?string $geoPositionLongitude,
         public ?string $geoPositionError,
         public ?string $size,
+        public ?string $personInChargeId,
         public ?string $personInChargeFullName,
         public string  $createdAt,
         public string  $updatedAt,
