@@ -283,7 +283,7 @@ class GraveSiteForm extends Form {
     );
   }
   _listen() {
-    this.dom.$element.off(`shown.bs.modal`).on(`shown.bs.modal`,                              ()      => this.dom.$cemeteryBlockSelect.focus());
+    super._listen();
     this.dom.$cemeteryBlockSelect  && this.dom.$cemeteryBlockSelect.off(`input`).on(`input`,  (event) => this._hideValidationError(event));
     this.dom.$rowInBlockInput      && this.dom.$rowInBlockInput.off(`input`).on(`input`,      (event) => this._hideValidationError(event));
     this.dom.$positionInRowInput   && this.dom.$positionInRowInput.off(`input`).on(`input`,   (event) => this._hideValidationError(event));
@@ -299,10 +299,15 @@ class GraveSiteForm extends Form {
       case GraveSiteForm.FORM_TYPE_CLARIFY_LOCATION:
         this._clarifyLocation();
         break;
+      case GraveSiteForm.FORM_TYPE_CLARIFY_SIZE:
+        this._clarifySize();
+        break;
+      case GraveSiteForm.FORM_TYPE_CLARIFY_GEO_POSITION:
+        this._clarifyGeoPosition();
+        break;
     }
   }
   _create() {
-    this.spinner.show();
     const geoPositionLatitude  = this.dom.$geoPositionInput.val().split(`,`)[0] ?? ``;
     const geoPositionLongitude = this.dom.$geoPositionInput.val().split(`,`)[1] ?? ``;
     const data                 = {
@@ -316,6 +321,7 @@ class GraveSiteForm extends Form {
       personInChargeId    : this.dom.$personInChargeSelect.val() !== `` ? this.dom.$personInChargeSelect.val()         : null,
       csrfToken           : this.csrfToken,
     };
+    this.spinner.show();
     $.ajax({
       dataType   : `json`,
       method     : `post`,
@@ -336,28 +342,40 @@ class GraveSiteForm extends Form {
     .always(() => this.spinner.hide());
   }
   _clarifyLocation() {
-    this.spinner.show();
     const data = {
       cemeteryBlockId: this.dom.$cemeteryBlockSelect.val() !== `` ? this.dom.$cemeteryBlockSelect.val()          : null,
       rowInBlock     : this.dom.$rowInBlockInput.val()     !== `` ? parseInt(this.dom.$rowInBlockInput.val())    : null,
       positionInRow  : this.dom.$positionInRowInput.val()  !== `` ? parseInt(this.dom.$positionInRowInput.val()) : null,
       csrfToken      : this.csrfToken,
     };
-    $.ajax({
-      dataType   : `json`,
-      method     : `patch`,
-      url        : this.urls.clarifyLocation.replace(`{id}`, this.state.view.id),
-      data       : JSON.stringify(data),
-      contentType: `application/json; charset=utf-8`,
-    })
-    .done(responseJson => {
-      this.toast.fire({
-        icon : `success`,
-        title: `Расположение участка успешно уточнено.`,
-      });
-      this.hide();
-    })
-    .fail(this.appServiceFailureHandler.onFailure)
-    .always(() => this.spinner.hide());
+    const url               = this.urls.clarifyLocation.replace(`{id}`, this.state.view.id);
+    const successToastTitle = `Расположение участка успешно уточнено.`;
+    this._saveClarifiedData(data, url, successToastTitle);
+  }
+  _clarifySize() {
+    const data = {
+      size     : this.dom.$sizeInput.val() !== `` ? this.dom.$sizeInput.val() : null,
+      csrfToken: this.csrfToken,
+    };
+    const url               = this.urls.clarifySize.replace(`{id}`, this.state.view.id);
+    const successToastTitle = `Размер участка успешно уточнён.`;
+    this._saveClarifiedData(data, url, successToastTitle);
+  }
+  _clarifyGeoPosition() {
+    const geoPositionLatitude  = this.dom.$geoPositionInput.val().split(`,`)[0];
+    const geoPositionLongitude = this.dom.$geoPositionInput.val().split(`,`)[1];
+    const data = {
+      geoPositionLatitude: this.dom.$geoPositionInput.val() !== ``
+          ? geoPositionLatitude !== undefined ? geoPositionLatitude.trim() : null
+          : null,
+      geoPositionLongitude: this.dom.$geoPositionInput.val() !== ``
+          ? geoPositionLongitude !== undefined ? geoPositionLongitude.trim() : null
+          : null,
+      geoPositionError: null,
+      csrfToken       : this.csrfToken,
+    }
+    const url               = this.urls.clarifyGeoPosition.replace(`{id}`, this.state.view.id);
+    const successToastTitle = `Геопозиция участка успешно уточнена.`;
+    this._saveClarifiedData(data, url, successToastTitle);
   }
 }

@@ -27,7 +27,12 @@ class Form {
     this._handleCloseButtonClick = this._handleCloseButtonClick.bind(this);
   }
   _render() {}
-  _listen() {}
+  _listen() {
+    this._autofocus();
+  }
+  _autofocus() {
+    this.dom.$element.off(`shown.bs.modal`).on(`shown.bs.modal`, () => this.dom.$element.find(`:input`).not(`button`).first().focus());
+  }
   _setState(state) {
     this.state = {...this.state, ...state};
     this._render();
@@ -48,6 +53,25 @@ class Form {
       const $invalidFeedback = this.dom.$element.find(`#${ariaDescribedby}`);
       $invalidFeedback.html(validationError);
     }
+  }
+  _saveClarifiedData(data, url, successToastTitle) {
+    this.spinner.show();
+    $.ajax({
+      dataType   : `json`,
+      method     : `patch`,
+      url        : url,
+      data       : JSON.stringify(data),
+      contentType: `application/json; charset=utf-8`,
+    })
+        .done(() => {
+          this.toast.fire({
+            icon : `success`,
+            title: successToastTitle,
+          });
+          this.hide();
+        })
+        .fail(this.appServiceFailureHandler.onFailure)
+        .always(() => this.spinner.hide());
   }
   _hideValidationError(event) {
     $(event.target).removeClass(`is-invalid`);

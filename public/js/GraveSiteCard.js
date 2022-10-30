@@ -126,10 +126,14 @@ class GraveSiteCard extends Card {
     graveSiteForm.show(GraveSiteForm.FORM_TYPE_CLARIFY_LOCATION, this.state.view, this);
   }
   _handleClarifySizeActionClick(event) {
-    // TODO
+    this.hide();
+    const graveSiteForm = new GraveSiteForm(this.dom.$container, this.spinner, this.props);
+    graveSiteForm.show(GraveSiteForm.FORM_TYPE_CLARIFY_SIZE, this.state.view, this);
   }
   _handleClarifyGeoPositionActionClick(event) {
-    // TODO
+    this.hide();
+    const graveSiteForm = new GraveSiteForm(this.dom.$container, this.spinner, this.props);
+    graveSiteForm.show(GraveSiteForm.FORM_TYPE_CLARIFY_GEO_POSITION, this.state.view, this);
   }
   _handleAssignPersonInChargeActionClick(event) {
     // TODO
@@ -192,7 +196,9 @@ class GraveSiteCard extends Card {
     })
   }
   _handlePersonInChargeCardIconClick(event) {
-    // TODO
+    this.hide();
+    const personInChargeCard = new NaturalPersonCard(this.dom.$container, this.spinner, this.props);
+    personInChargeCard.show(this.state.view.personInChargeId);
   }
   _handleRemoveButtonClick() {
     Swal.fire({
@@ -262,10 +268,10 @@ class GraveSiteCard extends Card {
     return actionList;
   }
   _removeGraveSite(id) {
-    this.spinner.show();
     const data = {
       csrfToken: this.csrfToken,
     };
+    this.spinner.show();
     $.ajax({
       dataType: `json`,
       method  : `delete`,
@@ -284,10 +290,10 @@ class GraveSiteCard extends Card {
     .always(() => this.spinner.hide());
   }
   _clearGraveSiteData(id, url, message) {
-    this.spinner.show();
     const data = {
       csrfToken: this.csrfToken,
     };
+    this.spinner.show();
     $.ajax({
     dataType: `json`,
     method  : `patch`,
