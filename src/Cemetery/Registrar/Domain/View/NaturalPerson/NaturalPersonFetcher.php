@@ -11,8 +11,6 @@ use Cemetery\Registrar\Domain\View\Fetcher;
  */
 interface NaturalPersonFetcher extends Fetcher
 {
-    public const DEFAULT_PAGE_SIZE = 10;
-
     /**
      * Returns a list of all natural persons.
      */
