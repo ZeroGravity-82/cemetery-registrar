@@ -19,7 +19,7 @@ let currentNaturalPersonId;
 let currentView;
 
 function naturalPersonCard_show(id) {
-  $spinner.show();
+  // $spinner.show();
 
   currentNaturalPersonId = id;
   $naturalPersonCardCard.data(`id`, currentNaturalPersonId);
@@ -185,7 +185,7 @@ $naturalPersonCard.on(`click`, `.js-remove`, () => {
 });
 
 function clearDataNaturalPerson(url, message) {
-  $spinner.show();
+  // $spinner.show();
   const data = {
     token: $naturalPersonCardCsrfTokenField.val(),
   };
@@ -207,7 +207,7 @@ function clearDataNaturalPerson(url, message) {
 }
 
 function removeNaturalPerson(url) {
-  $spinner.show();
+  // $spinner.show();
   const data = {
     token: $naturalPersonCardCsrfTokenField.val(),
   };
