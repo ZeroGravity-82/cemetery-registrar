@@ -18,6 +18,7 @@ class GraveSiteForm extends Form {
   constructor($container, spinner, props) {
     super($container, spinner, props);
     this.urls  = {
+      listCemeteryBlocks    : props.urls.cemeteryBlock.list,
       create                : props.urls.graveSite.create,
       show                  : props.urls.graveSite.show,
       clarifyLocation       : props.urls.graveSite.clarifyLocation,
@@ -28,7 +29,7 @@ class GraveSiteForm extends Form {
       naturalPersonListAlive: props.urls.graveSite.naturalPersonListAlive,
     };
     this.csrfToken                = props.csrfTokens.graveSite;
-    this.cemeteryBlockList        = props.cemeteryBlockList;
+    this.cemeteryBlockList        = null;
     this.personInChargeSelectizer = null;
     this._init();
   }
@@ -119,8 +120,8 @@ class GraveSiteForm extends Form {
 <select class="form-select form-select-sm"
         id="cemeteryBlockId" name="cemeteryBlockId"
         aria-describedby="cemeteryBlockIdFeedback"
-        aria-label="Квартал"></select>`).append(
-  this._buildCemeteryBlockListOptions(cemeteryBlockId));
+        aria-label="Квартал"></select>`);
+    this._loadCemeteryBlockList(cemeteryBlockId);
 
     return $(`
 <div class="row pb-2"></div>`).append($(`
@@ -268,6 +269,21 @@ class GraveSiteForm extends Form {
 <!--  {% include '_form_buttons.html.twig' %}-->
 </form>
     `);
+  }
+  _loadCemeteryBlockList(cemeteryBlockId = null) {
+    this.spinner.show();
+    $.ajax({
+      dataType   : `json`,
+      method     : `get`,
+      url        : this.urls.listCemeteryBlocks,
+      contentType: `application/json; charset=utf-8`,
+    })
+    .done(responseJson => {
+      this.cemeteryBlockList = responseJson.data.list.items;
+      this.dom.$cemeteryBlockSelect.append(this._buildCemeteryBlockListOptions(cemeteryBlockId));
+    })
+    .fail(this.appServiceFailureHandler.onFailure)
+    .always(() => this.spinner.hide());
   }
   _buildPersonInChargeSelectizer() {
     return new NaturalPersonSelectizer(

@@ -8,6 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateCemeteryBlock\CreateCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditCemeteryBlock\EditCemeteryBlockRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveCemeteryBlock\RemoveCemeteryBlockRequest;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListCemeteryBlocks\ListCemeteryBlocksRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowCemeteryBlock\ShowCemeteryBlockRequest;
 use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
@@ -23,6 +24,15 @@ class AdminBurialPlaceCemeteryBlockController extends Controller
     public function __construct(
         private readonly ApplicationRequestBus $appRequestBus,
     ) {}
+
+    #[Route('/admin/burial-place/cemetery-block', name: 'admin_cemetery_block_list', methods: HttpRequest::METHOD_GET)]
+    public function cemeteryBlockList(): HttpJsonResponse
+    {
+        $queryRequest  = new ListCemeteryBlocksRequest();
+        $queryResponse = $this->appRequestBus->execute($queryRequest);
+
+        return $this->buildJsonResponse($queryResponse, HttpResponse::HTTP_OK);
+    }
 
     #[Route('/admin/burial-place/cemetery-block/{id}', name: 'admin_cemetery_block_show', methods: HttpRequest::METHOD_GET)]
     public function showCemeteryBlock(HttpRequest $httpRequest): HttpJsonResponse

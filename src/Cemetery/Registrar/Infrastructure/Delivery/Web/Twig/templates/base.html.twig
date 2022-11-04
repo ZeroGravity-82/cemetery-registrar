@@ -48,6 +48,9 @@
       const spinner    = new Spinner($(`.spinner-container`));
       window.APP_PROPS = {
         urls: {
+          cemeteryBlock: {
+            list                  : `{{ path('admin_cemetery_block_list') }}`,
+          },
           graveSite: {
             create                : `{{ path('admin_grave_site_create') }}`,
             show                  : `{{ path('admin_grave_site_show',                     {'id': '{id}'})|url_decode }}`,
@@ -66,11 +69,6 @@
         csrfTokens: {
           graveSite: `{{ csrf_token('grave_site') }}`,
         },
-        cemeteryBlockList: [
-          {% for listItem in cemeteryBlockList.items %}
-          { id: `{{ listItem.id }}`, name: `{{ listItem.name }}` },
-          {% endfor %}
-        ],
         swalOptions: {
           toast            : true,
           position         : `top-end`,
