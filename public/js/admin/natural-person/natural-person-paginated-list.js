@@ -1,13 +1,14 @@
+`use strict`;
+
 const $tableNaturalPerson     = $(`#naturalPersonList`);
 const $createNaturalPersonBtn = $(`.js-create-natural-person-btn`);
+const $modalContainer         = $(`.modal-container`);
 
-// Create
 $createNaturalPersonBtn.on(`click`, () => {
-  naturalPersonFormNew_show();
+  // TODO
 });
-
-// Show
-$tableNaturalPerson.on(`click`, `td`, (e) => {
-  const naturalPersonId = $(e.target).closest(`tr`).attr(`data-id`);
-  naturalPersonCard_show(naturalPersonId);
+$tableNaturalPerson.on(`click`, `td`, event => {
+  const naturalPersonCard = new NaturalPersonCard($modalContainer, spinner, window.APP_PROPS);
+  const id                = $(event.target).closest(`tr`).attr(`data-id`);
+  naturalPersonCard.show(id);
 });

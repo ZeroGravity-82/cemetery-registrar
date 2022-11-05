@@ -18,15 +18,15 @@ class GraveSiteForm extends Form {
   constructor($container, spinner, props) {
     super($container, spinner, props);
     this.urls  = {
-      listCemeteryBlocks    : props.urls.cemeteryBlock.list,
-      create                : props.urls.graveSite.create,
-      show                  : props.urls.graveSite.show,
-      clarifyLocation       : props.urls.graveSite.clarifyLocation,
-      clarifySize           : props.urls.graveSite.clarifySize,
-      clarifyGeoPosition    : props.urls.graveSite.clarifyGeoPosition,
-      // assignPersonInCharge  : props.urls.graveSite.assignPersonInCharge,
-      replacePersonInCharge : props.urls.graveSite.replacePersonInCharge,
-      naturalPersonListAlive: props.urls.graveSite.naturalPersonListAlive,
+      create                 : props.urls.graveSite.create,
+      show                   : props.urls.graveSite.show,
+      clarifyLocation        : props.urls.graveSite.clarifyLocation,
+      clarifySize            : props.urls.graveSite.clarifySize,
+      clarifyGeoPosition     : props.urls.graveSite.clarifyGeoPosition,
+      // assignPersonInCharge   : props.urls.graveSite.assignPersonInCharge,
+      replacePersonInCharge  : props.urls.graveSite.replacePersonInCharge,
+      listCemeteryBlocks     : props.urls.cemeteryBlock.list,
+      listAliveNaturalPersons: props.urls.naturalPerson.listAlive,
     };
     this.csrfToken                = props.csrfTokens.graveSite;
     this.cemeteryBlockList        = null;
@@ -290,7 +290,7 @@ class GraveSiteForm extends Form {
       this.dom.$personInChargeSelect,
       {
         urls: {
-          load: this.urls.naturalPersonListAlive,
+          load: this.urls.listAliveNaturalPersons,
         },
         isDeceasedSelector: false,
         minFullNameLength : 3,

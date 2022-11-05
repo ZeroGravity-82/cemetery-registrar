@@ -80,11 +80,11 @@ class GraveSiteCard extends Card {
           <span>${this._composePersonInChargeFullName(this.state.view)}</span>&nbsp;</p>`).append(
             this.dom.$personInChargeCardIcon))))).append(
   this.dom.$cardButtons).append($(`
-  <p class="mt-2 mb-0 text-muted gsc-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
+  <p class="mt-2 mb-0 text-muted card-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
     this.modal = new Modal({
       context   : `GraveSiteCard`,
-      modalTitle: `Карточка участка - <span>${this._composeLocation(this.state.view)}</span>`,
+      modalTitle: `Карточка участка - ${this._composeLocation(this.state.view)}`,
       $modalBody: this.dom.$card,
     }, {
       onCloseButtonClick: this._handleCloseButtonClick,
@@ -94,8 +94,8 @@ class GraveSiteCard extends Card {
   }
   _listen() {
     this.dom.$clarifyLocationAction.off(`click`).on(`click`, this._handleClarifyLocationActionClick);
-    this.dom.$clarifySizeAction           && this.dom.$clarifySizeAction.off(`click`).on(`click`, this._handleClarifySizeActionClick);
-    this.dom.$clarifyGeoPositionAction    && this.dom.$clarifyGeoPositionAction.off(`click`).on(`click`, this._handleClarifyGeoPositionActionClick);
+    this.dom.$clarifySizeAction.off(`click`).on(`click`, this._handleClarifySizeActionClick);
+    this.dom.$clarifyGeoPositionAction.off(`click`).on(`click`, this._handleClarifyGeoPositionActionClick);
     this.dom.$assignPersonInChargeAction  && this.dom.$assignPersonInChargeAction.off(`click`).on(`click`, this._handleAssignPersonInChargeActionClick);
     this.dom.$clarifyPersonInChargeAction && this.dom.$clarifyPersonInChargeAction.off(`click`).on(`click`, this._handleClarifyPersonInChargeActionClick);
     this.dom.$replacePersonInChargeAction && this.dom.$replacePersonInChargeAction.off(`click`).on(`click`, this._handleReplacePersonInChargeActionClick);
@@ -113,9 +113,6 @@ class GraveSiteCard extends Card {
   }
   .gsc-card-icon:hover {
     cursor: pointer;
-  }
-  .gsc-timestamps {
-    font-size: .625rem!important;
   }
 </style>
     `);

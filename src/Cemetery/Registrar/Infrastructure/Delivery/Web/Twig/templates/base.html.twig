@@ -43,6 +43,8 @@
     <script src="/js/NaturalPersonSelectizer.js"></script>
     <script src="/js/GraveSiteForm.js"></script>
     <script src="/js/GraveSiteCard.js"></script>
+{#    <script src="/js/NaturalPersonForm.js"></script>#}
+    <script src="/js/NaturalPersonCard.js"></script>
 
     <script>
       const spinner    = new Spinner($(`.spinner-container`));
@@ -63,11 +65,21 @@
             clearGeoPosition      : `{{ path('admin_grave_site_clear_geo_position',       {'id': '{id}'})|url_decode }}`,
             discardPersonInCharge : `{{ path('admin_grave_site_discard_person_in_charge', {'id': '{id}'})|url_decode }}`,
             remove                : `{{ path('admin_grave_site_remove',                   {'id': '{id}'})|url_decode }}`,
-            naturalPersonListAlive: `{{ path('natural_person_list_alive',                 {'search': '{search}'})|url_decode }}`,
+
+          },
+          naturalPerson: {
+            show                  : `{{ path('natural_person_show',                     {'id': '{id}'})|url_decode }}`,
+            clearContact          : `{{ path('natural_person_clear_contact',            {'id': '{id}'})|url_decode }}`,
+            clearBirthDetails     : `{{ path('natural_person_clear_birth_details',      {'id': '{id}'})|url_decode }}`,
+            clearPassport         : `{{ path('natural_person_clear_passport',           {'id': '{id}'})|url_decode }}`,
+            discardDeceasedDetails: `{{ path('natural_person_discard_deceased_details', {'id': '{id}'})|url_decode }}`,
+            remove                : `{{ path('natural_person_remove',                   {'id': '{id}'})|url_decode }}`,
+            listAlive             : `{{ path('natural_person_list_alive',               {'search': '{search}'})|url_decode }}`,
           },
         },
         csrfTokens: {
-          graveSite: `{{ csrf_token('grave_site') }}`,
+          graveSite    : `{{ csrf_token('grave_site') }}`,
+          naturalPerson: `{{ csrf_token('natural_person') }}`,
         },
         swalOptions: {
           toast            : true,

@@ -24,7 +24,10 @@ class Card {
 <style>
   li.dropdown-item {
     cursor: pointer;
-}
+  }
+  .card-timestamps {
+    font-size: .625rem!important;
+  }
 </style>
     `));
   }
