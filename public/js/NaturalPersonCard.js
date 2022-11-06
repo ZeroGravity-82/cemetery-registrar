@@ -70,7 +70,7 @@ class NaturalPersonCard extends Card {
       <div class="col-sm-9 px-0"><p>${this._composePassport(this.state.view)}</p></div></div>`)).append($(`
     <div class="row pb-2">
       <div class="col-sm-3 px-0"><strong>Данные о смерти:</strong></div>
-      <div class="col-sm-9 px-0"><p>${this._composeDeceasedDetails(this.state.view)}</p></div></div>`))).append(
+      <div class="col-sm-9 px-0">${this._composeDeceasedDetails(this.state.view)}</div></div>`))).append(
   this.dom.$cardButtons).append($(`
   <p class="mt-2 mb-0 text-muted card-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
@@ -128,7 +128,7 @@ class NaturalPersonCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.clearContact, `Контактные данные физлица успешно очищены.`);
+        this._clearNaturalPersonData(this.state.view.id, this.urls.clearContact, `Контактные данные успешно очищены.`);
       }
     })
   }
@@ -145,7 +145,7 @@ class NaturalPersonCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.clearBirthDetails, `Дата и место рождения физлица успешно очищены.`);
+        this._clearNaturalPersonData(this.state.view.id, this.urls.clearBirthDetails, `Дата и место рождения успешно очищены.`);
       }
     })
   }
@@ -162,7 +162,7 @@ class NaturalPersonCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.clearPassport, `Паспортные данные физлица успешно очищены.`);
+        this._clearNaturalPersonData(this.state.view.id, this.urls.clearPassport, `Паспортные данные успешно очищены.`);
       }
     })
   }
@@ -179,7 +179,7 @@ class NaturalPersonCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.discardDeceasedDetails, `Данные о смерти физлица успешно удалены.`);
+        this._clearNaturalPersonData(this.state.view.id, this.urls.discardDeceasedDetails, `Данные о смерти успешно удалены.`);
       }
     })
   }
@@ -204,16 +204,99 @@ class NaturalPersonCard extends Card {
     return NaturalPersonCard.composeNaturalPersonTitle(view);
   }
   _composeContact(view) {
-    // TODO
+    let contactPhoneLine = null;
+    if (view.phone !== null) {
+      contactPhoneLine = view.phone;
+    }
+    if (view.phoneAdditional !== null) {
+      contactPhoneLine = contactPhoneLine !== null ? `${contactPhoneLine}, ${view.phoneAdditional}` : view.phoneAdditional;
+    }
+    const contactAddressLine = view.address;
+    const contactEmailLine   = view.email;
+
+    let contact = null;
+    if (contactPhoneLine !== null) {
+      contact = contactPhoneLine;
+    }
+    if (contactAddressLine !== null) {
+      contact = contact !== null ? `${contact}<br>${contactAddressLine}` : contactAddressLine;
+    }
+    if (contactEmailLine !== null) {
+      contact = contact !== null ? `${contact}<br>${contactEmailLine}` : contactEmailLine;
+    }
+
+    return contact !== null ? contact : `-`;
   }
   _composeBirthDetails(view) {
-    // TODO
+    let birthDetails = `-`;
+    switch (true) {
+      case view.bornAt !== null && view.placeOfBirth === null:
+        birthDetails = view.bornAt;
+        break;
+      case view.bornAt === null && view.placeOfBirth !== null:
+        birthDetails = view.placeOfBirth;
+        break;
+      case view.bornAt !== null && view.placeOfBirth !== null:
+        birthDetails = `${view.bornAt}, ${view.placeOfBirth}`;
+        break;
+    }
+
+    return birthDetails;
   }
   _composePassport(view) {
-    // TODO
+    let passport = `-`;
+
+    if (view.passportSeries !== null) {
+      passport = `${view.passportSeries} № ${view.passportNumber}, выдан ${view.passportIssuedBy} ${view.passportIssuedAt}`;
+      if (view.passportDivisionCode !== null) {
+        passport = `${passport} (${view.passportDivisionCode})`;
+      }
+    }
+
+    return passport;
   }
   _composeDeceasedDetails(view) {
-    // TODO
+    return `
+<div class="row">
+  <p class="col-sm-4 mb-1">Дата смерти</p>
+  <p class="col-sm-8 mb-1">${this._composeDiedAt(view)}</p>
+</div>
+<div class="row">
+  <p class="col-sm-4 mb-1">Возраст</p>
+  <p class="col-sm-8 mb-1">${this._composeAge(view)}</p>
+</div>
+<div class="row">
+  <p class="col-sm-4 mb-1">Причина смерти</p>
+  <p class="col-sm-8 mb-1">${this._composeCauseOfDeath(view)}</p>
+</div>
+<div class="row">
+  <p class="col-sm-4 mb-1">Свид. о смерти</p>
+  <p class="col-sm-8 mb-1">${this._composeDeathCertificate(view)}</p>
+</div>
+<div class="row">
+  <p class="col-sm-4 mb-1">Справка о кремации</p>
+  <p class="col-sm-8 mb-1">${this._composeCremationCertificate(view)}</p>
+</div>
+    `;
+  }
+  _composeDiedAt(view) {
+    return view.diedAt ?? `-`;
+  }
+  _composeAge(view) {
+    return view.age ?? `-`;
+  }
+  _composeCauseOfDeath(view) {
+    return view.causeOfDeathName ?? `-`;
+  }
+  _composeDeathCertificate(view) {
+    return view.deathCertificateSeries
+        ? `${view.deathCertificateSeries} № ${view.deathCertificateNumber} от ${view.deathCertificateIssuedAt}`
+        : `-`;
+  }
+  _composeCremationCertificate(view) {
+    return view.cremationCertificateNumber
+        ? `№ ${view.cremationCertificateNumber} от ${view.cremationCertificateIssuedAt}`
+        : `-`;
   }
   _buildActionList(view) {
     let regularActionList = [];
