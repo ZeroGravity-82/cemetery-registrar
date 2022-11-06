@@ -154,7 +154,7 @@ class GraveSiteCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearGraveSiteData(this.state.view.id, this.urls.clearSize, `Размер участка успешно очищен.`);
+        this._clearGraveSiteData(this.state.view.id, this.urls.clearSize, `Размер успешно очищен.`);
       }
     })
   }
@@ -171,7 +171,7 @@ class GraveSiteCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearGraveSiteData(this.state.view.id, this.urls.clearGeoPosition, `Геопозиция участка успешно очищена.`);
+        this._clearGraveSiteData(this.state.view.id, this.urls.clearGeoPosition, `Геопозиция успешно очищена.`);
       }
     })
   }
