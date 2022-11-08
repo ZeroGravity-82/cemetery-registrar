@@ -6,18 +6,18 @@ class Card {
       $container: $container,
       $card     : null,
     };
-    this.spinner = spinner;
-    this.props   = props;
-    this.state   = {
-      view: null,
-    };
+    this.spinner                  = spinner;
+    this.props                    = props;
+    this.state                    = null;
     this.toast                    = Swal.mixin(props.swalOptions);
     this.appServiceFailureHandler = new AppServiceFailureHandler({
       swalOptions: props.swalOptions,
     }, {
       onValidationErrors: this._displayValidationErrors,
     });
-    this.modal = null;
+    this.modal     = null;
+    this.csrfToken = null;
+    this.urls      = null;
   }
   _stylize() {
     $(`head`).append($(`
@@ -40,6 +40,24 @@ class Card {
     this.state = {...this.state, ...state};
     this._render();
     this._listen();
+  }
+  _handleClearDataActionClick(promptMessage, url, successMessage) {
+    const actionVerb = promptMessage.split(` `)[0].toLowerCase();
+    Swal.fire({
+      title             : promptMessage,
+      icon              : `warning`,
+      iconColor         : `red`,
+      showCancelButton  : true,
+      focusCancel       : true,
+      confirmButtonText : `Да, ${actionVerb}`,
+      confirmButtonColor: `red`,
+      cancelButtonText  : `Нет`,
+    })
+    .then(result => {
+      if (result.isConfirmed) {
+        this._clearData(this.state.view.id, url, successMessage);
+      }
+    })
   }
   _handleCloseButtonClick() {
     this.hide();
@@ -66,6 +84,49 @@ class Card {
     )
     .fail(this.appServiceFailureHandler.onFailure)
     .always(() => this.spinner.hide());
+  }
+  _clearData(id, url, message) {
+    const data = {
+      csrfToken: this.csrfToken,
+    };
+    this.spinner.show();
+    $.ajax({
+      dataType: `json`,
+      method  : `patch`,
+      url     : url.replace(`{id}`, id),
+      data    : JSON.stringify(data),
+    })
+    .done(() => {
+      this.toast.fire({
+        icon : `success`,
+        title: message,
+      });
+      this.show(id);
+    })
+    .fail(this.appServiceFailureHandler.onFailure)
+    .always(() => this.spinner.hide());
+  }
+  _remove(id, message) {
+    const data = {
+      csrfToken: this.csrfToken,
+    };
+    this.spinner.show();
+    $.ajax({
+      dataType: `json`,
+      method  : `delete`,
+      url     : this.urls.remove.replace(`{id}`, id),
+      data    : JSON.stringify(data),
+    })
+        .done(() => {
+          this.toast.fire({
+            icon : `success`,
+            title: message,
+          });
+          this.hide();
+          location.reload();        // TODO refactor not to reload entire page
+        })
+        .fail(this.appServiceFailureHandler.onFailure)
+        .always(() => this.spinner.hide());
   }
   show(id) {
     this._loadView(id, responseJson => {

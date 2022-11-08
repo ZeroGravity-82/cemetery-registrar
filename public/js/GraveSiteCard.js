@@ -142,60 +142,25 @@ class GraveSiteCard extends Card {
     // TODO
   }
   _handleClearSizeActionClick() {
-    Swal.fire({
-      title             : `Очистить размер для<br>"${this._composeLocation(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, очистить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearGraveSiteData(this.state.view.id, this.urls.clearSize, `Размер успешно очищен.`);
-      }
-    })
+    this._handleClearDataActionClick(
+      `Очистить размер для<br>"${this._composeLocation(this.state.view)}"?`,
+      this.urls.clearSize,
+      `Размер успешно очищен.`,
+    );
   }
   _handleClearGeoPositionActionClick() {
-    Swal.fire({
-      title             : `Очистить геопозицию для<br>"${this._composeLocation(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, очистить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearGraveSiteData(this.state.view.id, this.urls.clearGeoPosition, `Геопозиция успешно очищена.`);
-      }
-    })
+    this._handleClearDataActionClick(
+      `Очистить геопозицию для<br>"${this._composeLocation(this.state.view)}"?`,
+      this.urls.clearGeoPosition,
+      `Геопозиция успешно очищена.`,
+    );
   }
   _handleDiscardPersonInChargeActionClick() {
-    Swal.fire({
-      title             : `Удалить ответственного для<br>"${this._composeLocation(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, удалить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearGraveSiteData(this.state.view.id, this.urls.discardPersonInCharge, `Ответственный успешно удалён.`);
-      }
-    })
-  }
-  _handlePersonInChargeCardIconClick(event) {
-    this.hide();
-    const personInChargeCard = new NaturalPersonCard(this.dom.$container, this.spinner, this.props);
-    personInChargeCard.show(this.state.view.personInChargeId);
+    this._handleClearDataActionClick(
+      `Удалить ответственного для<br>"${this._composeLocation(this.state.view)}"?`,
+      this.urls.discardPersonInCharge,
+      `Ответственный успешно удалён.`,
+    );
   }
   _handleRemoveButtonClick() {
     Swal.fire({
@@ -210,9 +175,14 @@ class GraveSiteCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._removeGraveSite(this.state.view.id);
+        this._remove(this.state.view.id, `Участок успешно удалён.`);
       }
     })
+  }
+  _handlePersonInChargeCardIconClick(event) {
+    this.hide();
+    const personInChargeCard = new NaturalPersonCard(this.dom.$container, this.spinner, this.props);
+    personInChargeCard.show(this.state.view.personInChargeId);
   }
   _composeLocation(view) {
     return GraveSiteCard.composeGraveSiteTitle(view);
@@ -263,48 +233,5 @@ class GraveSiteCard extends Card {
     }
 
     return actionList;
-  }
-  _removeGraveSite(id) {
-    const data = {
-      csrfToken: this.csrfToken,
-    };
-    this.spinner.show();
-    $.ajax({
-      dataType: `json`,
-      method  : `delete`,
-      url     : this.urls.remove.replace(`{id}`, id),
-      data    : JSON.stringify(data),
-    })
-    .done(() => {
-      this.toast.fire({
-        icon : `success`,
-        title: `Участок успешно удалён.`,
-      });
-      this.hide();
-      location.reload();        // TODO refactor not to reload entire page
-    })
-    .fail(this.appServiceFailureHandler.onFailure)
-    .always(() => this.spinner.hide());
-  }
-  _clearGraveSiteData(id, url, message) {
-    const data = {
-      csrfToken: this.csrfToken,
-    };
-    this.spinner.show();
-    $.ajax({
-    dataType: `json`,
-    method  : `patch`,
-    url     : url.replace(`{id}`, id),
-    data    : JSON.stringify(data),
-  })
-  .done(() => {
-    this.toast.fire({
-      icon : `success`,
-      title: message,
-    });
-    this.show(id);
-  })
-  .fail(this.appServiceFailureHandler.onFailure)
-  .always(() => this.spinner.hide());
   }
 }

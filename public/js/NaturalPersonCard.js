@@ -116,72 +116,32 @@ class NaturalPersonCard extends Card {
     // TODO
   }
   _handleClearContactActionClick() {
-    Swal.fire({
-      title             : `Очистить контактные данные для<br>"${this._composeFullName(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, очистить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.clearContact, `Контактные данные успешно очищены.`);
-      }
-    })
+    this._handleClearDataActionClick(
+      `Очистить контактные данные для<br>"${this._composeFullName(this.state.view)}"?`,
+      this.urls.clearContact,
+      `Контактные данные успешно очищены.`,
+    );
   }
   _handleClearBirthDetailsActionClick() {
-    Swal.fire({
-      title             : `Очистить дату и место рождения для<br>"${this._composeFullName(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, очистить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.clearBirthDetails, `Дата и место рождения успешно очищены.`);
-      }
-    })
+    this._handleClearDataActionClick(
+      `Очистить дату и место рождения для<br>"${this._composeFullName(this.state.view)}"?`,
+      this.urls.clearBirthDetails,
+      `Дата и место рождения успешно очищены.`,
+    );
   }
   _handleClearPassportActionClick() {
-    Swal.fire({
-      title             : `Очистить паспортные данные для<br>"${this._composeFullName(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, очистить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.clearPassport, `Паспортные данные успешно очищены.`);
-      }
-    })
+    this._handleClearDataActionClick(
+      `Очистить паспортные данные для<br>"${this._composeFullName(this.state.view)}"?`,
+      this.urls.clearPassport,
+      `Паспортные данные успешно очищены.`,
+    );
   }
   _handleDiscardDeceasedDetailsActionClick() {
-    Swal.fire({
-      title             : `Удалить данные о смерти для<br>"${this._composeLocation(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, удалить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._clearNaturalPersonData(this.state.view.id, this.urls.discardDeceasedDetails, `Данные о смерти успешно удалены.`);
-      }
-    })
+    this._handleClearDataActionClick(
+      `Удалить данные о смерти для<br>"${this._composeLocation(this.state.view)}"?`,
+      this.urls.discardDeceasedDetails,
+      `Данные о смерти успешно удалены.`,
+    );
   }
   _handleRemoveButtonClick() {
     Swal.fire({
@@ -196,7 +156,7 @@ class NaturalPersonCard extends Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._removeNaturalPerson(this.state.view.id);
+        this._remove(this.state.view.id, `Физлицо успешно удалено.`);
       }
     })
   }
@@ -327,48 +287,5 @@ class NaturalPersonCard extends Card {
     }
 
     return actionList;
-  }
-  _removeNaturalPerson(id) {
-    const data = {
-      csrfToken: this.csrfToken,
-    };
-    this.spinner.show();
-    $.ajax({
-      dataType: `json`,
-      method  : `delete`,
-      url     : this.urls.remove.replace(`{id}`, id),
-      data    : JSON.stringify(data),
-    })
-    .done(() => {
-      this.toast.fire({
-        icon : `success`,
-        title: `Физлицо успешно удалено.`,
-      });
-      this.hide();
-      location.reload();        // TODO refactor not to reload entire page
-    })
-    .fail(this.appServiceFailureHandler.onFailure)
-    .always(() => this.spinner.hide());
-  }
-  _clearNaturalPersonData(id, url, message) {
-    const data = {
-      csrfToken: this.csrfToken,
-    };
-    this.spinner.show();
-    $.ajax({
-    dataType: `json`,
-    method  : `patch`,
-    url     : url.replace(`{id}`, id),
-    data    : JSON.stringify(data),
-  })
-  .done(() => {
-    this.toast.fire({
-      icon : `success`,
-      title: message,
-    });
-    this.show(id);
-  })
-  .fail(this.appServiceFailureHandler.onFailure)
-  .always(() => this.spinner.hide());
   }
 }
