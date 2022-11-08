@@ -41,7 +41,7 @@ class Card {
     this._render();
     this._listen();
   }
-  _handleClearDataActionClick(promptMessage, url, successMessage) {
+  _handleDangerActionClick(promptMessage, callback) {
     const actionVerb = promptMessage.split(` `)[0].toLowerCase();
     Swal.fire({
       title             : promptMessage,
@@ -55,7 +55,7 @@ class Card {
     })
     .then(result => {
       if (result.isConfirmed) {
-        this._clearData(this.state.view.id, url, successMessage);
+        callback();
       }
     })
   }

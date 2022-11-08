@@ -142,42 +142,28 @@ class GraveSiteCard extends Card {
     // TODO
   }
   _handleClearSizeActionClick() {
-    this._handleClearDataActionClick(
+    this._handleDangerActionClick(
       `Очистить размер для<br>"${this._composeLocation(this.state.view)}"?`,
-      this.urls.clearSize,
-      `Размер успешно очищен.`,
+      () => this._clearData(this.state.view.id, this.urls.clearSize, `Размер успешно очищен.`),
     );
   }
   _handleClearGeoPositionActionClick() {
-    this._handleClearDataActionClick(
+    this._handleDangerActionClick(
       `Очистить геопозицию для<br>"${this._composeLocation(this.state.view)}"?`,
-      this.urls.clearGeoPosition,
-      `Геопозиция успешно очищена.`,
+      () => this._clearData(this.state.view.id, this.urls.clearGeoPosition, `Геопозиция успешно очищена.`),
     );
   }
   _handleDiscardPersonInChargeActionClick() {
-    this._handleClearDataActionClick(
+    this._handleDangerActionClick(
       `Удалить ответственного для<br>"${this._composeLocation(this.state.view)}"?`,
-      this.urls.discardPersonInCharge,
-      `Ответственный успешно удалён.`,
+      () => this._clearData(this.state.view.id, this.urls.discardPersonInCharge, `Ответственный успешно удалён.`),
     );
   }
   _handleRemoveButtonClick() {
-    Swal.fire({
-      title             : `Удалить участок<br>"${this._composeLocation(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, удалить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._remove(this.state.view.id, `Участок успешно удалён.`);
-      }
-    })
+    this._handleDangerActionClick(
+      `Удалить участок<br>"${this._composeLocation(this.state.view)}"?`,
+      () => this._remove(this.state.view.id, `Участок успешно удалён.`),
+    );
   }
   _handlePersonInChargeCardIconClick(event) {
     this.hide();

@@ -116,49 +116,34 @@ class NaturalPersonCard extends Card {
     // TODO
   }
   _handleClearContactActionClick() {
-    this._handleClearDataActionClick(
+    this._handleDangerActionClick(
       `Очистить контактные данные для<br>"${this._composeFullName(this.state.view)}"?`,
-      this.urls.clearContact,
-      `Контактные данные успешно очищены.`,
+      () => this._clearData(this.state.view.id, this.urls.clearContact, `Контактные данные успешно очищены.`),
     );
   }
   _handleClearBirthDetailsActionClick() {
-    this._handleClearDataActionClick(
+    this._handleDangerActionClick(
       `Очистить дату и место рождения для<br>"${this._composeFullName(this.state.view)}"?`,
-      this.urls.clearBirthDetails,
-      `Дата и место рождения успешно очищены.`,
+      () => this._clearData(this.state.view.id, this.urls.clearBirthDetails, `Дата и место рождения успешно очищены.`),
     );
   }
   _handleClearPassportActionClick() {
-    this._handleClearDataActionClick(
+    this._handleDangerActionClick(
       `Очистить паспортные данные для<br>"${this._composeFullName(this.state.view)}"?`,
-      this.urls.clearPassport,
-      `Паспортные данные успешно очищены.`,
+      () => this._clearData(this.state.view.id, this.urls.clearPassport, `Паспортные данные успешно очищены.`),
     );
   }
   _handleDiscardDeceasedDetailsActionClick() {
-    this._handleClearDataActionClick(
-      `Удалить данные о смерти для<br>"${this._composeLocation(this.state.view)}"?`,
-      this.urls.discardDeceasedDetails,
-      `Данные о смерти успешно удалены.`,
+    this._handleDangerActionClick(
+      `Удалить данные о смерти для<br>"${this._composeFullName(this.state.view)}"?`,
+      () => this._clearData(this.state.view.id, this.urls.discardDeceasedDetails, `Данные о смерти успешно удалены.`),
     );
   }
   _handleRemoveButtonClick() {
-    Swal.fire({
-      title             : `Удалить физлицо<br>"${this._composeFullName(this.state.view)}"?`,
-      icon              : `warning`,
-      iconColor         : `red`,
-      showCancelButton  : true,
-      focusCancel       : true,
-      confirmButtonText : `Да, удалить`,
-      confirmButtonColor: `red`,
-      cancelButtonText  : `Нет`,
-    })
-    .then(result => {
-      if (result.isConfirmed) {
-        this._remove(this.state.view.id, `Физлицо успешно удалено.`);
-      }
-    })
+    this._handleDangerActionClick(
+      `Удалить физлицо<br>"${this._composeFullName(this.state.view)}"?`,
+      () => this._remove(this.state.view.id, `Физлицо успешно удалено.`),
+    );
   }
   _composeFullName(view) {
     return NaturalPersonCard.composeNaturalPersonTitle(view);
