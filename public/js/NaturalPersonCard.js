@@ -67,10 +67,10 @@ class NaturalPersonCard extends Card {
       <div class="col-sm-9 px-0"><p>${this._composeBirthDetails(this.state.view)}</p></div></div>`)).append($(`
     <div class="row pb-2">
       <div class="col-sm-3 px-0"><strong>Паспортные данные:</strong></div>
-      <div class="col-sm-9 px-0"><p>${this._composePassport(this.state.view)}</p></div></div>`)).append($(`
+      <div class="col-sm-9 px-0"><p>${this._composePassport(this.state.view)}</p></div></div>`)).append(this.state.view.diedAt !== null ? $(`
     <div class="row pb-2">
       <div class="col-sm-3 px-0"><strong>Данные о смерти:</strong></div>
-      <div class="col-sm-9 px-0">${this._composeDeceasedDetails(this.state.view)}</div></div>`))).append(
+      <div class="col-sm-9 px-0">${this._composeDeceasedDetails(this.state.view)}</div></div>`) : $(``))).append(
   this.dom.$cardButtons).append($(`
   <p class="mt-2 mb-0 text-muted card-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
 
