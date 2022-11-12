@@ -101,19 +101,29 @@ class NaturalPersonCard extends Card {
     this.dom.$discardDeceasedDetailsAction && this.dom.$discardDeceasedDetailsAction.off(`click`).on(`click`, this._handleDiscardDeceasedDetailsActionClick);
   }
   _handleClarifyFullNameActionClick(event) {
-    // TODO
+    this.hide();
+    const naturalPersonForm = new NaturalPersonForm(this.dom.$container, this.spinner, this.props);
+    naturalPersonForm.show(NaturalPersonForm.FORM_TYPE_CLARIFY_FULL_NAME, this.state.view, this);
   }
   _handleClarifyContactActionClick(event) {
-    // TODO
+    this.hide();
+    const naturalPersonForm = new NaturalPersonForm(this.dom.$container, this.spinner, this.props);
+    naturalPersonForm.show(NaturalPersonForm.FORM_TYPE_CLARIFY_CONTACT, this.state.view, this);
   }
   _handleClarifyBirthDetailsActionClick(event) {
-    // TODO
+    this.hide();
+    const naturalPersonForm = new NaturalPersonForm(this.dom.$container, this.spinner, this.props);
+    naturalPersonForm.show(NaturalPersonForm.FORM_TYPE_CLARIFY_BIRTH_DETAILS, this.state.view, this);
   }
   _handleClarifyPassportActionClick(event) {
-    // TODO
+    this.hide();
+    const naturalPersonForm = new NaturalPersonForm(this.dom.$container, this.spinner, this.props);
+    naturalPersonForm.show(NaturalPersonForm.FORM_TYPE_CLARIFY_PASSPORT, this.state.view, this);
   }
   _handleClarifyDeceasedDetailsActionClick(event) {
-    // TODO
+    this.hide();
+    const naturalPersonForm = new NaturalPersonForm(this.dom.$container, this.spinner, this.props);
+    naturalPersonForm.show(NaturalPersonForm.FORM_TYPE_CLARIFY_DECEASED_DETAILS, this.state.view, this);
   }
   _handleClearContactActionClick() {
     this._handleDangerActionClick(

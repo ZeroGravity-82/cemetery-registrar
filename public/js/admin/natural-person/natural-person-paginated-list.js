@@ -5,7 +5,8 @@ const $createNaturalPersonBtn = $(`.js-create-natural-person-btn`);
 const $modalContainer         = $(`.modal-container`);
 
 $createNaturalPersonBtn.on(`click`, () => {
-  // TODO
+  const naturalPersonForm = new NaturalPersonForm($modalContainer, spinner, window.APP_PROPS);
+  naturalPersonForm.show(NaturalPersonForm.FORM_TYPE_CREATE);
 });
 $tableNaturalPerson.on(`click`, `td`, event => {
   const naturalPersonCard = new NaturalPersonCard($modalContainer, spinner, window.APP_PROPS);

@@ -43,7 +43,7 @@
     <script src="/js/NaturalPersonSelectizer.js"></script>
     <script src="/js/GraveSiteForm.js"></script>
     <script src="/js/GraveSiteCard.js"></script>
-{#    <script src="/js/NaturalPersonForm.js"></script>#}
+    <script src="/js/NaturalPersonForm.js"></script>
     <script src="/js/NaturalPersonCard.js"></script>
 
     <script>
@@ -68,7 +68,13 @@
 
           },
           naturalPerson: {
+            create                : `{{ path('admin_natural_person_create') }}`,
             show                  : `{{ path('natural_person_show',                     {'id': '{id}'})|url_decode }}`,
+            clarifyFullName       : `{{ path('natural_person_clarify_full_name',        {'id': '{id}'})|url_decode }}`,
+            clarifyContact        : `{{ path('natural_person_clarify_contact',          {'id': '{id}'})|url_decode }}`,
+            clarifyBirthDetails   : `{{ path('natural_person_clarify_birth_details',    {'id': '{id}'})|url_decode }}`,
+            clarifyPassport       : `{{ path('natural_person_clarify_passport',         {'id': '{id}'})|url_decode }}`,
+            clarifyDeceasedDetails: `{{ path('natural_person_clarify_deceased_details', {'id': '{id}'})|url_decode }}`,
             clearContact          : `{{ path('natural_person_clear_contact',            {'id': '{id}'})|url_decode }}`,
             clearBirthDetails     : `{{ path('natural_person_clear_birth_details',      {'id': '{id}'})|url_decode }}`,
             clearPassport         : `{{ path('natural_person_clear_passport',           {'id': '{id}'})|url_decode }}`,
