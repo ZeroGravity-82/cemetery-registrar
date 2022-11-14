@@ -488,13 +488,26 @@ class NaturalPersonForm extends Form {
 
   _listen() {
     super._listen();
-    this.dom.$fullNameInput        && this.dom.$fullNameInput.off(`input`).on(`input`,        (event) => this._hideValidationError(event));
-    this.dom.$phoneInput           && this.dom.$phoneInput.off(`input`).on(`input`,           (event) => this._hideValidationError(event));
-    this.dom.$phoneAdditionalInput && this.dom.$phoneAdditionalInput.off(`input`).on(`input`, (event) => this._hideValidationError(event));
-    this.dom.$addressInput         && this.dom.$addressInput.off(`input`).on(`input`,         (event) => this._hideValidationError(event));
-    this.dom.$emailInput           && this.dom.$emailInput.off(`input`).on(`input`,           (event) => this._hideValidationError(event));
-    this.dom.$bornAtInput          && this.dom.$bornAtInput.off(`input`).on(`input`,          (event) => this._hideValidationError(event));
-    this.dom.$placeOfBirthInput    && this.dom.$placeOfBirthInput.off(`input`).on(`input`,    (event) => this._hideValidationError(event));
+    this.dom.$fullNameInput                                    && this.dom.$fullNameInput.off(`input`).on(`input`,                                    (event) => this._hideValidationError(event));
+    this.dom.$phoneInput                                       && this.dom.$phoneInput.off(`input`).on(`input`,                                       (event) => this._hideValidationError(event));
+    this.dom.$phoneAdditionalInput                             && this.dom.$phoneAdditionalInput.off(`input`).on(`input`,                             (event) => this._hideValidationError(event));
+    this.dom.$addressInput                                     && this.dom.$addressInput.off(`input`).on(`input`,                                     (event) => this._hideValidationError(event));
+    this.dom.$emailInput                                       && this.dom.$emailInput.off(`input`).on(`input`,                                       (event) => this._hideValidationError(event));
+    this.dom.$bornAtInput                                      && this.dom.$bornAtInput.off(`input`).on(`input`,                                      (event) => this._hideValidationError(event));
+    this.dom.$placeOfBirthInput                                && this.dom.$placeOfBirthInput.off(`input`).on(`input`,                                (event) => this._hideValidationError(event));
+    this.dom.$passportSeriesInput                              && this.dom.$passportSeriesInput.off(`input`).on(`input`,                              (event) => this._hideValidationError(event));
+    this.dom.$passportNumberInput                              && this.dom.$passportNumberInput.off(`input`).on(`input`,                              (event) => this._hideValidationError(event));
+    this.dom.$passportIssuedAtInput                            && this.dom.$passportIssuedAtInput.off(`input`).on(`input`,                            (event) => this._hideValidationError(event));
+    this.dom.$passportIssuedByInput                            && this.dom.$passportIssuedByInput.off(`input`).on(`input`,                            (event) => this._hideValidationError(event));
+    this.dom.$passportDivisionCodeInput                        && this.dom.$passportDivisionCodeInput.off(`input`).on(`input`,                        (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDiedAtInput                       && this.dom.$deceasedDetailsDiedAtInput.off(`input`).on(`input`,                       (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsAgeInput                          && this.dom.$deceasedDetailsAgeInput.off(`input`).on(`input`,                          (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsCauseOfDeathInput                 && this.dom.$deceasedDetailsCauseOfDeathInput.off(`input`).on(`input`,                 (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDeathCertificateSeriesInput       && this.dom.$deceasedDetailsDeathCertificateSeriesInput.off(`input`).on(`input`,       (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDeathCertificateNumberInput       && this.dom.$deceasedDetailsDeathCertificateNumberInput.off(`input`).on(`input`,       (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDeathCertificateIssuedAtInput     && this.dom.$deceasedDetailsDeathCertificateIssuedAtInput.off(`input`).on(`input`,     (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsCremationCertificateNumberInput   && this.dom.$deceasedDetailsCremationCertificateNumberInput.off(`input`).on(`input`,   (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsCremationCertificateIssuedAtInput && this.dom.$deceasedDetailsCremationCertificateIssuedAtInput.off(`input`).on(`input`, (event) => this._hideValidationError(event));
 
 
 
