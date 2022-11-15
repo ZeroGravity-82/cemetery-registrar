@@ -17,8 +17,8 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
 class ShowCemeteryBlockService extends ApplicationService
 {
     public function __construct(
-        private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
-        ShowCemeteryBlockRequestValidator     $requestValidator,
+        private CemeteryBlockFetcher      $cemeteryBlockFetcher,
+        ShowCemeteryBlockRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminCauseOfDeathController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/admin/cause-of-death', name: 'admin_cause_of_death_paginate', methods: HttpRequest::METHOD_GET)]

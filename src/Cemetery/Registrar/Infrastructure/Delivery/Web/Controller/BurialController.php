@@ -20,8 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class BurialController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
-        private readonly BurialFetcher         $burialFetcher,
+        private ApplicationRequestBus $appRequestBus,
+        private BurialFetcher         $burialFetcher,
     ) {}
 
     #[Route('/burial', name: 'burial_list', methods: HttpRequest::METHOD_GET)]

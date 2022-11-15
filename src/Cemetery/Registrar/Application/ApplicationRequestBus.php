@@ -15,8 +15,8 @@ use Psr\Log\LoggerInterface;
 class ApplicationRequestBus
 {
     public function __construct(
-        private readonly ApplicationServiceLocator $appServiceLocator,
-        private readonly LoggerInterface           $logger,             // TODO remove in favour of events
+        private ApplicationServiceLocator $appServiceLocator,
+        private LoggerInterface           $logger,             // TODO remove in favour of events
     ) {}
 
     /**

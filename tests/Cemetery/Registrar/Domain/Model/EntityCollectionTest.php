@@ -234,7 +234,7 @@ abstract class EntityCollectionTest extends TestCase
         return new class ($this->entityA->id()) extends Entity {
             public function __construct
             (
-                private readonly EntityId $id,
+                private EntityId $id,
             ) {
                 parent::__construct();
             }

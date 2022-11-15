@@ -10,8 +10,8 @@ namespace Cemetery\Registrar\Application;
 abstract class TransactionalApplicationService extends ApplicationService
 {
     public function __construct(
-        private readonly ApplicationService   $service,
-        private readonly TransactionalSession $session,
+        private ApplicationService   $service,
+        private TransactionalSession $session,
     ) {}
 
     public function execute(ApplicationRequest $request): ApplicationSuccessResponse

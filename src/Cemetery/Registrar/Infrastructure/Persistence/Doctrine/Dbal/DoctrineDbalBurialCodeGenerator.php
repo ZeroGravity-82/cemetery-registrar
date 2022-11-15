@@ -13,7 +13,7 @@ use Doctrine\DBAL\Connection;
 class DoctrineDbalBurialCodeGenerator implements BurialCodeGenerator
 {
     public function __construct(
-        protected readonly Connection $connection,
+        protected Connection $connection,
     ) {}
 
     public function getNextCode(): string

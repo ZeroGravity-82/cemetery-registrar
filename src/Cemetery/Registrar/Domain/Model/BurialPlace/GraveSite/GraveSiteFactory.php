@@ -21,8 +21,8 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class GraveSiteFactory extends EntityFactory
 {
     public function __construct(
-        private readonly NaturalPersonRepository $naturalPersonRepo,
-        IdentityGenerator                        $identityGenerator
+        private NaturalPersonRepository $naturalPersonRepo,
+        IdentityGenerator               $identityGenerator
     ) {
         parent::__construct($identityGenerator);
     }

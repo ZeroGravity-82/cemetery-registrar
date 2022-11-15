@@ -16,9 +16,9 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 class ListGraveSitesService extends ApplicationService
 {
     public function __construct(
-        private readonly GraveSiteFetcher     $graveSiteFetcher,
-        private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
-        ListGraveSitesRequestValidator        $requestValidator,
+        private GraveSiteFetcher       $graveSiteFetcher,
+        private CemeteryBlockFetcher   $cemeteryBlockFetcher,
+        ListGraveSitesRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

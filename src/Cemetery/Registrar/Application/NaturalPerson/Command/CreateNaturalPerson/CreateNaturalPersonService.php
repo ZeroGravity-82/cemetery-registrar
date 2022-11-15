@@ -19,10 +19,10 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
 class CreateNaturalPersonService extends NaturalPersonService
 {
     public function __construct(
-        private readonly NaturalPersonFactory $naturalPersonFactory,
-        NaturalPersonRepository               $naturalPersonRepo,
-        EventDispatcher                       $eventDispatcher,
-        CreateNaturalPersonRequestValidator   $requestValidator,
+        private NaturalPersonFactory        $naturalPersonFactory,
+        NaturalPersonRepository             $naturalPersonRepo,
+        EventDispatcher                     $eventDispatcher,
+        CreateNaturalPersonRequestValidator $requestValidator,
     ) {
         parent::__construct($naturalPersonRepo, $eventDispatcher, $requestValidator);
     }

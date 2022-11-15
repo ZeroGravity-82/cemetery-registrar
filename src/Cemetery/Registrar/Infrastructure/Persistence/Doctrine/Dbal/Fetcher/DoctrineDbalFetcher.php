@@ -17,7 +17,7 @@ abstract class DoctrineDbalFetcher extends Fetcher
     protected string $tableName;
 
     public function __construct(
-        protected readonly Connection $connection,
+        protected Connection $connection,
     ) {}
 
     public function doesExistById(string $id): bool

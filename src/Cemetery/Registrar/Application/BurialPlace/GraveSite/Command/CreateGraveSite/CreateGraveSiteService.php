@@ -20,11 +20,11 @@ use Cemetery\Registrar\Domain\Model\Exception;
 class CreateGraveSiteService extends GraveSiteService
 {
     public function __construct(
-        private readonly GraveSiteFactory $graveSiteFactory,
-        GraveSiteRepository               $graveSiteRepo,
-        CemeteryBlockRepository           $cemeteryBlockRepo,
-        EventDispatcher                   $eventDispatcher,
-        CreateGraveSiteRequestValidator   $requestValidator,
+        private GraveSiteFactory        $graveSiteFactory,
+        GraveSiteRepository             $graveSiteRepo,
+        CemeteryBlockRepository         $cemeteryBlockRepo,
+        EventDispatcher                 $eventDispatcher,
+        CreateGraveSiteRequestValidator $requestValidator,
     ) {
         parent::__construct($graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher, $requestValidator);
     }

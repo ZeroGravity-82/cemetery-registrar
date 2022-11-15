@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private readonly CauseOfDeathFetcher $causeOfDeathFetcher,
+        private CauseOfDeathFetcher $causeOfDeathFetcher,
     ) {
         parent::__construct();
     }

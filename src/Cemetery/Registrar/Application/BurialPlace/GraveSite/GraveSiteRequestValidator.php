@@ -20,9 +20,9 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
-        private readonly GraveSiteFetcher     $graveSiteFetcher,
-        private readonly NaturalPersonFetcher $naturalPersonFetcher,
+        private CemeteryBlockFetcher $cemeteryBlockFetcher,
+        private GraveSiteFetcher     $graveSiteFetcher,
+        private NaturalPersonFetcher $naturalPersonFetcher,
     ) {
         parent::__construct();
     }

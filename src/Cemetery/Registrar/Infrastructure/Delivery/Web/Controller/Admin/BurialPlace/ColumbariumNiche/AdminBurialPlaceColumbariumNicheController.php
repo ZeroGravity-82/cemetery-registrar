@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminBurialPlaceColumbariumNicheController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/admin/burial-place/columbarium-niche', name: 'admin_burial_place_columbarium_niche_list', methods: 'GET')]

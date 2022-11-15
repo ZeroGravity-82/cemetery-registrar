@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 class PaginateNaturalPersonsService extends ApplicationService
 {
     public function __construct(
-        private readonly NaturalPersonFetcher  $naturalPersonFetcher,
+        private NaturalPersonFetcher           $naturalPersonFetcher,
         PaginateNaturalPersonsRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);

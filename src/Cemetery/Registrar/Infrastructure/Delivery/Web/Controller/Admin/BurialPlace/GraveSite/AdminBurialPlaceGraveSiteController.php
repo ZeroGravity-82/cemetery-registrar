@@ -27,7 +27,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminBurialPlaceGraveSiteController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route(

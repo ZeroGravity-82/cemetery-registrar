@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class CemeteryBlockService extends ApplicationService
 {
     public function __construct(
-        protected readonly CemeteryBlockRepository $cemeteryBlockRepo,
-        protected readonly EventDispatcher         $eventDispatcher,
-        CemeteryBlockRequestValidator              $requestValidator,
+        protected CemeteryBlockRepository $cemeteryBlockRepo,
+        protected EventDispatcher         $eventDispatcher,
+        CemeteryBlockRequestValidator     $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

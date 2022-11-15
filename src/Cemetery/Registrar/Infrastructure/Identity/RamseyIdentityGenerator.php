@@ -13,7 +13,7 @@ use Ramsey\Uuid\UuidFactory;
 class RamseyIdentityGenerator implements IdentityGenerator
 {
     public function __construct(
-        private readonly UuidFactory $uuidFactory,
+        private UuidFactory $uuidFactory,
     ) {}
 
     public function getNextIdentity(): string

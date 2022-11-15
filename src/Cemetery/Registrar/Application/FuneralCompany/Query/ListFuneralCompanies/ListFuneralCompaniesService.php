@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 class ListFuneralCompaniesService extends ApplicationService
 {
     public function __construct(
-        private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
-        ListFuneralCompaniesRequestValidator   $requestValidator,
+        private FuneralCompanyFetcher        $funeralCompanyFetcher,
+        ListFuneralCompaniesRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

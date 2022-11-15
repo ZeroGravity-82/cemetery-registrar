@@ -28,7 +28,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class NaturalPersonController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/natural-person/list-alive', name: 'natural_person_list_alive', methods: 'GET')]

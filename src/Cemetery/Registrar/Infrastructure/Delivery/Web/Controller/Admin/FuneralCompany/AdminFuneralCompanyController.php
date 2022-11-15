@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminFuneralCompanyController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/admin/funeral-company', name: 'admin_funeral_company_list', methods: 'GET')]

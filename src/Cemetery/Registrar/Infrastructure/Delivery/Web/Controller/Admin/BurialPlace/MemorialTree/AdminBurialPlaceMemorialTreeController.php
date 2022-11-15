@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminBurialPlaceMemorialTreeController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/admin/burial-place/memorial-tree', name: 'admin_burial_place_memorial_tree_list', methods: 'GET')]

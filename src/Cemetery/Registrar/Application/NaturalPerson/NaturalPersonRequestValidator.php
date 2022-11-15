@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private readonly NaturalPersonFetcher $naturalPersonFetcher,
+        private NaturalPersonFetcher $naturalPersonFetcher,
     ) {
         parent::__construct();
     }

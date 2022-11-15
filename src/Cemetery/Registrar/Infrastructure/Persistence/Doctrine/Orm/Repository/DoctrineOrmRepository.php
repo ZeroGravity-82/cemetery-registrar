@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 abstract class DoctrineOrmRepository extends Repository
 {
     public function __construct(
-        protected readonly EntityManagerInterface $entityManager,
+        protected EntityManagerInterface $entityManager,
     ) {}
 
     /**

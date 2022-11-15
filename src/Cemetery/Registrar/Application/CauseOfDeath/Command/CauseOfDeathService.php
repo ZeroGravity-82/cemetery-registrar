@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class CauseOfDeathService extends ApplicationService
 {
     public function __construct(
-        protected readonly CauseOfDeathRepository $causeOfDeathRepo,
-        protected readonly EventDispatcher        $eventDispatcher,
-        CauseOfDeathRequestValidator              $requestValidator,
+        protected CauseOfDeathRepository $causeOfDeathRepo,
+        protected EventDispatcher        $eventDispatcher,
+        CauseOfDeathRequestValidator     $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

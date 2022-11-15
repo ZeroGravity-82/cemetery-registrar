@@ -19,10 +19,10 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 class CreateSoleProprietorService extends SoleProprietorService
 {
     public function __construct(
-        private readonly SoleProprietorFactory $juristicPersonFactory,
-        SoleProprietorRepository               $soleProprietorRepo,
-        EventDispatcher                        $eventDispatcher,
-        CreateSoleProprietorRequestValidator   $requestValidator,
+        private SoleProprietorFactory        $juristicPersonFactory,
+        SoleProprietorRepository             $soleProprietorRepo,
+        EventDispatcher                      $eventDispatcher,
+        CreateSoleProprietorRequestValidator $requestValidator,
     ) {
         parent::__construct($soleProprietorRepo, $eventDispatcher, $requestValidator);
     }

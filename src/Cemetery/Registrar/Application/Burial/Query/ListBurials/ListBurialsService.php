@@ -18,11 +18,11 @@ use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 class ListBurialsService extends ApplicationService
 {
     public function __construct(
-        private readonly BurialFetcher         $burialFetcher,
-        private readonly FuneralCompanyFetcher $funeralCompanyFetcher,
-        private readonly CemeteryBlockFetcher  $cemeteryBlockFetcher,
-        private readonly CoffinShapeFetcher    $coffinShapeFetcher,
-        ListBurialsRequestValidator            $requestValidator,
+        private BurialFetcher         $burialFetcher,
+        private FuneralCompanyFetcher $funeralCompanyFetcher,
+        private CemeteryBlockFetcher  $cemeteryBlockFetcher,
+        private CoffinShapeFetcher    $coffinShapeFetcher,
+        ListBurialsRequestValidator   $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

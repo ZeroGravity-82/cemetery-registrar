@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
 class ListMemorialTreesService extends ApplicationService
 {
     public function __construct(
-        private readonly MemorialTreeFetcher $memorialTreeFetcher,
-        ListMemorialTreesRequestValidator    $requestValidator,
+        private MemorialTreeFetcher       $memorialTreeFetcher,
+        ListMemorialTreesRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

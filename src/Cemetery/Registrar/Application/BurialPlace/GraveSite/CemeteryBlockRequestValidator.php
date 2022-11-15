@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 abstract class CemeteryBlockRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private readonly CemeteryBlockFetcher $cemeteryBlockFetcher,
+        private CemeteryBlockFetcher $cemeteryBlockFetcher,
     ) {
         parent::__construct();
     }

@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminBurialPlaceCemeteryBlockController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/admin/burial-place/cemetery-block', name: 'admin_cemetery_block_list', methods: HttpRequest::METHOD_GET)]

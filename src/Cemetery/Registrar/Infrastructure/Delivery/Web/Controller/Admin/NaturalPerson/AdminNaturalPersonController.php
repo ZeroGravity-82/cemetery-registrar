@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminNaturalPersonController extends Controller
 {
     public function __construct(
-        private readonly ApplicationRequestBus $appRequestBus,
+        private ApplicationRequestBus $appRequestBus,
     ) {}
 
     #[Route('/admin/natural-person', name: 'admin_natural_person_paginate', methods: HttpRequest::METHOD_GET)]
