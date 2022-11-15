@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command;
 
-use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\GraveSiteRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationService;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\AbstractGraveSiteRequestValidator;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
@@ -19,10 +19,10 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class GraveSiteService extends ApplicationService
+abstract class AbstractGraveSiteService extends AbstractApplicationService
 {
     public function __construct(
-        GraveSiteRequestValidator                  $requestValidator,
+        AbstractGraveSiteRequestValidator          $requestValidator,
         protected GraveSiteRepositoryInterface     $graveSiteRepo,
         protected CemeteryBlockRepositoryInterface $cemeteryBlockRepo,
         protected EventDispatcher                  $eventDispatcher,

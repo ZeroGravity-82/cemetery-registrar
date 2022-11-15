@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson\Query\ShowNaturalPerson;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ShowNaturalPersonService extends ApplicationService
+class ShowNaturalPersonService extends AbstractApplicationService
 {
     public function __construct(
         ShowNaturalPersonRequestValidator     $requestValidator,
@@ -29,7 +29,7 @@ class ShowNaturalPersonService extends ApplicationService
      * @throws NotFoundException when the natural person is not found
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ShowNaturalPersonResponse(
             $this->getNaturalPersonView($request->id),

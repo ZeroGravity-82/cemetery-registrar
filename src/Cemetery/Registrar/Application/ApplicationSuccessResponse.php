@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Application;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  * @see    https://github.com/omniti-labs/jsend
  */
-class ApplicationSuccessResponse extends ApplicationResponse
+class ApplicationSuccessResponse extends AbstractApplicationResponse
 {
     public string  $status = 'success';
     public ?object $data   = null;

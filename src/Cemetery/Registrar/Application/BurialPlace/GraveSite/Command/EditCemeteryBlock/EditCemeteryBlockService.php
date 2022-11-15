@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\EditCemeteryBlock;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CemeteryBlockService;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\AbstractCemeteryBlockService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockEdited;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class EditCemeteryBlockService extends CemeteryBlockService
+class EditCemeteryBlockService extends AbstractCemeteryBlockService
 {
     public function __construct(
         EditCemeteryBlockRequestValidator $requestValidator,
@@ -32,7 +32,7 @@ class EditCemeteryBlockService extends CemeteryBlockService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         /** @var EditCemeteryBlockRequest $request */
         $cemeteryBlock = $this->getCemeteryBlock($request->id);
@@ -56,7 +56,7 @@ class EditCemeteryBlockService extends CemeteryBlockService
     /**
      * @throws Exception when the name has invalid value
      */
-    private function buildName(ApplicationRequest $request): CemeteryBlockName
+    private function buildName(AbstractApplicationRequest $request): CemeteryBlockName
     {
         /** @var EditCemeteryBlockRequest $request */
         return new CemeteryBlockName($request->name);

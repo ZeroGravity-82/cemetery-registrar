@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller;
 
-use Cemetery\Registrar\Application\ApplicationResponse;
+use Cemetery\Registrar\Application\AbstractApplicationResponse;
 use Cemetery\Registrar\Application\ApplicationErrorResponse;
 use Cemetery\Registrar\Application\ApplicationFailResponse;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
@@ -59,9 +59,9 @@ abstract class Controller extends AbstractController
      * @throws \InvalidArgumentException when the application response is of an unsupported type
      */
     protected function buildJsonResponse(
-        ApplicationResponse $appResponse,
-        int                 $httpResponseSuccessStatus,
-        ?CsrfToken          $csrfToken = null,
+        AbstractApplicationResponse $appResponse,
+        int                         $httpResponseSuccessStatus,
+        ?CsrfToken                  $csrfToken = null,
     ): HttpJsonResponse {
         $httpResponseData = (object) [
             'status' => $appResponse->status,

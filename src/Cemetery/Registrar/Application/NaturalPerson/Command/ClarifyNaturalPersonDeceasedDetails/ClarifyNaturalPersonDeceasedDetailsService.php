@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonDeceasedDetails;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
+use Cemetery\Registrar\Application\NaturalPerson\Command\AbstractNaturalPersonService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
@@ -22,7 +22,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
+class ClarifyNaturalPersonDeceasedDetailsService extends AbstractNaturalPersonService
 {
     public function __construct(
         ClarifyNaturalPersonDeceasedDetailsRequestValidator $requestValidator,
@@ -37,7 +37,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $isClarified = false;
 
@@ -69,7 +69,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
     /**
      * @throws Exception when the deceased details fields have invalid values
      */
-    private function buildDeceasedDetails(ApplicationRequest $request): DeceasedDetails
+    private function buildDeceasedDetails(AbstractApplicationRequest $request): DeceasedDetails
     {
         /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return new DeceasedDetails(
@@ -87,7 +87,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
                $deceasedDetails->isEqual($naturalPerson->deceasedDetails());
     }
 
-    private function buildDiedAt(ApplicationRequest $request): \DateTimeImmutable
+    private function buildDiedAt(AbstractApplicationRequest $request): \DateTimeImmutable
     {
         /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return \DateTimeImmutable::createFromFormat('Y-m-d', $request->diedAt);
@@ -96,7 +96,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
     /**
      * @throws Exception when the age field has invalid value
      */
-    private function buildAge(ApplicationRequest $request): ?Age
+    private function buildAge(AbstractApplicationRequest $request): ?Age
     {
          /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return $request->age !== null
@@ -107,7 +107,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
     /**
      * @throws Exception when the cause of death ID field has invalid value
      */
-    private function buildCauseOfDeathId(ApplicationRequest $request): ?CauseOfDeathId
+    private function buildCauseOfDeathId(AbstractApplicationRequest $request): ?CauseOfDeathId
     {
          /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return $request->causeOfDeathId !== null
@@ -118,7 +118,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
     /**
      * @throws Exception when the death certificate fields have invalid values
      */
-    private function buildDeathCertificate(ApplicationRequest $request): ?DeathCertificate
+    private function buildDeathCertificate(AbstractApplicationRequest $request): ?DeathCertificate
     {
          /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return $request->deathCertificateSeries   !== null ||
@@ -132,7 +132,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
             : null;
     }
 
-    private function buildDeathCertificateIssuedAt(ApplicationRequest $request): ?\DateTimeImmutable
+    private function buildDeathCertificateIssuedAt(AbstractApplicationRequest $request): ?\DateTimeImmutable
     {
         /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return $request->deathCertificateIssuedAt !== null
@@ -143,7 +143,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
     /**
      * @throws Exception when the cremation certificate fields have invalid values
      */
-    private function buildCremationCertificate(ApplicationRequest $request): ?CremationCertificate
+    private function buildCremationCertificate(AbstractApplicationRequest $request): ?CremationCertificate
     {
          /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return $request->cremationCertificateNumber   !== null ||
@@ -155,7 +155,7 @@ class ClarifyNaturalPersonDeceasedDetailsService extends NaturalPersonService
             : null;
     }
 
-    private function buildCremationCertificateIssuedAt(ApplicationRequest $request): ?\DateTimeImmutable
+    private function buildCremationCertificateIssuedAt(AbstractApplicationRequest $request): ?\DateTimeImmutable
     {
         /** @var ClarifyNaturalPersonDeceasedDetailsRequest $request */
         return $request->cremationCertificateIssuedAt !== null

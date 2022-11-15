@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ReplaceGraveSitePersonInCharge;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\AbstractGraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
@@ -21,7 +21,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ReplaceGraveSitePersonInChargeService extends GraveSiteService
+class ReplaceGraveSitePersonInChargeService extends AbstractGraveSiteService
 {
     public function __construct(
         ReplaceGraveSitePersonInChargeRequestValidator $requestValidator,
@@ -37,7 +37,7 @@ class ReplaceGraveSitePersonInChargeService extends GraveSiteService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $isClarified = false;
 
@@ -86,7 +86,7 @@ class ReplaceGraveSitePersonInChargeService extends GraveSiteService
     /**
      * @throws Exception when the row in block has invalid value
      */
-    private function buildRowInBlock(ApplicationRequest $request): RowInBlock
+    private function buildRowInBlock(AbstractApplicationRequest $request): RowInBlock
     {
         /** @var ReplaceGraveSitePersonInChargeRequest $request */
         return new RowInBlock($request->rowInBlock);
@@ -100,7 +100,7 @@ class ReplaceGraveSitePersonInChargeService extends GraveSiteService
     /**
      * @throws Exception when the position in row has invalid value
      */
-    private function buildPositionInRow(ApplicationRequest $request): ?PositionInRow
+    private function buildPositionInRow(AbstractApplicationRequest $request): ?PositionInRow
     {
         /** @var ReplaceGraveSitePersonInChargeRequest $request */
         return $request->positionInRow ? new PositionInRow($request->positionInRow) : null;

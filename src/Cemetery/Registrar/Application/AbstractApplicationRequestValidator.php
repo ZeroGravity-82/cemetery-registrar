@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class ApplicationRequestValidator
+abstract class AbstractApplicationRequestValidator
 {
     protected Notification $note;
 
@@ -15,14 +15,14 @@ abstract class ApplicationRequestValidator
         $this->note = new Notification();
     }
 
-    abstract public function validate(ApplicationRequest $request): Notification;
+    abstract public function validate(AbstractApplicationRequest $request): Notification;
 
     protected function note(): Notification
     {
         return $this->note;
     }
 
-    protected function validateId(ApplicationRequest $request): self
+    protected function validateId(AbstractApplicationRequest $request): self
     {
         if (\property_exists($request, 'id') && ($request->id === null || empty(\trim($request->id)))) {
             $this->note->addError('id', 'Идентификатор доменной сущности не указан.');

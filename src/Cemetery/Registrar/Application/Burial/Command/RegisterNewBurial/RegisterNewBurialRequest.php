@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class RegisterNewBurialRequest extends ApplicationRequest
+class RegisterNewBurialRequest extends AbstractApplicationRequest
 {
     public ?string $type = null;
     public ?string $deceasedNaturalPersonId = null;

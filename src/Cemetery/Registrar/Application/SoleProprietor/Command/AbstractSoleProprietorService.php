@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\SoleProprietor\Command;
 
-use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\SoleProprietor\SoleProprietorRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationService;
+use Cemetery\Registrar\Application\SoleProprietor\AbstractSoleProprietorRequestValidator;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -16,10 +16,10 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class SoleProprietorService extends ApplicationService
+abstract class AbstractSoleProprietorService extends AbstractApplicationService
 {
     public function __construct(
-        SoleProprietorRequestValidator              $requestValidator,
+        AbstractSoleProprietorRequestValidator      $requestValidator,
         protected SoleProprietorRepositoryInterface $soleProprietorRepo,
         protected EventDispatcher                   $eventDispatcher,
     ) {

@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\View\Burial\BurialView;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFetcherInterface
+class DoctrineDbalBurialFetcher extends AbstractDoctrineDbalFetcher implements BurialFetcherInterface
 {
     protected string $tableName = 'burial';
 

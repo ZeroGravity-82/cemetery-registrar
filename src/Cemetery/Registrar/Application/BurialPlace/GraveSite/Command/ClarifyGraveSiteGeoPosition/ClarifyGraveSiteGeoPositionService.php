@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGraveSiteGeoPosition;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\AbstractGraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteGeoPositionClarified;
@@ -21,7 +21,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ClarifyGraveSiteGeoPositionService extends GraveSiteService
+class ClarifyGraveSiteGeoPositionService extends AbstractGraveSiteService
 {
     public function __construct(
         ClarifyGraveSiteGeoPositionRequestValidator $requestValidator,
@@ -37,7 +37,7 @@ class ClarifyGraveSiteGeoPositionService extends GraveSiteService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $isClarified = false;
 
@@ -69,7 +69,7 @@ class ClarifyGraveSiteGeoPositionService extends GraveSiteService
     /**
      * @throws Exception when the geo position components have invalid value
      */
-    private function buildGeoPosition(ApplicationRequest $request): GeoPosition
+    private function buildGeoPosition(AbstractApplicationRequest $request): GeoPosition
     {
         /** @var ClarifyGraveSiteGeoPositionRequest $request */
         $coordinates = new Coordinates($request->geoPositionLatitude, $request->geoPositionLongitude);

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequestValidator;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CemeteryBlockRequestValidator extends ApplicationRequestValidator
+abstract class AbstractCemeteryBlockRequestValidator extends AbstractApplicationRequestValidator
 {
     public function __construct(
         private CemeteryBlockFetcherInterface $cemeteryBlockFetcher,
@@ -19,7 +19,7 @@ abstract class CemeteryBlockRequestValidator extends ApplicationRequestValidator
         parent::__construct();
     }
 
-    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    protected function validateUniquenessConstraints(AbstractApplicationRequest $request): self
     {
         if (
             $request->name !== null &&
@@ -31,7 +31,7 @@ abstract class CemeteryBlockRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateName(ApplicationRequest $request): self
+    protected function validateName(AbstractApplicationRequest $request): self
     {
         if ($request->name === null || empty(\trim($request->name))) {
             $this->note->addError('name', 'Квартал не может иметь пустое наименование.');

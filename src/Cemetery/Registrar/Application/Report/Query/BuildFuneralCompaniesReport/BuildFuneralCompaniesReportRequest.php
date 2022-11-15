@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Report\Query\BuildFuneralCompaniesReport;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BuildFuneralCompaniesReportRequest extends ApplicationRequest
+class BuildFuneralCompaniesReportRequest extends AbstractApplicationRequest
 {
     public function __construct(
         public ?string $startDate,

@@ -15,7 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements CauseOfDeathFetcherInterface
+class DoctrineDbalCauseOfDeathFetcher extends AbstractDoctrineDbalFetcher implements CauseOfDeathFetcherInterface
 {
     protected string $tableName = 'cause_of_death';
 

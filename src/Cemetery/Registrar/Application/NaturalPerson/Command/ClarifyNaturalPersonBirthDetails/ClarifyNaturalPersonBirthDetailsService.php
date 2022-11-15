@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonBirthDetails;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
+use Cemetery\Registrar\Application\NaturalPerson\Command\AbstractNaturalPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
@@ -18,7 +18,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
+class ClarifyNaturalPersonBirthDetailsService extends AbstractNaturalPersonService
 {
     public function __construct(
         ClarifyNaturalPersonBirthDetailsRequestValidator $requestValidator,
@@ -33,7 +33,7 @@ class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $isClarified = false;
 
@@ -68,7 +68,7 @@ class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
         return ClarifyNaturalPersonBirthDetailsRequest::class;
     }
 
-    private function buildBornAt(ApplicationRequest $request): ?\DateTimeImmutable
+    private function buildBornAt(AbstractApplicationRequest $request): ?\DateTimeImmutable
     {
         /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
         return $request->bornAt !== null ? \DateTimeImmutable::createFromFormat('Y-m-d', $request->bornAt) : null;
@@ -82,7 +82,7 @@ class ClarifyNaturalPersonBirthDetailsService extends NaturalPersonService
     /**
      * @throws Exception when the place of birth has invalid value
      */
-    private function buildPlaceOfBirth(ApplicationRequest $request): ?PlaceOfBirth
+    private function buildPlaceOfBirth(AbstractApplicationRequest $request): ?PlaceOfBirth
     {
         /** @var ClarifyNaturalPersonBirthDetailsRequest $request */
         return $request->placeOfBirth !== null ? new PlaceOfBirth($request->placeOfBirth) : null;

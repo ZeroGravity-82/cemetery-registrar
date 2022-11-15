@@ -7,14 +7,14 @@ namespace Cemetery\Registrar\Application;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class TransactionalApplicationService extends ApplicationService
+abstract class AbstractTransactionalApplicationService extends AbstractApplicationService
 {
     public function __construct(
-        private ApplicationService            $service,
+        private AbstractApplicationService    $service,
         private TransactionalSessionInterface $session,
     ) {}
 
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $operation = function () use ($request) {
             return $this->service->execute($request);

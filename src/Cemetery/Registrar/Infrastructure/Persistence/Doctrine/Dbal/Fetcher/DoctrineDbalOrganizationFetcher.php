@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcherInterface
+class DoctrineDbalOrganizationFetcher extends AbstractDoctrineDbalFetcher implements OrganizationFetcherInterface
 {
     public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {

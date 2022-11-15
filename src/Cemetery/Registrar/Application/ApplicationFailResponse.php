@@ -10,7 +10,7 @@ namespace Cemetery\Registrar\Application;
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  * @see    https://github.com/omniti-labs/jsend
  */
-class ApplicationFailResponse extends ApplicationResponse
+class ApplicationFailResponse extends AbstractApplicationResponse
 {
     public const FAILURE_TYPE_VALIDATION_ERROR = 'VALIDATION_ERROR';
     public const FAILURE_TYPE_NOT_FOUND        = 'NOT_FOUND';

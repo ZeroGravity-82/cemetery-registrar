@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonBirthDetails;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ClarifyNaturalPersonBirthDetailsRequest extends ApplicationRequest
+class ClarifyNaturalPersonBirthDetailsRequest extends AbstractApplicationRequest
 {
     public function __construct(
         public ?string $id,

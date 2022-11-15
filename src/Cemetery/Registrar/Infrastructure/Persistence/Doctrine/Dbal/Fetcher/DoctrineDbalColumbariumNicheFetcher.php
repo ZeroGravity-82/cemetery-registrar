@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalColumbariumNicheFetcher extends DoctrineDbalFetcher implements ColumbariumNicheFetcherInterface
+class DoctrineDbalColumbariumNicheFetcher extends AbstractDoctrineDbalFetcher implements ColumbariumNicheFetcherInterface
 {
     protected string $tableName = 'columbarium_niche';
 

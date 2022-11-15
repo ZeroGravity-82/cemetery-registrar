@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\View\FetcherInterface;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalFetcher;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\AbstractDoctrineDbalFetcher;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -19,10 +19,10 @@ abstract class DoctrineDbalFetcherIntegrationTest extends KernelTestCase
 {
     protected const DEFAULT_PAGE_SIZE = 20;
 
-    protected AbstractDatabaseTool   $databaseTool;
-    protected Connection             $connection;
-    protected EntityManagerInterface $entityManager;
-    protected DoctrineDbalFetcher    $fetcher;
+    protected AbstractDatabaseTool        $databaseTool;
+    protected Connection                  $connection;
+    protected EntityManagerInterface      $entityManager;
+    protected AbstractDoctrineDbalFetcher $fetcher;
 
     abstract protected function loadFixtures();
 

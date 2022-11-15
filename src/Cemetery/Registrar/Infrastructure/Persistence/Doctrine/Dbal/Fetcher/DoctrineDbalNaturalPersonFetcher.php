@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements NaturalPersonFetcherInterface
+class DoctrineDbalNaturalPersonFetcher extends AbstractDoctrineDbalFetcher implements NaturalPersonFetcherInterface
 {
     protected string $tableName = 'natural_person';
 

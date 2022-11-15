@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\JuristicPerson\Command\RemoveJuristicPerson;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\JuristicPerson\Command\JuristicPersonService;
+use Cemetery\Registrar\Application\JuristicPerson\Command\AbstractJuristicPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -16,7 +16,7 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class RemoveJuristicPersonService extends JuristicPersonService
+class RemoveJuristicPersonService extends AbstractJuristicPersonService
 {
     public function __construct(
         RemoveJuristicPersonRequestValidator $requestValidator,
@@ -31,7 +31,7 @@ class RemoveJuristicPersonService extends JuristicPersonService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         /** @var RemoveJuristicPersonRequest $request */
         $juristicPerson = $this->getJuristicPerson($request->id);

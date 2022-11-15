@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequestValidator;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite\CreateGraveSiteRequest;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
+abstract class AbstractGraveSiteRequestValidator extends AbstractApplicationRequestValidator
 {
     public function __construct(
         private CemeteryBlockFetcherInterface $cemeteryBlockFetcher,
@@ -27,7 +27,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         parent::__construct();
     }
 
-    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    protected function validateUniquenessConstraints(AbstractApplicationRequest $request): self
     {
         if (
             $request->cemeteryBlockId !== null &&
@@ -45,7 +45,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateCemeteryBlockId(ApplicationRequest $request): self
+    protected function validateCemeteryBlockId(AbstractApplicationRequest $request): self
     {
         if ($request->cemeteryBlockId === null || empty(\trim($request->cemeteryBlockId))) {
             $this->note->addError('cemeteryBlockId', 'Квартал не указан.');
@@ -60,7 +60,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateRowInBlock(ApplicationRequest $request): self
+    protected function validateRowInBlock(AbstractApplicationRequest $request): self
     {
         if ($request->rowInBlock === null) {
             $this->note->addError('rowInBlock', 'Ряд не указан.');
@@ -72,7 +72,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validatePositionInRow(ApplicationRequest $request): self
+    protected function validatePositionInRow(AbstractApplicationRequest $request): self
     {
         if ($request->positionInRow !== null && $request->positionInRow <= 0) {
             $this->note->addError('positionInRow', 'Номер места в ряду должен быть положительным.');
@@ -81,7 +81,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateGeoPosition(ApplicationRequest $request, bool $isRequired = false): self
+    protected function validateGeoPosition(AbstractApplicationRequest $request, bool $isRequired = false): self
     {
         switch (true) {
             case
@@ -125,7 +125,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateSize(ApplicationRequest $request, bool $isRequired = false): self
+    protected function validateSize(AbstractApplicationRequest $request, bool $isRequired = false): self
     {
         if (
             $isRequired &&
@@ -141,7 +141,7 @@ abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validatePersonInChargeId(ApplicationRequest $request): self
+    protected function validatePersonInChargeId(AbstractApplicationRequest $request): self
     {
         if (
             $request->personInChargeId !== null &&

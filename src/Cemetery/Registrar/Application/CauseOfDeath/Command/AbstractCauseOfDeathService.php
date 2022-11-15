@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command;
 
-use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\CauseOfDeath\CauseOfDeathRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationService;
+use Cemetery\Registrar\Application\CauseOfDeath\AbstractCauseOfDeathRequestValidator;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
@@ -16,10 +16,10 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CauseOfDeathService extends ApplicationService
+abstract class AbstractCauseOfDeathService extends AbstractApplicationService
 {
     public function __construct(
-        CauseOfDeathRequestValidator              $requestValidator,
+        AbstractCauseOfDeathRequestValidator      $requestValidator,
         protected CauseOfDeathRepositoryInterface $causeOfDeathRepo,
         protected EventDispatcher                 $eventDispatcher,
     ) {

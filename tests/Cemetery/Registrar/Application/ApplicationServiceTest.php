@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Application;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 abstract class ApplicationServiceTest extends TestCase
 {
     protected MockObject|EventDispatcher $mockEventDispatcher;
-    protected ApplicationService         $service;
+    protected AbstractApplicationService $service;
 
     public function setUp(): void
     {
@@ -38,6 +38,6 @@ abstract class ApplicationServiceTest extends TestCase
     abstract protected function supportedRequestClassName(): string;
 }
 
-class FakeRequestClass extends ApplicationRequest
+class FakeRequestClass extends AbstractApplicationRequest
 {
 }

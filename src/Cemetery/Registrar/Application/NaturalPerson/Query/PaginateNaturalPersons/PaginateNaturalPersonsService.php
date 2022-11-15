@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson\Query\PaginateNaturalPersons;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class PaginateNaturalPersonsService extends ApplicationService
+class PaginateNaturalPersonsService extends AbstractApplicationService
 {
     public function __construct(
         PaginateNaturalPersonsRequestValidator $requestValidator,
@@ -24,7 +24,7 @@ class PaginateNaturalPersonsService extends ApplicationService
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         /** @var PaginateNaturalPersonsRequest $request */
         return new PaginateNaturalPersonsResponse(

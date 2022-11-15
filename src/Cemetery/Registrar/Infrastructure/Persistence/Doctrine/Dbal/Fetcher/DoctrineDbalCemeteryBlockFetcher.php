@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalCemeteryBlockFetcher extends DoctrineDbalFetcher implements CemeteryBlockFetcherInterface
+class DoctrineDbalCemeteryBlockFetcher extends AbstractDoctrineDbalFetcher implements CemeteryBlockFetcherInterface
 {
     protected string $tableName = 'cemetery_block';
 

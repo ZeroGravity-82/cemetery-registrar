@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainerFactory;
@@ -41,7 +41,7 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class RegisterNewBurialService extends ApplicationService
+class RegisterNewBurialService extends AbstractApplicationService
 {
     public function __construct(
         RegisterNewBurialRequestValidator           $requestValidator,
@@ -69,7 +69,7 @@ class RegisterNewBurialService extends ApplicationService
      * @throws Exception  when there was any issue within the domain
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $type             = $this->processTypeData($request);
         $deceasedId       = $this->processDeceasedData($request);

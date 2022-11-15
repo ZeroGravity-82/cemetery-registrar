@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListFuneralCompaniesService extends ApplicationService
+class ListFuneralCompaniesService extends AbstractApplicationService
 {
     public function __construct(
         ListFuneralCompaniesRequestValidator $requestValidator,
@@ -24,7 +24,7 @@ class ListFuneralCompaniesService extends ApplicationService
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListFuneralCompaniesResponse(
             $this->funeralCompanyFetcher->paginate(1),

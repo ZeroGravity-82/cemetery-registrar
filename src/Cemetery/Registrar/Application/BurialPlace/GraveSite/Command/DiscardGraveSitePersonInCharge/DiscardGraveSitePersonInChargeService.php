@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\DiscardGraveSitePersonInCharge;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
+use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\AbstractGraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSitePersonInChargeDiscarded;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DiscardGraveSitePersonInChargeService extends GraveSiteService
+class DiscardGraveSitePersonInChargeService extends AbstractGraveSiteService
 {
     public function __construct(
         DiscardGraveSitePersonInChargeRequestValidator $requestValidator,
@@ -33,7 +33,7 @@ class DiscardGraveSitePersonInChargeService extends GraveSiteService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $isDiscarded = false;
 

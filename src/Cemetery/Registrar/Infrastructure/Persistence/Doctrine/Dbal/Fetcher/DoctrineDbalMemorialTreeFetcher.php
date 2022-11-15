@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements MemorialTreeFetcherInterface
+class DoctrineDbalMemorialTreeFetcher extends AbstractDoctrineDbalFetcher implements MemorialTreeFetcherInterface
 {
     protected string $tableName = 'memorial_tree';
 

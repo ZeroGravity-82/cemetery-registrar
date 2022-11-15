@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\JuristicPerson\Command;
 
-use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Application\JuristicPerson\JuristicPersonRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationService;
+use Cemetery\Registrar\Application\JuristicPerson\AbstractJuristicPersonRequestValidator;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -16,10 +16,10 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class JuristicPersonService extends ApplicationService
+abstract class AbstractJuristicPersonService extends AbstractApplicationService
 {
     public function __construct(
-        JuristicPersonRequestValidator              $requestValidator,
+        AbstractJuristicPersonRequestValidator      $requestValidator,
         protected JuristicPersonRepositoryInterface $juristicPersonRepo,
         protected EventDispatcher                   $eventDispatcher,
     ) {

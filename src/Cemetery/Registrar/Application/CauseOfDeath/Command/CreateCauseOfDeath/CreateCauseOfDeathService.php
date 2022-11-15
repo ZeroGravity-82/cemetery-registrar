@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Command\CreateCauseOfDeath;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
+use Cemetery\Registrar\Application\CauseOfDeath\Command\AbstractCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
@@ -16,7 +16,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CreateCauseOfDeathService extends CauseOfDeathService
+class CreateCauseOfDeathService extends AbstractCauseOfDeathService
 {
     public function __construct(
         CreateCauseOfDeathRequestValidator $requestValidator,
@@ -31,7 +31,7 @@ class CreateCauseOfDeathService extends CauseOfDeathService
      * @throws Exception  when there was any issue within the domain
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         /** @var CreateCauseOfDeathRequest $request */
         $causeOfDeath = $this->causeOfDeathFactory->create(

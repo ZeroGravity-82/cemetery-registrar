@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveSiteFetcherInterface
+class DoctrineDbalGraveSiteFetcher extends AbstractDoctrineDbalFetcher implements GraveSiteFetcherInterface
 {
     protected string $tableName = 'grave_site';
 

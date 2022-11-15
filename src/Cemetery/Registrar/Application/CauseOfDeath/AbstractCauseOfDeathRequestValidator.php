@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationRequestValidator;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequestValidator;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
+abstract class AbstractCauseOfDeathRequestValidator extends AbstractApplicationRequestValidator
 {
     public function __construct(
-        private CauseOfDeathFetcher $causeOfDeathFetcher,
+        private CauseOfDeathFetcherInterface $causeOfDeathFetcher,
     ) {
         parent::__construct();
     }
 
-    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    protected function validateUniquenessConstraints(AbstractApplicationRequest $request): self
     {
         if (
             $request->name !== null &&
@@ -31,7 +31,7 @@ abstract class CauseOfDeathRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateName(ApplicationRequest $request): self
+    protected function validateName(AbstractApplicationRequest $request): self
     {
         if ($request->name === null || empty(\trim($request->name))) {
             $this->note->addError('name', 'Причина смерти не может иметь пустое наименование.');

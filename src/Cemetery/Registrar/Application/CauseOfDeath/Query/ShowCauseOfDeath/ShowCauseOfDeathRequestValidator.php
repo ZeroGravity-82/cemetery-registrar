@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\CauseOfDeath\CauseOfDeathRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\CauseOfDeath\AbstractCauseOfDeathRequestValidator;
 use Cemetery\Registrar\Application\Notification;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ShowCauseOfDeathRequestValidator extends CauseOfDeathRequestValidator
+class ShowCauseOfDeathRequestValidator extends AbstractCauseOfDeathRequestValidator
 {
     /**
      * @param ShowCauseOfDeathRequest $request
      */
-    public function validate(ApplicationRequest $request): Notification
+    public function validate(AbstractApplicationRequest $request): Notification
     {
         return $this
             ->validateId($request)

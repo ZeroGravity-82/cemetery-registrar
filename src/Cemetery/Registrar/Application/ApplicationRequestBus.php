@@ -24,14 +24,14 @@ class ApplicationRequestBus
      * domain exceptions are thrown, they will be converted into application fail response. All other exceptions will
      * be converted into application error response.
      */
-    public function execute(ApplicationRequest $request): ApplicationResponse
+    public function execute(AbstractApplicationRequest $request): AbstractApplicationResponse
     {
         $requestClassName = \get_class($request);
         $appRequestName   = \substr(strrchr($requestClassName, '\\'), 1);
         $appServiceId     = 'app.service.'.\strtolower(\str_replace('Request', '', $appRequestName));
 
         try {
-            /** @var ApplicationService $appService */
+            /** @var AbstractApplicationService $appService */
             $appService = $this->appServiceLocator->get($appServiceId);
             $note       = $appService->validate($request);
             if ($note->hasErrors()) {

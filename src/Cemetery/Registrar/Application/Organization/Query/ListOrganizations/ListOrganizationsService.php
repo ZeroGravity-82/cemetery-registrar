@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\Organization\Query\ListOrganizations;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListOrganizationsService extends ApplicationService
+class ListOrganizationsService extends AbstractApplicationService
 {
     public function __construct(
         ListOrganizationsRequestValidator    $requestValidator,
@@ -24,7 +24,7 @@ class ListOrganizationsService extends ApplicationService
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListOrganizationsResponse(
             $this->organizationFetcher->paginate(1),

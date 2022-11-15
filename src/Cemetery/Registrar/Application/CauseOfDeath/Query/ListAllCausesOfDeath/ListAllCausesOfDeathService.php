@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ListAllCausesOfDeath;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListAllCausesOfDeathService extends ApplicationService
+class ListAllCausesOfDeathService extends AbstractApplicationService
 {
     public function __construct(
         ListAllCausesOfDeathRequestValidator $requestValidator,
@@ -24,7 +24,7 @@ class ListAllCausesOfDeathService extends ApplicationService
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         /** @var ListAllCausesOfDeathRequest $request */
         return new ListAllCausesOfDeathResponse(

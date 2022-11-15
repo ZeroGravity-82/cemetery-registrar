@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson\Command\ClarifyNaturalPersonPassport;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
+use Cemetery\Registrar\Application\NaturalPerson\Command\AbstractNaturalPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
@@ -18,7 +18,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ClarifyNaturalPersonPassportService extends NaturalPersonService
+class ClarifyNaturalPersonPassportService extends AbstractNaturalPersonService
 {
     public function __construct(
         ClarifyNaturalPersonPassportRequestValidator $requestValidator,
@@ -33,7 +33,7 @@ class ClarifyNaturalPersonPassportService extends NaturalPersonService
      * @throws Exception         when there was any issue within the domain
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         $isClarified = false;
 
@@ -65,7 +65,7 @@ class ClarifyNaturalPersonPassportService extends NaturalPersonService
     /**
      * @throws Exception when the passport fields have invalid values
      */
-    private function buildPassport(ApplicationRequest $request): Passport
+    private function buildPassport(AbstractApplicationRequest $request): Passport
     {
         /** @var ClarifyNaturalPersonPassportRequest $request */
         return new Passport(
@@ -77,7 +77,7 @@ class ClarifyNaturalPersonPassportService extends NaturalPersonService
         );
     }
 
-    private function buildPassportIssuedAt(ApplicationRequest $request): ?\DateTimeImmutable
+    private function buildPassportIssuedAt(AbstractApplicationRequest $request): ?\DateTimeImmutable
     {
         /** @var ClarifyNaturalPersonPassportRequest $request */
         return $request->passportIssuedAt !== null

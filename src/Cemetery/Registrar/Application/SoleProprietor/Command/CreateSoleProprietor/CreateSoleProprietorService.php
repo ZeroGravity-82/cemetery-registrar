@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\SoleProprietor\Command\CreateSoleProprietor;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\SoleProprietor\Command\SoleProprietorService;
+use Cemetery\Registrar\Application\SoleProprietor\Command\AbstractSoleProprietorService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCreated;
@@ -16,7 +16,7 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CreateSoleProprietorService extends SoleProprietorService
+class CreateSoleProprietorService extends AbstractSoleProprietorService
 {
     public function __construct(
         CreateSoleProprietorRequestValidator $requestValidator,
@@ -31,7 +31,7 @@ class CreateSoleProprietorService extends SoleProprietorService
      * @throws Exception  when there was any issue within the domain
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         /** @var CreateSoleProprietorRequest $request */
         $juristicPerson = $this->juristicPersonFactory->create(

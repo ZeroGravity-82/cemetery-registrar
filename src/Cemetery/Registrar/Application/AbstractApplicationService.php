@@ -7,16 +7,16 @@ namespace Cemetery\Registrar\Application;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class ApplicationService
+abstract class AbstractApplicationService
 {
     public function __construct(
-        private ApplicationRequestValidator $requestValidator,
+        private AbstractApplicationRequestValidator $requestValidator,
     ) {}
 
     /**
      * @throws \InvalidArgumentException when the request is not an instance of the supported class
      */
-    public function validate(ApplicationRequest $request): Notification
+    public function validate(AbstractApplicationRequest $request): Notification
     {
         $this->assertSupportedRequestClass($request);
 
@@ -26,7 +26,7 @@ abstract class ApplicationService
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
-    abstract public function execute(ApplicationRequest $request): ApplicationSuccessResponse;
+    abstract public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse;
 
     /**
      * @throws \InvalidArgumentException when the request is not an instance of the supported class

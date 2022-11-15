@@ -12,7 +12,7 @@ use Doctrine\DBAL\Statement;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class DoctrineDbalFetcher extends Fetcher
+abstract class AbstractDoctrineDbalFetcher extends Fetcher
 {
     protected string $tableName;
 

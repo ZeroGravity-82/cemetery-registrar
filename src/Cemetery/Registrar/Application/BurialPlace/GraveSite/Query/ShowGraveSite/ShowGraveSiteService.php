@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowGraveSite;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcherInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteView;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteView;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ShowGraveSiteService extends ApplicationService
+class ShowGraveSiteService extends AbstractApplicationService
 {
     public function __construct(
         ShowGraveSiteRequestValidator     $requestValidator,
@@ -29,7 +29,7 @@ class ShowGraveSiteService extends ApplicationService
      * @throws NotFoundException when the grave site is not found
      * @throws \Throwable        when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ShowGraveSiteResponse(
             $this->getGraveSiteView($request->id),

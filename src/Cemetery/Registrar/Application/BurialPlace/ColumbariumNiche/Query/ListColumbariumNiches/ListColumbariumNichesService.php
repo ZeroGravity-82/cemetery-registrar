@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\ListColumbariumNiches;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
-use Cemetery\Registrar\Application\ApplicationService;
+use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcherInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ListColumbariumNichesService extends ApplicationService
+class ListColumbariumNichesService extends AbstractApplicationService
 {
     public function __construct(
         ListColumbariumNichesRequestValidator    $requestValidator,
@@ -26,7 +26,7 @@ class ListColumbariumNichesService extends ApplicationService
     /**
      * @throws \Throwable when any error occurred while processing the request
      */
-    public function execute(ApplicationRequest $request): ApplicationSuccessResponse
+    public function execute(AbstractApplicationRequest $request): ApplicationSuccessResponse
     {
         return new ListColumbariumNichesResponse(
             $this->columbariumNicheFetcher->paginate(1),

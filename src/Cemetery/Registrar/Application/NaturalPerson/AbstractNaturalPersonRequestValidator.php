@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Application\NaturalPerson;
 
-use Cemetery\Registrar\Application\ApplicationRequest;
-use Cemetery\Registrar\Application\ApplicationRequestValidator;
+use Cemetery\Registrar\Application\AbstractApplicationRequest;
+use Cemetery\Registrar\Application\AbstractApplicationRequestValidator;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
+abstract class AbstractNaturalPersonRequestValidator extends AbstractApplicationRequestValidator
 {
     public function __construct(
         private NaturalPersonFetcherInterface $naturalPersonFetcher,
@@ -20,14 +20,14 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         parent::__construct();
     }
 
-    protected function validateUniquenessConstraints(ApplicationRequest $request): self
+    protected function validateUniquenessConstraints(AbstractApplicationRequest $request): self
     {
         // TODO implement
 
         return $this;
     }
 
-    protected function validateFullName(ApplicationRequest $request): self
+    protected function validateFullName(AbstractApplicationRequest $request): self
     {
         if ($request->fullName === null || empty(\trim($request->fullName))) {
             $this->note->addError('fullName', 'ФИО не может иметь пустое значение.');
@@ -36,7 +36,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateContact(ApplicationRequest $request, bool $isRequired = false): self
+    protected function validateContact(AbstractApplicationRequest $request, bool $isRequired = false): self
     {
         if (
             $isRequired &&
@@ -59,7 +59,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validatePassport(ApplicationRequest $request, bool $isRequired = false): self
+    protected function validatePassport(AbstractApplicationRequest $request, bool $isRequired = false): self
     {
         $now                     = new \DateTimeImmutable();
         $passportSeriesMessage   = 'Серия паспорта не указана.';
@@ -114,7 +114,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateBirthDetails(ApplicationRequest $request, bool $isRequired = false): self
+    protected function validateBirthDetails(AbstractApplicationRequest $request, bool $isRequired = false): self
     {
         $now = new \DateTimeImmutable();
         if (
@@ -156,7 +156,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    protected function validateDeceasedDetails(ApplicationRequest $request, bool $isRequired = false): self
+    protected function validateDeceasedDetails(AbstractApplicationRequest $request, bool $isRequired = false): self
     {
         $now = new \DateTimeImmutable();
         if (
@@ -252,7 +252,7 @@ abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
         return $this;
     }
 
-    private function validateAgeMatchingBornAtAndDiedAt(ApplicationRequest $request)
+    private function validateAgeMatchingBornAtAndDiedAt(AbstractApplicationRequest $request)
     {
         if (
             $request->bornAt !== null &&
