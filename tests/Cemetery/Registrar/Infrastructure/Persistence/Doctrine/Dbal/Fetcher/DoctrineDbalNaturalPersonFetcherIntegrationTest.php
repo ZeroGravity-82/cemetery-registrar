@@ -23,8 +23,6 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  */
 class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    protected const DEFAULT_PAGE_SIZE = 10;
-
     private NaturalPersonRepository $repo;
 
     public function setUp(): void
@@ -220,22 +218,22 @@ class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetche
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForFirstPageAndDefaultPageSize);
         $this->assertIsArray($listForFirstPageAndDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $listForFirstPageAndDefaultPageSize->items);
-        $this->assertCount(10,                     $listForFirstPageAndDefaultPageSize->items);
+        $this->assertCount(13,                     $listForFirstPageAndDefaultPageSize->items);
         $this->assertSame(1,                       $listForFirstPageAndDefaultPageSize->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForFirstPageAndDefaultPageSize->pageSize);
         $this->assertSame(null,                    $listForFirstPageAndDefaultPageSize->term);
         $this->assertSame(13,                      $listForFirstPageAndDefaultPageSize->totalCount);
-        $this->assertSame(2,                       $listForFirstPageAndDefaultPageSize->totalPages);
+        $this->assertSame(1,                       $listForFirstPageAndDefaultPageSize->totalPages);
         $listForSecondPageAndDefaultPageSize = $this->fetcher->paginate(2);
         $this->assertInstanceOf(NaturalPersonPaginatedList::class, $listForSecondPageAndDefaultPageSize);
         $this->assertIsArray($listForSecondPageAndDefaultPageSize->items);
         $this->assertContainsOnlyInstancesOf(NaturalPersonPaginatedListItem::class, $listForSecondPageAndDefaultPageSize->items);
-        $this->assertCount(3,                      $listForSecondPageAndDefaultPageSize->items);
+        $this->assertCount(0,                      $listForSecondPageAndDefaultPageSize->items);
         $this->assertSame(2,                       $listForSecondPageAndDefaultPageSize->page);
         $this->assertSame(self::DEFAULT_PAGE_SIZE, $listForSecondPageAndDefaultPageSize->pageSize);
         $this->assertSame(null,                    $listForSecondPageAndDefaultPageSize->term);
         $this->assertSame(13,                      $listForSecondPageAndDefaultPageSize->totalCount);
-        $this->assertSame(2,                       $listForSecondPageAndDefaultPageSize->totalPages);
+        $this->assertSame(1,                       $listForSecondPageAndDefaultPageSize->totalPages);
     }
 
     public function testItReturnsNaturalPersonPaginatedListByPageAndTerm(): void
