@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonBirthDetailsClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\PlaceOfBirth;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonBirthDetailsClarifiedTest extends EventTest
+class NaturalPersonBirthDetailsClarifiedTest extends AbstractEventTest
 {
     private NaturalPersonId    $id;
     private \DateTimeImmutable $bornAt;

@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CauseOfDeath\CauseOfDeathIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathIdTypeTest extends CustomStringTypeTest
+class CauseOfDeathIdTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = CauseOfDeathIdType::class;
     protected string $typeName  = 'cause_of_death_id';

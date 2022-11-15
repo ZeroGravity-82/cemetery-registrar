@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialCode;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\BurialCodeType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialCodeTypeTest extends CustomStringTypeTest
+class BurialCodeTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = BurialCodeType::class;
     protected string $typeName  = 'burial_code';

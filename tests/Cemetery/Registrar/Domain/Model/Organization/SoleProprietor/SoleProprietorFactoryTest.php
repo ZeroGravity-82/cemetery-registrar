@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorFactory;
-use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorFactoryTest extends EntityFactoryTest
+class SoleProprietorFactoryTest extends AbstractEntityFactoryTest
 {
     private SoleProprietorFactory $soleProprietorFactory;
 

@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class ApplicationServiceTest extends TestCase
+abstract class AbstractApplicationServiceTest extends TestCase
 {
     protected MockObject|EventDispatcher $mockEventDispatcher;
     protected AbstractApplicationService $service;

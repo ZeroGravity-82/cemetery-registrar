@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepositoryInter
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implements FuneralCompanyRepositoryInterface
+class DoctrineOrmFuneralCompanyRepository extends AbstractDoctrineOrmRepository implements FuneralCompanyRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {

@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompani
 use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\AbstractApplicationService;
-use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
+use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 class ListFuneralCompaniesService extends AbstractApplicationService
 {
     public function __construct(
-        ListFuneralCompaniesRequestValidator $requestValidator,
-        private FuneralCompanyFetcher        $funeralCompanyFetcher,
+        ListFuneralCompaniesRequestValidator  $requestValidator,
+        private FuneralCompanyFetcherInterface $funeralCompanyFetcher,
     ) {
         parent::__construct($requestValidator);
     }

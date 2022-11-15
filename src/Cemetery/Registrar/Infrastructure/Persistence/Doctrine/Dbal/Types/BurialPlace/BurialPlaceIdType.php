@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace;
 
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
@@ -12,14 +12,14 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialPlaceIdType extends CustomJsonType
+class BurialPlaceIdType extends AbstractCustomJsonType
 {
-    protected string $className = BurialPlaceId::class;
+    protected string $className = AbstractBurialPlaceId::class;
     protected string $typeName  = 'burial_place_id';
 
     /**
@@ -54,7 +54,7 @@ class BurialPlaceIdType extends CustomJsonType
     /**
      * @throws Exception when the ID is invalid
      */
-    protected function buildPhpValue(array $decodedValue): BurialPlaceId
+    protected function buildPhpValue(array $decodedValue): AbstractBurialPlaceId
     {
         return match ($decodedValue['type']) {
             GraveSite::CLASS_SHORTCUT        => new GraveSiteId($decodedValue['value']),

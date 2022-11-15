@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCemeteryBlockRepository;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
@@ -18,7 +18,7 @@ use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = CemeteryBlock::class;
     protected string $entityIdClassName         = CemeteryBlockId::class;
@@ -68,7 +68,7 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->repo->save($newEntity);
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var CemeteryBlock $entityOne */
         /** @var CemeteryBlock $entityTwo */
@@ -78,7 +78,7 @@ class DoctrineOrmCemeteryBlockRepositoryIntegrationTest extends DoctrineOrmRepos
             $this->areEqualValueObjects($entityOne->name(), $entityTwo->name());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newName = new CemeteryBlockName('общий квартал В');
 

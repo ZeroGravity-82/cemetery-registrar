@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GeoPositionType extends CustomJsonType
+class GeoPositionType extends AbstractCustomJsonType
 {
     protected string $className = GeoPosition::class;
     protected string $typeName  = 'geo_position';

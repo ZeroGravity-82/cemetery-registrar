@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityCollectionTest;
 use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathCollectionTest extends EntityCollectionTest
+class CauseOfDeathCollectionTest extends AbstractEntityCollectionTest
 {
     public function setUp(): void
     {

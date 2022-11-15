@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implements ColumbariumNicheRepositoryInterface
+class DoctrineOrmColumbariumNicheRepository extends AbstractDoctrineOrmRepository implements ColumbariumNicheRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {
@@ -34,7 +34,7 @@ class DoctrineOrmColumbariumNicheRepository extends DoctrineOrmRepository implem
     /**
      * @throws Exception when uniqueness constraints (if any) are violated
      */
-    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    protected function assertUnique(AbstractAggregateRoot $aggregateRoot): void
     {
         /** @var ColumbariumNiche $aggregateRoot */
         if ($this->doesSameNicheNumberAlreadyUsed($aggregateRoot)) {

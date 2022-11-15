@@ -20,7 +20,7 @@ use DataFixtures\CauseOfDeath\CauseOfDeathFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     protected const DEFAULT_PAGE_SIZE = 20;
 

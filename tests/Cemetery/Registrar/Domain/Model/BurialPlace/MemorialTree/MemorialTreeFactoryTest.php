@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\MemorialTree;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeFactory;
-use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTreeFactoryTest extends EntityFactoryTest
+class MemorialTreeFactoryTest extends AbstractEntityFactoryTest
 {
     private MemorialTreeFactory $memorialTreeFactory;
 

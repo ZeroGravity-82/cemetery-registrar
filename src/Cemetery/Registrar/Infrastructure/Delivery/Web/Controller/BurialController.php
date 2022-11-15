@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialController extends Controller
+class BurialController extends AbstractController
 {
     public function __construct(
         private ApplicationRequestBus  $appRequestBus,

@@ -10,7 +10,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CustomIntegerType extends CustomType
+abstract class AbstractCustomIntegerType extends AbstractCustomType
 {
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {

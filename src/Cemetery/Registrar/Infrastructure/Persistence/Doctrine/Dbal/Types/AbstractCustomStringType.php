@@ -9,7 +9,7 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CustomStringType extends CustomType
+abstract class AbstractCustomStringType extends AbstractCustomType
 {
     public function convertToDatabaseValue($value, AbstractPlatform $platform): mixed
     {

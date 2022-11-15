@@ -14,32 +14,32 @@ use Cemetery\Registrar\Domain\Model\Exception;
  */
 class BurialPlaceIdFactory
 {
-    public function create(GraveSiteId|ColumbariumNicheId|MemorialTreeId $id): BurialPlaceId
+    public function create(GraveSiteId|ColumbariumNicheId|MemorialTreeId $id): AbstractBurialPlaceId
     {
-        return new BurialPlaceId($id);
+        return new AbstractBurialPlaceId($id);
     }
 
     /**
      * @throws Exception when the ID is invalid
      */
-    public function createForGraveSite(?string $id): BurialPlaceId
+    public function createForGraveSite(?string $id): AbstractBurialPlaceId
     {
-        return new BurialPlaceId(new GraveSiteId((string) $id));
+        return new AbstractBurialPlaceId(new GraveSiteId((string) $id));
     }
 
     /**
      * @throws Exception when the ID is invalid
      */
-    public function createForColumbariumNiche(?string $id): BurialPlaceId
+    public function createForColumbariumNiche(?string $id): AbstractBurialPlaceId
     {
-        return new BurialPlaceId(new ColumbariumNicheId((string) $id));
+        return new AbstractBurialPlaceId(new ColumbariumNicheId((string) $id));
     }
 
     /**
      * @throws Exception when the ID is invalid
      */
-    public function createForMemorialTree(?string $id): BurialPlaceId
+    public function createForMemorialTree(?string $id): AbstractBurialPlaceId
     {
-        return new BurialPlaceId(new MemorialTreeId((string) $id));
+        return new AbstractBurialPlaceId(new MemorialTreeId((string) $id));
     }
 }

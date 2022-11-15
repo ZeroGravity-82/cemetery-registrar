@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree;
 
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlace;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTree extends BurialPlace
+class MemorialTree extends AbstractBurialPlace
 {
     public const CLASS_SHORTCUT = 'MEMORIAL_TREE';
     public const CLASS_LABEL    = 'памятное дерево';

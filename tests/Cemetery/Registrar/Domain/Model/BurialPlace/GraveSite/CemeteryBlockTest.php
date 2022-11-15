@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockTest extends AggregateRootTest
+class CemeteryBlockTest extends AbstractAggregateRootTest
 {
     private CemeteryBlockId   $id;
     private CemeteryBlockName $name;

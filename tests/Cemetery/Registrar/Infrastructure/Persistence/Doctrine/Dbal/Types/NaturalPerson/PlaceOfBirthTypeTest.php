@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\NaturalPerson\PlaceOfBirth;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\NaturalPerson\PlaceOfBirthType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class PlaceOfBirthTypeTest extends CustomStringTypeTest
+class PlaceOfBirthTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = PlaceOfBirthType::class;
     protected string $typeName  = 'place_of_birth';

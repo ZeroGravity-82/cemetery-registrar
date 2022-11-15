@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\CemeteryBlockNameType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockNameTypeTest extends CustomStringTypeTest
+class CemeteryBlockNameTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = CemeteryBlockNameType::class;
     protected string $typeName  = 'cemetery_block_name';

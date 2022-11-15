@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityCollection implements \Countable, \IteratorAggregate
+abstract class AbstractEntityCollection implements \Countable, \IteratorAggregate
 {
     private array $entities = [];
 
@@ -38,7 +38,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     /**
      * @throws \InvalidArgumentException when the entity type does not match the collection
      */
-    public function add(Entity $entity): void
+    public function add(AbstractEntity $entity): void
     {
         $this->assertSupportedEntityClass($entity);
         $entityId                  = (string) $entity->id();
@@ -48,7 +48,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     /**
      * @throws \LogicException when the entity is not found by ID
      */
-    public function get(EntityId $entityId): Entity
+    public function get(AbstractEntityId $entityId): AbstractEntity
     {
         $entityId = (string) $entityId;
         if (!isset($this->entities[$entityId])) {
@@ -62,12 +62,12 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         return $this->entities[$entityId];
     }
 
-    public function contains(Entity $entity): bool
+    public function contains(AbstractEntity $entity): bool
     {
         return \in_array($entity, $this->entities, true);
     }
 
-    public function remove(Entity $entity): void
+    public function remove(AbstractEntity $entity): void
     {
         $entityId = (string) $entity->id();
         unset($this->entities[$entityId]);
@@ -110,28 +110,28 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
         return \array_values($this->entities);
     }
 
-    public function first(): ?Entity
+    public function first(): ?AbstractEntity
     {
         $first = \reset($this->entities);
 
         return $first ?: null;
     }
 
-    public function next(): ?Entity
+    public function next(): ?AbstractEntity
     {
         $next = \next($this->entities);
 
         return $next ?: null;
     }
 
-    public function current(): ?Entity
+    public function current(): ?AbstractEntity
     {
         $current = \current($this->entities);
 
         return $current ?: null;
     }
 
-    public function last(): ?Entity
+    public function last(): ?AbstractEntity
     {
         $last = \end($this->entities);
 
@@ -141,7 +141,7 @@ abstract class EntityCollection implements \Countable, \IteratorAggregate
     /**
      * @throws \InvalidArgumentException when the entity type does not match the collection
      */
-    private function assertSupportedEntityClass(Entity $entity): void
+    private function assertSupportedEntityClass(AbstractEntity $entity): void
     {
         $supportedEntityClassName = $this->supportedEntityClassName();
         if (!$entity instanceof $supportedEntityClassName) {

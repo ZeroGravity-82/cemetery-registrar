@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialFactory;
 use Cemetery\Registrar\Domain\Model\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceIdFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheFactory;
@@ -157,7 +157,7 @@ class RegisterNewBurialService extends AbstractApplicationService
         return $customerId;
     }
 
-    private function processBurialPlaceData(RegisterNewBurialRequest $request): ?BurialPlaceId
+    private function processBurialPlaceData(RegisterNewBurialRequest $request): ?AbstractBurialPlaceId
     {
         $burialPlaceId = null;
 

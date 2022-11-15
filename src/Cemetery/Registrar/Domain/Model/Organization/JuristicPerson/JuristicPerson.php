@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\Contact\Website;
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Model\Organization\Name;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\Model\Organization\Okved;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPerson extends AggregateRoot
+class JuristicPerson extends AbstractAggregateRoot
 {
     public const CLASS_SHORTCUT = 'JURISTIC_PERSON';
     public const CLASS_LABEL    = 'юрлицо';

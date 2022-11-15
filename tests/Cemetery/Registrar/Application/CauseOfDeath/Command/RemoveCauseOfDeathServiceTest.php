@@ -15,7 +15,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class RemoveCauseOfDeathServiceTest extends CauseOfDeathServiceTest
+class RemoveCauseOfDeathServiceTest extends AbstractCauseOfDeathServiceTest
 {
     private MockObject|RemoveCauseOfDeathRequestValidator $mockRemoveCauseOfDeathRequestValidator;
     public function setUp(): void

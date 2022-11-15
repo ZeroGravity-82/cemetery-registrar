@@ -19,7 +19,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalMemorialTreeFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private MemorialTreeRepositoryInterface $repo;
 

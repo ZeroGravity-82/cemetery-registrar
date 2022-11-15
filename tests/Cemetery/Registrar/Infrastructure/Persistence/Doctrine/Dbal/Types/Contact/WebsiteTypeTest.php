@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Contact\Website;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\WebsiteType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class WebsiteTypeTest extends CustomStringTypeTest
+class WebsiteTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = WebsiteType::class;
     protected string $typeName  = 'website';

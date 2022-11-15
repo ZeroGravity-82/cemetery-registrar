@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\FuneralCompany;
 
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyFactory;
-use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyFactoryTest extends EntityFactoryTest
+class FuneralCompanyFactoryTest extends AbstractEntityFactoryTest
 {
     private FuneralCompanyFactory $funeralCompanyFactory;
 

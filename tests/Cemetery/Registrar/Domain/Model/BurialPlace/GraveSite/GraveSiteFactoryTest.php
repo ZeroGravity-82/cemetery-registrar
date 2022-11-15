@@ -10,14 +10,14 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
-use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityFactoryTest;
 use DataFixtures\NaturalPerson\NaturalPersonProvider;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteFactoryTest extends EntityFactoryTest
+class GraveSiteFactoryTest extends AbstractEntityFactoryTest
 {
     private NaturalPerson    $naturalPerson;
     private GraveSiteFactory $graveSiteFactory;
@@ -29,8 +29,8 @@ class GraveSiteFactoryTest extends EntityFactoryTest
         $this->naturalPerson    = NaturalPersonProvider::getNaturalPersonG();
         $mockNaturalPersonRepo  = $this->buildMockNaturalPersonRepo();
         $this->graveSiteFactory = new GraveSiteFactory(
-            $mockNaturalPersonRepo,
             $this->mockIdentityGenerator,
+            $mockNaturalPersonRepo,
         );
     }
 

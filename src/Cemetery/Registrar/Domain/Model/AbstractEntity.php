@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class Entity
+abstract class AbstractEntity
 {
     protected \DateTimeImmutable  $createdAt;
     protected \DateTimeImmutable  $updatedAt;
@@ -20,7 +20,7 @@ abstract class Entity
         $this->updatedAt = $now;
     }
 
-    abstract public function id(): EntityId;
+    abstract public function id(): AbstractEntityId;
 
     public function createdAt(): \DateTimeImmutable
     {

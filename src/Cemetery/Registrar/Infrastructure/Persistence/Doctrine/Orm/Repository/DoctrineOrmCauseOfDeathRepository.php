@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements CauseOfDeathRepositoryInterface
+class DoctrineOrmCauseOfDeathRepository extends AbstractDoctrineOrmRepository implements CauseOfDeathRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {
@@ -34,7 +34,7 @@ class DoctrineOrmCauseOfDeathRepository extends DoctrineOrmRepository implements
     /**
      * @throws Exception when uniqueness constraints (if any) are violated
      */
-    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    protected function assertUnique(AbstractAggregateRoot $aggregateRoot): void
     {
         /** @var CauseOfDeath $aggregateRoot */
         if ($this->doesSameNameAlreadyUsed($aggregateRoot)) {

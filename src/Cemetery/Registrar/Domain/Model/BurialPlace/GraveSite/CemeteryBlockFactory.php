@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockFactory extends EntityFactory
+class CemeteryBlockFactory extends AbstractEntityFactory
 {
     /**
      * @throws Exception when generating an invalid cemetery block ID

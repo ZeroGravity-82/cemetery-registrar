@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyName;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyNote;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyTest extends AggregateRootTest
+class FuneralCompanyTest extends AbstractAggregateRootTest
 {
     private FuneralCompanyId   $funeralCompanyIdA;
     private FuneralCompanyName $funeralCompanyName;

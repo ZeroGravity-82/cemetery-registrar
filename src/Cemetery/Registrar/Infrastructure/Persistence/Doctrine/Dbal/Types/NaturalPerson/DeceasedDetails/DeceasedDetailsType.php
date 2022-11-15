@@ -10,12 +10,12 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DeceasedDetailsType extends CustomJsonType
+class DeceasedDetailsType extends AbstractCustomJsonType
 {
     protected string $className = DeceasedDetails::class;
     protected string $typeName  = 'deceased_details';

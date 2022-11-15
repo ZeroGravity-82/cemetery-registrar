@@ -23,7 +23,7 @@ use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalOrganizationFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private JuristicPersonRepositoryInterface $juristicPersonRepo;
     private SoleProprietorRepositoryInterface $soleProprietorRepo;

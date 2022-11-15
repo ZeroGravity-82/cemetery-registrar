@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class BurialPlace extends AggregateRoot
+abstract class AbstractBurialPlace extends AbstractAggregateRoot
 {
     public const CLASS_LABEL = null;
 

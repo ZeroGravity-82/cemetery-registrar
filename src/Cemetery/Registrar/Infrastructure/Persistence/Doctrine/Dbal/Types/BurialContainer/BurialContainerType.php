@@ -10,12 +10,12 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialContainerType extends CustomJsonType
+class BurialContainerType extends AbstractCustomJsonType
 {
     protected string $className = BurialContainer::class;
     protected string $typeName  = 'burial_container';

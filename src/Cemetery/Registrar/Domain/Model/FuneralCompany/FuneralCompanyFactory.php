@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\FuneralCompany;
 
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class FuneralCompanyFactory extends EntityFactory
+class FuneralCompanyFactory extends AbstractEntityFactory
 {
     /**
      * @throws Exception when generating an invalid funeral company ID

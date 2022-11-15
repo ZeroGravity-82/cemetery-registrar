@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Cemetery\Registrar\Infrastructure\Persistence\Repository;
+use Cemetery\Registrar\Infrastructure\Persistence\AbstractRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class DoctrineOrmRepository extends Repository
+abstract class AbstractDoctrineOrmRepository extends AbstractRepository
 {
     public function __construct(
         protected EntityManagerInterface $entityManager,
@@ -47,7 +47,7 @@ abstract class DoctrineOrmRepository extends Repository
     /**
      * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
-    public function findById($aggregateRootId): ?AggregateRoot
+    public function findById($aggregateRootId): ?AbstractAggregateRoot
     {
         $this->assertSupportedAggregateRootIdClass($aggregateRootId);
 

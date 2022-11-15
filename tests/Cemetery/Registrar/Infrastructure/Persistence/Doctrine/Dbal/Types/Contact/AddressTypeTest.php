@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\AddressType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AddressTypeTest extends CustomStringTypeTest
+class AddressTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = AddressType::class;
     protected string $typeName  = 'address';

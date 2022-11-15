@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace;
 
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
@@ -12,22 +12,22 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\BurialPlaceIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialPlaceIdTypeTest extends CustomJsonTypeTest
+class BurialPlaceIdTypeTest extends AbstractCustomJsonTypeTest
 {
     protected string $className                                  = BurialPlaceIdType::class;
     protected string $typeName                                   = 'burial_place_id';
-    protected string $phpValueClassName                          = BurialPlaceId::class;
+    protected string $phpValueClassName                          = AbstractBurialPlaceId::class;
     protected string $exceptionMessageForDatabaseIncompleteValue = 'Неверный формат декодированного значения для ID';
 
     /**
      * @dataProvider getConversionData
      */
-    public function testItConvertsToDatabaseValue(string $dbValue, BurialPlaceId $phpValue): void
+    public function testItConvertsToDatabaseValue(string $dbValue, AbstractBurialPlaceId $phpValue): void
     {
         $resultingDbValue = $this->type->convertToDatabaseValue($phpValue, $this->mockPlatform);
         $this->assertJson($resultingDbValue);
@@ -49,9 +49,9 @@ class BurialPlaceIdTypeTest extends CustomJsonTypeTest
     /**
      * @dataProvider getConversionData
      */
-    public function testItConvertsToPhpValue(string $dbValue, BurialPlaceId $phpValue): void
+    public function testItConvertsToPhpValue(string $dbValue, AbstractBurialPlaceId $phpValue): void
     {
-        /** @var BurialPlaceId $resultingPhpValue */
+        /** @var AbstractBurialPlaceId $resultingPhpValue */
         $resultingPhpValue = $this->type->convertToPHPValue($dbValue, $this->mockPlatform);
         $this->assertInstanceOf(\get_class($phpValue), $resultingPhpValue);
         $this->assertSame($phpValue->value(), $resultingPhpValue->value());

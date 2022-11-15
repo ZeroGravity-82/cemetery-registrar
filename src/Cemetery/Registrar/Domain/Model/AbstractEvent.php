@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class Event
+abstract class AbstractEvent
 {
     protected \DateTimeImmutable $createdAt;
 

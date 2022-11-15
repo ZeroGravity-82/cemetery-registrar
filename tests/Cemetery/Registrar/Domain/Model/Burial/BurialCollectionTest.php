@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityCollectionTest;
 use DataFixtures\Burial\BurialProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialCollectionTest extends EntityCollectionTest
+class BurialCollectionTest extends AbstractEntityCollectionTest
 {
     public function setUp(): void
     {

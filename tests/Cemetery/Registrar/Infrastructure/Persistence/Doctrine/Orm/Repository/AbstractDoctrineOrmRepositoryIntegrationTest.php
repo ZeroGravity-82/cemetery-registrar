@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\Entity;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmRepository;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\AbstractDoctrineOrmRepository;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -13,16 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
+abstract class AbstractDoctrineOrmRepositoryIntegrationTest extends KernelTestCase
 {
-    protected Entity                 $entityA;
-    protected Entity                 $entityB;
-    protected Entity                 $entityC;
-    protected EntityManagerInterface $entityManager;
-    protected DoctrineOrmRepository  $repo;
-    protected string                 $entityClassName;
-    protected string                 $entityIdClassName;
-    protected string                 $entityCollectionClassName;
+    protected AbstractEntity                $entityA;
+    protected AbstractEntity                $entityB;
+    protected AbstractEntity                $entityC;
+    protected EntityManagerInterface        $entityManager;
+    protected AbstractDoctrineOrmRepository $repo;
+    protected string                        $entityClassName;
+    protected string                        $entityIdClassName;
+    protected string                        $entityCollectionClassName;
 
     public function setUp(): void
     {
@@ -173,26 +173,26 @@ abstract class DoctrineOrmRepositoryIntegrationTest extends KernelTestCase
     /**
      * Checks that the entities have the same values for all of their properties.
      *
-     * @param Entity $entityOne
-     * @param Entity $entityTwo
+     * @param AbstractEntity $entityOne
+     * @param AbstractEntity $entityTwo
      *
      * @return bool
      */
-    abstract protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool;
+    abstract protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool;
 
     /**
      * Updates some properties of the entity A.
      *
-     * @param Entity $entityA
+     * @param AbstractEntity $entityA
      */
-    abstract protected function updateEntityA(Entity $entityA): void;
+    abstract protected function updateEntityA(AbstractEntity $entityA): void;
 
     protected function truncateEntities(): void
     {
         (new OrmPurger($this->entityManager))->purge();
     }
 
-    protected function areSameClasses(Entity $entityOne, Entity $entityTwo): bool
+    protected function areSameClasses(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         return $entityOne instanceof $this->entityClassName && $entityTwo instanceof $this->entityClassName;
     }

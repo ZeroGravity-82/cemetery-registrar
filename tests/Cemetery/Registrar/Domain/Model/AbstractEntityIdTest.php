@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model;
 
-use Cemetery\Registrar\Domain\Model\EntityId;
+use Cemetery\Registrar\Domain\Model\AbstractEntityId;
 use Cemetery\Registrar\Domain\Model\Exception;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityIdTest extends TestCase
+abstract class AbstractEntityIdTest extends TestCase
 {
     protected string $className;
 
     public function testItSuccessfullyCreated(): void
     {
-        /** @var EntityId $entityId */
+        /** @var AbstractEntityId $entityId */
         $entityId = new $this->className('777');
 
         $this->assertSame('777', $entityId->value());

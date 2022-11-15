@@ -15,7 +15,7 @@ use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\DiscardGraveSit
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveGraveSite\RemoveGraveSiteRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSites\ListGraveSitesRequest;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ShowGraveSite\ShowGraveSiteRequest;
-use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -24,7 +24,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AdminBurialPlaceGraveSiteController extends Controller
+class AdminBurialPlaceGraveSiteController extends AbstractController
 {
     public function __construct(
         private ApplicationRequestBus $appRequestBus,

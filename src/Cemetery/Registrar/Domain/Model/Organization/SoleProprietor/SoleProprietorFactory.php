@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\Contact\Website;
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
 use Cemetery\Registrar\Domain\Model\Organization\Name;
@@ -17,7 +17,7 @@ use Cemetery\Registrar\Domain\Model\Organization\Okved;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorFactory extends EntityFactory
+class SoleProprietorFactory extends AbstractEntityFactory
 {
     /**
      * @throws Exception when generating an invalid sole proprietor ID

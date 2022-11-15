@@ -12,13 +12,13 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbariu
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\BurialPlaceTest;
+use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceTest;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheTest extends BurialPlaceTest
+class ColumbariumNicheTest extends AbstractBurialPlaceTest
 {
     private ColumbariumNicheId     $id;
     private ColumbariumId          $columbariumId;

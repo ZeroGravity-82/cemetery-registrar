@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class DoctrineDbalFetcherIntegrationTest extends KernelTestCase
+abstract class AbstractDoctrineDbalFetcherIntegrationTest extends KernelTestCase
 {
     protected const DEFAULT_PAGE_SIZE = 20;
 

@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmMemorialTreeRepository;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
@@ -18,7 +18,7 @@ use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = MemorialTree::class;
     protected string $entityIdClassName         = MemorialTreeId::class;
@@ -68,7 +68,7 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->repo->save($newEntity);
     }
     
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var MemorialTree $entityOne */
         /** @var MemorialTree $entityTwo */
@@ -80,7 +80,7 @@ class DoctrineOrmMemorialTreeRepositoryIntegrationTest extends DoctrineOrmReposi
             $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newTreeNumber = new MemorialTreeNumber('005');
 

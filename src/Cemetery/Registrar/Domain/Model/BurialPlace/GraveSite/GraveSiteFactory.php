@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
 use Cemetery\Registrar\Domain\Model\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
@@ -18,7 +18,7 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteFactory extends EntityFactory
+class GraveSiteFactory extends AbstractEntityFactory
 {
     public function __construct(
         IdentityGeneratorInterface               $identityGenerator,

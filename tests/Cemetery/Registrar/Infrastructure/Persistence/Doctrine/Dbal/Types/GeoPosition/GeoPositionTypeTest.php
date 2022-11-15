@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\GeoPosition\GeoPositionType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GeoPositionTypeTest extends CustomJsonTypeTest
+class GeoPositionTypeTest extends AbstractCustomJsonTypeTest
 {
     protected string $className                                  = GeoPositionType::class;
     protected string $typeName                                   = 'geo_position';

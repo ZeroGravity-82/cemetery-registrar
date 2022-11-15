@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathEditedTest extends EventTest
+class CauseOfDeathEditedTest extends AbstractEventTest
 {
     private CauseOfDeathId   $id;
     private CauseOfDeathName $name;

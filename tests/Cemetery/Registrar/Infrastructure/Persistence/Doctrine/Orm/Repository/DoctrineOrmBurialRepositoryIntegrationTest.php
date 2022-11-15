@@ -7,7 +7,7 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repos
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
 use Cemetery\Registrar\Domain\Model\Burial\BurialCollection;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmBurialRepository;
 use DataFixtures\Burial\BurialProvider;
 use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
@@ -17,7 +17,7 @@ use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmBurialRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = Burial::class;
     protected string $entityIdClassName         = BurialId::class;
@@ -33,7 +33,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
         $this->entityC = BurialProvider::getBurialC();
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var Burial $entityOne */
         /** @var Burial $entityTwo */
@@ -50,7 +50,7 @@ class DoctrineOrmBurialRepositoryIntegrationTest extends DoctrineOrmRepositoryIn
             $this->areEqualDateTimeValues($entityOne->buriedAt(), $entityTwo->buriedAt());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newCustomer = SoleProprietorProvider::getSoleProprietorA();
 

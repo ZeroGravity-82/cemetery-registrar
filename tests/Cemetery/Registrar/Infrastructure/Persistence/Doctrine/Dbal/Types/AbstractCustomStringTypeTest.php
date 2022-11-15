@@ -7,16 +7,16 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CustomIntegerTypeTest extends CustomTypeTest
+abstract class AbstractCustomStringTypeTest extends AbstractCustomTypeTest
 {
-    protected int    $dbValue;
+    protected string $dbValue;
     protected object $phpValue;
 
     public function testItConvertsToDatabaseValue(): void
     {
         $dbValue = $this->type->convertToDatabaseValue($this->phpValue, $this->mockPlatform);
 
-        $this->assertIsInt($dbValue);
+        $this->assertIsString($dbValue);
         $this->assertSame($this->dbValue, $dbValue);
     }
 

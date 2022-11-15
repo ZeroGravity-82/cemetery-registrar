@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 
-use Cemetery\Registrar\Domain\Model\Event;
+use Cemetery\Registrar\Domain\Model\AbstractEvent;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonDeceasedDetailsClarified extends Event
+class NaturalPersonDeceasedDetailsClarified extends AbstractEvent
 {
     public function __construct(
         private NaturalPersonId $id,

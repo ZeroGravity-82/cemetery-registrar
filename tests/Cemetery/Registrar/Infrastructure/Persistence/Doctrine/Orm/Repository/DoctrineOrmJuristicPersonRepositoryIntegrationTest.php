@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
@@ -19,7 +19,7 @@ use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = JuristicPerson::class;
     protected string $entityIdClassName         = JuristicPersonId::class;
@@ -84,7 +84,7 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->repo->save($newEntity);
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var JuristicPerson $entityOne */
         /** @var JuristicPerson $entityTwo */
@@ -108,7 +108,7 @@ class DoctrineOrmJuristicPersonRepositoryIntegrationTest extends DoctrineOrmRepo
             $this->areEqualValueObjects($entityOne->website(), $entityTwo->website());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newInn = new Inn('7728168971');
 

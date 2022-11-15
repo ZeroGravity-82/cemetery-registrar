@@ -10,12 +10,12 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeNumber;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\BurialPlaceTest;
+use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class MemorialTreeTest extends BurialPlaceTest
+class MemorialTreeTest extends AbstractBurialPlaceTest
 {
     private MemorialTreeId     $id;
     private MemorialTreeNumber $treeNumber;

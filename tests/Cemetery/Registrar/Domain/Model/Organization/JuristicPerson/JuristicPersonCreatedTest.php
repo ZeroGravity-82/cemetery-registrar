@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\Name;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonCreatedTest extends EventTest
+class JuristicPersonCreatedTest extends AbstractEventTest
 {
     private JuristicPersonId $id;
     private Name             $name;

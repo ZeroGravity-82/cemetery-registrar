@@ -11,12 +11,12 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertifica
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonDeceasedDetailsClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonDeceasedDetailsClarifiedTest extends EventTest
+class NaturalPersonDeceasedDetailsClarifiedTest extends AbstractEventTest
 {
     private NaturalPersonId $id;
     private DeceasedDetails $deceasedDetails;

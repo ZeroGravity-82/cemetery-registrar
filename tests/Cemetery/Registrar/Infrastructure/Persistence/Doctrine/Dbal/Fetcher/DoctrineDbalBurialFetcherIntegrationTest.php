@@ -37,7 +37,7 @@ use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalBurialFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private BurialRepositoryInterface $repo;
 

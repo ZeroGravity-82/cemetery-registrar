@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetail
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPerson extends AggregateRoot
+class NaturalPerson extends AbstractAggregateRoot
 {
     public const CLASS_SHORTCUT = 'NATURAL_PERSON';
     public const CLASS_LABEL    = 'физлицо';

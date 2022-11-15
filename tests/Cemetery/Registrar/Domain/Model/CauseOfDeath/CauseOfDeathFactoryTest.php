@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
-use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityFactoryTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathFactoryTest extends EntityFactoryTest
+class CauseOfDeathFactoryTest extends AbstractEntityFactoryTest
 {
     private CauseOfDeathFactory $causeOfDeathFactory;
 

@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
-use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyNote;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmFuneralCompanyRepository;
 use DataFixtures\FuneralCompany\FuneralCompanyProvider;
 
@@ -20,7 +17,7 @@ use DataFixtures\FuneralCompany\FuneralCompanyProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = FuneralCompany::class;
     protected string $entityIdClassName         = FuneralCompanyId::class;
@@ -36,7 +33,7 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
         $this->entityC = FuneralCompanyProvider::getFuneralCompanyC();
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var FuneralCompany $entityOne */
         /** @var FuneralCompany $entityTwo */
@@ -47,7 +44,7 @@ class DoctrineOrmFuneralCompanyRepositoryIntegrationTest extends DoctrineOrmRepo
             $this->areEqualValueObjects($entityOne->note(), $entityTwo->note());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newNote = new FuneralCompanyNote('Примечание 1');
 

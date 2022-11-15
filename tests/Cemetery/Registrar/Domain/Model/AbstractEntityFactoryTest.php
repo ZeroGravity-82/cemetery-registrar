@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityFactoryTest extends TestCase
+abstract class AbstractEntityFactoryTest extends TestCase
 {
     protected const ENTITY_ID = '555';
 

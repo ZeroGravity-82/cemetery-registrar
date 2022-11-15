@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\ConversionException;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CustomJsonType extends CustomType
+abstract class AbstractCustomJsonType extends AbstractCustomType
 {
     /**
      * @throws ConversionException when the value to be converted is not of the expected type

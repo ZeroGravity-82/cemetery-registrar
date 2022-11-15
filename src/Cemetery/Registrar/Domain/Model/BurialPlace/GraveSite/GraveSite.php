@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlace;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSite extends BurialPlace
+class GraveSite extends AbstractBurialPlace
 {
     public const CLASS_SHORTCUT = 'GRAVE_SITE';
     public const CLASS_LABEL    = 'участок';

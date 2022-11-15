@@ -18,12 +18,12 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\Passport;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\PlaceOfBirth;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonTest extends AggregateRootTest
+class NaturalPersonTest extends AbstractAggregateRootTest
 {
     private NaturalPersonId $naturalPersonId;
     private FullName        $fullName;

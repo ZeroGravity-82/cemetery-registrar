@@ -21,7 +21,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalNaturalPersonFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private NaturalPersonRepositoryInterface $repo;
 

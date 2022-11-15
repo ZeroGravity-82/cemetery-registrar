@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace;
 
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlace;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 use DataFixtures\NaturalPerson\NaturalPersonProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class BurialPlaceTest extends AggregateRootTest
+abstract class AbstractBurialPlaceTest extends AbstractAggregateRootTest
 {
-    protected BurialPlace $burialPlace;
+    protected AbstractBurialPlace $burialPlace;
 
     public function testItAssignsPersonInCharge(): void
     {

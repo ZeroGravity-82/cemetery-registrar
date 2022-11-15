@@ -11,14 +11,14 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CustomerIdType extends CustomJsonType
+class CustomerIdType extends AbstractCustomJsonType
 {
     protected string $typeName  = 'customer_id';
 

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Organization\SoleProprietor;
 
-use Cemetery\Registrar\Domain\Model\Event;
+use Cemetery\Registrar\Domain\Model\AbstractEvent;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorRemoved extends Event
+class SoleProprietorRemoved extends AbstractEvent
 {
     public function __construct(
         private SoleProprietorId $id,

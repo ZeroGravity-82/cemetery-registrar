@@ -9,20 +9,20 @@ use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCause
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcherInterface;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
-use Cemetery\Tests\Registrar\Application\ApplicationServiceTest;
+use Cemetery\Tests\Registrar\Application\AbstractApplicationServiceTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
+class ShowCauseOfDeathServiceTest extends AbstractApplicationServiceTest
 {
     private string                                      $id;
     private string                                      $unknownId;
     private CauseOfDeathView                            $causeOfDeathView;
-    private MockObject|CauseOfDeathFetcher              $mockCauseOfDeathFetcher;
+    private MockObject|CauseOfDeathFetcherInterface     $mockCauseOfDeathFetcher;
     private MockObject|ShowCauseOfDeathRequestValidator $mockShowCauseOfDeathRequestValidator;
 
     public function setUp(): void
@@ -69,9 +69,9 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
         return ShowCauseOfDeathRequest::class;
     }
 
-    private function buildMockCauseOfDeathFetcher(): MockObject|CauseOfDeathFetcher
+    private function buildMockCauseOfDeathFetcher(): MockObject|CauseOfDeathFetcherInterface
     {
-        $mockCauseOfDeathFetcher = $this->createMock(CauseOfDeathFetcher::class);
+        $mockCauseOfDeathFetcher = $this->createMock(CauseOfDeathFetcherInterface::class);
         $mockCauseOfDeathFetcher->method('findViewById')->willReturnCallback(function (string $id) {
             return match ($id) {
                 $this->id        => $this->causeOfDeathView,

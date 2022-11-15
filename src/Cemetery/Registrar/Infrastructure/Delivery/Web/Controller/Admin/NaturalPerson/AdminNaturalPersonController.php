@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListAllCausesOfDeath\ListAllCausesOfDeathRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Command\CreateNaturalPerson\CreateNaturalPersonRequest;
 use Cemetery\Registrar\Application\NaturalPerson\Query\PaginateNaturalPersons\PaginateNaturalPersonsRequest;
-use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AdminNaturalPersonController extends Controller
+class AdminNaturalPersonController extends AbstractController
 {
     public function __construct(
         private ApplicationRequestBus $appRequestBus,

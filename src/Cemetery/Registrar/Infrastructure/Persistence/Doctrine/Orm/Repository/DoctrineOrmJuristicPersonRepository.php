@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implements JuristicPersonRepositoryInterface
+class DoctrineOrmJuristicPersonRepository extends AbstractDoctrineOrmRepository implements JuristicPersonRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {
@@ -34,7 +34,7 @@ class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implemen
      /**
      * @throws Exception when uniqueness constraints (if any) are violated
      */
-    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    protected function assertUnique(AbstractAggregateRoot $aggregateRoot): void
     {
         /** @var JuristicPerson $aggregateRoot */
         if ($this->doesSameNameOrInnAlreadyUsed($aggregateRoot)) {

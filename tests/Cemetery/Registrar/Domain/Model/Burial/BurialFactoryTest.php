@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialFactory;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityFactoryTest;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
 use DataFixtures\Organization\JuristicPerson\JuristicPersonProvider;
@@ -24,7 +24,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialFactoryTest extends EntityFactoryTest
+class BurialFactoryTest extends AbstractEntityFactoryTest
 {
     private const BURIAL_CODE = '10001';
 
@@ -38,8 +38,8 @@ class BurialFactoryTest extends EntityFactoryTest
         $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGeneratorInterface::class);
         $this->mockBurialCodeGenerator->method('getNextCode')->willReturn(self::BURIAL_CODE);
         $this->burialFactory = new BurialFactory(
-            $this->mockBurialCodeGenerator,
             $this->mockIdentityGenerator,
+            $this->mockBurialCodeGenerator,
         );
     }
 

@@ -25,7 +25,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonController extends Controller
+class NaturalPersonController extends AbstractController
 {
     public function __construct(
         private ApplicationRequestBus $appRequestBus,

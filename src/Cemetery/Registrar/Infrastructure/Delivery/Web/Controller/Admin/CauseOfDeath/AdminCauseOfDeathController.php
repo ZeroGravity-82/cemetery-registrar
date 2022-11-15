@@ -10,7 +10,7 @@ use Cemetery\Registrar\Application\CauseOfDeath\Command\EditCauseOfDeath\EditCau
 use Cemetery\Registrar\Application\CauseOfDeath\Command\RemoveCauseOfDeath\RemoveCauseOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\PaginateCausesOfDeath\PaginateCausesOfDeathRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ShowCauseOfDeath\ShowCauseOfDeathRequest;
-use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AdminCauseOfDeathController extends Controller
+class AdminCauseOfDeathController extends AbstractController
 {
     public function __construct(
         private ApplicationRequestBus $appRequestBus,

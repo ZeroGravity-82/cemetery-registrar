@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmGraveSiteRepository;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
@@ -19,7 +19,7 @@ use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmGraveSiteRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = GraveSite::class;
     protected string $entityIdClassName         = GraveSiteId::class;
@@ -99,7 +99,7 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
         $this->repo->save($newEntity);
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var GraveSite $entityOne */
         /** @var GraveSite $entityTwo */
@@ -114,7 +114,7 @@ class DoctrineOrmGraveSiteRepositoryIntegrationTest extends DoctrineOrmRepositor
             $this->areEqualValueObjects($entityOne->size(), $entityTwo->size());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newSize = new GraveSiteSize('2.0');
 

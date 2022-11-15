@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialRepositoryInterface;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmBurialRepository extends DoctrineOrmRepository implements BurialRepositoryInterface
+class DoctrineOrmBurialRepository extends AbstractDoctrineOrmRepository implements BurialRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {

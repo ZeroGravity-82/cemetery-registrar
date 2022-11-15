@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\Model\Organization\Name;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\Inn;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCreated;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorCreatedTest extends EventTest
+class SoleProprietorCreatedTest extends AbstractEventTest
 {
     private SoleProprietorId $id;
     private Name             $name;

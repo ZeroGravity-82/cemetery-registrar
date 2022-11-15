@@ -13,13 +13,13 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\BurialPlaceTest;
+use Cemetery\Tests\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceTest;
 use DataFixtures\BurialPlace\GraveSite\CemeteryBlockProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteTest extends BurialPlaceTest
+class GraveSiteTest extends AbstractBurialPlaceTest
 {
     private GraveSiteId     $id;
     private CemeteryBlockId $cemeteryBlockId;

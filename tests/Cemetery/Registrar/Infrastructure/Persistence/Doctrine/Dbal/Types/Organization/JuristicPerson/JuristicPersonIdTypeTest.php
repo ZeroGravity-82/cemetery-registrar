@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\JuristicPerson\JuristicPersonIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonIdTypeTest extends CustomStringTypeTest
+class JuristicPersonIdTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = JuristicPersonIdType::class;
     protected string $typeName  = 'juristic_person_id';

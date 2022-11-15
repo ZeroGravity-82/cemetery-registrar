@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\View\FetcherInterface;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class Fetcher implements FetcherInterface
+abstract class AbstractFetcher implements FetcherInterface
 {
     protected function isTermNotEmpty(?string $term): bool
     {

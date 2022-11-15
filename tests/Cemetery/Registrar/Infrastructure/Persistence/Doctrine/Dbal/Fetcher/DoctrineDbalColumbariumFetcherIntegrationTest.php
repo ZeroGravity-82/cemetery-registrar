@@ -18,7 +18,7 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalColumbariumFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalColumbariumFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private ColumbariumRepositoryInterface $repo;
 

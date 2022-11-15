@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model;
 
-use Cemetery\Registrar\Domain\Model\Entity;
-use Cemetery\Registrar\Domain\Model\EntityId;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
+use Cemetery\Registrar\Domain\Model\AbstractEntityId;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityTest extends TestCase
+abstract class AbstractEntityTest extends TestCase
 {
-    protected Entity $entity;
+    protected AbstractEntity $entity;
 
     public function testItReturnsId(): void
     {
-        $this->assertInstanceOf(EntityId::class, $this->entity->id());
+        $this->assertInstanceOf(AbstractEntityId::class, $this->entity->id());
     }
 
     public function testItInitializesTimestamps(): void

@@ -20,7 +20,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalGraveSiteFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private GraveSiteRepositoryInterface $repo;
 

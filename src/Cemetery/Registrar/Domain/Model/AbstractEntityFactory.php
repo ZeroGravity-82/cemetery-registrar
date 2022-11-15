@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityFactory
+abstract class AbstractEntityFactory
 {
     public function __construct(
         protected IdentityGeneratorInterface $identityGenerator,

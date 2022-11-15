@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CauseOfDeathTest extends AggregateRootTest
+class CauseOfDeathTest extends AbstractAggregateRootTest
 {
     private CauseOfDeath $causeOfDeath;
     

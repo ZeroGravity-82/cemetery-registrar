@@ -6,12 +6,12 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Orga
 
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BankDetailsType extends CustomJsonType
+class BankDetailsType extends AbstractCustomJsonType
 {
     protected string $className = BankDetails::class;
     protected string $typeName  = 'bank_details';

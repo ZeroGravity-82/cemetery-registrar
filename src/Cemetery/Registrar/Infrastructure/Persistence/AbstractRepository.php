@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
-use Cemetery\Registrar\Domain\Model\EntityCollection;
-use Cemetery\Registrar\Domain\Model\EntityId;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractEntityCollection;
+use Cemetery\Registrar\Domain\Model\AbstractEntityId;
 use Cemetery\Registrar\Domain\Model\RepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class Repository implements RepositoryInterface
+abstract class AbstractRepository implements RepositoryInterface
 {
     abstract protected function supportedAggregateRootClassName(): string;
 
@@ -23,7 +23,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * @throws \InvalidArgumentException when the aggregate root type does not match the repository
      */
-    protected function assertSupportedAggregateRootClass(AggregateRoot $aggregateRoot): void
+    protected function assertSupportedAggregateRootClass(AbstractAggregateRoot $aggregateRoot): void
     {
         $supportedAggregateRootClassName = $this->supportedAggregateRootClassName();
         if (!$aggregateRoot instanceof $supportedAggregateRootClassName) {
@@ -38,7 +38,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
-    protected function assertSupportedAggregateRootIdClass(EntityId $aggregateRootId): void
+    protected function assertSupportedAggregateRootIdClass(AbstractEntityId $aggregateRootId): void
     {
         $supportedAggregateRootIdClassName = $this->supportedAggregateRootIdClassName();
         if (!$aggregateRootId instanceof $supportedAggregateRootIdClassName) {
@@ -53,7 +53,7 @@ abstract class Repository implements RepositoryInterface
     /**
      * @throws \InvalidArgumentException when the aggregate root collection type does not match the repository
      */
-    protected function assertSupportedAggregateRootCollectionClass(EntityCollection $aggregateRoots): void
+    protected function assertSupportedAggregateRootCollectionClass(AbstractEntityCollection $aggregateRoots): void
     {
         $supportedAggregateRootCollectionClassName = $this->supportedAggregateRootCollectionClassName();
         if (!$aggregateRoots instanceof $supportedAggregateRootCollectionClassName) {

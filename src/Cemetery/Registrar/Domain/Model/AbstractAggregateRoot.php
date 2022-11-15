@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AggregateRoot extends Entity
+abstract class AbstractAggregateRoot extends AbstractEntity
 {
     private array $recordedEvents = [];
 
@@ -27,7 +27,7 @@ abstract class AggregateRoot extends Entity
      *
      * @throws \LogicException when the same event has already been recorded
      */
-    protected function recordEvent(Event $event): void
+    protected function recordEvent(AbstractEvent $event): void
     {
         if (\in_array($event, $this->recordedEvents)) {
             throw new \LogicException(

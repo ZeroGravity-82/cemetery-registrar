@@ -31,7 +31,7 @@ interface RepositoryInterface
      *
      * @throws \InvalidArgumentException when the aggregate root ID type does not match the repository
      */
-    public function findById($aggregateRootId): ?AggregateRoot;
+    public function findById($aggregateRootId): ?AbstractAggregateRoot;
 
     /**
      * Removes the aggregate from the repository.

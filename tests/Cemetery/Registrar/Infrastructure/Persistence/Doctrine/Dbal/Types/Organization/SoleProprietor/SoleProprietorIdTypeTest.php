@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\SoleProprietor\SoleProprietorIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorIdTypeTest extends CustomStringTypeTest
+class SoleProprietorIdTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = SoleProprietorIdType::class;
     protected string $typeName  = 'sole_proprietor_id';

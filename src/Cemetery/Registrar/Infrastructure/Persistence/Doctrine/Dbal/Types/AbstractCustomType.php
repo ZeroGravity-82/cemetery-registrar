@@ -10,7 +10,7 @@ use Doctrine\DBAL\Types\Type;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CustomType extends Type
+abstract class AbstractCustomType extends Type
 {
     protected string $className;
     protected string $typeName;

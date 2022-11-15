@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CustomTypeTest extends TestCase
+abstract class AbstractCustomTypeTest extends TestCase
 {
     protected MockObject|AbstractPlatform $mockPlatform;
     protected string                      $className;

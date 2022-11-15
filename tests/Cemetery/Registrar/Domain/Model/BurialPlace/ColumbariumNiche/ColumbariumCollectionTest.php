@@ -6,13 +6,13 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\ColumbariumNiche;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\Columbarium;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumCollection;
-use Cemetery\Tests\Registrar\Domain\Model\EntityCollectionTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEntityCollectionTest;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumProvider;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumCollectionTest extends EntityCollectionTest
+class ColumbariumCollectionTest extends AbstractEntityCollectionTest
 {
     public function setUp(): void
     {

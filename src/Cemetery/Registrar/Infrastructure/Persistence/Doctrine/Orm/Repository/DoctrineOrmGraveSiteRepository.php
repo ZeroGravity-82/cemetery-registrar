@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements GraveSiteRepositoryInterface
+class DoctrineOrmGraveSiteRepository extends AbstractDoctrineOrmRepository implements GraveSiteRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {
@@ -34,7 +34,7 @@ class DoctrineOrmGraveSiteRepository extends DoctrineOrmRepository implements Gr
     /**
      * @throws Exception when uniqueness constraints (if any) are violated
      */
-    protected function assertUnique(AggregateRoot $aggregateRoot): void
+    protected function assertUnique(AbstractAggregateRoot $aggregateRoot): void
     {
         /** @var GraveSite $aggregateRoot */
         if ($this->doesSameNicheRowAndPositionAlreadyUsed($aggregateRoot)) {

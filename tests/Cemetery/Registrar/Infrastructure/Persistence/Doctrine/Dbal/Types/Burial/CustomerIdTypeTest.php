@@ -11,13 +11,13 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Burial\CustomerIdType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonTypeTest;
 use Doctrine\DBAL\Types\ConversionException;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CustomerIdTypeTest extends CustomJsonTypeTest
+class CustomerIdTypeTest extends AbstractCustomJsonTypeTest
 {
     protected string $className                                  = CustomerIdType::class;
     protected string $typeName                                   = 'customer_id';

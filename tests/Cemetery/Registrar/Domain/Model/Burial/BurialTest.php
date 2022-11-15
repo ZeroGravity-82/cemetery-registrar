@@ -14,13 +14,13 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinSize;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceId;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
 use DataFixtures\BurialPlace\GraveSite\GraveSiteProvider;
 use DataFixtures\BurialPlace\MemorialTree\MemorialTreeProvider;
@@ -31,7 +31,7 @@ use DataFixtures\Organization\SoleProprietor\SoleProprietorProvider;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialTest extends AggregateRootTest
+class BurialTest extends AbstractAggregateRootTest
 {
     private const BURIAL_TYPE_COFFIN_IN_GRAVE_SITE_LABEL      = 'гробом в могилу';
     private const BURIAL_TYPE_URN_IN_GRAVE_SITE_LABEL         = 'урной в могилу';
@@ -122,19 +122,19 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::coffinInGraveSite());
         $burialPlace = GraveSiteProvider::getGraveSiteA();
         $this->burial->assignBurialPlace($burialPlace);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(AbstractBurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
 
         $this->burial->setType(BurialType::urnInColumbariumNiche());
         $burialPlace = ColumbariumNicheProvider::getColumbariumNicheA();
         $this->burial->assignBurialPlace($burialPlace);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(AbstractBurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
 
         $this->burial->setType(BurialType::ashesUnderMemorialTree());
         $burialPlace = MemorialTreeProvider::getMemorialTreeA();
         $this->burial->assignBurialPlace($burialPlace);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(AbstractBurialPlaceId::class, $this->burial->burialPlaceId());
         $this->assertTrue($this->burial->burialPlaceId()->isEqual($burialPlace->id()));
     }
 
@@ -144,7 +144,7 @@ class BurialTest extends AggregateRootTest
         $this->burial->setType(BurialType::coffinInGraveSite());
         $burialPlace = GraveSiteProvider::getGraveSiteA();
         $this->burial->assignBurialPlace($burialPlace);
-        $this->assertInstanceOf(BurialPlaceId::class, $this->burial->burialPlaceId());
+        $this->assertInstanceOf(AbstractBurialPlaceId::class, $this->burial->burialPlaceId());
 
         // Testing itself
         $this->burial->discardBurialPlace();

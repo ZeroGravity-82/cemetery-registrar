@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\CauseOfDeath\Query\ListAllCausesOfDeath
 use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\AbstractApplicationService;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -16,7 +16,7 @@ class ListAllCausesOfDeathService extends AbstractApplicationService
 {
     public function __construct(
         ListAllCausesOfDeathRequestValidator $requestValidator,
-        private CauseOfDeathFetcher          $causeOfDeathFetcher,
+        private CauseOfDeathFetcherInterface $causeOfDeathFetcher,
     ) {
         parent::__construct($requestValidator);
     }

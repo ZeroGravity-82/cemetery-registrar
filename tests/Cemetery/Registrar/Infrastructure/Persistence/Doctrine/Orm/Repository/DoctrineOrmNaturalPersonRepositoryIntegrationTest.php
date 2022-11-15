@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetails;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
@@ -18,7 +18,7 @@ use DataFixtures\NaturalPerson\NaturalPersonProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = NaturalPerson::class;
     protected string $entityIdClassName         = NaturalPersonId::class;
@@ -123,7 +123,7 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
         $this->repo->save($newEntity);
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var NaturalPerson $entityOne */
         /** @var NaturalPerson $entityTwo */
@@ -141,7 +141,7 @@ class DoctrineOrmNaturalPersonRepositoryIntegrationTest extends DoctrineOrmRepos
             $this->areEqualValueObjects($entityOne->deceasedDetails(), $entityTwo->deceasedDetails());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newBornAt = new \DateTimeImmutable('1952-03-02');
 

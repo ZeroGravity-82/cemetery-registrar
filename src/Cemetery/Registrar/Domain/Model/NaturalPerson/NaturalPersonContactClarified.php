@@ -7,12 +7,12 @@ namespace Cemetery\Registrar\Domain\Model\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
-use Cemetery\Registrar\Domain\Model\Event;
+use Cemetery\Registrar\Domain\Model\AbstractEvent;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonContactClarified extends Event
+class NaturalPersonContactClarified extends AbstractEvent
 {
     public function __construct(
         private NaturalPersonId $id,

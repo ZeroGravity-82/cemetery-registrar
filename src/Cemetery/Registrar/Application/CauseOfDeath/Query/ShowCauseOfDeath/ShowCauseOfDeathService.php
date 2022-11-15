@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\AbstractApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\AbstractApplicationService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcherInterface;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 
 /**
@@ -17,8 +17,8 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathView;
 class ShowCauseOfDeathService extends AbstractApplicationService
 {
     public function __construct(
-        ShowCauseOfDeathRequestValidator $requestValidator,
-        private CauseOfDeathFetcher      $causeOfDeathFetcher,
+        ShowCauseOfDeathRequestValidator     $requestValidator,
+        private CauseOfDeathFetcherInterface $causeOfDeathFetcher,
     ) {
         parent::__construct($requestValidator);
     }

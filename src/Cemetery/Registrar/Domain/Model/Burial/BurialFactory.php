@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlace;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\IdentityGeneratorInterface;
@@ -18,7 +18,7 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class BurialFactory extends EntityFactory
+class BurialFactory extends AbstractEntityFactory
 {
     public function __construct(
         IdentityGeneratorInterface           $identityGenerator,
@@ -38,7 +38,7 @@ class BurialFactory extends EntityFactory
         BurialType                                       $type,
         NaturalPersonId                                  $deceasedId,
         NaturalPerson|JuristicPerson|SoleProprietor|null $customer,
-        ?BurialPlace                                     $burialPlace,
+        ?AbstractBurialPlace                             $burialPlace,
         ?FuneralCompanyId                                $funeralCompanyId,
         ?BurialContainer                                 $burialContainer,
         ?\DateTimeImmutable                              $buriedAt,

@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\BurialPlace\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCreated;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class CemeteryBlockCreatedTest extends EventTest
+class CemeteryBlockCreatedTest extends AbstractEventTest
 {
     private CemeteryBlockId   $id;
     private CemeteryBlockName $name;

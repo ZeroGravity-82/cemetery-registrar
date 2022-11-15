@@ -9,12 +9,12 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteLocationClarified;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteLocationClarifiedTest extends EventTest
+class GraveSiteLocationClarifiedTest extends AbstractEventTest
 {
     private GraveSiteId     $id;
     private CemeteryBlockId $cemeteryBlockId;

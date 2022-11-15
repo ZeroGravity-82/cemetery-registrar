@@ -8,12 +8,12 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class ColumbariumNicheFactory extends EntityFactory
+class ColumbariumNicheFactory extends AbstractEntityFactory
 {
     /**
      * @throws Exception when generating an invalid columbarium niche ID

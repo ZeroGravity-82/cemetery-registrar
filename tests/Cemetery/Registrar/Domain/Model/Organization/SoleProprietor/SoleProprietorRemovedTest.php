@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\SoleProprietor;
 
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRemoved;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class SoleProprietorRemovedTest extends EventTest
+class SoleProprietorRemovedTest extends AbstractEventTest
 {
     private SoleProprietorId $id;
 

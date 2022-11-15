@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\Organization\JuristicPerson;
 
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonRemovedTest extends EventTest
+class JuristicPersonRemovedTest extends AbstractEventTest
 {
     private JuristicPersonId $id;
 

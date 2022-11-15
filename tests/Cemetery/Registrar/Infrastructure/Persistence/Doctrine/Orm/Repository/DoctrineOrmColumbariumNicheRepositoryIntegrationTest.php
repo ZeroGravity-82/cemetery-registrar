@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNich
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheCollection;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\RowInColumbarium;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmColumbariumNicheRepository;
 use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
@@ -19,7 +19,7 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumNicheProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = ColumbariumNiche::class;
     protected string $entityIdClassName         = ColumbariumNicheId::class;
@@ -99,7 +99,7 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
         $this->repo->save($newEntity);
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var ColumbariumNiche $entityOne */
         /** @var ColumbariumNiche $entityTwo */
@@ -113,7 +113,7 @@ class DoctrineOrmColumbariumNicheRepositoryIntegrationTest extends DoctrineOrmRe
             $this->areEqualValueObjects($entityOne->geoPosition(), $entityTwo->geoPosition());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newRowInColumbarium = new RowInColumbarium(20);
 

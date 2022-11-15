@@ -18,7 +18,7 @@ use DataFixtures\BurialPlace\GraveSite\CemeteryBlockFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalCemeteryBlockFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private CemeteryBlockRepositoryInterface $repo;
 

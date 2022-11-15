@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\ApplicationErrorResponse;
 use Cemetery\Registrar\Application\ApplicationFailResponse;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Psr\Container\ContainerExceptionInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController as SymfonyAbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse as HttpJsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
@@ -18,7 +18,7 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class Controller extends AbstractController
+abstract class AbstractController extends SymfonyAbstractController
 {
     /**
      * Checks that the CSRF token is valid.

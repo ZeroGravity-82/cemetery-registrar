@@ -7,12 +7,12 @@ namespace Cemetery\Tests\Registrar\Domain\Model\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFullNameClarified;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Tests\Registrar\Domain\Model\EventTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractEventTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class NaturalPersonFullNameClarifiedTest extends EventTest
+class NaturalPersonFullNameClarifiedTest extends AbstractEventTest
 {
     private NaturalPersonId $id;
     private FullName        $fullName;

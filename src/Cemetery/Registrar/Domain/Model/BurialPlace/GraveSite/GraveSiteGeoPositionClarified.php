@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite;
 
-use Cemetery\Registrar\Domain\Model\Event;
+use Cemetery\Registrar\Domain\Model\AbstractEvent;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class GraveSiteGeoPositionClarified extends Event
+class GraveSiteGeoPositionClarified extends AbstractEvent
 {
     public function __construct(
         private GraveSiteId $id,

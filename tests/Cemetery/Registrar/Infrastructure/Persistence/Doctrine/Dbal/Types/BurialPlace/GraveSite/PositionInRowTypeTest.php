@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\BurialPlace\GraveSite\PositionInRowType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomIntegerTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomIntegerTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class PositionInRowTypeTest extends CustomIntegerTypeTest
+class PositionInRowTypeTest extends AbstractCustomIntegerTypeTest
 {
     protected string $className = PositionInRowType::class;
     protected string $typeName  = 'position_in_row';

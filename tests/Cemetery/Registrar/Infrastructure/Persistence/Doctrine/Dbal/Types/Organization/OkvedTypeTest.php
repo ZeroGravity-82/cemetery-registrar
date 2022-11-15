@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Organization\Okved;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Organization\OkvedType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class OkvedTypeTest extends CustomStringTypeTest
+class OkvedTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = OkvedType::class;
     protected string $typeName  = 'okved';

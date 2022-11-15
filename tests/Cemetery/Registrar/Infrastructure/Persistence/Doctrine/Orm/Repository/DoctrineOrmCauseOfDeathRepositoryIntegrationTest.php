@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCollection;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
-use Cemetery\Registrar\Domain\Model\Entity;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmCauseOfDeathRepository;
 use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
@@ -18,7 +18,7 @@ use DataFixtures\CauseOfDeath\CauseOfDeathProvider;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmRepositoryIntegrationTest
+class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends AbstractDoctrineOrmRepositoryIntegrationTest
 {
     protected string $entityClassName           = CauseOfDeath::class;
     protected string $entityIdClassName         = CauseOfDeathId::class;
@@ -68,7 +68,7 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
         $this->repo->save($newEntity);
     }
 
-    protected function areEqualEntities(Entity $entityOne, Entity $entityTwo): bool
+    protected function areEqualEntities(AbstractEntity $entityOne, AbstractEntity $entityTwo): bool
     {
         /** @var CauseOfDeath $entityOne */
         /** @var CauseOfDeath $entityTwo */
@@ -78,7 +78,7 @@ class DoctrineOrmCauseOfDeathRepositoryIntegrationTest extends DoctrineOrmReposi
             $this->areEqualValueObjects($entityOne->name(), $entityTwo->name());
     }
 
-    protected function updateEntityA(Entity $entityA): void
+    protected function updateEntityA(AbstractEntity $entityA): void
     {
         $newName = new CauseOfDeathName('COVID-18');
 

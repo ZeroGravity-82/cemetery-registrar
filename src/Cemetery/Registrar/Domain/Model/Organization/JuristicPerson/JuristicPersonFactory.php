@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Address;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\Contact\Website;
-use Cemetery\Registrar\Domain\Model\EntityFactory;
+use Cemetery\Registrar\Domain\Model\AbstractEntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Model\Organization\BankDetails\BankDetails;
@@ -18,7 +18,7 @@ use Cemetery\Registrar\Domain\Model\Organization\Okved;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonFactory extends EntityFactory
+class JuristicPersonFactory extends AbstractEntityFactory
 {
     /**
      * @throws Exception when generating an invalid juristic person ID

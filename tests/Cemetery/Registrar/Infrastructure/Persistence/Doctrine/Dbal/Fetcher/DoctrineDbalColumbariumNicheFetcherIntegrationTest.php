@@ -20,7 +20,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalColumbariumNicheFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private ColumbariumNicheRepositoryInterface $repo;
 

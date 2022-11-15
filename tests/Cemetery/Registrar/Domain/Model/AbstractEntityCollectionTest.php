@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Domain\Model;
 
-use Cemetery\Registrar\Domain\Model\Entity;
-use Cemetery\Registrar\Domain\Model\EntityCollection;
-use Cemetery\Registrar\Domain\Model\EntityId;
+use Cemetery\Registrar\Domain\Model\AbstractEntity;
+use Cemetery\Registrar\Domain\Model\AbstractEntityCollection;
+use Cemetery\Registrar\Domain\Model\AbstractEntityId;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,23 +14,23 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class EntityCollectionTest extends TestCase
+abstract class AbstractEntityCollectionTest extends TestCase
 {
-    protected EntityId         $idA;
-    protected EntityId         $idB;
-    protected EntityId         $idC;
-    protected EntityId         $idD;
-    protected Entity           $entityA;
-    protected Entity           $entityB;
-    protected Entity           $entityC;
-    protected Entity           $entityD;
-    protected EntityCollection $collection;
+    protected AbstractEntityId         $idA;
+    protected AbstractEntityId         $idB;
+    protected AbstractEntityId         $idC;
+    protected AbstractEntityId         $idD;
+    protected AbstractEntity           $entityA;
+    protected AbstractEntity           $entityB;
+    protected AbstractEntity           $entityC;
+    protected AbstractEntity           $entityD;
+    protected AbstractEntityCollection $collection;
 
     abstract public function testItReturnsSupportedEntityClassName(): void;
 
     public function testSupportedClassIsEntity(): void
     {
-        $this->assertInstanceOf(Entity::class, $this->createMock($this->collection->supportedEntityClassName()));
+        $this->assertInstanceOf(AbstractEntity::class, $this->createMock($this->collection->supportedEntityClassName()));
     }
 
     public function testItCountable(): void
@@ -229,17 +229,17 @@ abstract class EntityCollectionTest extends TestCase
 
     abstract protected function getClosureForCollectionFiltering(): \Closure;
 
-    private function getFakeEntity(): Entity
+    private function getFakeEntity(): AbstractEntity
     {
-        return new class ($this->entityA->id()) extends Entity {
+        return new class ($this->entityA->id()) extends AbstractEntity {
             public function __construct
             (
-                private EntityId $id,
+                private AbstractEntityId $id,
             ) {
                 parent::__construct();
             }
 
-            public function id(): EntityId
+            public function id(): AbstractEntityId
             {
                 return $this->id;
             }

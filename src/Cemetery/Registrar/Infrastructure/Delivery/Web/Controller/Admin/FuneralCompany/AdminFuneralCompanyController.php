@@ -6,14 +6,14 @@ namespace Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Admin\Funera
 
 use Cemetery\Registrar\Application\ApplicationRequestBus;
 use Cemetery\Registrar\Application\FuneralCompany\Query\ListFuneralCompanies\ListFuneralCompaniesRequest;
-use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\Controller;
+use Cemetery\Registrar\Infrastructure\Delivery\Web\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class AdminFuneralCompanyController extends Controller
+class AdminFuneralCompanyController extends AbstractController
 {
     public function __construct(
         private ApplicationRequestBus $appRequestBus,

@@ -18,7 +18,7 @@ use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
  *
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
+class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends AbstractDoctrineDbalFetcherIntegrationTest
 {
     private FuneralCompanyRepositoryInterface $repo;
 

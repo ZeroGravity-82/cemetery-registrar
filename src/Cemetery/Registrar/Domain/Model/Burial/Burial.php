@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Burial;
 
-use Cemetery\Registrar\Domain\Model\AggregateRoot;
+use Cemetery\Registrar\Domain\Model\AbstractAggregateRoot;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
-use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlace;
+use Cemetery\Registrar\Domain\Model\BurialPlace\AbstractBurialPlaceId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
@@ -25,10 +25,10 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class Burial extends AggregateRoot
+class Burial extends AbstractAggregateRoot
 {
     private NaturalPersonId|JuristicPersonId|SoleProprietorId|null $customerId = null;
-    private ?BurialPlaceId                                         $burialPlaceId = null;
+    private ?AbstractBurialPlaceId                                 $burialPlaceId = null;
     private ?FuneralCompanyId                                      $funeralCompanyId = null;
     private ?BurialContainer                                       $burialContainer = null;
     private ?\DateTimeImmutable                                    $buriedAt = null;
@@ -108,7 +108,7 @@ class Burial extends AggregateRoot
         return $this;
     }
 
-    public function burialPlaceId(): ?BurialPlaceId
+    public function burialPlaceId(): ?AbstractBurialPlaceId
     {
         return $this->burialPlaceId;
     }
@@ -116,10 +116,10 @@ class Burial extends AggregateRoot
     /**
      * @throws Exception when the burial place does not match the burial type
      */
-    public function assignBurialPlace(BurialPlace $burialPlace): self
+    public function assignBurialPlace(AbstractBurialPlace $burialPlace): self
     {
         $this->assertBurialPlaceMatchesBurialType($burialPlace);
-        /** @var BurialPlaceId $burialPlaceId */
+        /** @var AbstractBurialPlaceId $burialPlaceId */
         $burialPlaceId       = $burialPlace->id();
         $this->burialPlaceId = $burialPlaceId;
 
@@ -196,7 +196,7 @@ class Burial extends AggregateRoot
     /**
      * @throws Exception when the burial place does not match the burial type
      */
-    private function assertBurialPlaceMatchesBurialType(BurialPlace $burialPlace): void
+    private function assertBurialPlaceMatchesBurialType(AbstractBurialPlace $burialPlace): void
     {
         $id      = $burialPlace->id();
         $isMatch = match (true) {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Infrastructure\Persistence\Fetcher;
+use Cemetery\Registrar\Infrastructure\Persistence\AbstractFetcher;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\DBAL\Statement;
@@ -12,7 +12,7 @@ use Doctrine\DBAL\Statement;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class AbstractDoctrineDbalFetcher extends Fetcher
+abstract class AbstractDoctrineDbalFetcher extends AbstractFetcher
 {
     protected string $tableName;
 

@@ -6,12 +6,12 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Type
 
 use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Contact\EmailType;
-use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomStringTypeTest;
+use Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomStringTypeTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class EmailTypeTest extends CustomStringTypeTest
+class EmailTypeTest extends AbstractCustomStringTypeTest
 {
     protected string $className = EmailType::class;
     protected string $typeName  = 'email';

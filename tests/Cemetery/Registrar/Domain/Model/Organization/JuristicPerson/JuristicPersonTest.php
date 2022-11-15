@@ -18,12 +18,12 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Ogrn;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\Okpo;
 use Cemetery\Registrar\Domain\Model\Organization\Name;
 use Cemetery\Registrar\Domain\Model\Organization\Okved;
-use Cemetery\Tests\Registrar\Domain\Model\AggregateRootTest;
+use Cemetery\Tests\Registrar\Domain\Model\AbstractAggregateRootTest;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class JuristicPersonTest extends AggregateRootTest
+class JuristicPersonTest extends AbstractAggregateRootTest
 {
     private JuristicPerson $juristicPerson;
 

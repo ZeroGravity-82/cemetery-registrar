@@ -8,13 +8,13 @@ use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
-use Cemetery\Tests\Registrar\Application\ApplicationServiceTest;
+use Cemetery\Tests\Registrar\Application\AbstractApplicationServiceTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-abstract class CauseOfDeathServiceTest extends ApplicationServiceTest
+abstract class AbstractCauseOfDeathServiceTest extends AbstractApplicationServiceTest
 {
     protected string                                     $id;
     protected string                                     $unknownId;

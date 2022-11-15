@@ -6,12 +6,12 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\Natu
 
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\Passport;
-use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\CustomJsonType;
+use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Types\AbstractCustomJsonType;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class PassportType extends CustomJsonType
+class PassportType extends AbstractCustomJsonType
 {
     protected string $className = Passport::class;
     protected string $typeName  = 'passport';
