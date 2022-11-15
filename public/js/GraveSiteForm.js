@@ -116,69 +116,59 @@ class GraveSiteForm extends Form {
     return $listOptions;
   }
   _renderFormRowForCemeteryBlock(cemeteryBlockId = null) {
-    this.dom.$cemeteryBlockSelect = $(`
-<select class="form-select form-select-sm"
-        id="cemeteryBlockId" name="cemeteryBlockId"
-        aria-describedby="cemeteryBlockIdFeedback"
-        aria-label="Квартал"></select>`);
-    this._loadCemeteryBlockList(cemeteryBlockId);
-
-    return $(`
+    const $cemeteryBlockRow = $(`
 <div class="row pb-2"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="cemeteryBlockId" class="form-label">Квартал</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(
-    this.dom.$cemeteryBlockSelect).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$cemeteryBlockSelect = $(`
+    <select class="form-select form-select-sm"
+            id="cemeteryBlockId" name="cemeteryBlockId"
+            aria-describedby="cemeteryBlockIdFeedback"
+            aria-label="Квартал"></select>`)).append($(`
     <div id="cemeteryBlockIdFeedback" class="invalid-feedback"></div>
     `)));
+    this._buildCemeteryBlockList(cemeteryBlockId);
+
+    return $cemeteryBlockRow;
   }
   _renderFormRowForRowInBlock(rowInBlock = null) {
-    this.dom.$rowInBlockInput = $(`
-<input type="number" min="1" class="form-control form-control-sm"
-       id="rowInBlock" name="rowInBlock"
-       aria-describedby="rowInBlockFeedback"
-       aria-label="Ряд"
-       value="${rowInBlock ?? ``}">
-    `);
-
     return $(`
 <div class="row pb-2"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="rowInBlock" class="form-label">Ряд</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(
-    this.dom.$rowInBlockInput).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$rowInBlockInput = $(`
+    <input type="number" min="1" class="form-control form-control-sm"
+           id="rowInBlock" name="rowInBlock"
+           aria-describedby="rowInBlockFeedback"
+           aria-label="Ряд"
+           value="${rowInBlock ?? ``}">
+        `)).append($(`
     <div id="rowInBlockFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForPositionInRow(positionInRow = null) {
-    this.dom.$positionInRowInput = $(`
-<input type="number" min="1" class="form-control form-control-sm"
-       id="positionInRow" name="positionInRow"
-       aria-describedby="positionInRowFeedback"
-       aria-label="Место"
-       value="${positionInRow ?? ``}">    
-    `);
-
     return $(`
 <div class="row pb-2"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="positionInRow" class="form-label">Место</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(
-    this.dom.$positionInRowInput).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$positionInRowInput = $(`
+    <input type="number" min="1" class="form-control form-control-sm"
+           id="positionInRow" name="positionInRow"
+           aria-describedby="positionInRowFeedback"
+           aria-label="Место"
+           value="${positionInRow ?? ``}">    
+        `)).append($(`
     <div id="positionInRowFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForSize(size = null) {
-    this.dom.$sizeInput = $(`
-<input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
-       id="size" name="size"
-       aria-describedby="sizeFeedback"
-       aria-label="Размер"
-       value="${size ?? ``}">
-    `);
-
     return $(`
 <div class="row pb-2"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="size" class="form-label">Размер, м<sup>2</sup></label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(
-    this.dom.$sizeInput).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$sizeInput = $(`
+    <input type="number" min=0.1 step="0.1" class="form-control form-control-sm"
+           id="size" name="size"
+           aria-describedby="sizeFeedback"
+           aria-label="Размер"
+           value="${size ?? ``}">
+        `)).append($(`
     <div id="sizeFeedback" class="invalid-feedback"></div>
     `)));
   }
@@ -186,36 +176,31 @@ class GraveSiteForm extends Form {
     const geoPosition = geoPositionLatitude !== null && geoPositionLongitude !== null
         ? `${geoPositionLatitude}, ${geoPositionLongitude}`
         : null;
-    this.dom.$geoPositionInput = $(`
-<input type="text" class="form-control form-control-sm"
-       id="geoPosition" name="geoPosition"
-       aria-describedby="geoPositionFeedback"
-       aria-label="Геопозиция"
-       value="${geoPosition ?? ``}">
-    `);
 
     return $(`
 <div class="row pb-2"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="geoPosition" class="form-label">Геопозиция</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(
-    this.dom.$geoPositionInput).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$geoPositionInput = $(`
+    <input type="text" class="form-control form-control-sm"
+           id="geoPosition" name="geoPosition"
+           aria-describedby="geoPositionFeedback"
+           aria-label="Геопозиция"
+           value="${geoPosition ?? ``}">
+        `)).append($(`
     <div id="geoPositionFeedback" class="invalid-feedback"></div>
     `)));
   }
   _renderFormRowForPersonInCharge() {
-    this.dom.$personInChargeSelect = $(`
-<select
-  id="personInCharge" name="personInCharge"
-  aria-describedby="personInChargeFeedback"
-  aria-label="Ответственный">
-</select>
-    `);
-
     return $(`
 <div class="row"></div>`).append($(`
   <div class="col-md-3 px-0"><label for="personInCharge" class="form-label">Ответственный</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(
-    this.dom.$personInChargeSelect).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$personInChargeSelect = $(`
+    <select
+      id="personInCharge" name="personInCharge"
+      aria-describedby="personInChargeFeedback"
+      aria-label="Ответственный">
+    </select>
+        `)).append($(`
     <div id="personInChargeFeedback" class="invalid-feedback"></div>
     `)));
   }
@@ -270,7 +255,7 @@ class GraveSiteForm extends Form {
 </form>
     `);
   }
-  _loadCemeteryBlockList(cemeteryBlockId = null) {
+  _buildCemeteryBlockList(cemeteryBlockId = null) {
     this.spinner.show();
     $.ajax({
       dataType   : `json`,
