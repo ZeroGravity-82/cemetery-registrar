@@ -16,9 +16,9 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNiche
 class ListColumbariumNichesService extends ApplicationService
 {
     public function __construct(
+        ListColumbariumNichesRequestValidator $requestValidator,
         private ColumbariumNicheFetcher       $columbariumNicheFetcher,
         private ColumbariumFetcher            $columbariumFetcher,
-        ListColumbariumNichesRequestValidator $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

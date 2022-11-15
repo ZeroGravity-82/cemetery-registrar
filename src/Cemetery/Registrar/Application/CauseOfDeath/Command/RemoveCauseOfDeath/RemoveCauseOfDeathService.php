@@ -19,11 +19,11 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class RemoveCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
+        RemoveCauseOfDeathRequestValidator $requestValidator,
         CauseOfDeathRepository             $causeOfDeathRepo,
         EventDispatcher                    $eventDispatcher,
-        RemoveCauseOfDeathRequestValidator $requestValidator,
     ) {
-        parent::__construct($causeOfDeathRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $causeOfDeathRepo, $eventDispatcher);
     }
 
     /**

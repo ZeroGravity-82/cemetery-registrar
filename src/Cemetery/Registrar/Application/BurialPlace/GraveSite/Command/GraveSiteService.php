@@ -22,10 +22,10 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class GraveSiteService extends ApplicationService
 {
     public function __construct(
+        GraveSiteRequestValidator         $requestValidator,
         protected GraveSiteRepository     $graveSiteRepo,
         protected CemeteryBlockRepository $cemeteryBlockRepo,
         protected EventDispatcher         $eventDispatcher,
-        GraveSiteRequestValidator         $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

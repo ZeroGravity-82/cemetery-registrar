@@ -20,12 +20,12 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class ClearGraveSiteSizeService extends GraveSiteService
 {
     public function __construct(
+        ClearGraveSiteSizeRequestValidator $requestValidator,
         GraveSiteRepository                $graveSiteRepo,
         CemeteryBlockRepository            $cemeteryBlockRepo,
         EventDispatcher                    $eventDispatcher,
-        ClearGraveSiteSizeRequestValidator $requestValidator,
     ) {
-        parent::__construct($graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher);
     }
 
     /**

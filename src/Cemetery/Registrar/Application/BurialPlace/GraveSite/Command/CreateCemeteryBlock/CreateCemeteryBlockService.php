@@ -19,12 +19,12 @@ use Cemetery\Registrar\Domain\Model\Exception;
 class CreateCemeteryBlockService extends CemeteryBlockService
 {
     public function __construct(
-        private CemeteryBlockFactory        $cemeteryBlockFactory,
+        CreateCemeteryBlockRequestValidator $requestValidator,
         CemeteryBlockRepository             $cemeteryBlockRepo,
         EventDispatcher                     $eventDispatcher,
-        CreateCemeteryBlockRequestValidator $requestValidator,
+        private CemeteryBlockFactory        $cemeteryBlockFactory,
     ) {
-        parent::__construct($cemeteryBlockRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $cemeteryBlockRepo, $eventDispatcher);
     }
 
     /**

@@ -19,11 +19,11 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 class RemoveJuristicPersonService extends JuristicPersonService
 {
     public function __construct(
+        RemoveJuristicPersonRequestValidator $requestValidator,
         JuristicPersonRepository             $juristicPersonRepo,
         EventDispatcher                      $eventDispatcher,
-        RemoveJuristicPersonRequestValidator $requestValidator,
     ) {
-        parent::__construct($juristicPersonRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $juristicPersonRepo, $eventDispatcher);
     }
 
     /**

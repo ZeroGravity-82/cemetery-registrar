@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 class ListAllNaturalPersonsService extends ApplicationService
 {
     public function __construct(
-        private NaturalPersonFetcher          $naturalPersonFetcher,
         ListAllNaturalPersonsRequestValidator $requestValidator,
+        private NaturalPersonFetcher          $naturalPersonFetcher,
     ) {
         parent::__construct($requestValidator);
     }

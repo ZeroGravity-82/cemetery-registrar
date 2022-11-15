@@ -19,12 +19,12 @@ use Cemetery\Registrar\Domain\Model\Exception;
 class CreateCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
-        private CauseOfDeathFactory        $causeOfDeathFactory,
+        CreateCauseOfDeathRequestValidator $requestValidator,
         CauseOfDeathRepository             $causeOfDeathRepo,
         EventDispatcher                    $eventDispatcher,
-        CreateCauseOfDeathRequestValidator $requestValidator,
+        private CauseOfDeathFactory        $causeOfDeathFactory,
     ) {
-        parent::__construct($causeOfDeathRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $causeOfDeathRepo, $eventDispatcher);
     }
 
     /**

@@ -20,11 +20,11 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class EditCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
+        EditCauseOfDeathRequestValidator $requestValidator,
         CauseOfDeathRepository           $causeOfDeathRepo,
         EventDispatcher                  $eventDispatcher,
-        EditCauseOfDeathRequestValidator $requestValidator,
     ) {
-        parent::__construct($causeOfDeathRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $causeOfDeathRepo, $eventDispatcher);
     }
 
     /**

@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 abstract class JuristicPersonService extends ApplicationService
 {
     public function __construct(
+        JuristicPersonRequestValidator     $requestValidator,
         protected JuristicPersonRepository $juristicPersonRepo,
         protected EventDispatcher          $eventDispatcher,
-        JuristicPersonRequestValidator     $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

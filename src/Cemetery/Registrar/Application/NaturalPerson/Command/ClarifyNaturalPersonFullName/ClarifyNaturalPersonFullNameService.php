@@ -21,11 +21,11 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class ClarifyNaturalPersonFullNameService extends NaturalPersonService
 {
     public function __construct(
+        ClarifyNaturalPersonFullNameRequestValidator $requestValidator,
         NaturalPersonRepository                      $naturalPersonRepo,
         EventDispatcher                              $eventDispatcher,
-        ClarifyNaturalPersonFullNameRequestValidator $requestValidator,
     ) {
-        parent::__construct($naturalPersonRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $naturalPersonRepo, $eventDispatcher);
     }
 
     /**

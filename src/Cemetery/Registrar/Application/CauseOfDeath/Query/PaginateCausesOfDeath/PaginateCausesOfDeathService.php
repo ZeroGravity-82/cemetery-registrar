@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 class PaginateCausesOfDeathService extends ApplicationService
 {
     public function __construct(
-        private CauseOfDeathFetcher           $causeOfDeathFetcher,
         PaginateCausesOfDeathRequestValidator $requestValidator,
+        private CauseOfDeathFetcher           $causeOfDeathFetcher,
     ) {
         parent::__construct($requestValidator);
     }

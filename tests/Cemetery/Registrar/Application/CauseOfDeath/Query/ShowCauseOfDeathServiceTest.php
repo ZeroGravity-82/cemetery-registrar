@@ -40,8 +40,8 @@ class ShowCauseOfDeathServiceTest extends ApplicationServiceTest
         $this->mockCauseOfDeathFetcher              = $this->buildMockCauseOfDeathFetcher();
         $this->mockShowCauseOfDeathRequestValidator = $this->createMock(ShowCauseOfDeathRequestValidator::class);
         $this->service                              = new ShowCauseOfDeathService(
-            $this->mockCauseOfDeathFetcher,
             $this->mockShowCauseOfDeathRequestValidator,
+            $this->mockCauseOfDeathFetcher,
         );
     }
 

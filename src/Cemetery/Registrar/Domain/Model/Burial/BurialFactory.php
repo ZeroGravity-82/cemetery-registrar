@@ -21,8 +21,8 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 class BurialFactory extends EntityFactory
 {
     public function __construct(
-        private BurialCodeGenerator $burialCodeGenerator,
         IdentityGenerator           $identityGenerator,
+        private BurialCodeGenerator $burialCodeGenerator,
     ) {
         parent::__construct($identityGenerator);
     }

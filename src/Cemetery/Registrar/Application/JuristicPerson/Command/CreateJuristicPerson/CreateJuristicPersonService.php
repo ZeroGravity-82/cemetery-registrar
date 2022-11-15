@@ -19,12 +19,12 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 class CreateJuristicPersonService extends JuristicPersonService
 {
     public function __construct(
-        private JuristicPersonFactory        $juristicPersonFactory,
+        CreateJuristicPersonRequestValidator $requestValidator,
         JuristicPersonRepository             $juristicPersonRepo,
         EventDispatcher                      $eventDispatcher,
-        CreateJuristicPersonRequestValidator $requestValidator,
+        private JuristicPersonFactory        $juristicPersonFactory,
     ) {
-        parent::__construct($juristicPersonRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $juristicPersonRepo, $eventDispatcher);
     }
 
     /**

@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
 class ListAllCausesOfDeathService extends ApplicationService
 {
     public function __construct(
-        private CauseOfDeathFetcher          $causeOfDeathFetcher,
         ListAllCausesOfDeathRequestValidator $requestValidator,
+        private CauseOfDeathFetcher          $causeOfDeathFetcher,
     ) {
         parent::__construct($requestValidator);
     }

@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 abstract class SoleProprietorService extends ApplicationService
 {
     public function __construct(
+        SoleProprietorRequestValidator     $requestValidator,
         protected SoleProprietorRepository $soleProprietorRepo,
         protected EventDispatcher          $eventDispatcher,
-        SoleProprietorRequestValidator     $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

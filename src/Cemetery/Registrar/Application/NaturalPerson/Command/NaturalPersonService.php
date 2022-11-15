@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class NaturalPersonService extends ApplicationService
 {
     public function __construct(
+        NaturalPersonRequestValidator     $requestValidator,
         protected NaturalPersonRepository $naturalPersonRepo,
         protected EventDispatcher         $eventDispatcher,
-        NaturalPersonRequestValidator     $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

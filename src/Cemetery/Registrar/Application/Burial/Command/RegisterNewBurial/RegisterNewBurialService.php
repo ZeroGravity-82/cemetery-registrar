@@ -44,6 +44,7 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 class RegisterNewBurialService extends ApplicationService
 {
     public function __construct(
+        RegisterNewBurialRequestValidator  $requestValidator,
         private BurialRepository           $burialRepo,
         private BurialFactory              $burialFactory,
         private NaturalPersonFactory       $naturalPersonFactory,
@@ -60,7 +61,6 @@ class RegisterNewBurialService extends ApplicationService
         private GraveSiteRepository        $graveSiteRepo,
         private ColumbariumNicheRepository $columbariumNicheRepo,
         private MemorialTreeRepository     $memorialTreeRepo,
-        RegisterNewBurialRequestValidator  $requestValidator,
     ) {
         parent::__construct($requestValidator);
     }

@@ -27,10 +27,10 @@ class CreateCauseOfDeathServiceTest extends CauseOfDeathServiceTest
         $this->mockCauseOfDeathFactory                = $this->buildMockCauseOfDeathFactory();
         $this->mockCreateCauseOfDeathRequestValidator = $this->createMock(CreateCauseOfDeathRequestValidator::class);
         $this->service                                = new CreateCauseOfDeathService(
-            $this->mockCauseOfDeathFactory,
+            $this->mockCreateCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
-            $this->mockCreateCauseOfDeathRequestValidator,
+            $this->mockCauseOfDeathFactory,
         );
     }
 

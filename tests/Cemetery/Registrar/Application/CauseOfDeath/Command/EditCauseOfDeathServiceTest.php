@@ -25,9 +25,9 @@ class EditCauseOfDeathServiceTest extends CauseOfDeathServiceTest
 
         $this->mockEditCauseOfDeathRequestValidator = $this->createMock(EditCauseOfDeathRequestValidator::class);
         $this->service                              = new EditCauseOfDeathService(
+            $this->mockEditCauseOfDeathRequestValidator,
             $this->mockCauseOfDeathRepo,
             $this->mockEventDispatcher,
-            $this->mockEditCauseOfDeathRequestValidator,
         );
     }
 

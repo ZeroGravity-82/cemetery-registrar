@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 class ListOrganizationsService extends ApplicationService
 {
     public function __construct(
-        private OrganizationFetcher       $organizationFetcher,
         ListOrganizationsRequestValidator $requestValidator,
+        private OrganizationFetcher       $organizationFetcher,
     ) {
         parent::__construct($requestValidator);
     }

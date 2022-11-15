@@ -19,11 +19,11 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class ClearNaturalPersonContactService extends NaturalPersonService
 {
     public function __construct(
+        ClearNaturalPersonContactRequestValidator $requestValidator,
         NaturalPersonRepository                   $naturalPersonRepo,
         EventDispatcher                           $eventDispatcher,
-        ClearNaturalPersonContactRequestValidator $requestValidator,
     ) {
-        parent::__construct($naturalPersonRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $naturalPersonRepo, $eventDispatcher);
     }
 
     /**

@@ -24,12 +24,12 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class ReplaceGraveSitePersonInChargeService extends GraveSiteService
 {
     public function __construct(
+        ReplaceGraveSitePersonInChargeRequestValidator $requestValidator,
         GraveSiteRepository                            $graveSiteRepo,
         CemeteryBlockRepository                        $cemeteryBlockRepo,
         EventDispatcher                                $eventDispatcher,
-        ReplaceGraveSitePersonInChargeRequestValidator $requestValidator,
     ) {
-        parent::__construct($graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher);
     }
 
     /**

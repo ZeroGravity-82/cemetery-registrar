@@ -20,11 +20,11 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class EditCemeteryBlockService extends CemeteryBlockService
 {
     public function __construct(
+        EditCemeteryBlockRequestValidator $requestValidator,
         CemeteryBlockRepository           $cemeteryBlockRepo,
         EventDispatcher                   $eventDispatcher,
-        EditCemeteryBlockRequestValidator $requestValidator,
     ) {
-        parent::__construct($cemeteryBlockRepo, $eventDispatcher, $requestValidator);
+        parent::__construct($requestValidator, $cemeteryBlockRepo, $eventDispatcher);
     }
 
     /**
