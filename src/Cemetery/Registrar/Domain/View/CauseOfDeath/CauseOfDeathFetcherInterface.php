@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\View\CauseOfDeath;
 
-use Cemetery\Registrar\Domain\View\Fetcher;
+use Cemetery\Registrar\Domain\View\FetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface CauseOfDeathFetcher extends Fetcher
+interface CauseOfDeathFetcherInterface extends FetcherInterface
 {
     /**
      * Checks if the cause of death exists by the name.

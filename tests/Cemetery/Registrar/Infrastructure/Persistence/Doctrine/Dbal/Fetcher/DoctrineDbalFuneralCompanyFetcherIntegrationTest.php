@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepositoryInterface;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyList;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyListItem;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyView;
@@ -20,7 +20,7 @@ use DataFixtures\FuneralCompany\FuneralCompanyFixtures;
  */
 class DoctrineDbalFuneralCompanyFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private FuneralCompanyRepository $repo;
+    private FuneralCompanyRepositoryInterface $repo;
 
     public function setUp(): void
     {

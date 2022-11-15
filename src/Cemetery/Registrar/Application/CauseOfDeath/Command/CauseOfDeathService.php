@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\CauseOfDeath\CauseOfDeathRequestValidator;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class CauseOfDeathService extends ApplicationService
 {
     public function __construct(
-        CauseOfDeathRequestValidator     $requestValidator,
-        protected CauseOfDeathRepository $causeOfDeathRepo,
-        protected EventDispatcher        $eventDispatcher,
+        CauseOfDeathRequestValidator              $requestValidator,
+        protected CauseOfDeathRepositoryInterface $causeOfDeathRepo,
+        protected EventDispatcher                 $eventDispatcher,
     ) {
         parent::__construct($requestValidator);
     }

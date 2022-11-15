@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\Model;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface Repository
+interface RepositoryInterface
 {
     /**
      * Adds the aggregate to the repository. If the aggregate is already persisted, it will be updated.

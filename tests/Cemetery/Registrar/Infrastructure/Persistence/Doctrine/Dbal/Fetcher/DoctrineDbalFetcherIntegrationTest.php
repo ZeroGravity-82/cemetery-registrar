@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\Fetcher;
+use Cemetery\Registrar\Domain\View\FetcherInterface;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher\DoctrineDbalFetcher;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,7 +48,7 @@ abstract class DoctrineDbalFetcherIntegrationTest extends KernelTestCase
 
     public function testItHasValidPageSizeConstant(): void
     {
-        $this->assertSame(self::DEFAULT_PAGE_SIZE, Fetcher::DEFAULT_PAGE_SIZE);
+        $this->assertSame(self::DEFAULT_PAGE_SIZE, FetcherInterface::DEFAULT_PAGE_SIZE);
     }
 
     public function testItReturnsNullIfNoDataFoundById(): void

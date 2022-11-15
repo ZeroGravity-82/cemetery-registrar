@@ -10,9 +10,9 @@ use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CreateGraveSite
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteSize;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcherInterface;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcherInterface;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -20,9 +20,9 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 abstract class GraveSiteRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private CemeteryBlockFetcher $cemeteryBlockFetcher,
-        private GraveSiteFetcher     $graveSiteFetcher,
-        private NaturalPersonFetcher $naturalPersonFetcher,
+        private CemeteryBlockFetcherInterface $cemeteryBlockFetcher,
+        private GraveSiteFetcherInterface     $graveSiteFetcher,
+        private NaturalPersonFetcherInterface $naturalPersonFetcher,
     ) {
         parent::__construct();
     }

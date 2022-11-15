@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Domain\View;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface Fetcher
+interface FetcherInterface
 {
     public const DEFAULT_PAGE_SIZE = 20;
 

@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\CemeteryBlockRequestValidator;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class CemeteryBlockService extends ApplicationService
 {
     public function __construct(
-        CemeteryBlockRequestValidator     $requestValidator,
-        protected CemeteryBlockRepository $cemeteryBlockRepo,
-        protected EventDispatcher         $eventDispatcher,
+        CemeteryBlockRequestValidator              $requestValidator,
+        protected CemeteryBlockRepositoryInterface $cemeteryBlockRepo,
+        protected EventDispatcher                  $eventDispatcher,
     ) {
         parent::__construct($requestValidator);
     }

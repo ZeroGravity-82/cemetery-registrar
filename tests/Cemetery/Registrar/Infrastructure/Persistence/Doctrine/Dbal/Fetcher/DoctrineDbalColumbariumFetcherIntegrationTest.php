@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumRepositoryInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumList;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumView;
@@ -20,7 +20,7 @@ use DataFixtures\BurialPlace\ColumbariumNiche\ColumbariumFixtures;
  */
 class DoctrineDbalColumbariumFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private ColumbariumRepository $repo;
+    private ColumbariumRepositoryInterface $repo;
 
     public function setUp(): void
     {

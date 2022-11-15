@@ -7,10 +7,10 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\ClarifyGr
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteGeoPositionClarified;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
@@ -25,8 +25,8 @@ class ClarifyGraveSiteGeoPositionService extends GraveSiteService
 {
     public function __construct(
         ClarifyGraveSiteGeoPositionRequestValidator $requestValidator,
-        GraveSiteRepository                         $graveSiteRepo,
-        CemeteryBlockRepository                     $cemeteryBlockRepo,
+        GraveSiteRepositoryInterface                $graveSiteRepo,
+        CemeteryBlockRepositoryInterface            $cemeteryBlockRepo,
         EventDispatcher                             $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher);

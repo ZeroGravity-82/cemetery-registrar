@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRemoved;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -20,7 +20,7 @@ class RemoveJuristicPersonService extends JuristicPersonService
 {
     public function __construct(
         RemoveJuristicPersonRequestValidator $requestValidator,
-        JuristicPersonRepository             $juristicPersonRepo,
+        JuristicPersonRepositoryInterface    $juristicPersonRepo,
         EventDispatcher                      $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $juristicPersonRepo, $eventDispatcher);

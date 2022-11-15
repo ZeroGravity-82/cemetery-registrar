@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
+use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcherInterface;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyList;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyListItem;
 use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyView;
@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements FuneralCompanyFetcher
+class DoctrineDbalFuneralCompanyFetcher extends DoctrineDbalFetcher implements FuneralCompanyFetcherInterface
 {
     protected string $tableName = 'funeral_company';
 

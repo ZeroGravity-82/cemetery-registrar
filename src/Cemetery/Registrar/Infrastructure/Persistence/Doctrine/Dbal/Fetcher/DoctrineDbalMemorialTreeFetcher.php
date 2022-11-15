@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcherInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeList;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeView;
@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements MemorialTreeFetcher
+class DoctrineDbalMemorialTreeFetcher extends DoctrineDbalFetcher implements MemorialTreeFetcherInterface
 {
     protected string $tableName = 'memorial_tree';
 

@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Infrastructure\Persistence;
 use Cemetery\Registrar\Domain\Model\AggregateRoot;
 use Cemetery\Registrar\Domain\Model\EntityCollection;
 use Cemetery\Registrar\Domain\Model\EntityId;
-use Cemetery\Registrar\Domain\Model\Repository as RepositoryInterface;
+use Cemetery\Registrar\Domain\Model\RepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>

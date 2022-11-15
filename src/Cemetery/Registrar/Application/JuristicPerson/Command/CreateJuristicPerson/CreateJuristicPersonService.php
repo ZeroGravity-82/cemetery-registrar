@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCreated;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -20,7 +20,7 @@ class CreateJuristicPersonService extends JuristicPersonService
 {
     public function __construct(
         CreateJuristicPersonRequestValidator $requestValidator,
-        JuristicPersonRepository             $juristicPersonRepo,
+        JuristicPersonRepositoryInterface    $juristicPersonRepo,
         EventDispatcher                      $eventDispatcher,
         private JuristicPersonFactory        $juristicPersonFactory,
     ) {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteList;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteView;
@@ -22,7 +22,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  */
 class DoctrineDbalGraveSiteFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private GraveSiteRepository $repo;
+    private GraveSiteRepositoryInterface $repo;
 
     public function setUp(): void
     {

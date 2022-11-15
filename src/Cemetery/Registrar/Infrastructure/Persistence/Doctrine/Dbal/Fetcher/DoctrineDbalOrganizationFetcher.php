@@ -6,14 +6,14 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
-use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
+use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcherInterface;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationList;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcher
+class DoctrineDbalOrganizationFetcher extends DoctrineDbalFetcher implements OrganizationFetcherInterface
 {
     public function paginate(int $page, ?string $term = null, int $pageSize = self::DEFAULT_PAGE_SIZE): OrganizationList
     {

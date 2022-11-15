@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonCreated;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFactory;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -20,7 +20,7 @@ class CreateNaturalPersonService extends NaturalPersonService
 {
     public function __construct(
         CreateNaturalPersonRequestValidator $requestValidator,
-        NaturalPersonRepository             $naturalPersonRepo,
+        NaturalPersonRepositoryInterface    $naturalPersonRepo,
         EventDispatcher                     $eventDispatcher,
         private NaturalPersonFactory        $naturalPersonFactory,
     ) {

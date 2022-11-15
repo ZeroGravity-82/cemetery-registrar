@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CemeteryBlockService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockEdited;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockName;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -21,7 +21,7 @@ class EditCemeteryBlockService extends CemeteryBlockService
 {
     public function __construct(
         EditCemeteryBlockRequestValidator $requestValidator,
-        CemeteryBlockRepository           $cemeteryBlockRepo,
+        CemeteryBlockRepositoryInterface  $cemeteryBlockRepo,
         EventDispatcher                   $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $cemeteryBlockRepo, $eventDispatcher);

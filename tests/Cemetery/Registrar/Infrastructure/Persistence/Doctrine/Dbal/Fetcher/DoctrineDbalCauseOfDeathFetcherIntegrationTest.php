@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedList;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathSimpleList;
@@ -24,7 +24,7 @@ class DoctrineDbalCauseOfDeathFetcherIntegrationTest extends DoctrineDbalFetcher
 {
     protected const DEFAULT_PAGE_SIZE = 20;
 
-    private CauseOfDeathRepository $repo;
+    private CauseOfDeathRepositoryInterface $repo;
 
     public function setUp(): void
     {

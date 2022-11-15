@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\Model\Burial;
 
-use Cemetery\Registrar\Domain\Model\Repository;
+use Cemetery\Registrar\Domain\Model\RepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface BurialRepository extends Repository
+interface BurialRepositoryInterface extends RepositoryInterface
 {
 }

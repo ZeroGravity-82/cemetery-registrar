@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\Burial\BurialCode;
-use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
+use Cemetery\Registrar\Domain\View\Burial\BurialFetcherInterface;
 use Cemetery\Registrar\Domain\View\Burial\BurialList;
 use Cemetery\Registrar\Domain\View\Burial\BurialListItem;
 use Cemetery\Registrar\Domain\View\Burial\BurialView;
@@ -13,7 +13,7 @@ use Cemetery\Registrar\Domain\View\Burial\BurialView;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFetcher
+class DoctrineDbalBurialFetcher extends DoctrineDbalFetcher implements BurialFetcherInterface
 {
     protected string $tableName = 'burial';
 

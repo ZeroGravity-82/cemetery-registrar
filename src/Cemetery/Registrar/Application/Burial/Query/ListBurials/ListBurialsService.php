@@ -8,9 +8,9 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\View\Burial\BurialContainer\CoffinShapeFetcher;
-use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
-use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
+use Cemetery\Registrar\Domain\View\Burial\BurialFetcherInterface;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcherInterface;
+use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -18,11 +18,11 @@ use Cemetery\Registrar\Domain\View\FuneralCompany\FuneralCompanyFetcher;
 class ListBurialsService extends ApplicationService
 {
     public function __construct(
-        ListBurialsRequestValidator   $requestValidator,
-        private BurialFetcher         $burialFetcher,
-        private FuneralCompanyFetcher $funeralCompanyFetcher,
-        private CemeteryBlockFetcher  $cemeteryBlockFetcher,
-        private CoffinShapeFetcher    $coffinShapeFetcher,
+        ListBurialsRequestValidator            $requestValidator,
+        private BurialFetcherInterface         $burialFetcher,
+        private FuneralCompanyFetcherInterface $funeralCompanyFetcher,
+        private CemeteryBlockFetcherInterface  $cemeteryBlockFetcher,
+        private CoffinShapeFetcher             $coffinShapeFetcher,
     ) {
         parent::__construct($requestValidator);
     }

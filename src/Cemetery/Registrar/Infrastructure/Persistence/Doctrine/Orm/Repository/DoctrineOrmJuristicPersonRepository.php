@@ -9,12 +9,12 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonCollection;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implements JuristicPersonRepository
+class DoctrineOrmJuristicPersonRepository extends DoctrineOrmRepository implements JuristicPersonRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {

@@ -12,31 +12,31 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainerFactor
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialFactory;
-use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
+use Cemetery\Registrar\Domain\Model\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
 use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceId;
 use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlaceIdFactory;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheFactory;
-use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNicheRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteFactory;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTree;
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeFactory;
-use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFactory;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonFactory;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorFactory;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -44,23 +44,23 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 class RegisterNewBurialService extends ApplicationService
 {
     public function __construct(
-        RegisterNewBurialRequestValidator  $requestValidator,
-        private BurialRepository           $burialRepo,
-        private BurialFactory              $burialFactory,
-        private NaturalPersonFactory       $naturalPersonFactory,
-        private SoleProprietorFactory      $soleProprietorFactory,
-        private JuristicPersonFactory      $juristicPersonFactory,
-        private GraveSiteFactory           $graveSiteFactory,
-        private ColumbariumNicheFactory    $columbariumNicheFactory,
-        private MemorialTreeFactory        $memorialTreeFactory,
-        private BurialContainerFactory     $burialContainerFactory,
-        private BurialPlaceIdFactory       $burialPlaceIdFactory,
-        private NaturalPersonRepository    $naturalPersonRepo,
-        private SoleProprietorRepository   $soleProprietorRepo,
-        private JuristicPersonRepository   $juristicPersonRepo,
-        private GraveSiteRepository        $graveSiteRepo,
-        private ColumbariumNicheRepository $columbariumNicheRepo,
-        private MemorialTreeRepository     $memorialTreeRepo,
+        RegisterNewBurialRequestValidator           $requestValidator,
+        private BurialRepositoryInterface           $burialRepo,
+        private BurialFactory                       $burialFactory,
+        private NaturalPersonFactory                $naturalPersonFactory,
+        private SoleProprietorFactory               $soleProprietorFactory,
+        private JuristicPersonFactory               $juristicPersonFactory,
+        private GraveSiteFactory                    $graveSiteFactory,
+        private ColumbariumNicheFactory             $columbariumNicheFactory,
+        private MemorialTreeFactory                 $memorialTreeFactory,
+        private BurialContainerFactory              $burialContainerFactory,
+        private BurialPlaceIdFactory                $burialPlaceIdFactory,
+        private NaturalPersonRepositoryInterface    $naturalPersonRepo,
+        private SoleProprietorRepositoryInterface   $soleProprietorRepo,
+        private JuristicPersonRepositoryInterface   $juristicPersonRepo,
+        private GraveSiteRepositoryInterface        $graveSiteRepo,
+        private ColumbariumNicheRepositoryInterface $columbariumNicheRepo,
+        private MemorialTreeRepositoryInterface     $memorialTreeRepo,
     ) {
         parent::__construct($requestValidator);
     }

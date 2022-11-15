@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinShape;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Urn;
 use Cemetery\Registrar\Domain\Model\Burial\BurialId;
-use Cemetery\Registrar\Domain\Model\Burial\BurialRepository;
+use Cemetery\Registrar\Domain\Model\Burial\BurialRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Burial\BurialType;
 use Cemetery\Registrar\Domain\Model\BurialPlace\ColumbariumNiche\ColumbariumNiche;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
@@ -39,7 +39,7 @@ use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
  */
 class DoctrineDbalBurialFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private BurialRepository $repo;
+    private BurialRepositoryInterface $repo;
 
     public function setUp(): void
     {

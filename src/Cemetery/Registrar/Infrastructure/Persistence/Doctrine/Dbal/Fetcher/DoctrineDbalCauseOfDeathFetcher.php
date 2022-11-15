@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcher;
+use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathFetcherInterface;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedList;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathPaginatedListItem;
 use Cemetery\Registrar\Domain\View\CauseOfDeath\CauseOfDeathSimpleList;
@@ -15,7 +15,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements CauseOfDeathFetcher
+class DoctrineDbalCauseOfDeathFetcher extends DoctrineDbalFetcher implements CauseOfDeathFetcherInterface
 {
     protected string $tableName = 'cause_of_death';
 

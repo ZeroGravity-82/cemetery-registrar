@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathEdited;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathName;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -21,7 +21,7 @@ class EditCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
         EditCauseOfDeathRequestValidator $requestValidator,
-        CauseOfDeathRepository           $causeOfDeathRepo,
+        CauseOfDeathRepositoryInterface  $causeOfDeathRepo,
         EventDispatcher                  $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $causeOfDeathRepo, $eventDispatcher);

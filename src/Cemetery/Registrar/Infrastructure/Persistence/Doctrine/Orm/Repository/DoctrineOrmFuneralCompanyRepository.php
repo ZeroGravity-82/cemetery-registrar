@@ -7,12 +7,12 @@ namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompany;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyCollection;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepository;
+use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implements FuneralCompanyRepository
+class DoctrineOrmFuneralCompanyRepository extends DoctrineOrmRepository implements FuneralCompanyRepositoryInterface
 {
     protected function supportedAggregateRootClassName(): string
     {

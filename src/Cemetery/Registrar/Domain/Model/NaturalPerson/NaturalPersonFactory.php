@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Model\Contact\Email;
 use Cemetery\Registrar\Domain\Model\Contact\PhoneNumber;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
-use Cemetery\Registrar\Domain\Model\IdentityGenerator;
+use Cemetery\Registrar\Domain\Model\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\Age;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\CremationCertificate;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeathCertificate;
@@ -22,7 +22,7 @@ use Cemetery\Registrar\Domain\Model\NaturalPerson\DeceasedDetails\DeceasedDetail
 class NaturalPersonFactory extends EntityFactory
 {
     public function __construct(
-        IdentityGenerator $identityGenerator,
+        IdentityGeneratorInterface $identityGenerator,
     ) {
         parent::__construct($identityGenerator);
     }

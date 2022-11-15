@@ -9,7 +9,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\BurialPlace;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\FuneralCompany\FuneralCompanyId;
-use Cemetery\Registrar\Domain\Model\IdentityGenerator;
+use Cemetery\Registrar\Domain\Model\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
@@ -21,8 +21,8 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 class BurialFactory extends EntityFactory
 {
     public function __construct(
-        IdentityGenerator           $identityGenerator,
-        private BurialCodeGenerator $burialCodeGenerator,
+        IdentityGeneratorInterface           $identityGenerator,
+        private BurialCodeGeneratorInterface $burialCodeGenerator,
     ) {
         parent::__construct($identityGenerator);
     }

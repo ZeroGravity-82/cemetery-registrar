@@ -8,10 +8,10 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteLocationClarified;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\PositionInRow;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\RowInBlock;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
@@ -25,8 +25,8 @@ class ReplaceGraveSitePersonInChargeService extends GraveSiteService
 {
     public function __construct(
         ReplaceGraveSitePersonInChargeRequestValidator $requestValidator,
-        GraveSiteRepository                            $graveSiteRepo,
-        CemeteryBlockRepository                        $cemeteryBlockRepo,
+        GraveSiteRepositoryInterface                   $graveSiteRepo,
+        CemeteryBlockRepositoryInterface               $cemeteryBlockRepo,
         EventDispatcher                                $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher);

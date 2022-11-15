@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Domain\Model\Burial;
 
 use Cemetery\Registrar\Domain\Model\Burial\Burial;
-use Cemetery\Registrar\Domain\Model\Burial\BurialCodeGenerator;
+use Cemetery\Registrar\Domain\Model\Burial\BurialCodeGeneratorInterface;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\BurialContainer;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\Coffin;
 use Cemetery\Registrar\Domain\Model\Burial\BurialContainer\CoffinShape;
@@ -28,14 +28,14 @@ class BurialFactoryTest extends EntityFactoryTest
 {
     private const BURIAL_CODE = '10001';
 
-    private MockObject|BurialCodeGenerator $mockBurialCodeGenerator;
-    private BurialFactory                  $burialFactory;
+    private MockObject|BurialCodeGeneratorInterface $mockBurialCodeGenerator;
+    private BurialFactory                           $burialFactory;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGenerator::class);
+        $this->mockBurialCodeGenerator = $this->createMock(BurialCodeGeneratorInterface::class);
         $this->mockBurialCodeGenerator->method('getNextCode')->willReturn(self::BURIAL_CODE);
         $this->burialFactory = new BurialFactory(
             $this->mockBurialCodeGenerator,

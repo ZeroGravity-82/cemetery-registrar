@@ -6,10 +6,10 @@ namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetc
 
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationList;
 use Cemetery\Registrar\Domain\View\Organization\OrganizationListItem;
 use Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Orm\Repository\DoctrineOrmJuristicPersonRepository;
@@ -25,8 +25,8 @@ use DataFixtures\Organization\SoleProprietor\SoleProprietorFixtures;
  */
 class DoctrineDbalOrganizationFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private JuristicPersonRepository $juristicPersonRepo;
-    private SoleProprietorRepository $soleProprietorRepo;
+    private JuristicPersonRepositoryInterface $juristicPersonRepo;
+    private SoleProprietorRepositoryInterface $soleProprietorRepo;
 
     public function setUp(): void
     {

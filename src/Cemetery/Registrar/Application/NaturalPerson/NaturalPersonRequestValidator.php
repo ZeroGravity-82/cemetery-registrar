@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\NaturalPerson;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
 use Cemetery\Registrar\Domain\Model\Contact\Email;
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,7 +15,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
 abstract class NaturalPersonRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private NaturalPersonFetcher $naturalPersonFetcher,
+        private NaturalPersonFetcherInterface $naturalPersonFetcher,
     ) {
         parent::__construct();
     }

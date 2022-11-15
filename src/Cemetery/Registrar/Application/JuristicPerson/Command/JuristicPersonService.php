@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPerson;
 use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonId;
-use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepository;
+use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\Organization\JuristicPerson\JuristicPersonRe
 abstract class JuristicPersonService extends ApplicationService
 {
     public function __construct(
-        JuristicPersonRequestValidator     $requestValidator,
-        protected JuristicPersonRepository $juristicPersonRepo,
-        protected EventDispatcher          $eventDispatcher,
+        JuristicPersonRequestValidator              $requestValidator,
+        protected JuristicPersonRepositoryInterface $juristicPersonRepo,
+        protected EventDispatcher                   $eventDispatcher,
     ) {
         parent::__construct($requestValidator);
     }

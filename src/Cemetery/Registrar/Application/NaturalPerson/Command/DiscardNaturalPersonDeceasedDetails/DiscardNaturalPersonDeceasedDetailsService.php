@@ -10,7 +10,7 @@ use Cemetery\Registrar\Application\NaturalPerson\Command\NaturalPersonService;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonDeceasedDetailsDiscarded;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
@@ -20,7 +20,7 @@ class DiscardNaturalPersonDeceasedDetailsService extends NaturalPersonService
 {
     public function __construct(
         DiscardNaturalPersonDeceasedDetailsRequestValidator $requestValidator,
-        NaturalPersonRepository                             $naturalPersonRepo,
+        NaturalPersonRepositoryInterface                    $naturalPersonRepo,
         EventDispatcher                                     $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $naturalPersonRepo, $eventDispatcher);

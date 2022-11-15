@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietor;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorId;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRe
 abstract class SoleProprietorService extends ApplicationService
 {
     public function __construct(
-        SoleProprietorRequestValidator     $requestValidator,
-        protected SoleProprietorRepository $soleProprietorRepo,
-        protected EventDispatcher          $eventDispatcher,
+        SoleProprietorRequestValidator              $requestValidator,
+        protected SoleProprietorRepositoryInterface $soleProprietorRepo,
+        protected EventDispatcher                   $eventDispatcher,
     ) {
         parent::__construct($requestValidator);
     }

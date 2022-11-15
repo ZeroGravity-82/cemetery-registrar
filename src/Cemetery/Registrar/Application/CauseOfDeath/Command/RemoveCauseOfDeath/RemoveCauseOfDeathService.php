@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRemoved;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -20,7 +20,7 @@ class RemoveCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
         RemoveCauseOfDeathRequestValidator $requestValidator,
-        CauseOfDeathRepository             $causeOfDeathRepo,
+        CauseOfDeathRepositoryInterface    $causeOfDeathRepo,
         EventDispatcher                    $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $causeOfDeathRepo, $eventDispatcher);

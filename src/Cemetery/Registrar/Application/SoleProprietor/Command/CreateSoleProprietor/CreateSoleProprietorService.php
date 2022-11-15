@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorCreated;
 use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorFactory;
-use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepository;
+use Cemetery\Registrar\Domain\Model\Organization\SoleProprietor\SoleProprietorRepositoryInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -20,7 +20,7 @@ class CreateSoleProprietorService extends SoleProprietorService
 {
     public function __construct(
         CreateSoleProprietorRequestValidator $requestValidator,
-        SoleProprietorRepository             $soleProprietorRepo,
+        SoleProprietorRepositoryInterface    $soleProprietorRepo,
         EventDispatcher                      $eventDispatcher,
         private SoleProprietorFactory        $juristicPersonFactory,
     ) {

@@ -8,10 +8,10 @@ use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\GraveSiteRequestValidator;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlock;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -22,10 +22,10 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class GraveSiteService extends ApplicationService
 {
     public function __construct(
-        GraveSiteRequestValidator         $requestValidator,
-        protected GraveSiteRepository     $graveSiteRepo,
-        protected CemeteryBlockRepository $cemeteryBlockRepo,
-        protected EventDispatcher         $eventDispatcher,
+        GraveSiteRequestValidator                  $requestValidator,
+        protected GraveSiteRepositoryInterface     $graveSiteRepo,
+        protected CemeteryBlockRepositoryInterface $cemeteryBlockRepo,
+        protected EventDispatcher                  $eventDispatcher,
     ) {
         parent::__construct($requestValidator);
     }

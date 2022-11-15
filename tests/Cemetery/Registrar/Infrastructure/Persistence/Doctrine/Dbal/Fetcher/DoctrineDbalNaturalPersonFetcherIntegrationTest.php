@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedListItem;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonSimpleList;
@@ -23,7 +23,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  */
 class DoctrineDbalNaturalPersonFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private NaturalPersonRepository $repo;
+    private NaturalPersonRepositoryInterface $repo;
 
     public function setUp(): void
     {

@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CemeteryBlockService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockCreated;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockFactory;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 
@@ -20,7 +20,7 @@ class CreateCemeteryBlockService extends CemeteryBlockService
 {
     public function __construct(
         CreateCemeteryBlockRequestValidator $requestValidator,
-        CemeteryBlockRepository             $cemeteryBlockRepo,
+        CemeteryBlockRepositoryInterface    $cemeteryBlockRepo,
         EventDispatcher                     $eventDispatcher,
         private CemeteryBlockFactory        $cemeteryBlockFactory,
     ) {

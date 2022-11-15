@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcherInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteList;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteView;
@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveSiteFetcher
+class DoctrineDbalGraveSiteFetcher extends DoctrineDbalFetcher implements GraveSiteFetcherInterface
 {
     protected string $tableName = 'grave_site';
 

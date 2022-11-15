@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Identity;
 
-use Cemetery\Registrar\Domain\Model\IdentityGenerator;
+use Cemetery\Registrar\Domain\Model\IdentityGeneratorInterface;
 use Ramsey\Uuid\UuidFactory;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class RamseyIdentityGenerator implements IdentityGenerator
+class RamseyIdentityGenerator implements IdentityGeneratorInterface
 {
     public function __construct(
         private UuidFactory $uuidFactory,

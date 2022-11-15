@@ -7,8 +7,8 @@ namespace Cemetery\Registrar\Application\BurialPlace\ColumbariumNiche\Query\List
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcher;
-use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcherInterface;
+use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNicheFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -16,9 +16,9 @@ use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumNiche
 class ListColumbariumNichesService extends ApplicationService
 {
     public function __construct(
-        ListColumbariumNichesRequestValidator $requestValidator,
-        private ColumbariumNicheFetcher       $columbariumNicheFetcher,
-        private ColumbariumFetcher            $columbariumFetcher,
+        ListColumbariumNichesRequestValidator    $requestValidator,
+        private ColumbariumNicheFetcherInterface $columbariumNicheFetcher,
+        private ColumbariumFetcherInterface      $columbariumFetcher,
     ) {
         parent::__construct($requestValidator);
     }

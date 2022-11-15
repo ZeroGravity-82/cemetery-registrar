@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\Burial\Command\RegisterNewBurial\RegisterNewB
 use Cemetery\Registrar\Application\Burial\Query\ListBurials\ListBurialsRequest;
 use Cemetery\Registrar\Application\CauseOfDeath\Query\ListAllCausesOfDeath\ListAllCausesOfDeathRequest;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
-use Cemetery\Registrar\Domain\View\Burial\BurialFetcher;
+use Cemetery\Registrar\Domain\View\Burial\BurialFetcherInterface;
 use Symfony\Component\HttpFoundation\Request as HttpRequest;
 use Symfony\Component\HttpFoundation\Response as HttpResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,8 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class BurialController extends Controller
 {
     public function __construct(
-        private ApplicationRequestBus $appRequestBus,
-        private BurialFetcher         $burialFetcher,
+        private ApplicationRequestBus  $appRequestBus,
+        private BurialFetcherInterface $burialFetcher,
     ) {}
 
     #[Route('/burial', name: 'burial_list', methods: HttpRequest::METHOD_GET)]

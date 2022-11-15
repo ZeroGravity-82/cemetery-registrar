@@ -9,7 +9,7 @@ use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\CauseOfDeath\Command\CauseOfDeathService;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathCreated;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathFactory;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 
@@ -20,7 +20,7 @@ class CreateCauseOfDeathService extends CauseOfDeathService
 {
     public function __construct(
         CreateCauseOfDeathRequestValidator $requestValidator,
-        CauseOfDeathRepository             $causeOfDeathRepo,
+        CauseOfDeathRepositoryInterface    $causeOfDeathRepo,
         EventDispatcher                    $eventDispatcher,
         private CauseOfDeathFactory        $causeOfDeathFactory,
     ) {

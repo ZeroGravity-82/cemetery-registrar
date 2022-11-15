@@ -6,7 +6,7 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite;
 
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationRequestValidator;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
 abstract class CemeteryBlockRequestValidator extends ApplicationRequestValidator
 {
     public function __construct(
-        private CemeteryBlockFetcher $cemeteryBlockFetcher,
+        private CemeteryBlockFetcherInterface $cemeteryBlockFetcher,
     ) {
         parent::__construct();
     }

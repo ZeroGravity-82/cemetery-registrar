@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\CemeteryBlockService;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRemoved;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -20,7 +20,7 @@ class RemoveCemeteryBlockService extends CemeteryBlockService
 {
     public function __construct(
         RemoveCemeteryBlockRequestValidator $requestValidator,
-        CemeteryBlockRepository             $cemeteryBlockRepo,
+        CemeteryBlockRepositoryInterface    $cemeteryBlockRepo,
         EventDispatcher                     $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $cemeteryBlockRepo, $eventDispatcher);

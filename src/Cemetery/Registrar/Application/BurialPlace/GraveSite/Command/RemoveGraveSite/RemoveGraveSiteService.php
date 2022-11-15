@@ -7,9 +7,9 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\RemoveGra
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\BurialPlace\GraveSite\Command\GraveSiteService;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\CemeteryBlockRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRemoved;
-use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
@@ -20,10 +20,10 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class RemoveGraveSiteService extends GraveSiteService
 {
     public function __construct(
-        RemoveGraveSiteRequestValidator $requestValidator,
-        GraveSiteRepository             $graveSiteRepo,
-        CemeteryBlockRepository         $cemeteryBlockRepo,
-        EventDispatcher                 $eventDispatcher,
+        RemoveGraveSiteRequestValidator  $requestValidator,
+        GraveSiteRepositoryInterface     $graveSiteRepo,
+        CemeteryBlockRepositoryInterface $cemeteryBlockRepo,
+        EventDispatcher                  $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $graveSiteRepo, $cemeteryBlockRepo, $eventDispatcher);
     }

@@ -12,7 +12,7 @@ use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\FullName;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonFullNameClarified;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
@@ -22,7 +22,7 @@ class ClarifyNaturalPersonFullNameService extends NaturalPersonService
 {
     public function __construct(
         ClarifyNaturalPersonFullNameRequestValidator $requestValidator,
-        NaturalPersonRepository                      $naturalPersonRepo,
+        NaturalPersonRepositoryInterface             $naturalPersonRepo,
         EventDispatcher                              $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $naturalPersonRepo, $eventDispatcher);

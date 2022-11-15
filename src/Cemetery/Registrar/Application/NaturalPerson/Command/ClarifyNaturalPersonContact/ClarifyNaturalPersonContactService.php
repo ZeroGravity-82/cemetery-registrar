@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonContactClarified;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
@@ -24,7 +24,7 @@ class ClarifyNaturalPersonContactService extends NaturalPersonService
 {
     public function __construct(
         ClarifyNaturalPersonContactRequestValidator $requestValidator,
-        NaturalPersonRepository                     $naturalPersonRepo,
+        NaturalPersonRepositoryInterface            $naturalPersonRepo,
         EventDispatcher                             $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $naturalPersonRepo, $eventDispatcher);

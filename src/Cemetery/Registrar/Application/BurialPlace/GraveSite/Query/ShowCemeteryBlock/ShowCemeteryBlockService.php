@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcherInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
 
 /**
@@ -17,8 +17,8 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockView;
 class ShowCemeteryBlockService extends ApplicationService
 {
     public function __construct(
-        ShowCemeteryBlockRequestValidator $requestValidator,
-        private CemeteryBlockFetcher      $cemeteryBlockFetcher,
+        ShowCemeteryBlockRequestValidator     $requestValidator,
+        private CemeteryBlockFetcherInterface $cemeteryBlockFetcher,
     ) {
         parent::__construct($requestValidator);
     }

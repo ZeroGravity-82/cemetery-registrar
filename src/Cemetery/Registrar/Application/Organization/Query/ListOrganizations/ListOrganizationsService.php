@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\Organization\Query\ListOrganizations;
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
+use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\Organization\OrganizationFetcher;
 class ListOrganizationsService extends ApplicationService
 {
     public function __construct(
-        ListOrganizationsRequestValidator $requestValidator,
-        private OrganizationFetcher       $organizationFetcher,
+        ListOrganizationsRequestValidator    $requestValidator,
+        private OrganizationFetcherInterface $organizationFetcher,
     ) {
         parent::__construct($requestValidator);
     }

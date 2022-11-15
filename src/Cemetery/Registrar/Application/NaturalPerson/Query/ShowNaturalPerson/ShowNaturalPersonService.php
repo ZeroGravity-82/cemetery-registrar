@@ -8,7 +8,7 @@ use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 
 /**
@@ -17,8 +17,8 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 class ShowNaturalPersonService extends ApplicationService
 {
     public function __construct(
-        ShowNaturalPersonRequestValidator $requestValidator,
-        private NaturalPersonFetcher      $naturalPersonFetcher,
+        ShowNaturalPersonRequestValidator     $requestValidator,
+        private NaturalPersonFetcherInterface $naturalPersonFetcher,
     ) {
         parent::__construct($requestValidator);
     }

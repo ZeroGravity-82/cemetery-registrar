@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumFetcherInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumList;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\ColumbariumNiche\ColumbariumView;
@@ -13,7 +13,7 @@ use Doctrine\DBAL\Query\QueryBuilder;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements ColumbariumFetcher
+class DoctrineDbalColumbariumFetcher extends DoctrineDbalFetcher implements ColumbariumFetcherInterface
 {
     protected string $tableName = 'columbarium';
 

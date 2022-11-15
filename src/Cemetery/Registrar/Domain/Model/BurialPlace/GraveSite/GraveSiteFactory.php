@@ -9,10 +9,10 @@ use Cemetery\Registrar\Domain\Model\GeoPosition\Coordinates;
 use Cemetery\Registrar\Domain\Model\GeoPosition\Error;
 use Cemetery\Registrar\Domain\Model\GeoPosition\GeoPosition;
 use Cemetery\Registrar\Domain\Model\EntityFactory;
-use Cemetery\Registrar\Domain\Model\IdentityGenerator;
+use Cemetery\Registrar\Domain\Model\IdentityGeneratorInterface;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
@@ -21,8 +21,8 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 class GraveSiteFactory extends EntityFactory
 {
     public function __construct(
-        IdentityGenerator               $identityGenerator,
-        private NaturalPersonRepository $naturalPersonRepo,
+        IdentityGeneratorInterface               $identityGenerator,
+        private NaturalPersonRepositoryInterface $naturalPersonRepo,
     ) {
         parent::__construct($identityGenerator);
     }

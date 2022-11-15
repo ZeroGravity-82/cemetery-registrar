@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\BurialPlace\MemorialTree\Query\ListMemo
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -15,8 +15,8 @@ use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeFetcher;
 class ListMemorialTreesService extends ApplicationService
 {
     public function __construct(
-        ListMemorialTreesRequestValidator $requestValidator,
-        private MemorialTreeFetcher       $memorialTreeFetcher,
+        ListMemorialTreesRequestValidator    $requestValidator,
+        private MemorialTreeFetcherInterface $memorialTreeFetcher,
     ) {
         parent::__construct($requestValidator);
     }

@@ -8,7 +8,7 @@ use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSite;
 use Cemetery\Registrar\Domain\Model\BurialPlace\GraveSite\GraveSiteFactory;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 use Cemetery\Tests\Registrar\Domain\Model\EntityFactoryTest;
 use DataFixtures\NaturalPerson\NaturalPersonProvider;
@@ -110,9 +110,9 @@ class GraveSiteFactoryTest extends EntityFactoryTest
         );
     }
 
-    private function buildMockNaturalPersonRepo(): MockObject|NaturalPersonRepository
+    private function buildMockNaturalPersonRepo(): MockObject|NaturalPersonRepositoryInterface
     {
-        $mockNaturalPersonRepo = $this->createMock(NaturalPersonRepository::class);
+        $mockNaturalPersonRepo = $this->createMock(NaturalPersonRepositoryInterface::class);
         $mockNaturalPersonRepo->method('findById')->willReturnCallback(
             function (NaturalPersonId $id) {
                 return match ($id->value()) {

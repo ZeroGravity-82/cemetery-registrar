@@ -7,7 +7,7 @@ namespace Cemetery\Registrar\Application\NaturalPerson\Query\ListAliveNaturalPer
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -16,7 +16,7 @@ class ListAliveNaturalPersonsService extends ApplicationService
 {
     public function __construct(
         ListAliveNaturalPersonsRequestValidator $requestValidator,
-        private NaturalPersonFetcher            $naturalPersonFetcher,
+        private NaturalPersonFetcherInterface   $naturalPersonFetcher,
     ) {
         parent::__construct($requestValidator);
     }

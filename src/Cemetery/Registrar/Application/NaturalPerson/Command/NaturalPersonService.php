@@ -10,7 +10,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonId;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
 /**
@@ -19,9 +19,9 @@ use Cemetery\Registrar\Domain\Model\NotFoundException;
 abstract class NaturalPersonService extends ApplicationService
 {
     public function __construct(
-        NaturalPersonRequestValidator     $requestValidator,
-        protected NaturalPersonRepository $naturalPersonRepo,
-        protected EventDispatcher         $eventDispatcher,
+        NaturalPersonRequestValidator              $requestValidator,
+        protected NaturalPersonRepositoryInterface $naturalPersonRepo,
+        protected EventDispatcher                  $eventDispatcher,
     ) {
         parent::__construct($requestValidator);
     }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Cemetery\Tests\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
 use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeId;
-use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepository;
+use Cemetery\Registrar\Domain\Model\BurialPlace\MemorialTree\MemorialTreeRepositoryInterface;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeList;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeListItem;
 use Cemetery\Registrar\Domain\View\BurialPlace\MemorialTree\MemorialTreeView;
@@ -21,7 +21,7 @@ use DataFixtures\NaturalPerson\NaturalPersonFixtures;
  */
 class DoctrineDbalMemorialTreeFetcherIntegrationTest extends DoctrineDbalFetcherIntegrationTest
 {
-    private MemorialTreeRepository $repo;
+    private MemorialTreeRepositoryInterface $repo;
 
     public function setUp(): void
     {

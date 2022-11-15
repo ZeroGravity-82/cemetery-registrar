@@ -7,8 +7,8 @@ namespace Cemetery\Registrar\Application\BurialPlace\GraveSite\Query\ListGraveSi
 use Cemetery\Registrar\Application\ApplicationRequest;
 use Cemetery\Registrar\Application\ApplicationSuccessResponse;
 use Cemetery\Registrar\Application\ApplicationService;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcher;
-use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\CemeteryBlockFetcherInterface;
+use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
@@ -16,9 +16,9 @@ use Cemetery\Registrar\Domain\View\BurialPlace\GraveSite\GraveSiteFetcher;
 class ListGraveSitesService extends ApplicationService
 {
     public function __construct(
-        ListGraveSitesRequestValidator $requestValidator,
-        private GraveSiteFetcher       $graveSiteFetcher,
-        private CemeteryBlockFetcher   $cemeteryBlockFetcher,
+        ListGraveSitesRequestValidator        $requestValidator,
+        private GraveSiteFetcherInterface     $graveSiteFetcher,
+        private CemeteryBlockFetcherInterface $cemeteryBlockFetcher,
     ) {
         parent::__construct($requestValidator);
     }

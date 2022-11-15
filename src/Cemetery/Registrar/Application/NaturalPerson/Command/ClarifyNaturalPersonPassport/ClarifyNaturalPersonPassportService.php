@@ -11,7 +11,7 @@ use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Registrar\Domain\Model\Exception;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPerson;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonPassportClarified;
-use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepository;
+use Cemetery\Registrar\Domain\Model\NaturalPerson\NaturalPersonRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\NaturalPerson\Passport;
 use Cemetery\Registrar\Domain\Model\NotFoundException;
 
@@ -22,7 +22,7 @@ class ClarifyNaturalPersonPassportService extends NaturalPersonService
 {
     public function __construct(
         ClarifyNaturalPersonPassportRequestValidator $requestValidator,
-        NaturalPersonRepository                      $naturalPersonRepo,
+        NaturalPersonRepositoryInterface             $naturalPersonRepo,
         EventDispatcher                              $eventDispatcher,
     ) {
         parent::__construct($requestValidator, $naturalPersonRepo, $eventDispatcher);

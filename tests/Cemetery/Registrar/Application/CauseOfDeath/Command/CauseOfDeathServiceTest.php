@@ -6,7 +6,7 @@ namespace Cemetery\Tests\Registrar\Application\CauseOfDeath\Command;
 
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeath;
 use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathId;
-use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepository;
+use Cemetery\Registrar\Domain\Model\CauseOfDeath\CauseOfDeathRepositoryInterface;
 use Cemetery\Registrar\Domain\Model\EventDispatcher;
 use Cemetery\Tests\Registrar\Application\ApplicationServiceTest;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -16,11 +16,11 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 abstract class CauseOfDeathServiceTest extends ApplicationServiceTest
 {
-    protected string                            $id;
-    protected string                            $unknownId;
-    protected MockObject|CauseOfDeath           $mockCauseOfDeath;
-    protected MockObject|CauseOfDeathRepository $mockCauseOfDeathRepo;
-    protected MockObject|EventDispatcher        $mockEventDispatcher;
+    protected string                                     $id;
+    protected string                                     $unknownId;
+    protected MockObject|CauseOfDeath                    $mockCauseOfDeath;
+    protected MockObject|CauseOfDeathRepositoryInterface $mockCauseOfDeathRepo;
+    protected MockObject|EventDispatcher                 $mockEventDispatcher;
 
     public function setUp(): void
     {
@@ -48,9 +48,9 @@ abstract class CauseOfDeathServiceTest extends ApplicationServiceTest
         return $mockCauseOfDeath;
     }
 
-    private function buildMockCauseOfDeathRepo(): MockObject|CauseOfDeathRepository
+    private function buildMockCauseOfDeathRepo(): MockObject|CauseOfDeathRepositoryInterface
     {
-        $mockCauseOfDeathRepo = $this->createMock(CauseOfDeathRepository::class);
+        $mockCauseOfDeathRepo = $this->createMock(CauseOfDeathRepositoryInterface::class);
         $mockCauseOfDeathRepo->method('findById')->willReturnCallback(function (CauseOfDeathId $id) {
             return match ($id->value()) {
                 $this->id        => $this->mockCauseOfDeath,

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Domain\View\NaturalPerson;
 
-use Cemetery\Registrar\Domain\View\Fetcher;
+use Cemetery\Registrar\Domain\View\FetcherInterface;
 
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-interface NaturalPersonFetcher extends Fetcher
+interface NaturalPersonFetcherInterface extends FetcherInterface
 {
     /**
      * Returns a list of all natural persons.

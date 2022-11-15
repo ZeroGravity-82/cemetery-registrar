@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Cemetery\Registrar\Infrastructure\Persistence\Doctrine\Dbal\Fetcher;
 
-use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcher;
+use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonFetcherInterface;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedList;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonPaginatedListItem;
 use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonSimpleList;
@@ -14,7 +14,7 @@ use Cemetery\Registrar\Domain\View\NaturalPerson\NaturalPersonView;
 /**
  * @author Nikolay Ryabkov <ZeroGravity.82@gmail.com>
  */
-class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements NaturalPersonFetcher
+class DoctrineDbalNaturalPersonFetcher extends DoctrineDbalFetcher implements NaturalPersonFetcherInterface
 {
     protected string $tableName = 'natural_person';
 
