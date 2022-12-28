@@ -70,7 +70,7 @@ class ApplicationRequestBus
             $response = new ApplicationErrorResponse('Внутренняя ошибка сервера.');
 
             // TODO dispatch application event with error details
-            $this->logger->error($e->getMessage(), $e->getTrace());
+            $this->logger->error($e->getMessage(), ['exception' => $e]);
         }
 
         return $response;
