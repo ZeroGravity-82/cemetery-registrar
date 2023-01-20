@@ -19,6 +19,8 @@ services:
       - .:/app
     environment:
       APP_DEBUG: 1
+    depends_on:
+      - registrar-mysql
     restart: always
   registrar-php-cli:
     build:
