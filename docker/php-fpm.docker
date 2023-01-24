@@ -6,4 +6,7 @@ RUN apt-get update \
     # extensions recommended for ramsey/uuid
     && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp
 
+# Clear APT cache
+RUN apt-get clean
+
 WORKDIR /app
