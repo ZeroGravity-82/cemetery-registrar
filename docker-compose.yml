@@ -15,6 +15,9 @@ services:
     build:
       context: ./docker/php-fpm
       dockerfile: Dockerfile
+      args:
+        - HOST_USER_UID=${HOST_USER_UID}
+        - HOST_USER_GID=${HOST_USER_GID}
     volumes:
       - .:/app
     environment:
@@ -26,16 +29,19 @@ services:
     build:
       context: ./docker/php-cli
       dockerfile: Dockerfile
+      args:
+        - HOST_USER_UID=${HOST_USER_UID}
+        - HOST_USER_GID=${HOST_USER_GID}
     volumes:
       - .:/app
-      - composer:/root/.composer/cache
-    profiles:
-      - 'cli-tools'        # the profile is needed in order not to start this service with "docker compose up" command
+      - composer:/tmp/composer-cache
     environment:
       APP_DEBUG: 1
-      PHP_IDE_CONFIG: 'serverName=Docker'
+      PHP_IDE_CONFIG: 'serverName=registrar.docker'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
+    profiles:
+      - 'cli-tools'        # the profile is needed in order not to start this service with "docker compose up" command
   registrar-mysql:
     image: mysql:8.0
     volumes:
