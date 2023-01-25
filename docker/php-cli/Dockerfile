@@ -14,7 +14,7 @@ RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sour
     && apt-get update && apt-get install -y symfony-cli
 
 # PHP configuration
-COPY ./php-cli/conf.d /usr/local/etc/php/conf.d
+COPY conf.d /usr/local/etc/php/conf.d
 
 # Clear APT cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists
