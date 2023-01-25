@@ -14,7 +14,7 @@ export HOST_USER_UID=$(id -u) && export HOST_USER_GID=$(id -g)
 make init
 
 # дождитесь завершения инициализации сервера MySQL (может занять несколько минут), после чего выполните команды:
-make -- sf console doctrine:migrations:migrate
+make db-init
 
 # база данных для тестового окружения создается следующими командами:
 make -- sf console doctrine:schema:create --env=test            # только после первоначальной инициализации
