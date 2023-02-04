@@ -74,7 +74,7 @@ function naturalPersonFormClarifyBirthDetails_save(url, isReloadRequired = false
   .done(() => {
     buildToast().fire({
       icon: `success`,
-      title: `Дата и место рождения успешно уточнены.`,
+      title: `Данные о рождении успешно уточнены.`,
     });
     naturalPersonFormClarifyBirthDetails_close();
   })

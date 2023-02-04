@@ -88,35 +88,16 @@ class NaturalPersonForm extends Form {
 <form></form>`).append($(`
   <div class="container"></div>`).append(
     this._renderFormRowForFullName()).append(
-
-    this._renderFormRowForPhone()).append(
-    this._renderFormRowForPhoneAdditional()).append(
-    this._renderFormRowForAddress()).append(
-    this._renderFormRowForEmail()).append(
-
-    this._renderFormRowForBornAt()).append(
-    this._renderFormRowForPlaceOfBirth()).append(
-
-    this._renderFormRowForPassportSeries()).append(
-    this._renderFormRowForPassportNumber()).append(
-    this._renderFormRowForPassportIssuedAt()).append(
-    this._renderFormRowForPassportIssuedBy()).append(
-    this._renderFormRowForPassportDivisionCode()).append(
-
-    this._renderFormRowForDeceasedDetailsDiedAt()).append(
-    this._renderFormRowForDeceasedDetailsAge()).append(
-    this._renderFormRowForDeceasedDetailsCauseOfDeath()).append(
-    this._renderFormRowForDeceasedDetailsDeathCertificateSeries()).append(
-    this._renderFormRowForDeceasedDetailsDeathCertificateNumber()).append(
-    this._renderFormRowForDeceasedDetailsDeathCertificateIssuedAt()).append(
-    this._renderFormRowForDeceasedDetailsCremationCertificateNumber()).append(
-    this._renderFormRowForDeceasedDetailsCremationCertificateIssuedAt())).append(
+    this._renderFormGroupForContact()).append(
+    this._renderFormGroupForBirthDetails()).append(
+    this._renderFormGroupForPassport()).append(
+    this._renderFormGroupForDeceasedDetails())).append(
   this.dom.$formButtons);
   }
   _renderFormRowForFullName(fullName = null) {
     return $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="fullName" class="form-label">ФИО</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="fullName" class="form-label">ФИО</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$fullNameInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="fullName" name="fullName"
@@ -127,10 +108,14 @@ class NaturalPersonForm extends Form {
     <div id="fullNameFeedback" class="invalid-feedback"></div>
     `)));
   }
-  _renderFormRowForPhone(phone = null) {
-    return $(`
+  _renderFormGroupForContact(phone = null, phoneAdditional = null, address = null, email = null) {
+    const $formRowForGroupHeader = $(`
+<div class="row py-2"></div>`).append($(`
+  <div class="col-12">Контактные данные</div>  
+    `));
+    const $formRowForPhone = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="phone" class="form-label">Телефон</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="phone" class="form-label">Телефон</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$phoneInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="phone" name="phone"
@@ -140,11 +125,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="phoneFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForPhoneAdditional(phoneAdditional = null) {
-    return $(`
+    const $formRowForPhoneAdditional = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="phoneAdditional" class="form-label">Доп. телефон</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="phoneAdditional" class="form-label">Доп. телефон</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$phoneAdditionalInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="phoneAdditional" name="phoneAdditional"
@@ -154,12 +137,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="phoneAdditionalFeedback" class="invalid-feedback"></div>
     `)));
-  }
-
-  _renderFormRowForAddress(address = null) {
-    return $(`
+    const $formRowForAddress = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="address" class="form-label">Адрес</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="address" class="form-label">Адрес</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$addressInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="address" name="address"
@@ -169,12 +149,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="addressFeedback" class="invalid-feedback"></div>
     `)));
-  }
-
-  _renderFormRowForEmail(email = null) {
-    return $(`
+    const $formRowForEmail = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="email" class="form-label">Эл. почта</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="email" class="form-label">Эл. почта</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$emailInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="email" name="email"
@@ -184,11 +161,23 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="emailFeedback" class="invalid-feedback"></div>
     `)));
+    let formRows = [];
+    formRows.push($formRowForGroupHeader);
+    formRows.push($formRowForPhone);
+    formRows.push($formRowForPhoneAdditional);
+    formRows.push($formRowForAddress);
+    formRows.push($formRowForEmail);
+
+    return formRows;
   }
-  _renderFormRowForBornAt(bornAt = null) {
-    return $(`
+  _renderFormGroupForBirthDetails(bornAt = null, placeOfBirth = null) {
+    const $formRowForGroupHeader = $(`
+<div class="row py-2"></div>`).append($(`
+  <div class="col-12">Данные о рождении</div>  
+    `));
+    const $formRowForBornAt = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="bornAt" class="form-label">Дата рождения</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="bornAt" class="form-label">Дата рождения</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$bornAtInput = $(`
     <input type="date" class="form-control form-control-sm"
            id="bornAt" name="bornAt"
@@ -198,11 +187,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="bornAtFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForPlaceOfBirth(placeOfBirth = null) {
-    return $(`
+    const $formRowForPlaceOfBirth = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="placeOfBirth" class="form-label">Место рождения</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="placeOfBirth" class="form-label">Место рождения</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$placeOfBirthInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="placeOfBirth" name="placeOfBirth"
@@ -212,81 +199,92 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="placeOfBirthFeedback" class="invalid-feedback"></div>
     `)));
+    let formRows = [];
+    formRows.push($formRowForGroupHeader);
+    formRows.push($formRowForBornAt);
+    formRows.push($formRowForPlaceOfBirth);
+
+    return formRows;
   }
-  _renderFormRowForPassportSeries(passportSeries = null) {
-    return $(`
+  _renderFormGroupForPassport(series = null, number = null, issuedAt = null, issuedBy = null, divisionCode = null) {
+    const $formRowForGroupHeader = $(`
+<div class="row py-2"></div>`).append($(`
+  <div class="col-12">Паспортные данные</div>  
+    `));
+    const $formRowForSeriesAndNumber = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="passportSeries" class="form-label">Серия</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(this.dom.$passportSeriesInput = $(`
+  <div class="col-md-3 text-end pe-2"><label for="passportSeries" class="form-label">Серия и номер</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$passportSeriesAndNumberInput = $(`
     <input type="text" class="form-control form-control-sm"
-           id="passportSeries" name="passportSeries"
-           aria-describedby="passportSeriesFeedback"
-           aria-label="Серия паспорта"
-           value="${passportSeries ?? ``}">
+           id="passportSeriesAndNumber" name="passportSeriesAndNumber"
+           aria-describedby="passportSeriesAndNumberFeedback"
+           aria-label="Серия и номер паспорта"
+           value="${series && number ? `${series} ${number}` : ``}">
         `)).append($(`
-    <div id="passportSeriesFeedback" class="invalid-feedback"></div>
+    <div id="passportSeriesAndNumberFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForPassportNumber(passportNumber = null) {
-    return $(`
+    const $formRowForIssuedBy = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="passportNumber" class="form-label">Номер</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(this.dom.$passportNumberInput = $(`
-    <input type="text" class="form-control form-control-sm"
-           id="passportNumber" name="passportNumber"
-           aria-describedby="passportNumberFeedback"
-           aria-label="Номер паспорта"
-           value="${passportNumber ?? ``}">
-        `)).append($(`
-    <div id="passportNumberFeedback" class="invalid-feedback"></div>
-    `)));
-  }
-  _renderFormRowForPassportIssuedAt(passportIssuedAt = null) {
-    return $(`
-<div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="passportIssuedAt" class="form-label">Дата выдачи</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(this.dom.$passportIssuedAtInput = $(`
-    <input type="date" class="form-control form-control-sm"
-           id="passportIssuedAt" name="passportIssuedAt"
-           aria-describedby="passportIssuedAtFeedback"
-           aria-label="Дата выдачи паспорта"
-           value="${passportIssuedAt ? passportIssuedAt.split(`-`).reverse().join(`.`) : ``}">
-        `)).append($(`
-    <div id="passportIssuedAtFeedback" class="invalid-feedback"></div>
-    `)));
-  }
-  _renderFormRowForPassportIssuedBy(passportIssuedBy = null) {
-    return $(`
-<div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="passportIssuedBy" class="form-label">Кем выдан</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="passportIssuedBy" class="form-label">Кем выдан</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$passportIssuedByInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="passportIssuedBy" name="passportIssuedBy"
            aria-describedby="passportIssuedByFeedback"
            aria-label="Кем выдан паспорт"
-           value="${passportIssuedBy ?? ``}">
+           value="${issuedBy ?? ``}">
         `)).append($(`
     <div id="passportIssuedByFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForPassportDivisionCode(passportDivisionCode = null) {
-    return $(`
+    const $formRowForIssuedAt = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="passportDivisionCode" class="form-label">Код подразделения</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="passportIssuedAt" class="form-label">Дата выдачи</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$passportIssuedAtInput = $(`
+    <input type="date" class="form-control form-control-sm"
+           id="passportIssuedAt" name="passportIssuedAt"
+           aria-describedby="passportIssuedAtFeedback"
+           aria-label="Дата выдачи паспорта"
+           value="${issuedAt ? issuedAt.split(`-`).reverse().join(`.`) : ``}">
+        `)).append($(`
+    <div id="passportIssuedAtFeedback" class="invalid-feedback"></div>
+    `)));
+    const $formRowForDivisionCode = $(`
+<div class="row pb-2"></div>`).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="passportDivisionCode" class="form-label">Код подразделения</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$passportDivisionCodeInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="passportDivisionCode" name="passportDivisionCode"
            aria-describedby="passportDivisionCodeFeedback"
            aria-label="Код подразделения паспорта"
-           value="${passportDivisionCode ?? ``}">
+           value="${divisionCode ?? ``}">
         `)).append($(`
     <div id="passportDivisionCodeFeedback" class="invalid-feedback"></div>
     `)));
+    let formRows = [];
+    formRows.push($formRowForGroupHeader);
+    formRows.push($formRowForSeriesAndNumber);
+    formRows.push($formRowForIssuedBy);
+    formRows.push($formRowForIssuedAt);
+    formRows.push($formRowForDivisionCode);
+
+    return formRows;
   }
-  _renderFormRowForDeceasedDetailsDiedAt(deceasedDetailsDiedAt = null) {
-    return $(`
+  _renderFormGroupForDeceasedDetails(
+      deceasedDetailsDiedAt                       = null,
+      deceasedDetailsAge                          = null,
+      deceasedDetailsCauseOfDeath                 = null,
+      deceasedDetailsDeathCertificateSeries       = null,
+      deceasedDetailsDeathCertificateNumber       = null,
+      deceasedDetailsDeathCertificateIssuedAt     = null,
+      deceasedDetailsCremationCertificateNumber   = null,
+      deceasedDetailsCremationCertificateIssuedAt = null,
+  ) {
+    const $formRowForGroupHeader = $(`
+<div class="row py-2"></div>`).append($(`
+  <div class="col-12">Данные о смерти</div>  
+    `));
+    const $formRowForDiedAt = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsDiedAt" class="form-label">Дата смерти</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsDiedAt" class="form-label">Дата смерти</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsDiedAtInput = $(`
     <input type="date" class="form-control form-control-sm"
            id="deceasedDetailsDiedAt" name="deceasedDetailsDiedAt"
@@ -296,11 +294,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="deceasedDetailsDiedAtFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForDeceasedDetailsAge(deceasedDetailsAge = null) {
-    return $(`
+    const $formRowForAge = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsAge" class="form-label">Возраст</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsAge" class="form-label">Возраст</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsAgeInput = $(`
     <input type="number" min="0" class="form-control form-control-sm"
            id="deceasedDetailsAge" name="deceasedDetailsAge"
@@ -310,11 +306,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="deceasedDetailsAgeFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForDeceasedDetailsCauseOfDeath(deceasedDetailsCauseOfDeath = null) {
-    return $(`
+    const $formRowForCauseOfDeath = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsCauseOfDeath" class="form-label">Причина смерти</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsCauseOfDeath" class="form-label">Причина смерти</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsCauseOfDeathInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="deceasedDetailsCauseOfDeath" name="deceasedDetailsCauseOfDeath"
@@ -324,39 +318,25 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="deceasedDetailsCauseOfDeathFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForDeceasedDetailsDeathCertificateSeries(deceasedDetailsDeathCertificateSeries = null) {
-    return $(`
+    const $formRowForDeathCertificateGroupHeader = $(`
+<div class="row py-2"></div>`).append($(`
+  <div class="col-12">Свидетельство о смерти</div>  
+    `));
+    const $formRowForDeathCertificateSeriesAndNumber = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsDeathCertificateSeries" class="form-label">Серия</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsDeathCertificateSeriesInput = $(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsDeathCertificateSeries" class="form-label">Серия</label></div>`)).append($(`
+  <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsDeathCertificateSeriesAndNumberInput = $(`
     <input type="text" class="form-control form-control-sm"
-           id="deceasedDetailsDeathCertificateSeries" name="deceasedDetailsDeathCertificateSeries"
-           aria-describedby="deceasedDetailsDeathCertificateSeriesFeedback"
+           id="deceasedDetailsDeathCertificateSeriesAndNumber" name="deceasedDetailsDeathCertificateSeriesAndNumber"
+           aria-describedby="deceasedDetailsDeathCertificateSeriesAndNumberFeedback"
            aria-label="Серия свидетельства о смерти"
-           value="${deceasedDetailsDeathCertificateSeries ?? ``}">
+           value="${deceasedDetailsDeathCertificateSeries && deceasedDetailsDeathCertificateSeries ? `${deceasedDetailsDeathCertificateSeries} ${deceasedDetailsDeathCertificateNumber}` : ``}">
         `)).append($(`
     <div id="deceasedDetailsDeathCertificateSeriesFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForDeceasedDetailsDeathCertificateNumber(deceasedDetailsDeathCertificateNumber = null) {
-    return $(`
+    const $formRowForDeathCertificateIssuedAt = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsDeathCertificateNumber" class="form-label">Номер</label></div>`)).append($(`
-  <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsDeathCertificateNumberInput = $(`
-    <input type="text" class="form-control form-control-sm"
-           id="deceasedDetailsDeathCertificateNumber" name="deceasedDetailsDeathCertificateNumber"
-           aria-describedby="deceasedDetailsDeathCertificateNumberFeedback"
-           aria-label="Номер свидетельства о смерти"
-           value="${deceasedDetailsDeathCertificateNumber ?? ``}">
-        `)).append($(`
-    <div id="deceasedDetailsDeathCertificateNumberFeedback" class="invalid-feedback"></div>
-    `)));
-  }
-  _renderFormRowForDeceasedDetailsDeathCertificateIssuedAt(deceasedDetailsDeathCertificateIssuedAt = null) {
-    return $(`
-<div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsDeathCertificateIssuedAt" class="form-label">Дата выдачи</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsDeathCertificateIssuedAt" class="form-label">Дата выдачи</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsDeathCertificateIssuedAtInput = $(`
     <input type="date" class="form-control form-control-sm"
            id="deceasedDetailsDeathCertificateIssuedAt" name="deceasedDetailsDeathCertificateIssuedAt"
@@ -366,11 +346,13 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="deceasedDetailsDeathCertificateIssuedAtFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForDeceasedDetailsCremationCertificateNumber(deceasedDetailsCremationCertificateNumber = null) {
-    return $(`
+    const $formRowForCremationCertificateGroupHeader = $(`
+<div class="row py-2"></div>`).append($(`
+  <div class="col-12">Справка о кремации</div>  
+    `));
+    const $formRowForCremationCertificateNumber = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsCremationCertificateNumber" class="form-label">Номер</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsCremationCertificateNumber" class="form-label">Номер</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsCremationCertificateNumberInput = $(`
     <input type="text" class="form-control form-control-sm"
            id="deceasedDetailsCremationCertificateNumber" name="deceasedDetailsCremationCertificateNumber"
@@ -380,11 +362,9 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="deceasedDetailsCremationCertificateNumberFeedback" class="invalid-feedback"></div>
     `)));
-  }
-  _renderFormRowForDeceasedDetailsCremationCertificateIssuedAt(deceasedDetailsCremationCertificateIssuedAt = null) {
-    return $(`
+    const $formRowForCremationCertificateIssuedAt = $(`
 <div class="row pb-2"></div>`).append($(`
-  <div class="col-md-3 px-0"><label for="deceasedDetailsCremationCertificateIssuedAt" class="form-label">Дата выдачи</label></div>`)).append($(`
+  <div class="col-md-3 text-end pe-2"><label for="deceasedDetailsCremationCertificateIssuedAt" class="form-label">Дата выдачи</label></div>`)).append($(`
   <div class="col-md-9 px-0">`).append(this.dom.$deceasedDetailsCremationCertificateIssuedAtInput = $(`
     <input type="date" class="form-control form-control-sm"
            id="deceasedDetailsCremationCertificateIssuedAt" name="deceasedDetailsCremationCertificateIssuedAt"
@@ -394,6 +374,19 @@ class NaturalPersonForm extends Form {
         `)).append($(`
     <div id="deceasedDetailsCremationCertificateIssuedAtFeedback" class="invalid-feedback"></div>
     `)));
+    let formRows = [];
+    formRows.push($formRowForGroupHeader);
+    formRows.push($formRowForDiedAt);
+    formRows.push($formRowForAge);
+    formRows.push($formRowForCauseOfDeath);
+    formRows.push($formRowForDeathCertificateGroupHeader);
+    formRows.push($formRowForDeathCertificateSeriesAndNumber);
+    formRows.push($formRowForDeathCertificateIssuedAt);
+    formRows.push($formRowForCremationCertificateGroupHeader);
+    formRows.push($formRowForCremationCertificateNumber);
+    formRows.push($formRowForCremationCertificateIssuedAt);
+
+    return formRows;
   }
   _renderClarifyFullName() {
     this.dom.$form = $(`
@@ -428,26 +421,25 @@ class NaturalPersonForm extends Form {
 
   _listen() {
     super._listen();
-    this.dom.$fullNameInput                                    && this.dom.$fullNameInput.off(`input`).on(`input`,                                    (event) => this._hideValidationError(event));
-    this.dom.$phoneInput                                       && this.dom.$phoneInput.off(`input`).on(`input`,                                       (event) => this._hideValidationError(event));
-    this.dom.$phoneAdditionalInput                             && this.dom.$phoneAdditionalInput.off(`input`).on(`input`,                             (event) => this._hideValidationError(event));
-    this.dom.$addressInput                                     && this.dom.$addressInput.off(`input`).on(`input`,                                     (event) => this._hideValidationError(event));
-    this.dom.$emailInput                                       && this.dom.$emailInput.off(`input`).on(`input`,                                       (event) => this._hideValidationError(event));
-    this.dom.$bornAtInput                                      && this.dom.$bornAtInput.off(`input`).on(`input`,                                      (event) => this._hideValidationError(event));
-    this.dom.$placeOfBirthInput                                && this.dom.$placeOfBirthInput.off(`input`).on(`input`,                                (event) => this._hideValidationError(event));
-    this.dom.$passportSeriesInput                              && this.dom.$passportSeriesInput.off(`input`).on(`input`,                              (event) => this._hideValidationError(event));
-    this.dom.$passportNumberInput                              && this.dom.$passportNumberInput.off(`input`).on(`input`,                              (event) => this._hideValidationError(event));
-    this.dom.$passportIssuedAtInput                            && this.dom.$passportIssuedAtInput.off(`input`).on(`input`,                            (event) => this._hideValidationError(event));
-    this.dom.$passportIssuedByInput                            && this.dom.$passportIssuedByInput.off(`input`).on(`input`,                            (event) => this._hideValidationError(event));
-    this.dom.$passportDivisionCodeInput                        && this.dom.$passportDivisionCodeInput.off(`input`).on(`input`,                        (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsDiedAtInput                       && this.dom.$deceasedDetailsDiedAtInput.off(`input`).on(`input`,                       (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsAgeInput                          && this.dom.$deceasedDetailsAgeInput.off(`input`).on(`input`,                          (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsCauseOfDeathInput                 && this.dom.$deceasedDetailsCauseOfDeathInput.off(`input`).on(`input`,                 (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsDeathCertificateSeriesInput       && this.dom.$deceasedDetailsDeathCertificateSeriesInput.off(`input`).on(`input`,       (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsDeathCertificateNumberInput       && this.dom.$deceasedDetailsDeathCertificateNumberInput.off(`input`).on(`input`,       (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsDeathCertificateIssuedAtInput     && this.dom.$deceasedDetailsDeathCertificateIssuedAtInput.off(`input`).on(`input`,     (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsCremationCertificateNumberInput   && this.dom.$deceasedDetailsCremationCertificateNumberInput.off(`input`).on(`input`,   (event) => this._hideValidationError(event));
-    this.dom.$deceasedDetailsCremationCertificateIssuedAtInput && this.dom.$deceasedDetailsCremationCertificateIssuedAtInput.off(`input`).on(`input`, (event) => this._hideValidationError(event));
+    this.dom.$fullNameInput                                       && this.dom.$fullNameInput.off(`input`).on(`input`,                                       (event) => this._hideValidationError(event));
+    this.dom.$phoneInput                                          && this.dom.$phoneInput.off(`input`).on(`input`,                                          (event) => this._hideValidationError(event));
+    this.dom.$phoneAdditionalInput                                && this.dom.$phoneAdditionalInput.off(`input`).on(`input`,                                (event) => this._hideValidationError(event));
+    this.dom.$addressInput                                        && this.dom.$addressInput.off(`input`).on(`input`,                                        (event) => this._hideValidationError(event));
+    this.dom.$emailInput                                          && this.dom.$emailInput.off(`input`).on(`input`,                                          (event) => this._hideValidationError(event));
+    this.dom.$bornAtInput                                         && this.dom.$bornAtInput.off(`input`).on(`input`,                                         (event) => this._hideValidationError(event));
+    this.dom.$placeOfBirthInput                                   && this.dom.$placeOfBirthInput.off(`input`).on(`input`,                                   (event) => this._hideValidationError(event));
+    this.dom.$passportSeriesAndNumberInput                        && this.dom.$passportSeriesAndNumberInput.off(`input`).on(`input`,                        (event) => this._hideValidationError(event));
+    this.dom.$passportIssuedByInput                               && this.dom.$passportIssuedByInput.off(`input`).on(`input`,                               (event) => this._hideValidationError(event));
+    this.dom.$passportIssuedAtInput                               && this.dom.$passportIssuedAtInput.off(`input`).on(`input`,                               (event) => this._hideValidationError(event));
+    this.dom.$passportDivisionCodeInput                           && this.dom.$passportDivisionCodeInput.off(`input`).on(`input`,                           (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDiedAtInput                          && this.dom.$deceasedDetailsDiedAtInput.off(`input`).on(`input`,                          (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsAgeInput                             && this.dom.$deceasedDetailsAgeInput.off(`input`).on(`input`,                             (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsCauseOfDeathInput                    && this.dom.$deceasedDetailsCauseOfDeathInput.off(`input`).on(`input`,                    (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDeathCertificateSeriesAndNumberInput && this.dom.$deceasedDetailsDeathCertificateSeriesAndNumberInput.off(`input`).on(`input`, (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDeathCertificateNumberInput          && this.dom.$deceasedDetailsDeathCertificateNumberInput.off(`input`).on(`input`,          (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsDeathCertificateIssuedAtInput        && this.dom.$deceasedDetailsDeathCertificateIssuedAtInput.off(`input`).on(`input`,        (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsCremationCertificateNumberInput      && this.dom.$deceasedDetailsCremationCertificateNumberInput.off(`input`).on(`input`,      (event) => this._hideValidationError(event));
+    this.dom.$deceasedDetailsCremationCertificateIssuedAtInput    && this.dom.$deceasedDetailsCremationCertificateIssuedAtInput.off(`input`).on(`input`,    (event) => this._hideValidationError(event));
 
 
 
@@ -538,7 +530,7 @@ class NaturalPersonForm extends Form {
       csrfToken   : this.csrfToken,
     }
     const url               = this.urls.clarifyBirthDetails.replace(`{id}`, this.state.view.id);
-    const successToastTitle = `Дата и место рождения успешно уточнены.`;
+    const successToastTitle = `Данные о рождении успешно уточнены.`;
     this._saveClarifiedData(data, url, successToastTitle);
   }
 }

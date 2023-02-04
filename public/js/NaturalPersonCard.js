@@ -57,19 +57,19 @@ class NaturalPersonCard extends Card {
 <div class="card border border-0"></div>`).append($(`
   <div class="card-body py-0"></div>`).append($(`
     <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>ФИО:</strong></div>
+      <div class="col-sm-3 text-end pe-2"><strong>ФИО:</strong></div>
       <div class="col-sm-9 px-0"><p>${this._composeFullName(this.state.view)}</p></div></div>`)).append($(`
     <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Контактные данные:</strong></div>
+      <div class="col-sm-3 text-end pe-2"><strong>Контактные данные:</strong></div>
       <div class="col-sm-9 px-0"><p>${this._composeContact(this.state.view)}</p></div></div>`)).append($(`
     <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Дата и место рождения:</strong></div>
+      <div class="col-sm-3 text-end pe-2"><strong>Данные о рождении:</strong></div>
       <div class="col-sm-9 px-0"><p>${this._composeBirthDetails(this.state.view)}</p></div></div>`)).append($(`
     <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Паспортные данные:</strong></div>
+      <div class="col-sm-3 text-end pe-2"><strong>Паспортные данные:</strong></div>
       <div class="col-sm-9 px-0"><p>${this._composePassport(this.state.view)}</p></div></div>`)).append(this.state.view.diedAt !== null ? $(`
     <div class="row pb-2">
-      <div class="col-sm-3 px-0"><strong>Данные о смерти:</strong></div>
+      <div class="col-sm-3 text-end pe-2"><strong>Данные о смерти:</strong></div>
       <div class="col-sm-9 px-0">${this._composeDeceasedDetails(this.state.view)}</div></div>`) : $(``))).append(
   this.dom.$cardButtons).append($(`
   <p class="mt-2 mb-0 text-muted card-timestamps">Создано: 20.01.2022 14:23, изменено: 22.02.2022 07:30</p>`));
@@ -133,8 +133,8 @@ class NaturalPersonCard extends Card {
   }
   _handleClearBirthDetailsActionClick() {
     this._handleDangerActionClick(
-      `Очистить дату и место рождения для<br>"${this._composeFullName(this.state.view)}"?`,
-      () => this._clearData(this.state.view.id, this.urls.clearBirthDetails, `Дата и место рождения успешно очищены.`),
+      `Очистить данные о рождении для<br>"${this._composeFullName(this.state.view)}"?`,
+      () => this._clearData(this.state.view.id, this.urls.clearBirthDetails, `Данные о рождении успешно очищены.`),
     );
   }
   _handleClearPassportActionClick() {
@@ -257,7 +257,7 @@ class NaturalPersonCard extends Card {
     let regularActionList = [];
     regularActionList.push(this.dom.$clarifyFullNameAction        = $(`<li class="dropdown-item">Уточнить ФИО</li>`));
     regularActionList.push(this.dom.$clarifyContactAction         = $(`<li class="dropdown-item">Уточнить контактные данные</li>`));
-    regularActionList.push(this.dom.$clarifyBirthDetailsAction    = $(`<li class="dropdown-item">Уточнить дату и место рождения</li>`));
+    regularActionList.push(this.dom.$clarifyBirthDetailsAction    = $(`<li class="dropdown-item">Уточнить данные о рождении</li>`));
     regularActionList.push(this.dom.$clarifyPassportAction        = $(`<li class="dropdown-item">Уточнить паспортные данные</li>`));
     regularActionList.push(this.dom.$clarifyDeceasedDetailsAction = $(`<li class="dropdown-item">${view.diedAt !== null ? `Уточнить` : `Внести`} данные о смерти</li>`));
 
@@ -266,7 +266,7 @@ class NaturalPersonCard extends Card {
       dangerActionList.push(this.dom.$clearContactAction = $(`<li class="dropdown-item text-danger">Очистить контактные данные</li>`));
     }
     if (view.bornAt !== null || view.placeOfBirth !== null) {
-      dangerActionList.push(this.dom.$clearBirthDetailsAction = $(`<li class="dropdown-item text-danger">Очистить дату и место рождения</li>`));
+      dangerActionList.push(this.dom.$clearBirthDetailsAction = $(`<li class="dropdown-item text-danger">Очистить данные о рождении</li>`));
     }
     if (view.passportSeries !== null) {
       dangerActionList.push(this.dom.$clearPassportAction = $(`<li class="dropdown-item text-danger">Очистить паспортные данные</li>`));
