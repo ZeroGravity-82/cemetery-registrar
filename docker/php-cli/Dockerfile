@@ -20,12 +20,17 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists
 COPY conf.d /usr/local/etc/php/conf.d
 
 # Create non-root user for container
-ARG HOST_USER_UID
-ARG HOST_USER_GID
+ARG HOST_USER_UID=10000
+ARG HOST_USER_GID=10000
 ENV HOST_USER_UID=${HOST_USER_UID}
 ENV HOST_USER_GID=${HOST_USER_GID}
 RUN addgroup --system --gid ${HOST_USER_GID} nonroot
 RUN adduser --system --shell /bin/sh --uid ${HOST_USER_UID} --gid ${HOST_USER_GID} --disabled-password nonroot
+
+# Create /nonexistent directory for Symfony
+RUN mkdir /nonexistent && chown nonroot:nonroot /nonexistent
+
+# Switch to non-root user
 USER nonroot
 
 # Change the cache path for Composer to be able to set volume for it
