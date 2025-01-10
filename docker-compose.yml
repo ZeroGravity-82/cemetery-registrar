@@ -21,6 +21,9 @@ services:
       - .:/app
     environment:
       APP_DEBUG: 1
+      PHP_IDE_CONFIG: 'serverName=cemetery-registrar.docker'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     depends_on:
       - registrar-mysql
     restart: always
@@ -36,9 +39,6 @@ services:
       - composer:/tmp/composer-cache
     environment:
       APP_DEBUG: 1
-      PHP_IDE_CONFIG: 'serverName=registrar.docker'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     profiles:
       - 'cli-tools'        # the profile is needed in order not to start this service with "docker compose up" command
   registrar-mysql:

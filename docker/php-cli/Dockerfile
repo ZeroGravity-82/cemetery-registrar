@@ -5,9 +5,7 @@ RUN apt-get update && apt-get install -y unzip \
     # extension required for MySQL
     && docker-php-ext-install pdo_mysql \
     # extensions recommended for ramsey/uuid
-    && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp \
-    # extension required for XDebug
-    && pecl install xdebug-3.1.2 && rm -rf /tmp/pear && docker-php-ext-enable xdebug
+    && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp
 
 # Install Symfony CLI
 RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sources.list.d/symfony-cli.list \
@@ -15,9 +13,6 @@ RUN echo 'deb [trusted=yes] https://repo.symfony.com/apt/ /' | tee /etc/apt/sour
 
 # Clear APT cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists
-
-# PHP configuration
-COPY conf.d /usr/local/etc/php/conf.d
 
 # Create non-root user for container
 ARG HOST_USER_UID=10000

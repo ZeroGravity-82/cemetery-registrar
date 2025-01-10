@@ -4,14 +4,19 @@ RUN apt-get update \
     # extension required for MySQL
     && docker-php-ext-install pdo_mysql \
     # extensions recommended for ramsey/uuid
-    && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp
+    && apt-get install -y libgmp-dev && docker-php-ext-install bcmath gmp \
+    # extension required for XDebug
+    && pecl install xdebug-3.1.2 && rm -rf /tmp/pear && docker-php-ext-enable xdebug
 
 # Clear APT cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists
 
+# PHP configuration
+COPY conf.d /usr/local/etc/php/conf.d
+
 # Create non-root user for container
-ARG HOST_USER_UID
-ARG HOST_USER_GID
+ARG HOST_USER_UID=10000
+ARG HOST_USER_GID=10000
 ENV HOST_USER_UID=${HOST_USER_UID}
 ENV HOST_USER_GID=${HOST_USER_GID}
 RUN addgroup --system --gid ${HOST_USER_GID} nonroot
